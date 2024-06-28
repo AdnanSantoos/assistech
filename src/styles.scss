@@ -1,1 +1,15 @@
 /* You can add global styles to this file, and also import other style files */
+body {
+    font-family: "Inter", sans-serif !important;
+
+    .button {
+        background-color: #fff;
+        max-height: 98px;
+        border-radius: 15px;
+        padding: 5px 35px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+    }
+}

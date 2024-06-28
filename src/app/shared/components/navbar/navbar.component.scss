@@ -1,0 +1,124 @@
+.bkg-header {
+    width: 100%;
+    height: 128px;
+    background-color: #225EC9;
+    background-image:
+        linear-gradient(90deg, #225fc9d5 0%, rgba(51, 206, 255, 0.7) 100%),
+        url('../../../../assets/bkg/bkg-header.webp');
+    background-position: 50%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-blend-mode: normal;
+
+    p {
+        color: #225EC9;
+        text-align: center;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 122.487%;
+        text-transform: uppercase;
+    }
+
+    .logo-container {
+        background-color: #fff;
+        display: flex;
+        padding: 5px 35px;
+        border-radius: 15px;
+        max-height: 98px;
+        cursor: pointer;
+
+        .logo {
+            width: 62.399px;
+            height: 78.444px;
+            display: flex;
+            align-items: center;
+        }
+
+        p {
+            margin: 0;
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+            font-weight: 700;
+            line-height: 122.487%;
+            align-items: center;
+            justify-content: center;
+            margin-left: 15px;
+
+            .text1 {
+                font-size: 14px;
+
+            }
+
+            .text2 {
+                font-size: 30.199px;
+                margin-top: -5px;
+            }
+        }
+    }
+
+    .buttons-header {
+        display: flex;
+        gap: 10px;
+        margin-left: auto;
+
+        .button-ecac {
+            display: flex;
+            flex-direction: column;
+            max-width: 103px;
+
+            img {
+                width: 51px;
+                height: 52px;
+            }
+
+            p {
+                text-transform: none;
+                font-size: 15.302px;
+                margin: 0;
+            }
+        }
+
+        .button-radar {}
+
+        .button-login {
+            max-width: 136px;
+            width: 100%;
+            margin-left: 70px;
+            display: flex;
+            flex-direction: column;
+
+            .img-icon {
+                background-image: url('../../../../assets/icons/perfil-icon-azul.svg');
+                background-repeat: no-repeat;
+                width: 22px;
+                height: 26px;
+                margin-bottom: 5px;
+            }
+
+            p {
+                margin: 0;
+                font-size: 10px;
+            }
+
+            &:hover {
+                background-color: #225EC9;
+                box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+                transition: background-color 0.3s ease, color 0.3s ease;
+
+                .img-icon {
+                    background-image: url('../../../../assets/icons/perfil-icon-branco.svg');
+
+                }
+
+                p {
+                    color: #fff;
+                }
+            }
+        }
+
+    }
+
+}
