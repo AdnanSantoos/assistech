@@ -1,0 +1,20 @@
+<div class="slider-container">
+    <div class="slider">
+      <div class="slides" [style.transform]="'translateX(-' + currentSlide * 100 + '%)'">
+        <div class="slide" *ngFor="let slide of slides">
+          <img [src]="slide.image" alt="{{slide.title}}">
+          <div class="caption">
+            <h2>{{slide.title}}</h2>
+            <p>{{slide.description}}</p>
+            <a href="#" class="btn">Ler Notícia Completa</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="thumbnails">
+      <div class="thumbnail" *ngFor="let slide of slides; let i = index" (click)="setSlide(i)">
+        <img [src]="slide.image" [class.active]="i === currentSlide" alt="{{slide.title}}">
+      </div>
+    </div>
+  </div>
+  
