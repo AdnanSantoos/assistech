@@ -1,3 +1,76 @@
-.container{
-height: 100vh;
+.bg-banner{
+    background: url('../../../assets/bkg/bkg-acesso-rapido.jpg') no-repeat;
+    background-size: cover;
+    .titulo{
+        color: #FFF;
+        font-size: 20.986px;
+        font-style: normal;
+        font-weight: 600;
+        text-transform: uppercase;
+        position: relative;
+        padding-left: 13.12px;
+        margin-top: 59px;
+        margin-bottom: 15px;
+        &::after{
+            content: '';
+            position: absolute;
+            width: 7.87px;
+            height: 7.87px;
+            background: #FFF;
+            left: 0;
+            top: 11px;
+        }
+    }
+    .btn-banner{
+        width: 100%;
+        text-align: center;
+        border-radius: 22.953px;
+        border: 3.06px solid #FFF;
+        color: #FFF;
+        font-size: 15.302px;
+        font-style: normal;
+        font-weight: 700;
+        text-transform: uppercase;
+        margin-top: 15px;
+        margin-bottom: 60px;
+    }
+    .d-flex-acesso{
+        display: flex;
+        gap: 7px;
+        flex-wrap: wrap;
+        .acesso-rapido{
+            border-radius: 22.953px;
+            background: #FFF;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 207px;
+            height: 150px;
+            max-width: 100%;
+            text-align: center;
+            &:hover{
+                background: #225EC9;
+                transition: all .3s;
+                .texto{
+                    color: #fff;
+                }
+                .icone{
+                    filter:brightness(0) invert(1);
+                }
+            }
+            .icone{
+                margin-top: 11px;
+            }
+            .texto{
+                color: #225EC9;
+                font-size: 15.302px;
+                font-weight: 700;
+                text-transform: uppercase;
+                padding-top: 11px;
+                line-height: 18px;
+            }
+        }
+    }
 }

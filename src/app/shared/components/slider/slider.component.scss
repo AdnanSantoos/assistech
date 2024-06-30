@@ -1,13 +1,12 @@
 .slider-container {
     display: flex;
     align-items: flex-start;
-    height: 360px;
-    width: 600px;
+    height: 307px;
 }
 
 .slider {
     position: relative;
-    width: 75%;
+    width: 85%;
     overflow: hidden;
     height: 100%;
     border-top-left-radius: 15px;
@@ -79,20 +78,18 @@
 }
 
 .thumbnails {
-    width: max-content;
+    width: 15%;
     display: flex;
     flex-direction: column;
-    padding-left: 10px;
+    padding-left: 7px;
     box-sizing: border-box;
-    padding-top: 5px;
-
     .thumbnail {
         margin-bottom: 10px;
         cursor: pointer;
 
         img {
-            width: 80px;
-            height: 80px;
+            width: 100%;
+            height: 69px;
             object-fit: cover;
             border: 2px solid transparent;
             transition: border 0.3s;

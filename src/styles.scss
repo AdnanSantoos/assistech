@@ -1,6 +1,6 @@
 body {
     font-family: "Inter", sans-serif !important;
-
+    transition: all .5s;
     .btn-padrao__hover {
         background-color: #fff;
         max-height: 98px;
@@ -25,6 +25,7 @@ body {
             color: #225EC9;
             text-transform: uppercase;
             white-space: nowrap;
+            font-weight: 700;
         }
         &:hover {
             background-color: #225EC9;
