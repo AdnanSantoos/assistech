@@ -1,7 +1,8 @@
-.bg-banner{
+.bg-banner {
     background: url('../../../assets/bkg/bkg-acesso-rapido.jpg') no-repeat;
     background-size: cover;
-    .titulo{
+
+    .titulo {
         color: #FFF;
         font-size: 20.986px;
         font-style: normal;
@@ -11,7 +12,8 @@
         padding-left: 13.12px;
         margin-top: 59px;
         margin-bottom: 15px;
-        &::after{
+
+        &::after {
             content: '';
             position: absolute;
             width: 7.87px;
@@ -21,7 +23,8 @@
             top: 11px;
         }
     }
-    .btn-banner{
+
+    .btn-banner {
         width: 100%;
         text-align: center;
         border-radius: 22.953px;
@@ -34,11 +37,13 @@
         margin-top: 15px;
         margin-bottom: 60px;
     }
-    .d-flex-acesso{
+
+    .d-flex-acesso {
         display: flex;
         gap: 7px;
         flex-wrap: wrap;
-        .acesso-rapido{
+
+        .acesso-rapido {
             border-radius: 22.953px;
             background: #FFF;
             cursor: pointer;
@@ -50,20 +55,25 @@
             height: 150px;
             max-width: 100%;
             text-align: center;
-            &:hover{
+
+            &:hover {
                 background: #225EC9;
                 transition: all .3s;
-                .texto{
+
+                .texto {
                     color: #fff;
                 }
-                .icone{
-                    filter:brightness(0) invert(1);
+
+                .icone {
+                    filter: brightness(0) invert(1);
                 }
             }
-            .icone{
+
+            .icone {
                 margin-top: 11px;
             }
-            .texto{
+
+            .texto {
                 color: #225EC9;
                 font-size: 15.302px;
                 font-weight: 700;
@@ -73,4 +83,14 @@
             }
         }
     }
+}
+
+.titulo-noticias {
+    color: #225EC9;
+    font-size: 37.841px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 122.487%;
+    text-transform: uppercase;
+    margin-top: 50px;
 }

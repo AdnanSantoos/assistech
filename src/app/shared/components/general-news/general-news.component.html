@@ -1,0 +1,23 @@
+<div class="container">
+    <div class="row">
+        <div class="card-container" >
+          <div class="card" style="width:32%;" *ngFor="let card of cards">
+            <div class="card-header">
+              <img [src]="card.img" alt="" class="img-header">
+            </div>
+            <div class="card-body">
+              <h5 class="card-title">{{ card.title }}</h5>
+              <div class="d-flex justify-content-start">
+                <p class="card-data">{{card.data}} ///</p>
+                <p class="card-subtitle">{{ card.subtitle }}</p>
+              </div>
+              <p class="mt-3 card-text">{{ card.text }}</p>
+              <a href="#" class="btn-leiamais">Leia Mais
+                <img src="../../../../assets/icons/duas-setas-direita.svg" width="15px" height="15px" alt="">
+              </a>
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>
+  
