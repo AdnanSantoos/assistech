@@ -7,6 +7,7 @@
         display: flex;
         justify-content: center;
         flex-direction: column;
+
         .acesso_informacao-title {
             color: #FFF;
             font-size: 46.759px;
@@ -19,6 +20,7 @@
         }
 
         .acesso_informacao-subtitle {
+            width: 70%;
             padding-top: 20px;
             color: #FFF;
             text-align: center;
@@ -26,15 +28,26 @@
             font-style: normal;
             font-weight: 600;
             line-height: 122.487%;
+            margin-left: auto;
+            margin-right: auto;
         }
 
     }
 
-    .button-acessos {
-        max-width: 185px;
-        width: 100%;
-        height: 134px;
+    .buttons-container {
         display: flex;
-        flex-direction: column;
+        flex-wrap: wrap;
+        gap: 5px;
+        justify-content: center;
+        padding-bottom: 100px;
+        padding-top: 20px;
+
+        .button-acessos {
+            max-width: 185px;
+            width: 100%;
+            height: 134px;
+            display: flex;
+            flex-direction: column;
+        }
     }
 }
