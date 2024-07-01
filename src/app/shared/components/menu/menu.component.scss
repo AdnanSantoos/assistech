@@ -79,8 +79,14 @@
     .menu-header {
         flex-wrap: wrap;
         padding: 5px 0;
-        a{
-            font-size: 8px;
+
+        .menu {
+            margin: 0;
+
+            a {
+                font-size: 8px;
+            }
         }
+
     }
 }
