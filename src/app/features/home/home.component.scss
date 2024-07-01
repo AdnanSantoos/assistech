@@ -94,3 +94,14 @@
     text-transform: uppercase;
     margin-top: 50px;
 }
+
+@media (max-width: 768px) {
+    .d-flex-acesso{
+        justify-content: center;
+
+    }
+    .acesso-rapido {
+        width: 180px !important;
+
+    }
+}

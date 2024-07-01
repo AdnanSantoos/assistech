@@ -1,6 +1,7 @@
 body {
     font-family: "Inter", sans-serif !important;
     transition: all .5s;
+
     .btn-padrao__hover {
         background-color: #fff;
         max-height: 98px;
@@ -10,6 +11,7 @@ body {
         justify-content: center;
         align-items: center;
         cursor: pointer;
+        text-decoration: none;
 
         .btn-padrao__perfil-icon {
             background-image: url('/assets/icons/perfil-icon-azul.svg');
@@ -27,6 +29,7 @@ body {
             white-space: nowrap;
             font-weight: 700;
         }
+
         &:hover {
             background-color: #225EC9;
             box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
@@ -42,7 +45,7 @@ body {
         }
     }
 
-    .btn-padrao{
+    .btn-padrao {
         background-color: #fff;
         max-height: 98px;
         border-radius: 15px;
@@ -51,6 +54,8 @@ body {
         justify-content: center;
         align-items: center;
         cursor: pointer;
+        text-decoration: none;
+
     }
 
 }

@@ -2,10 +2,11 @@ import { GeneralNewsComponent } from './../../shared/components/general-news/gen
 import { Component } from '@angular/core';
 import { SliderComponent } from '../../shared/components/slider/slider.component';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [SliderComponent, GeneralNewsComponent, CommonModule],
+  imports: [SliderComponent, GeneralNewsComponent, CommonModule,RouterLink],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })

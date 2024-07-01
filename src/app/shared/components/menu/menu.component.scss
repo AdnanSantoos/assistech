@@ -23,7 +23,7 @@
                 padding: 5px 15px 5px 5px;
                 transition: color 0.3s;
                 border-right: 1px rgba(41, 39, 116, 0.50) solid;
-                
+
                 &:hover {
                     color: #d90012;
                 }
@@ -60,9 +60,11 @@
             background-color: transparent;
             ;
         }
+
         input[type="text"]::placeholder {
-            font-size: 12px; 
+            font-size: 12px;
         }
+
         button {
             background: none;
             border: none;
@@ -70,5 +72,12 @@
             cursor: pointer;
             padding: 5px;
         }
+    }
+}
+
+@media (max-width: 768px) {
+    .menu-header {
+        flex-wrap: wrap;
+
     }
 }

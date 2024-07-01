@@ -68,6 +68,7 @@
             display: flex;
             flex-direction: column;
             max-width: 103px;
+            text-decoration: none;
 
             img {
                 width: 51px;
@@ -79,6 +80,10 @@
                 font-size: 15.302px;
                 margin: 0;
             }
+        }
+
+        .button-radar {
+            text-decoration: none;
         }
 
         .button-login {
@@ -97,4 +102,41 @@
 
     }
 
+}
+
+@media (max-width: 768px) {
+    .bkg-header {
+        height: max-content;
+        padding-bottom: 5px;
+
+        .mobile {
+            display: flex !important;
+            justify-content: space-around;
+            align-items: center;
+            gap: 20px;
+            align-content: center;
+            padding-top: 2px;
+
+        }
+
+        .buttons-header {
+            justify-content: center;
+            padding-bottom: 10px;
+            flex-wrap: wrap;
+            padding-top: 10px;
+        }
+        .logo-container{
+            padding-top: 10px;
+
+        }
+        .logo-mobile{
+            display: flex;
+            justify-content: center;
+        }
+        .align{
+            justify-content: center;
+            padding-top: 10px;
+
+        }
+    }
 }

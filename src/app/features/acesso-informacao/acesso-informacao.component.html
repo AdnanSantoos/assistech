@@ -1,0 +1,20 @@
+<div class="bg-acesso_informacao">
+    <div class="container">
+        <div class="bg-acesso-content">
+            <h2 class="acesso_informacao-title">Acesso a Informação</h2>
+            <p class="acesso_informacao-subtitle">A <u>Lei nº 12.527/2011</u> regulamenta o direito constitucional de acesso às
+                informações públicas. Essa
+                norma entrou em vigor em 16 de maio de 2012 e criou mecanismos que possibilitam, a qualquer pessoa,
+                física ou jurídica, sem necessidade de apresentar motivo, o recebimento de informações
+                públicas dos órgãos e entidades.</p>
+        </div>
+        <div class="buttons-container">
+            <ng-container *ngFor="let content of button">
+                <a [href]="content.link" target="_blank" class="btn-padrao__hover button-acessos">
+                    <div class="btn-padrao__perfil-icon"></div>
+                    <div class="btn-padrao__text">{{ content.name }}</div>
+                </a>
+            </ng-container>
+        </div>
+    </div>
+</div>

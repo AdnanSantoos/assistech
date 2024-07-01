@@ -10,5 +10,9 @@ export const routes: Routes = [
         path: 'home',
         loadComponent:()=> import('./features/home/home.component').then((c)=> c.HomeComponent)
     },
+    {
+        path: 'acesso-informacao',
+        loadComponent:()=> import('./features/acesso-informacao/acesso-informacao.component').then((c)=> c.AcessoInformacaoComponent)
+    },
 
 ];

@@ -3,6 +3,7 @@
 
     .card {
         border: none;
+        width: 32%;
 
         .card-header {
             background-color: transparent;
@@ -51,4 +52,13 @@
 
         }
     }
+}
+@media (max-width: 768px) {
+  .card-container{
+    flex-wrap: wrap;
+
+    .card{
+        width: 100%;
+    }
+  }
 }
