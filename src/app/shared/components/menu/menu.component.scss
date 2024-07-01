@@ -78,6 +78,9 @@
 @media (max-width: 768px) {
     .menu-header {
         flex-wrap: wrap;
-
+        padding: 5px 0;
+        a{
+            font-size: 8px;
+        }
     }
 }
