@@ -1,0 +1,14 @@
+<div class="bg-pagina-interna">
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <h1 class="pagina-interna">{{titulo_pagina}}</h1>
+          <ng-content select="[app-filtro]"></ng-content>
+          <div class="table">
+            <app-table [dataSource]="filteredDataSource" [displayedColumns]="displayedColumns"></app-table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
