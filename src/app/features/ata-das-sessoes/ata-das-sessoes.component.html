@@ -1,0 +1,11 @@
+<div class="bg-ata_das_sessoes">
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <h1 class="titulo-ata">Ata das sessões</h1>
+        <app-filtro-geral (filtroChange)="onFiltroChange($event)"></app-filtro-geral>
+        <app-table [dataSource]="filteredDataSource" [displayedColumns]="displayedColumns"></app-table>
+      </div>
+    </div>
+  </div>
+</div>

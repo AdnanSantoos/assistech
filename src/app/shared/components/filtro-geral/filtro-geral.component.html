@@ -1,0 +1,23 @@
+<div class="filtro-container">
+  <div class="textos">
+    <p class="bold">Quer encontrar alguma ata específica?</p>
+    <p>É simples, preencha os campos ao lado!</p>
+  </div>
+  <form [formGroup]="filtroForm" (ngSubmit)="onFormSubmit()">
+    <div class="ata-da-sessao bold">
+      Ata da sessão
+      <input type="text" class="w-25" formControlName="ataDaSessao">
+    </div>
+    <div class="data-da-ata">
+      <label for="day">DATA DA SESSÃO</label>
+      <div class="date-inputs">
+        <input type="text" id="day" formControlName="day" maxlength="2">
+        <input type="text" id="month" formControlName="month" maxlength="2">
+        <input type="text" id="year" formControlName="year" maxlength="4">
+      </div>
+    </div>
+    <button mat-icon-button type="submit" aria-label="Filtrar">
+      <mat-icon>search</mat-icon>
+    </button>
+      </form>
+</div>

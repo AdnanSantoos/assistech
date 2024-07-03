@@ -14,5 +14,8 @@ export const routes: Routes = [
         path: 'acesso-informacao',
         loadComponent:()=> import('./features/acesso-informacao/acesso-informacao.component').then((c)=> c.AcessoInformacaoComponent)
     },
-
+    {
+        path: 'ata-das-sessoes',
+        loadComponent:()=> import('./features/ata-das-sessoes/ata-das-sessoes.component').then((c)=> c.AtaDasSessoesComponent)
+    },
 ];

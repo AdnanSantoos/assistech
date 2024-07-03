@@ -14,7 +14,7 @@ export class AcessoInformacaoComponent {
   button = [
     {
       name: 'Ata das sessões',
-      link: 'https://www.google.com.br/'
+      link: '/ata-das-sessoes'
     },
     {
       name: 'atos admissionais',
