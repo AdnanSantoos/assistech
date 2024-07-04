@@ -23,7 +23,7 @@ export class AcessoInformacaoComponent {
     },
     {
       name: 'audiência pública',
-      link: 'https://www.google.com.br/'
+      link: '/audiencias-publicas'
     },
     {
       name: 'balancete',

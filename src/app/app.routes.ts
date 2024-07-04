@@ -24,6 +24,10 @@ export const routes: Routes = [
         loadComponent:()=> import('./features/atos-admissionais/atos-admissionais.component').then((c)=> c.AtosAdmissionaisComponent)
     },
     {
+        path: 'audiencias-publicas',
+        loadComponent:()=> import('./features/audiencias-publicas/audiencias-publicas.component').then((c)=> c.AudienciasPublicasComponent)
+    },
+    {
         path: 'diario-oficial',
         loadComponent:()=> import('./features/diario-oficial/diario-oficial.component').then((c)=> c.DiarioOficialComponent)
     },
