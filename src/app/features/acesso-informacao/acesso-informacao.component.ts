@@ -27,7 +27,7 @@ export class AcessoInformacaoComponent {
     },
     {
       name: 'balancete',
-      link: 'https://www.google.com.br/'
+      link: '/balancete-financeiro'
     },
     {
       name: 'Balanço Anual',

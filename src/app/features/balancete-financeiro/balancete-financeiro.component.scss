@@ -1,0 +1,44 @@
+.margin-left {
+    margin-left: 5%;
+}
+
+.margin-right {
+    margin-right: -10%;
+}
+
+@media (max-width: 768px) {
+    .filtro-container {
+        input {
+            margin: 0;
+        }
+
+        form {
+            justify-content: center;
+
+            .margin-left {
+                margin-left: 0;
+            }
+
+            .margin-right {
+                margin-right: 0;
+            }
+
+            .d-flex {
+                width: 100%;
+            }
+
+            .w-50 {
+                width: 100% !important;
+            }
+
+            button {
+                width: 100% !important;
+            }
+        }
+    }
+
+
+
+
+
+}
