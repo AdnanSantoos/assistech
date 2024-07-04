@@ -1,11 +1,25 @@
-<div class="bg-ata_das_sessoes">
-  <div class="container">
-    <div class="row">
-      <div class="col">
-        <h1 class="titulo-ata">Ata das sessões</h1>
-        <app-filtro-geral (filtroChange)="onFiltroChange($event)"></app-filtro-geral>
-        <app-table [dataSource]="filteredDataSource" [displayedColumns]="displayedColumns"></app-table>
-      </div>
+<app-layout-table [titulo_pagina]="'Ata das Sessões'" [dataSource]="dataSource" [displayedColumns]="displayedColumns" >  
+  <div class="filtro-container" app-filtro >
+    <div class="textos">
+      <p class="bold">Quer encontrar alguma ata específica?</p>
+      <p>É simples, preencha os campos ao lado!</p>
     </div>
+    <form class="d-flex" [formGroup]="filtroForm" (ngSubmit)="onFormSubmit()">
+      <div class="ata-da-sessao bold">
+        Ata da sessão
+        <input type="text" class="w-25" formControlName="ataDaSessao">
+      </div>
+      <div class="data-da-ata">
+        <label for="day">DATA DA SESSÃO</label>
+        <div class="date-inputs">
+          <input type="text" id="day" formControlName="day" maxlength="2">
+          <input type="text" id="month" formControlName="month" maxlength="2">
+          <input type="text" id="year" formControlName="year" maxlength="4">
+        </div>
+      </div>
+      <button mat-icon-button aria-label="Example icon button with a vertical three dot icon">
+        <mat-icon>search</mat-icon>
+      </button>
+    </form>
   </div>
-</div>
+</app-layout-table>

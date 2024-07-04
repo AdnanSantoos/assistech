@@ -10,7 +10,7 @@
         </div>
         <div class="buttons-container">
             <ng-container *ngFor="let content of button">
-                <a [href]="content.link" target="_blank" class="btn-padrao__hover button-acessos">
+                <a [routerLink]="[content.link]" class="btn-padrao__hover button-acessos">
                     <div class="btn-padrao__perfil-icon"></div>
                     <div class="btn-padrao__text">{{ content.name }}</div>
                 </a>

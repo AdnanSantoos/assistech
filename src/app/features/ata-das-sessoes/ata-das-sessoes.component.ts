@@ -1,36 +1,25 @@
-import { Component } from '@angular/core';
-import { MatTableModule } from '@angular/material/table';
-import { MatButtonModule } from '@angular/material/button';
+import { Component} from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { ReactiveFormsModule } from '@angular/forms';
-import { TableComponent } from '../../shared/components/table/table.component';
-import { FiltroGeralComponent } from '../../shared/components/filtro-geral/filtro-geral.component';
-import { MatNativeDateModule } from '@angular/material/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { LayoutTableComponent } from '../../shared/containers/layout-table/layout-table.component';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-ata-das-sessoes',
   standalone: true,
   imports: [
-    MatTableModule,
-    MatButtonModule,
-    MatIconModule,
-    MatInputModule,
-    MatFormFieldModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
+    LayoutTableComponent,
+    CommonModule,
     ReactiveFormsModule,
-    TableComponent,
-    FiltroGeralComponent,
-    CommonModule
+    MatIconModule,
+    MatButtonModule
   ],
   templateUrl: './ata-das-sessoes.component.html',
   styleUrls: ['./ata-das-sessoes.component.scss']
 })
 export class AtaDasSessoesComponent {
+  filtroForm: FormGroup;
   displayedColumns: string[] = ['ata', 'data', 'download'];
   dataSource = [
     { ata: '70/2023', data: '14/11/2023', download: 'link-to-download-70' },
@@ -40,14 +29,16 @@ export class AtaDasSessoesComponent {
     { ata: '66/2023', data: '14/11/2023', download: 'link-to-download-66' },
   ];
 
-  filteredDataSource = this.dataSource;
-
-  onFiltroChange(filtro: any) {
-    const filterDate = `${filtro.day}/${filtro.month}/${filtro.year}`;
-    this.filteredDataSource = this.dataSource.filter(item => {
-      const matchAta = item.ata.includes(filtro.ataDaSessao);
-      const matchDate = item.data.includes(filterDate);
-      return matchAta && matchDate;
+  constructor(private fb: FormBuilder) {
+    this.filtroForm = this.fb.group({
+      ataDaSessao: [''],
+      day: [''],
+      month: [''],
+      year: ['']
     });
+  }
+
+  onFormSubmit() {
+    console.log(this.filtroForm)
   }
 }

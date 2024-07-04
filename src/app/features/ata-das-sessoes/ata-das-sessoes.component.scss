@@ -1,14 +1,70 @@
-.bg-ata_das_sessoes {
-    background-image: url('../../../assets/bkg/bkg-ata-das-sessoes.png');
-    background-repeat: no-repeat;
-    background-size: cover;
-    text-transform: uppercase;
-    color: #fff;
-
-    .titulo-ata {
-        text-align: center;
-        margin-top: 50px;
+.filtro-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+    border-radius: 15px;
+    background: #3566F3;
+    padding: 20.5px 30px 19px 15px;
+    align-items: center;
+    .textos {
+        p {
+            margin: 0;
+        }
     }
 
- 
+    .ata-da-sessao {
+        padding-left: 20px;
+        max-width: 300px;
+
+        input {
+            margin-top: 5px;
+            padding: 5px;
+            border-radius: 4px;
+            border: none;
+            width: 200px;
+            margin-left: 10px;
+
+        }
+    }
+
+    .data-da-ata {
+        display: flex;
+        align-items: center;
+        font-weight: bold;
+
+        label {
+            margin-right: 10px;
+        }
+
+        .date-inputs {
+            display: flex;
+            gap: 2px;
+
+            input {
+                background-color: white;
+                border: none;
+                padding: 10px;
+                border-radius: 4px;
+                font-size: 14px;
+                text-align: center;
+                width: 60px; // Adjust width as needed for DD and MM
+                box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+
+                &:nth-child(3) {
+                    width: 80px; // Adjust width for AAAA
+                }
+
+                &:focus {
+                    outline: none;
+                    box-shadow: 0 0 5px rgba(51, 102, 255, 0.5);
+                }
+
+                &::placeholder {
+                    color: #ccc; // Placeholder text color
+                }
+            }
+        }
+    }
+
+
 }
