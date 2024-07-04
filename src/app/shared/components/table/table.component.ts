@@ -30,4 +30,12 @@ import { MatTableModule } from '@angular/material/table';
 export class TableComponent {
   @Input() dataSource: any[] = [];
   @Input() displayedColumns: string[] = [];
+  
+  isOdd(index: number): boolean {
+    return index % 2 !== 0;
+  }
+
+  isEven(index: number): boolean {
+    return index % 2 === 0;
+  }
 }

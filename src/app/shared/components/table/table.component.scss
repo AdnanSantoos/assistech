@@ -1,5 +1,7 @@
 ::ng-deep {
-
+    .mat-mdc-cell{
+        border-bottom: none !important;
+    }
     table{
         margin-top: 10px;
         padding: 15px;
@@ -10,7 +12,13 @@
     }
     .custom-table {
         width: 100%;
-
+        .even-row {
+            background-color: #F0F0F0 !important;
+          }
+        
+          .odd-row {
+            background-color: #FFF !important;
+          }
         thead {
             border-bottom: 1px solid #3566F3;
         }
