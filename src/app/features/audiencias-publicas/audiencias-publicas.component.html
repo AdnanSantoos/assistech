@@ -1,25 +1,26 @@
-<app-layout-table [titulo_pagina]="'Audiências Públicas'" [dataSource]="dataSource" [displayedColumns]="displayedColumns" >  
-    <div class="filtro-container" app-filtro >
-      <div class="textos">
-        <p class="bold">Quer encontrar alguma audiência específica?</p>
-        <p>É simples, preencha os campos ao lado!</p>
-      </div>
-      <form class="d-flex" [formGroup]="filtroForm" (ngSubmit)="onFormSubmit()">
-        <div class="ata-da-sessao bold">
-          Título
-          <input type="text" class="w-25" formControlName="ataDaSessao">
+<app-layout-table [titulo_pagina]="'Audiências Públicas'" [dataSource]="dataSource"
+    [displayedColumns]="displayedColumns">
+    <div class="filtro-container" app-filtro>
+        <div class="textos">
+            <p class="bold">Quer encontrar alguma audiência específica?</p>
+            <p>É simples, preencha os campos ao lado!</p>
         </div>
-        <div class="data-da-ata">
-          <label for="day">DATA</label>
-          <div class="date-inputs">
-            <input type="text" id="day" formControlName="day" maxlength="2">
-            <input type="text" id="month" formControlName="month" maxlength="2">
-            <input type="text" id="year" formControlName="year" maxlength="4">
-          </div>
-        </div>
-        <button mat-icon-button aria-label="Example icon button with a vertical three dot icon">
-          <mat-icon>search</mat-icon>
-        </button>
-      </form>
+        <form class="d-flex" [formGroup]="filtroForm" (ngSubmit)="onFormSubmit()">
+            <div class="ata-da-sessao bold">
+                Título
+                <input type="text" class="w-25" formControlName="ataDaSessao">
+            </div>
+            <div class="data-da-ata">
+                <label for="day">DATA</label>
+                <div class="date-inputs">
+                    <input type="text" id="day" formControlName="day" maxlength="2">
+                    <input type="text" id="month" formControlName="month" maxlength="2">
+                    <input type="text" id="year" formControlName="year" maxlength="4">
+                </div>
+            </div>
+            <button mat-icon-button aria-label="Example icon button with a vertical three dot icon">
+                <mat-icon>search</mat-icon>
+            </button>
+        </form>
     </div>
-  </app-layout-table>
+</app-layout-table>

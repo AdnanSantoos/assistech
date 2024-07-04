@@ -18,13 +18,13 @@ import { MatButtonModule } from '@angular/material/button';
 })
 export class AudienciasPublicasComponent {
   filtroForm: FormGroup;
-  displayedColumns: string[] = ['título', 'data', 'arquivo'];
+  displayedColumns: string[] = ['titulo', 'data', 'arquivo'];
   dataSource = [
-    { titulo: '70/2023', data: '14/11/2023', arquivo: 'link-to-arquivo-70' },
-    { titulo: '69/2023', data: '14/11/2023', arquivo: 'link-to-arquivo-69' },
-    { titulo: '68/2023', data: '14/11/2023', arquivo: 'link-to-arquivo-68' },
-    { titulo: '67/2023', data: '14/11/2023', arquivo: 'link-to-arquivo-67' },
-    { titulo: '66/2023', data: '14/11/2023', arquivo: 'link-to-arquivo-66' },
+    { titulo: 'a', data: '14/11/2023', arquivo: 'link-to-arquivo-70' },
+    { titulo: 'b', data: '14/11/2023', arquivo: 'link-to-arquivo-69' },
+    { titulo: 'c', data: '14/11/2023', arquivo: 'link-to-arquivo-68' },
+    { titulo: 'd', data: '14/11/2023', arquivo: 'link-to-arquivo-67' },
+    { titulo: 'e', data: '14/11/2023', arquivo: 'link-to-arquivo-66' },
   ];
 
   constructor(private fb: FormBuilder) {

@@ -26,7 +26,7 @@ export const routes: Routes = [
     {
         path: 'audiencias-publicas',
         loadComponent:()=> import('./features/audiencias-publicas/audiencias-publicas.component').then((c)=> c.AudienciasPublicasComponent)
-    },
+    },  
     {
         path: 'diario-oficial',
         loadComponent:()=> import('./features/diario-oficial/diario-oficial.component').then((c)=> c.DiarioOficialComponent)
