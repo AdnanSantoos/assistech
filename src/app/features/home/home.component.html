@@ -6,7 +6,7 @@
                     ACESSO RÁPIDO
                 </div>
                 <div class="d-flex-acesso">
-                    <div class="acesso-rapido">
+                    <div class="acesso-rapido" routerLink="/diario-oficial">
                         <div class="icone">
                             <svg width="34" height="41" viewBox="0 0 34 41" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -178,7 +178,7 @@
 <div class="noticias-gerais">
     <div class="d-flex">
         <div class="img-row w-100" *ngFor="let content of images">
-            <img class="img-fluid w-100" [src]="content.img" alt="" >
+            <img class="img-fluid w-100" [src]="content.img" alt="">
         </div>
     </div>
 
@@ -189,7 +189,7 @@
 
     <div class="d-flex mt-4">
         <div class="img-row w-100" *ngFor="let content of images2">
-            <img class="img-fluid w-100 h-100" [src]="content.img" alt="" >
+            <img class="img-fluid w-100 h-100" [src]="content.img" alt="">
         </div>
     </div>
 </div>

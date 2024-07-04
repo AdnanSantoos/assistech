@@ -18,4 +18,8 @@ export const routes: Routes = [
         path: 'ata-das-sessoes',
         loadComponent:()=> import('./features/ata-das-sessoes/ata-das-sessoes.component').then((c)=> c.AtaDasSessoesComponent)
     },
+    {
+        path: 'diario-oficial',
+        loadComponent:()=> import('./features/diario-oficial/diario-oficial.component').then((c)=> c.DiarioOficialComponent)
+    },
 ];
