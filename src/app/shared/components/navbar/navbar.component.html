@@ -1,7 +1,7 @@
-<div class="bkg-header d-flex justify-content-between">
-  <div class="container d-flex align-items-center align-content-center align">
-    <div class="row d-flex justify-content-between w-100 ">
-      <div class="col-md-4 d-flex logo-mobile">
+<div class="bkg-header ">
+  <div class="container align">
+    <div class="row align-items-center ">
+      <div class="col-8 col-md-4 logo-mobile">
         <div class="logo-container">
           <div class="logo">
             <img src="../../../../assets/logos/logo-itaberaba.webp" alt="">
@@ -12,7 +12,7 @@
           </div>
         </div>
       </div>
-      <div class="col-md-8 d-flex mobile">
+      <div class="col-8 campos-direita">
         <div class="buttons-header">
           <a href="https://esic.cge.ro.gov.br/" target="_blank" class="btn-padrao button-ecac">
             <img src="../../../../assets/logos/ecac.webp" alt="Logo Ecac">
@@ -28,6 +28,21 @@
           </div>
         </div>
       </div>
+      <div class="col-4 menu">
+        <button class="menu-branco" (click)="toggleMenu()" mat-icon-button aria-label="menu">
+          <mat-icon>menu</mat-icon>
+        </button>
+      </div>
     </div>
+  </div>
+</div>
+<div class="campos-mobile" [ngClass]="{'ativo': mobile}">
+  <button (click)="toggleMenu()" mat-icon-button aria-label="menu">
+    <mat-icon>close</mat-icon>
+  </button>
+  <div class="menu-content">
+    <div class="item">eSIC</div>
+    <div class="item">Radar de transparencia pública</div>
+    <div class="item">Login</div>
   </div>
 </div>
