@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { AtosAdmissionaisComponent } from './features/atos-admissionais/atos-admissionais.component';
 
 export const routes: Routes = [
     {
@@ -17,6 +18,10 @@ export const routes: Routes = [
     {
         path: 'ata-das-sessoes',
         loadComponent:()=> import('./features/ata-das-sessoes/ata-das-sessoes.component').then((c)=> c.AtaDasSessoesComponent)
+    },
+    {
+        path: 'atos-admissionais',
+        loadComponent:()=> import('./features/atos-admissionais/atos-admissionais.component').then((c)=> c.AtosAdmissionaisComponent)
     },
     {
         path: 'diario-oficial',

@@ -19,7 +19,7 @@ export class AcessoInformacaoComponent {
     },
     {
       name: 'atos admissionais',
-      link: 'https://www.google.com.br/'
+      link: '/atos-admissionais'
     },
     {
       name: 'audiência pública',

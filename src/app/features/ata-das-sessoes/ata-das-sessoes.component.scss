@@ -6,6 +6,7 @@
     background: #3566F3;
     padding: 20.5px 30px 19px 15px;
     align-items: center;
+
     .textos {
         p {
             margin: 0;
@@ -67,4 +68,34 @@
     }
 
 
+}
+
+@media (max-width: 768px) {
+    .filtro-container {
+        flex-wrap: wrap;
+    }
+
+    form {
+        flex-wrap: wrap;
+    }
+
+    .filtro-container {
+        .ata-da-sessao {
+            padding-left: 0px !important;
+        }
+    }
+
+    .date-inputs {
+        display: flex;
+        gap: 2px;
+
+        input {
+            font-size: 12px !important;
+            width: 35px !important;
+
+            &:nth-child(3) {
+                width: 40px !important;
+            }
+        }
+    }
 }
