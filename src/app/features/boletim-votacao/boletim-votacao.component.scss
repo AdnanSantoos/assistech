@@ -5,3 +5,15 @@ mat-icon{
     margin-bottom: -75%;
 
 }
+
+@media (max-width: 768px) {
+    .filtro-container{
+        input{
+            margin: 0;
+
+        }
+    }
+   .flex-column,.bold{
+    width: 100% !important;
+   }
+}
