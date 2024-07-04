@@ -2,6 +2,7 @@
     .mat-mdc-cell{
         border-bottom: none !important;
     }
+
     table{
         margin-top: 10px;
         padding: 15px;
@@ -19,9 +20,7 @@
           .odd-row {
             background-color: #FFF !important;
           }
-        thead {
-            border-bottom: 1px solid #3566F3;
-        }
+
 
         th {
             color: #3566F3;
@@ -29,7 +28,8 @@
             font-style: normal;
             font-weight: 800;
             text-align: center;
-
+            border-bottom: 3px solid #3566f3;
+            margin-bottom: 10px;
         }
 
         td {
