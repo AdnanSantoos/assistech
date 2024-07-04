@@ -30,7 +30,11 @@ export const routes: Routes = [
     {
         path: 'balancete-financeiro',
         loadComponent:()=> import('./features/balancete-financeiro/balancete-financeiro.component').then((c)=> c.BalanceteFinanceiroComponent)
-    },   
+    }, 
+    {
+        path: 'boletim-votacao',
+        loadComponent:()=> import('./features/boletim-votacao/boletim-votacao.component').then((c)=> c.BoletimVotacaoComponent)
+    },    
     {
         path: 'diario-oficial',
         loadComponent:()=> import('./features/diario-oficial/diario-oficial.component').then((c)=> c.DiarioOficialComponent)

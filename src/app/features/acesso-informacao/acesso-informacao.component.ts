@@ -35,7 +35,7 @@ export class AcessoInformacaoComponent {
     },
     {
       name: 'boletim de votação',
-      link: 'https://www.google.com.br/'
+      link: '/boletim-votacao'
     },
     {
       name: 'contas anuais',
