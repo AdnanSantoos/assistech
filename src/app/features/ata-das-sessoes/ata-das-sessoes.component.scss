@@ -71,6 +71,10 @@
 }
 
 @media (max-width: 768px) {
+    label{
+        font-size: 14px !important;
+
+    }
     .filtro-container {
         flex-wrap: wrap;
     }
@@ -81,6 +85,7 @@
 
     .filtro-container {
         .ata-da-sessao {
+            font-size: 14px !important;
             padding-left: 0px !important;
         }
     }
@@ -88,13 +93,13 @@
     .date-inputs {
         display: flex;
         gap: 2px;
-
+    
         input {
             font-size: 12px !important;
             width: 35px !important;
 
             &:nth-child(3) {
-                width: 40px !important;
+                width: 45px !important;
             }
         }
     }
