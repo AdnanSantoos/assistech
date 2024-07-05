@@ -87,27 +87,27 @@ export class AcessoInformacaoComponent {
     },
     {
       name: 'Licitações',
-      link: 'https://www.google.com.br/'
+      link: '/licitacoes'
     },
     {
       name: 'Lista de presença',
-      link: 'https://www.google.com.br/'
+      link: '/lista-presenca'
     },
     {
       name: 'Moções',
-      link: 'https://www.google.com.br/'
+      link: '/mocoes'
     },
     {
       name: 'Ofício',
-      link: 'https://www.google.com.br/'
+      link: '/oficio'
     },
     {
       name: 'patrimônios públicos',
-      link: 'https://www.google.com.br/'
+      link: '/patrimonios-publicos'
     },
     {
       name: 'pedidos de providência',
-      link: 'https://www.google.com.br/'
+      link: '/pedidos-providencia'
     },
     {
       name: 'receitas e despesas',
@@ -115,15 +115,15 @@ export class AcessoInformacaoComponent {
     },
     {
       name: 'RREO E RGF',
-      link: 'https://www.google.com.br/'
+      link: '/rreo-rgf'
     },
     {
       name: 'SIST. DE Registro de preço',
-      link: 'https://www.google.com.br/'
+      link: '/registro-preco'
     },
     {
       name: 'transferência de recursos',
-      link: 'https://www.google.com.br/'
+      link: '/transferencia-recursos'
     },
     {
       name: 'visão geral',

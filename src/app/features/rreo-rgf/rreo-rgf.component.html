@@ -1,0 +1,38 @@
+<app-layout-table [titulo_pagina]="'RREO E RGF'" [dataSource]="dataSource" [displayedColumns]="displayedColumns">
+    <div class="filtro-container" app-filtro>
+        <form class="d-flex" [formGroup]="filtroForm" (ngSubmit)="onFormSubmit()">
+            <div class="container">
+                <div class="row d-flex">
+                    <div class="col-12">
+                        <div class="row justify-content-center">
+                            <div class="d-flex flex-column bold">
+                                <span class=" text-center">N° da licitação</span>
+                                <input type="text" class="" formControlName="ataDaSessao">
+                            </div>
+                            <div class="d-flex flex-column bold">
+                                <span class=" text-center">vereador</span>
+                                <input type="text" class="" formControlName="ataDaSessao">
+                            </div>
+                            <div class="d-flex flex-column bold">
+                                <span class=" text-center">ano de pedido</span>
+                                <input type="text" class="" formControlName="ataDaSessao">
+                            </div>
+                            <div class="d-flex flex-column bold">
+                                <span class=" text-center">conteúdo</span>
+                                <input type="text" class="" formControlName="ataDaSessao">
+                            </div>
+                            <div class="d-flex mt-auto justify-content-center align-items-center">
+                                <button mat-icon-button aria-label="Example icon button with a vertical three dot icon">
+                                    <mat-icon>search</mat-icon>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+
+            </div>
+
+        </form>
+    </div>
+</app-layout-table>
