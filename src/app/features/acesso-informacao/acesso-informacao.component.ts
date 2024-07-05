@@ -75,7 +75,7 @@ export class AcessoInformacaoComponent {
     },
     {
       name: 'indicação e requerimento',
-      link: 'https://www.google.com.br/'
+      link: '/indicacoes-requerimentos'
     },
     {
       name: 'indicação e deliberação',

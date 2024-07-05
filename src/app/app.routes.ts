@@ -62,4 +62,8 @@ export const routes: Routes = [
         path: 'editais',
         loadComponent:()=> import('./features/editais/editais.component').then((c)=> c.EditaisComponent)
     },  
+    {
+        path: 'indicacoes-requerimentos',
+        loadComponent:()=> import('./features/indicacoes-requerimentos/indicacoes-requerimentos.component').then((c)=> c.IndicacoesRequerimentosComponent)
+    }
 ];
