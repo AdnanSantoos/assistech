@@ -1,0 +1,31 @@
+<app-layout-table [titulo_pagina]="'Legislação Municipal'" [dataSource]="dataSource"
+    [displayedColumns]="displayedColumns">
+    <div class="filtro-container" app-filtro>
+        <form class="d-flex" [formGroup]="filtroForm" (ngSubmit)="onFormSubmit()">
+            <div class="container">
+                <div class="row d-flex mobile">
+                    <div class="col-12 flex-column d-flex g-4">
+                        <div class="row justify-content-center">
+                            <div class="d-flex flex-column bold">
+                                <button>LDO</button>
+                            </div>
+                            <div class="d-flex flex-column bold">
+                                <button>PPA</button>
+                            </div>
+                        </div>
+                        <div class="row justify-content-center mt-10">
+                            <div class="d-flex flex-column bold">
+                                <button>LOA</button>
+                            </div>
+                            <div class="d-flex flex-column bold ">
+                                <button>LEI ORGÂNICA</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </form>
+    </div>
+</app-layout-table>

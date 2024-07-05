@@ -1,0 +1,67 @@
+.filtro-container {
+    .d-flex {
+        width: max-content;
+    }
+
+    button {
+        background-color: #fff;
+        color: #225EC9;
+        text-transform: uppercase;
+        border-radius: 15px;
+        border: none;
+        display: flex;
+        width: 199px;
+        padding: 12.153px 0px 11.977px 0px;
+        justify-content: center;
+        align-items: center;
+        transition: all 0.2s;
+        font-size: 20.887px;
+        font-style: normal;
+        font-weight: 800;
+        &:hover {
+            transition: all 0.2s;
+            background-color: #225EC9;
+            color: #fff;
+            box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+
+        }
+
+    }
+
+
+    .g-4 {
+        gap: 10px;
+    }
+}
+
+@media (max-width: 768px) {
+    .filtro-container {
+        form {
+            width: 100%;
+
+            .container {
+                display: flex;
+                justify-content: center;
+
+                .mobile {
+                    display: flex;
+                    flex-wrap: wrap;
+                    width: 100%;
+
+                    .justify-content-center {
+                        gap: 10px;
+                    }
+
+                    button {
+                        width: 300px;
+                    }
+                }
+            }
+        }
+
+
+
+
+    }
+
+}

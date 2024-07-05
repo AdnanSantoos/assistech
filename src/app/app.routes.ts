@@ -45,7 +45,11 @@ export const routes: Routes = [
     {
         path: 'convenios',
         loadComponent:()=> import('./features/convenios/convenios.component').then((c)=> c.ConveniosComponent)
-    }, 
+    },
+    {
+        path: 'legislacao-municipal',
+        loadComponent:()=> import('./features/legislacao-municipal/legislacao-municipal.component').then((c)=> c.LegislacaoMunicipalComponent)
+    },  
     {
         path: 'diario-oficial',
         loadComponent:()=> import('./features/diario-oficial/diario-oficial.component').then((c)=> c.DiarioOficialComponent)
