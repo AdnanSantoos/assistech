@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-import { AtosAdmissionaisComponent } from './features/atos-admissionais/atos-admissionais.component';
 
 export const routes: Routes = [
     {
@@ -39,6 +38,10 @@ export const routes: Routes = [
         path: 'contratacao-direta',
         loadComponent:()=> import('./features/contratacao-direta/contratacao-direta.component').then((c)=> c.ContratacaoDiretaComponent)
     },   
+    {
+        path: 'contratos',
+        loadComponent:()=> import('./features/contratos/contratos.component').then((c)=> c.ContratosComponent)
+    }, 
     {
         path: 'diario-oficial',
         loadComponent:()=> import('./features/diario-oficial/diario-oficial.component').then((c)=> c.DiarioOficialComponent)

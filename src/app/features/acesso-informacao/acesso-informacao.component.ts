@@ -47,7 +47,7 @@ export class AcessoInformacaoComponent {
     },
     {
       name: 'contratos',
-      link: 'https://www.google.com.br/'
+      link: '/contratos'
     },
     {
       name: 'convênios',
