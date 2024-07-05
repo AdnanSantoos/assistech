@@ -1,5 +1,4 @@
-<app-layout-table [titulo_pagina]="'Convênios'" [dataSource]="dataSource"
-    [displayedColumns]="displayedColumns">
+<app-layout-table [titulo_pagina]="'Convênios'" [dataSource]="dataSource" [displayedColumns]="displayedColumns">
     <div class="filtro-container" app-filtro>
         <form class="d-flex" [formGroup]="filtroForm" (ngSubmit)="onFormSubmit()">
             <div class="container">
