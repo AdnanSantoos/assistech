@@ -43,7 +43,7 @@ export class AcessoInformacaoComponent {
     },
     {
       name: 'contratação direta',
-      link: 'https://www.google.com.br/'
+      link: '/contratacao-direta'
     },
     {
       name: 'contratos',

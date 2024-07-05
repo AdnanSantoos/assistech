@@ -1,0 +1,40 @@
+.filtro-container{
+    .d-flex{
+        width: max-content;
+    }
+    .bold{
+        width: 22%;
+    }
+
+    input{
+        width: auto;
+    }
+}
+
+@media (max-width: 768px) {
+    .filtro-container {
+        input {
+            margin: 0;
+        }
+        .container{
+            display: flex;
+            justify-content: center;
+        }
+        form {
+            justify-content: center;
+
+            .d-flex {
+                width: 100%;
+            }
+
+            .bold {
+                width: 100% !important;
+            }
+
+            button {
+                width: 100% !important;
+            }
+        }
+    }
+
+}

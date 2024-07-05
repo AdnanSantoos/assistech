@@ -34,7 +34,11 @@ export const routes: Routes = [
     {
         path: 'boletim-votacao',
         loadComponent:()=> import('./features/boletim-votacao/boletim-votacao.component').then((c)=> c.BoletimVotacaoComponent)
-    },    
+    },  
+    {
+        path: 'contratacao-direta',
+        loadComponent:()=> import('./features/contratacao-direta/contratacao-direta.component').then((c)=> c.ContratacaoDiretaComponent)
+    },   
     {
         path: 'diario-oficial',
         loadComponent:()=> import('./features/diario-oficial/diario-oficial.component').then((c)=> c.DiarioOficialComponent)
