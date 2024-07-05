@@ -59,7 +59,7 @@ export class AcessoInformacaoComponent {
     },
     {
       name: 'decretos e leis',
-      link: 'https://www.google.com.br/'
+      link: '/legislacao-municipal'
     },
     {
       name: 'diária',
