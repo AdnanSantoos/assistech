@@ -54,4 +54,8 @@ export const routes: Routes = [
         path: 'diario-oficial',
         loadComponent:()=> import('./features/diario-oficial/diario-oficial.component').then((c)=> c.DiarioOficialComponent)
     },
+    {
+        path: 'diaria',
+        loadComponent:()=> import('./features/diaria/diaria.component').then((c)=> c.DiariaComponent)
+    },  
 ];

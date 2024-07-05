@@ -1,0 +1,26 @@
+<app-layout-table [titulo_pagina]="'Diária'" [dataSource]="dataSource"
+    [displayedColumns]="displayedColumns">
+    <div class="filtro-container" app-filtro>
+        <form class="d-flex" [formGroup]="filtroForm" (ngSubmit)="onFormSubmit()">
+            <div class="d-flex flex-column bold">
+                <span class="w-auto text-center">Nº do empenho</span>
+                <input type="text" class="w-auto" formControlName="ataDaSessao">
+            </div>
+            <div class="d-flex flex-column bold margin-left">
+                <span class="w-auto text-center">data do pagamento</span>
+                <input type="text" class="w-auto" formControlName="ataDaSessao">
+            </div>
+            <div class="d-flex ml-auto flex-wrap justify-content-center bold margin-right">
+                <span class="w-auto text-center">colaborador</span>
+                <input type="text" class="w-auto" formControlName="ataDaSessao">
+            </div>
+            <div class="d-flex flex-wrap justify-content-center bold">
+                <span class="w-auto text-center">data de saída</span>
+                <input type="text" class="w-auto" formControlName="ataDaSessao">
+            </div>
+            <button mat-icon-button aria-label="Example icon button with a vertical three dot icon">
+                <mat-icon>search</mat-icon>
+            </button>
+        </form>
+    </div>
+</app-layout-table>

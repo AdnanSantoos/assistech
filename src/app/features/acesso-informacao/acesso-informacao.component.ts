@@ -63,7 +63,7 @@ export class AcessoInformacaoComponent {
     },
     {
       name: 'diária',
-      link: 'https://www.google.com.br/'
+      link: '/diaria'
     },
     {
       name: 'editais',
