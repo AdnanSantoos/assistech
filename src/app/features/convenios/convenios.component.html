@@ -1,4 +1,4 @@
-<app-layout-table [titulo_pagina]="'Contratação Direta'" [dataSource]="dataSource"
+<app-layout-table [titulo_pagina]="'Convênios'" [dataSource]="dataSource"
     [displayedColumns]="displayedColumns">
     <div class="filtro-container" app-filtro>
         <form class="d-flex" [formGroup]="filtroForm" (ngSubmit)="onFormSubmit()">
@@ -7,37 +7,25 @@
                     <div class="col-md-11 col-sm-12">
                         <div class="row justify-content-center">
                             <div class="d-flex flex-column bold">
-                                <span class=" text-center">nº da contratação</span>
+                                <span class=" text-center">Conveniado</span>
                                 <input type="text" class="" formControlName="ataDaSessao">
                             </div>
                             <div class="d-flex flex-column bold">
-                                <span class=" text-center">nº do processo</span>
+                                <span class=" text-center">objeto</span>
                                 <input type="text" class="" formControlName="ataDaSessao">
                             </div>
                             <div class="d-flex flex-column bold">
-                                <span class=" text-center">data</span>
-                                <input type="text" class="" formControlName="ataDaSessao">
-                            </div>
-                            <div class="d-flex flex-column bold">
-                                <span class=" text-center">status</span>
+                                <span class=" text-center">situação</span>
                                 <input type="text" class="" formControlName="ataDaSessao">
                             </div>
                         </div>
                         <div class="row justify-content-center">
                             <div class="d-flex flex-column bold">
-                                <span class=" text-center">nº dispensa</span>
+                                <span class=" text-center">nº do convênio</span>
                                 <input type="text" class="" formControlName="ataDaSessao">
                             </div>
                             <div class="d-flex flex-column bold ">
-                                <span class=" text-center">contrato</span>
-                                <input type="text" class="" formControlName="ataDaSessao">
-                            </div>
-                            <div class="d-flex flex-column bold">
-                                <span class="text-center">contratada</span>
-                                <input type="text" class="" formControlName="ataDaSessao">
-                            </div>
-                            <div class="d-flex flex-column bold">
-                                <span class="text-center white-space">arquivo do processo</span>
+                                <span class=" text-center">nº do processo</span>
                                 <input type="text" class="" formControlName="ataDaSessao">
                             </div>
                         </div>

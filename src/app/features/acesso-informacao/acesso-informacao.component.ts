@@ -51,7 +51,7 @@ export class AcessoInformacaoComponent {
     },
     {
       name: 'convênios',
-      link: 'https://www.google.com.br/'
+      link: '/convenios'
     },
     {
       name: 'dadods da frota',

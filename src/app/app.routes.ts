@@ -43,6 +43,10 @@ export const routes: Routes = [
         loadComponent:()=> import('./features/contratos/contratos.component').then((c)=> c.ContratosComponent)
     }, 
     {
+        path: 'convenios',
+        loadComponent:()=> import('./features/convenios/convenios.component').then((c)=> c.ConveniosComponent)
+    }, 
+    {
         path: 'diario-oficial',
         loadComponent:()=> import('./features/diario-oficial/diario-oficial.component').then((c)=> c.DiarioOficialComponent)
     },
