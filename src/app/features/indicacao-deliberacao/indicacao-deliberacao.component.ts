@@ -6,17 +6,17 @@ import { LayoutTableComponent } from '../../shared/containers/layout-table/layou
 import { MatButtonModule } from '@angular/material/button';
 
 @Component({
-  selector: 'app-indicacoes-requerimentos',
+  selector: 'app-indicacao-deliberacao',
   standalone: true,
   imports: [CommonModule,
     ReactiveFormsModule,
     MatIconModule,
     MatButtonModule,
     LayoutTableComponent],
-  templateUrl: './indicacoes-requerimentos.component.html',
-  styleUrl: './indicacoes-requerimentos.component.scss'
+  templateUrl: './indicacao-deliberacao.component.html',
+  styleUrl: './indicacao-deliberacao.component.scss'
 })
-export class IndicacoesRequerimentosComponent {
+export class IndicacaoDeliberacaoComponent {
   filtroForm: FormGroup;
   displayedColumns: string[] = [];
   dataSource = [

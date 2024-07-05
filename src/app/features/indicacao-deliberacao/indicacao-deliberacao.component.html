@@ -1,21 +1,21 @@
-<app-layout-table [titulo_pagina]="'Indicações e requerimentos'" [dataSource]="dataSource"
+<app-layout-table [titulo_pagina]="'Indicação/Deliberação'" [dataSource]="dataSource"
     [displayedColumns]="displayedColumns">
     <div class="filtro-container" app-filtro>
         <form class="d-flex" [formGroup]="filtroForm" (ngSubmit)="onFormSubmit()">
             <div class="d-flex flex-column bold">
-                <span class="w-auto text-center">ANO</span>
+                <span class="w-auto text-center">Categoria</span>
                 <input type="text" class="w-auto" formControlName="ataDaSessao">
             </div>
-            <div class="d-flex flex-column bold ">
+            <div class="d-flex flex-column bold margin-left">
                 <span class="w-auto text-center">Número</span>
                 <input type="text" class="w-auto" formControlName="ataDaSessao">
             </div>
             <div class="d-flex flex-column bold">
-                <span class="w-auto text-center">Responsável</span>
+                <span class="w-auto text-center">Ano</span>
                 <input type="text" class="w-auto" formControlName="ataDaSessao">
             </div>
             <div class="d-flex flex-column bold">
-                <span class="w-auto text-center">conteúdo</span>
+                <span class="w-auto text-center">data</span>
                 <input type="text" class="w-auto" formControlName="ataDaSessao">
             </div>
             <div class="d-flex justify-content-center align-items-center"> 

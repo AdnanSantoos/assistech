@@ -65,5 +65,9 @@ export const routes: Routes = [
     {
         path: 'indicacoes-requerimentos',
         loadComponent:()=> import('./features/indicacoes-requerimentos/indicacoes-requerimentos.component').then((c)=> c.IndicacoesRequerimentosComponent)
+    },
+    {
+        path: 'indicacao-deliberacao',
+        loadComponent:()=> import('./features/indicacao-deliberacao/indicacao-deliberacao.component').then((c)=> c.IndicacaoDeliberacaoComponent)
     }
 ];

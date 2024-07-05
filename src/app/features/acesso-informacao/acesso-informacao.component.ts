@@ -79,7 +79,7 @@ export class AcessoInformacaoComponent {
     },
     {
       name: 'indicação e deliberação',
-      link: 'https://www.google.com.br/'
+      link: '/indicacao-deliberacao'
     },
     {
       name: 'instrumento de planejamento',
