@@ -58,4 +58,8 @@ export const routes: Routes = [
         path: 'diaria',
         loadComponent:()=> import('./features/diaria/diaria.component').then((c)=> c.DiariaComponent)
     },  
+    {
+        path: 'editais',
+        loadComponent:()=> import('./features/editais/editais.component').then((c)=> c.EditaisComponent)
+    },  
 ];

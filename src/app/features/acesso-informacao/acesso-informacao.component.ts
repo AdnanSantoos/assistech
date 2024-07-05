@@ -67,7 +67,7 @@ export class AcessoInformacaoComponent {
     },
     {
       name: 'editais',
-      link: 'https://www.google.com.br/'
+      link: '/editais'
     },
     {
       name: 'folha de pagamento',
