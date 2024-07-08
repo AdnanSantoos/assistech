@@ -52,7 +52,7 @@ export class NavbarComponent implements OnInit {
     if (currentUrl === '/home') {
       this.logoText1 = 'Câmara Municipal de';
       this.logoText2 = 'Itaberaba';
-    } else if (currentUrl === '/portal-transparencia') {
+    } else if (currentUrl === '/portal-transparencia' || this.router.url === '/acesso-informacao-transparencia') {
       this.logoText1 = 'Portal de Transparência';
       this.logoText2 = 'Itaberaba';
     }

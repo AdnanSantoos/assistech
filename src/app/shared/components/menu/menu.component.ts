@@ -21,7 +21,7 @@ export class MenuComponent implements OnInit {
     this.checkRoute();
   }
   checkRoute() {
-    this.showCamaraMenu = this.router.url === '/portal-transparencia';
+    this.showCamaraMenu = this.router.url === '/portal-transparencia' || this.router.url === '/acesso-informacao-transparencia' ;
   }
 }
 

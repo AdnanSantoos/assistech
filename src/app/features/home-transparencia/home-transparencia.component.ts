@@ -28,6 +28,76 @@ export class HomeTransparenciaComponent implements OnInit {
     { img: '../../../../assets/imgs-home/4.png' },
   ]
 
+  mainNews = [
+    {
+      img: 'https://i.postimg.cc/wjDGwZf1/1400500.png',
+      title: 'Entrega de Título Cidadão Guamaense',
+      description: 'O Presidente da Câmara Municipal de São Miguel do Guamá...'
+    },
+    {
+      img: 'https://i.postimg.cc/wjDGwZf1/1400500.png',
+      title: 'Ordem de serviço para a reforma completa e ampliação da Escola Benedito Valente, comunidade do Cristo Rei',
+      description: 'Em mais uma significativa conquista para a nossa educação...'
+    }
+  ];
+
+  sidebarNews = [
+    {
+      img: 'https://i.postimg.cc/wjDGwZf1/1400500.png',
+      date: '1 de fevereiro de 2024',
+      title: 'Comunicado'
+    },
+    {
+      img: 'https://i.postimg.cc/wjDGwZf1/1400500.png',
+      date: '19 de janeiro de 2024',
+      title: 'Sessão de abertura das atividades Legislativas de 2024'
+    },
+    {
+      img: 'https://i.postimg.cc/wjDGwZf1/1400500.png',
+      date: '7 de setembro de 2023',
+      title: 'Desfile cívico'
+    },
+    {
+      img: 'https://i.postimg.cc/wjDGwZf1/1400500.png',
+      date: '3 de agosto de 2023',
+      title: 'Presidente e vice Presidente da câmara municipal participam do Fórum...'
+    },
+    {
+      img: 'https://i.postimg.cc/wjDGwZf1/1400500.png',
+      date: '2 de agosto de 2023',
+      title: 'Vídeo: 1ª Sessão Ordinária – 02 de agosto 2023'
+    },
+    {
+      img: 'https://i.postimg.cc/wjDGwZf1/1400500.png',
+      date: '2 de agosto de 2023',
+      title: 'Sessão Solene de Abertura 2º Período Legislativo – 02/08/2023'
+    },
+    {
+      img: 'https://i.postimg.cc/wjDGwZf1/1400500.png',
+      date: '29 de junho de 2023',
+      title: '24ª Sessão Ordinária 28 de junho 2023'
+    },
+    {
+      img: 'https://i.postimg.cc/wjDGwZf1/1400500.png',
+      date: '23 de junho de 2023',
+      title: '23ª Sessão Ordinária – 21.06.2023'
+    }
+  ];
+
+  vereadores = [
+    {
+      img: 'https://i.postimg.cc/wjDGwZf1/1400500.png',
+      name: 'Ana Domingas Pontes de Almeida'
+    },
+    {
+      img: 'https://i.postimg.cc/wjDGwZf1/1400500.png',
+      name: 'Cláudio Castelo Branco de Sousa Junior'
+    },
+    {
+      img: 'https://i.postimg.cc/wjDGwZf1/1400500.png',
+      name: 'José Gleison da Silva Conceição'
+    }
+  ];
 
   constructor(private router: Router, private route: ActivatedRoute) { }
 
@@ -50,6 +120,6 @@ export class HomeTransparenciaComponent implements OnInit {
         { routerLink: '/transparencia-servidores', texto: 'COMISSÕES' },
         { routerLink: '/transparencia-relatorios', texto: 'CONVÊNIOS' },
       ];
-    } 
+    }
   }
 }

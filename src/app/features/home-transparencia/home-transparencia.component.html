@@ -35,14 +35,38 @@
     </div>
 </div>
 <div class="noticias-gerais">
-    <div class="d-flex">
-        <div class="img-row w-100" *ngFor="let content of images">
-            <img class="img-fluid w-100" [src]="content.img" alt="">
+    <div class="container">
+        <div class="titulo-noticias">
+            <h1>Notícias</h1>
+        </div>
+        <div class="noticias-content">
+            <div class="main-news">
+                <div class="news-item" *ngFor="let main of mainNews">
+                    <img class="img-fluid" [src]="main.img" alt="">
+                    <h2>{{ main.title }}</h2>
+                    <p>{{ main.description }}</p>
+                </div>
+                <div class="vereadores-gerais">
+                    <div class="titulo-noticias">
+                        <h1>vereadores (as)</h1>
+                    </div>
+                    <div class="vereadores-content">
+                        <div class="vereador-item" *ngFor="let vereador of vereadores">
+                            <img class="vereador-img" [src]="vereador.img" alt="">
+                            <div class="vereador-name">{{ vereador.name }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="sidebar-news">
+                <div class="news-item" *ngFor="let sidebar of sidebarNews">
+                    <img class="sidebar-img" [src]="sidebar.img" alt="">
+                    <div class="sidebar-text">
+                        <div class="sidebar-date">{{ sidebar.date }}</div>
+                        <div class="sidebar-title">{{ sidebar.title }}</div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-
-    <h1 class="titulo-noticias d-flex justify-content-center">
-        Notícias
-    </h1>
-
 </div>
