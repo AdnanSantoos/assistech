@@ -37,6 +37,15 @@
                 border-right: none;
             }
         }
+
+        .dropdown-toggle {
+            border: none;
+            background-color: transparent;
+            color: #292774;
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
     }
 
     .search-container {
@@ -75,14 +84,16 @@
     }
 }
 
+
+
 @media (max-width: 768px) {
     .menu-header {
         flex-wrap: wrap;
         padding: 5px 0;
 
         .menu {
-           
-            li{
+
+            li {
                 margin: 0;
             }
 
@@ -90,7 +101,8 @@
                 font-size: 8px;
             }
         }
-        .search-container{
+
+        .search-container {
             margin-top: 10px;
         }
 

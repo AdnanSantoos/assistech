@@ -11,8 +11,16 @@ export const routes: Routes = [
         loadComponent: () => import('./features/home/home.component').then((c) => c.HomeComponent)
     },
     {
+        path: 'portal-transparencia',
+        loadComponent: () => import('./features/home-transparencia/home-transparencia.component').then((c) => c.HomeTransparenciaComponent)
+    },
+    {
         path: 'acesso-informacao',
         loadComponent: () => import('./features/acesso-informacao/acesso-informacao.component').then((c) => c.AcessoInformacaoComponent)
+    },
+    {
+        path: 'acesso-informacao-transparencia',
+        loadComponent: () => import('./features/acesso-informacao-transparencia/acesso-informacao-transparencia.component').then((c) => c.AcessoInformacaoTransparenciaComponent)
     },
     {
         path: 'ata-das-sessoes',

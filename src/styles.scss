@@ -69,6 +69,14 @@ body {
     }
 }
 
+.btn-padrao__perfil-icon {
+    background-image: url('/assets/icons/perfil-icon-azul.svg');
+    background-repeat: no-repeat;
+    width: 22px;
+    height: 26px;
+    margin-bottom: 5px;
+}
+
 .table {
     padding: 24px 104px 1px;
     border-radius: 15px;
@@ -90,6 +98,7 @@ body {
             margin: 0;
         }
     }
+
     input {
         margin-top: 5px;
         padding: 5px;
@@ -100,18 +109,21 @@ body {
 
     }
 }
-.white-space{
+
+.white-space {
     white-space: nowrap;
 }
-.mt-10{
+
+.mt-10 {
     margin-top: 10px;
 }
 
 @media (max-width: 768px) {
-    label{
+    label {
         font-size: 14px !important;
 
     }
+
     .filtro-container {
         flex-wrap: wrap;
     }
@@ -130,7 +142,7 @@ body {
     .date-inputs {
         display: flex;
         gap: 2px;
-    
+
         input {
             font-size: 12px !important;
             width: 35px !important;

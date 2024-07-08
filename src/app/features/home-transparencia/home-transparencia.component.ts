@@ -10,13 +10,15 @@ interface AcessoRapido {
 }
 
 @Component({
-  selector: 'app-home',
+  selector: 'app-home-transparencia',
   standalone: true,
   imports: [SliderComponent, GeneralNewsComponent, CommonModule, RouterLink],
-  templateUrl: './home.component.html',
-  styleUrl: './home.component.scss',
+  templateUrl: './home-transparencia.component.html',
+  styleUrl: './home-transparencia.component.scss'
 })
-export class HomeComponent implements OnInit {
+
+
+export class HomeTransparenciaComponent implements OnInit {
   acessos: AcessoRapido[] = [];
 
   images = [
@@ -26,11 +28,6 @@ export class HomeComponent implements OnInit {
     { img: '../../../../assets/imgs-home/4.png' },
   ]
 
-  images2 = [
-    { img: '../../../../assets/imgs-home/5.png' },
-    { img: '../../../../assets/imgs-home/6.png' },
-    { img: '../../../../assets/imgs-home/7.png' },
-  ]
 
   constructor(private router: Router, private route: ActivatedRoute) { }
 
@@ -44,15 +41,15 @@ export class HomeComponent implements OnInit {
   }
 
   updateAcessos(url: string) {
-  if (url.includes('/home')) {
+    if (url.includes('/portal-transparencia')) {
       this.acessos = [
-        { routerLink: '/diario-oficial', texto: 'DIÁRIO OFICIAL' },
-        { routerLink: '/portal-transparencia', texto: 'PORTAL DE TRANSPARÊNCIA' },
-        { routerLink: '/pncp', texto: 'PNCP' },
-        { routerLink: '/lei-14133', texto: 'LEI 14.133' },
-        { routerLink: '/noticias-tcm', texto: 'NOTÍCIAS DO TCM' },
-        { routerLink: '/biografia-cidade', texto: 'BIOGRAFIA DA CIDADE' },
+        { routerLink: '/transparencia-despesas', texto: 'AGENDA DO PRESIDENTE' },
+        { routerLink: '/transparencia-receitas', texto: 'BALANÇO GERAL' },
+        { routerLink: '/transparencia-contratos', texto: 'BALANCETE FINANCEIRO' },
+        { routerLink: '/transparencia-licitacoes', texto: 'CARTA DE SERVIÇOS AO USUÁRIO' },
+        { routerLink: '/transparencia-servidores', texto: 'COMISSÕES' },
+        { routerLink: '/transparencia-relatorios', texto: 'CONVÊNIOS' },
       ];
-    }
+    } 
   }
 }

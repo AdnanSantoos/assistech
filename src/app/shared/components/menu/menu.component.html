@@ -5,6 +5,19 @@
       <li><a href="#">DADOS MUNICIPAIS</a></li>
       <li><a href="#">NOTÍCIAS</a></li>
       <li><a href="#">CONTATO</a></li>
+      <div class="dropdown" *ngIf="showCamaraMenu">
+        <button class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Camara
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <a class="dropdown-item" href="#">Agenda do Presidente</a>
+          <a class="dropdown-item" href="#">Comissões</a>
+          <a class="dropdown-item" href="#">Estrutura Organizacional</a>
+          <a class="dropdown-item" href="#">Mesa Diretora</a>
+          <a class="dropdown-item" href="#">Regimento Interno</a>
+          <a class="dropdown-item" href="#">Vereadores</a>
+        </div>
+      </div>
     </ul>
     <div class="search-container">
       <input type="text" placeholder="BUSQUE POR ALGO AQUI">
