@@ -10,6 +10,8 @@ import { Component } from '@angular/core';
 })
 export class EstruturaOrganizacionalComponent {
   outrosItens = [
+    { titulo: 'Comissões', subItens: [] },
+    { titulo: 'competências', subItens: [] },
     { titulo: 'Mesa Diretora', subItens: [] },
     { titulo: 'Organograma', subItens: [] },
     { titulo: 'Regimento Interno', subItens: [] },
