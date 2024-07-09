@@ -87,6 +87,10 @@ export const routes: Routes = [
         loadComponent: () => import('./features/indicacao-deliberacao/indicacao-deliberacao.component').then((c) => c.IndicacaoDeliberacaoComponent)
     },
     {
+        path: 'estrutura-organizacional',
+        loadComponent: () => import('./features/estrutura-organizacional/estrutura-organizacional.component').then((c) => c.EstruturaOrganizacionalComponent)
+    },
+    {
         path: 'licitacoes',
         loadComponent: () => import('./features/licitacoes/licitacoes.component').then((c) => c.LicitacoesComponent)
     },

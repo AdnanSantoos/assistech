@@ -1,0 +1,24 @@
+<div class="container">
+    <div class="estrutura_organizacional-container">
+      <div class="estrutura_organizacional-content">
+        <h2>Estrutura organizacional</h2>
+  
+        <ng-container *ngFor="let item of outrosItens">
+          <h4>{{ item.titulo }}</h4>
+          <ul>
+            <li *ngFor="let subItem of item.subItens"><h4>{{ subItem }}</h4></li>
+          </ul>
+        </ng-container>
+  
+        <h3>Atendimento ao Público</h3>
+        <ul>
+          <li *ngFor="let subItem of atendimentoPublico">{{ subItem }}</li>
+        </ul>
+  
+      </div>
+      <div class="estrutura_organizacional-image">
+        <img src="https://placeholder.antonshell.me/img?text=Placeholder%20service&width=531&height=1428&text_size=28&color_text=fff&color_bg=888&format=jpeg" alt="Placeholder Image" />
+      </div>
+    </div>
+  </div>
+  
