@@ -1,0 +1,20 @@
+<div class="container">
+    <div class="agenda-container">
+        <div class="agenda-content">
+          <h2>AGENDA DO PRESIDENTE</h2>
+          <h3>2024</h3>
+          <div *ngFor="let month of agenda">
+            <h4>{{ month.month }}</h4>
+            <ul>
+              <li *ngFor="let item of month.items">
+                <strong>DATA: {{ item.date }}</strong> <br> {{ item.description }}
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="agenda-image">
+          <img src="https://placeholder.antonshell.me/img?text=Placeholder%20service&width=531&height=1428&text_size=28&color_text=fff&color_bg=888&format=jpeg" alt="Presidente" />
+        </div>
+      </div>
+      
+</div>

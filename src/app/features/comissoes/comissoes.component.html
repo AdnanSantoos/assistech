@@ -1,0 +1,29 @@
+<div class="container">
+    <div class="comissoes-container">
+      <div class="comissoes-content">
+        <h2>Comissões</h2>
+        <div *ngFor="let comissao of comissoes; let comissaoIndex = index">
+          <h4>{{ comissao.comissao }}</h4>
+          <ul>
+            <li *ngFor="let item of comissao.items; let idx = index">
+              <ng-container *ngIf="idx === 0">
+                <div>Presidente: {{ item.presidente }}</div>
+                <div>Relator: {{ item.relator }}</div>
+                <div>Membro: {{ item.membro }}</div>
+              </ng-container>
+              <ng-container *ngIf="idx === 0">
+                <p class="mt-10">Competências:</p>
+              </ng-container>
+              <ol>
+                <li>{{ toRomanNumerals(idx + 1) }}. {{ item.competencia }}</li>
+              </ol>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="comissoes-image">
+        <img src="https://placeholder.antonshell.me/img?text=Placeholder%20service&width=531&height=1428&text_size=28&color_text=fff&color_bg=888&format=jpeg" alt="Presidente" />
+      </div>
+    </div>
+  </div>
+  

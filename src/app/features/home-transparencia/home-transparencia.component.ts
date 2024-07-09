@@ -113,11 +113,11 @@ export class HomeTransparenciaComponent implements OnInit {
   updateAcessos(url: string) {
     if (url.includes('/portal-transparencia')) {
       this.acessos = [
-        { routerLink: '/transparencia-despesas', texto: 'AGENDA DO PRESIDENTE' },
+        { routerLink: '/agenda-presidente', texto: 'AGENDA DO PRESIDENTE' },
         { routerLink: '/transparencia-receitas', texto: 'BALANÇO GERAL' },
         { routerLink: '/transparencia-contratos', texto: 'BALANCETE FINANCEIRO' },
         { routerLink: '/transparencia-licitacoes', texto: 'CARTA DE SERVIÇOS AO USUÁRIO' },
-        { routerLink: '/transparencia-servidores', texto: 'COMISSÕES' },
+        { routerLink: '/comissoes', texto: 'COMISSÕES' },
         { routerLink: '/transparencia-relatorios', texto: 'CONVÊNIOS' },
       ];
     }

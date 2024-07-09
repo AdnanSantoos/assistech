@@ -23,6 +23,10 @@ export const routes: Routes = [
         loadComponent: () => import('./features/acesso-informacao-transparencia/acesso-informacao-transparencia.component').then((c) => c.AcessoInformacaoTransparenciaComponent)
     },
     {
+        path: 'agenda-presidente',
+        loadComponent: () => import('./features/agenda-presidente/agenda-presidente.component').then((c) => c.AgendaPresidenteComponent)
+    },
+    {
         path: 'ata-das-sessoes',
         loadComponent: () => import('./features/ata-das-sessoes/ata-das-sessoes.component').then((c) => c.AtaDasSessoesComponent)
     },
@@ -53,6 +57,10 @@ export const routes: Routes = [
     {
         path: 'convenios',
         loadComponent: () => import('./features/convenios/convenios.component').then((c) => c.ConveniosComponent)
+    },
+    {
+        path: 'comissoes',
+        loadComponent: () => import('./features/comissoes/comissoes.component').then((c) => c.ComissoesComponent)
     },
     {
         path: 'legislacao-municipal',

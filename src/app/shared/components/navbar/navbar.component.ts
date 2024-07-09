@@ -56,5 +56,9 @@ export class NavbarComponent implements OnInit {
       this.logoText1 = 'Portal de Transparência';
       this.logoText2 = 'Itaberaba';
     }
+    else{
+      this.logoText1 = 'Câmara Municipal de';
+      this.logoText2 = 'Itaberaba';
+    }
   }
 }
