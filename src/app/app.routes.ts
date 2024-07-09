@@ -91,6 +91,14 @@ export const routes: Routes = [
         loadComponent: () => import('./features/estrutura-organizacional/estrutura-organizacional.component').then((c) => c.EstruturaOrganizacionalComponent)
     },
     {
+        path: 'regimento-interno',
+        loadComponent: () => import('./features/regimento-interno/regimento-interno.component').then((c) => c.RegimentoInternoComponent)
+    },
+    {
+        path: 'vereadores',
+        loadComponent: () => import('./features/vereadores/vereadores.component').then((c) => c.VereadoresComponent)
+    },
+    {
         path: 'licitacoes',
         loadComponent: () => import('./features/licitacoes/licitacoes.component').then((c) => c.LicitacoesComponent)
     },
