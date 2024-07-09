@@ -1,1 +1,19 @@
-<p>vereadores works!</p>
+<div class="container">
+    <div class="vereadores-container">
+        <div class="vereadores-content">
+          <h2>Vereadores</h2>
+          <div *ngFor="let month of vereadores">
+            <h4>{{ month.month }}</h4>
+            <ul>
+              <li *ngFor="let item of month.items">
+                {{ item.nome }}
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="vereadores-image">
+          <img src="https://placeholder.antonshell.me/img?text=Placeholder%20service&width=531&height=1428&text_size=28&color_text=fff&color_bg=888&format=jpeg" alt="Presidente" />
+        </div>
+      </div>
+      
+</div>

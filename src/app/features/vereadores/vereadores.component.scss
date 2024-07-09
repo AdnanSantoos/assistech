@@ -1,0 +1,94 @@
+.vereadores-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    color: #333;
+    margin: 20px;
+    height: 100vh;
+    overflow-y: hidden;
+
+    .vereadores-content {
+        flex: 1;
+        overflow-y: auto;
+        margin-right: 20px;
+        max-height: 100%;
+        padding-right: 20px;
+
+        h2 {
+            color: #225EC9;
+            font-size: 46.759px;
+            font-style: normal;
+            font-weight: 800;
+        }
+
+        h4 {
+            color: #225EC9;
+            font-size: 30px;
+            font-style: normal;
+            font-weight: 700;
+            margin-top: 42px;
+            margin-bottom: 10px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+
+            li {
+                font-size: 20px;
+                font-style: normal;
+                font-weight: 500;
+            }
+        }
+    }
+
+    .vereadores-image {
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+    }
+}
+
+
+@media (max-width: 768px) {
+    .vereadores-container {
+        display: flex;
+        flex-wrap: wrap;
+        height: 100%;
+
+        .vereadores-content {
+            border: none;
+            width: 100%;
+
+        }
+
+        .vereadores-image {
+            justify-content: flex-start;
+            width: 100%;
+            height: 300px;
+
+            img {
+                width: 100%;
+                height: 300px;
+            }
+        }
+
+        h2 {
+            font-size: 25px;
+        }
+
+        h3,
+        h4 {
+            font-size: 20px;
+        }
+    }
+}
