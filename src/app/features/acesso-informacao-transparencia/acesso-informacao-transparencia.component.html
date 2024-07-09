@@ -10,10 +10,16 @@
         </div>
         <div class="buttons-container">
             <ng-container *ngFor="let content of button">
-                <a [routerLink]="[content.link]" class="btn-padrao__hover button-acessos">
+                <a *ngIf="content.link; else externalLink" [routerLink]="[content.link]" class="btn-padrao__hover button-acessos">
                     <div class="btn-padrao__perfil-icon"></div>
                     <div class="btn-padrao__text">{{ content.name }}</div>
-                </a>
+                  </a>
+                  <ng-template #externalLink>
+                    <a target="_blank" [href]="content.externo" class="btn-padrao__hover button-acessos">
+                      <div class="btn-padrao__perfil-icon"></div>
+                      <div class="btn-padrao__text">{{ content.name }}</div>
+                    </a>
+                  </ng-template>       
             </ng-container>
         </div>
     </div>
