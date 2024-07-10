@@ -4,12 +4,12 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [MatButtonModule, MatIconModule, CommonModule],
+  imports: [MatButtonModule, MatIconModule, CommonModule,RouterLink],
   providers: [BrowserAnimationsModule],
   animations: [
     trigger('toggleMenu', [

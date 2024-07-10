@@ -1,0 +1,32 @@
+<div class="bkg-login">
+    <div class="container">
+        <div class="login-container">
+            <div class="login-content">
+                <div class="logo-container">
+                    <img src="../../../assets/logos/logo-login.png" alt="Logo" class="logo">
+                </div>
+
+                <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="mt-10">
+                    <div class="form-group">
+                        <label for="login">Login</label>
+                        <input type="text" id="login" class="form-control" formControlName="login" placeholder="Digite seu login">
+                    </div>
+                    <div class="form-group mt-10">
+                        <label for="senha">Senha</label>
+                        <input type="password" id="senha" class="form-control mt-10" formControlName="senha" placeholder="Digite sua senha">
+                    </div>
+                    <div class="d-flex justify-content-between mt-10">
+                        <div class="form-group form-check">
+                            <input type="checkbox" class="form-check-input mt-10" id="manterConectado" formControlName="manterConectado">
+                            <p class="form-check-label" for="manterConectado">Manter conectado</p>
+                        </div>
+                        <div class="form-group">
+                            <a href="#" class="esqueceu-senha">Esqueceu a senha?</a>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary" [disabled]="loginForm.invalid">Acessar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
