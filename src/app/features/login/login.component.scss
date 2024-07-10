@@ -35,7 +35,30 @@
     footer {
         display: none !important;
     }
+
+    @media (max-width: 768px) {
+        .bkg-header {
+            padding-bottom: 30px !important;
+
+            .align {
+                .align-items-center {
+                    display: flex !important;
+                    justify-content: space-around !important;
+                }
+
+                .col-8 {
+                    width: 70% !important;
+                }
+
+                .menu {
+                    width: auto !important;
+                }
+            }
+        }
+    }
 }
+
+
 
 .bkg-login {
     background-image: url("../../../assets/bkg/bkg-login.png");
@@ -118,11 +141,13 @@
 }
 
 @media (max-width: 768px) {
-    .login-content{
-        padding:10px 30px !important;
+    .login-content {
+        padding: 10px 30px !important;
+
         form {
             width: auto !important;
-            .d-flex{
+
+            .d-flex {
                 flex-direction: column;
                 align-items: center;
                 gap: 5px;
