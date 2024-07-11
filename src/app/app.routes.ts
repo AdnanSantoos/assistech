@@ -115,6 +115,10 @@ export const routes: Routes = [
         loadComponent: () => import('./features/mocoes/mocoes.component').then((c) => c.MocoesComponent)
     },
     {
+        path: 'menu-administrativo',
+        loadComponent: () => import('./features/menu-administrativo/menu-administrativo.component').then((c) => c.MenuAdministrativoComponent)
+    },
+    {
         path: 'oficio',
         loadComponent: () => import('./features/oficio/oficio.component').then((c) => c.OficioComponent)
     },

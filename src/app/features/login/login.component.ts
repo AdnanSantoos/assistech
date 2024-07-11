@@ -28,7 +28,7 @@ export class LoginComponent {
       const loginSuccessful = true;
 
       if (loginSuccessful) {
-        this.router.navigate(['/dashboard']);
+        this.router.navigate(['/menu-administrativo']);
       } else {
         alert('Login ou senha inválidos');
       }

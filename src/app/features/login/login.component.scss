@@ -3,31 +3,6 @@
         display: none !important;
     }
 
-    .bkg-header {
-        background-image: url("../../../assets/bkg/bkg-header-login.png") !important;
-        background-size: cover !important;
-
-        .buttons-header {
-            display: none !important;
-        }
-
-        .col-md-4 {
-            width: 100%;
-            display: flex;
-            justify-content: center;
-
-            .logo-container {
-                width: 300px;
-            }
-        }
-
-        .text1,
-        .text2 {
-            color: #000 !important;
-
-        }
-    }
-
     .menu-header {
         display: none !important;
     }
@@ -60,11 +35,7 @@
 
 
 
-.bkg-login {
-    background-image: url("../../../assets/bkg/bkg-login.png");
-    background-repeat: no-repeat;
-    background-size: cover;
-    height: 100vh;
+
 
     .login-container {
         display: flex;
@@ -143,7 +114,7 @@
         }
 
     }
-}
+
 
 @media (max-width: 768px) {
     .login-content {

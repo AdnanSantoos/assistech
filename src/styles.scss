@@ -118,6 +118,51 @@ body {
     margin-top: 10px;
 }
 
+.bkg-administrativo {
+    background-image: url("../src/assets/bkg/bkg-login.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100vh;
+}
+
+.adm-class .bkg-header {
+    background-image: url("../src/assets/bkg/bkg-header-login.png") !important;
+    background-size: cover !important;
+
+    .buttons-header {
+        display: none !important;
+    }
+
+    .col-md-4 {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+
+        .logo-container {
+            width: 300px;
+        }
+    }
+
+    .text1,
+    .text2 {
+        color: #000 !important;
+    }
+}
+.adm-class footer{
+    background-color: #000 !important;
+}
+.adm-class .latest-news_header{
+    display: none !important;
+}
+.adm-class .menu-header{
+    display:none !important;
+}
+
+.home-class .bkg-header {
+    background-image: url("../src/assets/bkg/bkg-header-azul.png") !important;
+    background-size: cover !important;
+}
+
 @media (max-width: 768px) {
     label {
         font-size: 14px !important;
