@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col">
         <h1 class="pagina-interna">{{titulo_pagina}}</h1>
-        <ng-content select="[app-filtro]"></ng-content>
+        <ng-content select="[app-formulario]"></ng-content>
         <div class="table-component">
           <app-table [dataSource]="filteredDataSource" [displayedColumns]="displayedColumns"></app-table>
         </div>

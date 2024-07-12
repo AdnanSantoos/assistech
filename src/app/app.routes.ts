@@ -23,6 +23,10 @@ export const routes: Routes = [
         loadComponent: () => import('./features/acesso-informacao/acesso-informacao.component').then((c) => c.AcessoInformacaoComponent)
     },
     {
+        path: 'acesso-informacao-administrativo',
+        loadComponent: () => import('./features/acesso-informacao-administrativo/acesso-informacao-administrativo.component').then((c) => c.AcessoInformacaoAdministrativoComponent)
+    },
+    {
         path: 'acesso-informacao-transparencia',
         loadComponent: () => import('./features/acesso-informacao-transparencia/acesso-informacao-transparencia.component').then((c) => c.AcessoInformacaoTransparenciaComponent)
     },

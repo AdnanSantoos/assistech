@@ -40,7 +40,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
   private routeSubscription!: Subscription;
   private admUrls: string[] = [
     '/login',
-    '/menu-administrativo'
+    '/menu-administrativo',
+    '/acesso-informacao-administrativo'
   ];
   constructor(private router: Router, private renderer: Renderer2) { }
 

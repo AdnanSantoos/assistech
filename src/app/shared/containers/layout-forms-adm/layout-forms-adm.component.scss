@@ -1,0 +1,18 @@
+.bg-pagina-interna {
+
+    .pagina-interna {
+        text-align: center;
+        padding-top: 50px;
+    }
+
+    .formulario-component {
+        background-color: #fff;
+        padding-top: 0;
+        display: flex;
+        justify-content: center;
+        margin-top: 10px;
+        border-radius: 15px;
+        box-shadow: 0px 8px 4px 0px rgba(0, 0, 0, 0.25);
+        margin-bottom: 100px;
+    }
+}

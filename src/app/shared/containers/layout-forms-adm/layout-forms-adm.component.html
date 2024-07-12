@@ -1,0 +1,14 @@
+<div class="bg-pagina-interna">
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <h1 class="pagina-interna">{{titulo_pagina}}</h1>
+          <ng-content select="[app-formulario]"></ng-content>
+          <div class="formulario-component">
+            <app-forms [dynamicFields]="dynamicFields"></app-forms>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
