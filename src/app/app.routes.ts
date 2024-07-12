@@ -39,6 +39,10 @@ export const routes: Routes = [
         loadComponent: () => import('./features/ata-das-sessoes/ata-das-sessoes.component').then((c) => c.AtaDasSessoesComponent)
     },
     {
+        path: 'atas-sessao-administrativo',
+        loadComponent: () => import('./features/atas-sessao-administrativo/atas-sessao-administrativo.component').then((c) => c.AtasSessaoAdministrativoComponent)
+    },
+    {
         path: 'atos-admissionais',
         loadComponent: () => import('./features/atos-admissionais/atos-admissionais.component').then((c) => c.AtosAdmissionaisComponent)
     },

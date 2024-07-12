@@ -41,7 +41,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
   private admUrls: string[] = [
     '/login',
     '/menu-administrativo',
-    '/acesso-informacao-administrativo'
+    '/acesso-informacao-administrativo',
+    '/atas-sessao-administrativo'
   ];
   constructor(private router: Router, private renderer: Renderer2) { }
 

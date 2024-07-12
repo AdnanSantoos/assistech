@@ -1,20 +1,16 @@
+
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
-    <div *ngFor="let field of dynamicFields">
-      <mat-form-field *ngIf="field.type === 'text'">
-        <mat-label>{{ field.label }}</mat-label>
-        <input matInput [formControlName]="field.name" required>
-      </mat-form-field>
-      
-      <mat-form-field *ngIf="field.type === 'number'">
-        <mat-label>{{ field.label }}</mat-label>
-        <input matInput [formControlName]="field.name" type="number" required>
-      </mat-form-field>
-  
-      <div *ngIf="field.type === 'file'">
-        <input type="file" (change)="onFileChange($event, field.name)">
-      </div>
+  <div *ngFor="let field of dynamicFields">
+    <div *ngIf="field.type === 'text' || field.type === 'number'">
+      <label>{{ field.label }}</label>
+      <input type="{{ field.type }}" [formControlName]="field.name" class="form-control" [required]="field.required">
     </div>
-  
-    <button mat-raised-button type="submit">Enviar</button>
-  </form>
-  
+    
+    <div *ngIf="field.type === 'file'">
+      <label>{{ field.label }}</label>
+      <input type="file" (change)="onFileChange($event, field.name)" class="form-control-file">
+    </div>
+  </div>
+
+  <button type="submit" class="btn">Enviar</button>
+</form>

@@ -14,7 +14,7 @@ export class AcessoInformacaoAdministrativoComponent {
     {
       name: 'Ata das sessões',
       externo:'',
-      link: '/ata-das-sessoes'
+      link: '/atas-sessao-administrativo'
     },
     {
       name: 'atos admissionais',

@@ -1,14 +1,20 @@
 <div class="bg-pagina-interna">
-    <div class="container">
-      <div class="row">
-        <div class="col">
-          <h1 class="pagina-interna">{{titulo_pagina}}</h1>
-          <ng-content select="[app-formulario]"></ng-content>
-          <div class="formulario-component">
-            <app-forms [dynamicFields]="dynamicFields"></app-forms>
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <h1 class="pagina-interna">{{titulo_pagina}}</h1>
+        <ng-content select="[app-formulario]"></ng-content>
+        <div class="d-flex justify-content-center">
+          <div class="button-voltar" routerLink="/acesso-informacao-administrativo">
+            Voltar
           </div>
+          <p class="text-center">Antes de enviar certifique-se de que todas as informações <br> preenchidas nos campos
+            abaixo estão corretas!</p>
+        </div>
+        <div class="formulario-component">
+          <app-forms [dynamicFields]="dynamicFields"></app-forms>
         </div>
       </div>
     </div>
   </div>
-  
+</div>

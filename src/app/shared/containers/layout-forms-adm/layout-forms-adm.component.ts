@@ -2,11 +2,12 @@ import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormsComponent } from './../../components/forms/forms.component';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-layout-forms-adm',
   standalone: true,
-  imports: [CommonModule, FormsComponent],
+  imports: [CommonModule, FormsComponent, RouterLink],
   templateUrl: './layout-forms-adm.component.html',
   styleUrls: ['./layout-forms-adm.component.scss']
 })

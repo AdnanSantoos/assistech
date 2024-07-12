@@ -118,8 +118,15 @@ body {
     margin-top: 10px;
 }
 
-.bkg-administrativo {
+.bkg-login {
     background-image: url("../src/assets/bkg/bkg-login.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100vh;
+}
+
+.bkg-administrativo {
+    background-image: url("../src/assets/bkg/bkg-administrativo.png");
     background-repeat: no-repeat;
     background-size: cover;
     height: 100vh;
@@ -148,14 +155,17 @@ body {
         color: #000 !important;
     }
 }
-.adm-class footer{
+
+.adm-class footer {
     background-color: #000 !important;
 }
-.adm-class .latest-news_header{
+
+.adm-class .latest-news_header {
     display: none !important;
 }
-.adm-class .menu-header{
-    display:none !important;
+
+.adm-class .menu-header {
+    display: none !important;
 }
 
 .home-class .bkg-header {
