@@ -22,7 +22,6 @@ import { MatInputModule } from '@angular/material/input';
 })
 export class FormsComponent implements OnInit {
   @Input() dataSource: any[] = [];
-  @Input() displayedColumns: string[] = [];
   @Input() dynamicFields: any[] = [];
 
   form: FormGroup;
