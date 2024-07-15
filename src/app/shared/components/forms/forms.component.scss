@@ -1,97 +1,158 @@
 form {
-    padding: 20px;
+  padding: 20px;
 
-    label {
-        display: flex;
-        justify-content: center;
-        color: #000;
-        font-size: 20.418px;
-        font-weight: 700;
-        margin-top: 15px;
-        text-transform: uppercase;
+  label {
+    display: flex;
+    justify-content: center;
+    color: #000;
+    font-size: 20.418px;
+    font-weight: 700;
+    margin-top: 15px;
+    text-transform: uppercase;
+    text-align: center;
+  }
+
+  select {
+    appearance: none;
+    outline: none;
+    padding: 12px 20px;
+    font-size: 16px;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    background-color: #fff;
+    cursor: pointer;
+    background-image: linear-gradient(to top, #ffffff, #f2f2f2);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  select:hover,
+  select:focus {
+    border-color: #aaa;
+  }
+
+  select:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  option {
+    padding: 12px 20px;
+    font-size: 16px;
+  }
+
+  select:focus {
+    background-color: #fff;
+  }
+
+  select::after {
+    content: '\25BC';
+    position: absolute;
+    top: calc(50% - 10px);
+    right: 12px;
+    font-size: 16px;
+    pointer-events: none;
+  }
+
+  .form-grid {
+    display: grid;
+    gap: 20px;
+    grid-template-columns: 1fr;
+
+    @media (min-width: 768px) {
+      &.two-columns {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    .full-width {
+      grid-column: span 2;
+    }
+  }
+
+  .file-upload-wrapper {
+    margin-top: 50px;
+    position: relative;
+    width: 100%;
+    height: 175px;
+    display: flex;
+    cursor: pointer;
+    background: url('../../../../assets/sem_categoria/solte_arquivo.png') no-repeat center center;
+    background-size: contain;
+
+    .form-control-file {
+      margin-bottom: 20px;
+    }
+
+    input[type="file"] {
+      opacity: 0;
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      cursor: pointer;
+    }
+  }
+
+  input,
+  select {
+    margin-top: 15px;
+    height: 79.898px;
+    flex-shrink: 0;
+    border-radius: 18px;
+    border: 2.663px solid #000;
+    opacity: 0.15;
+    width: 100%;
+  }
+
+  .file-upload-instructions {
+    color: #000;
+    text-align: center;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 500;
+    width: 65%;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    margin-top: 10px;
+  }
+
+  .btn {
+    display: flex;
+    width: 100%;
+    height: 79.898px;
+    padding: 26.632px 114.157px 27.222px 113.633px;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+
+    border-radius: 26.633px;
+    border: 2.663px solid #000;
+    opacity: 0.9;
+    background: #000;
+    color: #fff;
+    margin-top: 10px;
+    margin-bottom: 20px;
+  }
+
+  @media (max-width: 768px) {
+    .form-grid {
+      display: flex;
+      flex-direction: column;
     }
 
     .file-upload-wrapper {
-        margin-top: 50px;
-        position: relative;
-        width: 100%;
-        height: 175px;
-        display: flex;
-        cursor: pointer;
-        background: url('../../../../assets/sem_categoria/solte_arquivo.png') no-repeat center center;
-        background-size: contain;
+      margin-top: 0px !important;
 
-        .form-control-file {
-            margin-bottom: 20px;
-        }
-
-
-
-        input[type="file"] {
-            opacity: 0;
-            width: 100%;
-            height: 100%;
-            position: absolute;
-            top: 0;
-            left: 0;
-            cursor: pointer;
-
-        }
-    }
-
-    input {
-        margin-top: 15px;
-        height: 79.898px;
-        flex-shrink: 0;
-        border-radius: 18px;
-        border: 2.663px solid #000;
-        opacity: 0.15;
+      .form-control-file {
+        margin-bottom: 0px !important;
+      }
     }
 
     .file-upload-instructions {
-        color: #000;
-        text-align: center;
-        font-size: 15px;
-        font-style: normal;
-        font-weight: 500;
-        width: 65%;
-        margin-left: auto;
-        margin-right: auto;
-        text-align: center;
-        margin-top: 10px;
+      margin-top: 0px;
     }
-
-    .btn {
-        display: flex;
-        width: 100%;
-        height: 79.898px;
-        padding: 26.632px 114.157px 27.222px 113.633px;
-        justify-content: center;
-        align-items: center;
-        flex-shrink: 0;
-
-        border-radius: 26.633px;
-        border: 2.663px solid #000;
-        opacity: 0.9;
-        background: #000;
-        color: #fff;
-        margin-top: 10px;
-        margin-bottom: 20px;
-    }
-
-}
-
-@media (max-width: 768px) {
-    .file-upload-wrapper {
-        margin-top: 0px !important;
-
-        .form-control-file {
-            margin-bottom: 0px !important;
-        }
-
-    }
-
-    .file-upload-instructions {
-        margin-top: 0px;
-    }
+  }
 }

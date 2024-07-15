@@ -47,16 +47,36 @@ export const routes: Routes = [
         loadComponent: () => import('./features/atos-admissionais/atos-admissionais.component').then((c) => c.AtosAdmissionaisComponent)
     },
     {
+        path: 'atos-admissionais-administrativo',
+        loadComponent: () => import('./features/atos-admissionais-administrativo/atos-admissionais-administrativo.component').then((c) => c.AtosAdmissionaisAdministrativoComponent)
+    },
+    {
         path: 'audiencias-publicas',
         loadComponent: () => import('./features/audiencias-publicas/audiencias-publicas.component').then((c) => c.AudienciasPublicasComponent)
+    },
+    {
+        path: 'audiencia-publica-administrativo',
+        loadComponent: () => import('./features/audiencia-publica-administrativo/audiencia-publica-administrativo.component').then((c) => c.AudienciaPublicaAdministrativoComponent)
     },
     {
         path: 'balancete-financeiro',
         loadComponent: () => import('./features/balancete-financeiro/balancete-financeiro.component').then((c) => c.BalanceteFinanceiroComponent)
     },
     {
+        path: 'balanco-administrativo',
+        loadComponent: () => import('./features/balanco-administrativo/balanco-administrativo.component').then((c) => c.BalancoAdministrativoComponent)
+    },
+    {
+        path: 'balanco-anual-administrativo',
+        loadComponent: () => import('./features/balanco-anual-administrativo/balanco-anual-administrativo.component').then((c) => c.BalancoAnualAdministrativoComponent)
+    },
+    {
         path: 'boletim-votacao',
         loadComponent: () => import('./features/boletim-votacao/boletim-votacao.component').then((c) => c.BoletimVotacaoComponent)
+    },
+    {
+        path: 'boletim-votacao-administrativo',
+        loadComponent: () => import('./features/boletim-votacao-administrativo/boletim-votacao-administrativo.component').then((c) => c.BoletimVotacaoAdministrativoComponent)
     },
     {
         path: 'contratacao-direta',
@@ -77,6 +97,10 @@ export const routes: Routes = [
     {
         path: 'legislacao-municipal',
         loadComponent: () => import('./features/legislacao-municipal/legislacao-municipal.component').then((c) => c.LegislacaoMunicipalComponent)
+    },
+    {
+        path: 'legislacao-municipal-administrativo',
+        loadComponent: () => import('./features/legislacao-municipal-administrativo/legislacao-municipal-administrativo.component').then((c) => c.LegislacaoMunicipalAdministrativoComponent)
     },
     {
         path: 'diario-oficial',

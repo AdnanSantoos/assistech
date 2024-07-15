@@ -19,32 +19,32 @@ export class AcessoInformacaoAdministrativoComponent {
     {
       name: 'atos admissionais',
       externo:'',
-      link: '/atos-admissionais'
+      link: '/atos-admissionais-administrativo'
     },
     {
       name: 'audiência pública',
       externo:'',
-      link: '/audiencias-publicas'
+      link: '/audiencia-publica-administrativo'
     },
     {
       name: 'balancete',
       externo:'',
-      link: '/balancete-financeiro'
+      link: '/balanco-administrativo'
     },
     {
       name: 'Balanço Anual',
       externo:'',
-      link: 'https://www.google.com.br/'
+      link: '/balanco-anual-administrativo'
     },
     {
       name: 'boletim de votação',
       externo:'',
-      link: '/boletim-votacao'
+      link: '/boletim-votacao-administrativo'
     },
     {
       name: 'decretos e leis',
       externo:'',
-      link: '/legislacao-municipal'
+      link: '/legislacao-municipal-administrativo'
     },
     {
       name: 'contratação direta',

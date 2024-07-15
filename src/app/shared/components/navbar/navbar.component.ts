@@ -39,10 +39,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   logoText2: string = '';
   private routeSubscription!: Subscription;
   private admUrls: string[] = [
-    '/login',
-    '/menu-administrativo',
-    '/acesso-informacao-administrativo',
-    '/atas-sessao-administrativo'
+    '/login'
   ];
   constructor(private router: Router, private renderer: Renderer2) { }
 
@@ -85,7 +82,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.renderer.removeClass(document.body, 'home-class');
     this.renderer.removeClass(document.body, 'adm-class');
 
-    if (this.admUrls.includes(url)) {
+    if (this.admUrls.includes(url)|| url.includes('administrativo')) {
       this.renderer.addClass(document.body, 'adm-class');
     } 
     else {
