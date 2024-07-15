@@ -54,22 +54,22 @@ export class AcessoInformacaoAdministrativoComponent {
     {
       name: 'contratos',
       externo:'',
-      link: '/contratos'
+      link: '/contratos-administrativo'
     },
     {
       name: 'convênios',
       externo:'',
-      link: '/convenios'
+      link: '/convenios-administrativo'
     },
     {
       name: 'dados da frota',
       externo:'',
-      link: 'https://www.google.com.br/'
+      link: '/dados-da-frota-administrativo'
     },
     {
       name: 'editais',
       externo:'',
-      link: '/editais'
+      link: '/editais-licitacoes-administrativo'
     },
     {
       name: 'folha de pagamento',
@@ -79,7 +79,7 @@ export class AcessoInformacaoAdministrativoComponent {
     {
       name: 'indicação e requerimento',
       externo:'',
-      link: '/indicacoes-requerimentos'
+      link: '/indicacoes-requerimento-administrativo'
     },
     {
       name: 'indicação e deliberação',

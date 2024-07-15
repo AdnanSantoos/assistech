@@ -91,8 +91,16 @@ export const routes: Routes = [
         loadComponent: () => import('./features/contratos/contratos.component').then((c) => c.ContratosComponent)
     },
     {
+        path: 'contratos-administrativo',
+        loadComponent: () => import('./features/contratos-administrativo/contratos-administrativo.component').then((c) => c.ContratosAdministrativoComponent)
+    },
+    {
         path: 'convenios',
         loadComponent: () => import('./features/convenios/convenios.component').then((c) => c.ConveniosComponent)
+    },
+    {
+        path: 'convenios-administrativo',
+        loadComponent: () => import('./features/convenios-administrativo/convenios-administrativo.component').then((c) => c.ConveniosAdministrativoComponent)
     },
     {
         path: 'comissoes',
@@ -111,6 +119,10 @@ export const routes: Routes = [
         loadComponent: () => import('./features/diario-oficial/diario-oficial.component').then((c) => c.DiarioOficialComponent)
     },
     {
+        path: 'dados-da-frota-administrativo',
+        loadComponent: () => import('./features/dados-da-frota-administrativo/dados-da-frota-administrativo.component').then((c) => c.DadosDaFrotaAdministrativoComponent)
+    },
+    {
         path: 'diaria',
         loadComponent: () => import('./features/diaria/diaria.component').then((c) => c.DiariaComponent)
     },
@@ -119,8 +131,16 @@ export const routes: Routes = [
         loadComponent: () => import('./features/editais/editais.component').then((c) => c.EditaisComponent)
     },
     {
+        path: 'editais-licitacoes-administrativo',
+        loadComponent: () => import('./features/editais-licitacoes-administrativo/editais-licitacoes-administrativo.component').then((c) => c.EditaisLicitacoesAdministrativoComponent)
+    },
+    {
         path: 'indicacoes-requerimentos',
         loadComponent: () => import('./features/indicacoes-requerimentos/indicacoes-requerimentos.component').then((c) => c.IndicacoesRequerimentosComponent)
+    },
+    {
+        path: 'indicacoes-requerimento-administrativo',
+        loadComponent: () => import('./features/indicacoes-requerimento-administrativo/indicacoes-requerimento-administrativo.component').then((c) => c.IndicacoesRequerimentoAdministrativoComponent)
     },
     {
         path: 'indicacao-deliberacao',
