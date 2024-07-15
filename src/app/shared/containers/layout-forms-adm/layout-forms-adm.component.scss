@@ -42,3 +42,21 @@
         margin-bottom: 100px;
     }
 }
+
+@media (max-width: 768px) {
+    .formulario-component {
+        width: 100% !important;
+
+    }
+
+    .button-voltar {
+        margin: 0px !important;
+        justify-content: center !important;
+
+    }
+
+    .justify-content-center {
+        justify-content: center !important;
+        flex-direction: column-reverse !important;
+    }
+}

@@ -1,16 +1,17 @@
-
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
   <div *ngFor="let field of dynamicFields">
     <div *ngIf="field.type === 'text' || field.type === 'number'">
       <label>{{ field.label }}</label>
-      <input type="{{ field.type }}" [formControlName]="field.name" class="form-control" [required]="field.required">
+      <input [type]="field.type" [formControlName]="field.name" class="form-control" [required]="field.required">
     </div>
-    
-    <div *ngIf="field.type === 'file'">
+    <div *ngIf="field.type === 'file'" class="file-upload-wrapper">
       <label>{{ field.label }}</label>
       <input type="file" (change)="onFileChange($event, field.name)" class="form-control-file">
     </div>
+    <div *ngIf="field.type === 'file'">
+      <p class="file-upload-instructions">Tipos de arquivo aceitos: pdf, Máx. tamanho do arquivo: <strong> 5 MB </strong>, Máx. arquivos: 5
+      </p>
+    </div>
   </div>
-
-  <button type="submit" class="btn">Enviar</button>
+  <button type="submit" class="btn btn-primary">Enviar</button>
 </form>
