@@ -34,7 +34,7 @@ export class BalancoAdministrativoComponent {
       { name: 'nome', type: 'text', label: 'Nome' },
       { name: 'mes', type: 'text', label: 'Mês' },
       { name: 'ano', type: 'text', label: 'Ano' },
-      { name: 'file', type: 'file', label: '' }
+        { name: 'file', type: 'file', fileType: 'complex', label: '' }
     ];
   }
 

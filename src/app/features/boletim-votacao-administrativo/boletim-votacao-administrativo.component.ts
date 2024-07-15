@@ -37,7 +37,7 @@ export class BoletimVotacaoAdministrativoComponent {
       { name: 'ate', type: 'text', label: 'Até' },
       { name: 'descricaoDoAto', type: 'text', label: 'Descrição do Ato' },
 
-      { name: 'file', type: 'file', label: '' }
+        { name: 'file', type: 'file', fileType: 'complex', label: '' }
     ];
   }
 

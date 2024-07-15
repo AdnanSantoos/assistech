@@ -42,7 +42,7 @@ export class LegislacaoMunicipalAdministrativoComponent {
       { name: 'legislacao', type: 'text', label: 'Legislação' },
       { name: 'numeroDoAto', type: 'text', label: 'Nº do Ato' },
       { name: 'dataAssinaturaPublicacaoPortal', type: 'text', label: 'Data de assinatura/publicação no portal' },
-      { name: 'file', type: 'file', label: '' }
+        { name: 'file', type: 'file', fileType: 'complex', label: '' }
     ];
   }
 

@@ -83,6 +83,10 @@ export const routes: Routes = [
         loadComponent: () => import('./features/contratacao-direta/contratacao-direta.component').then((c) => c.ContratacaoDiretaComponent)
     },
     {
+        path: 'contratacao-direta-administrativo',
+        loadComponent: () => import('./features/contratacao-direta-administrativo/contratacao-direta-administrativo.component').then((c) => c.ContratacaoDiretaAdministrativoComponent)
+    },
+    {
         path: 'contratos',
         loadComponent: () => import('./features/contratos/contratos.component').then((c) => c.ContratosComponent)
     },

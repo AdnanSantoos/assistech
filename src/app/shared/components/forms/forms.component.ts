@@ -15,13 +15,12 @@ import { MatInputModule } from '@angular/material/input';
     MatInputModule,
     MatFormFieldModule,
     ReactiveFormsModule,
-    CommonModule,
+    CommonModule
   ],
   templateUrl: './forms.component.html',
   styleUrls: ['./forms.component.scss']
 })
 export class FormsComponent implements OnInit {
-  @Input() dataSource: any[] = [];
   @Input() dynamicFields: any[] = [];
 
   form: FormGroup;
@@ -32,8 +31,9 @@ export class FormsComponent implements OnInit {
 
   ngOnInit() {
     this.dynamicFields.forEach(field => {
-      if (field.type === 'file') {
+      if (field.type === 'file' && field.fileType === 'simple') {
         this.form.addControl(field.name, this.fb.control(null));
+      } else if (field.type === 'file' && field.fileType === 'complex') {
       } else {
         this.form.addControl(field.name, this.fb.control(''));
       }

@@ -33,7 +33,7 @@ export class AtosAdmissionaisAdministrativoComponent {
       { name: 'tipoDoContrato', type: 'text', label: 'Tipo do contrato' },
       { name: 'descricaoDoAto', type: 'text', label: 'Descrição do ATO' },
       { name: 'dataDaSessao', type: 'text', label: 'Data da Sessão' },
-      { name: 'file', type: 'file', label: '' }
+        { name: 'file', type: 'file', fileType: 'complex', label: '' }
     ];
   }
 

@@ -8,15 +8,23 @@
       <div *ngIf="field.type === 'select'">
         <label>{{ field.label }}</label>
         <select [formControlName]="field.name" class="form-control">
+          <option value="" disabled selected hidden>{{ field.placeholder || 'Selecione uma opção' }}</option>
           <option *ngFor="let option of field.options" [value]="option.value">{{ option.label }}</option>
         </select>
       </div>
-      <div *ngIf="field.type === 'file'" class="file-upload-wrapper">
+      <div *ngIf="field.type === 'file' && field.fileType === 'complex'" class="file-upload-wrapper">
         <label>{{ field.label }}</label>
         <input type="file" (change)="onFileChange($event, field.name)" class="form-control-file">
+       
       </div>
-      <div *ngIf="field.type === 'file'">
+      <div *ngIf="field.type === 'file' && field.fileType === 'complex'">
         <p class="file-upload-instructions">Tipos de arquivo aceitos: pdf, Máx. tamanho do arquivo: <strong> 5 MB </strong>, Máx. arquivos: 5</p>
+      </div>
+      <div *ngIf="field.type === 'file' && field.fileType === 'simple'" class="file-upload-wrapper_simple">
+        <label>{{ field.label }}</label>
+        <input type="file" (change)="onFileChange($event, field.name)" class="form-control-file">
+        <p class="aviso-capacidade">MÁX. Tamanho do arquivo: 100mb.</p>
+
       </div>
     </div>
   </div>

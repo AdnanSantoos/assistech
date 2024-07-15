@@ -31,7 +31,7 @@ export class BalancoAnualAdministrativoComponent {
 
     this.dynamicFields = [
       { name: 'ano', type: 'text', label: 'ANO' },
-      { name: 'file', type: 'file', label: '' }
+        { name: 'file', type: 'file', fileType: 'complex', label: '' }
     ];
   }
 

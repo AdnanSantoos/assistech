@@ -32,7 +32,7 @@ export class AudienciaPublicaAdministrativoComponent {
     this.dynamicFields = [
       { name: 'titulo', type: 'text', label: 'Título' },
       { name: 'dataDaSessao', type: 'text', label: 'Data da Sessão' },
-      { name: 'file', type: 'file', label: '' }
+        { name: 'file', type: 'file', fileType: 'complex', label: '' }
     ];
   }
 

@@ -49,7 +49,7 @@ export class AcessoInformacaoAdministrativoComponent {
     {
       name: 'contratação direta',
       externo:'',
-      link: '/contratacao-direta'
+      link: '/contratacao-direta-administrativo'
     },
     {
       name: 'contratos',

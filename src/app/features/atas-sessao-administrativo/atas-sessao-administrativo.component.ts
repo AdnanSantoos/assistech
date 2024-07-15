@@ -34,7 +34,7 @@ export class AtasSessaoAdministrativoComponent {
     this.dynamicFields = [
       { name: 'ataDaSessao', type: 'text', label: 'Ata da Sessão' },
       { name: 'dataDaSessao', type: 'text', label: 'Data da Sessão' },
-      { name: 'file', type: 'file', label: '' }
+        { name: 'file', type: 'file', fileType: 'complex', label: '' }
     ];
   }
 
