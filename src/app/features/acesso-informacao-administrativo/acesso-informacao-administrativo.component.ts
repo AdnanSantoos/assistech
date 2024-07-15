@@ -99,27 +99,27 @@ export class AcessoInformacaoAdministrativoComponent {
     {
       name: 'Lista de presença',
       externo:'',
-      link: '/lista-presenca'
+      link: '/lista-presenca-administrativo'
     },
     {
       name: 'Moções',
       externo:'',
-      link: '/mocoes'
+      link: '/mocoes-administrativo'
     },
     {
       name: 'Ofício',
       externo:'',
-      link: '/oficio'
+      link: '/oficio-administrativo'
     },
     {
       name: 'patrimônios públicos',
       externo:'',
-      link: '/patrimonios-publicos'
+      link: '/patrimonios-publicos-administrativo'
     },
     {
       name: 'pedidos de providência',
       externo:'',
-      link: '/pedidos-providencia'
+      link: '/pedidos-providencia-administrativo'
     },
     {
       name: 'PPA, LOA E LDO',
@@ -129,17 +129,17 @@ export class AcessoInformacaoAdministrativoComponent {
     {
       name: 'RREO E RGF',
       externo:'',
-      link: '/rreo-rgf'
+      link: '/rreo-rgf-administrativo'
     },
     {
       name: 'SIST. DE Registro de preço',
       externo:'',
-      link: '/registro-preco'
+      link: '/registro-preco-administrativo'
     },
     {
       name: 'transferência de recursos',
       externo:'',
-      link: '/transferencia-recursos'
+      link: '/transferencia-recursos-administrativo'
     },
     {
       name: 'Notícias',

@@ -176,8 +176,16 @@ export const routes: Routes = [
         loadComponent: () => import('./features/lista-presenca/lista-presenca.component').then((c) => c.ListaPresencaComponent)
     },
     {
+        path: 'lista-presenca-administrativo',
+        loadComponent: () => import('./features/lista-presenca-administrativo/lista-presenca-administrativo.component').then((c) => c.ListaPresencaAdministrativoComponent)
+    },
+    {
         path: 'mocoes',
         loadComponent: () => import('./features/mocoes/mocoes.component').then((c) => c.MocoesComponent)
+    },
+    {
+        path: 'mocoes-administrativo',
+        loadComponent: () => import('./features/mocoes-administrativo/mocoes-administrativo.component').then((c) => c.MocoesAdministrativoComponent)
     },
     {
         path: 'menu-administrativo',
@@ -188,12 +196,24 @@ export const routes: Routes = [
         loadComponent: () => import('./features/oficio/oficio.component').then((c) => c.OficioComponent)
     },
     {
+        path: 'oficio-administrativo',
+        loadComponent: () => import('./features/oficio-administrativo/oficio-administrativo.component').then((c) => c.OficioAdministrativoComponent)
+    },
+    {
         path: 'patrimonios-publicos',
         loadComponent: () => import('./features/patrimonios-publicos/patrimonios-publicos.component').then((c) => c.PatrimoniosPublicosComponent)
     },
     {
+        path: 'patrimonios-publicos-administrativo',
+        loadComponent: () => import('./features/patrimonios-publicos-administrativo/patrimonios-publicos-administrativo.component').then((c) => c.PatrimoniosPublicosAdministrativoComponent)
+    },
+    {
         path: 'pedidos-providencia',
         loadComponent: () => import('./features/pedidos-providencia/pedidos-providencia.component').then((c) => c.PedidosProvidenciaComponent)
+    },
+    {
+        path: 'pedidos-providencia-administrativo',
+        loadComponent: () => import('./features/pedidos-providencia-administrativo/pedidos-providencia-administrativo.component').then((c) => c.PedidosProvidenciaAdministrativoComponent)
     },
     {
         path: 'rreo-rgf',

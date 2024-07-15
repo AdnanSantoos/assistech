@@ -121,6 +121,15 @@ form {
     }
   }
 
+  textarea {
+    margin-top: 15px;
+    flex-shrink: 0;
+    border-radius: 18px;
+    border: 2.663px solid #000;
+    opacity: 0.15;
+    width: 100%;
+  }
+
   input,
   select {
     margin-top: 15px;
