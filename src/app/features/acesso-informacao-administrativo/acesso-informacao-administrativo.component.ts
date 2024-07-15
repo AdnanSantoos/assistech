@@ -94,7 +94,7 @@ export class AcessoInformacaoAdministrativoComponent {
     {
       name: 'Licitações',
       externo:'',
-      link: '/licitacoes'
+      link: '/licitacoes-administrativo'
     },
     {
       name: 'Lista de presença',

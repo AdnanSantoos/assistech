@@ -168,6 +168,10 @@ export const routes: Routes = [
         loadComponent: () => import('./features/licitacoes/licitacoes.component').then((c) => c.LicitacoesComponent)
     },
     {
+        path: 'licitacoes-administrativo',
+        loadComponent: () => import('./features/licitacoes-administrativo/licitacoes-administrativo.component').then((c) => c.LicitacoesAdministrativoComponent)
+    },
+    {
         path: 'lista-presenca',
         loadComponent: () => import('./features/lista-presenca/lista-presenca.component').then((c) => c.ListaPresencaComponent)
     },

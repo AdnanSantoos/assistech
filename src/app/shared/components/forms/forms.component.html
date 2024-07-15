@@ -12,13 +12,17 @@
           <option *ngFor="let option of field.options" [value]="option.value">{{ option.label }}</option>
         </select>
       </div>
-      <div *ngIf="field.type === 'file' && field.fileType === 'complex'" class="file-upload-wrapper">
-        <label>{{ field.label }}</label>
-        <input type="file" (change)="onFileChange($event, field.name)" class="form-control-file">
-       
+      <div *ngIf="field.type === 'file' && field.fileType === 'complex'" class="file-upload-wrapper d-flex flex-wrap justify-content-center">
+        <div> 
+          <label>{{ field.label }}</label>
+        </div>
+        <div class="bkg-button">
+          <input type="file" (change)="onFileChange($event, field.name)" class="form-control-file">
+        </div>
       </div>
       <div *ngIf="field.type === 'file' && field.fileType === 'complex'">
-        <p class="file-upload-instructions">Tipos de arquivo aceitos: pdf, Máx. tamanho do arquivo: <strong> 5 MB </strong>, Máx. arquivos: 5</p>
+        <p class="file-upload-instructions">Tipos de arquivo aceitos: pdf, Máx. tamanho do arquivo: <strong> 5 MB
+          </strong>, Máx. arquivos: 5</p>
       </div>
       <div *ngIf="field.type === 'file' && field.fileType === 'simple'" class="file-upload-wrapper_simple">
         <label>{{ field.label }}</label>

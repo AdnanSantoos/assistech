@@ -59,6 +59,7 @@ form {
     flex-direction: column;
     flex-wrap: wrap;
     gap: 20px;
+
     @media (min-width: 768px) {
       &.two-columns {
         display: grid !important;
@@ -79,8 +80,13 @@ form {
     height: 175px;
     display: flex;
     cursor: pointer;
-    background: url('../../../../assets/sem_categoria/solte_arquivo.png') no-repeat center center;
-    background-size: contain;
+
+    .bkg-button {
+      background: url('../../../../assets/sem_categoria/solte_arquivo.png') no-repeat center center;
+      background-size: contain;
+      width: 100%;
+      height: 175px;
+    }
 
     .form-control-file {
       margin-bottom: 20px;
@@ -99,6 +105,7 @@ form {
 
   .file-upload-wrapper_simple {
     cursor: pointer;
+
     .aviso-capacidade {
       color: #000;
       text-align: center;
@@ -107,6 +114,7 @@ form {
       font-weight: 500;
       text-transform: uppercase;
     }
+
     input[type="file"] {
       cursor: pointer;
       height: 79.898px;
@@ -134,7 +142,7 @@ form {
     margin-left: auto;
     margin-right: auto;
     text-align: center;
-    margin-top: 10px;
+    margin-top: 10%;
     text-transform: uppercase;
   }
 
@@ -171,7 +179,7 @@ form {
     }
 
     .file-upload-instructions {
-      margin-top: 0px;
+      margin-top: 10px;
     }
   }
 }
