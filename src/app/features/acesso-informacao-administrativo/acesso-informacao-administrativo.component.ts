@@ -84,7 +84,7 @@ export class AcessoInformacaoAdministrativoComponent {
     {
       name: 'indicação e deliberação',
       externo:'',
-      link: '/indicacao-deliberacao'
+      link: '/indicacoes-deliberacoes-administrativo'
     },
     {
       name: 'instrumento de planejamento',

@@ -1,3 +1,4 @@
+import { IndicacoesDeliberacoesAdministrativoComponent } from './features/indicacoes-deliberacoes-administrativo/indicacoes-deliberacoes-administrativo.component';
 import { Routes } from '@angular/router';
 
 export const routes: Routes = [
@@ -145,6 +146,10 @@ export const routes: Routes = [
     {
         path: 'indicacao-deliberacao',
         loadComponent: () => import('./features/indicacao-deliberacao/indicacao-deliberacao.component').then((c) => c.IndicacaoDeliberacaoComponent)
+    },
+    {
+        path: 'indicacoes-deliberacoes-administrativo',
+        loadComponent: () => import('./features/indicacoes-deliberacoes-administrativo/indicacoes-deliberacoes-administrativo.component').then((c) => c.IndicacoesDeliberacoesAdministrativoComponent)
     },
     {
         path: 'estrutura-organizacional',
