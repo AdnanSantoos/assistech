@@ -1,6 +1,6 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { LayoutFormsAdmComponent } from '../../shared/containers/layout-forms-adm/layout-forms-adm.component';
@@ -12,9 +12,10 @@ import { LayoutFormsAdmComponent } from '../../shared/containers/layout-forms-ad
     CommonModule,
     ReactiveFormsModule,
     MatIconModule,
-    MatButtonModule],
+    MatButtonModule
+  ],
   templateUrl: './balanco-anual-administrativo.component.html',
-  styleUrl: './balanco-anual-administrativo.component.scss'
+  styleUrls: ['./balanco-anual-administrativo.component.scss']
 })
 export class BalancoAnualAdministrativoComponent {
   filtroForm: FormGroup;
@@ -22,24 +23,21 @@ export class BalancoAnualAdministrativoComponent {
 
   constructor(private fb: FormBuilder) {
     this.filtroForm = this.fb.group({
-      ataDaSessao: [''],
-      day: [''],
-      month: [''],
-      year: [''],
+      ano: [''],
       file: [null]
     });
 
     this.dynamicFields = [
       { name: 'ano', type: 'text', label: 'ANO' },
-        { name: 'file', type: 'file', fileType: 'complex', label: '' }
+      { name: 'file', type: 'file', fileType: 'complex', label: '' }
     ];
   }
 
-  onFileChange(event: any) {
-    const file = event.target.files[0];
-    if (file) {
+  onFileChange(event: any, fieldName: string) {
+    if (event.target.files.length > 0) {
+      const file = event.target.files[0];
       this.filtroForm.patchValue({
-        file: file
+        [fieldName]: file
       });
     }
   }

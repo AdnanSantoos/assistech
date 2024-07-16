@@ -1,20 +1,23 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { LayoutFormsAdmComponent } from '../../shared/containers/layout-forms-adm/layout-forms-adm.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-dados-da-frota-administrativo',
   standalone: true,
-  imports: [LayoutFormsAdmComponent,
+  imports: [
     CommonModule,
     ReactiveFormsModule,
     MatIconModule,
-    MatButtonModule],
+    MatButtonModule,
+    LayoutFormsAdmComponent
+  ],
   templateUrl: './dados-da-frota-administrativo.component.html',
-  styleUrl: './dados-da-frota-administrativo.component.scss'
+  styleUrls: ['./dados-da-frota-administrativo.component.scss']
 })
 export class DadosDaFrotaAdministrativoComponent {
   filtroForm: FormGroup;
@@ -42,8 +45,8 @@ export class DadosDaFrotaAdministrativoComponent {
       { name: 'origem', type: 'text', label: 'Origem' },
       { name: 'licenciamento', type: 'text', label: 'Licenciamento' },
       { name: 'quilometragem', type: 'text', label: 'Quilometragem' },
+      { name: 'file', type: 'file', fileType: 'complex', label: '' }
     ];
-    
   }
 
   onFileChange(event: any) {

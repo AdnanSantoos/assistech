@@ -124,7 +124,7 @@ export class AcessoInformacaoAdministrativoComponent {
     {
       name: 'PPA, LOA E LDO',
       externo:'',
-      link: 'https://www.google.com.br/'
+      link: '/ppa-loa-ldo-administrativo'
     },
     {
       name: 'RREO E RGF',

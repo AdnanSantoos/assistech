@@ -1,20 +1,23 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { LayoutFormsAdmComponent } from '../../shared/containers/layout-forms-adm/layout-forms-adm.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-mocoes-administrativo',
   standalone: true,
-  imports: [LayoutFormsAdmComponent,
+  imports: [
     CommonModule,
     ReactiveFormsModule,
     MatIconModule,
-    MatButtonModule],
+    MatButtonModule,
+    LayoutFormsAdmComponent
+  ],
   templateUrl: './mocoes-administrativo.component.html',
-  styleUrl: './mocoes-administrativo.component.scss'
+  styleUrls: ['./mocoes-administrativo.component.scss']
 })
 export class MocoesAdministrativoComponent {
   filtroForm: FormGroup;
@@ -30,12 +33,11 @@ export class MocoesAdministrativoComponent {
     });
 
     this.dynamicFields = [
-      { name: 'ementa', type: 'text', label: 'ementa' },
-      { name: 'numero', type: 'text', label: 'número' },
-      { name: 'data', type: 'text', label: 'data' },
-      { name: 'file', type: 'file', fileType: 'complex', label: '' }
+      { name: 'ementa', type: 'text', label: 'Ementa' },
+      { name: 'numero', type: 'text', label: 'Número' },
+      { name: 'data', type: 'text', label: 'Data' },
+      { name: 'file', type: 'file', fileType: 'complex', label: 'Arquivo da Moção' }
     ];
-
   }
 
   onFileChange(event: any) {

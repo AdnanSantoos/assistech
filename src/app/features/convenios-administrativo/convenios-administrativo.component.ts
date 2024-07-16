@@ -1,20 +1,23 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { LayoutFormsAdmComponent } from '../../shared/containers/layout-forms-adm/layout-forms-adm.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-convenios-administrativo',
   standalone: true,
-  imports: [LayoutFormsAdmComponent,
+  imports: [
     CommonModule,
     ReactiveFormsModule,
     MatIconModule,
-    MatButtonModule],
+    MatButtonModule,
+    LayoutFormsAdmComponent
+  ],
   templateUrl: './convenios-administrativo.component.html',
-  styleUrl: './convenios-administrativo.component.scss'
+  styleUrls: ['./convenios-administrativo.component.scss']
 })
 export class ConveniosAdministrativoComponent {
   filtroForm: FormGroup;
@@ -31,10 +34,10 @@ export class ConveniosAdministrativoComponent {
 
     this.dynamicFields = [
       { name: 'conveniado', type: 'text', label: 'Conveniado' },
-      { name: 'situacao', type: 'text', label: 'situção' },
-      { name: 'numeroDoProcesso', type: 'text', label: 'nº Do Processo' },
-      { name: 'numeroDoConvenio', type: 'text', label: 'nº Do convenio' },
-      { name: 'objeto', type: 'text', label: 'objeto' },
+      { name: 'situacao', type: 'text', label: 'Situação' },
+      { name: 'numeroDoProcesso', type: 'text', label: 'Nº do Processo' },
+      { name: 'numeroDoConvenio', type: 'text', label: 'Nº do Convênio' },
+      { name: 'objeto', type: 'text', label: 'Objeto' },
       { name: 'file', type: 'file', fileType: 'complex', label: '' }
     ];
   }

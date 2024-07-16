@@ -1,20 +1,23 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { LayoutFormsAdmComponent } from '../../shared/containers/layout-forms-adm/layout-forms-adm.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-contratacao-direta-administrativo',
   standalone: true,
-  imports: [LayoutFormsAdmComponent,
+  imports: [
     CommonModule,
     ReactiveFormsModule,
     MatIconModule,
-    MatButtonModule],
+    MatButtonModule,
+    LayoutFormsAdmComponent
+  ],
   templateUrl: './contratacao-direta-administrativo.component.html',
-  styleUrl: './contratacao-direta-administrativo.component.scss'
+  styleUrls: ['./contratacao-direta-administrativo.component.scss']
 })
 export class ContratacaoDiretaAdministrativoComponent {
   filtroForm: FormGroup;

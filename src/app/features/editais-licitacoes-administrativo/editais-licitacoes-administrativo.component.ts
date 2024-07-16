@@ -1,20 +1,23 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { LayoutFormsAdmComponent } from '../../shared/containers/layout-forms-adm/layout-forms-adm.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-editais-licitacoes-administrativo',
   standalone: true,
-  imports: [LayoutFormsAdmComponent,
+  imports: [
     CommonModule,
     ReactiveFormsModule,
     MatIconModule,
-    MatButtonModule],
+    MatButtonModule,
+    LayoutFormsAdmComponent
+  ],
   templateUrl: './editais-licitacoes-administrativo.component.html',
-  styleUrl: './editais-licitacoes-administrativo.component.scss'
+  styleUrls: ['./editais-licitacoes-administrativo.component.scss']
 })
 export class EditaisLicitacoesAdministrativoComponent {
   filtroForm: FormGroup;
@@ -31,11 +34,10 @@ export class EditaisLicitacoesAdministrativoComponent {
 
     this.dynamicFields = [
       { name: 'numeroDaLicitacao', type: 'text', label: 'Nº da licitação' },
-      { name: 'objeto', type: 'text', label: 'objeto' },
-      { name: 'status', type: 'text', label: 'status' },
-      { name: 'file', type: 'file', fileType: 'complex', label: '' }
+      { name: 'objeto', type: 'text', label: 'Objeto' },
+      { name: 'status', type: 'text', label: 'Status' },
+      { name: 'file', type: 'file', fileType: 'complex', label: 'Anexar arquivo' }
     ];
-
   }
 
   onFileChange(event: any) {

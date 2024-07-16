@@ -1,6 +1,6 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { LayoutFormsAdmComponent } from '../../shared/containers/layout-forms-adm/layout-forms-adm.component';
@@ -8,13 +8,15 @@ import { LayoutFormsAdmComponent } from '../../shared/containers/layout-forms-ad
 @Component({
   selector: 'app-boletim-votacao-administrativo',
   standalone: true,
-  imports: [LayoutFormsAdmComponent,
+  imports: [
     CommonModule,
     ReactiveFormsModule,
     MatIconModule,
-    MatButtonModule],
+    MatButtonModule,
+    LayoutFormsAdmComponent
+  ],
   templateUrl: './boletim-votacao-administrativo.component.html',
-  styleUrl: './boletim-votacao-administrativo.component.scss'
+  styleUrls: ['./boletim-votacao-administrativo.component.scss']
 })
 export class BoletimVotacaoAdministrativoComponent {
   filtroForm: FormGroup;
@@ -22,10 +24,12 @@ export class BoletimVotacaoAdministrativoComponent {
 
   constructor(private fb: FormBuilder) {
     this.filtroForm = this.fb.group({
-      ataDaSessao: [''],
-      day: [''],
-      month: [''],
-      year: [''],
+      numBoletimVotacao: [''],
+      dia: [''],
+      mes: [''],
+      ano: [''],
+      ate: [''],
+      descricaoDoAto: [''],
       file: [null]
     });
 
@@ -36,21 +40,23 @@ export class BoletimVotacaoAdministrativoComponent {
       { name: 'ano', type: 'text', label: 'Ano' },
       { name: 'ate', type: 'text', label: 'Até' },
       { name: 'descricaoDoAto', type: 'text', label: 'Descrição do Ato' },
-
-        { name: 'file', type: 'file', fileType: 'complex', label: '' }
+      { name: 'file', type: 'file', fileType: 'complex', label: '' }
     ];
   }
 
-  onFileChange(event: any) {
+  onFileChange(event: any, fieldName: string) {
     const file = event.target.files[0];
     if (file) {
       this.filtroForm.patchValue({
-        file: file
+        [fieldName]: file
       });
     }
   }
 
   onFormSubmit() {
-    console.log(this.filtroForm.value);
+    if (this.filtroForm.valid) {
+      console.log(this.filtroForm.value);
+      // Aqui você pode adicionar a lógica para enviar os dados do formulário
+    }
   }
 }

@@ -34,15 +34,15 @@ export class AtasSessaoAdministrativoComponent {
     this.dynamicFields = [
       { name: 'ataDaSessao', type: 'text', label: 'Ata da Sessão' },
       { name: 'dataDaSessao', type: 'text', label: 'Data da Sessão' },
-        { name: 'file', type: 'file', fileType: 'complex', label: '' }
+      { name: 'file', type: 'file', fileType: 'complex', label: '' }
     ];
   }
 
-  onFileChange(event: any) {
-    const file = event.target.files[0];
-    if (file) {
+  onFileChange(event: any, fieldName: string) {
+    if (event.target.files.length > 0) {
+      const file = event.target.files[0];
       this.filtroForm.patchValue({
-        file: file
+        [fieldName]: file
       });
     }
   }

@@ -1,20 +1,23 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { LayoutFormsAdmComponent } from '../../shared/containers/layout-forms-adm/layout-forms-adm.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-patrimonios-publicos-administrativo',
   standalone: true,
-  imports: [LayoutFormsAdmComponent,
+  imports: [
     CommonModule,
     ReactiveFormsModule,
     MatIconModule,
-    MatButtonModule],
+    MatButtonModule,
+    LayoutFormsAdmComponent
+  ],
   templateUrl: './patrimonios-publicos-administrativo.component.html',
-  styleUrl: './patrimonios-publicos-administrativo.component.scss'
+  styleUrls: ['./patrimonios-publicos-administrativo.component.scss']
 })
 export class PatrimoniosPublicosAdministrativoComponent {
   filtroForm: FormGroup;
@@ -30,12 +33,11 @@ export class PatrimoniosPublicosAdministrativoComponent {
     });
 
     this.dynamicFields = [
-      { name: 'titulo', type: 'text', label: 'título' },
-      { name: 'orgao', type: 'text', label: 'órgão' },
-      { name: 'observacao', type: 'text', label: 'observação' },
-      { name: 'file', type: 'file', fileType: 'complex', label: '' }
+      { name: 'titulo', type: 'text', label: 'Título' },
+      { name: 'orgao', type: 'text', label: 'Órgão' },
+      { name: 'observacao', type: 'text', label: 'Observação' },
+      { name: 'file', type: 'file', fileType: 'complex', label: 'Arquivo' }
     ];
-
   }
 
   onFileChange(event: any) {

@@ -1,19 +1,23 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { LayoutFormsAdmComponent } from '../../shared/containers/layout-forms-adm/layout-forms-adm.component';
+import { ReactiveFormsModule } from '@angular/forms';
+
 @Component({
   selector: 'app-contratos-administrativo',
   standalone: true,
-  imports: [LayoutFormsAdmComponent,
+  imports: [
     CommonModule,
     ReactiveFormsModule,
     MatIconModule,
-    MatButtonModule],
+    MatButtonModule,
+    LayoutFormsAdmComponent
+  ],
   templateUrl: './contratos-administrativo.component.html',
-  styleUrl: './contratos-administrativo.component.scss'
+  styleUrls: ['./contratos-administrativo.component.scss']
 })
 export class ContratosAdministrativoComponent {
   filtroForm: FormGroup;
@@ -42,7 +46,7 @@ export class ContratosAdministrativoComponent {
           { value: 'categoria2', label: 'Categoria 2' },
           { value: 'categoria3', label: 'Categoria 3' }
         ]
-      }, 
+      },
       { name: 'dataFinal', type: 'text', label: 'Data Final' },
       { name: 'fiscalDoContrato', type: 'text', label: 'Fiscal do contrato' },
       {
@@ -51,7 +55,7 @@ export class ContratosAdministrativoComponent {
           { value: 'categoria2', label: 'Categoria 2' },
           { value: 'categoria3', label: 'Categoria 3' }
         ]
-      }, 
+      },
       {
         name: 'possuiAditivo', type: 'select', label: 'Possui aditivo?', options: [
           { value: 'categoria1', label: 'Categoria 1' },
@@ -60,7 +64,6 @@ export class ContratosAdministrativoComponent {
         ]
       },
       { name: 'file', type: 'file', fileType: 'complex', label: '' }
-
     ];
   }
 

@@ -1,14 +1,21 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
   <div class="form-grid" [ngClass]="{'two-columns': dynamicFields.length > 4}">
-    <div *ngFor="let field of dynamicFields" [ngClass]="{'full-width': field.type === 'file'}">
+    <div *ngFor="let field of dynamicFields" [ngClass]="{'full-width': field.type === 'file' || field.type === 'title'}">
+            
+      <div *ngIf="field.type === 'title'" class="full-width">
+        <h3 class="form-title">{{ field.label }}</h3>
+      </div>
+      
       <div *ngIf="field.type === 'text' || field.type === 'number'">
         <label>{{ field.label }}</label>
         <input [type]="field.type" [formControlName]="field.name" class="form-control" [required]="field.required">
       </div>
+      
       <div *ngIf="field.type === 'textarea'">
         <label>{{ field.label }}</label>
         <textarea [formControlName]="field.name" class="form-control" [required]="field.required"></textarea>
       </div>
+      
       <div *ngIf="field.type === 'select'">
         <label>{{ field.label }}</label>
         <select [formControlName]="field.name" class="form-control">
@@ -16,8 +23,9 @@
           <option *ngFor="let option of field.options" [value]="option.value">{{ option.label }}</option>
         </select>
       </div>
+      
       <div *ngIf="field.type === 'file' && field.fileType === 'complex'" class="file-upload-wrapper d-flex flex-wrap justify-content-center">
-        <div> 
+        <div>
           <label>{{ field.label }}</label>
         </div>
         <div class="bkg-button">
@@ -27,11 +35,13 @@
       <div *ngIf="field.type === 'file' && field.fileType === 'complex'">
         <p class="file-upload-instructions">Tipos de arquivo aceitos: pdf, Máx. tamanho do arquivo: <strong> 5 MB </strong>, Máx. arquivos: 5</p>
       </div>
+      
       <div *ngIf="field.type === 'file' && field.fileType === 'simple'" class="file-upload-wrapper_simple">
         <label>{{ field.label }}</label>
         <input type="file" (change)="onFileChange($event, field.name)" class="form-control-file">
         <p class="aviso-capacidade">MÁX. Tamanho do arquivo: 100mb.</p>
       </div>
+
     </div>
   </div>
   <button type="submit" class="btn btn-primary mt-10">Enviar</button>

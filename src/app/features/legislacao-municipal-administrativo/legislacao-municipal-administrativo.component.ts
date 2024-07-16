@@ -1,20 +1,23 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { LayoutFormsAdmComponent } from '../../shared/containers/layout-forms-adm/layout-forms-adm.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-legislacao-municipal-administrativo',
   standalone: true,
-  imports: [LayoutFormsAdmComponent,
+  imports: [
     CommonModule,
     ReactiveFormsModule,
     MatIconModule,
-    MatButtonModule],
+    MatButtonModule,
+    LayoutFormsAdmComponent
+  ],
   templateUrl: './legislacao-municipal-administrativo.component.html',
-  styleUrl: './legislacao-municipal-administrativo.component.scss'
+  styleUrls: ['./legislacao-municipal-administrativo.component.scss']
 })
 export class LegislacaoMunicipalAdministrativoComponent {
   filtroForm: FormGroup;
@@ -42,7 +45,7 @@ export class LegislacaoMunicipalAdministrativoComponent {
       { name: 'legislacao', type: 'text', label: 'Legislação' },
       { name: 'numeroDoAto', type: 'text', label: 'Nº do Ato' },
       { name: 'dataAssinaturaPublicacaoPortal', type: 'text', label: 'Data de assinatura/publicação no portal' },
-        { name: 'file', type: 'file', fileType: 'complex', label: '' }
+      { name: 'file', type: 'file', fileType: 'complex', label: 'Anexar arquivo' }
     ];
   }
 

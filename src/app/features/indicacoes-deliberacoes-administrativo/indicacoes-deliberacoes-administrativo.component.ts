@@ -1,20 +1,23 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { LayoutFormsAdmComponent } from '../../shared/containers/layout-forms-adm/layout-forms-adm.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-indicacoes-deliberacoes-administrativo',
   standalone: true,
-  imports: [LayoutFormsAdmComponent,
+  imports: [
     CommonModule,
     ReactiveFormsModule,
     MatIconModule,
-    MatButtonModule],
+    MatButtonModule,
+    LayoutFormsAdmComponent
+  ],
   templateUrl: './indicacoes-deliberacoes-administrativo.component.html',
-  styleUrl: './indicacoes-deliberacoes-administrativo.component.scss'
+  styleUrls: ['./indicacoes-deliberacoes-administrativo.component.scss']
 })
 export class IndicacoesDeliberacoesAdministrativoComponent {
   filtroForm: FormGroup;
@@ -30,13 +33,12 @@ export class IndicacoesDeliberacoesAdministrativoComponent {
     });
 
     this.dynamicFields = [
-      { name: 'categoria', type: 'text', label: 'categoria' },
-      { name: 'numero', type: 'text', label: 'número' },
-      { name: 'ano', type: 'text', label: 'ano' },
-      { name: 'data', type: 'text', label: 'data' },
-      { name: 'file', type: 'file', fileType: 'complex', label: '' }
+      { name: 'categoria', type: 'text', label: 'Categoria' },
+      { name: 'numero', type: 'text', label: 'Número' },
+      { name: 'ano', type: 'text', label: 'Ano' },
+      { name: 'data', type: 'text', label: 'Data' },
+      { name: 'file', type: 'file', fileType: 'complex', label: 'Anexar arquivo' }
     ];
-
   }
 
   onFileChange(event: any) {

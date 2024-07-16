@@ -1,20 +1,23 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { LayoutFormsAdmComponent } from '../../shared/containers/layout-forms-adm/layout-forms-adm.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-licitacoes-administrativo',
   standalone: true,
-  imports: [LayoutFormsAdmComponent,
+  imports: [
     CommonModule,
     ReactiveFormsModule,
     MatIconModule,
-    MatButtonModule],
+    MatButtonModule,
+    LayoutFormsAdmComponent
+  ],
   templateUrl: './licitacoes-administrativo.component.html',
-  styleUrl: './licitacoes-administrativo.component.scss'
+  styleUrls: ['./licitacoes-administrativo.component.scss']
 })
 export class LicitacoesAdministrativoComponent {
   filtroForm: FormGroup;
@@ -33,19 +36,18 @@ export class LicitacoesAdministrativoComponent {
       { name: 'numeroDaLicitacao', type: 'text', label: 'Nº da licitação' },
       { name: 'objetoLicitacao', type: 'text', label: 'Objeto da licitação' },
       { name: 'dataDaLicitacao', type: 'text', label: 'Data da Licitação' },
-      { name: 'modalidade', type: 'text', label: 'modalidade' },
-      { name: 'srp', type: 'text', label: 'srp' },
-      { name: 'file', type: 'file', fileType: 'complex', label: 'Contrato: Procedimento na integra' },
-      //////////////////////////////////////////////////////////////////
-      { name: 'status', type: 'text', label: 'status' },
-      { name: 'orgao', type: 'text', label: 'órgão' },
-      { name: 'numeroDoProcessoAdministrativo', type: 'text', label: 'nº do processo administrativo' },
-      { name: 'numeroDoEdital', type: 'text', label: 'nº do edital' },
+      { name: 'modalidade', type: 'text', label: 'Modalidade' },
+      { name: 'srp', type: 'text', label: 'SRP' },
+      { name: 'file', type: 'file', fileType: 'complex', label: 'Contrato: Procedimento na íntegra' },
+      { name: 'status', type: 'text', label: 'Status' },
+      { name: 'orgao', type: 'text', label: 'Órgão' },
+      { name: 'numeroDoProcessoAdministrativo', type: 'text', label: 'Nº do processo administrativo' },
+      { name: 'numeroDoEdital', type: 'text', label: 'Nº do edital' },
       { name: 'localDeExecucaoDoContrato', type: 'text', label: 'Local de execução do contrato' },
-      { name: 'dataDaPublicacao', type: 'text', label: 'data da publicação' },
-      { name: 'vigencia', type: 'text', label: 'vigência' },
-      { name: 'previsaoOrcamentaria', type: 'text', label: 'previsão orçamentária' },
-      { name: 'fiscal', type: 'text', label: 'fiscal' },
+      { name: 'dataDaPublicacao', type: 'text', label: 'Data da publicação' },
+      { name: 'vigencia', type: 'text', label: 'Vigência' },
+      { name: 'previsaoOrcamentaria', type: 'text', label: 'Previsão orçamentária' },
+      { name: 'fiscal', type: 'text', label: 'Fiscal' },
       { name: 'possuiAditivo', type: 'text', label: 'Possui Aditivo?' },
       { name: 'file', type: 'file', fileType: 'complex', label: 'Arquivo do processo' }
     ];

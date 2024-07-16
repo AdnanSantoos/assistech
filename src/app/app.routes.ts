@@ -220,6 +220,10 @@ export const routes: Routes = [
         loadComponent: () => import('./features/rreo-rgf/rreo-rgf.component').then((c) => c.RreoRgfComponent)
     },
     {
+        path: 'ppa-loa-ldo-administrativo',
+        loadComponent: () => import('./features/ppa-loa-ldo-administrativo/ppa-loa-ldo-administrativo.component').then((c) => c.PpaLoaLdoAdministrativoComponent)
+    },
+    {
         path: 'registro-preco',
         loadComponent: () => import('./features/registro-preco/registro-preco.component').then((c) => c.RegistroPrecoComponent)
     },
