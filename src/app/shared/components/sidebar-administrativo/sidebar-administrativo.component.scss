@@ -1,25 +1,56 @@
-.bkg-administrativo {
-    color: #000;
-    font-style: normal;
-    line-height: 122.487%;
-    text-align: center;
+.side-container {
+    background: #272727;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
-    .titulo {
+    .side-container__title {
         margin-top: 50px;
-        font-size: 46.759px;
+        color: #FFF;
+        text-align: center;
+        font-size: 20.526px;
         font-weight: 800;
         text-transform: uppercase;
     }
 
-    .subtitulo {
-        font-size: 15px;
-        font-weight: 600;
+    .side-container__list {
+        a {
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .button-acessos {
+            &.active {
+                border-radius: 20.457px;
+                background: #2e2e2e;
+                display: flex;
+                width: 185.475px;
+                height: 133.651px;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap: 9.546px;
+                flex-shrink: 0;
+                pointer-events: none;
+
+                .btn-padrao__perfil-icon {
+                  filter: invert(1);
+                    opacity: 0.7;
+                }
+
+                .btn-padrao__text {
+                    color: #8b8a8a;
+
+                }
+            }
+        }
     }
 
     .buttons {
         gap: 16px;
         flex-wrap: wrap;
-        padding: 80px;
+
         .btn-padrao__hover {
             width: 185.838px;
             height: 133.838px;
@@ -38,7 +69,7 @@
                 width: 30.003px;
                 height: 35.458px;
                 background-size: cover;
-                background-image: url('../../../assets/icons/perfil-icon-preto.svg');
+                background-image: url('../../../../assets/icons/perfil-icon-preto.svg');
 
             }
 

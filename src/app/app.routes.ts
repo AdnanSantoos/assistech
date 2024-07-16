@@ -190,6 +190,14 @@ export const routes: Routes = [
     {
         path: 'menu-administrativo',
         loadComponent: () => import('./features/menu-administrativo/menu-administrativo.component').then((c) => c.MenuAdministrativoComponent)
+    }, 
+    {
+        path: 'menu-pncp-administrativo',
+        loadComponent: () => import('./features/menu-pncp-administrativo/menu-pncp-administrativo.component').then((c) => c.MenuPncpAdministrativoComponent)
+    },
+    {
+        path: 'menu-diario-oficial-administrativo',
+        loadComponent: () => import('./features/menu-diario-oficial-administrativo/menu-diario-oficial-administrativo.component').then((c) => c.MenuDiarioOficialAdministrativoComponent)
     },
     {
         path: 'oficio',

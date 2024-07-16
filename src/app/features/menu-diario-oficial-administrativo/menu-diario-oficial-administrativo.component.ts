@@ -4,21 +4,21 @@ import { RouterLink } from '@angular/router';
 import { SidebarAdministrativoComponent } from '../../shared/components/sidebar-administrativo/sidebar-administrativo.component';
 
 @Component({
-  selector: 'app-menu-administrativo',
+  selector: 'app-menu-diario-oficial-administrativo',
   standalone: true,
   imports: [CommonModule, RouterLink, SidebarAdministrativoComponent],
-  templateUrl: './menu-administrativo.component.html',
-  styleUrl: './menu-administrativo.component.scss'
+  templateUrl: './menu-diario-oficial-administrativo.component.html',
+  styleUrl: './menu-diario-oficial-administrativo.component.scss'
 })
-export class MenuAdministrativoComponent {
+export class MenuDiarioOficialAdministrativoComponent {
   button = [
     {
-      name: 'Diário Oficial',
-      link: '/menu-diario-oficial-administrativo'
+      name: 'Publicar no Diário',
+      link: '/publicar-diario-oficial-administrativo'
     },
     {
-      name: 'PNCP',
-      link: '/menu-pncp-administrativo'
+      name: 'Gerenciador de diários',
+      link: '/gerenciador-diario-oficial-administrativo'
     },
   ]
 
