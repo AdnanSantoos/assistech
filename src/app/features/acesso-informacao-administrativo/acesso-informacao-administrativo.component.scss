@@ -70,3 +70,24 @@
 
     }
 }
+
+@media (max-width: 768px) {
+    .buttons {
+        padding: 0px !important;
+        justify-content: space-around !important;
+        padding-bottom:25px !important;
+    }
+    .btn-padrao__hover {
+        height: 145px !important;
+        width:145px !important;
+        .btn-padrao__text {
+            font-size: 12px !important;
+        }
+
+        .btn-padrao__perfil-icon {
+            width: 25px !important;
+            height: 25px !important;
+
+        }
+    }
+}

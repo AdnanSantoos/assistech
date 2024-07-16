@@ -35,7 +35,7 @@
                 pointer-events: none;
 
                 .btn-padrao__perfil-icon {
-                  filter: invert(1);
+                    filter: invert(1);
                     opacity: 0.7;
                 }
 
@@ -98,5 +98,23 @@
             }
         }
 
+    }
+}
+
+@media (max-width: 768px) {
+    .btn-padrao__hover {
+        display: flex !important;
+        flex-direction: row !important;
+        height: 45px !important;
+        width:300px !important;
+        .btn-padrao__text {
+            font-size: 12px !important;
+        }
+
+        .btn-padrao__perfil-icon {
+            width: 25px !important;
+            height: 25px !important;
+
+        }
     }
 }
