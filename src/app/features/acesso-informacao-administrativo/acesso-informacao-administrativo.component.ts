@@ -144,7 +144,7 @@ export class AcessoInformacaoAdministrativoComponent {
     {
       name: 'Notícias',
       externo:'',
-      link: 'https://www.google.com.br/'
+      link: '/noticias-administrativo'
     }
      
   ]

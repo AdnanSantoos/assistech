@@ -220,6 +220,10 @@ export const routes: Routes = [
         loadComponent: () => import('./features/rreo-rgf/rreo-rgf.component').then((c) => c.RreoRgfComponent)
     },
     {
+        path: 'rreo-rgf-administrativo',
+        loadComponent: () => import('./features/rreo-rgf-administrativo/rreo-rgf-administrativo.component').then((c) => c.RreoRgfAdministrativoComponent)
+    },
+    {
         path: 'ppa-loa-ldo-administrativo',
         loadComponent: () => import('./features/ppa-loa-ldo-administrativo/ppa-loa-ldo-administrativo.component').then((c) => c.PpaLoaLdoAdministrativoComponent)
     },
@@ -228,7 +232,19 @@ export const routes: Routes = [
         loadComponent: () => import('./features/registro-preco/registro-preco.component').then((c) => c.RegistroPrecoComponent)
     },
     {
+        path: 'registro-preco-administrativo',
+        loadComponent: () => import('./features/registro-preco-administrativo/registro-preco-administrativo.component').then((c) => c.RegistroPrecoAdministrativoComponent)
+    },
+    {
         path: 'transferencia-recursos',
         loadComponent: () => import('./features/transferencia-recursos/transferencia-recursos.component').then((c) => c.TransferenciaRecursosComponent)
+    },
+    {
+        path: 'transferencia-recursos-administrativo',
+        loadComponent: () => import('./features/transferencia-recursos-administrativo/transferencia-recursos-administrativo.component').then((c) => c.TransferenciaRecursosAdministrativoComponent)
+    },
+    {
+        path: 'noticias-administrativo',
+        loadComponent: () => import('./features/noticias-administrativo/noticias-administrativo.component').then((c) => c.NoticiasAdministrativoComponent)
     },
 ];

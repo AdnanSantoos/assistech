@@ -7,19 +7,18 @@ import { LayoutFormsAdmComponent } from '../../shared/containers/layout-forms-ad
 import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'app-patrimonios-publicos-administrativo',
+  selector: 'app-registro-preco-administrativo',
   standalone: true,
-  imports: [
-    CommonModule,
+  imports: [CommonModule,
     ReactiveFormsModule,
     MatIconModule,
     MatButtonModule,
-    LayoutFormsAdmComponent
-  ],
-  templateUrl: './patrimonios-publicos-administrativo.component.html',
-  styleUrls: ['./patrimonios-publicos-administrativo.component.scss']
+    LayoutFormsAdmComponent],
+  templateUrl: './registro-preco-administrativo.component.html',
+  styleUrl: './registro-preco-administrativo.component.scss'
 })
-export class PatrimoniosPublicosAdministrativoComponent {
+export class RegistroPrecoAdministrativoComponent {
+
   filtroForm: FormGroup;
   dynamicFields: any[];
 
@@ -33,9 +32,10 @@ export class PatrimoniosPublicosAdministrativoComponent {
     });
 
     this.dynamicFields = [
-      { name: 'titulo', type: 'text', label: 'Título' },
-      { name: 'orgao', type: 'text', label: 'Órgão' },
-      { name: 'observacao', type: 'text', label: 'Observação' },
+      { name: 'modalidade', type: 'text', label: 'modalidade' },
+      { name: 'numeroDoPedido', type: 'text', label: 'Nº da licitação' },
+      { name: 'ano', type: 'text', label: 'Ano' },
+      { name: 'objeto', type: 'text', label: 'objeto' },
       { name: 'file', type: 'file', fileType: 'complex', label: '' }
     ];
   }

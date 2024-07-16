@@ -7,19 +7,18 @@ import { LayoutFormsAdmComponent } from '../../shared/containers/layout-forms-ad
 import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'app-patrimonios-publicos-administrativo',
+  selector: 'app-transferencia-recursos-administrativo',
   standalone: true,
-  imports: [
-    CommonModule,
+  imports: [CommonModule,
     ReactiveFormsModule,
     MatIconModule,
     MatButtonModule,
-    LayoutFormsAdmComponent
-  ],
-  templateUrl: './patrimonios-publicos-administrativo.component.html',
-  styleUrls: ['./patrimonios-publicos-administrativo.component.scss']
+    LayoutFormsAdmComponent],
+  templateUrl: './transferencia-recursos-administrativo.component.html',
+  styleUrl: './transferencia-recursos-administrativo.component.scss'
 })
-export class PatrimoniosPublicosAdministrativoComponent {
+export class TransferenciaRecursosAdministrativoComponent {
+
   filtroForm: FormGroup;
   dynamicFields: any[];
 
@@ -33,10 +32,14 @@ export class PatrimoniosPublicosAdministrativoComponent {
     });
 
     this.dynamicFields = [
-      { name: 'titulo', type: 'text', label: 'Título' },
-      { name: 'orgao', type: 'text', label: 'Órgão' },
-      { name: 'observacao', type: 'text', label: 'Observação' },
-      { name: 'file', type: 'file', fileType: 'complex', label: '' }
+      { name: 'nome', type: 'text', label: 'Nome' },
+      {
+        name: 'tipoDeTransferencia', type: 'select', label: 'tipo de transferência', options: [
+          { value: 'categoria1', label: 'Categoria 1' },
+          { value: 'categoria2', label: 'Categoria 2' },
+          { value: 'categoria3', label: 'Categoria 3' }
+        ]
+      }, { name: 'file', type: 'file', fileType: 'complex', label: '' }
     ];
   }
 

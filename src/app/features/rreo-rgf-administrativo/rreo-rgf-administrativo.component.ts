@@ -5,21 +5,19 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { LayoutFormsAdmComponent } from '../../shared/containers/layout-forms-adm/layout-forms-adm.component';
 import { ReactiveFormsModule } from '@angular/forms';
-
 @Component({
-  selector: 'app-patrimonios-publicos-administrativo',
+  selector: 'app-rreo-rgf-administrativo',
   standalone: true,
-  imports: [
-    CommonModule,
+  imports: [CommonModule,
     ReactiveFormsModule,
     MatIconModule,
     MatButtonModule,
-    LayoutFormsAdmComponent
-  ],
-  templateUrl: './patrimonios-publicos-administrativo.component.html',
-  styleUrls: ['./patrimonios-publicos-administrativo.component.scss']
+    LayoutFormsAdmComponent],
+  templateUrl: './rreo-rgf-administrativo.component.html',
+  styleUrl: './rreo-rgf-administrativo.component.scss'
 })
-export class PatrimoniosPublicosAdministrativoComponent {
+export class RreoRgfAdministrativoComponent {
+
   filtroForm: FormGroup;
   dynamicFields: any[];
 
@@ -33,9 +31,11 @@ export class PatrimoniosPublicosAdministrativoComponent {
     });
 
     this.dynamicFields = [
-      { name: 'titulo', type: 'text', label: 'Título' },
-      { name: 'orgao', type: 'text', label: 'Órgão' },
-      { name: 'observacao', type: 'text', label: 'Observação' },
+      { name: 'tipoDeRelatorio', type: 'text', label: 'Tipo de relatório' },
+      { name: 'anoDeReferencia', type: 'text', label: 'Ano de Referência' },
+      { name: 'file', type: 'file', fileType: 'simple', label: 'anexo' },
+      { name: 'período', type: 'text', label: 'Período' },
+      { name: 'data', type: 'text', label: 'data' },
       { name: 'file', type: 'file', fileType: 'complex', label: '' }
     ];
   }

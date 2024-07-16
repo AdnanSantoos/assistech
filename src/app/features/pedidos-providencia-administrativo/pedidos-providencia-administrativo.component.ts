@@ -38,7 +38,7 @@ export class PedidosProvidenciaAdministrativoComponent {
       { name: 'vereador', type: 'text', label: 'Vereador' },
       { name: 'anoDoPedido', type: 'text', label: 'Ano do Pedido' },
       { name: 'conteudo', type: 'textarea', label: 'Conteúdo' },
-      { name: 'file', type: 'file', fileType: 'complex', label: 'Arquivo' }
+      { name: 'file', type: 'file', fileType: 'complex', label: '' }
     ];
   }
 
