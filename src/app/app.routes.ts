@@ -190,7 +190,7 @@ export const routes: Routes = [
     {
         path: 'menu-administrativo',
         loadComponent: () => import('./features/menu-administrativo/menu-administrativo.component').then((c) => c.MenuAdministrativoComponent)
-    }, 
+    },
     {
         path: 'menu-pncp-administrativo',
         loadComponent: () => import('./features/menu-pncp-administrativo/menu-pncp-administrativo.component').then((c) => c.MenuPncpAdministrativoComponent)
@@ -222,6 +222,10 @@ export const routes: Routes = [
     {
         path: 'pedidos-providencia-administrativo',
         loadComponent: () => import('./features/pedidos-providencia-administrativo/pedidos-providencia-administrativo.component').then((c) => c.PedidosProvidenciaAdministrativoComponent)
+    },
+    {
+        path: 'publicar-diario-oficial-administrativo',
+        loadComponent: () => import('./features/publicar-diario-oficial-administrativo/publicar-diario-oficial-administrativo.component').then((c) => c.PublicarDiarioOficialAdministrativoComponent)
     },
     {
         path: 'rreo-rgf',
