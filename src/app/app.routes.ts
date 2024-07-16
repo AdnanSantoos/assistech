@@ -200,6 +200,10 @@ export const routes: Routes = [
         loadComponent: () => import('./features/menu-diario-oficial-administrativo/menu-diario-oficial-administrativo.component').then((c) => c.MenuDiarioOficialAdministrativoComponent)
     },
     {
+        path: 'gerenciador-diario-oficial-administrativo',
+        loadComponent: () => import('./features/gerenciador-diario-oficial-administrativo/gerenciador-diario-oficial-administrativo.component').then((c) => c.GerenciadorDiarioOficialAdministrativoComponent)
+    },
+    {
         path: 'oficio',
         loadComponent: () => import('./features/oficio/oficio.component').then((c) => c.OficioComponent)
     },
