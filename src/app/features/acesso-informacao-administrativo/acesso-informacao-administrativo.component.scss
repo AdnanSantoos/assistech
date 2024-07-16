@@ -70,7 +70,10 @@
 
     }
 }
+.container-fluid{
+    padding-left: 0;
 
+}
 @media (max-width: 768px) {
     .buttons {
         padding: 0px !important;
