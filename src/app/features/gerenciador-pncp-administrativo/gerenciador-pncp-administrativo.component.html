@@ -1,1 +1,58 @@
-<p>gerenciador-pncp-administrativo works!</p>
+<div class="bkg-administrativo">
+    <div class="container">
+        <h1>GERENCIADOR DE PNCP</h1>
+        <div class="d-flex justify-content-center">
+            <div class="button-voltar" routerLink="/menu-diario-oficial-administrativo">
+                Voltar
+            </div>
+            <p class="text-center">
+                Essa é a lista de documentos cadastrados até o momento, <br> não encontrou o seu aqui? Entre em contato
+                com a Assistech
+            </p>
+        </div>
+        <div class="gerenciador-content">
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr class="bold">
+                            <th>Nº SEQ</th>
+                            <th>CONTRATO PNCP Nº</th>
+                            <th>Nº PROCESSO</th>
+                            <th>ORGÃO</th>
+                            <th>CRIADO EM</th>
+                            <th>AÇÕES</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let doc of documents">
+                            <td>{{ doc.numSeq }}</td>
+                            <td>{{ doc.contratoPNCP }}</td>
+                            <td>{{ doc.numProc }}</td>
+                            <td>{{ doc.orgao }}</td>
+                            <td><button class="btn-attach">VISUALIZAR</button></td>
+                            <td>
+                                <div class="actions">
+                                    <div class="btn-action">
+                                        <div class="eye"></div>
+                                    </div>
+                                    <div class="btn-action">
+                                        <div class="edit"></div>
+                                    </div>
+                                    <div class="btn-action">
+                                        <div class="folder"></div>
+                                    </div>
+                                    <div class="btn-action ">
+                                        <div class="clipboard"></div>
+                                    </div>
+                                    <div class="btn-action red">
+                                        <div class="bin"></div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

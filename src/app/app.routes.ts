@@ -204,6 +204,10 @@ export const routes: Routes = [
         loadComponent: () => import('./features/gerenciador-diario-oficial-administrativo/gerenciador-diario-oficial-administrativo.component').then((c) => c.GerenciadorDiarioOficialAdministrativoComponent)
     },
     {
+        path: 'gerenciador-pncp-administrativo',
+        loadComponent: () => import('./features/gerenciador-pncp-administrativo/gerenciador-pncp-administrativo.component').then((c) => c.GerenciadorPncpAdministrativoComponent)
+    },
+    {
         path: 'oficio',
         loadComponent: () => import('./features/oficio/oficio.component').then((c) => c.OficioComponent)
     },
