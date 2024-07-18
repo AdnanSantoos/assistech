@@ -1,3 +1,4 @@
+import { DiarioOficialAnosComponent } from './features/diario-oficial/containers/diario-oficial-anos/diario-oficial-anos.component';
 import { IndicacoesDeliberacoesAdministrativoComponent } from './features/indicacoes-deliberacoes-administrativo/indicacoes-deliberacoes-administrativo.component';
 import { Routes } from '@angular/router';
 
@@ -118,6 +119,10 @@ export const routes: Routes = [
     {
         path: 'diario-oficial',
         loadComponent: () => import('./features/diario-oficial/diario-oficial.component').then((c) => c.DiarioOficialComponent)
+    },
+    {
+        path: 'diario-oficial-anos',
+        loadComponent: () => import('./features/diario-oficial/containers/diario-oficial-anos/diario-oficial-anos.component').then((c) => c.DiarioOficialAnosComponent)
     },
     {
         path: 'dados-da-frota-administrativo',
