@@ -125,6 +125,14 @@ export const routes: Routes = [
         loadComponent: () => import('./features/diario-oficial/containers/diario-oficial-anos/diario-oficial-anos.component').then((c) => c.DiarioOficialAnosComponent)
     },
     {
+        path: 'diario-oficial-listagem',
+        loadComponent: () => import('./features/diario-oficial/containers/diario-oficial-listagem/diario-oficial-listagem.component').then((c) => c.DiarioOficialListagemComponent)
+    },
+    {
+        path: 'diario-oficial-visualizacao',
+        loadComponent: () => import('./features/diario-oficial/containers/diario-oficial-visualizacao/diario-oficial-visualizacao.component').then((c) => c.DiarioOficialVisualizacaoComponent)
+    },
+    {
         path: 'dados-da-frota-administrativo',
         loadComponent: () => import('./features/dados-da-frota-administrativo/dados-da-frota-administrativo.component').then((c) => c.DadosDaFrotaAdministrativoComponent)
     },

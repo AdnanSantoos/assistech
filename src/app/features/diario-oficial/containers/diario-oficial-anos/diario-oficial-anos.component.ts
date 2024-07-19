@@ -4,7 +4,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { DiarioOficialLayoutComponent } from '../diario-oficial-layout/diario-oficial-layout.component';
 
 @Component({
   selector: 'app-diario-oficial-anos',
@@ -15,7 +16,8 @@ import { RouterLink } from '@angular/router';
     MatFormFieldModule,
     MatSelectModule,
     RouterLink,
-    MatButtonModule
+    MatButtonModule,
+    DiarioOficialLayoutComponent
   ],
   templateUrl: './diario-oficial-anos.component.html',
   styleUrls: ['./diario-oficial-anos.component.scss']
@@ -28,7 +30,8 @@ export class DiarioOficialAnosComponent {
     'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
   ];
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private router: Router,
+    private route: ActivatedRoute) {
     const currentYear = new Date().getFullYear();
     for (let year = currentYear; year >= 2000; year--) {
       this.anos.push(year);
@@ -40,7 +43,9 @@ export class DiarioOficialAnosComponent {
     });
   }
 
-  onFormSubmit() {
+  onFormSubmit(): void {
     console.log(this.filtroForm.value);
+    this.router.navigate(['/diario-oficial-listagem']);
   }
+
 }

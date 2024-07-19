@@ -1,0 +1,39 @@
+.visualizacao-container {
+    .breadcrumb {
+        padding: 10px 15px;
+        border-radius: 0.375rem;
+        margin-bottom: 20px;
+
+        .breadcrumb-item {
+            font-size: 18.3px;
+            font-weight: 700;
+            line-height: 22.42px;
+            text-align: left;
+            color: #225EC9;
+            a{
+                text-decoration: none;
+            }
+        }
+
+        .breadcrumb-item+.breadcrumb-item::before {
+            content: '>';
+            color: #225EC9;
+        }
+    }
+
+    .header {
+        margin-bottom: 20px;
+
+        .header-icons {
+            button {
+                margin-left: 10px;
+            }
+        }
+    }
+
+    .document-preview {
+        iframe {
+            border: none;
+        }
+    }
+}
