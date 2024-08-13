@@ -46,7 +46,7 @@ form {
   }
 
   select::after {
-    content: '\25BC';
+    content: "\25BC";
     position: absolute;
     top: calc(50% - 10px);
     right: 12px;
@@ -82,7 +82,8 @@ form {
     cursor: pointer;
 
     .bkg-button {
-      background: url('../../../../assets/sem_categoria/solte_arquivo.png') no-repeat center center;
+      background: url("../../../../assets/sem_categoria/solte_arquivo.png")
+        no-repeat center center;
       background-size: contain;
       width: 100%;
       height: 175px;
@@ -173,7 +174,109 @@ form {
     margin-top: 10px;
     margin-bottom: 20px;
   }
+  .container-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #333;
+    max-width: 533px;
+    max-height: 79.9px;
+    padding: 19.23px 83px 19.67px 83px;
+    border-radius: 18px;
+    border: 2.66px solid #5e5e5e;
+    .label-text {
+      label {
+        margin-top: 0px;
+      }
+    }
+  }
 
+  .label-text {
+    font-weight: bold;
+  }
+
+  /* The switch - the box around the slider */
+  .switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+    margin-top: 0px;
+  }
+
+  /* Hide default HTML checkbox */
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  /* The slider */
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: 0.4s;
+    transition: 0.4s;
+    width: 60px;
+    border-radius: 8px;
+    border: 2.66px solid #5e5e5e;
+  }
+
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    top: 2px;
+    background-color: white;
+    -webkit-transition: 0.4s;
+    transition: 0.4s;
+    border: 2.66px solid #5e5e5e;
+  }
+
+  input:checked + .slider {
+    background-color: #774343;
+  }
+
+  input:focus + .slider {
+    box-shadow: 0 0 1px #5e5e5e;
+  }
+
+  input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+  }
+
+  /* Rounded sliders */
+  .slider.round {
+    border-radius: 34px;
+  }
+
+  .slider.round:before {
+    border-radius: 50%;
+  }
+  .obrigatorio-simple {
+    display: none;
+    font-size: 10px;
+    font-weight: 400;
+    color: #852D2D;
+    font-style: italic;
+  }
+  .obrigatorio-complex {
+    display: none;
+    font-size: 10px;
+    font-weight: 400;
+    color: #852D2D;
+    font-style: italic;
+
+  }
   @media (max-width: 768px) {
     .form-grid {
       display: flex;

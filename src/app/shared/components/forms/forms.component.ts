@@ -15,10 +15,10 @@ import { MatInputModule } from '@angular/material/input';
     MatInputModule,
     MatFormFieldModule,
     ReactiveFormsModule,
-    CommonModule
+    CommonModule,
   ],
   templateUrl: './forms.component.html',
-  styleUrls: ['./forms.component.scss']
+  styleUrls: ['./forms.component.scss'],
 })
 export class FormsComponent implements OnInit {
   @Input() dynamicFields: any[] = [];
@@ -30,10 +30,11 @@ export class FormsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.dynamicFields.forEach(field => {
+    this.dynamicFields.forEach((field) => {
       if (field.type === 'file' && field.fileType === 'simple') {
         this.form.addControl(field.name, this.fb.control(null));
-      } else if (field.type === 'file' && field.fileType === 'complex') {
+      } else if (field.type === 'checkbox') {
+        this.form.addControl(field.name, this.fb.control(false)); // Inicializando com booleano
       } else {
         this.form.addControl(field.name, this.fb.control(''));
       }
@@ -44,7 +45,7 @@ export class FormsComponent implements OnInit {
     if (event.target.files.length > 0) {
       const file = event.target.files[0];
       this.form.patchValue({
-        [fieldName]: file
+        [fieldName]: file,
       });
     }
   }
