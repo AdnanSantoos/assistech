@@ -314,10 +314,24 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'adicionar-unidades-administrativo',
+    loadComponent: () =>
+      import('./features/adicionar-unidades-administrativo/adicionar-unidades-administrativo.component').then(
+        (c) => c.AdicionarUnidadesAdministrativoComponent
+      ),
+  },
+  {
     path: 'orgao-administrativo',
     loadComponent: () =>
       import('./features/orgao-administrativo/orgao-administrativo.component').then(
         (c) => c.OrgaoAdministrativoComponent
+      ),
+  },
+  {
+    path: 'unidades-administrativo',
+    loadComponent: () =>
+      import('./features/unidades-administrativo/unidades-administrativo.component').then(
+        (c) => c.UnidadesAdministrativoComponent
       ),
   },
   {
