@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment';
-import { DiarioOficial } from '../models/diario-oficial.model';
+import { DiarioOficialPublico } from '../models/diario-oficial.model';
 @Injectable({
   providedIn: 'root',
 })
@@ -15,17 +15,13 @@ export class DiarioRepository {
   }
   //Final - De acordo com swagger diario oficial/publicações
 
-
-
   //Inicio - De acordo com swagger diario oficial/público
-  getDiarioPublicoOficial() {
-    return this._http.get(
-      `${environment.apiUrl}/${environment.tenant}/official-gazettes/${environment.tenant}`
-    );
+  getDiarioPublicoPorData(ano:string,mes:number) {
+    return this._http.get(`${environment.apiUrl}/public/admin/official-gazettes?year=${ano}&month=${mes}`);
   }
 
   getDiarioPublico() {
-    return this._http.get(`${environment.apiUrl}/public`);
+    return this._http.get<DiarioOficialPublico>(`${environment.apiUrl}/public/${environment.tenant}`);
   }
 
   getDiarioPublicoEntidade() {

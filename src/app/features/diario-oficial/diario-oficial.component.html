@@ -10,10 +10,10 @@
                         <p>Escolha o ano que deseja realizar a sua pesquisa:</p>
                     </div>
                     <div class="buttons w-100 d-flex justify-content-center">
-                        <ng-container *ngFor="let content of button">
-                            <a class="button" [routerLink]="[content.link]" class="btn-padrao__hover button-acessos">
+                        <ng-container *ngFor="let content of listaAnos">
+                            <a class="button" [routerLink]="'/diario-oficial-anos'" class="btn-padrao__hover button-acessos">
                                 <div class="btn-padrao__perfil-icon"></div>
-                                <div class="btn-padrao__text">{{ content.name }}</div>
+                                <div class="btn-padrao__text">{{ content }}</div>
                             </a>
                         </ng-container>
                     </div>

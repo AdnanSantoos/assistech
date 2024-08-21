@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { DiarioOficial } from './models/diario-oficial.model';
 import { DiarioOficialService } from './services/diario-oficial.service';
+import { DiarioOficialPublico } from './models/diario-oficial.model';
 @Component({
   selector: 'app-diario-oficial',
   standalone: true,
@@ -25,57 +25,27 @@ export class DiarioOficialComponent implements OnInit {
       link: '/diario-oficial-anos'
     },
   ];
-  noticias: DiarioOficial[] = [];
-  diario: any;
+  listaAnos!: number[];
 
-  constructor(private diarioOficialService: DiarioOficialService) {}
+  constructor(private diarioOficialService: DiarioOficialService) { }
 
   ngOnInit(): void {
-    this.diarioOficialService.getDiarioPublicacoes().subscribe(
-      (data) => {
-        this.noticias = data;
-        console.log('Notícias recebidas:', this.noticias);
+    this.diarioOficialService.getDiarioPublico().subscribe({
+      next: (value: DiarioOficialPublico) => {
+        this.listaAnos = this.gerarAnosAteAtual(value.data.year)
       },
-      (error) => {
-        console.error('Erro ao buscar notícias:', error);
-      }
-    );
+      error: (err) => {
+        console.log(err)
+      },
+    })
+  }
 
-    this.diarioOficialService.getDiario().subscribe(
-      (data) => {
-        this.diario = data;
-        console.log('Diário Oficial:', this.diario);
-      },
-      (error) => {
-        console.error('Erro ao buscar diário oficial:', error);
-      }
-    );
-
-    this.diarioOficialService.getDiarioPublicoOficial().subscribe(
-      (data) => {
-        console.log('Diário Público Oficial:', data);
-      },
-      (error) => {
-        console.error('Erro ao buscar diário público oficial:', error);
-      }
-    );
-
-    this.diarioOficialService.getDiarioPublico().subscribe(
-      (data) => {
-        console.log('Diário Público:', data);
-      },
-      (error) => {
-        console.error('Erro ao buscar diário público:', error);
-      }
-    );
-
-    this.diarioOficialService.getDiarioPublicoEntidade().subscribe(
-      (data) => {
-        console.log('Diário Público Entidade:', data);
-      },
-      (error) => {
-        console.error('Erro ao buscar diário público entidade:', error);
-      }
-    );
+  gerarAnosAteAtual(anoInicial: number) {
+    const anoAtual = new Date().getFullYear();
+    let anos = [];
+    for (let ano = anoInicial; ano <= anoAtual; ano++) {
+      anos.push(ano);
+    }
+    return anos;
   }
 }
