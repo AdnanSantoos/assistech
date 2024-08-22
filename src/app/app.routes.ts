@@ -209,6 +209,13 @@ export const routes: Routes = [
       ).then((c) => c.DiarioOficialAnosComponent),
   },
   {
+    path: 'diario-oficial-anos/:year',
+    loadComponent: () =>
+      import(
+        './features/diario-oficial/containers/diario-oficial-anos/diario-oficial-anos.component'
+      ).then((c) => c.DiarioOficialAnosComponent),
+  },
+  {
     path: 'diario-oficial-listagem',
     loadComponent: () =>
       import(

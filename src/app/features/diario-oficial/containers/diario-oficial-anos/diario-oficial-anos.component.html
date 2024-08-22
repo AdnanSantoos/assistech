@@ -1,17 +1,17 @@
 <app-diario-oficial-layout>
-    <div class="right-column" app-filtro-diario>
-        <div class="form-container">
-            <div class="form-title">SELECIONE O MÊS DE SUA PESQUISA:</div>
-            <form [formGroup]="filtroForm" (click)="onFormSubmit()">
-                <mat-form-field>
-                    <mat-label>Mês</mat-label>
-                    <mat-select formControlName="mes">
-                        <mat-option *ngFor="let mes of meses" [value]="mes">
-                            {{ mes }}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </form>
-        </div>
+  <div class="right-column" app-filtro-diario>
+    <div class="form-container">
+      <div class="form-title">SELECIONE O MÊS DE SUA PESQUISA:</div>
+      <form [formGroup]="filtroForm" (ngSubmit)="onFormSubmit()">
+        <mat-form-field>
+          <mat-label>Mês</mat-label>
+          <mat-select formControlName="mes">
+            <mat-option *ngFor="let mes of meses" [value]="mes">
+              {{ mes }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </form>
     </div>
+  </div>
 </app-diario-oficial-layout>

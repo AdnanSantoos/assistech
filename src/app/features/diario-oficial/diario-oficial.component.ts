@@ -11,20 +11,7 @@ import { DiarioOficialPublico } from './models/diario-oficial.model';
   styleUrl: './diario-oficial.component.scss'
 })
 export class DiarioOficialComponent implements OnInit {
-  button = [
-    {
-      name: '2022',
-      link: '/diario-oficial-anos'
-    },
-    {
-      name: '2023',
-      link: '/diario-oficial-anos'
-    },
-    {
-      name: '2024',
-      link: '/diario-oficial-anos'
-    },
-  ];
+
   listaAnos!: number[];
 
   constructor(private diarioOficialService: DiarioOficialService) { }

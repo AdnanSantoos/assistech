@@ -6,6 +6,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { DiarioOficialLayoutComponent } from '../diario-oficial-layout/diario-oficial-layout.component';
+import { DadosDiarioOficialPublico } from '../../models/diario-oficial.model';
+import { DiarioOficialService } from '../../services/diario-oficial.service';
 
 @Component({
   selector: 'app-diario-oficial-anos',
@@ -25,27 +27,43 @@ import { DiarioOficialLayoutComponent } from '../diario-oficial-layout/diario-of
 export class DiarioOficialAnosComponent {
   filtroForm: FormGroup;
   anos: number[] = [];
-  meses: string[] = [
-    'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
-    'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
-  ];
+  meses: string[] = [];
+  diarioData!: DadosDiarioOficialPublico[];
 
-  constructor(private fb: FormBuilder, private router: Router,
-    private route: ActivatedRoute) {
-    const currentYear = new Date().getFullYear();
-    for (let year = currentYear; year >= 2000; year--) {
-      this.anos.push(year);
-    }
-
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private route: ActivatedRoute,
+    private diarioOficialService: DiarioOficialService
+  ) {
     this.filtroForm = this.fb.group({
-      ano: [currentYear],
-      mes: ['Janeiro']
+      ano: [new Date().getFullYear()],
+      mes: ['']
     });
+
+    this.diarioOficialService.getDiarioPublico().subscribe({
+      next: (data) => {
+        const diarioData = data.data;
+        this.diarioData = [diarioData];
+        this.initializeAnos();
+        this.onAnoChange(this.filtroForm.value.ano);
+      },
+      error: (err) => console.log(err)
+    });
+  }
+
+  private initializeAnos(): void {
+    const anos = this.diarioData.map(d => d.year);
+    this.anos = [...new Set(anos)];
+  }
+
+  private onAnoChange(selectedAno: number): void {
+    const publicacoes = this.diarioData.filter(d => d.year === selectedAno);
+    this.meses = publicacoes.map(d => d.first_publication);
   }
 
   onFormSubmit(): void {
     console.log(this.filtroForm.value);
     this.router.navigate(['/diario-oficial-listagem']);
   }
-
 }
