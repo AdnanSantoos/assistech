@@ -1,80 +1,138 @@
-.bkg-diario {
-    color: #fff;
-    font-style: normal;
-    line-height: 122.487%;
+.bkg-diario-novo {
+  color: #fff;
+  font-style: normal;
+  line-height: 122.487%;
+  text-align: center;
+  height: 100vh;
+  input {
+    border: none;
+    padding: 13px 33px;
+    border-radius: 12px;
+    margin-top: 5px;
     text-align: center;
+  }
 
-    .titulo {
-        margin-top: 50px;
-        font-size: 46.759px;
-        font-weight: 800;
-        text-transform: uppercase;
+  input::placeholder {
+    color: #225ec980;
+    font-size: 16px;
+  }
+
+  input:placeholder-shown {
+    text-align: center;
+  }
+  .custom-file-input {
+    position: relative;
+    width: 100%;
+    text-align: center;
+    cursor: pointer;
+  }
+
+  .custom-file-input input[type="file"] {
+    width: 100%;
+    padding: 13px 33px;
+    border-radius: 12px;
+    margin-top: 5px;
+    opacity: 0;
+    position: absolute;
+    left: 0;
+    top: 0;
+    cursor: pointer;
+  }
+
+  .custom-file-input label {
+    display: inline-block;
+    width: 100%;
+    padding: 13px 33px;
+    border-radius: 12px;
+    margin-top: 5px;
+    background-color: #fff;
+    color: #225ec980;
+    font-size: 16px;
+    text-align: center;
+    cursor: pointer;
+    border: none;
+  }
+
+  .custom-file-input input[type="file"]:focus + label {
+    border-color: #225ec9;
+    cursor: pointer;
+  }
+
+  button {
+    border: 3px solid #fff;
+    padding: 13px 33px;
+    border-radius: 12px;
+    background: transparent;
+    color: #fff;
+    text-align: center;
+    text-transform: uppercase;
+    max-height: 45px;
+  }
+  .titulo {
+    margin-top: 50px;
+    font-size: 46.759px;
+    font-weight: 800;
+    text-transform: uppercase;
+  }
+
+  .subtitulo {
+    font-size: 21.72px;
+    font-weight: 600;
+    line-height: 26.61px;
+    text-align: center;
+  }
+
+  .buttons {
+    gap: 16px;
+    flex-wrap: wrap;
+    padding-top: 40px;
+    padding: 80px;
+
+    .btn-padrao__hover {
+      width: 251px;
+      height: 244px;
+      max-height: 100%;
+      padding: 12.493px;
+      justify-content: center;
+      align-items: center;
+      align-content: center;
+      display: flex;
+      flex-direction: column;
+      gap: 16.104px;
+      flex-shrink: 0;
+      flex-wrap: wrap;
+
+      .btn-padrao__perfil-icon {
+        width: 30.003px;
+        height: 35.458px;
+        background-size: cover;
+        background-image: url("../../../assets/icons/perfil-icon-azul.svg");
+      }
+
+      .btn-padrao__text {
+        text-align: center;
+        font-size: 18.421px;
+        font-style: normal;
+        font-weight: 700;
+        color: #225ec9;
+        white-space: normal;
+      }
     }
 
-    .subtitulo {
-        font-size: 15px;
-        font-weight: 600;
+    .btn-padrao__hover:hover {
+      background-color: #225ec9;
+
+      .btn-padrao__text {
+        color: #fff;
+      }
+
+      .btn-padrao__perfil-icon {
+        background-image: url("../../../assets/icons/perfil-icon-branco.svg");
+      }
     }
-
-    .buttons {
-        gap: 16px;
-        flex-wrap: wrap;
-        padding-top: 40px;
-        padding: 80px;
-
-        .btn-padrao__hover {
-            width: 251px;
-            height: 244px;
-            max-height: 100%;
-            padding: 12.493px;
-            justify-content: center;
-            align-items: center;
-            align-content: center;
-            display: flex;
-            flex-direction: column;
-            gap: 16.104px;
-            flex-shrink: 0;
-            flex-wrap: wrap;
-
-            .btn-padrao__perfil-icon {
-                width: 30.003px;
-                height: 35.458px;
-                background-size: cover;
-                background-image: url('../../../assets/icons/perfil-icon-azul.svg');
-
-            }
-
-            .btn-padrao__text {
-                text-align: center;
-                font-size: 18.421px;
-                font-style: normal;
-                font-weight: 700;
-                color: #225EC9;
-                white-space: normal;
-
-            }
-        }
-
-        .btn-padrao__hover:hover {
-            background-color: #225EC9;
-
-            .btn-padrao__text {
-                color: #fff;
-
-            }
-
-            .btn-padrao__perfil-icon {
-
-                background-image: url('../../../assets/icons/perfil-icon-branco.svg');
-
-            }
-
-        }
-
-    }
+  }
 }
 
 .container-fluid {
-    padding-left: 0;
-
+  padding-left: 0;
 }

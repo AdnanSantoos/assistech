@@ -1,24 +1,72 @@
-<div class="bkg-diario">
+<div class="bkg-diario-novo">
   <div class="container-fluid">
-      <div class="row">
-          <div class="col">
-              <div class="d-flex justify-content-center flex-column">
-                  <div class="titulo">
-                      <h1>Diário Oficial</h1>
-                  </div>
-                  <div class="subtitulo">
-                      <p>Escolha o ano que deseja realizar a sua pesquisa:</p>
-                  </div>
-                  <div class="buttons w-100 d-flex justify-content-center">
-                      <ng-container *ngFor="let content of listaAnos">
-                          <a class="button" [routerLink]="'/diario-oficial-anos/' + content" class="btn-padrao__hover button-acessos">
-                              <div class="btn-padrao__perfil-icon"></div>
-                              <div class="btn-padrao__text">{{ content }}</div>
-                          </a>
-                      </ng-container>
-                  </div>
-              </div>
+    <div class="row">
+      <div class="col">
+        <div class="d-flex justify-content-center flex-column">
+          <div class="titulo mb-4">
+            <h1>Diário Oficial</h1>
           </div>
+
+          <div class="container mt-4">
+            <form class="row">
+              <div
+                class="col-md-2 d-flex justify-content-center flex-column align-items-center"
+              >
+                <label>Ano</label>
+                <input class="w-100" type="text" placeholder="ÍNICIO" />
+              </div>
+              <div
+                class="col-md-2 d-flex justify-content-center flex-column align-items-center"
+              >
+                <label>MÊS</label>
+                <input class="w-100" type="text" placeholder="FINAL" />
+              </div>
+              <div
+                class="col-md-3 d-flex justify-content-center flex-column align-items-center"
+              >
+                <div
+                  class="w-100 d-flex justify-content-center flex-column align-items-center"
+                >
+                  <label>EDIÇÃO</label>
+                  <div class="custom-file-input">
+                    <input type="file" id="file-upload" />
+                    <label for="file-upload" class="w-100">SELECIONE</label>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="col-md-3 d-flex justify-content-center flex-column align-items-center"
+              >
+                <label>PALAVRA-CHAVE</label>
+                <input type="text" placeholder="DIGITE O NOME" />
+              </div>
+              <div
+                class="col-md-2 d-flex justify-content-center flex-column align-items-center"
+              >
+                <button class="mt-4">Pesquisar</button>
+              </div>
+            </form>
+          </div>
+
+          <div
+            class="buttons w-100 d-flex justify-content-center flex-column align-items-center"
+          >
+            <div class="subtitulo">
+              <p>Escolha o ano que deseja realizar a sua pesquisa:</p>
+            </div>
+            <ng-container *ngFor="let content of listaAnos">
+              <a
+                class="button"
+                [routerLink]="'/diario-oficial-anos/' + content"
+                class="btn-padrao__hover button-acessos"
+              >
+                <div class="btn-padrao__perfil-icon"></div>
+                <div class="btn-padrao__text">{{ content }}</div>
+              </a>
+            </ng-container>
+          </div>
+        </div>
       </div>
+    </div>
   </div>
 </div>
