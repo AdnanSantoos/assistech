@@ -7,7 +7,7 @@
             <label>Palavra-Chave</label>
             <input
               type="text"
-              formControlName="documentName"
+              formControlName="palavraChave"
               placeholder="DIGITE O NOME DA PALAVRA-CHAVE"
             />
           </div>
@@ -15,7 +15,7 @@
             <label>Período</label>
             <input
               type="text"
-              formControlName="documentName"
+              formControlName="periodoInicial"
               placeholder="ÍNICIO"
             />
           </div>
@@ -23,7 +23,7 @@
             <label>até</label>
             <input
               type="text"
-              formControlName="documentName"
+              formControlName="periodoFinal"
               placeholder="FINAL"
             />
           </div>
@@ -32,7 +32,7 @@
           >
             <label>Edição</label>
             <div class="custom-file-input">
-              <input type="file" id="file-upload" />
+              <input type="file" id="file-upload" formControlName="fileUpload"/>
               <label for="file-upload">SELECIONE</label>
             </div>
           </div>

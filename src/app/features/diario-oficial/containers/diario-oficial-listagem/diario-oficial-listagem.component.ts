@@ -54,7 +54,12 @@ export class DiarioOficialListagemComponent {
 
   constructor(private fb: FormBuilder) {
     this.filterForm = this.fb.group({
-      documentName: ['']
+      palavraChave: [''],
+      periodoInicial: [''],
+      periodoFinal: [''],
+      fileUpload: ['']
+
+
     });
   }
 
