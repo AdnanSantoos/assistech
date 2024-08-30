@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
@@ -22,8 +22,8 @@ import { MatInputModule } from '@angular/material/input';
 })
 export class FormsComponent implements OnInit {
   @Input() dynamicFields: any[] = [];
-
-  form: FormGroup;
+  @Input() form!: FormGroup;
+  @Output() formSubmit = new EventEmitter<void>();
 
   constructor(private fb: FormBuilder) {
     this.form = this.fb.group({});
@@ -34,7 +34,7 @@ export class FormsComponent implements OnInit {
       if (field.type === 'file' && field.fileType === 'simple') {
         this.form.addControl(field.name, this.fb.control(null));
       } else if (field.type === 'checkbox') {
-        this.form.addControl(field.name, this.fb.control(false)); // Inicializando com booleano
+        this.form.addControl(field.name, this.fb.control(false));
       } else {
         this.form.addControl(field.name, this.fb.control(''));
       }
@@ -52,7 +52,7 @@ export class FormsComponent implements OnInit {
 
   onSubmit() {
     if (this.form.valid) {
-      console.log(this.form.value);
+      this.formSubmit.emit();
     }
   }
 }

@@ -42,7 +42,9 @@ export class LayoutFormsAdmComponent implements OnInit {
 
   onSubmit() {
     if (this.form.valid) {
-      this.formSubmit.emit(this.form);
+      this.formSubmit.emit();
+    } else {
+      console.error('Formulário inválido');
     }
   }
 }

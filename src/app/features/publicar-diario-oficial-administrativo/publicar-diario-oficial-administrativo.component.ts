@@ -1,4 +1,3 @@
-// src/app/components/publicar-diario-oficial-administrativo/publicar-diario-oficial-administrativo.component.ts
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { PublicarDiarioOficialService } from './services/publicar-diario-oficial.service';
@@ -20,41 +19,36 @@ import { LayoutFormsAdmComponent } from '../../shared/containers/layout-forms-ad
   styleUrl: './publicar-diario-oficial-administrativo.component.scss'
 })
 export class PublicarDiarioOficialAdministrativoComponent {
-
   filtroForm: FormGroup;
-  dynamicFields!: any[];
+  dynamicFields: any[] = [
+    { name: 'titulo', type: 'text', label: 'Título' },
+    { name: 'descricao', type: 'textarea', label: 'Descrição' },
+    { name: 'data', type: 'text', label: 'Data' },
+    { name: 'file', type: 'file', fileType: 'complex', label: 'Arquivo' }
+  ];
 
   constructor(
     private fb: FormBuilder,
     private _publicarService: PublicarDiarioOficialService
   ) {
-    this.filtroForm = this.fb.group({
-      ataDaSessao: ['', Validators.required],
-      day: ['', Validators.required],
-      month: ['', Validators.required],
-      year: ['', Validators.required],
-      file: [null, Validators.required]
-    });
-    this.dynamicFields = [
-      { name: 'titulo', type: 'text', label: 'titulo' },
-      { name: 'descricao', type: 'textarea', label: 'Descrição' },
-      { name: 'data', type: 'text', label: 'data' },
-      { name: 'file', type: 'file', fileType: 'complex', label: '' }
-    ];
+    this.filtroForm = this.fb.group({});
   }
 
-  onFileChange(event: any) {
-    const file = event.target.files[0];
-    if (file) {
-      this.filtroForm.patchValue({
-        file: file
-      });
-    }
+  ngOnInit() {
+    this.dynamicFields.forEach((field) => {
+      if (field.type === 'file' && field.fileType === 'simple') {
+        this.filtroForm.addControl(field.name, this.fb.control(null));
+      } else if (field.type === 'checkbox') {
+        this.filtroForm.addControl(field.name, this.fb.control(false));
+      } else {
+        this.filtroForm.addControl(field.name, this.fb.control(''));
+      }
+    });
   }
 
   onFormSubmit() {
     if (this.filtroForm.valid) {
-      const formValue: PublicarDiarioOficialModel = this.filtroForm.value;
+      const formValue = this.filtroForm.value;
       this._publicarService.publicarDiarioOficial(formValue);
     } else {
       console.error('Formulário inválido');

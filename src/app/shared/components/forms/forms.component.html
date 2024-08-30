@@ -1,13 +1,8 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
-  <div
-    class="form-grid"
-    [ngClass]="{ 'two-columns': dynamicFields.length > 4 }"
-  >
+  <div class="form-grid" [ngClass]="{ 'two-columns': dynamicFields.length > 4 }">
     <div
       *ngFor="let field of dynamicFields"
-      [ngClass]="{
-        'full-width': field.type === 'file' || field.type === 'title'
-      }"
+      [ngClass]="{ 'full-width': field.type === 'file' || field.type === 'title' }"
     >
       <div *ngIf="field.type === 'title'" class="full-width">
         <h3 class="form-title mt-4">{{ field.label }}</h3>
@@ -36,7 +31,7 @@
         <label>{{ field.label }}</label>
         <select [formControlName]="field.name" class="form-control">
           <option value="" disabled selected hidden>
-            {{ field.placeholder || "Selecione" }}
+            {{ field.placeholder || 'Selecione' }}
           </option>
           <option *ngFor="let option of field.options" [value]="option.value">
             {{ option.label }}
@@ -49,10 +44,10 @@
         class="file-upload-wrapper d-flex flex-wrap justify-content-center"
       >
         <div>
-          <label
-            >{{ field.label }}
-            <h5 class="obrigatorio-complex form-title">(Obrigatório)</h5></label
-          >
+          <label>
+            {{ field.label }}
+            <h5 class="obrigatorio-complex form-title">(Obrigatório)</h5>
+          </label>
         </div>
         <div class="bkg-button">
           <input
@@ -62,10 +57,11 @@
           />
         </div>
       </div>
+
       <div *ngIf="field.type === 'file' && field.fileType === 'complex'">
         <p class="file-upload-instructions">
           Tipos de arquivo aceitos: pdf, Máx. tamanho do arquivo:
-          <strong> 5 MB </strong>, Máx. arquivos: 5
+          <strong>5 MB</strong>, Máx. arquivos: 5
         </p>
       </div>
 
@@ -73,8 +69,8 @@
         *ngIf="field.type === 'file' && field.fileType === 'simple'"
         class="file-upload-wrapper_simple"
       >
-        <label
-          >{{ field.label }}
+        <label>
+          {{ field.label }}
           <h5 class="obrigatorio-simple form-title">(Obrigatório)</h5>
         </label>
         <input
