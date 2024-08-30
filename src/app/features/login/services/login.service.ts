@@ -5,20 +5,23 @@ import { Injectable } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class LoginService {
+  constructor(
+    private _repository: LoginRepository,
+    private _router: Router,
+    private toastr: ToastrService
+  ) {}
 
-  constructor(private _repository:LoginRepository,private _router: Router, private toastr: ToastrService) {}
-
-  public login(form:LoginModel){
+  public login(form: LoginModel) {
     this._repository.login(form).subscribe({
       next: (data) => {
         this._router.navigate(['/menu-administrativo']);
       },
-      error: (err) =>{
-        this.toastr.error(err.error.message,'Ocorreu um erro!');
-      }
+      error: (err) => {
+        this.toastr.error(err.error.message, 'Ocorreu um erro!');
+      },
     });
   }
 }
