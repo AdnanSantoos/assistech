@@ -1,10 +1,12 @@
+// src/app/components/publicar-diario-oficial-administrativo/publicar-diario-oficial-administrativo.component.ts
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { PublicarDiarioOficialService } from './services/publicar-diario-oficial.service';
+import { PublicarDiarioOficialModel } from './models/publicar-diario-oficial.model';
 import { CommonModule } from '@angular/common';
-import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 import { LayoutFormsAdmComponent } from '../../shared/containers/layout-forms-adm/layout-forms-adm.component';
-import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-publicar-diario-oficial-administrativo',
@@ -20,17 +22,19 @@ import { ReactiveFormsModule } from '@angular/forms';
 export class PublicarDiarioOficialAdministrativoComponent {
 
   filtroForm: FormGroup;
-  dynamicFields: any[];
+  dynamicFields!: any[];
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+    private _publicarService: PublicarDiarioOficialService
+  ) {
     this.filtroForm = this.fb.group({
-      ataDaSessao: [''],
-      day: [''],
-      month: [''],
-      year: [''],
-      file: [null]
+      ataDaSessao: ['', Validators.required],
+      day: ['', Validators.required],
+      month: ['', Validators.required],
+      year: ['', Validators.required],
+      file: [null, Validators.required]
     });
-
     this.dynamicFields = [
       { name: 'titulo', type: 'text', label: 'titulo' },
       { name: 'descricao', type: 'textarea', label: 'Descrição' },
@@ -49,6 +53,11 @@ export class PublicarDiarioOficialAdministrativoComponent {
   }
 
   onFormSubmit() {
-    console.log(this.filtroForm.value);
+    if (this.filtroForm.valid) {
+      const formValue: PublicarDiarioOficialModel = this.filtroForm.value;
+      this._publicarService.publicarDiarioOficial(formValue);
+    } else {
+      console.error('Formulário inválido');
+    }
   }
 }
