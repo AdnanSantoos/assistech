@@ -20,7 +20,7 @@ export class PublicarDiarioOficialService {
       next: (response: PublicarDiarioOficialResponse) => {
         if (response.success) {
           this._toastr.success(response.message, 'Publicação realizada com sucesso!');
-          this._router.navigate(['/some-route']); // Navegue para onde for necessário após a publicação
+          // this._router.navigate(['']);
         } else {
           this._toastr.error(response.message, 'Falha na publicação');
         }
