@@ -1,16 +1,17 @@
 import { HttpClient } from '@angular/common/http';
-import { LoginModel } from './../models/login.model';
+import { LoginModel, LoginResponse } from './../models/login.model';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginRepository {
 
-  constructor( private _http:HttpClient) {}
+  constructor(private _http: HttpClient) {}
 
-  login(form:LoginModel){
-    return this._http.post(`${environment.apiUrl}/${environment.tenant}/auth/login`,form)
+  login(form: LoginModel): Observable<LoginResponse> {
+    return this._http.post<LoginResponse>(`${environment.apiUrl}/${environment.tenant}/auth/login`, form);
   }
 }
