@@ -42,13 +42,35 @@ export class FormsComponent implements OnInit {
   }
 
   onFileChange(event: any, fieldName: string) {
-    if (event.target.files.length > 0) {
-      const file = event.target.files[0];
-      this.form.patchValue({
-        [fieldName]: file,
-      });
+    const file = event.target.files[0];
+
+    // Log do arquivo para depuração
+    console.log('Arquivo selecionado:', file);
+
+    // Validação do tipo de arquivo
+    const validFileTypes = ['application/pdf']; // Atualize conforme necessário
+    if (!validFileTypes.includes(file.type)) {
+      console.error('Tipo de arquivo inválido');
+      return;
     }
+
+    // Validação do tamanho do arquivo
+    const maxSizeInMB = 100;
+    const maxSizeInBytes = maxSizeInMB * 1024 * 1024;
+    if (file.size > maxSizeInBytes) {
+      console.error('Tamanho do arquivo excede o limite permitido');
+      return;
+    }
+
+    // Se todas as validações forem aprovadas, adicione o arquivo ao formulário
+    this.form.patchValue({
+      [fieldName]: file
+    });
+
+    this.form.get(fieldName)?.updateValueAndValidity();
   }
+
+
 
   onSubmit() {
     if (this.form.valid) {

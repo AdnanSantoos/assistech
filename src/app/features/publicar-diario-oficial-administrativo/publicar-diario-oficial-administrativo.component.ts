@@ -1,7 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { PublicarDiarioOficialService } from './services/publicar-diario-oficial.service';
-import { PublicarDiarioOficialModel } from './models/publicar-diario-oficial.model';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -16,9 +15,9 @@ import { LayoutFormsAdmComponent } from '../../shared/containers/layout-forms-ad
     MatButtonModule,
     LayoutFormsAdmComponent],
   templateUrl: './publicar-diario-oficial-administrativo.component.html',
-  styleUrl: './publicar-diario-oficial-administrativo.component.scss'
+  styleUrls: ['./publicar-diario-oficial-administrativo.component.scss']
 })
-export class PublicarDiarioOficialAdministrativoComponent {
+export class PublicarDiarioOficialAdministrativoComponent implements OnInit {
   filtroForm: FormGroup;
   dynamicFields: any[] = [
     { name: 'titulo', type: 'text', label: 'Título' },
@@ -31,27 +30,40 @@ export class PublicarDiarioOficialAdministrativoComponent {
     private fb: FormBuilder,
     private _publicarService: PublicarDiarioOficialService
   ) {
+    // Inicialize o FormGroup no construtor
     this.filtroForm = this.fb.group({});
   }
 
   ngOnInit() {
+    // Configure os controles do FormGroup com base nos campos dinâmicos
     this.dynamicFields.forEach((field) => {
-      if (field.type === 'file' && field.fileType === 'simple') {
+      if (field.type === 'file') {
         this.filtroForm.addControl(field.name, this.fb.control(null));
       } else if (field.type === 'checkbox') {
         this.filtroForm.addControl(field.name, this.fb.control(false));
       } else {
-        this.filtroForm.addControl(field.name, this.fb.control(''));
+        this.filtroForm.addControl(field.name, this.fb.control('', field.required ? Validators.required : null));
       }
     });
+  }
+
+  onFileChange(event: any, fieldName: string) {
+    const file = event.target.files[0];
+    this.filtroForm.patchValue({
+      [fieldName]: file
+    });
+    this.filtroForm.get(fieldName)?.updateValueAndValidity();
   }
 
   onFormSubmit() {
     if (this.filtroForm.valid) {
       const formValue = this.filtroForm.value;
+
+      // Chamando o método do serviço que já lida com o subscribe
       this._publicarService.publicarDiarioOficial(formValue);
     } else {
       console.error('Formulário inválido');
     }
   }
+
 }

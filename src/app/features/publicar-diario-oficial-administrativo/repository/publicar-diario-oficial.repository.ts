@@ -13,6 +13,13 @@ export class PublicarDiarioOficialRepository {
 
   publicarDiarioOficial(form: PublicarDiarioOficialModel): Observable<PublicarDiarioOficialResponse> {
     const formData = new FormData();
+
+    // Certifique-se de que a validação aqui está correta
+    if (!(form.file instanceof File)) {
+      console.error('O arquivo fornecido não é uma instância de File.');
+      throw new Error('O arquivo fornecido não é válido.');
+    }
+
     formData.append('ataDaSessao', form.ataDaSessao);
     formData.append('day', form.day);
     formData.append('month', form.month);
@@ -21,4 +28,6 @@ export class PublicarDiarioOficialRepository {
 
     return this._http.post<PublicarDiarioOficialResponse>(`${environment.apiUrl}/${environment.tenant}/diario-oficial/official-gazettes`, formData);
   }
+
+
 }

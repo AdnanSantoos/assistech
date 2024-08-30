@@ -9,13 +9,13 @@
             Voltar
           </div>
           <p class="text-center">
-            Antes de enviar certifique-se de que todas as informações 
-            <br> 
+            Antes de enviar certifique-se de que todas as informações
+            <br>
             preenchidas nos campos abaixo estão corretas!
           </p>
         </div>
         <div class="formulario-component">
-          <app-forms [dynamicFields]="dynamicFields"></app-forms>
+          <app-forms [dynamicFields]="dynamicFields" (formSubmit)="onSubmit()"></app-forms>
         </div>
       </div>
     </div>

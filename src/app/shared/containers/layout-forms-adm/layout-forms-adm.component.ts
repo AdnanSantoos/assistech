@@ -32,11 +32,14 @@ export class LayoutFormsAdmComponent implements OnInit {
   }
 
   onFileChange(event: any, fieldName: string) {
-    if (event.target.files.length > 0) {
-      const file = event.target.files[0];
+    const file = event.target.files[0];
+    if (file) {
       this.form.patchValue({
         [fieldName]: file
       });
+      this.form.get(fieldName)?.updateValueAndValidity();
+    } else {
+      console.error("Nenhum arquivo foi selecionado.");
     }
   }
 

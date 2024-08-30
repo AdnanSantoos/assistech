@@ -54,6 +54,7 @@
             type="file"
             (change)="onFileChange($event, field.name)"
             class="form-control-file"
+            [accept]="field.accept"
           />
         </div>
       </div>
@@ -77,6 +78,7 @@
           type="file"
           (change)="onFileChange($event, field.name)"
           class="form-control-file"
+          [accept]="field.accept"
         />
         <p class="aviso-capacidade">MÁX. Tamanho do arquivo: 100mb.</p>
       </div>
