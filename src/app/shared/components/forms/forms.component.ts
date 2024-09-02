@@ -74,10 +74,6 @@ export class FormsComponent implements OnInit {
     console.log('Arquivo selecionado:', file);
 
     const validFileTypes = ['application/pdf'];
-    if (!validFileTypes.includes(file.type)) {
-      console.error('Tipo de arquivo inválido');
-      return;
-    }
 
     const maxSizeInMB = 100;
     const maxSizeInBytes = maxSizeInMB * 1024 * 1024;

@@ -18,7 +18,6 @@ export class LayoutFormsAdmComponent implements OnInit {
   @Output() formSubmit = new EventEmitter<FormGroup>();
 
   constructor(private fb: FormBuilder) { }
-
   ngOnInit() {
     this.dynamicFields.forEach(field => {
       if (!this.form.contains(field.name)) {
@@ -30,6 +29,7 @@ export class LayoutFormsAdmComponent implements OnInit {
       }
     });
   }
+
 
   onFileChange(event: any, fieldName: string) {
     const file = event.target.files[0];
@@ -45,7 +45,7 @@ export class LayoutFormsAdmComponent implements OnInit {
 
   onSubmit() {
     if (this.form.valid) {
-      this.formSubmit.emit();
+      this.formSubmit.emit(this.form.value); // Emita o valor do formulário
     } else {
       console.error('Formulário inválido');
     }
