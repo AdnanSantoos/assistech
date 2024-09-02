@@ -1,225 +1,238 @@
-@import 'ngx-toastr/toastr';
+@import "ngx-toastr/toastr";
 
 html,
 body {
-    height: 100%;
+  height: 100%;
 }
 
 body {
-    font-family: "Inter", sans-serif !important;
-    transition: all .5s;
-    margin: 0;
+  font-family: "Inter", sans-serif !important;
+  transition: all 0.5s;
+  margin: 0;
 
-    .btn-padrao__hover {
-        background-color: #fff;
-        max-height: 98px;
-        border-radius: 15px;
-        padding: 5px 35px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        cursor: pointer;
-        text-decoration: none;
+  .btn-padrao__hover {
+    background-color: #fff;
+    max-height: 98px;
+    border-radius: 15px;
+    padding: 5px 35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    text-decoration: none;
 
-        .btn-padrao__perfil-icon {
-            background-image: url('/assets/icons/perfil-icon-azul.svg');
-            background-repeat: no-repeat;
-            width: 22px;
-            height: 26px;
-            margin-bottom: 5px;
-        }
-
-        .btn-padrao__text {
-            margin: 0;
-            font-size: 10px;
-            color: #225EC9;
-            text-transform: uppercase;
-            white-space: nowrap;
-            font-weight: 700;
-        }
-
-        &:hover {
-            background-color: #225EC9;
-            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-            transition: background-color 0.3s ease, color 0.3s ease;
-
-            .btn-padrao__perfil-icon {
-                background-image: url('/assets/icons/perfil-icon-branco.svg');
-            }
-
-            .btn-padrao__text {
-                color: #fff;
-            }
-        }
+    .btn-padrao__perfil-icon {
+      background-image: url("/assets/icons/perfil-icon-azul.svg");
+      background-repeat: no-repeat;
+      width: 22px;
+      height: 26px;
+      margin-bottom: 5px;
     }
 
-    .btn-padrao {
-        background-color: #fff;
-        max-height: 98px;
-        border-radius: 15px;
-        padding: 5px 35px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        cursor: pointer;
-        text-decoration: none;
-
+    .btn-padrao__text {
+      margin: 0;
+      font-size: 10px;
+      color: #225ec9;
+      text-transform: uppercase;
+      white-space: nowrap;
+      font-weight: 700;
     }
 
-    .bold {
-        font-weight: 800;
+    &:hover {
+      background-color: #225ec9;
+      box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+      transition: background-color 0.3s ease, color 0.3s ease;
+
+      .btn-padrao__perfil-icon {
+        background-image: url("/assets/icons/perfil-icon-branco.svg");
+      }
+
+      .btn-padrao__text {
+        color: #fff;
+      }
     }
+  }
+
+  .btn-padrao {
+    background-color: #fff;
+    max-height: 98px;
+    border-radius: 15px;
+    padding: 5px 35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    text-decoration: none;
+  }
+
+  .bold {
+    font-weight: 800;
+  }
 }
 
 .btn-padrao__perfil-icon {
-    background-image: url('/assets/icons/perfil-icon-azul.svg');
-    background-repeat: no-repeat;
-    width: 22px;
-    height: 26px;
-    margin-bottom: 5px;
+  background-image: url("/assets/icons/perfil-icon-azul.svg");
+  background-repeat: no-repeat;
+  width: 22px;
+  height: 26px;
+  margin-bottom: 5px;
 }
 
-
 .table {
-    padding: 24px 104px 1px;
-    border-radius: 15px;
-    background: #FFF;
-    box-shadow: 0px 8px 4px 0px rgba(0, 0, 0, 0.25);
+  padding: 24px 104px 1px;
+  border-radius: 15px;
+  background: #fff;
+  box-shadow: 0px 8px 4px 0px rgba(0, 0, 0, 0.25);
 }
 
 .filtro-container {
-    display: flex;
-    justify-content: center;
-    margin-top: 40px;
-    border-radius: 15px;
-    background: #3566F3;
-    padding: 20.5px 30px 19px 15px;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+  border-radius: 15px;
+  background: #3566f3;
+  padding: 20.5px 30px 19px 15px;
+  align-items: center;
 
-    .textos {
-        p {
-            margin: 0;
-        }
+  .textos {
+    p {
+      margin: 0;
     }
+  }
 
-    input {
-        margin-top: 5px;
-        padding: 5px;
-        border-radius: 4px;
-        border: none;
-        width: 200px;
-        margin-left: 10px;
-
-    }
+  input {
+    margin-top: 5px;
+    padding: 5px;
+    border-radius: 4px;
+    border: none;
+    width: 200px;
+    margin-left: 10px;
+  }
 }
 
 .white-space {
-    white-space: nowrap;
+  white-space: nowrap;
 }
 
 .mt-10 {
-    margin-top: 10px;
+  margin-top: 10px;
 }
 
 .bkg-login {
-    background-image: url("../src/assets/bkg/bkg-login.png");
-    background-repeat: no-repeat;
-    background-size: cover;
-    height: 100vh;
+  background-image: url("../src/assets/bkg/bkg-login.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100vh;
 }
 .bkg-diario {
-    background-image: url('../src/assets/bkg/bkg-ata-das-sessoes.png');
-    background-repeat: no-repeat;
-    background-size: cover;
-    height: auto;
-
+  background-image: url("../src/assets/bkg/bkg-ata-das-sessoes.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: auto;
 }
-.bkg-diario-novo{
-  background-image: url('../src/assets/bkg/diario-oficial-bkg-novo.png');
-    background-repeat: no-repeat;
-    background-size: cover;
-    height: auto;
+.bkg-diario-novo {
+  background-image: url("../src/assets/bkg/diario-oficial-bkg-novo.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: auto;
 }
 .bkg-administrativo {
-    background-image: url("../src/assets/bkg/bkg-administrativo.png");
-    background-repeat: no-repeat;
-    background-size: cover;
-    height: auto;
+  background-image: url("../src/assets/bkg/bkg-administrativo.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: auto;
 }
 
 .adm-class .bkg-header {
-    background-image: url("../src/assets/bkg/bkg-header-login.png") !important;
-    background-size: cover !important;
+  background-image: url("../src/assets/bkg/bkg-header-login.png") !important;
+  background-size: cover !important;
 
-    .buttons-header {
-        display: none !important;
+  .buttons-header {
+    display: none !important;
+  }
+
+  .col-md-4 {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+
+    .logo-container {
+      width: 300px;
     }
+  }
 
-    .col-md-4 {
-        width: 100%;
-        display: flex;
-        justify-content: center;
-
-        .logo-container {
-            width: 300px;
-        }
-    }
-
-    .text1,
-    .text2 {
-        color: #000 !important;
-    }
+  .text1,
+  .text2 {
+    color: #000 !important;
+  }
 }
 
 .adm-class footer {
-    background-color: #000 !important;
+  background-color: #000 !important;
 }
 
 .adm-class .latest-news_header {
-    display: none !important;
+  display: none !important;
 }
 
 .adm-class .menu-header {
-    display: none !important;
+  display: none !important;
 }
 
 .home-class .bkg-header {
-    background-image: url("../src/assets/bkg/bkg-header-azul.png") !important;
-    background-size: cover !important;
+  background-image: url("../src/assets/bkg/bkg-header-azul.png") !important;
+  background-size: cover !important;
 }
 
+.data-campo {
+  width: 100%;
+
+  .mat-mdc-form-field-flex {
+    background-color: transparent !important;
+  }
+
+  .mat-mdc-form-field-infix {
+    background-color: transparent !important;
+  }
+
+  .mat-mdc-text-field-wrapper {
+    background-color: transparent !important;
+  }
+
+}
+
+
 @media (max-width: 768px) {
-    label {
-        font-size: 14px !important;
+  label {
+    font-size: 14px !important;
+  }
 
+  .filtro-container {
+    flex-wrap: wrap;
+  }
+
+  form {
+    flex-wrap: wrap;
+  }
+
+  .filtro-container {
+    .ata-da-sessao {
+      font-size: 14px !important;
+      padding-left: 0px !important;
     }
+  }
 
-    .filtro-container {
-        flex-wrap: wrap;
+  .date-inputs {
+    display: flex;
+    gap: 2px;
+
+    input {
+      font-size: 12px !important;
+      width: 35px !important;
+
+      &:nth-child(3) {
+        width: 45px !important;
+      }
     }
-
-    form {
-        flex-wrap: wrap;
-    }
-
-    .filtro-container {
-        .ata-da-sessao {
-            font-size: 14px !important;
-            padding-left: 0px !important;
-        }
-    }
-
-    .date-inputs {
-        display: flex;
-        gap: 2px;
-
-        input {
-            font-size: 12px !important;
-            width: 35px !important;
-
-            &:nth-child(3) {
-                width: 45px !important;
-            }
-        }
-    }
+  }
 }

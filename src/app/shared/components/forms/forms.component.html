@@ -1,8 +1,13 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
-  <div class="form-grid" [ngClass]="{ 'two-columns': dynamicFields.length > 4 }">
+  <div
+    class="form-grid"
+    [ngClass]="{ 'two-columns': dynamicFields.length > 4 }"
+  >
     <div
       *ngFor="let field of dynamicFields"
-      [ngClass]="{ 'full-width': field.type === 'file' || field.type === 'title' }"
+      [ngClass]="{
+        'full-width': field.type === 'file' || field.type === 'title'
+      }"
     >
       <div *ngIf="field.type === 'title'" class="full-width">
         <h3 class="form-title mt-4">{{ field.label }}</h3>
@@ -31,12 +36,31 @@
         <label>{{ field.label }}</label>
         <select [formControlName]="field.name" class="form-control">
           <option value="" disabled selected hidden>
-            {{ field.placeholder || 'Selecione' }}
+            {{ field.placeholder || "Selecione" }}
           </option>
           <option *ngFor="let option of field.options" [value]="option.value">
             {{ option.label }}
           </option>
         </select>
+      </div>
+
+      <!-- Campo Datepicker -->
+      <div *ngIf="field.type === 'date'">
+        <mat-form-field appearance="fill" class="full-width data-campo">
+          <mat-label>{{ field.label }}</mat-label>
+          <input
+            matInput
+            [matDatepicker]="picker"
+            [formControlName]="field.name"
+            [required]="field.required"
+            (focus)="picker.open()"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
       </div>
 
       <div

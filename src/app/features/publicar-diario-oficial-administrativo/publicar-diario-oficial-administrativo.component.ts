@@ -22,7 +22,7 @@ export class PublicarDiarioOficialAdministrativoComponent implements OnInit {
   dynamicFields: any[] = [
     { name: 'titulo', type: 'text', label: 'Título' },
     { name: 'descricao', type: 'textarea', label: 'Descrição' },
-    { name: 'data', type: 'text', label: 'Data' },
+    { name: 'data', type: 'date', label: 'Data' },
     { name: 'file', type: 'file', fileType: 'complex', label: 'Arquivo' }
   ];
 
@@ -30,12 +30,10 @@ export class PublicarDiarioOficialAdministrativoComponent implements OnInit {
     private fb: FormBuilder,
     private _publicarService: PublicarDiarioOficialService
   ) {
-    // Inicialize o FormGroup no construtor
     this.filtroForm = this.fb.group({});
   }
 
   ngOnInit() {
-    // Configure os controles do FormGroup com base nos campos dinâmicos
     this.dynamicFields.forEach((field) => {
       if (field.type === 'file') {
         this.filtroForm.addControl(field.name, this.fb.control(null));
@@ -58,8 +56,6 @@ export class PublicarDiarioOficialAdministrativoComponent implements OnInit {
   onFormSubmit() {
     if (this.filtroForm.valid) {
       const formValue = this.filtroForm.value;
-
-      // Chamando o método do serviço que já lida com o subscribe
       this._publicarService.publicarDiarioOficial(formValue);
     } else {
       console.error('Formulário inválido');
