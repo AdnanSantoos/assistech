@@ -74,24 +74,37 @@ export class FormsComponent implements OnInit {
     console.log('Arquivo selecionado:', file);
 
     const validFileTypes = ['application/pdf'];
-
     const maxSizeInMB = 100;
     const maxSizeInBytes = maxSizeInMB * 1024 * 1024;
+
     if (file.size > maxSizeInBytes) {
       console.error('Tamanho do arquivo excede o limite permitido');
       return;
     }
 
-    this.form.patchValue({
-      [fieldName]: file,
-    });
-
-    this.form.get(fieldName)?.updateValueAndValidity();
+    // Converter arquivo para binário usando FileReader
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.form.patchValue({
+        [fieldName]: reader.result,
+      });
+      this.form.get(fieldName)?.updateValueAndValidity();
+    };
+    reader.readAsArrayBuffer(file); // Lê o arquivo como ArrayBuffer (binário)
   }
 
   onSubmit() {
     if (this.form.valid) {
-      console.log('Dados do formulário:', this.form.value);
+      const formData = { ...this.form.value };
+
+      // Convertendo a data para o formato ISO
+      Object.keys(formData).forEach((key) => {
+        if (this.form.get(key)?.value instanceof Date) {
+          formData[key] = this.form.get(key)?.value.toISOString();
+        }
+      });
+
+      console.log('Dados do formulário:', formData);
 
       this.formSubmit.emit();
     } else {

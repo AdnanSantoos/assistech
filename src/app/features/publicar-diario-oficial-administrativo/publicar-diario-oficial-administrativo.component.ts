@@ -20,10 +20,10 @@ import { LayoutFormsAdmComponent } from '../../shared/containers/layout-forms-ad
 export class PublicarDiarioOficialAdministrativoComponent implements OnInit {
   filtroForm: FormGroup;
   dynamicFields: any[] = [
-    { name: 'titulo', type: 'text', label: 'Título' },
-    { name: 'descricao', type: 'textarea', label: 'Descrição' },
-    { name: 'data', type: 'date', label: 'Data' },
-    { name: 'file', type: 'file', fileType: 'complex', label: 'Arquivo' }
+    // { name: 'titulo', type: 'text', label: 'Título' },
+    { name: 'description', type: 'textarea', label: 'Descrição' },
+    { name: 'date', type: 'date', label: 'Data' },
+    { name: 'files', type: 'file', fileType: 'complex', label: 'Arquivo' }
   ];
 
   constructor(
@@ -47,19 +47,32 @@ export class PublicarDiarioOficialAdministrativoComponent implements OnInit {
 
   onFileChange(event: any, fieldName: string) {
     const file = event.target.files[0];
-    this.filtroForm.patchValue({
-      [fieldName]: file
-    });
-    this.filtroForm.get(fieldName)?.updateValueAndValidity();
+
+    // Converter arquivo para binário usando FileReader
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.filtroForm.patchValue({
+        [fieldName]: reader.result,
+      });
+      this.filtroForm.get(fieldName)?.updateValueAndValidity();
+    };
+    reader.readAsArrayBuffer(file); // Lê o arquivo como ArrayBuffer (binário)
   }
 
   onFormSubmit() {
     if (this.filtroForm.valid) {
-      const formValue = this.filtroForm.value;
+      const formValue = { ...this.filtroForm.value };
+
+      // Convertendo a data para o formato ISO
+      Object.keys(formValue).forEach((key) => {
+        if (this.filtroForm.get(key)?.value instanceof Date) {
+          formValue[key] = this.filtroForm.get(key)?.value.toISOString();
+        }
+      });
+
       this._publicarService.publicarDiarioOficial(formValue);
     } else {
       console.error('Formulário inválido');
     }
   }
-
 }
