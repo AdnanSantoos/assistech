@@ -46,8 +46,8 @@
 
       <!-- Campo Datepicker -->
       <div *ngIf="field.type === 'date'">
+        <label>{{ field.label }}</label>
         <mat-form-field appearance="fill" class="full-width data-campo">
-          <mat-label>{{ field.label }}</mat-label>
           <input
             matInput
             [matDatepicker]="picker"
