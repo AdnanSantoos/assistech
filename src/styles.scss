@@ -5,6 +5,10 @@ body {
   height: 100%;
 }
 
+.toast-container{
+  position: fixed;
+}
+
 body {
   font-family: "Inter", sans-serif !important;
   transition: all 0.5s;
@@ -68,6 +72,15 @@ body {
   .bold {
     font-weight: 800;
   }
+
+  .btn {
+    .spinner-border {
+      margin-left: 12px;
+      font-size: 9px;
+      width: 20px;
+      height: 20px;
+    }
+  }
 }
 
 .btn-padrao__perfil-icon {
@@ -124,18 +137,21 @@ body {
   background-size: cover;
   height: 100vh;
 }
+
 .bkg-diario {
   background-image: url("../src/assets/bkg/bkg-ata-das-sessoes.png");
   background-repeat: no-repeat;
   background-size: cover;
   height: auto;
 }
+
 .bkg-diario-novo {
   background-image: url("../src/assets/bkg/diario-oficial-bkg-novo.png");
   background-repeat: no-repeat;
   background-size: cover;
   height: auto;
 }
+
 .bkg-administrativo {
   background-image: url("../src/assets/bkg/bkg-administrativo.png");
   background-repeat: no-repeat;

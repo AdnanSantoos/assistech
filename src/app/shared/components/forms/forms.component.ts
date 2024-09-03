@@ -103,12 +103,7 @@ export class FormsComponent implements OnInit {
           formData[key] = this.form.get(key)?.value.toISOString();
         }
       });
-
-      console.log('Dados do formulário:', formData);
-
-      this.formSubmit.emit();
-    } else {
-      console.warn('O formulário não é válido. Verifique os campos.');
+      this.formSubmit.emit(formData);
     }
   }
 }

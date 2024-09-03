@@ -15,7 +15,7 @@
           </p>
         </div>
         <div class="formulario-component">
-          <app-forms [dynamicFields]="dynamicFields" (formSubmit)="onSubmit()"></app-forms>
+          <app-forms [dynamicFields]="dynamicFields" (formSubmit)="onSubmit($event)"></app-forms>
         </div>
       </div>
     </div>

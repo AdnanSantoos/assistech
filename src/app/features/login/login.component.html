@@ -23,7 +23,14 @@
                             <a href="#" class="esqueceu-senha">Esqueceu a senha?</a>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-primary" [disabled]="loginForm.invalid">Acessar</button>
+                    <button type="submit" class="btn btn-primary" [disabled]="loginForm.invalid">
+                        Acessar
+                        @if (getLoading()) {
+                            <div class="spinner-border text-light" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        }
+                    </button>
                 </form>
             </div>
         </div>

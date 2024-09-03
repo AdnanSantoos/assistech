@@ -15,9 +15,17 @@ export class LoginService {
     private _toastr: ToastrService
   ) {}
 
+  loading:boolean = false;
+
+  getLoading(){
+    return this.loading;
+  }
+
   public login(form: LoginModel) {
+    this.loading = true;
     this._repository.login(form).subscribe({
       next: (response: LoginResponse) => {
+        this.loading = false;
         const token = response.data.token;
         if (token) {
           localStorage.setItem('authToken', token);
@@ -26,6 +34,7 @@ export class LoginService {
         console.log('data: ', response);
       },
       error: (err: any) => {
+        this.loading = false;
         this._toastr.error(err.error.message, 'Ocorreu um erro!');
       },
     });
