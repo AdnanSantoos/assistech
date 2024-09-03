@@ -221,7 +221,10 @@ body {
   .mdc-line-ripple::before{
     border-bottom-width: 0px !important;
   }
-
+   .mdc-text-field__input {
+    font-size: 25px !important;
+    padding-left: 50px !important;
+   }
 }
 
 
