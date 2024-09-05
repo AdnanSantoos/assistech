@@ -215,6 +215,16 @@ body {
     background-color: transparent !important;
   }
 
+  .mat-mdc-form-field-input-control{
+    height: 80px !important;
+  }
+  .mdc-line-ripple::before{
+    border-bottom-width: 0px !important;
+  }
+   .mdc-text-field__input {
+    font-size: 25px !important;
+    padding-left: 25px !important;
+   }
 }
 
 
