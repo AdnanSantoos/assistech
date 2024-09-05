@@ -65,7 +65,7 @@
 
       <div
         *ngIf="field.type === 'file' && field.fileType === 'complex'"
-        class="file-upload-wrapper d-flex flex-wrap justify-content-center"
+        class="file-upload-wrapper d-flex flex-wrap justify-content-center flex-column"
       >
         <div>
           <label>
@@ -73,7 +73,13 @@
             <h5 class="obrigatorio-complex form-title">(Obrigatório)</h5>
           </label>
         </div>
-        <div class="bkg-button">
+        <div class="upload-container ">
+          <span class="upload-icon"
+            ><img width="70px" src="../../../../assets/icons/icon-upload.svg" alt=""
+          /></span>
+          <div class="upload-text">
+            SOLTE OS ARQUIVOS PARA ENVIAR OU CLIQUE PARA SELECIONAR
+          </div>
           <input
             type="file"
             (change)="onFileChange($event, field.name)"
@@ -125,5 +131,11 @@
       </div>
     </div>
   </div>
-  <button type="submit" [disabled]="!form.valid" class="btn btn-primary mt-10 mt-4">Enviar</button>
+  <button
+    type="submit"
+    [disabled]="!form.valid"
+    class="btn btn-primary mt-10 mt-4"
+  >
+    Enviar
+  </button>
 </form>
