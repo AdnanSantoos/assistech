@@ -13,7 +13,7 @@ import {
 export class PublicarDiarioOficialRepository {
   constructor(private _http: HttpClient) {}
 
-  publicarDiarioOficial(form: PublicarDiarioOficialModel): Observable<PublicarDiarioOficialResponse> {
+  publicarDiarioOficial(form: FormData): Observable<PublicarDiarioOficialResponse> {
     return this._http.post<PublicarDiarioOficialResponse>(`${environment.apiUrl}/${environment.tenant}/diario-oficial/official-gazettes`,form)
   }
 }

@@ -50,6 +50,7 @@ export class FormsComponent implements OnInit {
   @Input() dynamicFields: any[] = [];
   @Input() form!: FormGroup;
   @Output() formSubmit = new EventEmitter<void>();
+  nameFile:string|null = null;
 
   constructor(private fb: FormBuilder, private dateAdapter: DateAdapter<Date>) {
     this.form = this.fb.group({});
@@ -70,27 +71,12 @@ export class FormsComponent implements OnInit {
 
   onFileChange(event: any, fieldName: string) {
     const file = event.target.files[0];
+    this.nameFile = file.name
+    this.form.patchValue({
+      [fieldName]: file,
+    });
+    this.form.get(fieldName)?.updateValueAndValidity();
 
-    console.log('Arquivo selecionado:', file);
-
-    const validFileTypes = ['application/pdf'];
-    const maxSizeInMB = 100;
-    const maxSizeInBytes = maxSizeInMB * 1024 * 1024;
-
-    if (file.size > maxSizeInBytes) {
-      console.error('Tamanho do arquivo excede o limite permitido');
-      return;
-    }
-
-    // Converter arquivo para binário usando FileReader
-    const reader = new FileReader();
-    reader.onload = () => {
-      this.form.patchValue({
-        [fieldName]: reader.result,
-      });
-      this.form.get(fieldName)?.updateValueAndValidity();
-    };
-    reader.readAsArrayBuffer(file); // Lê o arquivo como ArrayBuffer (binário)
   }
 
   onSubmit() {

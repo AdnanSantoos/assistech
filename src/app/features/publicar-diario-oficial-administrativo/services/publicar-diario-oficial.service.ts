@@ -18,7 +18,7 @@ export class PublicarDiarioOficialService {
     private _toastr: ToastrService
   ) {}
 
-  public publicarDiarioOficial(form: PublicarDiarioOficialModel) {
+  public publicarDiarioOficial(form: FormData) {
     console.log('aquoiiio')
     this._repository.publicarDiarioOficial(form).subscribe({
       next: (response: PublicarDiarioOficialResponse) => {
