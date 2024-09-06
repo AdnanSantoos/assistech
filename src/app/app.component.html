@@ -1,5 +1,8 @@
-<app-latest-news/>
-<app-navbar/>
-<app-menu/>
-<router-outlet />
-<app-footer/>
+
+<div [ngClass]="tipoRota =='adm'?'adm-class':'home-class'">
+    <app-latest-news/>
+    <app-navbar />
+    <app-menu/>
+    <router-outlet />
+    <app-footer/>
+</div>

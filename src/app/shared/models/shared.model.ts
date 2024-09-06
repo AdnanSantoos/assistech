@@ -1,0 +1,1 @@
+export type TipoRota = 'adm' | 'trn' | null;

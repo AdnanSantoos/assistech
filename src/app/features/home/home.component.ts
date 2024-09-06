@@ -47,7 +47,7 @@ export class HomeComponent implements OnInit {
   if (url.includes('/home')) {
       this.acessos = [
         { routerLink: '/diario-oficial', texto: 'DIÁRIO OFICIAL' },
-        { routerLink: '/portal-transparencia', texto: 'PORTAL DE TRANSPARÊNCIA' },
+        { routerLink: '/trn/portal-transparencia', texto: 'PORTAL DE TRANSPARÊNCIA' },
         { routerLink: '/pncp', texto: 'PNCP' },
         { routerLink: '/lei-14133', texto: 'LEI 14.133' },
         { routerLink: '/noticias-tcm', texto: 'NOTÍCIAS DO TCM' },
