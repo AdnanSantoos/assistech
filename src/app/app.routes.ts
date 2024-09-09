@@ -275,6 +275,13 @@ export const routes: Routes = [
             './features/noticias-administrativo/noticias-administrativo.component'
           ).then((c) => c.NoticiasAdministrativoComponent),
       },
+      {
+        path: 'dashboard-admininstrativo',
+        loadComponent: () =>
+          import(
+            './features/dashboard-administrativo/dashboard-administrativo.component'
+          ).then((c) => c.DashboardAdministrativoComponent),
+      },
     ]
   },
   {

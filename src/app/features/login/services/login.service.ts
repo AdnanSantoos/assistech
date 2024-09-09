@@ -30,7 +30,7 @@ export class LoginService {
         if (token) {
           localStorage.setItem('authToken', token);
         }
-        this._router.navigate(['/menu-administrativo']);
+        this._router.navigate(['adm/menu-administrativo']);
         console.log('data: ', response);
       },
       error: (err: any) => {
