@@ -5,7 +5,7 @@ body {
   height: 100%;
 }
 
-.toast-container{
+.toast-container {
   position: fixed;
 }
 
@@ -159,6 +159,13 @@ body {
   height: auto;
 }
 
+.bkg-dashboard {
+  background-image: url("../src/assets/bkg/bkg-dashboard.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: auto;
+}
+
 .adm-class div.bkg-header {
   background-image: url("../src/assets/bkg/bkg-header-login.png");
   background-size: cover;
@@ -183,16 +190,16 @@ body {
   }
 }
 
-.adm-class{
+.adm-class {
   footer.footer {
     background-color: #000;
   }
-  div{
+  div {
     &.latest-news_header {
-      display: none ;
+      display: none;
     }
   }
-  nav{
+  nav {
     &.menu-header {
       display: none;
     }
@@ -200,7 +207,7 @@ body {
 }
 
 .home-class {
-  div{
+  div {
     &.bkg-header {
       background-image: url("../src/assets/bkg/bkg-header-azul.png");
       background-size: cover;
@@ -223,18 +230,17 @@ body {
     background-color: transparent !important;
   }
 
-  .mat-mdc-form-field-input-control{
+  .mat-mdc-form-field-input-control {
     height: 80px !important;
   }
-  .mdc-line-ripple::before{
+  .mdc-line-ripple::before {
     border-bottom-width: 0px !important;
   }
-   .mdc-text-field__input {
+  .mdc-text-field__input {
     font-size: 25px !important;
     padding-left: 25px !important;
-   }
+  }
 }
-
 
 @media (max-width: 768px) {
   label {

@@ -67,7 +67,27 @@
     display: flex;
     gap: 10px;
     margin-left: auto;
+    .deslogar {
+      .btn-padrao__hover {
+        background-color: #fff;
+        height: 98px;
+        .btn-padrao__perfil-icon {
+          width: 25.003px;
+          height: 25.458px;
+          background-size: cover;
+          background-image: url("../../../../assets/icons/perfil-icon-preto.svg");
+        }
 
+        .btn-padrao__text {
+          text-align: center;
+          font-size: 13.638px;
+          font-style: normal;
+          font-weight: 700;
+          color: #000;
+          white-space: normal;
+        }
+      }
+    }
     .button-ecac {
       display: flex;
       flex-direction: column;

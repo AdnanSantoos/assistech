@@ -1,22 +1,37 @@
 <div class="side-container">
-  <div class="side-container__title">alternar entre serviços:</div>
   <div class="side-container__list buttons">
-    <ng-container *ngFor="let content of button2">
-      <a *ngIf="content.link; else externalLink" 
-         [routerLink]="[content.link]"
-         class="btn-padrao__hover button-acessos"
-         [ngClass]="{ 'active': isActive(content.link) }">
+    <div class="d-flex dashboard">
+      <a
+        routerLink="/adm/dashboard-administrativo"
+        class="btn-padrao__hover button-acessos"
+      >
         <div class="btn-padrao__perfil-icon"></div>
-        <div class="btn-padrao__text">{{ content.name }}</div>
+        <div class="btn-padrao__text">Dashboard</div>
       </a>
-      <ng-template #externalLink>
-        <a target="_blank" [href]="content.externo" 
-           class="btn-padrao__hover button-acessos"
-           [ngClass]="{ 'active': isActive(content.externo) }">
+    </div>
+    <div class="dashboard-content">
+      <ng-container *ngFor="let content of button2">
+        <a
+          *ngIf="content.link; else externalLink"
+          [routerLink]="[content.link]"
+          class="btn-padrao__hover button-acessos"
+          [ngClass]="{ active: isActive(content.link) }"
+        >
           <div class="btn-padrao__perfil-icon"></div>
           <div class="btn-padrao__text">{{ content.name }}</div>
         </a>
-      </ng-template>
-    </ng-container>
+        <ng-template #externalLink>
+          <a
+            target="_blank"
+            [href]="content.externo"
+            class="btn-padrao__hover button-acessos"
+            [ngClass]="{ active: isActive(content.externo) }"
+          >
+            <div class="btn-padrao__perfil-icon"></div>
+            <div class="btn-padrao__text">{{ content.name }}</div>
+          </a>
+        </ng-template>
+      </ng-container>
+    </div>
   </div>
 </div>

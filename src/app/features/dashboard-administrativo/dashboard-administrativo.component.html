@@ -1,37 +1,38 @@
-<div class="bkg-administrativo"></div>
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-md-2 col-sm-6">
-      <app-sidebar-administrativo></app-sidebar-administrativo>
-    </div>
-    <div class="col-md-10 col-sm-6">
-      <div class="container">
-        <div class="text-section">
-          <h1 class="title-dashboard">Dashboard</h1>
-          <p>Selecione uma dentre as opções abaixo:</p>
-        </div>
-        <div class="card-container">
-          <div *ngFor="let categoria of categorias" class="card">
-            <div class="card-content">
-              <div class="esq-card">
-                <a class="btn-padrao__hover">
-                  <div class="btn-padrao__perfil-icon"></div>
-                </a>
+<div class="bkg-dashboard">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-2 col-sm-6">
+        <app-sidebar-administrativo></app-sidebar-administrativo>
+      </div>
+      <div class="col-md-10 col-sm-6">
+        <div class="container">
+          <div class="text-section">
+            <h1 class="title-dashboard">Dashboard</h1>
+            <p>Selecione uma dentre as opções abaixo:</p>
+          </div>
+          <div class="card-container">
+            <div *ngFor="let categoria of categorias" class="card">
+              <div class="card-content">
+                <div class="esq-card">
+                  <a class="btn-padrao__hover">
+                    <div class="btn-padrao__perfil-icon"></div>
+                  </a>
+                </div>
+                <div class="dir-card">
+                  <p>{{ categoria.nome }}</p>
+                  <h2>{{ categoria.quantidade }}</h2>
+                </div>
               </div>
-              <div class="dir-card">
-                <p>{{ categoria.nome }}</p>
-                <h2>{{ categoria.quantidade }}</h2>
-              </div>
+              <button>
+                <img
+                  src="../../../assets/icons/burguer-menu.svg"
+                  width="21px"
+                  height="21px"
+                  alt=""
+                />
+                ver lista completa
+              </button>
             </div>
-            <button>
-              <img
-                src="../../../assets/icons/burguer-menu.svg"
-                width="21px"
-                height="21px"
-                alt=""
-              />
-              ver lista completa
-            </button>
           </div>
         </div>
       </div>

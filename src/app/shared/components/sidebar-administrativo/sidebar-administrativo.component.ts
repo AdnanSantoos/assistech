@@ -14,17 +14,17 @@ export class SidebarAdministrativoComponent {
     {
       name: 'Portal de Transparência',
       externo: '',
-      link: '/acesso-informacao-administrativo'
+      link: '/adm/acesso-informacao-administrativo'
     },
     {
       name: 'pncp',
       externo: '',
-      link: '/menu-pncp-administrativo'
+      link: '/adm/menu-pncp-administrativo'
     },
     {
       name: 'Diário Oficial',
       externo: '',
-      link: '/menu-diario-oficial-administrativo'
+      link: '/adm/menu-diario-oficial-administrativo'
     }
   ];
 

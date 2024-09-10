@@ -37,39 +37,40 @@ export class NavbarComponent implements OnInit {
   mobile = false;
   logoText1: string = '';
   logoText2 = 'Itaberaba';
-  tipoRota:TipoRota = null;
+  tipoRota: TipoRota = null;
+  isAdmRoute = false;
 
   constructor(private router: Router) {
     const currentUrl = this.router.url;
+    this.checkRoute(currentUrl);
+  }
 
-    if (currentUrl.includes('/adm/') || currentUrl.includes('/login')) {
-      this.logoText1 = 'Portal Administrativo'
-    } else if (currentUrl.includes('/trn/')) {
-      this.logoText1 = 'Portal de Transparência'
+  ngOnInit(): void {
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        this.checkRoute(event.url);
+      }
+    });
+  }
+
+  checkRoute(url: string) {
+    if (url.includes('/adm')) {
+      this.isAdmRoute = true;
+      this.logoText1 = 'Portal Administrativo';
+    } else if (url.includes('/trn/')) {
+      this.isAdmRoute = false;
+      this.logoText1 = 'Portal de Transparência';
     } else {
-      this.logoText1 = 'Câmara Municipal de'
+      this.isAdmRoute = false;
+      this.logoText1 = 'Câmara Municipal de';
     }
   }
 
   toggleMenu() {
     this.mobile = !this.mobile;
   }
-  ngOnInit(): void {
-    // this.router.events.subscribe((event) => {
-    //   if (event instanceof NavigationEnd) {
-    //     if(event.url.includes('/adm/') ||event.url.includes('/login')){
-    //       this.logoText1 = 'Portal Administrativo'
-    //     }
-    //     else if(event.url.includes('/trn/')){
-    //       this.logoText1 = 'Portal de Transparência'
-    //     }
-    //     else{
-    //       this.logoText1 = 'Câmara Municipal de'
-    //     }
-    //   }
-    // });
+  logout() {
+    // Lógica de logout, por exemplo:
+    this.router.navigate(['/']);
   }
-
-  
-
 }

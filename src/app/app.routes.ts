@@ -276,7 +276,7 @@ export const routes: Routes = [
           ).then((c) => c.NoticiasAdministrativoComponent),
       },
       {
-        path: 'dashboard-admininstrativo',
+        path: 'dashboard-administrativo',
         loadComponent: () =>
           import(
             './features/dashboard-administrativo/dashboard-administrativo.component'
