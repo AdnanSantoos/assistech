@@ -10,7 +10,7 @@ import { TipoRota } from '../../models/shared.model';
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [MatButtonModule, MatIconModule, CommonModule,RouterLink],
+  imports: [MatButtonModule, MatIconModule, CommonModule, RouterLink],
   providers: [BrowserAnimationsModule],
   animations: [
     trigger('toggleMenu', [
@@ -39,6 +39,7 @@ export class NavbarComponent implements OnInit {
   logoText2 = 'Itaberaba';
   tipoRota: TipoRota = null;
   isAdmRoute = false;
+  isLoginRoute = false;
 
   constructor(private router: Router) {
     const currentUrl = this.router.url;
@@ -54,14 +55,14 @@ export class NavbarComponent implements OnInit {
   }
 
   checkRoute(url: string) {
-    if (url.includes('/adm')) {
-      this.isAdmRoute = true;
+    this.isAdmRoute = url.includes('/adm');
+    this.isLoginRoute = url.includes('/adm/login');
+
+    if (this.isAdmRoute && !this.isLoginRoute) {
       this.logoText1 = 'Portal Administrativo';
     } else if (url.includes('/trn/')) {
-      this.isAdmRoute = false;
       this.logoText1 = 'Portal de Transparência';
     } else {
-      this.isAdmRoute = false;
       this.logoText1 = 'Câmara Municipal de';
     }
   }

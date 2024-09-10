@@ -35,22 +35,26 @@
             />
           </a>
 
-          <ng-container *ngIf="!isAdmRoute; else deslogarTemplate">
-            <div class="btn-padrao__hover button-login" routerLink="/adm/login">
-              <div class="btn-padrao__perfil-icon"></div>
-              <div class="btn-padrao__text">fazer login</div>
-            </div>
-          </ng-container>
-          
-          <ng-template #deslogarTemplate>
-            <div class="deslogar">
-              <div class="btn-padrao__hover button-login" (click)="logout()">
+          <ng-container *ngIf="!isLoginRoute">
+            <ng-container *ngIf="!isAdmRoute; else deslogarTemplate">
+              <div
+                class="btn-padrao__hover button-login"
+                routerLink="/adm/login"
+              >
                 <div class="btn-padrao__perfil-icon"></div>
-                <div class="btn-padrao__text">Sair</div>
+                <div class="btn-padrao__text">fazer login</div>
               </div>
-            </div>
-          </ng-template>
-          
+            </ng-container>
+
+            <ng-template #deslogarTemplate>
+              <div class="deslogar">
+                <div class="btn-padrao__hover button-login" (click)="logout()">
+                  <div class="btn-padrao__perfil-icon"></div>
+                  <div class="btn-padrao__text">Sair</div>
+                </div>
+              </div>
+            </ng-template>
+          </ng-container>
         </div>
       </div>
       <div class="col-4 menu">
