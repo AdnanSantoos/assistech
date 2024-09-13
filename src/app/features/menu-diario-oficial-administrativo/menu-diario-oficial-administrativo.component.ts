@@ -14,11 +14,11 @@ export class MenuDiarioOficialAdministrativoComponent {
   button = [
     {
       name: 'Publicar no Diário',
-      link: '/publicar-diario-oficial-administrativo'
+      link: '/adm/publicar-diario-oficial-administrativo'
     },
     {
       name: 'Gerenciador de diários',
-      link: '/gerenciador-diario-oficial-administrativo'
+      link: '/adm/gerenciador-diario-oficial-administrativo'
     },
   ]
 
@@ -30,11 +30,11 @@ export class MenuDiarioOficialAdministrativoComponent {
   {
     name: 'pncp',
     externo: '',
-    link: '/pncp-administrativo'
+    link: '/adm/pncp-administrativo'
   },
   {
     name: 'Diário Oficial',
     externo: '',
-    link: '/diario-oficial-administrativo'
+    link: '/adm/diario-oficial-administrativo'
   },]
 }
