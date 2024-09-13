@@ -15,62 +15,62 @@ export class AcessoInformacaoAdministrativoComponent {
     {
       name: 'Ata das sessões',
       externo: '',
-      link: '/atas-sessao-administrativo'
+      link: '/adm/atas-sessao-administrativo'
     },
     {
       name: 'atos admissionais',
       externo: '',
-      link: '/atos-admissionais-administrativo'
+      link: '/adm/atos-admissionais-administrativo'
     },
     {
       name: 'audiência pública',
       externo: '',
-      link: '/audiencia-publica-administrativo'
+      link: '/adm/audiencia-publica-administrativo'
     },
     {
       name: 'balancete',
       externo: '',
-      link: '/balanco-administrativo'
+      link: '/adm/balanco-administrativo'
     },
     {
       name: 'Balanço Anual',
       externo: '',
-      link: '/balanco-anual-administrativo'
+      link: '/adm/balanco-anual-administrativo'
     },
     {
       name: 'boletim de votação',
       externo: '',
-      link: '/boletim-votacao-administrativo'
+      link: '/adm/boletim-votacao-administrativo'
     },
     {
       name: 'decretos e leis',
       externo: '',
-      link: '/legislacao-municipal-administrativo'
+      link: '/adm/legislacao-municipal-administrativo'
     },
     {
       name: 'contratação direta',
       externo: '',
-      link: '/contratacao-direta-administrativo'
+      link: '/adm/contratacao-direta-administrativo'
     },
     {
       name: 'contratos',
       externo: '',
-      link: '/contratos-administrativo'
+      link: '/adm/contratos-administrativo'
     },
     {
       name: 'convênios',
       externo: '',
-      link: '/convenios-administrativo'
+      link: '/adm/convenios-administrativo'
     },
     {
       name: 'dados da frota',
       externo: '',
-      link: '/dados-da-frota-administrativo'
+      link: '/adm/dados-da-frota-administrativo'
     },
     {
       name: 'editais',
       externo: '',
-      link: '/editais-licitacoes-administrativo'
+      link: '/adm/editais-licitacoes-administrativo'
     },
     {
       name: 'folha de pagamento',
@@ -80,12 +80,12 @@ export class AcessoInformacaoAdministrativoComponent {
     {
       name: 'indicação e requerimento',
       externo: '',
-      link: '/indicacoes-requerimento-administrativo'
+      link: '/adm/indicacoes-requerimento-administrativo'
     },
     {
       name: 'indicação e deliberação',
       externo: '',
-      link: '/indicacoes-deliberacoes-administrativo'
+      link: '/adm/indicacoes-deliberacoes-administrativo'
     },
     {
       name: 'instrumento de planejamento',
@@ -95,73 +95,73 @@ export class AcessoInformacaoAdministrativoComponent {
     {
       name: 'Licitações',
       externo: '',
-      link: '/licitacoes-administrativo'
+      link: '/adm/licitacoes-administrativo'
     },
     {
       name: 'Lista de presença',
       externo: '',
-      link: '/lista-presenca-administrativo'
+      link: '/adm/lista-presenca-administrativo'
     },
     {
       name: 'Moções',
       externo: '',
-      link: '/mocoes-administrativo'
+      link: '/adm/mocoes-administrativo'
     },
     {
       name: 'Ofício',
       externo: '',
-      link: '/oficio-administrativo'
+      link: '/adm/oficio-administrativo'
     },
     {
       name: 'patrimônios públicos',
       externo: '',
-      link: '/patrimonios-publicos-administrativo'
+      link: '/adm/patrimonios-publicos-administrativo'
     },
     {
       name: 'pedidos de providência',
       externo: '',
-      link: '/pedidos-providencia-administrativo'
+      link: '/adm/pedidos-providencia-administrativo'
     },
     {
       name: 'PPA, LOA E LDO',
       externo: '',
-      link: '/ppa-loa-ldo-administrativo'
+      link: '/adm/ppa-loa-ldo-administrativo'
     },
     {
       name: 'RREO E RGF',
       externo: '',
-      link: '/rreo-rgf-administrativo'
+      link: '/adm/rreo-rgf-administrativo'
     },
     {
       name: 'SIST. DE Registro de preço',
       externo: '',
-      link: '/registro-preco-administrativo'
+      link: '/adm/registro-preco-administrativo'
     },
     {
       name: 'transferência de recursos',
       externo: '',
-      link: '/transferencia-recursos-administrativo'
+      link: '/adm/transferencia-recursos-administrativo'
     },
     {
       name: 'Notícias',
       externo: '',
-      link: '/noticias-administrativo'
+      link: '/adm/noticias-administrativo'
     }
 
   ]
   button2 = [{
     name: 'Portal de Transparência',
     externo: '',
-    link: '/acesso-informacao-administrativo'
+    link: '/adm/acesso-informacao-administrativo'
   },
   {
     name: 'pncp',
     externo: '',
-    link: '/pncp-administrativo'
+    link: '/adm/pncp-administrativo'
   },
   {
     name: 'Diário Oficial',
     externo: '',
-    link: '/diario-oficial-administrativo'
+    link: '/adm/diario-oficial-administrativo'
   },]
 }
