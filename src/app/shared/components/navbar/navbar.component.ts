@@ -40,6 +40,7 @@ export class NavbarComponent implements OnInit {
   tipoRota: TipoRota = null;
   isAdmRoute = false;
   isLoginRoute = false;
+  isDiarioRoute = false;
 
   constructor(private router: Router) {
     const currentUrl = this.router.url;
@@ -57,7 +58,7 @@ export class NavbarComponent implements OnInit {
   checkRoute(url: string) {
     this.isAdmRoute = url.includes('/adm');
     this.isLoginRoute = url.includes('/adm/login');
-
+    this.isDiarioRoute = url.includes('/diario-oficial');
     if (this.isAdmRoute && !this.isLoginRoute) {
       this.logoText1 = 'Portal Administrativo';
     } else if (url.includes('/trn/')) {

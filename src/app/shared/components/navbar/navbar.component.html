@@ -15,7 +15,7 @@
       <div class="col-8 campos-direita">
         <div class="buttons-header">
           <a
-            *ngIf="!isAdmRoute"
+            *ngIf="!isAdmRoute && !isDiarioRoute"
             href="https://esic.cge.ro.gov.br/"
             target="_blank"
             class="btn-padrao button-ecac"
@@ -24,7 +24,7 @@
             <p>eSIC</p>
           </a>
           <a
-            *ngIf="!isAdmRoute"
+            *ngIf="!isAdmRoute && !isDiarioRoute"
             href="https://radardatransparencia.atricon.org.br/radar-da-transparencia-publica.html"
             target="_blank"
             class="btn-padrao button-radar"
