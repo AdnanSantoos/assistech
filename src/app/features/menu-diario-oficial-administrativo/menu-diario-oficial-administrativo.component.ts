@@ -25,7 +25,7 @@ export class MenuDiarioOficialAdministrativoComponent {
   button2 = [{
     name: 'Portal de Transparência',
     externo: '',
-    link: '/acesso-informacao-administrativo'
+    link: '/adm/acesso-informacao-administrativo'
   },
   {
     name: 'pncp',
