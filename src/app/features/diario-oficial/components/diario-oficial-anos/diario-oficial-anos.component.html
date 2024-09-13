@@ -1,21 +1,19 @@
-<app-diario-oficial-layout>
-  <div class="right-column" app-filtro-diario>
+<form [formGroup]="filtroForm" (ngSubmit)="onFormSubmit()">
+  <div class="right-column">
     <div class="form-container">
       <div class="form-title">SELECIONE O MÊS DE SUA PESQUISA:</div>
-      <form [formGroup]="filtroForm" (ngSubmit)="onFormSubmit()">
-        <mat-form-field>
-          <mat-label>Mês</mat-label>
-          <mat-select formControlName="mes">
-            <mat-option *ngFor="let mes of meses" [value]="mes">
-              {{ mes }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </form>
+      <mat-form-field>
+        <mat-label>Mês</mat-label>
+        <mat-select formControlName="month">
+          <mat-option *ngFor="let mes of meses" [value]="mes.value">
+            {{ mes.key }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
     </div>
     <div class="campos-opcionais">
       <h3>campos opcionais</h3>
-      <form class="d-flex row w-100 align-items-center justify-content-lg-center">
+      <div class="d-flex row w-100 align-items-center justify-content-lg-center">
         <div class="d-flex flex-column w-auto justify-content-center align-items-center ml-auto">
           <label>Edição</label>
           <div class="custom-file-input">
@@ -28,7 +26,7 @@
           <input type="text" class="" placeholder="DIGITE O NOME" >
         </div>
         <button>Prosseguir</button>
-      </form>
+      </div>
     </div>
   </div>
-</app-diario-oficial-layout>
+</form>

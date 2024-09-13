@@ -4,7 +4,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink, RouterModule } from '@angular/router';
 import { DiarioOficialService } from '../../services/diario-oficial.service';
 import { DadosDiarioOficialPublico } from '../../models/diario-oficial.model';
 
@@ -17,7 +17,8 @@ import { DadosDiarioOficialPublico } from '../../models/diario-oficial.model';
     MatFormFieldModule,
     MatSelectModule,
     RouterLink,
-    MatButtonModule
+    MatButtonModule,
+    RouterModule
   ],
   templateUrl: './diario-oficial-layout.component.html',
   styleUrls: ['./diario-oficial-layout.component.scss']

@@ -1,5 +1,5 @@
 import { environment } from './../../../../environments/environment';
-import { DiarioOficialPublico } from './../models/diario-oficial.model';
+import { DiarioOficialPesquisaData, DiarioOficialPublico } from './../models/diario-oficial.model';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
@@ -23,8 +23,8 @@ export class DiarioOficialService {
     return this._repository.getDiarioPublicacoes();
   }
 
-  public getDiarioPublicoPorData(ano:string,mes:number): Observable<any> {
-    return this._repository.getDiarioPublicoPorData(ano,mes);
+  public getDiarioPublicoPorData(form:DiarioOficialPesquisaData): Observable<any> {
+    return this._repository.getDiarioPublicoPorData(form);
   }
 
   public getDiarioPublico(): Observable<DiarioOficialPublico> {

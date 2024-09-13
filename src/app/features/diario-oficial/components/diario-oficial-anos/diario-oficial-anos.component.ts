@@ -5,9 +5,9 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { DiarioOficialLayoutComponent } from '../diario-oficial-layout/diario-oficial-layout.component';
 import { DadosDiarioOficialPublico } from '../../models/diario-oficial.model';
 import { DiarioOficialService } from '../../services/diario-oficial.service';
+import { selectModel } from '../../../../shared/models/shared.model';
 
 @Component({
   selector: 'app-diario-oficial-anos',
@@ -19,7 +19,6 @@ import { DiarioOficialService } from '../../services/diario-oficial.service';
     MatSelectModule,
     RouterLink,
     MatButtonModule,
-    DiarioOficialLayoutComponent
   ],
   templateUrl: './diario-oficial-anos.component.html',
   styleUrls: ['./diario-oficial-anos.component.scss']
@@ -27,7 +26,20 @@ import { DiarioOficialService } from '../../services/diario-oficial.service';
 export class DiarioOficialAnosComponent {
   filtroForm: FormGroup;
   anos: number[] = [];
-  meses: string[] = [];
+  meses:selectModel[] = [
+    { key: "Janeiro", value: 1 },
+    { key: "Fevereiro", value: 2 },
+    { key: "Março", value: 3 },
+    { key: "Abril", value:4 },
+    { key: "Maio", value: 5 },
+    { key: "Junho", value: 6 },
+    { key: "Julho", value: 7 },
+    { key: "Agosto", value: 8 },
+    { key: "Setembro", value: 9 },
+    { key: "Outubro", value: 10 },
+    { key: "Novembro", value: 11 },
+    { key: "Dezembro", value: 12 }
+  ]
   diarioData!: DadosDiarioOficialPublico[];
 
   constructor(
@@ -37,8 +49,9 @@ export class DiarioOficialAnosComponent {
     private diarioOficialService: DiarioOficialService
   ) {
     this.filtroForm = this.fb.group({
-      ano: [new Date().getFullYear()],
-      mes: ['']
+      content: [null],
+      year: [null],
+      month: []
     });
 
     this.diarioOficialService.getDiarioPublico().subscribe({
@@ -59,11 +72,14 @@ export class DiarioOficialAnosComponent {
 
   private onAnoChange(selectedAno: number): void {
     const publicacoes = this.diarioData.filter(d => d.year === selectedAno);
-    this.meses = publicacoes.map(d => d.first_publication);
   }
 
   onFormSubmit(): void {
-    console.log(this.filtroForm.value);
-    this.router.navigate(['/diario-oficial-listagem']);
+    // Chamada para o serviço que faz a requisição ao backend
+    this.diarioOficialService.getDiarioPublicoPorData(this.filtroForm.value).subscribe((data) => {
+      console.log('data:',data)
+      // Navega para a rota de listagem, passando os dados como state
+      this.router.navigate(['/diario-oficial/listagem'], { state: { resultados: data } });
+    });
   }
 }

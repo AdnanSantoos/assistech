@@ -13,13 +13,13 @@
                 class="col-md-2 d-flex justify-content-center flex-column align-items-center"
               >
                 <label>Ano</label>
-                <input class="w-100" type="text" placeholder="ÍNICIO" />
+                <ng-select [items]="listaAnos" [clearable]="false" [searchable]="false"></ng-select>
               </div>
               <div
                 class="col-md-2 d-flex justify-content-center flex-column align-items-center"
               >
                 <label>MÊS</label>
-                <input class="w-100" type="text" placeholder="FINAL" />
+                <ng-select [items]="meses" [clearable]="false" [searchable]="false" bindLabel="key" bindValue="value"></ng-select>
               </div>
               <div
                 class="col-md-3 d-flex justify-content-center flex-column align-items-center"
@@ -29,8 +29,7 @@
                 >
                   <label>EDIÇÃO</label>
                   <div class="custom-file-input">
-                    <input type="file" id="file-upload" />
-                    <label for="file-upload" class="w-100">SELECIONE</label>
+                    <input type="text" placeholder="SELECIONE"  />
                   </div>
                 </div>
               </div>

@@ -423,40 +423,8 @@ export const routes: Routes = [
 
   {
     path: 'diario-oficial',
-    loadComponent: () =>
-      import('./features/diario-oficial/diario-oficial.component').then(
-        (c) => c.DiarioOficialComponent
-      ),
+    loadChildren: () => import('./features/diario-oficial/diario-oficial.routes').then(m => m.DiarioOficialRoutingModule)
   },
-  {
-    path: 'diario-oficial-anos',
-    loadComponent: () =>
-      import(
-        './features/diario-oficial/containers/diario-oficial-anos/diario-oficial-anos.component'
-      ).then((c) => c.DiarioOficialAnosComponent),
-  },
-  {
-    path: 'diario-oficial-anos/:year',
-    loadComponent: () =>
-      import(
-        './features/diario-oficial/containers/diario-oficial-anos/diario-oficial-anos.component'
-      ).then((c) => c.DiarioOficialAnosComponent),
-  },
-  {
-    path: 'diario-oficial-listagem',
-    loadComponent: () =>
-      import(
-        './features/diario-oficial/containers/diario-oficial-listagem/diario-oficial-listagem.component'
-      ).then((c) => c.DiarioOficialListagemComponent),
-  },
-  {
-    path: 'diario-oficial-visualizacao',
-    loadComponent: () =>
-      import(
-        './features/diario-oficial/containers/diario-oficial-visualizacao/diario-oficial-visualizacao.component'
-      ).then((c) => c.DiarioOficialVisualizacaoComponent),
-  },
-
   {
     path: 'diaria',
     loadComponent: () =>

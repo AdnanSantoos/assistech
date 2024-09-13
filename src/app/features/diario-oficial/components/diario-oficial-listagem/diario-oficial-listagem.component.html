@@ -1,0 +1,67 @@
+<div class="right-column">
+  <div class="header d-flex justify-content-between">
+    <div class="search-bar">
+      <form [formGroup]="filterForm">
+        <div class="input-container">
+          <label>Palavra-Chave</label>
+          <input
+            type="text"
+            formControlName="palavraChave"
+            placeholder="DIGITE O NOME DA PALAVRA-CHAVE"
+          />
+        </div>
+        <div class="input-container">
+          <label>Período</label>
+          <input
+            type="text"
+            formControlName="periodoInicial"
+            placeholder="ÍNICIO"
+          />
+        </div>
+        <div class="input-container">
+          <label>até</label>
+          <input
+            type="text"
+            formControlName="periodoFinal"
+            placeholder="FINAL"
+          />
+        </div>
+        <div
+          class="d-flex flex-column w-auto justify-content-end"
+        >
+          <label>Edição</label>
+          <div class="custom-file-input">
+            <input type="file" id="file-upload" formControlName="fileUpload"/>
+            <label for="file-upload">SELECIONE</label>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="table-container">
+    <table class="official-docs-table">
+      <thead>
+        <tr>
+          <th>EDIÇÃO</th>
+          <th>NATUREZA</th>
+          <th>DATA DA PUBLICAÇÃO</th>
+          <th>DESCRIÇÃO</th>
+          <th>VISUALIZAR</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let doc of filteredDocuments">
+          <td>{{ doc.number }}</td>
+          <td></td>
+          <td>{{ doc.date| date : "dd/MM/yyyy" }}</td>
+          <td>{{ doc.description }}</td>
+          <td>
+            <a (click)="visualizar(doc.file_published)" class="download-link"
+              ><mat-icon>arrow_downward</mat-icon></a
+            >
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
