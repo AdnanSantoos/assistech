@@ -1,6 +1,6 @@
 <div class="bkg-header">
   <div class="container align">
-    <div class="row align-items-center justify-content-between mb-4">
+    <div class="row align-items-center mb-4" [ngClass]="{'justify-content-center': isLoginRoute, 'justify-content-between': !isLoginRoute}">
       <div class="col-8 col-md-4 logo-mobile w-auto ml-auto mr-auto">
         <div class="logo-container" routerLink="/home">
           <div class="logo">
@@ -57,7 +57,7 @@
           </ng-container>
         </div>
       </div>
-      <div class="col col-md-4 menu">
+      <div class="col col-md-4 menu" *ngIf="!isLoginRoute">
         <button
           class="menu-branco"
           (click)="toggleMenu()"
