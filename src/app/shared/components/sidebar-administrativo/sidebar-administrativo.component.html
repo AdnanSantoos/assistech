@@ -9,29 +9,148 @@
         <div class="btn-padrao__text">Dashboard</div>
       </a>
     </div>
+
     <div class="dashboard-content">
-      <ng-container *ngFor="let content of button2">
-        <a
-          *ngIf="content.link; else externalLink"
-          [routerLink]="[content.link]"
-          class="btn-padrao__hover button-acessos"
-          [ngClass]="{ active: isActive(content.link) }"
-        >
-          <div class="btn-padrao__perfil-icon"></div>
-          <div class="btn-padrao__text">{{ content.name }}</div>
-        </a>
-        <ng-template #externalLink>
+      <mat-expansion-panel class="mat-elevation-z0">
+        <mat-expansion-panel-header>
+          <div class="btn-padrao__hover button-acessos">
+            <div class="btn-padrao__perfil-icon"></div>
+            <div class="btn-padrao__text">Cadastrar</div>
+          </div>
+        </mat-expansion-panel-header>
+        <div class="sub-menu-item">
           <a
-            target="_blank"
-            [href]="content.externo"
+            routerLink="/adm/cadastrar-cliente"
             class="btn-padrao__hover button-acessos"
-            [ngClass]="{ active: isActive(content.externo) }"
           >
             <div class="btn-padrao__perfil-icon"></div>
-            <div class="btn-padrao__text">{{ content.name }}</div>
+            <div class="btn-padrao__text">Cliente</div>
           </a>
-        </ng-template>
-      </ng-container>
+          <a
+            routerLink="/adm/cadastrar-usuario"
+            class="btn-padrao__hover button-acessos"
+          >
+            <div class="btn-padrao__perfil-icon"></div>
+            <div class="btn-padrao__text">Usuário</div>
+          </a>
+        </div>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel class="mat-elevation-z0">
+        <mat-expansion-panel-header>
+          <div class="btn-padrao__hover button-acessos">
+            <div class="btn-padrao__perfil-icon"></div>
+            <div class="btn-padrao__text">Diário Oficial</div>
+          </div>
+        </mat-expansion-panel-header>
+        <div class="sub-menu-item">
+          <a
+            class="btn-padrao__hover button-acessos"
+            routerLink="/adm/publicar-diario-oficial-administrativo"
+          >
+            <div class="btn-padrao__perfil-icon"></div>
+            <div class="btn-padrao__text">Publicar</div>
+          </a>
+          <a
+            class="btn-padrao__hover button-acessos"
+            routerLink="/adm/gerenciador-diario-oficial-administrativo"
+          >
+            <div class="btn-padrao__perfil-icon"></div>
+            <div class="btn-padrao__text">Gerenciar</div>
+          </a>
+        </div>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel class="mat-elevation-z0">
+        <mat-expansion-panel-header>
+          <div class="btn-padrao__hover button-acessos">
+            <div class="btn-padrao__perfil-icon"></div>
+            <div class="btn-padrao__text">PNCP</div>
+          </div>
+        </mat-expansion-panel-header>
+        <div class="sub-menu-item">
+          <a
+            class="btn-padrao__hover button-acessos"
+            routerLink="/adm/orgao-administrativo"
+          >
+            <div class="btn-padrao__perfil-icon"></div>
+            <div class="btn-padrao__text">Orgãos</div>
+          </a>
+          <a
+            class="btn-padrao__hover button-acessos"
+            routerLink="/adm/unidades-administrativo"
+          >
+            <div class="btn-padrao__perfil-icon"></div>
+            <div class="btn-padrao__text">Unidades</div>
+          </a>
+          <a
+            class="btn-padrao__hover button-acessos"
+            routerLink="/adm/licitacoes-administrativo"
+          >
+            <div class="btn-padrao__perfil-icon"></div>
+            <div class="btn-padrao__text">Licitações</div>
+          </a>
+          <a
+            class="btn-padrao__hover button-acessos"
+            routerLink="/adm/contratos-administrativo"
+          >
+            <div class="btn-padrao__perfil-icon"></div>
+            <div class="btn-padrao__text">Contratos</div>
+          </a>
+          <a
+            class="btn-padrao__hover button-acessos"
+            routerLink="/adm/acesso-informacao-administrativo"
+          >
+            <div class="btn-padrao__perfil-icon"></div>
+            <div class="btn-padrao__text">PCA</div>
+          </a>
+        </div>
+      </mat-expansion-panel>
+      <mat-expansion-panel class="mat-elevation-z0">
+        <mat-expansion-panel-header>
+          <div class="btn-padrao__hover button-acessos">
+            <div class="btn-padrao__perfil-icon"></div>
+            <div class="btn-padrao__text">Portal de Transparência</div>
+          </div>
+        </mat-expansion-panel-header>
+        <div class="sub-menu-item">
+          <a
+            class="btn-padrao__hover button-acessos"
+            routerLink="/adm/atas-sessao-administrativo"
+          >
+            <div class="btn-padrao__perfil-icon"></div>
+            <div class="btn-padrao__text">Ata das Sessões</div>
+          </a>
+          <a
+            class="btn-padrao__hover button-acessos"
+            routerLink="/adm/atos-admissionais-administrativo"
+          >
+            <div class="btn-padrao__perfil-icon"></div>
+            <div class="btn-padrao__text">Atos Admissionais</div>
+          </a>
+          <a
+            class="btn-padrao__hover button-acessos"
+            routerLink="/adm/audiencia-publica-administrativo"
+          >
+            <div class="btn-padrao__perfil-icon"></div>
+            <div class="btn-padrao__text">Audiência Pública</div>
+          </a>
+          <a
+            class="btn-padrao__hover button-acessos"
+            routerLink="/adm/balanco-administrativo"
+          >
+            <div class="btn-padrao__perfil-icon"></div>
+            <div class="btn-padrao__text">Balancete</div>
+          </a>
+          <a
+            class="btn-padrao__hover button-acessos"
+            routerLink="/adm/acesso-informacao-administrativo"
+          >
+            <div class="btn-padrao__perfil-icon"></div>
+            <div class="btn-padrao__text">Outros</div>
+          </a>
+        </div>
+      </mat-expansion-panel>
     </div>
   </div>
 </div>
