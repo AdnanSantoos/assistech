@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { RouterLink } from '@angular/router';
@@ -9,7 +9,7 @@ import { FormsComponent } from '../../components/forms/forms.component';
   standalone: true,
   imports: [CommonModule, RouterLink, FormsComponent],
   templateUrl: './layout-forms-adm.component.html',
-  styleUrls: ['./layout-forms-adm.component.scss']
+  styleUrls: ['./layout-forms-adm.component.scss'],
 })
 export class LayoutFormsAdmComponent implements OnInit {
   @Input() dynamicFields: any[] = [];
@@ -17,9 +17,9 @@ export class LayoutFormsAdmComponent implements OnInit {
   @Input() form!: FormGroup;
   @Output() formSubmit = new EventEmitter<FormGroup>();
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder, private location: Location) {}
   ngOnInit() {
-    this.dynamicFields.forEach(field => {
+    this.dynamicFields.forEach((field) => {
       if (!this.form.contains(field.name)) {
         if (field.type === 'file') {
           this.form.addControl(field.name, this.fb.control(null));
@@ -30,20 +30,21 @@ export class LayoutFormsAdmComponent implements OnInit {
     });
   }
 
-
   onFileChange(event: any, fieldName: string) {
     const file = event.target.files[0];
     if (file) {
       this.form.patchValue({
-        [fieldName]: file
+        [fieldName]: file,
       });
       this.form.get(fieldName)?.updateValueAndValidity();
     } else {
-      console.error("Nenhum arquivo foi selecionado.");
+      console.error('Nenhum arquivo foi selecionado.');
     }
   }
-
-  onSubmit(form:any) {
-    this.formSubmit.emit(form)
+  goBack(): void {
+    this.location.back();
+  }
+  onSubmit(form: any) {
+    this.formSubmit.emit(form);
   }
 }

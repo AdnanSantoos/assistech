@@ -7,6 +7,7 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink, RouterModule } from '@angular/router';
 import { DiarioOficialService } from '../../services/diario-oficial.service';
 import { DadosDiarioOficialPublico } from '../../models/diario-oficial.model';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-diario-oficial-layout',
@@ -18,8 +19,8 @@ import { DadosDiarioOficialPublico } from '../../models/diario-oficial.model';
     MatSelectModule,
     RouterLink,
     MatButtonModule,
-    RouterModule
-  ],
+    RouterModule,
+],
   templateUrl: './diario-oficial-layout.component.html',
   styleUrls: ['./diario-oficial-layout.component.scss']
 })
@@ -34,7 +35,8 @@ export class DiarioOficialLayoutComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private route: ActivatedRoute,
-    private diarioOficialService: DiarioOficialService
+    private diarioOficialService: DiarioOficialService,
+    private location: Location
   ) {
     this.filtroForm = this.fb.group({
       ano: [new Date().getFullYear()],
@@ -73,5 +75,9 @@ export class DiarioOficialLayoutComponent implements OnInit {
   }
 
   onFormSubmit(): void {
+  }
+
+  goBack(): void {
+    this.location.back();
   }
 }
