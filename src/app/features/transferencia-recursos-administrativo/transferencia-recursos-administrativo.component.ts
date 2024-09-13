@@ -53,6 +53,5 @@ export class TransferenciaRecursosAdministrativoComponent {
   }
 
   onFormSubmit() {
-    console.log(this.filtroForm.value);
   }
 }

@@ -63,6 +63,5 @@ export class LicitacoesAdministrativoComponent {
   }
 
   onFormSubmit() {
-    console.log(this.filtroForm.value);
   }
 }

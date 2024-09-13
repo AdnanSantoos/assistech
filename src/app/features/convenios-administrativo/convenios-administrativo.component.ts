@@ -52,6 +52,5 @@ export class ConveniosAdministrativoComponent {
   }
 
   onFormSubmit() {
-    console.log(this.filtroForm.value);
   }
 }

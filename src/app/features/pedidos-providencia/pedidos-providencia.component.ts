@@ -31,6 +31,5 @@ export class PedidosProvidenciaComponent {
   }
 
   onFormSubmit() {
-    console.log(this.filtroForm)
   }
 }

@@ -48,6 +48,5 @@ export class AtasSessaoAdministrativoComponent {
   }
 
   onFormSubmit() {
-    console.log(this.filtroForm.value);
   }
 }

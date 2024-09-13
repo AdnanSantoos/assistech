@@ -49,6 +49,5 @@ export class ListaPresencaAdministrativoComponent {
   }
 
   onFormSubmit() {
-    console.log(this.filtroForm.value);
   }
 }

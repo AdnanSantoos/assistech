@@ -43,6 +43,5 @@ export class BalancoAnualAdministrativoComponent {
   }
 
   onFormSubmit() {
-    console.log(this.filtroForm.value);
   }
 }

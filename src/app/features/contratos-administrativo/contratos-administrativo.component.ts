@@ -77,6 +77,5 @@ export class ContratosAdministrativoComponent {
   }
 
   onFormSubmit() {
-    console.log(this.filtroForm.value);
   }
 }

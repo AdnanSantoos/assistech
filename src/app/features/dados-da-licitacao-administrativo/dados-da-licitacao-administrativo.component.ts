@@ -70,6 +70,5 @@ export class DadosDaLicitacaoAdministrativoComponent {
   }
 
   onFormSubmit() {
-    console.log(this.filtroForm.value);
   }
 }

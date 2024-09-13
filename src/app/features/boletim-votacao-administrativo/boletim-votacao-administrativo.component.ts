@@ -55,7 +55,6 @@ export class BoletimVotacaoAdministrativoComponent {
 
   onFormSubmit() {
     if (this.filtroForm.valid) {
-      console.log(this.filtroForm.value);
       // Aqui você pode adicionar a lógica para enviar os dados do formulário
     }
   }

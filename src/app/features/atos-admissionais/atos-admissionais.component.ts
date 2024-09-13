@@ -32,6 +32,5 @@ export class AtosAdmissionaisComponent {
   }
 
   onFormSubmit() {
-    console.log(this.filtroForm)
   }
 }

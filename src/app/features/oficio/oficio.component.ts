@@ -32,6 +32,5 @@ export class OficioComponent {
   }
 
   onFormSubmit() {
-    console.log(this.filtroForm)
   }
 }

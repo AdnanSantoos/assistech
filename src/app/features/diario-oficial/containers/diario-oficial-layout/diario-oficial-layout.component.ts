@@ -73,6 +73,5 @@ export class DiarioOficialLayoutComponent implements OnInit {
   }
 
   onFormSubmit(): void {
-    console.log(this.filtroForm.value);
   }
 }

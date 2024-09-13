@@ -49,6 +49,5 @@ export class BalancoAdministrativoComponent {
   }
 
   onFormSubmit() {
-    console.log(this.filtroForm.value);
   }
 }

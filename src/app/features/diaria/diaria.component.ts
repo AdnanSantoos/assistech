@@ -32,6 +32,5 @@ export class DiariaComponent {
   }
 
   onFormSubmit() {
-    console.log(this.filtroForm)
   }
 }

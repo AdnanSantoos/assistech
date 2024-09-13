@@ -50,6 +50,5 @@ export class PatrimoniosPublicosAdministrativoComponent {
   }
 
   onFormSubmit() {
-    console.log(this.filtroForm.value);
   }
 }

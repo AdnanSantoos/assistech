@@ -39,6 +39,5 @@ export class AtaDasSessoesComponent {
   }
 
   onFormSubmit() {
-    console.log(this.filtroForm)
   }
 }

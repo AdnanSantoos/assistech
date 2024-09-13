@@ -42,6 +42,5 @@ export class AdicionarUnidadesAdministrativoComponent {
   }
 
   onFormSubmit() {
-    console.log(this.filtroForm.value);
   }
 }

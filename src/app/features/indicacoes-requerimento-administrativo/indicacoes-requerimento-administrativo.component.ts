@@ -51,6 +51,5 @@ export class IndicacoesRequerimentoAdministrativoComponent {
   }
 
   onFormSubmit() {
-    console.log(this.filtroForm.value);
   }
 }

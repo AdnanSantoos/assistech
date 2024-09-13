@@ -32,6 +32,5 @@ export class EditaisComponent {
   }
 
   onFormSubmit() {
-    console.log(this.filtroForm)
   }
 }

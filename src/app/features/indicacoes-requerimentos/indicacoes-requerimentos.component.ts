@@ -23,7 +23,7 @@ export class IndicacoesRequerimentosComponent {
   ];
 
   constructor(private fb: FormBuilder) {
-    this.filtroForm = this.fb.group({ 
+    this.filtroForm = this.fb.group({
       ataDaSessao: [''],
       day: [''],
       month: [''],
@@ -32,6 +32,5 @@ export class IndicacoesRequerimentosComponent {
   }
 
   onFormSubmit() {
-    console.log(this.filtroForm)
   }
 }

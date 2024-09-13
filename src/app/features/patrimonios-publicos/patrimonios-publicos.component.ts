@@ -35,6 +35,5 @@ export class PatrimoniosPublicosComponent {
   }
 
   onFormSubmit() {
-    console.log(this.filtroForm)
   }
 }

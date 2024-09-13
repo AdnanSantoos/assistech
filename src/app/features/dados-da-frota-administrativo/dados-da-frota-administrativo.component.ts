@@ -59,6 +59,5 @@ export class DadosDaFrotaAdministrativoComponent {
   }
 
   onFormSubmit() {
-    console.log(this.filtroForm.value);
   }
 }

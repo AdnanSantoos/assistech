@@ -50,6 +50,5 @@ export class RegistroPrecoAdministrativoComponent {
   }
 
   onFormSubmit() {
-    console.log(this.filtroForm.value);
   }
 }

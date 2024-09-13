@@ -50,6 +50,5 @@ export class MocoesAdministrativoComponent {
   }
 
   onFormSubmit() {
-    console.log(this.filtroForm.value);
   }
 }

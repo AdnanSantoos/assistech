@@ -59,6 +59,5 @@ export class LegislacaoMunicipalAdministrativoComponent {
   }
 
   onFormSubmit() {
-    console.log(this.filtroForm.value);
   }
 }

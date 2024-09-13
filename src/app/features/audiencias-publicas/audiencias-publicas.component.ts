@@ -37,6 +37,5 @@ export class AudienciasPublicasComponent {
   }
 
   onFormSubmit() {
-    console.log(this.filtroForm)
   }
 }

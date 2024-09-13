@@ -32,6 +32,5 @@ export class BalanceteFinanceiroComponent {
   }
 
   onFormSubmit() {
-    console.log(this.filtroForm)
   }
 }

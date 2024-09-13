@@ -32,6 +32,5 @@ export class ContratosComponent {
   }
 
   onFormSubmit() {
-    console.log(this.filtroForm)
   }
 }

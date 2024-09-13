@@ -47,6 +47,5 @@ export class NoticiasAdministrativoComponent {
   }
 
   onFormSubmit() {
-    console.log(this.filtroForm.value);
   }
 }

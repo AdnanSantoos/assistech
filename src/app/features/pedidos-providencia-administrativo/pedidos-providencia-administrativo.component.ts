@@ -52,6 +52,5 @@ export class PedidosProvidenciaAdministrativoComponent {
   }
 
   onFormSubmit() {
-    console.log(this.filtroForm.value);
   }
 }

@@ -50,6 +50,5 @@ export class EditaisLicitacoesAdministrativoComponent {
   }
 
   onFormSubmit() {
-    console.log(this.filtroForm.value);
   }
 }

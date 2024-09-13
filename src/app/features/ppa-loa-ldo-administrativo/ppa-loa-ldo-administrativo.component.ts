@@ -45,6 +45,5 @@ export class PpaLoaLdoAdministrativoComponent {
   }
 
   onFormSubmit(form: FormGroup) {
-    console.log(form.value);
   }
 }

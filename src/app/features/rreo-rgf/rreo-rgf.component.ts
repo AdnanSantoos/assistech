@@ -32,6 +32,5 @@ export class RreoRgfComponent {
   }
 
   onFormSubmit() {
-    console.log(this.filtroForm)
   }
 }

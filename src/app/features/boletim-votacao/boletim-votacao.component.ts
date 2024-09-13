@@ -33,6 +33,5 @@ export class BoletimVotacaoComponent {
   }
 
   onFormSubmit() {
-    console.log(this.filtroForm)
   }
 }

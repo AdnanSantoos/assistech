@@ -45,7 +45,6 @@ export class DiarioOficialListagemComponent {
     });
   }
   onFormSubmit() {
-    console.log(this.filterForm.value);
   }
 
   visualizar(url:string){

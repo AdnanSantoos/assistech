@@ -19,7 +19,6 @@ export class PublicarDiarioOficialService {
   ) {}
 
   public publicarDiarioOficial(form: FormData) {
-    console.log('aquoiiio')
     this._repository.publicarDiarioOficial(form).subscribe({
       next: (response: PublicarDiarioOficialResponse) => {
         if (response?.success) {

@@ -77,6 +77,5 @@ export class ContratacaoDiretaAdministrativoComponent {
   }
 
   onFormSubmit() {
-    console.log(this.filtroForm.value);
   }
 }

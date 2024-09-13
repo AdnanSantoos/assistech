@@ -31,7 +31,6 @@ export class LoginService {
           localStorage.setItem('authToken', token);
         }
         this._router.navigate(['adm/dashboard-administrativo']);
-        console.log('data: ', response);
       },
       error: (err: any) => {
         this.loading = false;

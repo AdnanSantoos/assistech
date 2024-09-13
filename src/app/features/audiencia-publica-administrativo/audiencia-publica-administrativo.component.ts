@@ -47,6 +47,5 @@ export class AudienciaPublicaAdministrativoComponent {
   }
 
   onFormSubmit() {
-    console.log(this.filtroForm.value);
   }
 }

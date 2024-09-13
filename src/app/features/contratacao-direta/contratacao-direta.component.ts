@@ -32,6 +32,5 @@ export class ContratacaoDiretaComponent {
   }
 
   onFormSubmit() {
-    console.log(this.filtroForm)
   }
 }

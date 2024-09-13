@@ -31,6 +31,5 @@ export class TransferenciaRecursosComponent {
   }
 
   onFormSubmit() {
-    console.log(this.filtroForm)
   }
 }

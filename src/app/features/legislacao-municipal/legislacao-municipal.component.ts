@@ -32,6 +32,5 @@ export class LegislacaoMunicipalComponent {
   }
 
   onFormSubmit() {
-    console.log(this.filtroForm)
   }
 }

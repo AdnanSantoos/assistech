@@ -50,6 +50,5 @@ export class RreoRgfAdministrativoComponent {
   }
 
   onFormSubmit() {
-    console.log(this.filtroForm.value);
   }
 }

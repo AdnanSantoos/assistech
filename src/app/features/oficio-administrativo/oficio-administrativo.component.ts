@@ -49,6 +49,5 @@ export class OficioAdministrativoComponent {
   }
 
   onFormSubmit() {
-    console.log(this.filtroForm.value);
   }
 }

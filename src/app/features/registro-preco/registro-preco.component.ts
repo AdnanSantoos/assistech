@@ -31,6 +31,5 @@ export class RegistroPrecoComponent {
   }
 
   onFormSubmit() {
-    console.log(this.filtroForm)
   }
 }

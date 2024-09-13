@@ -32,6 +32,5 @@ export class ListaPresencaComponent {
   }
 
   onFormSubmit() {
-    console.log(this.filtroForm)
   }
 }

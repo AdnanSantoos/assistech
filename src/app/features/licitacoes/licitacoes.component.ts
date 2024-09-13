@@ -32,6 +32,5 @@ export class LicitacoesComponent {
   }
 
   onFormSubmit() {
-    console.log(this.filtroForm)
   }
 }

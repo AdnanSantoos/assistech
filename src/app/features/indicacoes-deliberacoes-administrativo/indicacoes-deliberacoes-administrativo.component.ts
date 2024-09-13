@@ -51,6 +51,5 @@ export class IndicacoesDeliberacoesAdministrativoComponent {
   }
 
   onFormSubmit() {
-    console.log(this.filtroForm.value);
   }
 }

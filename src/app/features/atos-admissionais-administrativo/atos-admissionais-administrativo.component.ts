@@ -48,6 +48,5 @@ export class AtosAdmissionaisAdministrativoComponent {
   }
 
   onFormSubmit() {
-    console.log(this.filtroForm.value);
   }
 }

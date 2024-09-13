@@ -31,6 +31,5 @@ export class MocoesComponent {
   }
 
   onFormSubmit() {
-    console.log(this.filtroForm)
   }
 }

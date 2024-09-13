@@ -41,6 +41,5 @@ export class AdicionarOrgaoAdministrativoComponent {
   }
 
   onFormSubmit() {
-    console.log(this.filtroForm.value);
   }
 }
