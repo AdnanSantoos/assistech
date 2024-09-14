@@ -19,7 +19,6 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
     MatIcon,
     RouterLink,
     MatButtonModule,
-    PdfViewerModule,
     DiarioOficialLayoutComponent],
   templateUrl: './diario-oficial-visualizacao.component.html',
   styleUrl: './diario-oficial-visualizacao.component.scss'
@@ -37,7 +36,6 @@ export class DiarioOficialVisualizacaoComponent {
   downloadDocument(): void {
   }
 
-  printDocument(): void {
-    window.print();
+  printDocument(): void {    
   }
 }
