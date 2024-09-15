@@ -9,6 +9,7 @@ import { MatIcon } from '@angular/material/icon';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { DiarioOficialLayoutComponent } from '../../containers/diario-oficial-layout/diario-oficial-layout.component';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 @Component({
   selector: 'app-diario-oficial-visualizacao',
   standalone: true,
@@ -19,12 +20,13 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
     MatIcon,
     RouterLink,
     MatButtonModule,
-    DiarioOficialLayoutComponent],
+    DiarioOficialLayoutComponent,
+  NgxExtendedPdfViewerModule],
   templateUrl: './diario-oficial-visualizacao.component.html',
   styleUrl: './diario-oficial-visualizacao.component.scss'
 })
 export class DiarioOficialVisualizacaoComponent {
-  documentUrl: SafeResourceUrl;
+  documentUrl: string;
 
   documentTitle: string = 'Título do Documento';
 

@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { PublicarDiarioOficialService } from './services/publicar-diario-oficial.service';
+import { PublicarDiarioOficialService } from '../../services/publicar-diario-oficial.service';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { LayoutFormsAdmComponent } from '../../shared/containers/layout-forms-adm/layout-forms-adm.component';
-import { LogPipe } from '../../shared/pipes/log.pipe';
-import { PublicarDiarioOficialMapper } from './mappers/publicar-diario-oficial-mapper';
+import { LayoutFormsAdmComponent } from '../../../../shared/containers/layout-forms-adm/layout-forms-adm.component';
+import { LogPipe } from '../../../../shared/pipes/log.pipe';
+import { PublicarDiarioOficialMapper } from '../../mappers/publicar-diario-oficial-mapper';
 
 @Component({
   selector: 'app-publicar-diario-oficial-administrativo',

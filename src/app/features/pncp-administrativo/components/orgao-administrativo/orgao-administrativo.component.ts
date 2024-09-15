@@ -7,7 +7,7 @@ import { RouterLink } from '@angular/router';
   standalone: true,
   imports: [RouterLink, CommonModule],
   templateUrl: './orgao-administrativo.component.html',
-  styleUrl: './orgao-administrativo.component.scss',
+  styleUrls: ['./orgao-administrativo.component.scss'],
 })
 export class OrgaoAdministrativoComponent {
   constructor(private location: Location) {}

@@ -12,6 +12,14 @@ export const routes: Routes = [
     path: 'adm',
     children: [
       {
+        path: 'diario-oficial-administrativo',
+        loadChildren: () => import('./features/diario-oficial-administrativo/diario-oficial-administrativo.routes').then(m => m.DiarioOficialAdministrativoRoutingModule)
+      },
+      {
+        path: 'pncp-administrativo',
+        loadChildren: () => import('./features/pncp-administrativo/pncp-administrativo.routes').then(m => m.PncpAdministrativoRoutingModule)
+      },
+      {
         path: 'login',
         loadComponent: () =>
           import('./features/login/login.component').then((c) => c.LoginComponent),
@@ -73,13 +81,6 @@ export const routes: Routes = [
           ).then((c) => c.ContratacaoDiretaAdministrativoComponent),
       },
       {
-        path: 'contratos-administrativo',
-        loadComponent: () =>
-          import(
-            './features/contratos-administrativo/contratos-administrativo.component'
-          ).then((c) => c.ContratosAdministrativoComponent),
-      },
-      {
         path: 'convenios-administrativo',
         loadComponent: () =>
           import(
@@ -129,41 +130,6 @@ export const routes: Routes = [
           ).then((c) => c.IndicacoesDeliberacoesAdministrativoComponent),
       },
       {
-        path: 'adicionar-orgao-administrativo',
-        loadComponent: () =>
-          import('./features/adicionar-orgao-administrativo/adicionar-orgao-administrativo.component').then(
-            (c) => c.AdicionarOrgaoAdministrativoComponent
-          ),
-      },
-      {
-        path: 'adicionar-unidades-administrativo',
-        loadComponent: () =>
-          import('./features/adicionar-unidades-administrativo/adicionar-unidades-administrativo.component').then(
-            (c) => c.AdicionarUnidadesAdministrativoComponent
-          ),
-      },
-      {
-        path: 'orgao-administrativo',
-        loadComponent: () =>
-          import('./features/orgao-administrativo/orgao-administrativo.component').then(
-            (c) => c.OrgaoAdministrativoComponent
-          ),
-      },
-      {
-        path: 'unidades-administrativo',
-        loadComponent: () =>
-          import('./features/unidades-administrativo/unidades-administrativo.component').then(
-            (c) => c.UnidadesAdministrativoComponent
-          ),
-      },
-      {
-        path: 'licitacoes-administrativo',
-        loadComponent: () =>
-          import(
-            './features/licitacoes-administrativo/licitacoes-administrativo.component'
-          ).then((c) => c.LicitacoesAdministrativoComponent),
-      },
-      {
         path: 'lista-presenca-administrativo',
         loadComponent: () =>
           import(
@@ -192,20 +158,6 @@ export const routes: Routes = [
           ).then((c) => c.MenuPncpAdministrativoComponent),
       },
       {
-        path: 'menu-diario-oficial-administrativo',
-        loadComponent: () =>
-          import(
-            './features/menu-diario-oficial-administrativo/menu-diario-oficial-administrativo.component'
-          ).then((c) => c.MenuDiarioOficialAdministrativoComponent),
-      },
-      {
-        path: 'gerenciador-diario-oficial-administrativo',
-        loadComponent: () =>
-          import(
-            './features/gerenciador-diario-oficial-administrativo/gerenciador-diario-oficial-administrativo.component'
-          ).then((c) => c.GerenciadorDiarioOficialAdministrativoComponent),
-      },
-      {
         path: 'gerenciador-pncp-administrativo',
         loadComponent: () =>
           import(
@@ -232,13 +184,6 @@ export const routes: Routes = [
           import(
             './features/pedidos-providencia-administrativo/pedidos-providencia-administrativo.component'
           ).then((c) => c.PedidosProvidenciaAdministrativoComponent),
-      },
-      {
-        path: 'publicar-diario-oficial-administrativo',
-        loadComponent: () =>
-          import(
-            './features/publicar-diario-oficial-administrativo/publicar-diario-oficial-administrativo.component'
-          ).then((c) => c.PublicarDiarioOficialAdministrativoComponent),
       },
       {
         path: 'rreo-rgf-administrativo',

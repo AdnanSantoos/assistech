@@ -3,9 +3,9 @@ import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { LayoutFormsAdmComponent } from '../../shared/containers/layout-forms-adm/layout-forms-adm.component';
+import { LayoutFormsAdmComponent } from '../../../../shared/containers/layout-forms-adm/layout-forms-adm.component';
 @Component({
-  selector: 'app-adicionar-unidades-administrativo',
+  selector: 'app-adicionar-orgao-administrativo',
   standalone: true,
   imports: [
     LayoutFormsAdmComponent,
@@ -14,10 +14,10 @@ import { LayoutFormsAdmComponent } from '../../shared/containers/layout-forms-ad
     MatIconModule,
     MatButtonModule,
   ],
-  templateUrl: './adicionar-unidades-administrativo.component.html',
-  styleUrl: './adicionar-unidades-administrativo.component.scss',
+  templateUrl: './adicionar-orgao-administrativo.component.html',
+  styleUrl: './adicionar-orgao-administrativo.component.scss',
 })
-export class AdicionarUnidadesAdministrativoComponent {
+export class AdicionarOrgaoAdministrativoComponent {
   filtroForm: FormGroup;
   dynamicFields: any[];
 
@@ -27,7 +27,6 @@ export class AdicionarUnidadesAdministrativoComponent {
     });
 
     this.dynamicFields = [
-      { name: 'orgao', type: 'text', label: 'Orgão', placeholder: 'Selecione' },
       { name: 'cnpj', type: 'text', label: 'cnpj' },
     ];
   }
@@ -36,7 +35,7 @@ export class AdicionarUnidadesAdministrativoComponent {
     if (event.target.files.length > 0) {
       const file = event.target.files[0];
       this.filtroForm.patchValue({
-        [fieldName]: file,
+        [fieldName]: file
       });
     }
   }
