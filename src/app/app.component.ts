@@ -4,7 +4,7 @@ import { NavbarComponent } from './shared/components/navbar/navbar.component';
 import { FooterComponent } from './shared/components/footer/footer.component';
 import { MenuComponent } from './shared/components/menu/menu.component';
 import { LatestNewsComponent } from './shared/components/latest-news/latest-news.component';
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { Subscription } from 'rxjs';
 import { TipoRota } from './shared/models/shared.model';
 
@@ -19,8 +19,8 @@ import { TipoRota } from './shared/models/shared.model';
 export class AppComponent implements OnInit, OnDestroy {
   title = 'assistech';
   tipoRota: TipoRota = null;
-  constructor(private router: Router) {
-    const currentUrl = this.router.url;
+  constructor(private router: Router,private location: Location) {
+    const currentUrl = this.location.path();
 
     if (currentUrl.includes('/adm/') || currentUrl.includes('/login')) {
       this.tipoRota = 'adm';

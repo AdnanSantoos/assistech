@@ -1,5 +1,5 @@
-import { CommonModule } from '@angular/common';
-import { Component, Input, OnDestroy, OnInit, Renderer2 } from '@angular/core';
+import { CommonModule, Location } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { trigger, state, style, animate, transition } from '@angular/animations';
@@ -42,8 +42,8 @@ export class NavbarComponent implements OnInit {
   isLoginRoute = false;
   isDiarioRoute = false;
 
-  constructor(private router: Router) {
-    const currentUrl = this.router.url;
+  constructor(private router: Router,private location: Location) {
+    const currentUrl = this.location.path();
     this.checkRoute(currentUrl);
   }
 
@@ -59,7 +59,7 @@ export class NavbarComponent implements OnInit {
     this.isAdmRoute = url.includes('/adm');
     this.isLoginRoute = url.includes('/adm/login');
     this.isDiarioRoute = url.includes('/diario-oficial');
-    if (this.isAdmRoute && !this.isLoginRoute) {
+    if (this.isAdmRoute) {
       this.logoText1 = 'Portal Administrativo';
     } else if (url.includes('/trn/')) {
       this.logoText1 = 'Portal de Transparência';
