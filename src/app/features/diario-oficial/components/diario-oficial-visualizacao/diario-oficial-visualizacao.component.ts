@@ -28,16 +28,24 @@ import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 export class DiarioOficialVisualizacaoComponent {
   documentUrl: string;
 
-  documentTitle: string = 'Título do Documento';
+  documentTitle!: string;
 
   constructor(private router: Router) {
     const navigation = this.router.getCurrentNavigation();
     const url = navigation?.extras?.state?.['url']
     this.documentUrl = url;
   }
+
   downloadDocument(): void {
+    const link = document.createElement('a');
+    link.href = this.documentUrl;
+    link.target = '_blank';
+    link.download = this.documentTitle;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   }
 
-  printDocument(): void {    
+  printDocument(): void {
   }
 }
