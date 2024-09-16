@@ -1,4 +1,3 @@
-
 import { Routes } from '@angular/router';
 
 export const routes: Routes = [
@@ -13,16 +12,31 @@ export const routes: Routes = [
     children: [
       {
         path: 'diario-oficial-administrativo',
-        loadChildren: () => import('./features/diario-oficial-administrativo/diario-oficial-administrativo.routes').then(m => m.DiarioOficialAdministrativoRoutingModule)
+        loadChildren: () =>
+          import(
+            './features/diario-oficial-administrativo/diario-oficial-administrativo.routes'
+          ).then((m) => m.DiarioOficialAdministrativoRoutingModule),
       },
       {
         path: 'pncp-administrativo',
-        loadChildren: () => import('./features/pncp-administrativo/pncp-administrativo.routes').then(m => m.PncpAdministrativoRoutingModule)
+        loadChildren: () =>
+          import(
+            './features/pncp-administrativo/pncp-administrativo.routes'
+          ).then((m) => m.PncpAdministrativoRoutingModule),
+      },
+      {
+        path: 'portal-de-transparencia-administrativo',
+        loadChildren: () =>
+          import(
+            './features/portal-de-transparencia-administrativo/portal-de-transparencia-administrativo.routes'
+          ).then((m) => m.PortaldeTransparenciaAdministrativoRoutingModule),
       },
       {
         path: 'login',
         loadComponent: () =>
-          import('./features/login/login.component').then((c) => c.LoginComponent),
+          import('./features/login/login.component').then(
+            (c) => c.LoginComponent
+          ),
       },
       {
         path: 'acesso-informacao-administrativo',
@@ -32,31 +46,10 @@ export const routes: Routes = [
           ).then((c) => c.AcessoInformacaoAdministrativoComponent),
       },
       {
-        path: 'atas-sessao-administrativo',
-        loadComponent: () =>
-          import(
-            './features/atas-sessao-administrativo/atas-sessao-administrativo.component'
-          ).then((c) => c.AtasSessaoAdministrativoComponent),
-      },
-      {
-        path: 'atos-admissionais-administrativo',
-        loadComponent: () =>
-          import(
-            './features/atos-admissionais-administrativo/atos-admissionais-administrativo.component'
-          ).then((c) => c.AtosAdmissionaisAdministrativoComponent),
-      },
-      {
-        path: 'audiencia-publica-administrativo',
-        loadComponent: () =>
-          import(
-            './features/audiencia-publica-administrativo/audiencia-publica-administrativo.component'
-          ).then((c) => c.AudienciaPublicaAdministrativoComponent),
-      },
-      {
         path: 'balanco-administrativo',
         loadComponent: () =>
           import(
-            './features/balanco-administrativo/balanco-administrativo.component'
+            './features/portal-de-transparencia-administrativo/components/balanco-administrativo/balanco-administrativo.component'
           ).then((c) => c.BalancoAdministrativoComponent),
       },
       {
@@ -227,7 +220,7 @@ export const routes: Routes = [
             './features/dashboard-administrativo/dashboard-administrativo.component'
           ).then((c) => c.DashboardAdministrativoComponent),
       },
-    ]
+    ],
   },
   {
     path: 'trn',
@@ -235,9 +228,9 @@ export const routes: Routes = [
       {
         path: 'portal-transparencia',
         loadComponent: () =>
-          import('./features/home-transparencia/home-transparencia.component').then(
-            (c) => c.HomeTransparenciaComponent
-          ),
+          import(
+            './features/home-transparencia/home-transparencia.component'
+          ).then((c) => c.HomeTransparenciaComponent),
       },
       {
         path: 'acesso-informacao-transparencia',
@@ -249,9 +242,9 @@ export const routes: Routes = [
       {
         path: 'agenda-presidente',
         loadComponent: () =>
-          import('./features/agenda-presidente/agenda-presidente.component').then(
-            (c) => c.AgendaPresidenteComponent
-          ),
+          import(
+            './features/agenda-presidente/agenda-presidente.component'
+          ).then((c) => c.AgendaPresidenteComponent),
       },
       {
         path: 'estrutura-organizacional',
@@ -263,9 +256,9 @@ export const routes: Routes = [
       {
         path: 'regimento-interno',
         loadComponent: () =>
-          import('./features/regimento-interno/regimento-interno.component').then(
-            (c) => c.RegimentoInternoComponent
-          ),
+          import(
+            './features/regimento-interno/regimento-interno.component'
+          ).then((c) => c.RegimentoInternoComponent),
       },
       {
         path: 'vereadores',
@@ -281,8 +274,7 @@ export const routes: Routes = [
             (c) => c.ComissoesComponent
           ),
       },
-
-    ]
+    ],
   },
   {
     path: 'home',
@@ -357,7 +349,6 @@ export const routes: Routes = [
       ),
   },
 
-
   {
     path: 'legislacao-municipal',
     loadComponent: () =>
@@ -368,7 +359,10 @@ export const routes: Routes = [
 
   {
     path: 'diario-oficial',
-    loadChildren: () => import('./features/diario-oficial/diario-oficial.routes').then(m => m.DiarioOficialRoutingModule)
+    loadChildren: () =>
+      import('./features/diario-oficial/diario-oficial.routes').then(
+        (m) => m.DiarioOficialRoutingModule
+      ),
   },
   {
     path: 'diaria',

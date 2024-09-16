@@ -3,10 +3,10 @@ import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { LayoutFormsAdmComponent } from '../../shared/containers/layout-forms-adm/layout-forms-adm.component';
+import { LayoutFormsAdmComponent } from '../../../../shared/containers/layout-forms-adm/layout-forms-adm.component';
 
 @Component({
-  selector: 'app-balanco-administrativo',
+  selector: 'app-audiencia-publica-administrativo',
   standalone: true,
   imports: [LayoutFormsAdmComponent,
     CommonModule,
@@ -14,27 +14,25 @@ import { LayoutFormsAdmComponent } from '../../shared/containers/layout-forms-ad
     MatIconModule,
     MatButtonModule
   ],
-  templateUrl: './balanco-administrativo.component.html',
-  styleUrls: ['./balanco-administrativo.component.scss']
+  templateUrl: './audiencia-publica-administrativo.component.html',
+  styleUrls: ['./audiencia-publica-administrativo.component.scss']
 })
-export class BalancoAdministrativoComponent {
+export class AudienciaPublicaAdministrativoComponent {
   filtroForm: FormGroup;
   dynamicFields: any[];
 
   constructor(private fb: FormBuilder) {
     this.filtroForm = this.fb.group({
-      tipoDeBalanco: [''],
-      nome: [''],
-      mes: [''],
-      ano: [''],
+      ataDaSessao: [''],
+      day: [''],
+      month: [''],
+      year: [''],
       file: [null]
     });
 
     this.dynamicFields = [
-      { name: 'tipoDeBalanco', type: 'text', label: 'Tipo de balanço' },
-      { name: 'nome', type: 'text', label: 'Nome' },
-      { name: 'mes', type: 'text', label: 'Mês' },
-      { name: 'ano', type: 'text', label: 'Ano' },
+      { name: 'titulo', type: 'text', label: 'Título' },
+      { name: 'dataDaSessao', type: 'text', label: 'Data da Sessão' },
       { name: 'file', type: 'file', fileType: 'complex', label: '' }
     ];
   }

@@ -3,21 +3,22 @@ import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { LayoutFormsAdmComponent } from '../../shared/containers/layout-forms-adm/layout-forms-adm.component';
+import { LayoutFormsAdmComponent } from '../../../../shared/containers/layout-forms-adm/layout-forms-adm.component';
 
 @Component({
-  selector: 'app-atos-admissionais-administrativo',
+  selector: 'app-atas-sessao-administrativo',
   standalone: true,
-  imports: [LayoutFormsAdmComponent,
+  imports: [
+    LayoutFormsAdmComponent,
     CommonModule,
     ReactiveFormsModule,
     MatIconModule,
     MatButtonModule
   ],
-  templateUrl: './atos-admissionais-administrativo.component.html',
-  styleUrls: ['./atos-admissionais-administrativo.component.scss']
+  templateUrl: './atas-sessao-administrativo.component.html',
+  styleUrls: ['./atas-sessao-administrativo.component.scss']
 })
-export class AtosAdmissionaisAdministrativoComponent {
+export class AtasSessaoAdministrativoComponent {
   filtroForm: FormGroup;
   dynamicFields: any[];
 
@@ -31,8 +32,7 @@ export class AtosAdmissionaisAdministrativoComponent {
     });
 
     this.dynamicFields = [
-      { name: 'tipoDoContrato', type: 'text', label: 'Tipo do contrato' },
-      { name: 'descricaoDoAto', type: 'text', label: 'Descrição do ATO' },
+      { name: 'ataDaSessao', type: 'text', label: 'Ata da Sessão' },
       { name: 'dataDaSessao', type: 'text', label: 'Data da Sessão' },
       { name: 'file', type: 'file', fileType: 'complex', label: '' }
     ];

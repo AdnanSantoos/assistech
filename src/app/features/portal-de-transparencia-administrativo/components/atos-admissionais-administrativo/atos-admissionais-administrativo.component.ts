@@ -3,10 +3,10 @@ import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { LayoutFormsAdmComponent } from '../../shared/containers/layout-forms-adm/layout-forms-adm.component';
+import { LayoutFormsAdmComponent } from '../../../../shared/containers/layout-forms-adm/layout-forms-adm.component';
 
 @Component({
-  selector: 'app-audiencia-publica-administrativo',
+  selector: 'app-atos-admissionais-administrativo',
   standalone: true,
   imports: [LayoutFormsAdmComponent,
     CommonModule,
@@ -14,10 +14,10 @@ import { LayoutFormsAdmComponent } from '../../shared/containers/layout-forms-ad
     MatIconModule,
     MatButtonModule
   ],
-  templateUrl: './audiencia-publica-administrativo.component.html',
-  styleUrls: ['./audiencia-publica-administrativo.component.scss']
+  templateUrl: './atos-admissionais-administrativo.component.html',
+  styleUrls: ['./atos-admissionais-administrativo.component.scss']
 })
-export class AudienciaPublicaAdministrativoComponent {
+export class AtosAdmissionaisAdministrativoComponent {
   filtroForm: FormGroup;
   dynamicFields: any[];
 
@@ -31,7 +31,8 @@ export class AudienciaPublicaAdministrativoComponent {
     });
 
     this.dynamicFields = [
-      { name: 'titulo', type: 'text', label: 'Título' },
+      { name: 'tipoDoContrato', type: 'text', label: 'Tipo do contrato' },
+      { name: 'descricaoDoAto', type: 'text', label: 'Descrição do ATO' },
       { name: 'dataDaSessao', type: 'text', label: 'Data da Sessão' },
       { name: 'file', type: 'file', fileType: 'complex', label: '' }
     ];

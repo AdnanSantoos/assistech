@@ -3,37 +3,38 @@ import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { LayoutFormsAdmComponent } from '../../shared/containers/layout-forms-adm/layout-forms-adm.component';
+import { LayoutFormsAdmComponent } from '../../../../shared/containers/layout-forms-adm/layout-forms-adm.component';
 
 @Component({
-  selector: 'app-atas-sessao-administrativo',
+  selector: 'app-balanco-administrativo',
   standalone: true,
-  imports: [
-    LayoutFormsAdmComponent,
+  imports: [LayoutFormsAdmComponent,
     CommonModule,
     ReactiveFormsModule,
     MatIconModule,
     MatButtonModule
   ],
-  templateUrl: './atas-sessao-administrativo.component.html',
-  styleUrls: ['./atas-sessao-administrativo.component.scss']
+  templateUrl: './balanco-administrativo.component.html',
+  styleUrls: ['./balanco-administrativo.component.scss']
 })
-export class AtasSessaoAdministrativoComponent {
+export class BalancoAdministrativoComponent {
   filtroForm: FormGroup;
   dynamicFields: any[];
 
   constructor(private fb: FormBuilder) {
     this.filtroForm = this.fb.group({
-      ataDaSessao: [''],
-      day: [''],
-      month: [''],
-      year: [''],
+      tipoDeBalanco: [''],
+      nome: [''],
+      mes: [''],
+      ano: [''],
       file: [null]
     });
 
     this.dynamicFields = [
-      { name: 'ataDaSessao', type: 'text', label: 'Ata da Sessão' },
-      { name: 'dataDaSessao', type: 'text', label: 'Data da Sessão' },
+      { name: 'tipoDeBalanco', type: 'text', label: 'Tipo de balanço' },
+      { name: 'nome', type: 'text', label: 'Nome' },
+      { name: 'mes', type: 'text', label: 'Mês' },
+      { name: 'ano', type: 'text', label: 'Ano' },
       { name: 'file', type: 'file', fileType: 'complex', label: '' }
     ];
   }
