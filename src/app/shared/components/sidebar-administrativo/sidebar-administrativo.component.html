@@ -106,51 +106,17 @@
           </a>
         </div>
       </mat-expansion-panel>
-      <mat-expansion-panel class="mat-elevation-z0">
-        <mat-expansion-panel-header>
-          <div class="btn-padrao__hover button-acessos">
-            <div class="btn-padrao__perfil-icon"></div>
-            <div class="btn-padrao__text">Portal de Transparência</div>
-          </div>
-        </mat-expansion-panel-header>
-        <div class="sub-menu-item">
-          <a
-            class="btn-padrao__hover button-acessos"
-            routerLink="/adm/portal-de-transparencia-administrativo/ata-das-sessoes"
-          >
-            <div class="btn-padrao__perfil-icon"></div>
-            <div class="btn-padrao__text">Ata das Sessões</div>
-          </a>
-          <a
-            class="btn-padrao__hover button-acessos"
-            routerLink="/adm/portal-de-transparencia-administrativo/atos-admissionais"
-          >
-            <div class="btn-padrao__perfil-icon"></div>
-            <div class="btn-padrao__text">Atos Admissionais</div>
-          </a>
-          <a
-            class="btn-padrao__hover button-acessos"
-            routerLink="/adm/portal-de-transparencia-administrativo/audiencia-publica"
-          >
-            <div class="btn-padrao__perfil-icon"></div>
-            <div class="btn-padrao__text">Audiência Pública</div>
-          </a>
-          <a
-            class="btn-padrao__hover button-acessos"
-            routerLink="/adm/portal-de-transparencia-administrativo/balancete"
-          >
-            <div class="btn-padrao__perfil-icon"></div>
-            <div class="btn-padrao__text">Balancete</div>
-          </a>
-          <a
-            class="btn-padrao__hover button-acessos"
-            routerLink="/adm/portal-de-transparencia-administrativo/outros"
-          >
-            <div class="btn-padrao__perfil-icon"></div>
-            <div class="btn-padrao__text">Outros</div>
-          </a>
-        </div>
-      </mat-expansion-panel>
+      
+      <div routerLink="/adm/portal-de-transparencia-administrativo/outros">
+        <mat-expansion-panel>
+          <mat-expansion-panel-header >
+            <div class="portal-transparencia btn-padrao__hover button-acessos w-100 mt-3" >
+              <div class="btn-padrao__perfil-icon"></div>
+              <div class="btn-padrao__text">Portal de Transparência</div>
+            </div>
+          </mat-expansion-panel-header>
+        </mat-expansion-panel>
+      </div>
     </div>
   </div>
 </div>
