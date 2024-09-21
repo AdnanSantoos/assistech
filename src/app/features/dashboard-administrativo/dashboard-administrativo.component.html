@@ -11,7 +11,9 @@
             <p>Selecione uma dentre as opções abaixo:</p>
           </div>
           <div class="card-container">
-            <div *ngFor="let categoria of categorias" class="card">
+            <div *ngFor="let categoria of categorias" class="card"
+            [ngClass]="{ 'publicacao-card': categoria.nome === 'Publicações' }"
+            >
               <div class="card-content">
                 <div class="esq-card">
                   <a class="btn-padrao__hover">
@@ -23,7 +25,7 @@
                   <h2>{{ categoria.quantidade }}</h2>
                 </div>
               </div>
-              <button>
+              <button class="btn-ver-lista">
                 <img
                   src="../../../assets/icons/burguer-menu.svg"
                   width="21px"

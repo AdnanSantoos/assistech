@@ -11,6 +11,7 @@ import { SidebarAdministrativoComponent } from '../../shared/components/sidebar-
 })
 export class DashboardAdministrativoComponent {
   categorias = [
+    { nome: 'Publicações', quantidade: 4230 },
     { nome: 'Usuários', quantidade: 1230 },
     { nome: 'Documentos', quantidade: 450 },
     { nome: 'Órgãos', quantidade: 20 },

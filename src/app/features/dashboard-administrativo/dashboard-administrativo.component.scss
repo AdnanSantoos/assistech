@@ -20,15 +20,16 @@
   display: flex;
   flex-wrap: wrap;
   margin-top: 5%;
-  justify-content: center;
+  justify-content: space-between;
   margin-bottom: 15%;
+  gap: 10px;
   .card {
-    width: 330px;
+    width: 290px;
     height: 135px;
     box-shadow: 0px 4px 10px 0px #00000040;
     border-radius: 15px;
-    margin: 15px;
-    button {
+    margin-top: 15px;
+    .btn-ver-lista {
       margin-top: auto;
       background: #f1f1f1;
       width: 100%;
@@ -100,6 +101,34 @@
       }
     }
   }
+  .publicacao-card {
+    background: #282828;
+    width: 100%;
+    color: #fff;
+    .card-container{
+      .card{
+        width: 100%;
+        
+      }
+    }
+    .btn-padrao__hover {
+      background: #DFDFDF !important;
+      width: 75px;
+      height: 67px;
+      padding: 15px;
+      .btn-padrao__perfil-icon {
+        width: 30px;
+        height: 30px;
+        background-size: cover;
+        background-image: url("../../../assets/icons/perfil-icon-preto.svg") !important;
+      }
+    }
+    .btn-ver-lista{
+      background: #525252 !important;
+      color: #fff;
+    }
+  }
+  
   @media (max-width: 768px) {
     .card {
       button {
