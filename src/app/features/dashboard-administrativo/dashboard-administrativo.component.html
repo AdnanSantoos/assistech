@@ -11,8 +11,12 @@
             <p>Selecione uma dentre as opções abaixo:</p>
           </div>
           <div class="card-container">
-            <div *ngFor="let categoria of categorias" class="card"
-            [ngClass]="{ 'publicacao-card': categoria.nome === 'Publicações' }"
+            <div
+              *ngFor="let categoria of categorias; let i = index"
+              [ngClass]="{
+                'last-two': isLastTwo(i)
+              }"
+              class="card"
             >
               <div class="card-content">
                 <div class="esq-card">

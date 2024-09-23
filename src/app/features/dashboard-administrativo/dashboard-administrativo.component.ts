@@ -19,6 +19,13 @@ export class DashboardAdministrativoComponent {
     { nome: 'Planos de Contratação', quantidade: 15 },
     { nome: 'Licitações', quantidade: 5 },
     { nome: 'Unidades', quantidade: 12 },
-    { nome: 'Termos', quantidade: 34 }
+
   ];
+
+  isLastTwo(index: number): boolean {
+    const total = this.categorias.length;
+    const isEven = total % 2 === 0;
+    return isEven && (index === total - 1 || index === total - 2);
+  }
+
 }

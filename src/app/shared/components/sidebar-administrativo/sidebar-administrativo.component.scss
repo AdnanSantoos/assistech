@@ -28,6 +28,8 @@
       }
     }
     .dashboard {
+      margin-top: 15%;
+
       .btn-padrao__hover {
         background-color: #fff;
         border-radius: 10px;
@@ -160,6 +162,8 @@
     padding-top: 5px;
     border-bottom: 1px solid gray;
     border-radius: 0px;
+    padding-left: 0;
+
   }
   .mat-expansion-panel-header:last-child {
     border-bottom: 0px solid transparent;

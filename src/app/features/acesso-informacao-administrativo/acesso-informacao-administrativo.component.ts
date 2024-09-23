@@ -15,22 +15,22 @@ export class AcessoInformacaoAdministrativoComponent {
     {
       name: 'Ata das sessões',
       externo: '',
-      link: '/adm/atas-sessao-administrativo'
+      link: '/adm/portal-de-transparencia-administrativo/ata-das-sessoes'
     },
     {
       name: 'atos admissionais',
       externo: '',
-      link: '/adm/atos-admissionais-administrativo'
+      link: '/adm/portal-de-transparencia-administrativo/atos-admissionais'
     },
     {
       name: 'audiência pública',
       externo: '',
-      link: '/adm/audiencia-publica-administrativo'
+      link: '/adm/portal-de-transparencia-administrativo/audiencia-publica'
     },
     {
       name: 'balancete',
       externo: '',
-      link: '/adm/balanco-administrativo'
+      link: '/adm/portal-de-transparencia-administrativo/balancete'
     },
     {
       name: 'Balanço Anual',
@@ -95,7 +95,7 @@ export class AcessoInformacaoAdministrativoComponent {
     {
       name: 'Licitações',
       externo: '',
-      link: '/adm/licitacoes-administrativo'
+      link: '/adm/pncp-administrativo/licitacoes'
     },
     {
       name: 'Lista de presença',

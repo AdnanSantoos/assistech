@@ -208,7 +208,10 @@ body {
     }
   }
 }
-
+.margin-auto{
+  margin-left: auto;
+  margin-right: auto;
+}
 .home-class {
   div {
     &.bkg-header {

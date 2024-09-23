@@ -4,27 +4,37 @@
     font-size: 46.76px;
     font-weight: 800;
     line-height: 57.27px;
-    text-align: center;
+    text-align: left;
   }
   p {
     font-size: 15px;
     font-weight: 600;
     line-height: 18.37px;
-    text-align: center;
+    text-align: left;
   }
 }
+
 .col-md-2 {
   padding-left: 0;
+  padding-right: 0;
+
 }
 .card-container {
   display: flex;
   flex-wrap: wrap;
-  margin-top: 5%;
   justify-content: space-between;
   margin-bottom: 15%;
   gap: 10px;
+  .last-two {
+    width: 49% !important;
+  }
+  @media (max-width: 768px) {
+    .last-two {
+      width: 100% !important;
+    }
+  }
   .card {
-    width: 290px;
+    width: 22vw;
     height: 135px;
     box-shadow: 0px 4px 10px 0px #00000040;
     border-radius: 15px;
@@ -70,12 +80,12 @@
             background-image: url("../../../assets/icons/perfil-icon-branco.svg");
           }
         }
-         @media (max-width: 768px) {
-          .btn-padrao__hover{
+        @media (max-width: 768px) {
+          .btn-padrao__hover {
             width: 70px;
             height: 70px;
             padding: 0px;
-            .btn-padrao__perfil-icon{
+            .btn-padrao__perfil-icon {
               width: 30px;
               height: 30px;
             }
@@ -101,18 +111,22 @@
       }
     }
   }
+  @media (max-width: 1366px) {
+    .card {
+      width: calc(100vw / 4);
+    }
+  }
   .publicacao-card {
     background: #282828;
     width: 100%;
     color: #fff;
-    .card-container{
-      .card{
+    .card-container {
+      .card {
         width: 100%;
-        
       }
     }
     .btn-padrao__hover {
-      background: #DFDFDF !important;
+      background: #dfdfdf !important;
       width: 75px;
       height: 67px;
       padding: 15px;
@@ -123,12 +137,12 @@
         background-image: url("../../../assets/icons/perfil-icon-preto.svg") !important;
       }
     }
-    .btn-ver-lista{
+    .btn-ver-lista {
       background: #525252 !important;
       color: #fff;
     }
   }
-  
+
   @media (max-width: 768px) {
     .card {
       width: 100%;
