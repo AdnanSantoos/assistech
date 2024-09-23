@@ -54,6 +54,7 @@
             [formControlName]="field.name"
             [required]="field.required"
             (focus)="picker.open()"
+            readonly
           />
           <mat-datepicker-toggle
             matSuffix
@@ -73,9 +74,12 @@
             <h5 class="obrigatorio-complex form-title">(Obrigatório)</h5>
           </label>
         </div>
-        <div class="upload-container ">
+        <div class="upload-container">
           <span class="upload-icon"
-            ><img width="70px" src="../../../../assets/icons/icon-upload.svg" alt=""
+            ><img
+              width="70px"
+              src="../../../../assets/icons/icon-upload.svg"
+              alt=""
           /></span>
           <div class="upload-text">
             SOLTE OS ARQUIVOS PARA ENVIAR OU CLIQUE PARA SELECIONAR
@@ -91,7 +95,7 @@
 
       <div *ngIf="field.type === 'file' && field.fileType === 'complex'">
         <p class="file-upload-instructions">
-          {{nameFile}} <br>
+          {{ nameFile }} <br />
           Tipos de arquivo aceitos: pdf, Máx. tamanho do arquivo:
           <strong>5 MB</strong>, Máx. arquivos: 5
         </p>

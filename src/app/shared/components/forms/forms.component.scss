@@ -331,4 +331,7 @@ form {
   .mat-mdc-text-field-wrapper{
     padding-left: 0px !important;
   }
+  .mat-mdc-form-field-icon-prefix, .mat-mdc-form-field-icon-suffix{
+    display: none;
+  }
 }
