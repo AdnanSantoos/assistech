@@ -1,10 +1,10 @@
 footer {
     background: #0C4CBE;
     color: #fff;
-    font-size: 16.434px;
+    font-size: 13.434px;
     font-weight: 500;
     text-transform: uppercase;
-    padding: 20px 10px 70px 20px;
+    padding: 20px 10px 20px 20px;
 
     .title_footer {
         ul {
@@ -52,8 +52,8 @@ footer {
         display: flex;
 
         .img {
-            width: 88.269px;
-            height: 85.673px;
+            width: 68.269px;
+            height: 65.673px;
             border-radius: 12.981px;
             display: flex;
             justify-content: center;
@@ -74,7 +74,7 @@ footer {
             background: #F00505;
 
             img {
-                width: 63.559px;
+                width: 53.559px;
                 height: 33.043px;
             }
 
@@ -82,9 +82,13 @@ footer {
     }
 
     .pwr {
-        max-width: 192px;
+        max-width: 100px;
+        height: 65px;
         margin-top: 10px;
         padding: 10px 20px;
+        img{
+          width: 100%;
+        }
     }
 
 

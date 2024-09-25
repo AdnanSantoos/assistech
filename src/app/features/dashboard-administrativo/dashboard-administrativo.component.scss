@@ -1,5 +1,5 @@
 .text-section {
-  padding-top: 5%;
+  padding-top: 1%;
   .title-dashboard {
     font-size: 46.76px;
     font-weight: 800;
@@ -17,47 +17,48 @@
 .col-md-2 {
   padding-left: 0;
   padding-right: 0;
-
 }
 .card-container {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
-  margin-bottom: 15%;
+  justify-content: flex-start;
+  margin-bottom: 22vh;
   gap: 10px;
   .last-two {
-    width: 49% !important;
+    width: 49%;
   }
   @media (max-width: 768px) {
     .last-two {
       width: 100% !important;
     }
+    .last-two {
+      margin-right: 10px;
+    }
   }
   .card {
-    width: 22vw;
-    height: 135px;
+    width: 30%;
+    height: 120px;
     box-shadow: 0px 4px 10px 0px #00000040;
     border-radius: 15px;
-    margin-top: 15px;
+    margin-top: 5px;
     .btn-ver-lista {
-      margin-top: auto;
       background: #f1f1f1;
       width: 100%;
       height: 43px;
-      padding: 10px 159px 12px 75px;
       color: #8b8b8b;
       border: none;
-      white-space: nowrap;
-      font-size: 13px;
+      white-space: normal;
+      font-size: 12px;
       font-weight: 700;
-      line-height: 15.92px;
       text-align: center;
       text-transform: uppercase;
       border-bottom-left-radius: 15px;
       border-bottom-right-radius: 15px;
 
       img {
-        margin-right: 10px;
+        width: 15px;
+        height: 15px;
+        margin: 5px;
       }
     }
 
@@ -65,17 +66,18 @@
       display: flex;
       flex-direction: row;
       flex-wrap: wrap;
+
       .esq-card {
         padding: 20px 10px 0px 15px;
 
         .btn-padrao__hover {
           background-color: #252525;
-          width: 75px;
-          height: 67px;
-          padding: 15px;
+          width: 55px;
+          height: 47px;
+          padding: 5px;
           .btn-padrao__perfil-icon {
-            width: 30px;
-            height: 30px;
+            width: 20px;
+            height: 20px;
             background-size: cover;
             background-image: url("../../../assets/icons/perfil-icon-branco.svg");
           }
@@ -100,6 +102,7 @@
           line-height: 20.55px;
           text-align: left;
           margin: 0;
+          white-space: normal;
         }
         h2 {
           font-size: 31.25px;
@@ -111,11 +114,7 @@
       }
     }
   }
-  @media (max-width: 1366px) {
-    .card {
-      width: calc(100vw / 4);
-    }
-  }
+
   .publicacao-card {
     background: #282828;
     width: 100%;
@@ -148,6 +147,36 @@
       width: 100%;
       button {
         padding: 0px;
+      }
+    }
+  }
+}
+@media (min-width: 1360px) {
+  .text-section {
+    .title-dashboard {
+      font-size: 36px;
+    }
+    p {
+      font-size: 12px;
+    }
+  }
+  .card-container {
+    .card {
+      height: auto;
+      .btn-ver-lista{
+        font-size: 10px;
+        height: auto;
+      }
+      .card-content {
+        .dir-card {
+          padding: 10px 7px 0px;
+          p {
+            font-size: 12px;
+          }
+          h2 {
+            font-size: 25px;
+          }
+        }
       }
     }
   }

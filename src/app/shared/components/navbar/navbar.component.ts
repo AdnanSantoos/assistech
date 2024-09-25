@@ -6,6 +6,7 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NavigationEnd, Router, RouterLink } from '@angular/router';
 import { TipoRota } from '../../models/shared.model';
+import { LoginModel } from '../../../features/login/models/login.model';
 
 @Component({
   selector: 'app-navbar',
@@ -41,6 +42,7 @@ export class NavbarComponent implements OnInit {
   isAdmRoute = false;
   isLoginRoute = false;
   isDiarioRoute = false;
+  loggedInUserEmail: string | null = null;
 
   constructor(private router: Router,private location: Location) {
     const currentUrl = this.location.path();
@@ -72,7 +74,14 @@ export class NavbarComponent implements OnInit {
     this.mobile = !this.mobile;
   }
   logout() {
-    // Lógica de logout, por exemplo:
+    localStorage.removeItem('loggedInUser');
     this.router.navigate(['/']);
+  }
+  getLoggedInUserEmail() {
+    const user = localStorage.getItem('loggedInUser');
+    if (user) {
+      const loginModel: LoginModel = JSON.parse(user);
+      this.loggedInUserEmail = loginModel.email;
+    }
   }
 }

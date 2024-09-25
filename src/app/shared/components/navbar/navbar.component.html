@@ -1,7 +1,7 @@
 <div class="bkg-header">
   <div class="container align">
-    <div class="row align-items-center mb-4" [ngClass]="{'justify-content-center': isLoginRoute, 'justify-content-between': !isLoginRoute}">
-      <div class="col-8 col-md-4 logo-mobile w-auto ml-auto mr-auto">
+    <div class="row align-items-center pb-4" [ngClass]="{'justify-content-center': isLoginRoute, 'justify-content-between': !isLoginRoute}">
+      <div class="col-8 d-flex col-md-4 logo-mobile w-auto ml-auto mr-auto">
         <div class="logo-container" routerLink="/home">
           <div class="logo">
             <img src="../../../../assets/logos/logo-itaberaba.webp" alt="" />
@@ -11,7 +11,12 @@
             <p class="text2">{{ logoText2 }}</p>
           </div>
         </div>
+        <div class="d-lg-flex d-none flex-column ms-4 text-light" *ngIf="!isLoginRoute">
+          <h6>Bem Vindo</h6>
+          <h2>{{loggedInUserEmail}}</h2>
+        </div>
       </div>
+
       <div class="col col-md-8 campos-direita">
         <div class="buttons-header">
           <a
@@ -48,9 +53,9 @@
 
             <ng-template #deslogarTemplate>
               <div class="deslogar">
-                <div class="btn-padrao__hover button-login" (click)="logout()">
+                <div class="btn-padrao__hover d-flex flex-row button-login" (click)="logout()">
                   <div class="btn-padrao__perfil-icon"></div>
-                  <div class="btn-padrao__text">Sair</div>
+                  <div class="btn-padrao__text">Sair do portal</div>
                 </div>
               </div>
             </ng-template>
