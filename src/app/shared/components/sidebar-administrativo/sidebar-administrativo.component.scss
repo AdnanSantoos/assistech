@@ -56,11 +56,16 @@
           }
         }
       }
+      .diario-oficial{
+        border-bottom: 1px solid #8b8a8a;
+        border-radius: 0px;
+        width: 100%;
+      }
     }
 
     .dashboard {
       margin-top: 5%;
-      max-width: 240px;
+      max-width: 255px;
 
       .btn-padrao__hover {
         background-color: #fff !important;
