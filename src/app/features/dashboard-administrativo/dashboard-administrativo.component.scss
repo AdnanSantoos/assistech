@@ -1,3 +1,23 @@
+@media (min-width: 1660px) {
+  .altura {
+    height: 72.7vh;
+  }
+}
+@media (min-width: 1360px) and (max-width: 1659px) {
+  .altura {
+    height: 72.9vh;
+  }
+}
+@media (min-width: 769px) and (max-width: 1359px) {
+  .altura {
+    height: 73vh;
+  }
+}
+@media (max-width: 768px) {
+  .altura {
+    height: 100%;
+  }
+}
 .text-section {
   padding-top: 1%;
   .title-dashboard {
@@ -14,7 +34,8 @@
   }
 }
 
-.col-md-2 {
+.col-md-2,
+.col-md-3 {
   padding-left: 0;
   padding-right: 0;
 }
@@ -22,7 +43,6 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
-  margin-bottom: 22vh;
   gap: 10px;
   .last-two {
     width: 49%;
@@ -68,8 +88,7 @@
       flex-wrap: wrap;
 
       .esq-card {
-        padding: 20px 10px 0px 15px;
-
+        padding: 10px;
         .btn-padrao__hover {
           background-color: #252525;
           width: 55px;
@@ -99,7 +118,6 @@
         p {
           font-size: 13.77px;
           font-weight: 600;
-          line-height: 20.55px;
           text-align: left;
           margin: 0;
           white-space: normal;
@@ -107,14 +125,38 @@
         h2 {
           font-size: 31.25px;
           font-weight: 700;
-          line-height: 50.52px;
           text-align: left;
           margin: 0;
         }
       }
+      @media (min-width: 769px) and (max-width: 1360px) {
+        .dir-card {
+          max-width: 120px;
+          margin-top: 0px;
+          padding: 5px 10px;
+          p {
+            font-size: 11px;
+            font-weight: 700;
+          }
+          h2 {
+            font-size: 28px;
+          }
+        }
+        .esq-card {
+          padding: 10px;
+        }
+      }
     }
   }
-
+  @media (min-width: 769px) {
+    .card {
+      height: 100% !important;
+      .btn-ver-lista {
+        height: 25px;
+        font-size: 10px;
+      }
+    }
+  }
   .publicacao-card {
     background: #282828;
     width: 100%;
@@ -163,7 +205,7 @@
   .card-container {
     .card {
       height: auto;
-      .btn-ver-lista{
+      .btn-ver-lista {
         font-size: 10px;
         height: auto;
       }

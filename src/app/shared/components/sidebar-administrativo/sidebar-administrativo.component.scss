@@ -21,6 +21,19 @@
     }
     .dashboard-content {
       margin-top: 5%;
+      .border-bottom {
+        width: 100%;
+        border-radius: 0px !important;
+        border-bottom: 1px solid #757575 !important;
+      }
+      .diario-oficial {
+        max-width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+        .btn-padrao__text {
+          max-width: 125px;
+        }
+      }
     }
     @media (max-width: 768px) {
       .dashboard-content {
@@ -29,6 +42,7 @@
     }
     .dashboard {
       margin-top: 5%;
+      max-width: 240px;
       .btn-padrao__hover {
         background-color: #fff;
         border-radius: 10px;
@@ -196,8 +210,8 @@
       }
     }
   }
-  .portal-transparencia{
-    .btn-padrao__text{
+  .portal-transparencia {
+    .btn-padrao__text {
       font-size: 11px;
     }
   }
