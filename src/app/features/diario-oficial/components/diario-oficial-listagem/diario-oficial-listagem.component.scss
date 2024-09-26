@@ -168,6 +168,73 @@
 .mat-icon{
   color:#225ec9;
 }
+.official-docs-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed; // Define a largura fixa das colunas
+
+  thead {
+    th {
+      background: #225ec9;
+      padding: 20px;
+      font-size: 14.33px;
+      font-weight: 700;
+      line-height: 17.55px;
+      text-align: center;
+      color: #fff;
+
+      &:first-child {
+        width: max-content; // Aplica max-content para as primeiras colunas
+      }
+
+      &:nth-child(2) {
+        width: max-content; // Aplica max-content para a segunda coluna
+      }
+
+      &:nth-child(3) {
+        width: 40%; // Define uma largura maior para a descrição
+      }
+
+      &:last-child {
+        width: max-content; // Aplica max-content para a última coluna
+      }
+    }
+  }
+
+  tbody {
+    tr {
+      font-size: 14.33px;
+      font-weight: 500;
+      color: #5171ce;
+      text-align: center;
+
+      &:nth-child(even) {
+        background-color: #f2f2f2;
+      }
+
+      &:nth-child(odd) {
+        background-color: #ffffff;
+      }
+
+      td {
+        padding: 12px;
+
+        &:nth-child(3) {
+          width: 40%; // Aplica a mesma largura maior para a coluna de descrição no corpo da tabela
+          text-align: center;
+        }
+
+        .download-link {
+          color: #0033cc;
+          text-decoration: none;
+          font-size: 18px;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}
+
 @media (max-width: 768px) {
   .right-column {
     width: 100%;
