@@ -97,6 +97,10 @@
           white-space: normal;
         }
       }
+      .btn-padrao__hover:hover {
+        background-color: transparent;
+        box-shadow: none;
+      }
     }
     .button-ecac {
       display: flex;

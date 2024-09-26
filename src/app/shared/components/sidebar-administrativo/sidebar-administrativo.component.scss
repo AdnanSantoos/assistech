@@ -5,7 +5,7 @@
   flex-direction: column;
   align-items: center;
 
-  .side-container__title {
+  &__title {
     margin-top: 5%;
     color: #fff;
     text-align: center;
@@ -14,80 +14,122 @@
     text-transform: uppercase;
   }
 
-  .side-container__list {
+  &__list {
     a {
-      margin-top: 20px;
-      margin-bottom: 20px;
+      margin: 20px 0;
     }
+
     .dashboard-content {
       margin-top: 5%;
+
       .border-bottom {
-        width: 100%;
-        border-radius: 0px !important;
+        border-radius: 0 !important;
         border-bottom: 1px solid #757575 !important;
       }
-      .diario-oficial {
+
+      .diario-oficial,
+      .portal-transparencia {
         max-width: 100%;
-        margin-left: auto;
-        margin-right: auto;
-        .btn-padrao__text {
-          max-width: 125px;
+        margin: 0 auto;
+
+        .btn-padrao__hover {
+          width: calc(100vw / 7);
+          position: relative;
+
+          .btn-padrao__perfil-icon {
+            position: absolute;
+            left: 0;
+            width: 25.003px;
+            height: 25.458px;
+            background-size: cover;
+            background-image: url("../../../../assets/icons/perfil-icon-preto.svg") !important;
+          }
+
+          .btn-padrao__text {
+            margin-left: 35px;
+            text-align: center;
+            font-size: 13.638px;
+            font-weight: 700;
+            color: #000 !important;
+            white-space: normal;
+          }
         }
       }
     }
+
     @media (max-width: 768px) {
       .dashboard-content {
-        margin-top: 0px;
+        margin-top: 0;
       }
     }
+
     .dashboard {
       margin-top: 5%;
       max-width: 240px;
+
       .btn-padrao__hover {
-        background-color: #fff;
+        background-color: #fff !important;
         border-radius: 10px;
         width: calc(100vw / 7);
+        position: relative;
 
         .btn-padrao__perfil-icon {
+          position: absolute;
+          left: 0;
           width: 25.003px;
           height: 25.458px;
           background-size: cover;
-          background-image: url("../../../../assets/icons/perfil-icon-preto.svg");
+          background-image: url("../../../../assets/icons/perfil-icon-preto.svg") !important;
         }
 
         .btn-padrao__text {
+          margin-left: 35px;
           text-align: center;
           font-size: 13.638px;
-          font-style: normal;
           font-weight: 700;
-          color: #000;
+          color: #000 !important;
           white-space: normal;
         }
       }
-      .btn-padrao__hover:hover {
+
+      &__hover:hover {
         background-color: #fff;
       }
     }
+
     @media (max-width: 767px) {
       .dashboard {
         width: 100%;
         display: flex;
+
         .btn-padrao__hover {
-          margin-left: auto;
-          margin-right: auto;
+          margin: 0 auto;
           width: 215px;
+          position: relative;
+
+          .btn-padrao__perfil-icon {
+            position: absolute;
+            left: 0;
+          }
+
+          .btn-padrao__text {
+            margin-left: 35px;
+          }
         }
       }
+
       .mat-expansion-panel {
         width: calc(100vw / 2);
       }
     }
+
     @media (width: 768px) {
       .dashboard {
         .btn-padrao__hover {
           width: calc(100vw / 5);
         }
       }
+
       .mat-expansion-panel {
         width: calc(100vw / 5);
       }
@@ -110,10 +152,13 @@
         .btn-padrao__perfil-icon {
           filter: invert(1);
           opacity: 0.7;
+          position: absolute;
+          left: 0;
         }
 
         .btn-padrao__text {
           color: #8b8a8a;
+          margin-left: 35px;
         }
       }
     }
@@ -123,17 +168,19 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+
     .btn-padrao__hover {
-      width: 185.838px;
       height: 40px;
-      max-height: 100%;
       padding: 12.493px;
       gap: 10px;
-      justify-content: flex-start;
       display: flex;
+      justify-content: flex-start;
       background-color: transparent;
+      position: relative;
 
       .btn-padrao__perfil-icon {
+        position: absolute;
+        left: 0;
         width: 25.003px;
         height: 25.458px;
         background-size: cover;
@@ -141,20 +188,22 @@
       }
 
       .btn-padrao__text {
+        margin-left: 35px;
         text-align: center;
         font-size: 13.638px;
-        font-style: normal;
         font-weight: 700;
         color: #fff;
         white-space: normal;
       }
     }
-    .btn-padrao__hover:hover {
+
+    &__hover:hover {
       background-color: transparent;
-      border-radius: 0px;
+      border-radius: 0;
       border: none;
     }
   }
+
   @media (max-width: 768px) {
     .buttons {
       margin-bottom: 10px;
@@ -165,41 +214,44 @@
 .mat-expansion-panel {
   background-color: transparent;
   width: calc(100vw / 7);
-  margin-left: auto;
-  margin-right: auto;
-  .mat-expansion-panel-header {
-    margin-top: 5px;
-    margin-bottom: 5px;
+  margin: 0 auto;
+
+  &-header {
+    margin: 5px 0;
     padding-top: 5px;
     border-bottom: 1px solid gray;
-    border-radius: 0px;
+    border-radius: 0;
     padding-left: 0;
   }
-  .mat-expansion-panel-header:last-child {
-    border-bottom: 0px solid transparent;
+
+  &-header:last-child {
+    border-bottom: 0 solid transparent;
   }
+
   .btn-padrao__text {
     font-size: 13.64px;
     font-weight: 700;
-    line-height: 16.7px;
     text-align: left;
   }
-}
-.mat-expansion-panel:hover {
-  background-color: initial;
-}
-.mat-expansion-panel:not(.mat-expanded)
-  .mat-expansion-panel-header:not([aria-disabled="true"]):hover {
-  background-color: initial;
+
+  &:hover {
+    background-color: initial;
+  }
+
+  &:not(.mat-expanded) &-header:not([aria-disabled="true"]):hover {
+    background-color: initial;
+  }
 }
 
 @media (min-width: 1360px) {
   .mat-expansion-panel {
     width: calc(100vw / 8);
+
     .btn-padrao__text {
       font-size: 12px;
     }
   }
+
   .side-container {
     .buttons {
       .btn-padrao__hover {
@@ -210,7 +262,13 @@
       }
     }
   }
-  .portal-transparencia {
+
+  .portal-transparencia,
+  .diario-oficial {
+    .btn-padrao__hover {
+      width: calc(100vw / 8);
+    }
+
     .btn-padrao__text {
       font-size: 11px;
     }
