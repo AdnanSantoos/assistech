@@ -11,14 +11,15 @@
     </div>
 
     <div class="dashboard-content">
-      <mat-expansion-panel class="mat-elevation-z0">
-        <mat-expansion-panel-header>
-          <div class="btn-padrao__hover button-acessos">
-            <div class="btn-padrao__perfil-icon"></div>
-            <div class="btn-padrao__text">Cadastrar</div>
-          </div>
-        </mat-expansion-panel-header>
-        <div class="sub-menu-item">
+      <div class="menu-item border-bottom">
+        <div
+          class="btn-padrao__hover button-acessos"
+          (click)="toggleSubMenu('cadastrarMenu')"
+        >
+          <div class="btn-padrao__perfil-icon"></div>
+          <div class="btn-padrao__text">Cadastrar</div>
+        </div>
+        <div *ngIf="isSubMenuOpen('cadastrarMenu')" class="sub-menu">
           <a
             routerLink="/adm/cadastrar-cliente"
             class="btn-padrao__hover button-acessos"
@@ -34,21 +35,27 @@
             <div class="btn-padrao__text">Usuário</div>
           </a>
         </div>
-      </mat-expansion-panel>
-      <div class="d-flex justify-content-center" routerLink="/adm/diario-oficial-administrativo/gerenciar">
-        <div class="diario-oficial border-bottom btn-padrao__hover button-acessos mt-3">
+      </div>
+
+      <div class="d-flex justify-content-center">
+        <div
+          routerLink="/adm/diario-oficial-administrativo/gerenciar"
+          class="diario-oficial border-bottom btn-padrao__hover button-acessos mt-3"
+        >
           <div class="btn-padrao__perfil-icon"></div>
           <div class="btn-padrao__text">Diário Oficial</div>
         </div>
       </div>
-      <mat-expansion-panel class="mat-elevation-z0">
-        <mat-expansion-panel-header>
-          <div class="btn-padrao__hover button-acessos">
-            <div class="btn-padrao__perfil-icon"></div>
-            <div class="btn-padrao__text">PNCP</div>
-          </div>
-        </mat-expansion-panel-header>
-        <div class="sub-menu-item">
+
+      <div class="menu-item border-bottom">
+        <div
+          class="btn-padrao__hover button-acessos"
+          (click)="toggleSubMenu('pncpMenu')"
+        >
+          <div class="btn-padrao__perfil-icon"></div>
+          <div class="btn-padrao__text">PNCP</div>
+        </div>
+        <div *ngIf="isSubMenuOpen('pncpMenu')" class="sub-menu">
           <a
             class="btn-padrao__hover button-acessos"
             routerLink="/adm/pncp-administrativo/orgaos"
@@ -85,10 +92,13 @@
             <div class="btn-padrao__text">PCA</div>
           </a>
         </div>
-      </mat-expansion-panel>
+      </div>
 
-      <div class="d-flex justify-content-center" routerLink="/adm/portal-de-transparencia-administrativo/outros">
-        <div class="portal-transparencia btn-padrao__hover button-acessos mt-3">
+      <div class="d-flex justify-content-center">
+        <div
+          routerLink="/adm/portal-de-transparencia-administrativo/outros"
+          class="portal-transparencia btn-padrao__hover button-acessos mt-3"
+        >
           <div class="btn-padrao__perfil-icon"></div>
           <div class="btn-padrao__text">Portal de Transparência</div>
         </div>

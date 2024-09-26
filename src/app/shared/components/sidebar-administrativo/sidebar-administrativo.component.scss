@@ -23,14 +23,15 @@
       margin-top: 5%;
 
       .border-bottom {
-        border-radius: 0 !important;
         border-bottom: 1px solid #757575 !important;
       }
 
       .diario-oficial,
       .portal-transparencia {
         max-width: 100%;
-        margin: 0 auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
 
         .btn-padrao__hover {
           width: calc(100vw / 7);
@@ -54,12 +55,6 @@
             white-space: normal;
           }
         }
-      }
-    }
-
-    @media (max-width: 768px) {
-      .dashboard-content {
-        margin-top: 0;
       }
     }
 
@@ -94,44 +89,6 @@
 
       &__hover:hover {
         background-color: #fff;
-      }
-    }
-
-    @media (max-width: 767px) {
-      .dashboard {
-        width: 100%;
-        display: flex;
-
-        .btn-padrao__hover {
-          margin: 0 auto;
-          width: 215px;
-          position: relative;
-
-          .btn-padrao__perfil-icon {
-            position: absolute;
-            left: 0;
-          }
-
-          .btn-padrao__text {
-            margin-left: 35px;
-          }
-        }
-      }
-
-      .mat-expansion-panel {
-        width: calc(100vw / 2);
-      }
-    }
-
-    @media (width: 768px) {
-      .dashboard {
-        .btn-padrao__hover {
-          width: calc(100vw / 5);
-        }
-      }
-
-      .mat-expansion-panel {
-        width: calc(100vw / 5);
       }
     }
 
@@ -204,6 +161,28 @@
     }
   }
 
+  .mat-expansion-panel {
+    background-color: transparent;
+    width: calc(100vw / 7);
+    margin: 0 auto;
+
+    &-header {
+      margin: 5px 0;
+      padding-top: 5px;
+      border-bottom: 1px solid gray;
+    }
+
+    .btn-padrao__text {
+      font-size: 13.64px;
+      font-weight: 700;
+      text-align: left;
+    }
+
+    &:hover {
+      background-color: initial;
+    }
+  }
+
   @media (max-width: 768px) {
     .buttons {
       margin-bottom: 10px;
@@ -211,66 +190,3 @@
   }
 }
 
-.mat-expansion-panel {
-  background-color: transparent;
-  width: calc(100vw / 7);
-  margin: 0 auto;
-
-  &-header {
-    margin: 5px 0;
-    padding-top: 5px;
-    border-bottom: 1px solid gray;
-    border-radius: 0;
-    padding-left: 0;
-  }
-
-  &-header:last-child {
-    border-bottom: 0 solid transparent;
-  }
-
-  .btn-padrao__text {
-    font-size: 13.64px;
-    font-weight: 700;
-    text-align: left;
-  }
-
-  &:hover {
-    background-color: initial;
-  }
-
-  &:not(.mat-expanded) &-header:not([aria-disabled="true"]):hover {
-    background-color: initial;
-  }
-}
-
-@media (min-width: 1360px) {
-  .mat-expansion-panel {
-    width: calc(100vw / 8);
-
-    .btn-padrao__text {
-      font-size: 12px;
-    }
-  }
-
-  .side-container {
-    .buttons {
-      .btn-padrao__hover {
-        .btn-padrao__perfil-icon {
-          width: 18.003px;
-          height: 18.458px;
-        }
-      }
-    }
-  }
-
-  .portal-transparencia,
-  .diario-oficial {
-    .btn-padrao__hover {
-      width: calc(100vw / 8);
-    }
-
-    .btn-padrao__text {
-      font-size: 11px;
-    }
-  }
-}
