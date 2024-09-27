@@ -26,15 +26,15 @@
   .logo-container {
     background-color: #fff;
     display: flex;
-    padding: 5px 20px;
-    border-radius: 15px;
-    max-height: 98px;
+    padding: 5px 15px;
+    border-radius: 10px;
+    max-height: 60px;
     justify-content: center;
     cursor: pointer;
-
+    align-items: center;
     .logo {
-      width: 42.399px;
-      height: 55.444px;
+      width: 38.399px;
+      height: 48.444px;
       display: flex;
       align-items: center;
       img {
@@ -56,11 +56,11 @@
       margin-left: 15px;
 
       .text1 {
-        font-size: 12px;
+        font-size: 10px;
       }
 
       .text2 {
-        font-size: 25.199px;
+        font-size: 23.199px;
         margin-top: -5px;
       }
     }
@@ -70,31 +70,36 @@
     display: flex;
     gap: 10px;
     .deslogar {
-      width: 150px;
+      max-width: 120px;
       background-color: #fff;
       border-radius: 15px;
       display: flex;
       align-items: center;
       justify-content: center;
+      .button-login {
+        max-width: 100%;
+      }
       .btn-padrao__hover {
-        height: 65px;
         width: 100%;
-        padding: 0;
+        padding: 10px 15px 10px 15px;
         margin-left: 0;
+        border-radius: 8px;
+        justify-content: space-between;
         .btn-padrao__perfil-icon {
-          width: 20.003px;
-          height: 20.458px;
+          width: 18.003px;
+          height: 22.458px;
           background-size: cover;
           background-image: url("../../../../assets/icons/perfil-icon-preto.svg");
         }
 
         .btn-padrao__text {
           text-align: center;
-          font-size: 12.638px;
+          font-size: 10px;
           font-style: normal;
           font-weight: 700;
           color: #000;
           white-space: normal;
+          max-width: 60px;
         }
       }
       .btn-padrao__hover:hover {
