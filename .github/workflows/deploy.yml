@@ -28,4 +28,4 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist/<nome-do-seu-app>  # Substitua pelo nome correto do diretório da sua build
+          publish_dir: ./dist/assistech  # Substitua pelo nome correto do diretório da sua build
