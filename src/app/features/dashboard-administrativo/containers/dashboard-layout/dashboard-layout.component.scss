@@ -1,0 +1,71 @@
+@media (min-width: 1660px) {
+    .altura {
+      height: 86.5vh;
+    }
+  }
+  @media (min-width: 769px) and (max-width: 1660px) {
+    .altura {
+      height: 83.6vh;
+    }
+  }
+  @media (max-width: 768px) {
+    .altura {
+      height: 100%;
+    }
+  }
+  ::ng-deep {
+    .geral {
+      display: none;
+    }
+    .footer {
+      .borda-verde {
+        display: none;
+      }
+      ul {
+        li {
+          border-bottom: 3px solid #55ff9f;
+          width: max-content;
+        }
+      }
+    }
+    .dashboard-header {
+      .geral {
+        display: block;
+      }
+    }
+    .logo-container {
+      display: none !important;
+    }
+    .adm-class div.bkg-header {
+      background-image: none !important;
+      background-color: #cbcbcb !important ;
+      padding: 0;
+      .container-fluid {
+        .pb-4 {
+          padding-bottom: 0.5rem !important;
+        }
+      }
+    }
+    .text-light {
+      color: #000 !important;
+    }
+    .bkg-dashboard {
+      background-image: none;
+      background-color: #fff;
+      .row {
+        --bs-gutter-x: 0;
+      }
+    }
+  }
+  
+
+  .container-fluid {
+    --bs-gutter-x: 4.3rem;
+  }
+  .col-md-2,
+  .col-md-3 {
+    padding-left: 0;
+    padding-right: 0;
+  }
+ 
+  

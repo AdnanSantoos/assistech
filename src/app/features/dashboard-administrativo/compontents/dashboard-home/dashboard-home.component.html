@@ -1,0 +1,34 @@
+<div class="text-section">
+  <h1 class="title-dashboard">Dashboard</h1>
+  <p>Selecione uma dentre as opções abaixo:</p>
+</div>
+<div class="card-container">
+  <div
+    *ngFor="let categoria of categorias; let i = index"
+    [ngClass]="{
+      'last-two': isLastTwo(i)
+    }"
+    class="card"
+  >
+    <div class="card-content">
+      <div class="esq-card">
+        <a class="btn-padrao__hover">
+          <div class="btn-padrao__perfil-icon"></div>
+        </a>
+      </div>
+      <div class="dir-card">
+        <p>{{ categoria.nome }}</p>
+        <h2>{{ categoria.quantidade }}</h2>
+      </div>
+    </div>
+    <button class="btn-ver-lista">
+      <img
+        src="../../../assets/icons/burguer-menu.svg"
+        width="21px"
+        height="21px"
+        alt=""
+      />
+      ver lista completa
+    </button>
+  </div>
+</div>

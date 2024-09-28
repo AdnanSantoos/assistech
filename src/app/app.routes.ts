@@ -18,6 +18,13 @@ export const routes: Routes = [
           ).then((m) => m.DiarioOficialAdministrativoRoutingModule),
       },
       {
+        path: 'dashboard-administrativo',
+        loadChildren: () =>
+          import(
+            './features/dashboard-administrativo/dashboard-adm.routes'
+          ).then((m) => m.DashboardAdministrativoRoutingModule),
+      },
+      {
         path: 'pncp-administrativo',
         loadChildren: () =>
           import(
@@ -212,14 +219,7 @@ export const routes: Routes = [
           import(
             './features/noticias-administrativo/noticias-administrativo.component'
           ).then((c) => c.NoticiasAdministrativoComponent),
-      },
-      {
-        path: 'dashboard-administrativo',
-        loadComponent: () =>
-          import(
-            './features/dashboard-administrativo/dashboard-administrativo.component'
-          ).then((c) => c.DashboardAdministrativoComponent),
-      },
+      }
     ],
   },
   {
