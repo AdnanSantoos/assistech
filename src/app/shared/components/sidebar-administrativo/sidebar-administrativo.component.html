@@ -1,106 +1,18 @@
-<div class="side-container px-4">
-  <div class="side-container__list buttons flex-column">
-    <div class="d-flex dashboard">
-      <a
+<div class="side-container">
+  <div class="side-container__list w-100">
+    <div class="d-flex dashboard ms-auto me-auto">
+      <div class="logo">
+        <img
+          src="../../../../assets/logos/logo-adm-portal-itaberaba.svg"
+          alt=""
+        />
+      </div>
+      <div
         routerLink="/adm/dashboard-administrativo"
         class="btn-padrao__hover button-acessos w-100"
       >
-        <div class="btn-padrao__perfil-icon"></div>
-        <div class="btn-padrao__text">Dashboard</div>
-      </a>
-    </div>
-
-    <div class="dashboard-content">
-      <div class="menu-item border-bottom">
-        <div
-          class="btn-padrao__hover button-acessos"
-          (click)="toggleSubMenu('cadastrarMenu')"
-        >
-          <div class="btn-padrao__perfil-icon"></div>
-          <div class="btn-padrao__text">Cadastrar</div>
-        </div>
-        <div *ngIf="isSubMenuOpen('cadastrarMenu')" class="sub-menu">
-          <a
-            routerLink="/adm/cadastrar-cliente"
-            class="btn-padrao__hover button-acessos"
-          >
-            <div class="btn-padrao__perfil-icon"></div>
-            <div class="btn-padrao__text">Cliente</div>
-          </a>
-          <a
-            routerLink="/adm/cadastrar-usuario"
-            class="btn-padrao__hover button-acessos"
-          >
-            <div class="btn-padrao__perfil-icon"></div>
-            <div class="btn-padrao__text">Usuário</div>
-          </a>
-        </div>
-      </div>
-
-      <div class="d-flex justify-content-start">
-        <div
-        routerLink="/adm/diario-oficial-administrativo/gerenciar"
-          class="diario-oficial btn-padrao__hover button-acessos mt-3 mb-3"
-        >
-          <div class="btn-padrao__perfil-icon"></div>
-          <div class="btn-padrao__text">Diario Oficial</div>
-        </div>
-      </div>
-      <div class="menu-item border-bottom">
-        <div
-          class="btn-padrao__hover button-acessos"
-          (click)="toggleSubMenu('pncpMenu')"
-        >
-          <div class="btn-padrao__perfil-icon"></div>
-          <div class="btn-padrao__text">PNCP</div>
-        </div>
-        <div *ngIf="isSubMenuOpen('pncpMenu')" class="sub-menu">
-          <a
-            class="btn-padrao__hover button-acessos"
-            routerLink="/adm/pncp-administrativo/orgaos"
-          >
-            <div class="btn-padrao__perfil-icon"></div>
-            <div class="btn-padrao__text">Orgãos</div>
-          </a>
-          <a
-            class="btn-padrao__hover button-acessos"
-            routerLink="/adm/pncp-administrativo/unidades"
-          >
-            <div class="btn-padrao__perfil-icon"></div>
-            <div class="btn-padrao__text">Unidades</div>
-          </a>
-          <a
-            class="btn-padrao__hover button-acessos"
-            routerLink="/adm/pncp-administrativo/licitacoes"
-          >
-            <div class="btn-padrao__perfil-icon"></div>
-            <div class="btn-padrao__text">Licitações</div>
-          </a>
-          <a
-            class="btn-padrao__hover button-acessos"
-            routerLink="/adm/pncp-administrativo/contratos"
-          >
-            <div class="btn-padrao__perfil-icon"></div>
-            <div class="btn-padrao__text">Contratos</div>
-          </a>
-          <a
-            class="btn-padrao__hover button-acessos"
-            routerLink="/adm/pncp-administrativo/pca"
-          >
-            <div class="btn-padrao__perfil-icon"></div>
-            <div class="btn-padrao__text">PCA</div>
-          </a>
-        </div>
-      </div>
-
-      <div class="d-flex justify-content-start">
-        <div
-          routerLink="/adm/portal-de-transparencia-administrativo/outros"
-          class="portal-transparencia btn-padrao__hover button-acessos mt-3"
-        >
-          <div class="btn-padrao__perfil-icon"></div>
-          <div class="btn-padrao__text">Portal de Transparência</div>
-        </div>
+        <span class="btn-padrao__perfil-icon"></span>
+        <span class="btn-padrao__text text-uppercase">Trocar Órgão</span>
       </div>
     </div>
   </div>

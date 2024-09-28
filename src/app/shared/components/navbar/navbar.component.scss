@@ -71,7 +71,7 @@
     gap: 10px;
     .deslogar {
       max-width: 120px;
-      background-color: #fff;
+      background-color: #000;
       border-radius: 15px;
       display: flex;
       align-items: center;
@@ -85,6 +85,8 @@
         margin-left: 0;
         border-radius: 8px;
         justify-content: space-between;
+        background-color: #000;
+
         .btn-padrao__perfil-icon {
           width: 18.003px;
           height: 22.458px;

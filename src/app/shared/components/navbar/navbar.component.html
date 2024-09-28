@@ -1,5 +1,5 @@
-<div class="bkg-header">
-  <div class="container align">
+<div class="bkg-header geral">
+  <div class="container-fluid align">
     <div
       class="ps-0 row align-items-center pb-4"
       [ngClass]="{
@@ -7,7 +7,9 @@
         'justify-content-between': !isLoginRoute
       }"
     >
-      <div class="ps-0 col-8 d-flex col-md-4 logo-mobile align-items-center w-auto ml-auto mr-auto">
+      <div
+        class="ps-0 col-8 d-flex col-md-4 logo-mobile align-items-center w-auto ml-auto mr-auto"
+      >
         <div class="logo-container" routerLink="/home">
           <div class="logo">
             <img src="../../../../assets/logos/logo-itaberaba.webp" alt="" />
@@ -23,7 +25,7 @@
         >
           <h6 class="m-0">Seja Bem Vindo,</h6>
           <!-- <h2>{{loggedInUserEmail}}</h2> -->
-          <h2 class="m-0">Matheus Gonçalves</h2>
+          <h2 class="m-0 bold">Matheus Gonçalves</h2>
         </div>
       </div>
 
@@ -62,13 +64,12 @@
             </ng-container>
 
             <ng-template #deslogarTemplate>
-              <div class="deslogar">
+              <div class="deslogar me-4">
                 <div
                   class="btn-padrao__hover d-flex flex-row button-login"
                   (click)="logout()"
                 >
-                  <div class="btn-padrao__perfil-icon"></div>
-                  <div class="btn-padrao__text">Sair do portal</div>
+                 <img src="../../../../assets/icons/deslogar.svg" alt="">
                 </div>
               </div>
             </ng-template>
