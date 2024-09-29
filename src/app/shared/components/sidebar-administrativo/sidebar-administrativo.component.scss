@@ -15,6 +15,7 @@
   }
 
   &__list {
+    width: 100%;
     a {
       margin: 20px 0;
     }
@@ -23,7 +24,8 @@
       display: flex;
       flex-direction: column;
       margin-top: 5%;
-      max-width: 80%;
+      margin-bottom: 15%;
+
       img {
         width: 100%;
       }
@@ -54,4 +56,125 @@
       }
     }
   }
+}
+
+.buttons-sidebar {
+  width: 100%;
+
+  .menu-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+
+    .menu-item {
+      display: flex;
+      align-items: center;
+      padding: 15px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+
+      color: #e6e6e6;
+      font-size: 8.537px;
+      font-style: normal;
+      font-weight: 700;
+      line-height: 122.487%;
+      text-transform: uppercase;
+
+      &:hover {
+        background-color: #444;
+      }
+
+      mat-icon {
+        margin-right: 10px;
+        color: #fff;
+      }
+
+      .menu-title {
+        flex-grow: 1;
+        text-transform: uppercase;
+        font-size: 12px;
+      }
+
+      .menu-arrow {
+        transition: transform 0.3s;
+        color: #fff;
+
+        &.expanded {
+          transform: rotate(90deg);
+        }
+      }
+    }
+
+    .submenu {
+      list-style-type: none;
+      padding: 0 15px;
+      margin: 0;
+      margin-left: 15px;
+
+      span {
+        color: #e6e6e6;
+        font-size: 8.537px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 122.487%; /* 10.457px */
+        text-transform: uppercase;
+      }
+      li {
+        cursor: pointer;
+        padding: 10px 0;
+        mat-icon {
+          color: #fff;
+        }
+        a {
+          color: #fff;
+          font-size: 12px;
+          text-transform: uppercase;
+          text-decoration: none;
+          display: block;
+
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+
+    .active {
+      background-color: #44444457;
+
+      .submenu {
+        display: block;
+      }
+    }
+  }
+}
+.dashboard-button {
+  display: flex;
+  height: 26px;
+  padding-left: 20px;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+  align-self: stretch;
+  background: #e6e6e6;
+  border-radius: 0;
+  margin-bottom: 15%;
+  .btn-padrao__perfil-icon {
+    background-image: url("../../../../assets/icons/perfil-icon-preto.svg") !important;
+    width: 10.016px;
+    height: 11.837px;
+    background-size: contain;
+  }
+  .btn-padrao__text {
+    color: #1f1f1f;
+    font-size: 8.537px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 122.487%; /* 10.457px */
+    text-transform: uppercase;
+  }
+}
+.dashboard-button:hover{
+  background: #e6e6e6;
+
 }

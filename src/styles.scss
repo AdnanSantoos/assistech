@@ -278,3 +278,19 @@ body {
     }
   }
 }
+
+@media (min-width: 1660px) {
+  .altura {
+    min-height: 86.5vh;
+  }
+}
+@media (min-width: 769px) and (max-width: 1660px) {
+  .altura {
+    min-height: 83.6vh;
+  }
+}
+@media (max-width: 768px) {
+  .altura {
+    height: 100%;
+  }
+}

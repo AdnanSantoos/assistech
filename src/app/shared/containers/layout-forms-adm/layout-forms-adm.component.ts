@@ -3,11 +3,13 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { FormsComponent } from '../../components/forms/forms.component';
+import { SidebarAdministrativoComponent } from '../../components/sidebar-administrativo/sidebar-administrativo.component';
+import { NavbarComponent } from '../../components/navbar/navbar.component';
 
 @Component({
   selector: 'app-layout-forms-adm',
   standalone: true,
-  imports: [CommonModule, RouterLink, FormsComponent],
+  imports: [CommonModule, RouterLink, FormsComponent,SidebarAdministrativoComponent,NavbarComponent],
   templateUrl: './layout-forms-adm.component.html',
   styleUrls: ['./layout-forms-adm.component.scss'],
 })

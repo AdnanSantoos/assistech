@@ -1,0 +1,151 @@
+.container {
+    max-width: 100%;
+    margin: 0 auto;
+    margin-bottom: 30px;
+    .form-content {
+      max-width: 600px;
+      background-color: #fff;
+      border-radius: 10px;
+      padding: 30px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    }
+  }
+  
+  h3 {
+    color: #000;
+    font-size: 26.131px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 122.487%;
+    text-transform: uppercase;
+  }
+  small {
+    color: #848484;
+    font-size: 10px;
+    font-style: italic;
+    font-weight: 500;
+    line-height: 122.487%;
+    text-transform: uppercase;
+  }
+  form {
+    .form-group {
+      margin-bottom: 1.5rem;
+  
+      label {
+        color: #000;
+        font-size: 13.679px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 122.487%;
+        text-transform: uppercase;
+      }
+  
+      input,
+      select {
+        border-radius: 4.275px;
+        border: 1.71px solid rgba(0, 0, 0, 0.5);
+        max-width: 521.5px;
+        height: 43.601px;
+      }
+  
+      input::placeholder {
+        color: #aaa;
+      }
+    }
+  
+    .form-check {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+  
+      .form-check-input {
+        margin-right: 10px;
+        width: 3rem;
+        height: 1rem;
+        background-color: #ff4d4d;
+        transition: background-color 0.3s ease;
+  
+        &:checked {
+          background-color: #4caf50;
+        }
+      }
+  
+      .form-check-label {
+        display: flex;
+        align-items: center;
+        font-size: 0.9rem;
+        margin-bottom: 0;
+      }
+    }
+  
+    // Botão de submit
+    button[type="submit"] {
+      display: flex;
+      max-width: 521px;
+      padding: 14.008px 59.143px;
+      justify-content: center;
+      align-items: center;
+      gap: 5.188px;
+      border-radius: 13.817px;
+      border: 1.382px solid #1f1f1f;
+      background: #000;
+  
+      &:disabled {
+        background-color: #ccc;
+      }
+  
+      &:hover:not(:disabled) {
+        background-color: #333;
+      }
+    }
+  }
+  
+  // Estilo para a caixa de status
+  .status-box {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  
+    .status {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      margin-right: 10px;
+  
+      &.enabled {
+        background-color: #4caf50;
+      }
+  
+      &.disabled {
+        background-color: #ff4d4d;
+      }
+    }
+  
+    .label {
+      font-size: 0.9rem;
+    }
+  }
+  ::ng-deep {
+    .altura {
+      height: 100% !important;
+    }
+  }
+  .text-success {
+    color: #16cc47;
+    font-size: 10px;
+    font-style: italic;
+    font-weight: 500;
+    line-height: 122.487%;
+    text-transform: uppercase;
+  }
+  
+  .text-danger {
+    color: #db4646;
+    font-size: 10px;
+    font-style: italic;
+    font-weight: 500;
+    line-height: 122.487%;
+    text-transform: uppercase;
+  }
+  

@@ -1,10 +1,10 @@
 <div class="side-container">
-  <div class="side-container__list w-100">
-    <div class="d-flex dashboard ms-auto me-auto">
+  <div class="side-container__list">
+    <div class="d-flex dashboard ps-4 pe-4">
       <div class="logo">
         <img
           src="../../../../assets/logos/logo-adm-portal-itaberaba.svg"
-          alt=""
+          alt="Logo"
         />
       </div>
       <div
@@ -14,6 +14,40 @@
         <span class="btn-padrao__perfil-icon"></span>
         <span class="btn-padrao__text text-uppercase">Trocar Órgão</span>
       </div>
+    </div>
+    <div
+      routerLink="/adm/dashboard-administrativo/home"
+      class="dashboard-button btn-padrao__hover button-acessos w-100"
+    >
+      <span class="btn-padrao__perfil-icon"></span>
+      <span class="btn-padrao__text text-uppercase">Dashboard</span>
+    </div>
+    <div class="buttons-sidebar">
+      <ul class="menu-list">
+        <li *ngFor="let item of menuItems" [class.active]="item.expanded" [routerLink]="item.link ? item.link : null">
+          <div class="menu-item" (click)="toggleSubMenu(item)">
+            <mat-icon>person</mat-icon>
+            <span class="menu-title">{{ item.title }}</span>
+            <span
+              *ngIf="!item.link"
+              class="menu-arrow"
+              [ngClass]="{ expanded: item.expanded }"
+            ></span>
+          </div>
+
+          <!-- Somente mostra o submenu se não tiver um link direto -->
+          <ul class="submenu" *ngIf="item.expanded && item.subMenu.length > 0">
+            <li
+              class="d-flex align-items-center"
+              *ngFor="let subItem of item.subMenu"
+              [routerLink]="subItem.link"
+            >
+              <mat-icon>person</mat-icon>
+              <span class="ms-2">{{ subItem.title }}</span>
+            </li>
+          </ul>
+        </li>
+      </ul>
     </div>
   </div>
 </div>

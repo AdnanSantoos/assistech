@@ -1,21 +1,28 @@
-<div class="bg-pagina-interna">
-  <div class="container">
-    <div class="row">
-      <div class="col">
-        <h1 class="pagina-interna">{{titulo_pagina}}</h1>
-        <ng-content select="[app-formulario]"></ng-content>
-        <div class="d-flex justify-content-center">
-          <div class="button-voltar" (click)="goBack()">
-            Voltar
-          </div>
-          <p class="text-center">
-            Antes de enviar certifique-se de que todas as informações
-            <br>
-            preenchidas nos campos abaixo estão corretas!
-          </p>
+<div class="bkg-dashboard">
+  <div class="">
+    <div class="row altura">
+      <div class="col-sm-6 col-md-2">
+        <app-sidebar-administrativo></app-sidebar-administrativo>
+      </div>
+      <div class="col-sm-6 col-md-10 ms-0 ps-0">
+        <div class="dashboard-header">
+          <app-navbar></app-navbar>
         </div>
-        <div class="formulario-component">
-          <app-forms [dynamicFields]="dynamicFields" (formSubmit)="onSubmit($event)"></app-forms>
+        <div class="container-fluid">
+          <div class="bg-pagina-interna">
+            <div class="row">
+              <div class="col">
+                <div class="formulario-component d-flex flex-column">
+                  <h1 class="pagina-interna">{{ titulo_pagina }}</h1>
+                  <ng-content select="[app-formulario]"></ng-content>
+                  <app-forms
+                    [dynamicFields]="dynamicFields"
+                    (formSubmit)="onSubmit($event)"
+                  ></app-forms>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

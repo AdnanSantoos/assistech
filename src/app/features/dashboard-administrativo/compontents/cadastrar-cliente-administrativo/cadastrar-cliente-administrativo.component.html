@@ -1,178 +1,192 @@
 <div class="w-100">
   <div class="container mt-5 me-auto">
-    <h3 class="mb-4">Cadastrar Novo Cliente</h3>
-    <form [formGroup]="clienteForm" (ngSubmit)="onSubmit()">
-      <div class="form-group mb-3">
-        <label for="cidade">Cidade*</label>
-        <select id="cidade" class="form-control" formControlName="cidade">
-          <option value="" disabled selected>Selecione uma cidade</option>
-          <!-- Adicione as opções de cidade aqui -->
-        </select>
-      </div>
-  
-      <div class="form-group mb-3">
-        <label for="nome">Nome do Cliente*</label>
-        <input
-          id="nome"
-          class="form-control"
-          formControlName="nome"
-          placeholder="Nome do cliente"
-        />
-      </div>
-  
-      <div class="form-group mb-3">
-        <label>Status:</label>
-        <div class="d-flex flex-wrap flex-column justify-content-start">
-          <div class="form-check form-switch">
-            <input
-              class="form-check-input"
-              type="checkbox"
-              formControlName="status"
-              id="status"
-            />
-            <label class="form-check-label" for="status"> STATUS:
-  
-              <span class="ms-1"
-                [ngClass]="{
-                  'text-success': clienteForm.get('status')?.value,
-                  'text-danger': !clienteForm.get('status')?.value
-                }"
-              >
-                {{
-                  clienteForm.get("status")?.value ? "Habilitado" : "Desabilitado"
-                }}
-              </span>
-            </label>
-          </div>
-  
-          <div class="form-check form-switch">
-            <input
-              class="form-check-input"
-              type="checkbox"
-              formControlName="pncp"
-              id="pncp"
-            />
-            <label class="form-check-label" for="pncp">PNCP: 
-              <span class="ms-1"
-                [ngClass]="{
-                  'text-success': clienteForm.get('pncp')?.value,
-                  'text-danger': !clienteForm.get('pncp')?.value
-                }"
-              >
-                
-                {{
-                  clienteForm.get("pncp")?.value ? "Habilitado" : "Desabilitado"
-                }}
-              </span>
-            </label>
-          </div>
-  
-          <div class="form-check form-switch">
-            <input 
-              class="form-check-input"
-              type="checkbox"
-              formControlName="portalTransparencia"
-              id="portalTransparencia"
-            />
-            <label class="form-check-label" for="portalTransparencia">Portal da Transparência: 
-              <span class="ms-1"
-                [ngClass]="{
-                  'text-success': clienteForm.get('portalTransparencia')?.value,
-                  'text-danger': !clienteForm.get('portalTransparencia')?.value
-                }"
-              >
-                
-                {{
-                  clienteForm.get("portalTransparencia")?.value
-                    ? "Habilitado"
-                    : "Desabilitado"
-                }}
-              </span>
-            </label>
-          </div>
-  
-          <div class="form-check form-switch">
-            <input
-              class="form-check-input"
-              type="checkbox"
-              formControlName="diarioOficial"
-              id="diarioOficial"
-            />
-            <label class="form-check-label" for="diarioOficial">Diário Oficial: 
-              <span class="ms-1"
-                [ngClass]="{
-                  'text-success': clienteForm.get('diarioOficial')?.value,
-                  'text-danger': !clienteForm.get('diarioOficial')?.value
-                }"
-              >
-                
-                {{
-                  clienteForm.get("diarioOficial")?.value
-                    ? "Habilitado"
-                    : "Desabilitado"
-                }}
-              </span>
-            </label>
+    <div class="form-content">
+      <h3 class="mb-4">Cadastrar Novo Cliente</h3>
+      <form [formGroup]="clienteForm" (ngSubmit)="onSubmit()">
+        <div class="form-group mb-3">
+          <label for="cidade">Cidade*</label>
+          <select id="cidade" class="form-control" formControlName="cidade">
+            <option value="" disabled selected>Selecione uma cidade</option>
+            <!-- Adicione as opções de cidade aqui -->
+          </select>
+        </div>
+
+        <div class="form-group mb-3">
+          <label for="nome">Nome do Cliente*</label>
+          <input
+            id="nome"
+            class="form-control"
+            formControlName="nome"
+            placeholder="Nome do cliente"
+          />
+        </div>
+
+        <div class="form-group mb-3">
+          <label>Status:</label>
+          <div class="d-flex flex-wrap flex-column justify-content-start">
+            <div class="form-check form-switch">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                formControlName="status"
+                id="status"
+              />
+              <label class="form-check-label" for="status">
+                STATUS:
+
+                <span
+                  class="ms-1"
+                  [ngClass]="{
+                    'text-success': clienteForm.get('status')?.value,
+                    'text-danger': !clienteForm.get('status')?.value
+                  }"
+                >
+                  {{
+                    clienteForm.get("status")?.value
+                      ? "Habilitado"
+                      : "Desabilitado"
+                  }}
+                </span>
+              </label>
+            </div>
+
+            <div class="form-check form-switch">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                formControlName="pncp"
+                id="pncp"
+              />
+              <label class="form-check-label" for="pncp"
+                >PNCP:
+                <span
+                  class="ms-1"
+                  [ngClass]="{
+                    'text-success': clienteForm.get('pncp')?.value,
+                    'text-danger': !clienteForm.get('pncp')?.value
+                  }"
+                >
+                  {{
+                    clienteForm.get("pncp")?.value
+                      ? "Habilitado"
+                      : "Desabilitado"
+                  }}
+                </span>
+              </label>
+            </div>
+
+            <div class="form-check form-switch">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                formControlName="portalTransparencia"
+                id="portalTransparencia"
+              />
+              <label class="form-check-label" for="portalTransparencia"
+                >Portal da Transparência:
+                <span
+                  class="ms-1"
+                  [ngClass]="{
+                    'text-success': clienteForm.get('portalTransparencia')
+                      ?.value,
+                    'text-danger': !clienteForm.get('portalTransparencia')
+                      ?.value
+                  }"
+                >
+                  {{
+                    clienteForm.get("portalTransparencia")?.value
+                      ? "Habilitado"
+                      : "Desabilitado"
+                  }}
+                </span>
+              </label>
+            </div>
+
+            <div class="form-check form-switch">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                formControlName="diarioOficial"
+                id="diarioOficial"
+              />
+              <label class="form-check-label" for="diarioOficial"
+                >Diário Oficial:
+                <span
+                  class="ms-1"
+                  [ngClass]="{
+                    'text-success': clienteForm.get('diarioOficial')?.value,
+                    'text-danger': !clienteForm.get('diarioOficial')?.value
+                  }"
+                >
+                  {{
+                    clienteForm.get("diarioOficial")?.value
+                      ? "Habilitado"
+                      : "Desabilitado"
+                  }}
+                </span>
+              </label>
+            </div>
           </div>
         </div>
-      </div>
-  
-      <div class="form-group mb-3">
-        <label for="anoInicial">Ano Inicial do Diário Oficial (se houver)</label>
-        <input
-          id="anoInicial"
-          class="form-control"
-          formControlName="anoInicial"
-          placeholder="Ano inicial"
-        />
-      </div>
-  
-      <div class="form-group mb-3">
-        <label for="proximaEdicao">Número da Próxima Edição</label>
-        <input
-          id="proximaEdicao"
-          class="form-control"
-          formControlName="proximaEdicao"
-          placeholder="Número da próxima edição"
-        />
-      </div>
-  
-      <div class="form-group mb-3">
-        <label for="subdominio">Subdomínio/Slug</label>
-        <input
-          id="subdominio"
-          class="form-control"
-          formControlName="subdominio"
-          placeholder="Subdomínio/slug"
-        />
-      </div>
-  
-      <div class="form-group mb-3">
-        <label for="tipo">Tipo de Cliente*</label>
-        <select id="tipo" class="form-control" formControlName="tipo">
-          <option value="EMPRESA">Empresa</option>
-          <option value="OUTRO">Outro</option>
-        </select>
-      </div>
-  
-      <div class="form-group mb-3">
-        <label for="dominio">Domínio</label>
-        <input
-          id="dominio"
-          class="form-control"
-          formControlName="dominio"
-          placeholder="Domínio"
-        />
-      </div>
-  
-      <button
-        type="submit"
-        class="btn btn-dark w-100"
-        [disabled]="clienteForm.invalid"
-      >
-        Cadastrar
-      </button>
-    </form>
+
+        <div class="form-group mb-3">
+          <label for="anoInicial"
+            >Ano Inicial do Diário Oficial <small>(se houver)</small></label
+          >
+          <input
+            id="anoInicial"
+            class="form-control"
+            formControlName="anoInicial"
+            placeholder="Ano inicial"
+          />
+        </div>
+
+        <div class="form-group mb-3">
+          <label for="proximaEdicao">Número da Próxima Edição</label>
+          <input
+            id="proximaEdicao"
+            class="form-control"
+            formControlName="proximaEdicao"
+            placeholder="Número da próxima edição"
+          />
+        </div>
+
+        <div class="form-group mb-3">
+          <label for="subdominio">Subdomínio/Slug</label>
+          <input
+            id="subdominio"
+            class="form-control"
+            formControlName="subdominio"
+            placeholder="Subdomínio/slug"
+          />
+        </div>
+
+        <div class="form-group mb-3">
+          <label for="tipo">Tipo de Cliente*</label>
+          <select id="tipo" class="form-control" formControlName="tipo">
+            <option value="EMPRESA">Empresa</option>
+            <option value="OUTRO">Outro</option>
+          </select>
+        </div>
+
+        <div class="form-group mb-3">
+          <label for="dominio">Domínio</label>
+          <input
+            id="dominio"
+            class="form-control"
+            formControlName="dominio"
+            placeholder="Domínio"
+          />
+        </div>
+
+        <button
+          type="submit"
+          class="btn btn-dark w-100"
+          [disabled]="clienteForm.invalid"
+        >
+          Cadastrar
+        </button>
+      </form>
+    </div>
   </div>
-  
 </div>

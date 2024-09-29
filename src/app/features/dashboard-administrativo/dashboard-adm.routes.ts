@@ -5,6 +5,9 @@ import { DashboardHomeComponent } from './compontents/dashboard-home/dashboard-h
 import { DashboardLayoutComponent } from './containers/dashboard-layout/dashboard-layout.component';
 import { ClienteAdministrativoComponent } from './compontents/cliente-administrativo/cliente-administrativo.component';
 import { CadastrarClienteAdministrativoComponent } from './compontents/cadastrar-cliente-administrativo/cadastrar-cliente-administrativo.component';
+import { UsuariosAdministrativoComponent } from './compontents/usuarios-administrativo/usuarios-administrativo.component';
+import { CadastrarUsuariosAdministrativoComponent } from './compontents/cadastrar-usuarios-administrativo/cadastrar-usuarios-administrativo.component';
+import { GerenciadorDiarioOficialAdministrativoComponent } from './compontents/gerenciador-diario-oficial-administrativo/gerenciador-diario-oficial-administrativo.component';
 
 const routes: Routes = [
     {
@@ -27,7 +30,19 @@ const routes: Routes = [
             {
                 path:'cadastrar-cliente',
                 component:CadastrarClienteAdministrativoComponent
-            }
+            },
+            {
+                path:'usuarios',
+                component:UsuariosAdministrativoComponent
+            },
+            {
+                path:'cadastrar-usuarios',
+                component:CadastrarUsuariosAdministrativoComponent
+            },
+            {
+                path:'gerenciar-diario-oficial',
+                component:GerenciadorDiarioOficialAdministrativoComponent
+            },
          
         ]
     }

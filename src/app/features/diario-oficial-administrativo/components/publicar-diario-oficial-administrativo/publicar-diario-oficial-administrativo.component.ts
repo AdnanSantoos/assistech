@@ -24,8 +24,8 @@ export class PublicarDiarioOficialAdministrativoComponent implements OnInit {
   filtroForm: FormGroup = this.fb.group({});;
   dynamicFields: any[] = [
     { name: 'title', type: 'text', label: 'Título' },
-    { name: 'description', type: 'textarea', label: 'Descrição' },
     { name: 'date', type: 'date', label: 'Data' },
+    { name: 'description', type: 'textarea', label: 'Descrição' },
     { name: 'files', type: 'file', fileType: 'complex', label: 'Arquivo' }
   ];
 
