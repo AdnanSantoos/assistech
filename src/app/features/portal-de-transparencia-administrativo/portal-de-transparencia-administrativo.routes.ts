@@ -5,7 +5,6 @@ import { AtasSessaoAdministrativoComponent } from './components/atas-sessao-admi
 import { AtosAdmissionaisAdministrativoComponent } from './components/atos-admissionais-administrativo/atos-admissionais-administrativo.component';
 import { AudienciaPublicaAdministrativoComponent } from './components/audiencia-publica-administrativo/audiencia-publica-administrativo.component';
 import { BalancoAdministrativoComponent } from './components/balanco-administrativo/balanco-administrativo.component';
-import { AcessoInformacaoAdministrativoComponent } from '../acesso-informacao-administrativo/acesso-informacao-administrativo.component';
 
 const routes: Routes = [
   {
@@ -32,10 +31,6 @@ const routes: Routes = [
       {
         path: 'balancete',
         component: BalancoAdministrativoComponent,
-      },
-      {
-        path: 'outros',
-        component: AcessoInformacaoAdministrativoComponent,
       },
     ],
   },

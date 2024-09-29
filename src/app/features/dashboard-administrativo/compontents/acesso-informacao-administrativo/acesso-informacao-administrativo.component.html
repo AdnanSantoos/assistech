@@ -1,0 +1,24 @@
+<div class="mt-4 d-flex justify-content-center flex-column">
+    <div class="titulo">
+        <h1>Portal de transparência</h1>
+    </div>
+    <div class="subtitulo">
+        <p>Selecione uma dentre as opções abaixo:</p>
+    </div>
+    <div class="buttons w-100 d-flex justify-content-left">
+        <ng-container *ngFor="let content of button">
+            <a *ngIf="content.link; else externalLink" [routerLink]="[content.link]"
+                class="btn-padrao__hover button-acessos">
+                <div class="btn-padrao__perfil-icon"></div>
+                <div class="btn-padrao__text">{{ content.name }}</div>
+            </a>
+            <ng-template #externalLink>
+                <a target="_blank" [href]="content.externo"
+                    class="btn-padrao__hover button-acessos">
+                    <div class="btn-padrao__perfil-icon"></div>
+                    <div class="btn-padrao__text">{{ content.name }}</div>
+                </a>
+            </ng-template>
+        </ng-container>
+    </div>
+</div>

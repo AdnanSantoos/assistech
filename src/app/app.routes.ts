@@ -49,7 +49,7 @@ export const routes: Routes = [
         path: 'acesso-informacao-administrativo',
         loadComponent: () =>
           import(
-            './features/acesso-informacao-administrativo/acesso-informacao-administrativo.component'
+            './features/dashboard-administrativo/compontents/acesso-informacao-administrativo/acesso-informacao-administrativo.component'
           ).then((c) => c.AcessoInformacaoAdministrativoComponent),
       },
       {

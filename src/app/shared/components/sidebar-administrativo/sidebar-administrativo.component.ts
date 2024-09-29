@@ -39,9 +39,11 @@ export class SidebarAdministrativoComponent {
       title: 'Portal de Transparência',
       expanded: false,
       subMenu: [
-        { title: 'Atas das Sessões', link: '/adm/portal-de-transparencia-administrativo/atas' },
-        { title: 'Ações Admissional', link: '/adm/portal-de-transparencia-administrativo/acoes' },
-        { title: 'Balanço', link: '/adm/portal-de-transparencia-administrativo/balanco' },
+        { title: 'Atas das Sessões', link: '/adm/portal-de-transparencia-administrativo/ata-das-sessoes' },
+        { title: 'Atos Admissionais', link: '/adm/portal-de-transparencia-administrativo/atos-admissionais' },
+        { title: 'Audiência Pública', link: '/adm/portal-de-transparencia-administrativo/audiencia-publica' },
+        { title: 'Balancete', link: '/adm/portal-de-transparencia-administrativo/balancete' },
+        { title: 'Outros', link: '/adm/dashboard-administrativo/outros' },
       ],
     },
   ];

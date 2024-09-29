@@ -8,6 +8,7 @@ import { CadastrarClienteAdministrativoComponent } from './compontents/cadastrar
 import { UsuariosAdministrativoComponent } from './compontents/usuarios-administrativo/usuarios-administrativo.component';
 import { CadastrarUsuariosAdministrativoComponent } from './compontents/cadastrar-usuarios-administrativo/cadastrar-usuarios-administrativo.component';
 import { GerenciadorDiarioOficialAdministrativoComponent } from './compontents/gerenciador-diario-oficial-administrativo/gerenciador-diario-oficial-administrativo.component';
+import { AcessoInformacaoAdministrativoComponent } from './compontents/acesso-informacao-administrativo/acesso-informacao-administrativo.component';
 
 const routes: Routes = [
     {
@@ -42,6 +43,10 @@ const routes: Routes = [
             {
                 path:'gerenciar-diario-oficial',
                 component:GerenciadorDiarioOficialAdministrativoComponent
+            },
+            {
+                path:'outros',
+                component:AcessoInformacaoAdministrativoComponent
             },
          
         ]
