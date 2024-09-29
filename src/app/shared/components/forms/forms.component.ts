@@ -87,8 +87,9 @@ export class FormsComponent implements OnInit {
     }
   }
 
-  editFile() {
-    this.fileInput.nativeElement.click();
+  viewFile(file: File) {
+    const fileURL = URL.createObjectURL(file);
+    window.open(fileURL, '_blank');
   }
 
   removeFile(index: number) {
