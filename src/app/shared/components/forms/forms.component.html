@@ -9,10 +9,12 @@
         'full-width': field.type === 'file' || field.type === 'title'
       }"
     >
+      <!-- Campo de título -->
       <div *ngIf="field.type === 'title'" class="full-width">
         <h3 class="form-title mt-4">{{ field.label }}</h3>
       </div>
 
+      <!-- Campos de texto e número -->
       <div *ngIf="field.type === 'text' || field.type === 'number'">
         <label>{{ field.label }}</label>
         <input
@@ -23,6 +25,7 @@
         />
       </div>
 
+      <!-- Campo de textarea -->
       <div *ngIf="field.type === 'textarea'">
         <label>{{ field.label }}</label>
         <textarea
@@ -32,11 +35,12 @@
         ></textarea>
       </div>
 
+      <!-- Campo de seleção (dropdown) -->
       <div *ngIf="field.type === 'select'">
         <label>{{ field.label }}</label>
         <select [formControlName]="field.name" class="form-control">
           <option value="" disabled selected hidden>
-            {{ field.placeholder || "Selecione" }}
+            {{ field.placeholder || 'Selecione' }}
           </option>
           <option *ngFor="let option of field.options" [value]="option.value">
             {{ option.label }}
@@ -44,10 +48,10 @@
         </select>
       </div>
 
-      <!-- Campo Datepicker -->
+      <!-- Campo de Datepicker -->
       <div *ngIf="field.type === 'date'">
         <label>{{ field.label }}</label>
-        <mat-form-field appearance="fill" class="full-width data-campo">
+        <mat-form-field appearance="fill" class="full-width">
           <input
             matInput
             [matDatepicker]="picker"
@@ -56,44 +60,65 @@
             (focus)="picker.open()"
             readonly
           />
-          <mat-datepicker-toggle
-            matSuffix
-            [for]="picker"
-          ></mat-datepicker-toggle>
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
       </div>
 
+      <!-- Campo de upload de arquivo complex -->
       <div
         *ngIf="field.type === 'file' && field.fileType === 'complex'"
         class="file-upload-wrapper d-flex flex-row"
       >
         <div class="w-100 upload-title">
-          <label >
+          <label>
             {{ field.label }}
             <h5 class="obrigatorio-complex form-title">(Obrigatório)</h5>
           </label>
         </div>
         <div class="upload-container">
-          <div class="upload-text text-uppercase">
-            Selecionar Arquivo
-          </div>
+          <div class="upload-text text-uppercase">Selecionar Arquivo</div>
           <input
             type="file"
             (change)="onFileChange($event, field.name)"
             class="form-control-file"
-            [accept]="field.accept"
+            [accept]="field.accept || '.pdf'"
+            #fileInput
           />
         </div>
       </div>
 
-      <div *ngIf="field.type === 'file' && field.fileType === 'complex'">
+      <!-- Tabela para exibir os arquivos anexados -->
+      <div class="upload-content" *ngIf="field.type === 'file' && field.fileType === 'complex'">
         <p class="file-upload-instructions">
-          {{ nameFile }} <br />
-          Tipos de arquivo aceitos:<strong>.PDF</strong>
+          {{ nameFile || 'Nenhum arquivo selecionado' }} <br />
+          Tipos de arquivo aceitos: <strong>.PDF</strong>
         </p>
+
+        <table *ngIf="selectedFiles.length > 0">
+          <thead>
+            <tr>
+              <th>Arquivos Anexados</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let file of selectedFiles; let i = index">
+              <td>{{ file.name }}</td>
+              <td>
+                <button mat-icon-button color="primary" (click)="editFile()">
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button color="warn" (click)="removeFile(i)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
 
+      <!-- Campo de upload de arquivo simples -->
       <div
         *ngIf="field.type === 'file' && field.fileType === 'simple'"
         class="file-upload-wrapper_simple"
@@ -106,11 +131,12 @@
           type="file"
           (change)="onFileChange($event, field.name)"
           class="form-control-file"
-          [accept]="field.accept"
+          [accept]="field.accept || '.pdf'"
         />
         <p class="aviso-capacidade">MÁX. Tamanho do arquivo: 100mb.</p>
       </div>
 
+      <!-- Campo de checkbox -->
       <div *ngIf="field.type === 'checkbox'">
         <div class="container-label mt-4">
           <span class="label-text">
@@ -129,11 +155,9 @@
       </div>
     </div>
   </div>
-  <button
-    type="submit"
-    [disabled]="!form.valid"
-    class="btn btn-primary mt-10 mt-4"
-  >
+
+  <!-- Botão de envio do formulário -->
+  <button type="submit" [disabled]="!form.valid" class="btn btn-primary mt-10 mt-4">
     Enviar
   </button>
 </form>
