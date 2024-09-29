@@ -10,11 +10,22 @@
         </div>
         <div class="container-fluid">
           <div class="bg-pagina-interna">
+            <h1 class="pagina-interna mt-2">{{ titulo_pagina }}</h1>
+            <div class="d-flex justify-content-start">
+              <p class="text-left">
+                Antes de enviar certifique-se de que todas as informações
+                <br />
+                preenchidas nos campos abaixo estão corretas!
+              </p>
+              <div class="button-voltar ms-3" (click)="goBack()"><mat-icon>person</mat-icon> Voltar</div>
+
+            </div>
             <div class="row">
               <div class="col">
                 <div class="formulario-component d-flex flex-column">
-                  <h1 class="pagina-interna">{{ titulo_pagina }}</h1>
+                  <h1 class="pagina-form">{{ titulo_form }}</h1>
                   <ng-content select="[app-formulario]"></ng-content>
+
                   <app-forms
                     [dynamicFields]="dynamicFields"
                     (formSubmit)="onSubmit($event)"
