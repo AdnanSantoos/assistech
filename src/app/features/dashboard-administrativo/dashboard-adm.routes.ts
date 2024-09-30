@@ -11,6 +11,7 @@ import { GerenciadorDiarioOficialAdministrativoComponent } from './compontents/g
 import { AcessoInformacaoAdministrativoComponent } from './compontents/acesso-informacao-administrativo/acesso-informacao-administrativo.component';
 import { UnidadesAdministrativoComponent } from './compontents/unidades-administrativo/unidades-administrativo.component';
 import { OrgaoAdministrativoComponent } from './compontents/orgao-administrativo/orgao-administrativo.component';
+import { ListaLicitacaoAdministrativoComponent } from './compontents/lista-licitacao-administrativo/lista-licitacao-administrativo.component';
 
 const routes: Routes = [
   {
@@ -37,6 +38,10 @@ const routes: Routes = [
       {
         path: 'orgaos',
         component: OrgaoAdministrativoComponent,
+      },
+      {
+        path: 'licitacoes',
+        component: ListaLicitacaoAdministrativoComponent,
       },
       {
         path: 'cadastrar-cliente',

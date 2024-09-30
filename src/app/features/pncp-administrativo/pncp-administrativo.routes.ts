@@ -25,7 +25,7 @@ const routes: Routes = [
         component: AdicionarUnidadesAdministrativoComponent,
       },
       {
-        path: 'licitacoes',
+        path: 'adicionar-licitacoes',
         component: LicitacoesAdministrativoComponent,
       },
       {
