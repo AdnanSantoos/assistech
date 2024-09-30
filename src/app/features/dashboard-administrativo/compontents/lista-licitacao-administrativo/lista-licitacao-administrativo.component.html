@@ -4,31 +4,44 @@
       <h5>Licitações</h5>
       <small>Lista de licitações cadastradas</small>
     </div>
-    <button routerLink="/adm/pncp-administrativo/adicionar-licitacoes" class="btn btn-adm-adicionar ms-2">
+    <button
+      routerLink="/adm/pncp-administrativo/adicionar-licitacoes"
+      class="btn btn-adm-adicionar ms-2"
+    >
       <mat-icon>person</mat-icon> Adicionar Licitação
     </button>
   </div>
-  <div class="filtro-row mt-4 mb-4 ">
-    <form class="d-flex justify-content-between" >
+  <div class="filtro-row mb-4">
+    <form class="d-flex justify-content-between align-items-baseline">
       <div class="d-flex flex-column">
-        <label for="">N° da compra ou  PROCESSO</label>
-        <input type="text">
+        <label for="">N° da compra ou PROCESSO</label>
+        <input type="text" />
       </div>
       <div class="d-flex flex-column">
         <label for="">Ano</label>
-        <input type="text">
+        <input type="text" />
       </div>
       <div class="d-flex flex-column">
-        <label for="">Modalidade</label>
-        <input type="text">
+        <label for="modalidade">Modalidade</label>
+        <select id="modalidade" class="form-select">
+          <option value="" disabled selected>Selecione a modalidade</option>
+          <option value="modalidade1">Modalidade 1</option>
+          <option value="modalidade2">Modalidade 2</option>
+          <option value="modalidade3">Modalidade 3</option>
+        </select>
       </div>
-      <div class="d-flex flex-column">
-        <label for="">Órgão</label>
-        <input type="text">
+
+      <div class="d-flex flex-column mt-3">
+        <label for="orgao">Órgão</label>
+        <select id="orgao" class="form-select">
+          <option value="" disabled selected>Selecione o órgão</option>
+          <option value="orgao1">Órgão 1</option>
+          <option value="orgao2">Órgão 2</option>
+          <option value="orgao3">Órgão 3</option>
+        </select>
       </div>
-      <button>
-        Filtrar
-      </button>
+
+      <button>Filtrar</button>
     </form>
   </div>
   <div class="table-responsive">
