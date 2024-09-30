@@ -40,7 +40,7 @@
         <label>{{ field.label }}</label>
         <select [formControlName]="field.name" class="form-control">
           <option value="" disabled selected hidden>
-            {{ field.placeholder || 'Selecione' }}
+            {{ field.placeholder || "Selecione" }}
           </option>
           <option *ngFor="let option of field.options" [value]="option.value">
             {{ option.label }}
@@ -60,7 +60,10 @@
             (focus)="picker.open()"
             readonly
           />
-          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
       </div>
@@ -87,11 +90,42 @@
           />
         </div>
       </div>
+      <div>
+        <div *ngIf="field.type === 'toggle'" class="form-group mb-3">
+          <label>{{ field.label }}:</label>
+          <div class="d-flex flex-wrap flex-column justify-content-start">
+            <div class="form-check form-switch">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                [formControlName]="field.name"
+                id="toggle_{{ field.name }}"
+              />
+              <label class="form-check-label" [for]="'toggle_' + field.name">
+                <span
+                  class="ms-1"
+                  [ngClass]="{
+                    'text-success': form.get(field.name)?.value,
+                    'text-danger': !form.get(field.name)?.value
+                  }"
+                >
+                  {{
+                    form.get(field.name)?.value ? "Habilitado" : "Desabilitado"
+                  }}
+                </span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <!-- Tabela para exibir os arquivos anexados -->
-      <div class="upload-content" *ngIf="field.type === 'file' && field.fileType === 'complex'">
+      <div
+        class="upload-content"
+        *ngIf="field.type === 'file' && field.fileType === 'complex'"
+      >
         <p class="file-upload-instructions">
-          {{ nameFile || 'Nenhum arquivo selecionado' }} <br />
+          {{ nameFile || "Nenhum arquivo selecionado" }} <br />
           Tipos de arquivo aceitos: <strong>.PDF</strong>
         </p>
 
@@ -157,7 +191,11 @@
   </div>
 
   <!-- Botão de envio do formulário -->
-  <button type="submit" [disabled]="!form.valid" class="btn btn-primary mt-10 mt-4">
+  <button
+    type="submit"
+    [disabled]="!form.valid"
+    class="btn btn-primary mt-10 mt-4"
+  >
     Enviar
   </button>
 </form>
