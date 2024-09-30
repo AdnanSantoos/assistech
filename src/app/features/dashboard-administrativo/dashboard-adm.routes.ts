@@ -12,6 +12,7 @@ import { AcessoInformacaoAdministrativoComponent } from './compontents/acesso-in
 import { UnidadesAdministrativoComponent } from './compontents/unidades-administrativo/unidades-administrativo.component';
 import { OrgaoAdministrativoComponent } from './compontents/orgao-administrativo/orgao-administrativo.component';
 import { ListaLicitacaoAdministrativoComponent } from './compontents/lista-licitacao-administrativo/lista-licitacao-administrativo.component';
+import { ListaContratosAdministrativoComponent } from './compontents/lista-contratos-administrativo/lista-contratos-administrativo.component';
 
 const routes: Routes = [
   {
@@ -42,6 +43,10 @@ const routes: Routes = [
       {
         path: 'licitacoes',
         component: ListaLicitacaoAdministrativoComponent,
+      },
+      {
+        path: 'contratos',
+        component: ListaContratosAdministrativoComponent,
       },
       {
         path: 'cadastrar-cliente',
