@@ -30,22 +30,20 @@ export class SidebarAdministrativoComponent {
       title: 'PNCP',
       expanded: false,
       subMenu: [
-        { title: 'Unidades', link: '/adm/pncp-administrativo/unidades' },
+        { title: 'Órgãos', link: '/adm/dashboard-administrativo/orgaos' },
+        { title: 'Unidades', link: '/adm/dashboard-administrativo/unidades' },
         { title: 'Licitações', link: '/adm/pncp-administrativo/licitacoes' },
         { title: 'Contratos', link: '/adm/pncp-administrativo/contratos' },
+        { title: 'PCA', link: '/adm/pncp-administrativo/pca' }
       ],
     },
     {
       title: 'Portal de Transparência',
+      link: '/adm/dashboard-administrativo/outros',
       expanded: false,
-      subMenu: [
-        { title: 'Atas das Sessões', link: '/adm/portal-de-transparencia-administrativo/ata-das-sessoes' },
-        { title: 'Atos Admissionais', link: '/adm/portal-de-transparencia-administrativo/atos-admissionais' },
-        { title: 'Audiência Pública', link: '/adm/portal-de-transparencia-administrativo/audiencia-publica' },
-        { title: 'Balancete', link: '/adm/portal-de-transparencia-administrativo/balancete' },
-        { title: 'Outros', link: '/adm/dashboard-administrativo/outros' },
-      ],
-    },
+      subMenu: [],
+    }
+
   ];
 
   toggleSubMenu(item: any) {

@@ -9,52 +9,61 @@ import { UsuariosAdministrativoComponent } from './compontents/usuarios-administ
 import { CadastrarUsuariosAdministrativoComponent } from './compontents/cadastrar-usuarios-administrativo/cadastrar-usuarios-administrativo.component';
 import { GerenciadorDiarioOficialAdministrativoComponent } from './compontents/gerenciador-diario-oficial-administrativo/gerenciador-diario-oficial-administrativo.component';
 import { AcessoInformacaoAdministrativoComponent } from './compontents/acesso-informacao-administrativo/acesso-informacao-administrativo.component';
+import { UnidadesAdministrativoComponent } from './compontents/unidades-administrativo/unidades-administrativo.component';
+import { OrgaoAdministrativoComponent } from './compontents/orgao-administrativo/orgao-administrativo.component';
 
 const routes: Routes = [
-    {
+  {
+    path: '',
+    component: DashboardLayoutComponent,
+    children: [
+      {
         path: '',
-        component: DashboardLayoutComponent,
-        children: [
-            {
-                path: '',
-                redirectTo: 'home',
-                pathMatch: 'full'
-            }, 
-            {
-                path: 'home',
-                component: DashboardHomeComponent
-            },
-            {
-                path:'cliente',
-                component:ClienteAdministrativoComponent
-            },
-            {
-                path:'cadastrar-cliente',
-                component:CadastrarClienteAdministrativoComponent
-            },
-            {
-                path:'usuarios',
-                component:UsuariosAdministrativoComponent
-            },
-            {
-                path:'cadastrar-usuarios',
-                component:CadastrarUsuariosAdministrativoComponent
-            },
-            {
-                path:'gerenciar-diario-oficial',
-                component:GerenciadorDiarioOficialAdministrativoComponent
-            },
-            {
-                path:'outros',
-                component:AcessoInformacaoAdministrativoComponent
-            },
-         
-        ]
-    }
+        redirectTo: 'home',
+        pathMatch: 'full',
+      },
+      {
+        path: 'home',
+        component: DashboardHomeComponent,
+      },
+      {
+        path: 'cliente',
+        component: ClienteAdministrativoComponent,
+      },
+      {
+        path: 'unidades',
+        component: UnidadesAdministrativoComponent,
+      },
+      {
+        path: 'orgaos',
+        component: OrgaoAdministrativoComponent,
+      },
+      {
+        path: 'cadastrar-cliente',
+        component: CadastrarClienteAdministrativoComponent,
+      },
+      {
+        path: 'usuarios',
+        component: UsuariosAdministrativoComponent,
+      },
+      {
+        path: 'cadastrar-usuarios',
+        component: CadastrarUsuariosAdministrativoComponent,
+      },
+      {
+        path: 'gerenciar-diario-oficial',
+        component: GerenciadorDiarioOficialAdministrativoComponent,
+      },
+      {
+        path: 'outros',
+        component: AcessoInformacaoAdministrativoComponent,
+      },
+    ],
+  },
 ];
 
 @NgModule({
-    imports: [RouterModule.forChild(routes)],
-    exports: [RouterModule]
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule],
 })
-export class DashboardAdministrativoRoutingModule { }
+export class DashboardAdministrativoRoutingModule {}
