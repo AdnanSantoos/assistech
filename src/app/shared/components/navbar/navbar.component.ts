@@ -42,6 +42,7 @@ export class NavbarComponent implements OnInit {
   isAdmRoute = false;
   isLoginRoute = false;
   isDiarioRoute = false;
+  isPortalTransparencia = false;
   loggedInUserEmail: string | null = null;
 
   constructor(private router: Router,private location: Location) {
@@ -59,14 +60,15 @@ export class NavbarComponent implements OnInit {
 
   checkRoute(url: string) {
     this.isAdmRoute = url.includes('/adm');
+    this.isPortalTransparencia = url.includes('/trn');
     this.isLoginRoute = url.includes('/adm/login');
     this.isDiarioRoute = url.includes('/diario-oficial');
     if (this.isAdmRoute) {
       this.logoText1 = 'Portal Administrativo';
-    } else if (url.includes('/trn/')) {
+    } else if (this.isPortalTransparencia) {
       this.logoText1 = 'Portal de Transparência';
     } else {
-      this.logoText1 = 'Câmara Municipal de';
+      this.logoText1 = 'DIÁRIO MUNICIPAL DA  CÂMARA DE';
     }
   }
 

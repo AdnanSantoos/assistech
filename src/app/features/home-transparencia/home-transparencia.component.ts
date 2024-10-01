@@ -118,7 +118,7 @@ export class HomeTransparenciaComponent implements OnInit {
         { routerLink: '/balancete-financeiro', texto: 'BALANCETE FINANCEIRO' },
         { routerLink: '', texto: 'CARTA DE SERVIÇOS AO USUÁRIO' },
         { routerLink: '/trn/comissoes', texto: 'COMISSÕES' },
-        { routerLink: '/convenios', texto: 'CONVÊNIOS' },
+        { routerLink: '/diario-oficial/anos', texto: 'DIÁRIO OFICIAL' },
       ];
     }
   }

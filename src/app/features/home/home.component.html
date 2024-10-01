@@ -1,54 +1,50 @@
 <div class="bg-banner">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6">
-                <div class="titulo">
-                    ACESSO RÁPIDO
-                </div>
-                <div class="d-flex-acesso">
-                    <div class="acesso-rapido" *ngFor="let acesso of acessos; let i = index"
-                        [routerLink]="acesso.routerLink">
-                        <div class="icone">
-                            <div class="btn-padrao__perfil-icon"></div>
-                        </div>
-                        <div class="texto">
-                            {{ acesso.texto }}
-                        </div>
-                    </div>
-                </div>
-
-
-                <button class="btn btn-banner" routerLink="/acesso-informacao">
-                    Acesso a Informação
-                </button>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="titulo">ACESSO RÁPIDO</div>
+        <div class="d-flex-acesso">
+          <div
+            class="acesso-rapido"
+            *ngFor="let acesso of acessos; let i = index"
+            [routerLink]="acesso.routerLink"
+          >
+            <div class="icone">
+              <div class="btn-padrao__perfil-icon"></div>
             </div>
-            <div class="col-md-6">
-                <div class="titulo">
-                    ÚLTIMAS NOTÍCIAS
-                </div>
-                <app-slider></app-slider>
-                <button class=" btn btn-banner">
-                    ACESSAR PÁGINA DE NOTÍCIAS
-                </button>
+            <div class="texto">
+              {{ acesso.texto }}
             </div>
+          </div>
         </div>
+
+        <!-- <button class="btn btn-banner" routerLink="/acesso-informacao">
+          Acesso a Informação
+        </button> -->
+      </div>
+      <div class="col-md-6">
+        <div class="titulo">ÚLTIMAS NOTÍCIAS</div>
+        <app-slider></app-slider>
+      </div>
+      <button routerLink="/trn/portal-transparencia" class=" btn btn-banner">
+        ACESSAR PÁGINA DE NOTÍCIAS
+    </button>
     </div>
+  </div>
 </div>
 <div class="noticias-gerais">
-    <div class="d-flex">
-        <div class="img-row w-100" *ngFor="let content of images">
-            <img class="img-fluid w-100" [src]="content.img" alt="">
-        </div>
+  <div class="d-flex">
+    <div class="img-row w-100" *ngFor="let content of images">
+      <img class="img-fluid w-100" [src]="content.img" alt="" />
     </div>
+  </div>
 
-    <h1 class="titulo-noticias d-flex justify-content-center">
-        Notícias Gerais
-    </h1>
-    <app-general-news />
+  <h1 class="titulo-noticias d-flex justify-content-center">Notícias Gerais</h1>
+  <app-general-news />
 
-    <div class="d-flex mt-4">
-        <div class="img-row w-100" *ngFor="let content of images2">
-            <img class="img-fluid w-100 h-100" [src]="content.img" alt="">
-        </div>
+  <div class="d-flex mt-4">
+    <div class="img-row w-100" *ngFor="let content of images2">
+      <img class="img-fluid w-100 h-100" [src]="content.img" alt="" />
     </div>
+  </div>
 </div>

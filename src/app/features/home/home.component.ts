@@ -48,10 +48,10 @@ export class HomeComponent implements OnInit {
       this.acessos = [
         { routerLink: '/diario-oficial', texto: 'DIÁRIO OFICIAL' },
         { routerLink: '/trn/portal-transparencia', texto: 'PORTAL DE TRANSPARÊNCIA' },
-        { routerLink: '/pncp', texto: 'PNCP' },
-        { routerLink: '/lei-14133', texto: 'LEI 14.133' },
-        { routerLink: '/noticias-tcm', texto: 'NOTÍCIAS DO TCM' },
         { routerLink: '/biografia-cidade', texto: 'BIOGRAFIA DA CIDADE' },
+        { routerLink: '/pncp', texto: 'PNCP' },
+        { routerLink: '/lei-14133', texto: 'Lei das Licitações' },
+        { routerLink: '/noticias-tcm', texto: 'NOTÍCIAS DO TCM' },
       ];
     }
   }
