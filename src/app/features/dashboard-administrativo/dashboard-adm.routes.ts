@@ -14,6 +14,7 @@ import { OrgaoAdministrativoComponent } from './compontents/orgao-administrativo
 import { ListaLicitacaoAdministrativoComponent } from './compontents/lista-licitacao-administrativo/lista-licitacao-administrativo.component';
 import { ListaContratosAdministrativoComponent } from './compontents/lista-contratos-administrativo/lista-contratos-administrativo.component';
 import { PcaAdministrativoComponent } from './compontents/pca-administrativo/pca-administrativo.component';
+import { AdicionarPcaComponent } from './compontents/adicionar-pca/adicionar-pca.component';
 
 const routes: Routes = [
   {
@@ -52,6 +53,10 @@ const routes: Routes = [
       {
         path: 'cadastrar-cliente',
         component: CadastrarClienteAdministrativoComponent,
+      },
+      {
+        path: 'cadastrar-pca',
+        component: AdicionarPcaComponent,
       },
       {
         path: 'usuarios',
