@@ -14,10 +14,10 @@ import { ReactiveFormsModule } from '@angular/forms';
     ReactiveFormsModule,
     MatIconModule,
     MatButtonModule,
-    LayoutFormsAdmComponent
+    LayoutFormsAdmComponent,
   ],
   templateUrl: './contratos-administrativo.component.html',
-  styleUrls: ['./contratos-administrativo.component.scss']
+  styleUrls: ['./contratos-administrativo.component.scss'],
 })
 export class ContratosAdministrativoComponent {
   filtroForm: FormGroup;
@@ -29,41 +29,46 @@ export class ContratosAdministrativoComponent {
       day: [''],
       month: [''],
       year: [''],
-      file: [null]
+      file: [null],
     });
 
     this.dynamicFields = [
-      { name: 'numeroDoContrato', type: 'text', label: 'Nº do contrato' },
-      { name: 'fornecedor', type: 'text', label: 'fornecedor' },
-      { name: 'dataDaPublicacao', type: 'text', label: 'Data da Publicação' },
-      { name: 'objeto', type: 'text', label: 'objeto' },
-      { name: 'cnpj', type: 'text', label: 'cnpj' },
-      { name: 'valor', type: 'text', label: 'valor' },
-      { name: 'dataInicial', type: 'text', label: 'Data Inicial' },
+      { name: 'selecioneLista', type: 'file', fileType: 'complex', label: 'Nº do contrato' },
+      { name: 'receitaDespesa', type: 'toggle', label: 'Receita/Despesa' },
       {
-        name: 'vigencia', type: 'select', label: 'vigência', options: [
-          { value: 'categoria1', label: 'Categoria 1' },
-          { value: 'categoria2', label: 'Categoria 2' },
-          { value: 'categoria3', label: 'Categoria 3' }
-        ]
-      },
-      { name: 'dataFinal', type: 'text', label: 'Data Final' },
-      { name: 'fiscalDoContrato', type: 'text', label: 'Fiscal do contrato' },
-      {
-        name: 'modalidade', type: 'select', label: 'modalidade', options: [
-          { value: 'categoria1', label: 'Categoria 1' },
-          { value: 'categoria2', label: 'Categoria 2' },
-          { value: 'categoria3', label: 'Categoria 3' }
-        ]
+        name: 'tipoContrato',
+        type: 'select',
+        label: 'Tipo do Contrato',
+        options: [
+          { value: 'tipo1', label: 'tipo 1' },
+          { value: 'tipo2', label: 'tipo 2' },
+          { value: 'tipo3', label: 'tipo 3' },
+        ],
       },
       {
-        name: 'possuiAditivo', type: 'select', label: 'Possui aditivo?', options: [
+        name: 'categoriaProcesso',
+        type: 'select',
+        label: 'Categoria do Processo',
+        options: [
           { value: 'categoria1', label: 'Categoria 1' },
           { value: 'categoria2', label: 'Categoria 2' },
-          { value: 'categoria3', label: 'Categoria 3' }
-        ]
+          { value: 'categoria3', label: 'Categoria 3' },
+        ],
       },
-      { name: 'file', type: 'file', fileType: 'complex', label: '' }
+      { name: 'numContrato', type: 'text', label: 'Número do contrato ou empenho' },
+      { name: 'anoContrato', type: 'text', label: 'Ano do contrato' },
+      { name: 'numProcesso', type: 'text', label: 'Número do processo ou empenho' },
+      {
+        name: 'tipoPessoa',
+        type: 'select',
+        label: 'Tipo da Pessoa',
+        options: [
+          { value: 'tipo1', label: 'tipo 1' },
+          { value: 'tipo2', label: 'tipo 2' },
+          { value: 'tipo3', label: 'tipo 3' },
+        ],
+      },
+      { name: 'numProcesso', type: 'text', label: 'Número do processo ou empenho' },
     ];
   }
 
@@ -71,11 +76,10 @@ export class ContratosAdministrativoComponent {
     const file = event.target.files[0];
     if (file) {
       this.filtroForm.patchValue({
-        file: file
+        file: file,
       });
     }
   }
 
-  onFormSubmit() {
-  }
+  onFormSubmit() {}
 }
