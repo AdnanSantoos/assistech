@@ -13,6 +13,7 @@ import { UnidadesAdministrativoComponent } from './compontents/unidades-administ
 import { OrgaoAdministrativoComponent } from './compontents/orgao-administrativo/orgao-administrativo.component';
 import { ListaLicitacaoAdministrativoComponent } from './compontents/lista-licitacao-administrativo/lista-licitacao-administrativo.component';
 import { ListaContratosAdministrativoComponent } from './compontents/lista-contratos-administrativo/lista-contratos-administrativo.component';
+import { PcaAdministrativoComponent } from './compontents/pca-administrativo/pca-administrativo.component';
 
 const routes: Routes = [
   {
@@ -63,6 +64,10 @@ const routes: Routes = [
       {
         path: 'gerenciar-diario-oficial',
         component: GerenciadorDiarioOficialAdministrativoComponent,
+      },
+      {
+        path: 'pca',
+        component: PcaAdministrativoComponent,
       },
       {
         path: 'outros',

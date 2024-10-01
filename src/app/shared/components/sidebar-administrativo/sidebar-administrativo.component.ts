@@ -34,7 +34,7 @@ export class SidebarAdministrativoComponent {
         { title: 'Unidades', link: '/adm/dashboard-administrativo/unidades' },
         { title: 'Licitações', link: '/adm/dashboard-administrativo/licitacoes' },
         { title: 'Contratos', link: '/adm/dashboard-administrativo/contratos' },
-        { title: 'PCA', link: '/adm/pncp-administrativo/pca' }
+        { title: 'PCA', link: '/adm/dashboard-administrativo/pca' }
       ],
     },
     {
