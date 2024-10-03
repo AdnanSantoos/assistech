@@ -12,38 +12,56 @@
     </button>
   </div>
   <div class="filtro-row mb-4">
-    <form class="d-flex justify-content-between align-items-baseline">
-      <div class="d-flex flex-column">
-        <label for="">N° da compra ou PROCESSO</label>
-        <input type="text" />
-      </div>
-      <div class="d-flex flex-column">
-        <label for="">Ano</label>
-        <input type="text" />
-      </div>
-      <div class="d-flex flex-column">
-        <label for="modalidade">Modalidade</label>
-        <select id="modalidade" class="form-select">
-          <option value="" disabled selected>Selecione a modalidade</option>
-          <option value="modalidade1">Modalidade 1</option>
-          <option value="modalidade2">Modalidade 2</option>
-          <option value="modalidade3">Modalidade 3</option>
-        </select>
+    <form class="row g-3">
+      <!-- N° da compra ou PROCESSO -->
+      <div class="col-sm-12 col-md-6 col-lg-3">
+        <div class="form-group">
+          <label for="processo">N° da compra ou PROCESSO</label>
+          <input id="processo" type="text" class="form-control" />
+        </div>
       </div>
 
-      <div class="d-flex flex-column mt-3">
-        <label for="orgao">Órgão</label>
-        <select id="orgao" class="form-select">
-          <option value="" disabled selected>Selecione o órgão</option>
-          <option value="orgao1">Órgão 1</option>
-          <option value="orgao2">Órgão 2</option>
-          <option value="orgao3">Órgão 3</option>
-        </select>
+      <!-- Ano -->
+      <div class="col-sm-12 col-md-6 col-lg-2">
+        <div class="form-group">
+          <label for="ano">Ano</label>
+          <input id="ano" type="text" class="form-control" />
+        </div>
       </div>
 
-      <button>Filtrar</button>
+      <!-- Modalidade -->
+      <div class="col-sm-12 col-md-6 col-lg-3">
+        <div class="form-group">
+          <label for="modalidade">Modalidade</label>
+          <select id="modalidade" class="form-select">
+            <option value="" disabled selected>Selecione a modalidade</option>
+            <option value="modalidade1">Modalidade 1</option>
+            <option value="modalidade2">Modalidade 2</option>
+            <option value="modalidade3">Modalidade 3</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Órgão -->
+      <div class="col-sm-12 col-md-6 col-lg-3">
+        <div class="form-group">
+          <label for="orgao">Órgão</label>
+          <select id="orgao" class="form-select">
+            <option value="" disabled selected>Selecione o órgão</option>
+            <option value="orgao1">Órgão 1</option>
+            <option value="orgao2">Órgão 2</option>
+            <option value="orgao3">Órgão 3</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Botão Filtrar -->
+      <div class="col-sm-12 col-md-12 col-lg-1 d-flex align-items-end">
+        <button class="btn btn-primary w-100">Filtrar</button>
+      </div>
     </form>
   </div>
+
   <div class="table-responsive">
     <table class="table table-striped table-bordered mb-0">
       <thead>
@@ -71,8 +89,7 @@
                 <mat-icon>edit</mat-icon>
               </button>
               <button class="btn btn-sm">
-                <img src="../../../../../assets/icons/remove-icon.svg" alt="">                
-
+                <img src="../../../../../assets/icons/remove-icon.svg" alt="" />
               </button>
             </div>
           </td>

@@ -92,7 +92,7 @@
       .menu-title {
         flex-grow: 1;
         text-transform: uppercase;
-        font-size: 12px;
+        font-size: 8.537px;
       }
 
       .menu-arrow {
@@ -109,7 +109,6 @@
       list-style-type: none;
       padding: 0 15px;
       margin: 0;
-      margin-left: 15px;
 
       span {
         color: #e6e6e6;
@@ -174,7 +173,6 @@
     text-transform: uppercase;
   }
 }
-.dashboard-button:hover{
+.dashboard-button:hover {
   background: #e6e6e6;
-
 }
