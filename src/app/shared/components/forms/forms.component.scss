@@ -1,5 +1,5 @@
 form {
-  label {
+  label,h5 {
     color: #000;
     font-family: Inter;
     font-size: 13.679px;
@@ -302,7 +302,12 @@ form {
     width: 0;
     height: 0;
   }
-
+  .form-switch {
+    input {
+      width: 55.436px;
+      height: 32.887px !important;
+    }
+  }
   /* The slider */
   .slider {
     position: absolute;
@@ -402,7 +407,7 @@ form {
   .mat-mdc-form-field-bottom-align::before {
     display: none !important;
   }
-  mat-icon{
+  mat-icon {
     color: #000 !important;
   }
 }

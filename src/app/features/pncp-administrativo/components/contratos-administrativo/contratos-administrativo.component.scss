@@ -1,0 +1,18 @@
+::ng-deep {
+  .bg-pagina-interna {
+    .formulario-component {
+      max-width: 850px !important;
+    }
+  }
+
+  form {
+    .form-grid {
+      .full-width {
+        grid-column: span 1 !important;
+      }
+    }
+  }
+  .upload-content,.upload-title {
+    display: none !important;
+  }
+}
