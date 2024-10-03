@@ -1,1 +1,261 @@
-<p>adicionar-pca works!</p>
+<div class="container mt-5">
+  <div class="form-content">
+    <h3 class="mb-4">dados do PLANO DE CONTRATAÇÃO</h3>
+    <form [formGroup]="itemForm" (ngSubmit)="onFormSubmit()">
+      <div class="row">
+        <div class="col-md-6 mb-3 ps-1 pe-1">
+          <label for="orgao">Órgão*</label>
+          <input
+            id="orgao"
+            class="form-control"
+            formControlName="orgao"
+            placeholder="Informe o órgão"
+          />
+        </div>
+
+        <div class="col-md-6 mb-3 ps-1 pe-1">
+          <label for="unidadeCompradora">Unidade Compradora*</label>
+          <input
+            id="unidadeCompradora"
+            class="form-control"
+            formControlName="unidadeCompradora"
+            placeholder="Informe a unidade compradora"
+          />
+        </div>
+
+        <div class="col-md-6 mb-3 ps-1 pe-1">
+          <label for="ano">Ano*</label>
+          <input
+            id="ano"
+            class="form-control"
+            formControlName="ano"
+            placeholder="Ano do contrato"
+          />
+        </div>
+        <div class="row">
+          <h4 class="mb-4">ITENS DO PLANO DE CONTRATAÇÃO ANUAL</h4>
+        </div>
+        <div class="col-md-6 mb-3 ps-1 pe-1">
+          <label for="renovacaoContrato">Renovação do Contrato</label>
+          <input
+            id="renovacaoContrato"
+            class="form-control"
+            formControlName="renovacaoContrato"
+            placeholder="Renovação do contrato (se aplicável)"
+          />
+        </div>
+
+        <div class="col-md-6 mb-3 ps-1 pe-1">
+          <label for="numeroItem">Número do Item*</label>
+          <input
+            id="numeroItem"
+            class="form-control"
+            formControlName="numeroItem"
+            placeholder="Número do item"
+          />
+        </div>
+
+        <div class="col-md-6 mb-3 ps-1 pe-1">
+          <label for="categoriaItem">Categoria do Item*</label>
+          <input
+            id="categoriaItem"
+            class="form-control"
+            formControlName="categoriaItem"
+            placeholder="Categoria do item"
+          />
+        </div>
+
+        <div class="col-md-6 mb-3 ps-1 pe-1">
+          <label for="categoriaMaterialServico"
+            >Categoria de Material/Serviço*</label
+          >
+          <input
+            id="categoriaMaterialServico"
+            class="form-control"
+            formControlName="categoriaMaterialServico"
+            placeholder="Categoria de material/serviço"
+          />
+        </div>
+
+        <div class="col-md-6 mb-3 ps-1 pe-1">
+          <label for="codigoClasseMaterial"
+            >Código da Classe do Material ou Grupo do Serviço*</label
+          >
+          <input
+            id="codigoClasseMaterial"
+            class="form-control"
+            formControlName="codigoClasseMaterial"
+            placeholder="Código da classe"
+          />
+        </div>
+
+        <div class="col-md-6 mb-3 ps-1 pe-1">
+          <label for="descricaoClasseMaterial"
+            >Descrição da Classe do Material ou Grupo do Serviço*</label
+          >
+          <textarea
+            id="descricaoClasseMaterial"
+            class="form-control"
+            formControlName="descricaoClasseMaterial"
+            placeholder="Descrição da classe"
+          ></textarea>
+        </div>
+
+        <div class="col-md-6 mb-3 ps-1 pe-1">
+          <label for="codigoPDM"
+            >Código PDM referente ao Material conforme CNIS</label
+          >
+          <input
+            id="codigoPDM"
+            class="form-control"
+            formControlName="codigoPDM"
+            placeholder="Código PDM"
+          />
+        </div>
+
+        <div class="col-md-6 mb-3 ps-1 pe-1">
+          <label for="descricaoPDM"
+            >Descrição PDM referente ao Material conforme o CNBS</label
+          >
+          <textarea
+            id="descricaoPDM"
+            class="form-control"
+            formControlName="descricaoPDM"
+            placeholder="Descrição PDM"
+          ></textarea>
+        </div>
+
+        <div class="col-md-6 mb-3 ps-1 pe-1">
+          <label for="codigoMaterialServico"
+            >Código do Material ou Serviço conforme Catálogo Utilizado*</label
+          >
+          <input
+            id="codigoMaterialServico"
+            class="form-control"
+            formControlName="codigoMaterialServico"
+            placeholder="Código do material ou serviço"
+          />
+        </div>
+
+        <div class="col-md-6 mb-3 ps-1 pe-1">
+          <label for="descricaoMaterialServico"
+            >Descrição do Material ou Serviço conforme Catálogo
+            Utilizado*</label
+          >
+          <textarea
+            id="descricaoMaterialServico"
+            class="form-control"
+            formControlName="descricaoMaterialServico"
+            placeholder="Descrição do material ou serviço"
+          ></textarea>
+        </div>
+
+        <div class="col-md-6 mb-3 ps-1 pe-1">
+          <label for="identificadorUnidadeFornecimento"
+            >Identificador do Unidade de Fornecimento</label
+          >
+          <input
+            id="identificadorUnidadeFornecimento"
+            class="form-control"
+            formControlName="identificadorUnidadeFornecimento"
+            placeholder="Identificador da unidade de fornecimento"
+          />
+        </div>
+
+        <div class="col-md-6 mb-3 ps-1 pe-1">
+          <label for="quantidadeItens">Quantidade de Itens do Plano*</label>
+          <input
+            id="quantidadeItens"
+            class="form-control"
+            formControlName="quantidadeItens"
+            placeholder="Quantidade de itens"
+          />
+        </div>
+
+        <div class="col-md-6 mb-3 ps-1 pe-1">
+          <label for="valorUnitarioItem">Valor Unitário do Item*</label>
+          <input
+            id="valorUnitarioItem"
+            class="form-control"
+            formControlName="valorUnitarioItem"
+            placeholder="Valor unitário"
+          />
+        </div>
+
+        <div class="col-md-6 mb-3 ps-1 pe-1">
+          <label for="valorTotalItem">Valor Total do Item*</label>
+          <input
+            id="valorTotalItem"
+            class="form-control"
+            formControlName="valorTotalItem"
+            placeholder="Valor total"
+          />
+        </div>
+
+        <div class="col-md-6 mb-3 ps-1 pe-1">
+          <label for="valorOrcamentario"
+            >Valor Orçamentário Estimado para o Exercício*</label
+          >
+          <input
+            id="valorOrcamentario"
+            class="form-control"
+            formControlName="valorOrcamentario"
+            placeholder="Valor orçamentário estimado"
+          />
+        </div>
+
+        <div class="col-md-6 mb-3 ps-1 pe-1">
+          <label for="dataContratacao">Data Desejada para Contratação*</label>
+          <input
+            type="date"
+            id="dataContratacao"
+            class="form-control"
+            formControlName="dataContratacao"
+          />
+        </div>
+
+        <div class="col-md-6 mb-3 ps-1 pe-1">
+          <label for="nomeUnidadeRequisitante">Nome Unidade Requisitante</label>
+          <input
+            id="nomeUnidadeRequisitante"
+            class="form-control"
+            formControlName="nomeUnidadeRequisitante"
+            placeholder="Nome da unidade requisitante"
+          />
+        </div>
+
+        <div class="col-md-6 mb-3 ps-1 pe-1">
+          <label for="codigoContratacaoFutura"
+            >Código da Contratação Futura</label
+          >
+          <input
+            id="codigoContratacaoFutura"
+            class="form-control"
+            formControlName="codigoContratacaoFutura"
+            placeholder="Código da contratação futura"
+          />
+        </div>
+
+        <div class="col-md-6 mb-3 ps-1 pe-1">
+          <label for="nomeContratacaoFutura">Nome da Contratação Futura</label>
+          <input
+            id="nomeContratacaoFutura"
+            class="form-control"
+            formControlName="nomeContratacaoFutura"
+            placeholder="Nome da contratação futura"
+          />
+        </div>
+
+        <div class="col-12">
+          <button
+            type="submit"
+            class="btn btn-dark w-100"
+            [disabled]="itemForm.invalid"
+          >
+            Cadastrar
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
