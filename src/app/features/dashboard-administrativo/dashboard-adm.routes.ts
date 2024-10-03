@@ -15,6 +15,7 @@ import { ListaLicitacaoAdministrativoComponent } from './compontents/lista-licit
 import { ListaContratosAdministrativoComponent } from './compontents/lista-contratos-administrativo/lista-contratos-administrativo.component';
 import { PcaAdministrativoComponent } from './compontents/pca-administrativo/pca-administrativo.component';
 import { AdicionarPcaComponent } from './compontents/adicionar-pca/adicionar-pca.component';
+import { PpaLoaLdoAdministrativoComponent } from './compontents/ppa-loa-ldo-administrativo/ppa-loa-ldo-administrativo.component';
 
 const routes: Routes = [
   {
@@ -73,6 +74,10 @@ const routes: Routes = [
       {
         path: 'pca',
         component: PcaAdministrativoComponent,
+      },
+      {
+        path: 'ppa-loa-ldo',
+        component: PpaLoaLdoAdministrativoComponent,
       },
       {
         path: 'outros',

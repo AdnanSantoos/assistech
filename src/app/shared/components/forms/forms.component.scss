@@ -1,5 +1,6 @@
 form {
-  label,h5 {
+  label,
+  h5 {
     color: #000;
     font-family: Inter;
     font-size: 13.679px;
@@ -139,6 +140,7 @@ form {
       }
     }
   }
+
   .file-upload-wrapper {
     position: relative;
     width: 100%;
@@ -157,6 +159,8 @@ form {
       margin-bottom: 20px;
     }
     .upload-title {
+      width: calc(100vw / 8);
+
       min-height: 38px;
       border-radius: 4.275px;
       background: rgba(161, 161, 161, 0.25);

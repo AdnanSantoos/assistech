@@ -1,0 +1,207 @@
+<div class="container mt-5">
+  <div class="top-content">
+    <h3>PPA / LOA / LDO</h3>
+    <div class="d-flex">
+      <p>
+        Antes de enviar, certifique-se de que todas as informações preenchidas
+        nos campos abaixo estão corretas!
+      </p>
+      <div class="btn-voltar" (click)="goBack()">
+        <mat-icon>person</mat-icon><span>voltar</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-content">
+    <div class="d-flex flex-wrap justify-content-left gap-4">
+      <form
+        class="mt-4"
+        [formGroup]="ppaForm"
+        (ngSubmit)="onFormSubmit(ppaForm)"
+      >
+        <h3>PPA</h3>
+        <div class="form-group">
+          <label for="ppaData">DATA</label>
+          <input
+            id="ppaData"
+            type="text"
+            formControlName="data"
+            class="form-control"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="ppaDescricao">Descrição</label>
+          <textarea
+            id="ppaDescricao"
+            formControlName="descricao"
+            class="form-control"
+          ></textarea>
+        </div>
+
+        <label for="ppaFile">Arquivo</label>
+        <div id="arquivo" class="form-group">
+          <input
+            id="ppaFile"
+            type="file"
+            (change)="onFileChange($event, ppaForm, 'fileSimple')"
+            accept="application/pdf"
+            class="form-control"
+          />
+        </div>
+
+        <div class="table-container">
+          <label for="uploadedFiles"
+            >TIPOS DE ARQUIVOS ACEITOS: <strong>.PDF</strong></label
+          >
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Arquivos Anexados</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let file of uploadedFilesPPA">
+                <td>{{ file.name }}</td>
+                <td>
+                  <button type="button" (click)="removeFile(file)">
+                    <img src="../../../../../assets/icons/remove-icon.svg" />
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <button mat-raised-button color="primary" type="submit">Enviar</button>
+      </form>
+
+      <form
+        [formGroup]="ldoForm"
+        (ngSubmit)="onFormSubmit(ldoForm)"
+        class="mt-4"
+      >
+        <h3>LDO</h3>
+        <div class="form-group">
+          <label for="ldoData">DATA</label>
+          <input
+            id="ldoData"
+            type="text"
+            formControlName="data"
+            class="form-control"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="ldoDescricao">Descrição</label>
+          <textarea
+            id="ldoDescricao"
+            formControlName="descricao"
+            class="form-control"
+          ></textarea>
+        </div>
+
+        <label for="ldoFile">Arquivo</label>
+        <div id="arquivo" class="form-group">
+          <input
+            id="ldoFile"
+            type="file"
+            (change)="onFileChange($event, ldoForm, 'fileSimple')"
+            class="form-control"
+            accept="application/pdf"
+          />
+        </div>
+
+        <div class="table-container">
+          <label for="uploadedFiles"
+            >TIPOS DE ARQUIVOS ACEITOS: <strong>.PDF</strong></label
+          >
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Arquivos Anexados</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let file of uploadedFilesLDO">
+                <td>{{ file.name }}</td>
+                <td>
+                  <button type="button" (click)="removeFile(file)">
+                    <img src="../../../../../assets/icons/remove-icon.svg" />
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <button mat-raised-button color="primary" type="submit">Enviar</button>
+      </form>
+
+      <form
+        [formGroup]="loaForm"
+        (ngSubmit)="onFormSubmit(loaForm)"
+        class="mt-4"
+      >
+        <h3>LOA</h3>
+        <div class="form-group">
+          <label for="loaData">DATA</label>
+          <input
+            id="loaData"
+            type="text"
+            formControlName="data"
+            class="form-control"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="loaDescricao">Descrição</label>
+          <textarea
+            id="loaDescricao"
+            formControlName="descricao"
+            class="form-control"
+          ></textarea>
+        </div>
+
+        <label for="loaFile">Arquivo</label>
+        <div id="arquivo" class="form-group">
+          <input
+            id="loaFile"
+            type="file"
+            accept="application/pdf"
+            (change)="onFileChange($event, loaForm, 'fileSimple')"
+            class="form-control"
+          />
+        </div>
+
+        <div class="table-container">
+          <label for="uploadedFiles"
+            >TIPOS DE ARQUIVOS ACEITOS: <strong>.PDF</strong></label
+          >
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Arquivos Anexados</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let file of uploadedFilesLOA">
+                <td>{{ file.name }}</td>
+                <td>
+                  <button type="button" (click)="removeFile(file)">
+                    <img src="../../../../../assets/icons/remove-icon.svg" />
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <button mat-raised-button color="primary" type="submit">Enviar</button>
+      </form>
+    </div>
+  </div>
+</div>

@@ -193,13 +193,6 @@ export const routes: Routes = [
           ).then((c) => c.RreoRgfAdministrativoComponent),
       },
       {
-        path: 'ppa-loa-ldo-administrativo',
-        loadComponent: () =>
-          import(
-            './features/ppa-loa-ldo-administrativo/ppa-loa-ldo-administrativo.component'
-          ).then((c) => c.PpaLoaLdoAdministrativoComponent),
-      },
-      {
         path: 'registro-preco-administrativo',
         loadComponent: () =>
           import(
