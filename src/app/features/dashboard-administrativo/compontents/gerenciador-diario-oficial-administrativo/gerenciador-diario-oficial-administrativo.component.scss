@@ -167,3 +167,9 @@ small {
   font-weight: 500;
   line-height: 122.487%; /* 12.48px */
 }
+
+@media (max-width: 768px){
+  .justify-content-end{
+    justify-content: center !important;
+  }
+}

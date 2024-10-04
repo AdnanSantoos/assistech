@@ -12,6 +12,20 @@ body {
 .ng-select {
   width: 100%;
 }
+div.w-esq-side {
+  width: 178px;
+}
+div.w-dir-main {
+  width: calc(100vw - 178px);
+}
+@media (max-width: 768px) {
+  div.w-esq-side {
+    width: 100%;
+  }
+  div.w-dir-main {
+    width: 100%;
+  }
+}
 
 body {
   font-family: "Inter", sans-serif !important;
