@@ -95,33 +95,22 @@
         max-width: 100%;
       }
       .btn-padrao__hover {
-        width: 100%;
         padding: 10px 15px 10px 15px;
         margin-left: 0;
-        border-radius: 8px;
         justify-content: space-between;
         background-color: #000;
+        color: #fff;
+        width: 78px;
 
-        .btn-padrao__perfil-icon {
+        .btn-padrao__icon {
           width: 18.003px;
           height: 22.458px;
-          background-size: cover;
-          background-image: url("../../../../assets/icons/perfil-icon-preto.svg");
+          background: none;
         }
 
         .btn-padrao__text {
-          text-align: center;
-          font-size: 10px;
-          font-style: normal;
-          font-weight: 700;
-          color: #000;
-          white-space: normal;
-          max-width: 60px;
+          color: #fff;
         }
-      }
-      .btn-padrao__hover:hover {
-        background-color: transparent;
-        box-shadow: none;
       }
     }
     .button-ecac {

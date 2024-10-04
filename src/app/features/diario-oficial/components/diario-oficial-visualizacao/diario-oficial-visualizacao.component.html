@@ -20,20 +20,11 @@
           <button mat-icon-button (click)="downloadDocument()">
             <mat-icon>download</mat-icon>
           </button>
-          <!-- <button mat-icon-button (click)="printDocument()">
-                        <mat-icon>print</mat-icon>
-                    </button> -->
         </div>
       </div>
     </div>
 
     <div class="document-preview">
-      <!-- <pdf-viewer [src]="documentUrl"
-            [render-text]="true"
-            [original-size]="false"
-            style="width: 400px; height: 500px"
-            ></pdf-viewer> -->
-
       <ngx-extended-pdf-viewer [src]="documentUrl"> </ngx-extended-pdf-viewer>
     </div>
   </div>
