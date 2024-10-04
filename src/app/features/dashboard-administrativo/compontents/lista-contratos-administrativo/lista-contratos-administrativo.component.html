@@ -11,28 +11,26 @@
       <mat-icon>person</mat-icon> Adicionar contrato
     </button>
   </div>
-  <div class="filtro-row mb-4">
-    <form class="row g-3">
-      <!-- N° da compra ou PROCESSO -->
-      <div class="col-sm-12 col-md-6 col-lg-3">
-        <div class="form-group">
-          <label for="processo">N° da compra ou PROCESSO</label>
+  <div class="container-fluid">
+    <div class="filtro-row mb-4">
+      <form class="d-flex flex-wrap align-items-end gap-3">
+        <!-- N° da compra ou PROCESSO -->
+        <div class="flex-grow-1">
+          <label for="processo" class="form-label"
+            >N° da compra ou PROCESSO</label
+          >
           <input id="processo" type="text" class="form-control" />
         </div>
-      </div>
 
-      <!-- Ano -->
-      <div class="col-sm-12 col-md-6 col-lg-2">
-        <div class="form-group">
-          <label for="ano">Ano</label>
+        <!-- Ano -->
+        <div class="flex-grow-1" style="max-width: 120px">
+          <label for="ano" class="form-label">Ano</label>
           <input id="ano" type="text" class="form-control" />
         </div>
-      </div>
 
-      <!-- Modalidade -->
-      <div class="col-sm-12 col-md-6 col-lg-3">
-        <div class="form-group">
-          <label for="modalidade">Modalidade</label>
+        <!-- Modalidade -->
+        <div class="flex-grow-1">
+          <label for="modalidade" class="form-label">Modalidade</label>
           <select id="modalidade" class="form-select">
             <option value="" disabled selected>Selecione a modalidade</option>
             <option value="modalidade1">Modalidade 1</option>
@@ -40,12 +38,10 @@
             <option value="modalidade3">Modalidade 3</option>
           </select>
         </div>
-      </div>
 
-      <!-- Órgão -->
-      <div class="col-sm-12 col-md-6 col-lg-3">
-        <div class="form-group">
-          <label for="orgao">Órgão</label>
+        <!-- Órgão -->
+        <div class="flex-grow-1">
+          <label for="orgao" class="form-label">Órgão</label>
           <select id="orgao" class="form-select">
             <option value="" disabled selected>Selecione o órgão</option>
             <option value="orgao1">Órgão 1</option>
@@ -53,13 +49,13 @@
             <option value="orgao3">Órgão 3</option>
           </select>
         </div>
-      </div>
 
-      <!-- Botão Filtrar -->
-      <div class="col-sm-12 col-md-12 col-lg-1 d-flex align-items-end">
-        <button class="btn btn-primary w-100">Filtrar</button>
-      </div>
-    </form>
+        <!-- Botão Filtrar -->
+        <div>
+          <button class="btn btn-primary">Filtrar</button>
+        </div>
+      </form>
+    </div>
   </div>
 
   <div class="table-responsive">
