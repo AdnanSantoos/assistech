@@ -25,12 +25,12 @@ export class AcessoInformacaoTransparenciaComponent implements OnInit {
       icon: '../../../assets/novos-icones/balanco-anual.svg',
       link: '/balanco-geral',
     },
-    {
-      name: 'Balancete Financeiro',
-      externo: '',
-      icon: '../../../assets/novos-icones/balancete.svg',
-      link: '/balancete-financeiro',
-    },
+    // {
+    //   name: 'Balancete Financeiro',
+    //   externo: '',
+    //   icon: '../../../assets/novos-icones/balancete.svg',
+    //   link: '/balancete-financeiro',
+    // },
     {
       name: 'Carta de Serviço ao usuário',
       externo: '',
@@ -41,7 +41,7 @@ export class AcessoInformacaoTransparenciaComponent implements OnInit {
       name: 'Comissões',
       externo: '',
       icon: '../../../assets/novos-icones/comissoes.svg',
-      link: '/comissoes',
+      link: '/trn/comissoes',
     },
     {
       name: 'Convênios',
@@ -84,7 +84,7 @@ export class AcessoInformacaoTransparenciaComponent implements OnInit {
       name: 'estrutura organizacional',
       externo: '',
       icon: '../../../assets/novos-icones/estrutura-organizacional.svg',
-      link: '/estrutura-organizacional',
+      link: '/trn/estrutura-organizacional',
     },
     {
       name: 'fale conosco',
