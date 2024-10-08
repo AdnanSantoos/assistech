@@ -17,7 +17,7 @@ export class AcessoInformacaoTransparenciaComponent implements OnInit {
       name: 'Agenda do Presidente',
       externo: '',
       icon: '../../../assets/novos-icones/agenda-presidente.svg',
-      link: '/agenda-presidente',
+      link: '/trn/agenda-presidente',
     },
     {
       name: 'Balanço geral',
