@@ -20,7 +20,14 @@
   gap: 16px;
   flex-wrap: wrap;
   padding: 20px 0px;
-
+ 
+.button-acessos{
+  img{
+    filter: brightness(0) saturate(1000%) invert(1);
+    width: 30px;
+    height: 30px;
+  }
+}
   .btn-padrao__hover {
     display: flex;
     width: 168.431px;
@@ -57,8 +64,6 @@
     .btn-padrao__text {
       color: #fff;
     }
-
-    
   }
 }
 

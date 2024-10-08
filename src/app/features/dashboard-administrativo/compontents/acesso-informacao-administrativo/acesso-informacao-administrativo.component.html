@@ -9,13 +9,21 @@
         <ng-container *ngFor="let content of button">
             <a *ngIf="content.link; else externalLink" [routerLink]="[content.link]"
                 class="btn-padrao__hover button-acessos">
-                <div class="btn-padrao__perfil-icon"></div>
+                <!-- Renderiza o ícone ou o div padrão -->
+                <img *ngIf="content.icon; else defaultIcon" [src]="'assets/icons/' + content.icon" alt="{{content.name}} icon">
+                <ng-template #defaultIcon>
+                    <div class="btn-padrao__perfil-icon"></div>
+                </ng-template>
                 <div class="btn-padrao__text">{{ content.name }}</div>
             </a>
             <ng-template #externalLink>
                 <a target="_blank" [href]="content.externo"
                     class="btn-padrao__hover button-acessos">
-                    <div class="btn-padrao__perfil-icon"></div>
+                    <!-- Renderiza o ícone ou o div padrão -->
+                    <img *ngIf="content.icon; else defaultIcon" [src]="'assets/icons/' + content.icon" alt="{{content.name}} icon">
+                    <ng-template #defaultIcon>
+                        <div class="btn-padrao__perfil-icon"></div>
+                    </ng-template>
                     <div class="btn-padrao__text">{{ content.name }}</div>
                 </a>
             </ng-template>
