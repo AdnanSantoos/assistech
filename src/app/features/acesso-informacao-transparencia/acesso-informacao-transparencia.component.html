@@ -23,7 +23,11 @@
           [routerLink]="[content.link]"
           class="btn-padrao__hover button-acessos"
         >
-          <div class="btn-padrao__perfil-icon"></div>
+          <img
+            *ngIf="content.icon; else defaultIcon"
+            [src]="'assets/icons/' + content.icon"
+            alt="{{ content.name }} icon"
+          />
           <div class="btn-padrao__text">{{ content.name }}</div>
         </a>
         <ng-template #externalLink>
@@ -32,11 +36,19 @@
             [href]="content.externo"
             class="btn-padrao__hover button-acessos"
           >
-            <div class="btn-padrao__perfil-icon"></div>
+            <img
+              *ngIf="content.icon; else defaultIcon"
+              [src]="'assets/icons/' + content.icon"
+              alt="{{ content.name }} icon"
+            />
             <div class="btn-padrao__text">{{ content.name }}</div>
           </a>
         </ng-template>
       </ng-container>
     </div>
+
+    <ng-template #defaultIcon>
+      <div class="btn-padrao__perfil-icon"></div>
+    </ng-template>
   </div>
 </div>
