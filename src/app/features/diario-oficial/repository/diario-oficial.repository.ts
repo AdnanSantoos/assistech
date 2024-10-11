@@ -10,14 +10,14 @@ export class DiarioRepository {
   //Inicio - De acordo com swagger diario oficial/publicações
   getDiarioPublicacoes() {
     return this._http.get(
-      `${environment.apiUrl}/${environment.tenant}/diario-oficial/official-gazettes/${environment.tenant}`
+      `${environment.apiUrl}/${environment.tenant}/diario-oficial/official-gazettes`
     );
   }
   //Final - De acordo com swagger diario oficial/publicações
 
   //Inicio - De acordo com swagger diario oficial/público
-  getDiarioPublicoPorData(form:DiarioOficialPesquisaData) {
-    return this._http.get(`${environment.apiUrl}/public/admin/official-gazettes?year=${form.year}&month=${form.month}&content=${form.content}`);
+  getDiarioPublicoPorData() {
+    return this._http.get(`${environment.apiUrl}/public/${environment.tenant}/official-gazettes`);
   }
 
   getDiarioPublico() {

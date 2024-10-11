@@ -45,7 +45,6 @@ export class DiarioOficialAnosComponent {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private route: ActivatedRoute,
     private diarioOficialService: DiarioOficialService
   ) {
     this.filtroForm = this.fb.group({
@@ -53,30 +52,13 @@ export class DiarioOficialAnosComponent {
       year: [null],
       month: []
     });
-
-    this.diarioOficialService.getDiarioPublico().subscribe({
-      next: (data) => {
-        const diarioData = data.data;
-        this.diarioData = [diarioData];
-        this.initializeAnos();
-        this.onAnoChange(this.filtroForm.value.ano);
-      },
-      error: (err) => console.log(err)
-    });
   }
 
-  private initializeAnos(): void {
-    const anos = this.diarioData.map(d => d.year);
-    this.anos = [...new Set(anos)];
-  }
 
-  private onAnoChange(selectedAno: number): void {
-    const publicacoes = this.diarioData.filter(d => d.year === selectedAno);
-  }
 
   onFormSubmit(): void {
     // Chamada para o serviço que faz a requisição ao backend
-    this.diarioOficialService.getDiarioPublicoPorData(this.filtroForm.value).subscribe((data) => {
+    this.diarioOficialService.getDiarioPublicoPorData().subscribe((data) => {
       console.log('data:',data)
       // Navega para a rota de listagem, passando os dados como state
       this.router.navigate(['/diario-oficial/listagem'], { state: { resultados: data } });

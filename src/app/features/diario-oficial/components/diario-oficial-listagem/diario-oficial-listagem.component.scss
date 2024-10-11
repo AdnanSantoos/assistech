@@ -1,48 +1,91 @@
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 16px;
+.right-column{
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+  
+    h2 {
+      font-size: 18.38px;
+      font-weight: 700;
+      line-height: 22.52px;
+      text-align: left;
+      color: #225ec9;
+    }
+    .search-bar {
+      form {
+        display: flex;
+        gap:8px;
+        align-items: center;
 
-  h2 {
-    font-size: 18.38px;
-    font-weight: 700;
-    line-height: 22.52px;
-    text-align: left;
-    color: #225ec9;
-  }
-
-  .search-bar {
-    form {
-      display: flex;
-      gap:10px;
-
-      label {
-        color: #225ec9;
-
-        font-size: 13.67px;
-        font-weight: 700;
-        line-height: 16.74px;
-        text-transform: uppercase;
-        text-align: center;
-      }
-
-      .input-container {
-        position: relative;
-        text-align: center;
-        cursor: pointer;
-        margin-top: 3%;
-
-        input {
-          width: 100%;
-          padding: 13px 33px;
-          border-radius: 12px;
-          border: 1px solid #225ec9;
+        .logo{
+          max-height: 100%;
+          width: 90px;
+          margin-right: 100px;
+        }
+        .btn-buscar{
+          background: #225EC9;
+          border: 1.33px solid #225EC9;
+          font-size: 11.11px;
+          font-weight: 700;
+          line-height: 13.61px;
+          text-align: left;
+          color: #fff;
+          min-width: 135px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          min-height: 35px;
+          margin-top: 24px;
+        }
+        
+        label {
+          color: #225ec9;
+  
+          font-size: 13.67px;
+          font-weight: 700;
+          line-height: 16.74px;
+          text-transform: uppercase;
+          text-align: center;
+        }
+        ::ng-deep .input-container {
+          position: relative;
+          text-align: center;
+          cursor: pointer;
+          input{
+            padding-left: 13px;
+            padding-top: 0px;
+            min-width: 98px;
+          }
+          .ng-select{
+            min-width: 98px;
+            font-size: 11px;
+            .ng-value-container{
+              padding-left: 27px;
+              padding-top: 6px;   
+            }
+          }
+          input, .ng-select-container {
+            width: 100%;
+            border-radius: 12px;
+            border: 1px solid #225ec9;
+            height: 35px;
+            &::placeholder{
+              font-family: Inter;
+              font-size: 11.11px;
+              font-weight: 500;
+              line-height: 13.61px;
+              text-align: left;
+              color: #225EC980;
+            }        
+          }
         }
       }
     }
   }
 }
+
+
 .custom-file-input {
   position: relative;
   text-align: center;

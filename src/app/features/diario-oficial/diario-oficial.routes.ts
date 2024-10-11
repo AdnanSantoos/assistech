@@ -12,13 +12,13 @@ const routes: Routes = [
         children: [
             {
                 path: '',
-                redirectTo: 'anos',
+                redirectTo: 'listagem',
                 pathMatch: 'full' // Redireciona para 'anos' quando o caminho é vazio
             },
-            {
-                path: 'anos',
-                component: DiarioOficialAnosComponent
-            },
+            // {
+            //     path: 'anos',
+            //     component: DiarioOficialAnosComponent
+            // },
             {
                 path: 'listagem',
                 component: DiarioOficialListagemComponent

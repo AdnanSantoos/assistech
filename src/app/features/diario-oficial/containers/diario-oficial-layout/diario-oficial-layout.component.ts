@@ -45,14 +45,21 @@ export class DiarioOficialLayoutComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.diarioOficialService.getDiarioPublico().subscribe({
-      next: (response) => {
-        this.diarioData = response.data;
-        this.initializeAnos();
-        this.onAnoChange(this.filtroForm.value.ano);
-      },
-      error: (err) => console.log(err)
-    });
+    // this.diarioOficialService.getDiarioPublico().subscribe({
+    //   next: (response) => {
+    //     this.diarioData = response.data;
+    //     this.initializeAnos();
+    //     this.onAnoChange(this.filtroForm.value.ano);
+    //   },
+    //   error: (err) => console.log(err)
+    // });
+
+    // this.diarioOficialService.getDiario().subscribe({
+    //   next: (response) => {
+    //   console.log(response)
+    //   },
+    //   error: (err) => console.log(err)
+    // });
 
     this.router.events.subscribe(() => {
       const url = this.router.url;

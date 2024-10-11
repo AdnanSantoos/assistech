@@ -1,7 +1,5 @@
 <div class="bkg-header geral">
-  <div [ngStyle]="{
-    'padding': !isAdmRoute && !isLoginRoute ? '0 50px' : '0'
-  }"  class="container-fluid align">
+  <div class="container align">
     <div
       class="ps-0 row align-items-center pb-4"
       [ngClass]="{
@@ -12,9 +10,7 @@
       <div
         class="ps-0 col-8 d-flex col-md-4 logo-mobile align-items-center w-auto ml-auto mr-auto"
       >
-        <div class="logo-container"  [ngClass]="{
-          'ms-4': !isAdmRoute && !isLoginRoute
-        }" routerLink="/home">
+        <div class="logo-container"  routerLink="/home">
           <div class="logo">
             <img src="../../../../assets/logos/logo-itaberaba.webp" alt="" />
           </div>

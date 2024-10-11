@@ -23,8 +23,8 @@ export class DiarioOficialService {
     return this._repository.getDiarioPublicacoes();
   }
 
-  public getDiarioPublicoPorData(form:DiarioOficialPesquisaData): Observable<any> {
-    return this._repository.getDiarioPublicoPorData(form);
+  public getDiarioPublicoPorData(): Observable<any> {
+    return this._repository.getDiarioPublicoPorData();
   }
 
   public getDiarioPublico(): Observable<DiarioOficialPublico> {

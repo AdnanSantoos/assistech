@@ -2,6 +2,15 @@
   <div class="header d-flex justify-content-between">
     <div class="search-bar">
       <form [formGroup]="filterForm">
+        <img src="../../../../../assets/logos/logo-g-itaberaba.png" alt="Logo" class="logo" />
+        <div class="input-container">
+          <label>Ano</label>
+          <ng-select  formControlName="ano" [items]="anos" bindLabel="key" bindValue="value"  [clearable]="false" [searchable]="false"></ng-select>
+        </div>
+        <div class="input-container">
+          <label>Mês</label>
+          <ng-select [items]="meses" formControlName="mes" bindLabel="value" bindValue="value"  [clearable]="false" [searchable]="false"></ng-select>
+        </div>
         <div class="input-container">
           <label>Palavra-Chave</label>
           <input
@@ -34,8 +43,8 @@
             placeholder="SELECIONE"
           />
         </div>
-        <button class="mt-auto" mat-icon-button type="button" aria-label="Pesquisar">
-          <mat-icon>search</mat-icon>
+        <button class="btn btn-primary btn-buscar" type="button" aria-label="Pesquisar">
+          Buscar
         </button>
       </form>
     </div>
@@ -58,12 +67,27 @@
           <td>{{ doc.date| date : "dd/MM/yyyy" }}</td>
           <td>{{ doc.description }}</td>
           <td>
-            <a (click)="visualizar(doc.file_published)" class="download-link"
-              ><mat-icon>arrow_downward</mat-icon></a
-            >
+            <a (click)="visualizar(template,doc.file_published,doc.description)" class="download-link">
+              <svg width="21" height="20" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9.2187 12.802C9.2187 12.5898 9.2187 12.4454 9.2187 12.2987C9.2187 8.84133 9.2187 5.38391 9.2187 1.92649C9.2187 1.33785 9.56881 0.887073 10.129 0.733896C10.6761 0.585096 11.2559 0.799543 11.5185 1.30065C11.6258 1.50635 11.6805 1.76456 11.6805 1.9987C11.6914 5.48238 11.687 8.96606 11.687 12.4497C11.687 12.5504 11.687 12.6532 11.687 12.8283C11.8752 12.6467 12.0175 12.511 12.1575 12.3753C13.0678 11.4957 13.9737 10.6116 14.8862 9.73413C15.2276 9.40589 15.6828 9.33806 16.0657 9.54156C16.5362 9.79321 16.8053 10.233 16.709 10.6926C16.6675 10.8939 16.5537 11.1083 16.4071 11.2528C14.6608 12.9618 12.9015 14.6599 11.1422 16.3579C10.7351 16.7518 10.1399 16.7453 9.73074 16.3426C7.99328 14.6358 6.2602 12.9246 4.5293 11.2112C4.08071 10.767 4.08727 10.2221 4.5293 9.77789C5.02384 9.27898 5.58841 9.2374 6.05231 9.69036C7.04577 10.6598 8.03048 11.6379 9.01957 12.6117C9.06771 12.6598 9.12023 12.7058 9.22088 12.802H9.2187Z" fill="#3566F3"/>
+                <path d="M18.3784 12.3384H20.2121C20.2121 12.439 20.2121 12.5309 20.2121 12.625C20.2121 13.6645 20.2165 14.7039 20.2121 15.7433C20.2012 17.6821 18.6541 19.2882 16.7197 19.297C12.5708 19.3167 8.42188 19.3189 4.27516 19.297C2.33638 19.286 0.791486 17.6711 0.787109 15.7345C0.787109 14.6951 0.787109 13.6557 0.787109 12.6163C0.787109 12.5309 0.787109 12.4456 0.787109 12.3428H2.60991C2.61429 12.4303 2.62085 12.5222 2.62085 12.6141C2.62085 13.6273 2.62085 14.6404 2.62085 15.6536C2.62085 16.7608 3.37361 17.5158 4.47648 17.5158C8.48534 17.5158 12.4942 17.5158 16.503 17.5158C17.63 17.5158 18.3718 16.7718 18.3762 15.647C18.3784 14.6426 18.3762 13.6382 18.3762 12.6338C18.3762 12.5397 18.3762 12.4478 18.3762 12.3406L18.3784 12.3384Z" fill="#3566F3"/>
+              </svg>                
+            </a>
           </td>
         </tr>
       </tbody>
     </table>
   </div>
 </div>
+ 
+<ng-template #template>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">{{documentTitulo}}</h4>
+    <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRef?.hide()">
+      <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <ngx-extended-pdf-viewer [src]="documentUrl"> </ngx-extended-pdf-viewer>
+  </div>
+</ng-template>
