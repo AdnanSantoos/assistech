@@ -1,10 +1,19 @@
 export class PublicarDiarioOficialMapper {
-    public static toSubmit(form: any) {
-        const formData = new FormData();
-        let value = { ...form }
-        formData.append('date', value.date);
-        formData.append('files[]', value.files); // Aqui você anexa o arquivo binário
-        formData.append('description', value.description);
-        return formData
+  public static toSubmit(form: any) {
+    const formData = new FormData();
+    let value = { ...form };
+
+    formData.append('date', value.date);
+    formData.append('description', value.description);
+
+    if (value.files && value.files.length > 0) {
+      value.files.forEach((file: File) => {
+        formData.append('files[]', file);
+      });
+    } else {
+      console.error("Nenhum arquivo foi selecionado.");
     }
+
+    return formData;
+  }
 }

@@ -35,7 +35,7 @@ export class PublicarDiarioOficialAdministrativoComponent implements OnInit {
   ) {
     this.dynamicFields.forEach((field) => {
       if (field.type === 'file') {
-        this.filtroForm.addControl(field.name, this.fb.control(null));
+        this.filtroForm.addControl(field.name, this.fb.control(null, Validators.required));
       } else if (field.type === 'checkbox') {
         this.filtroForm.addControl(field.name, this.fb.control(false));
       } else {
@@ -44,23 +44,11 @@ export class PublicarDiarioOficialAdministrativoComponent implements OnInit {
     });
   }
 
-  ngOnInit() {
-   
+  ngOnInit() {}
+
+  onFormSubmit(event: any) {
+    const formData = PublicarDiarioOficialMapper.toSubmit(event);
+    this._publicarService.publicarDiarioOficial(formData);
   }
 
-  onFileChange(event: any, fieldName: string) {
-    const file = event.target.files[0];    
-    const reader = new FileReader();
-    reader.onload = () => {
-      this.filtroForm.patchValue({
-        [fieldName]: reader.result,
-      });
-      this.filtroForm.get(fieldName)?.updateValueAndValidity();
-    };
-    reader.readAsArrayBuffer(file);
-  }
-
-  onFormSubmit(form:any) {
-    this._publicarService.publicarDiarioOficial(PublicarDiarioOficialMapper.toSubmit(form));
-  }
 }
