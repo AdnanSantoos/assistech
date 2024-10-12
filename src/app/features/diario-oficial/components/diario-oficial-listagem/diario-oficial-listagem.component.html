@@ -16,7 +16,7 @@
           <input
             type="text"
             formControlName="palavraChave"
-            placeholder="DIGITE O NOME DA PALAVRA-CHAVE"
+            placeholder="PALAVRA-CHAVE"
           />
         </div>
         <div class="input-container">
@@ -43,7 +43,7 @@
             placeholder="SELECIONE"
           />
         </div>
-        <button class="btn btn-primary btn-buscar" type="button" aria-label="Pesquisar">
+        <button class="btn btn-primary btn-buscar" (click)="buscarDiario()" type="button" aria-label="Pesquisar">
           Buscar
         </button>
       </form>

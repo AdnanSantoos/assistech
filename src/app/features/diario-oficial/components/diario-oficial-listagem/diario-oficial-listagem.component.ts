@@ -29,21 +29,21 @@ import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
     DiarioOficialLayoutComponent],
   templateUrl: './diario-oficial-listagem.component.html',
   styleUrl: './diario-oficial-listagem.component.scss',
-  providers:[BsModalService]
+  providers: [BsModalService]
 })
 export class DiarioOficialListagemComponent {
   filterForm: FormGroup;
   resultados: RequisicaoModel<DiarioOficalLista[]>;
-  filteredDocuments: DiarioOficalLista[]=[];
+  filteredDocuments: DiarioOficalLista[] = [];
   anos: number[] = [];
   diarioData!: DadosDiarioOficialPublico[];
-  documentUrl!:string;
-  documentTitulo!:string;
-  meses:selectModel[] = [
+  documentUrl!: string;
+  documentTitulo!: string;
+  meses: selectModel[] = [
     { key: "Janeiro", value: 1 },
     { key: "Fevereiro", value: 2 },
     { key: "Março", value: 3 },
-    { key: "Abril", value:4 },
+    { key: "Abril", value: 4 },
     { key: "Maio", value: 5 },
     { key: "Junho", value: 6 },
     { key: "Julho", value: 7 },
@@ -55,7 +55,7 @@ export class DiarioOficialListagemComponent {
   ]
   modalRef?: BsModalRef;
 
-  constructor(private modalService: BsModalService,private fb: FormBuilder,private router: Router,private diarioOficialService: DiarioOficialService) {
+  constructor(private modalService: BsModalService, private fb: FormBuilder, private router: Router, private diarioOficialService: DiarioOficialService) {
     this.filterForm = this.fb.group({
       ano: [null],
       mes: [null],
@@ -63,23 +63,40 @@ export class DiarioOficialListagemComponent {
       palavraChave: [null],
       periodoInicial: [null],
       periodoFinal: [null],
-      fileUpload: [null]
     });
     const navigation = this.router.getCurrentNavigation();
     this.resultados = navigation?.extras?.state?.['resultados'] || [];
   }
 
   openModal(template: TemplateRef<void>) {
-    
+
   }
+
+  // initializeAnos(): void {
+  //   if (this.diarioData) {
+  //     this.anos = this.diarioData.year;
+  //   }
+  // }
+
+  // onAnoChange(selectedAno: number): void {
+  //   if (this.diarioData && this.diarioData.year === selectedAno) {
+  //     this.meses = [this.diarioData.first_publication];
+  //   } else {
+  //     this.meses = [];
+  //   }
+  // }
+
   ngOnInit(): void {
     this.diarioOficialService.getDiarioPublicoPorData().subscribe((data) => {
       this.filteredDocuments = data.data;
+      console.log("Arquivos filtrados: ",this.filteredDocuments)
     });
   }
-  visualizar(template: TemplateRef<void>,url:string,titulo:string){
+  visualizar(template: TemplateRef<void>, url: string, titulo: string) {
     this.documentTitulo = titulo
     this.documentUrl = url;
     this.modalRef = this.modalService.show(template, Object.assign({}, { class: 'modal-lg' }));
+  }
+  buscarDiario() {
   }
 }

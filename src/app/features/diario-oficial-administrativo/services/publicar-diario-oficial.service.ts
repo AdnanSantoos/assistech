@@ -16,19 +16,16 @@ export class PublicarDiarioOficialService {
     private _repository: PublicarDiarioOficialRepository,
     private _router: Router,
     private _toastr: ToastrService
-  ) {}
+  ) { }
 
   public publicarDiarioOficial(form: FormData) {
     this._repository.publicarDiarioOficial(form).subscribe({
       next: (response: PublicarDiarioOficialResponse) => {
-        if (response?.success) {
-          this._toastr.success(
-            response.message || 'Publicação realizada com sucesso!',
-            'Sucesso'
-          );
-        } else {
-          this._toastr.error(response.message || 'Falha na publicação', 'Erro');
-        }
+        this._toastr.success(
+          response.message || 'Publicação realizada com sucesso!',
+          'Sucesso'
+
+        );
       },
       error: (err: any) => {
         const errorMessage = err?.error?.message || 'Ocorreu um erro!';

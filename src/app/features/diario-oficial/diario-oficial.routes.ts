@@ -1,5 +1,4 @@
 import { RouterModule, Routes } from '@angular/router';
-import { DiarioOficialAnosComponent } from './components/diario-oficial-anos/diario-oficial-anos.component';
 import { DiarioOficialListagemComponent } from './components/diario-oficial-listagem/diario-oficial-listagem.component';
 import { DiarioOficialVisualizacaoComponent } from './components/diario-oficial-visualizacao/diario-oficial-visualizacao.component';
 import { NgModule } from '@angular/core';
@@ -15,10 +14,6 @@ const routes: Routes = [
                 redirectTo: 'listagem',
                 pathMatch: 'full' // Redireciona para 'anos' quando o caminho é vazio
             },
-            // {
-            //     path: 'anos',
-            //     component: DiarioOficialAnosComponent
-            // },
             {
                 path: 'listagem',
                 component: DiarioOficialListagemComponent
