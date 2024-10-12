@@ -1,4 +1,3 @@
-import { DadosDiarioOficialPublico } from './../../models/diario-oficial.model';
 import { DiarioOficialListagemComponent } from './../../components/diario-oficial-listagem/diario-oficial-listagem.component';
 import { Component, EventEmitter, OnInit, Output, output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';

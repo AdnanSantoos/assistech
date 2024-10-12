@@ -33,7 +33,7 @@ import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 export class DiarioOficialListagemComponent  implements OnChanges {
   filterForm: FormGroup;
   resultados: RequisicaoModel<DiarioOficalLista[]>;
-  anos: number[] = [];
+  anos: number[] = [2024];
   diarioData!: DadosDiarioOficialPublico;
   documentUrl!:string;
   documentTitulo!:string;
