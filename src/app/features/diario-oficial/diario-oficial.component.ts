@@ -33,22 +33,7 @@ export class DiarioOficialComponent implements OnInit {
   constructor(private diarioOficialService: DiarioOficialService) { }
 
   ngOnInit(): void {
-    this.diarioOficialService.getDiarioPublico().subscribe({
-      next: (value: DiarioOficialPublico) => {
-        this.listaAnos = this.gerarAnosAteAtual(value.data.year)
-      },
-      error: (err) => {
-        console.log(err)
-      },
-    })
+   
   }
 
-  gerarAnosAteAtual(anoInicial: number) {
-    const anoAtual = new Date().getFullYear();
-    let anos = [];
-    for (let ano = anoInicial; ano <= anoAtual; ano++) {
-      anos.push(ano);
-    }
-    return anos;
-  }
 }

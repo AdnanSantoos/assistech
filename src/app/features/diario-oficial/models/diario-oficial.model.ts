@@ -1,11 +1,10 @@
-export interface DiarioOficialPublico {
-    data: DadosDiarioOficialPublico;
-}
-
 export interface DiarioOficialPesquisaData {
-    year: number;
-    month:number;
-    content:string;
+    year: number | null;
+    month:number | null;
+    //palavra-chave
+    content:string | null;
+    //edicao
+    number:number | null;
 }
 
 export interface DiarioOficalLista {

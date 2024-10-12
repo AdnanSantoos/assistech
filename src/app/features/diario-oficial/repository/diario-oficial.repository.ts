@@ -1,31 +1,33 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment';
-import { DiarioOficialPesquisaData, DiarioOficialPublico } from '../models/diario-oficial.model';
+import { RequisicaoModel } from '../../../shared/models/shared.model';
+import { DadosDiarioOficialPublico, DiarioOficialPesquisaData } from '../models/diario-oficial.model';
 @Injectable({
   providedIn: 'root',
 })
 export class DiarioRepository {
   constructor(private _http: HttpClient) {}
-  //Inicio - De acordo com swagger diario oficial/publicações
-  getDiarioPublicacoes() {
-    return this._http.get(
-      `${environment.apiUrl}/${environment.tenant}/diario-oficial/official-gazettes`
-    );
-  }
-  //Final - De acordo com swagger diario oficial/publicações
-
-  //Inicio - De acordo com swagger diario oficial/público
-  getDiarioPublicoPorData() {
-    return this._http.get(`${environment.apiUrl}/public/${environment.tenant}/official-gazettes`);
-  }
-
-  getDiarioPublico() {
-    return this._http.get<DiarioOficialPublico>(`${environment.apiUrl}/public/${environment.tenant}`);
+  
+  getDiarioPublicoPorFiltro(query:DiarioOficialPesquisaData) {
+    let queryParams = new HttpParams();
+    if(query.year){
+      queryParams = queryParams.append('year',query.year);
+    }
+    if(query.month){
+      queryParams = queryParams.append('month', query.month);
+    }
+    if(query.content){
+      queryParams = queryParams.append('content', query.content);
+    }
+    if(query.number){
+      queryParams = queryParams.append('number', query.number);
+    }
+    return this._http.get<RequisicaoModel<DadosDiarioOficialPublico>>(`${environment.apiUrl}/public/${environment.tenant}/official-gazettes`, { params: queryParams });
   }
 
   getDiarioPublicoEntidade() {
     return this._http.get(`${environment.apiUrl}/public/${environment.tenant}`);
   }
-  //Final - De acordo com swagger diario oficial/público
+
 }

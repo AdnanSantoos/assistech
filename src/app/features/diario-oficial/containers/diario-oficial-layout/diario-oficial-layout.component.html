@@ -6,7 +6,7 @@
     </div>
     <div class="filter-container">
       <div class="content">
-        <router-outlet />
+        <app-diario-oficial-listagem (formEmiter)="getForm($event)"  [publicacoes]="publicacoesDiario$ | async" ></app-diario-oficial-listagem>
       </div>
     </div>
   </div>

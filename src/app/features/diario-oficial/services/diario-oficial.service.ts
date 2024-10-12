@@ -1,37 +1,56 @@
-import { environment } from './../../../../environments/environment';
-import { DiarioOficialPesquisaData, DiarioOficialPublico } from './../models/diario-oficial.model';
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 import { DiarioRepository } from '../repository/diario-oficial.repository';
-import { Observable, tap } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
+import { RequisicaoModel } from '../../../shared/models/shared.model';
+import { DadosDiarioOficialPublico, DiarioOficialPesquisaData } from '../models/diario-oficial.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DiarioOficialService {
+
+  get publicacoesDiario$(): Observable<RequisicaoModel<DadosDiarioOficialPublico> | null>{
+    return this.diario$
+  }
+
+  private diarioSubject = new BehaviorSubject<RequisicaoModel<DadosDiarioOficialPublico> | null>(null);
+
+  public diario$: Observable<RequisicaoModel<DadosDiarioOficialPublico> | null> = this.diarioSubject.asObservable();
+
   constructor(
-    private _router: Router,
-    private _http: HttpClient,
     private _repository: DiarioRepository
-  ) {}
+  ) {
+    }
 
-    //Só está funcionando o retorno de diário público entidade
+    // public getDiario() {
+    //   this._repository.getDiarioPublicacoes().subscribe({
+    //     next: (response: RequisicaoModel<DadosDiarioOficialPublico>) => {
+    //      this.diarioSubject.next(response)
+    //     },
+    //     error: (err: any) => {
+    //       console.error(err)
+    //     },
+    //   });
+    // }
 
-
-  public getDiario(): Observable<any> {
-    return this._repository.getDiarioPublicacoes();
+  public getDiarioPublicoPorFiltro(form:DiarioOficialPesquisaData) {
+    return this._repository.getDiarioPublicoPorFiltro(form).subscribe((res:RequisicaoModel<DadosDiarioOficialPublico>)=>{
+      this.diarioSubject.next(res)
+    });
   }
 
-  public getDiarioPublicoPorData(): Observable<any> {
-    return this._repository.getDiarioPublicoPorData();
-  }
-
-  public getDiarioPublico(): Observable<DiarioOficialPublico> {
-    return this._repository.getDiarioPublico();
-  }
+  // public getDiarioPublico() {
+  //   this._repository.getDiarioPublico().subscribe({
+  //     next: (response) => {
+  //       console.log('diario publico',response)
+  //     },
+  //     error: (err) => console.log(err)
+  //   });    
+  // }
 
   public getDiarioPublicoEntidade(): Observable<any> {
     return this._repository.getDiarioPublicoEntidade();
   }
+  
 }

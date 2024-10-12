@@ -1,4 +1,4 @@
-import { Component, TemplateRef } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, TemplateRef } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
@@ -7,7 +7,7 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { DiarioOficialLayoutComponent } from '../../containers/diario-oficial-layout/diario-oficial-layout.component';
 import { MatIcon } from '@angular/material/icon';
-import { DadosDiarioOficialPublico, DiarioOficalLista } from '../../models/diario-oficial.model';
+import { DadosDiarioOficialPublico, DiarioOficalLista, DiarioOficialPesquisaData } from '../../models/diario-oficial.model';
 import { RequisicaoModel, selectModel } from '../../../../shared/models/shared.model';
 import { DiarioOficialService } from '../../services/diario-oficial.service';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -25,21 +25,19 @@ import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
     MatButtonModule,
     NgSelectModule,
     ModalModule,
-    NgxExtendedPdfViewerModule,
-    DiarioOficialLayoutComponent],
+    NgxExtendedPdfViewerModule],
   templateUrl: './diario-oficial-listagem.component.html',
   styleUrl: './diario-oficial-listagem.component.scss',
   providers: [BsModalService]
 })
-export class DiarioOficialListagemComponent {
+export class DiarioOficialListagemComponent  implements OnChanges {
   filterForm: FormGroup;
   resultados: RequisicaoModel<DiarioOficalLista[]>;
-  filteredDocuments: DiarioOficalLista[] = [];
   anos: number[] = [];
-  diarioData!: DadosDiarioOficialPublico[];
-  documentUrl!: string;
-  documentTitulo!: string;
-  meses: selectModel[] = [
+  diarioData!: DadosDiarioOficialPublico;
+  documentUrl!:string;
+  documentTitulo!:string;
+  meses:selectModel[] = [
     { key: "Janeiro", value: 1 },
     { key: "Fevereiro", value: 2 },
     { key: "Março", value: 3 },
@@ -54,49 +52,47 @@ export class DiarioOficialListagemComponent {
     { key: "Dezembro", value: 12 }
   ]
   modalRef?: BsModalRef;
+  documentos:any;
+
+  @Input() publicacoes!: RequisicaoModel<DadosDiarioOficialPublico> | null;
+  @Output() formEmiter = new EventEmitter<DiarioOficialPesquisaData>;
 
   constructor(private modalService: BsModalService, private fb: FormBuilder, private router: Router, private diarioOficialService: DiarioOficialService) {
     this.filterForm = this.fb.group({
-      ano: [null],
-      mes: [null],
-      edicao: [null],
-      palavraChave: [null],
-      periodoInicial: [null],
-      periodoFinal: [null],
+      year: [null],
+      month: [null],
+      number: [null],
+      content: [null],
     });
     const navigation = this.router.getCurrentNavigation();
     this.resultados = navigation?.extras?.state?.['resultados'] || [];
   }
 
-  openModal(template: TemplateRef<void>) {
-
+  ngOnChanges(changes: SimpleChanges): void {
+      this.documentos = this.publicacoes
   }
 
-  // initializeAnos(): void {
-  //   if (this.diarioData) {
-  //     this.anos = this.diarioData.year;
-  //   }
-  // }
-
-  // onAnoChange(selectedAno: number): void {
-  //   if (this.diarioData && this.diarioData.year === selectedAno) {
-  //     this.meses = [this.diarioData.first_publication];
-  //   } else {
-  //     this.meses = [];
-  //   }
-  // }
-
-  ngOnInit(): void {
-    this.diarioOficialService.getDiarioPublicoPorData().subscribe((data) => {
-      this.filteredDocuments = data.data;
-      console.log("Arquivos filtrados: ",this.filteredDocuments)
-    });
-  }
   visualizar(template: TemplateRef<void>, url: string, titulo: string) {
     this.documentTitulo = titulo
     this.documentUrl = url;
     this.modalRef = this.modalService.show(template, Object.assign({}, { class: 'modal-lg' }));
   }
+
   buscarDiario() {
+    this.formEmiter.emit(this.filterForm.value)
+  }
+
+  initializeAnos(): void {
+    if (this.diarioData) {
+      this.anos = [this.diarioData.year];
+    }
+  }
+
+  onAnoChange(selectedAno: number): void {
+    // if (this.diarioData && this.diarioData.year === selectedAno) {
+    //   this.meses = [this.diarioData.first_publication];
+    // } else {
+    //   this.meses = [];
+    // }
   }
 }

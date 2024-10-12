@@ -8,21 +8,6 @@ const routes: Routes = [
     {
         path: '',
         component: DiarioOficialLayoutComponent,
-        children: [
-            {
-                path: '',
-                redirectTo: 'listagem',
-                pathMatch: 'full' // Redireciona para 'anos' quando o caminho é vazio
-            },
-            {
-                path: 'listagem',
-                component: DiarioOficialListagemComponent
-            },
-            {
-                path: 'visualizar',
-                component: DiarioOficialVisualizacaoComponent
-            }
-        ]
     }
 ];
 

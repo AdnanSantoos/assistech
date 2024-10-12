@@ -1,13 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { DadosDiarioOficialPublico } from './../../models/diario-oficial.model';
+import { DiarioOficialListagemComponent } from './../../components/diario-oficial-listagem/diario-oficial-listagem.component';
+import { Component, EventEmitter, OnInit, Output, output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, Router, RouterLink, RouterModule } from '@angular/router';
+import { Router, RouterLink, RouterModule } from '@angular/router';
 import { DiarioOficialService } from '../../services/diario-oficial.service';
-import { DadosDiarioOficialPublico } from '../../models/diario-oficial.model';
+import { DadosDiarioOficialPublico, DiarioOficialPesquisaData } from '../../models/diario-oficial.model';
 import { Location } from '@angular/common';
+import { Observable } from 'rxjs';
+import { RequisicaoModel } from '../../../../shared/models/shared.model';
 
 @Component({
   selector: 'app-diario-oficial-layout',
@@ -20,52 +24,46 @@ import { Location } from '@angular/common';
     RouterLink,
     MatButtonModule,
     RouterModule,
+    DiarioOficialListagemComponent
 ],
   templateUrl: './diario-oficial-layout.component.html',
   styleUrls: ['./diario-oficial-layout.component.scss']
 })
 export class DiarioOficialLayoutComponent implements OnInit {
-  filtroForm: FormGroup;
+  filtroForm: DiarioOficialPesquisaData = {
+    content:null,
+    year:null,
+    number:null,
+    month:null,
+  };
   anos: number[] = [];
   meses: string[] = [];
   diarioData: DadosDiarioOficialPublico | undefined;
   exibirFormulario: boolean = false;
 
+  get publicacoesDiario$(): Observable<RequisicaoModel<DadosDiarioOficialPublico> | null>{
+    return this._service.publicacoesDiario$
+  }
+
   constructor(
     private fb: FormBuilder,
-    private router: Router,
-    private route: ActivatedRoute,
-    private diarioOficialService: DiarioOficialService,
+    private _service: DiarioOficialService,
     private location: Location
   ) {
-    this.filtroForm = this.fb.group({
-      ano: [new Date().getFullYear()],
-      mes: ['']
-    });
   }
 
   ngOnInit(): void {
-    // this.diarioOficialService.getDiarioPublico().subscribe({
-    //   next: (response) => {
-    //     this.diarioData = response.data;
-    //     this.initializeAnos();
-    //     this.onAnoChange(this.filtroForm.value.ano);
-    //   },
-    //   error: (err) => console.log(err)
-    // });
-
-    // this.diarioOficialService.getDiario().subscribe({
-    //   next: (response) => {
-    //   console.log(response)
-    //   },
-    //   error: (err) => console.log(err)
-    // });
-
-    this.router.events.subscribe(() => {
-      const url = this.router.url;
-      this.exibirFormulario = url === '/diario-oficial-listagem' || url === '/diario-oficial-visualizacao';
-    });
+    this._service.getDiarioPublicoEntidade().subscribe((res:DadosDiarioOficialPublico)=>{
+      this.gerarAnosAteAtual(res.year)
+      this._service.getDiarioPublicoPorFiltro(this.filtroForm)
+    })
   }
+
+  getForm(value:DiarioOficialPesquisaData){
+    this.filtroForm = value;
+    this._service.getDiarioPublicoPorFiltro(this.filtroForm)
+  }
+
 
   initializeAnos(): void {
     if (this.diarioData) {
@@ -79,6 +77,15 @@ export class DiarioOficialLayoutComponent implements OnInit {
     } else {
       this.meses = [];
     }
+  }
+
+  gerarAnosAteAtual(anoInicial: number) {
+    const anoAtual = new Date().getFullYear();
+    let anos = [];
+    for (let ano = anoInicial; ano <= anoAtual; ano++) {
+      anos.push(ano);
+    }
+    return anos;
   }
 
   onFormSubmit(): void {
