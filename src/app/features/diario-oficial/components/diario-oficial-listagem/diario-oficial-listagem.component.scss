@@ -4,7 +4,7 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 16px;
-  
+
     h2 {
       font-size: 18.38px;
       font-weight: 700;
@@ -38,10 +38,10 @@
           min-height: 35px;
           margin-top: 24px;
         }
-        
+
         label {
           color: #225ec9;
-  
+
           font-size: 13.67px;
           font-weight: 700;
           line-height: 16.74px;
@@ -62,7 +62,7 @@
             font-size: 11px;
             .ng-value-container{
               padding-left: 27px;
-              padding-top: 6px;   
+              padding-top: 6px;
             }
           }
           input, .ng-select-container {
@@ -78,7 +78,7 @@
               line-height: 13.61px;
               text-align: left;
               color: #225EC980;
-            }        
+            }
           }
         }
       }
@@ -284,5 +284,10 @@
     width: 100%;
     overflow-x: auto;
     max-width: 320px;
+  }
+}
+::ng-deep{
+  .mdc-text-field--filled:not(.mdc-text-field--disabled){
+    background-color: transparent;
   }
 }

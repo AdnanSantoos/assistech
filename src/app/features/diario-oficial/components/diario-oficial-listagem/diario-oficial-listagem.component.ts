@@ -13,6 +13,11 @@ import { DiarioOficialService } from '../../services/diario-oficial.service';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { BsModalRef, BsModalService, ModalModule } from 'ngx-bootstrap/modal';
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
+import { MatDatepicker, MatDatepickerModule } from '@angular/material/datepicker';
+import { DatePipe } from '@angular/common';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatInputModule } from '@angular/material/input';
+
 @Component({
   selector: 'app-diario-oficial-listagem',
   standalone: true,
@@ -21,6 +26,9 @@ import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
     MatFormFieldModule,
     MatSelectModule,
     MatIcon,
+    MatInputModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
     RouterLink,
     MatButtonModule,
     NgSelectModule,
@@ -28,7 +36,7 @@ import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
     NgxExtendedPdfViewerModule],
   templateUrl: './diario-oficial-listagem.component.html',
   styleUrl: './diario-oficial-listagem.component.scss',
-  providers: [BsModalService]
+  providers: [BsModalService, DatePipe]
 })
 export class DiarioOficialListagemComponent  implements OnChanges {
   filterForm: FormGroup;
@@ -71,6 +79,23 @@ export class DiarioOficialListagemComponent  implements OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
       this.documentos = this.publicacoes
   }
+
+  isAnoDesabilitado = (data: Date): boolean => {
+    const ano = data.getFullYear();
+    return !this.anos.includes(ano);
+  };
+
+  selecionarAno = (anoNormalizado: Date, datepicker: MatDatepicker<Date>): void => {
+    this.filterForm.controls['year'].setValue(anoNormalizado.getFullYear().toString());
+    datepicker.close();
+  };
+
+
+  aoMudarAno = (evento: any): void => {
+    const anoSelecionado = new Date(evento.value).getFullYear();
+    this.filterForm.patchValue({ year: anoSelecionado });
+  };
+
 
   visualizar(template: TemplateRef<void>, url: string, titulo: string) {
     this.documentTitulo = titulo
