@@ -8,15 +8,16 @@
           class="logo"
         />
         <div class="input-container">
-          <label>Ano</label>
+          <label class="label-ano">Ano</label>
           <mat-form-field>
             <input
               matInput
               [matDatepicker]="yearPicker"
               placeholder="Escolha o ano"
+              [value]="filterForm.get('year')?.value"
               formControlName="year"
-              (dateChange)="aoMudarAno($event)"
               (focus)="yearPicker.open()"
+              readonly
             />
             <mat-datepicker
               #yearPicker
@@ -26,6 +27,7 @@
             ></mat-datepicker>
           </mat-form-field>
         </div>
+
         <div class="input-container">
           <label>Mês</label>
           <ng-select
@@ -73,6 +75,11 @@
         >
           Buscar
         </button>
+        @if(algumCampoClicado()){
+          <button class="btn mt-4" (click)="limparFormulario()" type="button" aria-label="Limpar">
+            <mat-icon>clear</mat-icon>
+           </button>
+        }
       </form>
     </div>
   </div>

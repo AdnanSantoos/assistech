@@ -35,16 +35,16 @@
         margin-top: 10px;
 
         .btn-padrao__perfil-icon {
-          width: 7.003px;
+          width: 12.003px;
+          height: 14.458px;
           margin-right: 10px;
-          height: 9.458px;
           background-size: cover;
           background-image: url("../../../../assets/icons/perfil-icon-branco.svg") !important;
         }
 
         .btn-padrao__text {
           color: #fff;
-          font-size: 7px;
+          font-size: 12px;
           font-weight: 600;
           line-height: 8.57px;
           text-align: center;
@@ -74,7 +74,7 @@
       transition: background-color 0.3s;
 
       color: #e6e6e6;
-      font-size: 10.537px;
+      font-size: 12.537px;
       font-style: normal;
       font-weight: 700;
       line-height: 122.487%;
@@ -86,7 +86,7 @@
 
       mat-icon {
         margin-right: 10px;
-        font-size: 16px;
+        font-size: 19px;
         color: #fff !important;
         display: flex;
         align-items: center;
@@ -96,7 +96,7 @@
       .menu-title {
         flex-grow: 1;
         text-transform: uppercase;
-        font-size: 8.537px;
+        font-size: 11.537px;
       }
 
       .menu-arrow {
@@ -116,7 +116,7 @@
 
       span {
         color: #e6e6e6;
-        font-size: 8.537px;
+        font-size: 10.537px;
         font-style: normal;
         font-weight: 700;
         line-height: 122.487%; /* 10.457px */
@@ -127,6 +127,7 @@
         padding: 10px 0;
         mat-icon {
           color: #fff !important;
+          font-size: 19px;
         }
         a {
           color: #fff;
@@ -139,6 +140,10 @@
             text-decoration: underline;
           }
         }
+      }
+      li:hover{
+        background-color: #444;
+
       }
     }
     .active {
@@ -163,13 +168,13 @@
   margin-bottom: 15%;
   .btn-padrao__perfil-icon {
     background-image: url("../../../../assets/icons/perfil-icon-preto.svg") !important;
-    width: 10.016px;
-    height: 11.837px;
+    width: 14.003px;
+    height: 16.458px;
     background-size: contain;
   }
   .btn-padrao__text {
     color: #1f1f1f;
-    font-size: 8.537px;
+    font-size: 11.537px;
     font-style: normal;
     font-weight: 700;
     line-height: 122.487%; /* 10.457px */

@@ -13,8 +13,8 @@ import { DiarioOficialService } from '../../services/diario-oficial.service';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { BsModalRef, BsModalService, ModalModule } from 'ngx-bootstrap/modal';
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
-import { MatDatepicker, MatDatepickerModule } from '@angular/material/datepicker';
 import { DatePipe } from '@angular/common';
+import { MatDatepicker, MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatInputModule } from '@angular/material/input';
 
@@ -61,7 +61,7 @@ export class DiarioOficialListagemComponent  implements OnChanges {
   ]
   modalRef?: BsModalRef;
   documentos:any;
-
+  
   @Input() publicacoes!: RequisicaoModel<DadosDiarioOficialPublico> | null;
   @Output() formEmiter = new EventEmitter<DiarioOficialPesquisaData>;
 
@@ -80,22 +80,33 @@ export class DiarioOficialListagemComponent  implements OnChanges {
       this.documentos = this.publicacoes
   }
 
+  limparFormulario(): void {
+    this.filterForm.reset();
+  }
   isAnoDesabilitado = (data: Date): boolean => {
     const ano = data.getFullYear();
-    return !this.anos.includes(ano);
+    return this.anos.includes(ano); 
   };
-
+  
   selecionarAno = (anoNormalizado: Date, datepicker: MatDatepicker<Date>): void => {
-    this.filterForm.controls['year'].setValue(anoNormalizado.getFullYear().toString());
-    datepicker.close();
+    const ano = anoNormalizado.getFullYear();
+    if (this.anos.includes(ano)) {
+      this.filterForm.controls['year'].setValue(ano);
+      datepicker.close();
+    } else {
+      console.error('Ano selecionado não é permitido.');
+    }
   };
 
-
+  algumCampoClicado(): boolean {
+    return Object.values(this.filterForm.value).some(value => value !== null && value !== '');
+  }
+  
   aoMudarAno = (evento: any): void => {
     const anoSelecionado = new Date(evento.value).getFullYear();
     this.filterForm.patchValue({ year: anoSelecionado });
   };
-
+  
 
   visualizar(template: TemplateRef<void>, url: string, titulo: string) {
     this.documentTitulo = titulo

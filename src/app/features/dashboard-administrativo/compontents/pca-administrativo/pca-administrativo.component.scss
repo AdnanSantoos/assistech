@@ -1,5 +1,5 @@
 .btn-adm-adicionar {
-  font-size: 8px;
+  font-size: 10px;
   font-weight: 500;
   padding: 5px 36px;
   box-shadow: 0 2px 3.3px rgba(0, 0, 0, 0.22);
@@ -9,12 +9,11 @@
   display: flex;
   align-items: center;
   height: 32px;
-  font-size: 9.263px;
 
   mat-icon {
-    width: 12px;
-    height: 12px;
-    font-size: 12px;
+    width: 15px;
+    height: 15px;
+    font-size: 15px;
     margin-right: 12px;
   }
 }
@@ -77,25 +76,29 @@ small {
 
   tbody {
     td {
-      padding: 12px;
+      padding: 0px 20px;
       font-size: 14px;
       color: #555;
       vertical-align: middle;
     }
-
-    tr:nth-child(even) {
-      background-color: #fafafa;
-    }
   }
 }
-.table-striped > tbody > tr:nth-of-type(odd) > * {
-  --bs-table-color-type: var(--bs-table-striped-color);
-  --bs-table-bg-type: #fff; /* Define o fundo branco para as linhas ímpares */
-}
+
 
 .card-footer,
 .table-responsive {
   padding: 0;
+}.table-striped {
+  tbody {
+    tr {
+      &:nth-child(odd) {
+        background-color: #f2f2f2; // Cor de fundo para linhas ímpares
+      }
+      &:nth-child(even) {
+        background-color: #fafafa; // Cor de fundo para linhas pares
+      }
+    }
+  }
 }
 
 .pagination {
