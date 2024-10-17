@@ -9,23 +9,18 @@
         />
         <div class="input-container">
           <label class="label-ano">Ano</label>
-          <mat-form-field>
-            <input
-              matInput
-              [matDatepicker]="yearPicker"
-              placeholder="Escolha o ano"
-              [value]="filterForm.get('year')?.value"
-              formControlName="year"
-              (focus)="yearPicker.open()"
-              readonly
-            />
-            <mat-datepicker
-              #yearPicker
-              startView="multi-year"
-              (yearSelected)="selecionarAno($event, yearPicker)"
-              panelClass="year-picker"
-            ></mat-datepicker>
-          </mat-form-field>
+          <input
+            type="text"
+            placeholder="Selecione o Ano"
+            formControlName="year"
+            class="form-control"
+            bsDatepicker
+            [bsConfig]="{
+              isAnimated: true,
+              minMode: 'year',
+              dateInputFormat: 'YYYY'
+            }"
+          />
         </div>
 
         <div class="input-container">
@@ -33,6 +28,7 @@
           <ng-select
             [items]="meses"
             formControlName="month"
+            placeholder="Selecione o mês"
             bindLabel="key"
             bindValue="value"
             [clearable]="false"
@@ -76,9 +72,14 @@
           Buscar
         </button>
         @if(algumCampoClicado()){
-          <button class="btn mt-4" (click)="limparFormulario()" type="button" aria-label="Limpar">
-            <mat-icon>clear</mat-icon>
-           </button>
+        <button
+          class="btn mt-4"
+          (click)="limparFormulario()"
+          type="button"
+          aria-label="Limpar"
+        >
+          <mat-icon>clear</mat-icon>
+        </button>
         }
       </form>
     </div>
@@ -93,7 +94,9 @@
           <th>VISUALIZAR</th>
         </tr>
       </thead>
-      @if (publicacoes?.data) {
+      @if (publicacoes?.data) { @if(documentos?.data && documentos?.data.length
+      > 0){
+
       <tbody>
         <tr *ngFor="let doc of documentos?.data">
           <td>{{ doc.number }}</td>
@@ -126,7 +129,13 @@
           </td>
         </tr>
       </tbody>
-      }
+      } @else {
+      <tbody class="position-relative">
+        <tr class="resultado-nao-encontrado">
+          Nenhum resultado encontrado
+        </tr>
+      </tbody>
+      } }
     </table>
   </div>
 </div>

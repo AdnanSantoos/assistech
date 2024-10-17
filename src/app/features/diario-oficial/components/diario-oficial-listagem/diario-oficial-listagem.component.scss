@@ -1,4 +1,4 @@
-.right-column{
+.right-column {
   .header {
     display: flex;
     justify-content: space-between;
@@ -15,17 +15,17 @@
     .search-bar {
       form {
         display: flex;
-        gap:8px;
+        gap: 8px;
         align-items: center;
 
-        .logo{
+        .logo {
           max-height: 100%;
           width: 90px;
           margin-right: 100px;
         }
-        .btn-buscar{
-          background: #225EC9;
-          border: 1.33px solid #225EC9;
+        .btn-buscar {
+          background: #225ec9;
+          border: 1.33px solid #225ec9;
           font-size: 11.11px;
           font-weight: 700;
           line-height: 13.61px;
@@ -52,36 +52,51 @@
           position: relative;
           text-align: center;
           cursor: pointer;
-          .label-ano{
+          .label-ano {
             margin-top: 8px;
           }
-          input{
-            padding-left: 13px;
+          input {
+            padding: 0px 15px;
             padding-top: 0px;
             min-width: 98px;
+            font-size: 13px;
             cursor: pointer;
+            color: #333333;
           }
-          .ng-select{
+          .ng-select {
             min-width: 98px;
             font-size: 11px;
-            .ng-value-container{
+            .ng-value-container {
               padding-left: 27px;
-              padding-top: 6px;
+              padding-top: 10px;
             }
-          }
-          input, .ng-select-container {
-            width: 100%;
-            border-radius: 12px;
-            border: 1px solid #225ec9;
-            height: 35px;
-            line-height: 13.61px;
-            &::placeholder{
+            .ng-arrow-wrapper {
+              padding-top: 10px;
+            }
+            &::placeholder {
               font-family: Inter;
               font-size: 11.11px;
               font-weight: 500;
               line-height: 13.61px;
               text-align: left;
-              color: #225EC980;
+              color: #225ec980;
+            }
+          }
+          input,
+          .ng-select-container {
+            width: 100%;
+            border-radius: 12px;
+            border: 1px solid #225ec9;
+            height: 35px;
+            line-height: 13.61px;
+            font-size: 13px;
+            &::placeholder {
+              font-family: Inter;
+              font-size: 11.11px;
+              font-weight: 500;
+              line-height: 13.61px;
+              text-align: left;
+              color: #225ec980;
             }
           }
         }
@@ -89,7 +104,6 @@
     }
   }
 }
-
 
 .custom-file-input {
   position: relative;
@@ -213,8 +227,8 @@
     }
   }
 }
-.mat-icon{
-  color:#225ec9;
+.mat-icon {
+  color: #225ec9;
 }
 .official-docs-table {
   width: 100%;
@@ -290,22 +304,38 @@
     max-width: 320px;
   }
 }
-::ng-deep{
-  .mdc-text-field--filled:not(.mdc-text-field--disabled){
+::ng-deep {
+  .mdc-text-field--filled:not(.mdc-text-field--disabled) {
     background-color: transparent !important;
     padding: 0 !important;
   }
-  .mat-mdc-form-field-subscript-wrapper{
+  .mat-mdc-form-field-subscript-wrapper {
     display: none !important;
   }
-  .mdc-text-field--filled:not(.mdc-text-field--disabled) .mdc-line-ripple::before {
+  .mdc-text-field--filled:not(.mdc-text-field--disabled)
+    .mdc-line-ripple::before {
     display: none;
   }
-  .mdc-text-field--outlined .mat-mdc-form-field-infix, .mdc-text-field--no-label .mat-mdc-form-field-infix{
+  .mdc-text-field--outlined .mat-mdc-form-field-infix,
+  .mdc-text-field--no-label .mat-mdc-form-field-infix {
     padding: 0 !important;
   }
-  .mat-mdc-form-field{
+  .mat-mdc-form-field {
     height: 36px;
     width: 100%;
+  }
+  .theme-green .bs-datepicker-head,
+  .theme-green .bs-datepicker-body table td span.selected,
+  .theme-green .bs-datepicker-body table td.selected span,
+  .theme-green .bs-datepicker-body table td span[class*="select-"]:after,
+  .theme-green .bs-datepicker-body table td[class*="select-"] span:after {
+    background-color: #225ec9;
+  }
+}
+.position-relative {
+  .resultado-nao-encontrado {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 5vh);
   }
 }

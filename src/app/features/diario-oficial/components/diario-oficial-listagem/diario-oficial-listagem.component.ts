@@ -17,7 +17,8 @@ import { DatePipe } from '@angular/common';
 import { MatDatepicker, MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatInputModule } from '@angular/material/input';
-
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { DiarioOficialMapper } from '../../mappers/diario-oficial-mapper';
 @Component({
   selector: 'app-diario-oficial-listagem',
   standalone: true,
@@ -33,19 +34,20 @@ import { MatInputModule } from '@angular/material/input';
     MatButtonModule,
     NgSelectModule,
     ModalModule,
-    NgxExtendedPdfViewerModule],
+    NgxExtendedPdfViewerModule, 
+    BsDatepickerModule],
   templateUrl: './diario-oficial-listagem.component.html',
   styleUrl: './diario-oficial-listagem.component.scss',
   providers: [BsModalService, DatePipe]
 })
-export class DiarioOficialListagemComponent  implements OnChanges {
+export class DiarioOficialListagemComponent implements OnChanges {
   filterForm: FormGroup;
   resultados: RequisicaoModel<DiarioOficalLista[]>;
   anos: number[] = [2024];
   diarioData!: DadosDiarioOficialPublico;
-  documentUrl!:string;
-  documentTitulo!:string;
-  meses:selectModel[] = [
+  documentUrl!: string;
+  documentTitulo!: string;
+  meses: selectModel[] = [
     { key: "Janeiro", value: 1 },
     { key: "Fevereiro", value: 2 },
     { key: "Março", value: 3 },
@@ -60,8 +62,8 @@ export class DiarioOficialListagemComponent  implements OnChanges {
     { key: "Dezembro", value: 12 }
   ]
   modalRef?: BsModalRef;
-  documentos:any;
-  
+  documentos: any;
+
   @Input() publicacoes!: RequisicaoModel<DadosDiarioOficialPublico> | null;
   @Output() formEmiter = new EventEmitter<DiarioOficialPesquisaData>;
 
@@ -77,7 +79,7 @@ export class DiarioOficialListagemComponent  implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-      this.documentos = this.publicacoes
+    this.documentos = this.publicacoes
   }
 
   limparFormulario(): void {
@@ -85,9 +87,9 @@ export class DiarioOficialListagemComponent  implements OnChanges {
   }
   isAnoDesabilitado = (data: Date): boolean => {
     const ano = data.getFullYear();
-    return this.anos.includes(ano); 
+    return this.anos.includes(ano);
   };
-  
+
   selecionarAno = (anoNormalizado: Date, datepicker: MatDatepicker<Date>): void => {
     const ano = anoNormalizado.getFullYear();
     if (this.anos.includes(ano)) {
@@ -101,12 +103,12 @@ export class DiarioOficialListagemComponent  implements OnChanges {
   algumCampoClicado(): boolean {
     return Object.values(this.filterForm.value).some(value => value !== null && value !== '');
   }
-  
+
   aoMudarAno = (evento: any): void => {
     const anoSelecionado = new Date(evento.value).getFullYear();
     this.filterForm.patchValue({ year: anoSelecionado });
   };
-  
+
 
   visualizar(template: TemplateRef<void>, url: string, titulo: string) {
     this.documentTitulo = titulo
@@ -115,7 +117,8 @@ export class DiarioOficialListagemComponent  implements OnChanges {
   }
 
   buscarDiario() {
-    this.formEmiter.emit(this.filterForm.value)
+   let form = DiarioOficialMapper.toSearch(this.filterForm.value)
+    this.formEmiter.emit(form)
   }
 
   initializeAnos(): void {
