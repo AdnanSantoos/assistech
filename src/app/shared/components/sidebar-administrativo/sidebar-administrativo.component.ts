@@ -23,7 +23,9 @@ export class SidebarAdministrativoComponent {
     {
       title: 'Diário Oficial',
       expanded: false,
-      subMenu: [{ title: 'Gerenciar', link: '/adm/dashboard-administrativo/gerenciar-diario-oficial' },
+      subMenu: [{ title: 'Publicacoes', link: '/adm/dashboard-administrativo/gerenciar-diario-oficial' },
+                { title: 'Noticias', link: '/adm/diario-oficial-administrativo/publicar' },
+                { title: 'Fotos', link: '' },
       ],
     },
     {
