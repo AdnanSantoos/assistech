@@ -95,6 +95,8 @@
       }
   
       &:hover:not(:disabled) {
+        transition : all 0.7s;
+
         background-color: #333;
       }
     }

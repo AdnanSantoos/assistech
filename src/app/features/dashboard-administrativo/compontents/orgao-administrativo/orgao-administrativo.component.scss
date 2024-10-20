@@ -1,5 +1,5 @@
 .btn-adm-adicionar {
-  font-size: 10px;
+  font-size: 13px;
   font-weight: 500;
   padding: 5px 36px;
   box-shadow: 0 2px 3.3px rgba(0, 0, 0, 0.22);
@@ -11,9 +11,7 @@
   height: 32px;
 
   mat-icon {
-    width: 15px;
-    height: 15px;
-    font-size: 15px;
+    font-size: 20px;
     margin-right: 12px;
   }
 }
@@ -82,12 +80,13 @@ small {
       vertical-align: middle;
     }
   }
-} 
+}
 
 .card-footer,
 .table-responsive {
   padding: 0;
-}.table-striped {
+}
+.table-striped {
   tbody {
     tr {
       &:nth-child(odd) {
@@ -113,13 +112,14 @@ small {
       border: none;
       cursor: pointer;
       &:hover {
+        transition: all 0.7s;
+
         background-color: rgba(0, 123, 255, 0.1);
       }
 
       &:disabled {
         color: #ccc;
       }
-
     }
 
     &.disabled .page-link {
@@ -136,7 +136,6 @@ small {
       font-weight: 500;
       line-height: 122.487%; /* 12.48px */
       margin-top: 5px;
-
     }
   }
 }

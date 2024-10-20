@@ -53,6 +53,8 @@
 
       &__hover:hover {
         background-color: #fff;
+        transition : all 0.7s;
+
       }
     }
   }
@@ -82,6 +84,8 @@
 
       &:hover {
         background-color: #444;
+        transition : all 0.7s;
+
       }
 
       mat-icon {
@@ -111,9 +115,8 @@
 
     .submenu {
       list-style-type: none;
-      padding: 0 15px;
-      margin-left: 25px;
-
+      padding-left: 45px;
+      transition : all 0.7s;
       span {
         color: #e6e6e6;
         font-size: 10.537px;
@@ -137,11 +140,15 @@
           display: block;
 
           &:hover {
+            transition : all 0.7s;
+
             text-decoration: underline;
           }
         }
       }
       li:hover{
+        transition : all 0.7s;
+
         background-color: #444;
 
       }
@@ -153,6 +160,13 @@
         display: block;
       }
     }
+    .active .submenu {
+      transition : all 0.7s;
+
+      background-color: #000;
+      display: block;
+    }
+  
   }
 }
 .dashboard-button {

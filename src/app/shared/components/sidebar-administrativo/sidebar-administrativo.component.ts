@@ -22,9 +22,9 @@ export class SidebarAdministrativoComponent {
     },
     {
       title: 'Diário Oficial',
-      link: '/adm/dashboard-administrativo/gerenciar-diario-oficial',
       expanded: false,
-      subMenu: [],
+      subMenu: [{ title: 'Gerenciar', link: '/adm/dashboard-administrativo/gerenciar-diario-oficial' },
+      ],
     },
     {
       title: 'PNCP',

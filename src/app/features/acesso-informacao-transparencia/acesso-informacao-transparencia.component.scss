@@ -65,7 +65,11 @@
   text-align: center;
 }
 .btn-padrao__hover:hover {
+  transition : all 0.7s;
+
   img {
+    transition : all 0.7s;
+
     filter: brightness(0) saturate(1000%) invert(1);
   }
 }

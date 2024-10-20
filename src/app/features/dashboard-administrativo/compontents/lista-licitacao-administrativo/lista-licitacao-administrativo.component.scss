@@ -1,5 +1,5 @@
 .btn-adm-adicionar {
-  font-size: 10px;
+  font-size: 13px;
   font-weight: 500;
   padding: 5px 36px;
   box-shadow: 0 2px 3.3px rgba(0, 0, 0, 0.22);
@@ -11,9 +11,7 @@
   height: 32px;
 
   mat-icon {
-    width: 15px;
-    height: 15px;
-    font-size: 15px;
+    font-size: 20px;
     margin-right: 12px;
   }
 }
@@ -81,7 +79,6 @@ small {
       color: #555;
       vertical-align: middle;
     }
-
   }
 }
 .table-striped {
@@ -100,7 +97,8 @@ small {
 .card-footer,
 .table-responsive {
   padding: 0;
-}.table-striped {
+}
+.table-striped {
   tbody {
     tr {
       &:nth-child(odd) {
@@ -127,6 +125,7 @@ small {
       cursor: pointer;
       &:hover {
         background-color: rgba(0, 123, 255, 0.1);
+        transition: all 0.7s;
       }
 
       &:disabled {

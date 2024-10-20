@@ -80,6 +80,8 @@
           &:hover {
             color: #fff;
             background-color: #225ec9;
+            transition : all 0.7s;
+
           }
         }
       }
@@ -125,6 +127,8 @@
     img.active,
     img:hover {
       border: 2px solid #007bff;
+      transition : all 0.7s;
+
     }
   }
 }

@@ -1,5 +1,5 @@
 @import "ngx-toastr/toastr";
-@import 'ngx-bootstrap/datepicker/bs-datepicker.css';
+@import "ngx-bootstrap/datepicker/bs-datepicker.css";
 html,
 body {
   height: 100%;
@@ -26,7 +26,6 @@ div.w-dir-main {
     width: 100%;
   }
 }
-
 
 body {
   font-family: "Inter", sans-serif !important;
@@ -234,8 +233,21 @@ body {
   }
 }
 .btn-edit {
-  width: 41px;
-  height: 41px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  img {
+    width: 31px;
+    height: 31px;
+  }
+}
+.mat-edit {
+  width: 31px;
+  height: 31px;
+  mat-icon{
+    margin-top: 1vh;
+    font-size: 15px;
+  }
 }
 
 .data-campo {
@@ -315,4 +327,3 @@ body {
     height: 100%;
   }
 }
-

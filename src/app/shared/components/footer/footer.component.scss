@@ -67,45 +67,55 @@
       display: flex;
       justify-content: flex-start;
       align-items: center;
+
     }
   
     .img {
-      width: 68.269px;
-      height: 65.673px;
+      width: 48.269px;
+      height: 45.673px;
       border-radius: 5px;
       display: flex;
       justify-content: center;
       align-items: center;
       cursor: pointer;
+    
     }
   
     .insta {
+      img{
+        width: 35.559px;
+        height: 35.043px;
+      }
       background: linear-gradient(54deg, #CC8100 9.93%, #CC2E00 39.64%, #CC016C 69.36%, #A51296 99.97%);
     }
   
     .face {
+      img{
+        width: 35.559px;
+        height: 35.043px;
+      }
       background: #0571F0;
     }
   
     .yt {
+      img{
+        width: 45.559px;
+        height: 45.043px;
+      }
       background: #F00505;
     }
   
-    .yt img {
-      width: 55.559px;
-      height: 55.043px;
-    }
   
     .pwr {
       max-width: 100px;
-      height: 65.673px;
+      height: 45.673px;
       margin-top: 10px;
       padding: 10px 20px;
       border-radius: 5px;
     }
   
     .pwr img {
-      width: 100%;
+      width: 75%;
     }
   }
   

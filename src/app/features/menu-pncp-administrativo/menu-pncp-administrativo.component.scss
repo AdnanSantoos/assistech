@@ -55,6 +55,7 @@
 
         .btn-padrao__hover:hover {
             background-color: #000;
+            transition : all 0.7s;
 
             .btn-padrao__text {
                 color: #fff;

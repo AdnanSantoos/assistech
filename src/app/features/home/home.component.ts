@@ -5,8 +5,9 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, NavigationEnd, Router, RouterLink } from '@angular/router';
 
 interface AcessoRapido {
-  routerLink: string;
+  routerLink?: string;
   texto: string;
+  link?: string;
 }
 
 @Component({
@@ -14,7 +15,7 @@ interface AcessoRapido {
   standalone: true,
   imports: [SliderComponent, GeneralNewsComponent, CommonModule, RouterLink],
   templateUrl: './home.component.html',
-  styleUrl: './home.component.scss',
+  styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
   acessos: AcessoRapido[] = [];
@@ -24,18 +25,18 @@ export class HomeComponent implements OnInit {
     { img: '../../../../assets/imgs-home/2.png' },
     { img: '../../../../assets/imgs-home/3.png' },
     { img: '../../../../assets/imgs-home/4.png' },
-  ]
+  ];
 
   images2 = [
     { img: '../../../../assets/imgs-home/5.png' },
     { img: '../../../../assets/imgs-home/6.png' },
     { img: '../../../../assets/imgs-home/7.png' },
-  ]
+  ];
 
-  constructor(private router: Router, private route: ActivatedRoute) { }
+  constructor(private router: Router, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
-    this.router.events.subscribe(event => {
+    this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.updateAcessos(event.urlAfterRedirects);
       }
@@ -44,14 +45,14 @@ export class HomeComponent implements OnInit {
   }
 
   updateAcessos(url: string) {
-  if (url.includes('/home')) {
+    if (url.includes('/home')) {
       this.acessos = [
         { routerLink: '/diario-oficial', texto: 'DIÁRIO OFICIAL' },
         { routerLink: '/trn/portal-transparencia', texto: 'PORTAL DE TRANSPARÊNCIA' },
-        { routerLink: '/biografia-cidade', texto: 'BIOGRAFIA DA CIDADE' },
-        { routerLink: '/pncp', texto: 'PNCP' },
-        { routerLink: '/lei-14133', texto: 'Lei das Licitações' },
-        { routerLink: '/noticias-tcm', texto: 'NOTÍCIAS DO TCM' },
+        { link: 'https://www.gov.br/pncp/pt-br', texto: 'BIOGRAFIA DA CIDADE' },
+        { link: 'https://www.gov.br/pncp/pt-br', texto: 'PNCP' },
+        { link: 'https://www.gov.br/compras/pt-br/nllc', texto: 'Lei das Licitações' },
+        { link: 'https://www.tcm.ba.gov.br/', texto: 'NOTÍCIAS DO TCM' },
       ];
     }
   }

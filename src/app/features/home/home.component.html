@@ -4,34 +4,49 @@
       <div class="col-md-6">
         <div class="titulo">ACESSO RÁPIDO</div>
         <div class="d-flex-acesso">
-          <div
-            class="acesso-rapido"
-            *ngFor="let acesso of acessos; let i = index"
-            [routerLink]="acesso.routerLink"
-          >
-            <div class="icone">
-              <div class="btn-padrao__perfil-icon"></div>
-            </div>
-            <div class="texto">
-              {{ acesso.texto }}
-            </div>
-          </div>
-        </div>
+          <ng-container *ngFor="let acesso of acessos">
+            <a
+              *ngIf="acesso.routerLink"
+              class="acesso-rapido text-decoration-none"
+              [routerLink]="acesso.routerLink"
+            >
+              <div class="icone">
+                <div class="btn-padrao__perfil-icon"></div>
+              </div>
+              <div class="texto">
+                {{ acesso.texto }}
+              </div>
+            </a>
 
-        <!-- <button class="btn btn-banner" routerLink="/acesso-informacao">
-          Acesso a Informação
-        </button> -->
+            <a
+              *ngIf="acesso.link"
+              class="acesso-rapido text-decoration-none"
+              [href]="acesso.link"
+              target="_blank"
+            >
+              <div class="icone">
+                <div class="btn-padrao__perfil-icon"></div>
+              </div>
+              <div class="texto">
+                {{ acesso.texto }}
+              </div>
+            </a>
+          </ng-container>
+        </div>
       </div>
+
       <div class="col-md-6">
         <div class="titulo">ÚLTIMAS NOTÍCIAS</div>
         <app-slider></app-slider>
       </div>
-      <button routerLink="/trn/portal-transparencia" class=" btn btn-banner">
+
+      <button routerLink="/trn/portal-transparencia" class="btn btn-banner">
         ACESSAR PÁGINA DE NOTÍCIAS
-    </button>
+      </button>
     </div>
   </div>
 </div>
+
 <div class="noticias-gerais">
   <div class="d-flex">
     <div class="img-row w-100" *ngFor="let content of images">
@@ -40,7 +55,7 @@
   </div>
 
   <h1 class="titulo-noticias d-flex justify-content-center">Notícias Gerais</h1>
-  <app-general-news />
+  <app-general-news></app-general-news>
 
   <div class="d-flex mt-4">
     <div class="img-row w-100" *ngFor="let content of images2">
