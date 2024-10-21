@@ -12,6 +12,7 @@
     "/adm/dados-da-licitacao-administrativo",
     "/adm/dashboard-administrativo",
     "/adm/dashboard-administrativo/cadastrar-cliente",
+    "/adm/dashboard-administrativo/cadastrar-noticia",
     "/adm/dashboard-administrativo/cadastrar-pca",
     "/adm/dashboard-administrativo/cadastrar-usuarios",
     "/adm/dashboard-administrativo/cliente",
