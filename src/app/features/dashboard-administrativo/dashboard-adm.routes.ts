@@ -16,6 +16,7 @@ import { ListaContratosAdministrativoComponent } from './compontents/lista-contr
 import { PcaAdministrativoComponent } from './compontents/pca-administrativo/pca-administrativo.component';
 import { AdicionarPcaComponent } from './compontents/adicionar-pca/adicionar-pca.component';
 import { PpaLoaLdoAdministrativoComponent } from './compontents/ppa-loa-ldo-administrativo/ppa-loa-ldo-administrativo.component';
+import { CadastrarNoticiasComponent } from './compontents/cadastrar-noticias/cadastrar-noticias.component';
 
 const routes: Routes = [
   {
@@ -58,6 +59,10 @@ const routes: Routes = [
       {
         path: 'cadastrar-pca',
         component: AdicionarPcaComponent,
+      },
+      {
+        path: 'cadastrar-noticia',
+        component: CadastrarNoticiasComponent,
       },
       {
         path: 'usuarios',
