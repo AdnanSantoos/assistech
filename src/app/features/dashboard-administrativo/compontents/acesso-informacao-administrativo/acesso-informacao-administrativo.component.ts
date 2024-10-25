@@ -50,6 +50,12 @@ export class AcessoInformacaoAdministrativoComponent {
       icon: '../../../../../assets/novos-icones/cotas-para-exercicio-atividade-parlamentar.svg'
     },
     {
+      name: 'dados abertos',
+      externo: '',
+      link: '/adm/pncp-administrativo/adicionar-dados-abertos',
+      icon: '../../../../../assets/novos-icones/dados-abertos.svg'
+    },
+    {
       name: 'audiência pública',
       externo: '',
       link: '/adm/portal-de-transparencia-administrativo/audiencia-publica',

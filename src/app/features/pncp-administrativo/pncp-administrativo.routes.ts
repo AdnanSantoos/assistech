@@ -9,6 +9,7 @@ import { AdicionarUnidadesAdministrativoComponent } from './components/adicionar
 import { AdicionarOrgaoAdministrativoComponent } from './components/adicionar-orgao-administrativo/adicionar-orgao-administrativo.component';
 import { CartaDeServicosAdministrativoComponent } from './components/carta-de-servicos-administrativo/carta-de-servicos-administrativo.component';
 import { CotasParaServicoParlamentarAdministrativoComponent } from './components/cotas-para-servico-parlamentar-administrativo/cotas-para-servico-parlamentar-administrativo.component';
+import { DadosAbertosAdministrativoComponent } from './components/dados-abertos-administrativo/dados-abertos-administrativo.component';
 
 const routes: Routes = [
   {
@@ -51,6 +52,10 @@ const routes: Routes = [
       {
         path: 'adicionar-cotas-para-servico-parlamentar',
         component: CotasParaServicoParlamentarAdministrativoComponent,
+      },
+      {
+        path: 'adicionar-dados-abertos',
+        component: DadosAbertosAdministrativoComponent,
       },
     ],
   },
