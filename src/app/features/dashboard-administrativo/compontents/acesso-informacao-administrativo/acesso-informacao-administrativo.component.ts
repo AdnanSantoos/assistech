@@ -56,6 +56,12 @@ export class AcessoInformacaoAdministrativoComponent {
       icon: '../../../../../assets/novos-icones/dados-abertos.svg'
     },
     {
+      name: 'Documentos administrativos',
+      externo: '',
+      link: '/adm/pncp-administrativo/adicionar-documentos-administrativos',
+      icon: '../../../../../assets/novos-icones/documentos-administrativos.svg'
+    },
+    {
       name: 'audiência pública',
       externo: '',
       link: '/adm/portal-de-transparencia-administrativo/audiencia-publica',
