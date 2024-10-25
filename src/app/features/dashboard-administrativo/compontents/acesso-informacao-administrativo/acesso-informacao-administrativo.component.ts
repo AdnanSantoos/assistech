@@ -25,6 +25,18 @@ export class AcessoInformacaoAdministrativoComponent {
       icon: '../../../../../assets/novos-icones/atos-admissionais-e-boletim-de-votacao.svg'
     },
     {
+      name: 'agenda do presidente',
+      externo: '',
+      link: '/adm/pncp-administrativo/adicionar-agenda-do-presidente',
+      icon: '../../../../../assets/novos-icones/agenda-presidente.svg'
+    },
+    {
+      name: 'carta de serviços',
+      externo: '',
+      link: '/adm/pncp-administrativo/adicionar-carta-servicos',
+      icon: '../../../../../assets/novos-icones/carta-servico-usuario.svg'
+    },
+    {
       name: 'audiência pública',
       externo: '',
       link: '/adm/portal-de-transparencia-administrativo/audiencia-publica',
