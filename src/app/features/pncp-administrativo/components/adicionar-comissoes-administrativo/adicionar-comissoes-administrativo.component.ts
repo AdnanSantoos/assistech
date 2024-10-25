@@ -5,29 +5,28 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { LayoutFormsAdmComponent } from '../../../../shared/containers/layout-forms-adm/layout-forms-adm.component';
 @Component({
-  selector: 'app-carta-de-servicos-administrativo',
+  selector: 'app-adicionar-comissoes-administrativo',
   standalone: true,
-  imports: [
-    CommonModule,
+  imports: [CommonModule,
     ReactiveFormsModule,
     MatButtonModule,
     MatIconModule,
-    LayoutFormsAdmComponent,
+    LayoutFormsAdmComponent
   ],
-  templateUrl: './carta-de-servicos-administrativo.component.html',
-  styleUrl: './carta-de-servicos-administrativo.component.scss',
+  templateUrl: './adicionar-comissoes-administrativo.component.html',
+  styleUrl: './adicionar-comissoes-administrativo.component.scss'
 })
-export class CartaDeServicosAdministrativoComponent {
+export class AdicionarComissoesAdministrativoComponent {
   filtroForm: FormGroup;
   dynamicFields: any[];
 
   constructor(private fb: FormBuilder) {
     this.filtroForm = this.fb.group({
-      carta: ['']
+      linkComissao: [''],
     });
 
     this.dynamicFields = [
-      { name: 'carta', type: 'file', fileType: 'complex', label: 'Anexar Carta' }
+      { name: 'linkComissao', type: 'text', label: 'Adicionar Link da Comissão' }
 
     ];
   }

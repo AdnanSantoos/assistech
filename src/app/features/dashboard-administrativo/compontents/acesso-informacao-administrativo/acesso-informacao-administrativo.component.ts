@@ -38,6 +38,12 @@ export class AcessoInformacaoAdministrativoComponent {
       icon: '../../../../../assets/novos-icones/carta-servico-usuario.svg'
     },
     {
+      name: 'comissoes',
+      externo: '',
+      link: '/adm/pncp-administrativo/adicionar-comissoes',
+      icon: '../../../../../assets/novos-icones/comissoes.svg'
+    },
+    {
       name: 'audiência pública',
       externo: '',
       link: '/adm/portal-de-transparencia-administrativo/audiencia-publica',

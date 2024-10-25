@@ -1,3 +1,4 @@
+import { AdicionarComissoesAdministrativoComponent } from './components/adicionar-comissoes-administrativo/adicionar-comissoes-administrativo.component';
 import { AgendaDoPresidenteAdministrativoComponent } from './components/agenda-do-presidente-administrativo/agenda-do-presidente-administrativo.component';
 import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
@@ -39,8 +40,12 @@ const routes: Routes = [
         component: AgendaDoPresidenteAdministrativoComponent,
       },
       {
-        path: '/adm/pncp-administrativo/adicionar-carta-servicos',
+        path: 'adicionar-carta-servicos',
         component: CartaDeServicosAdministrativoComponent,
+      },
+      {
+        path: 'adicionar-comissoes',
+        component: AdicionarComissoesAdministrativoComponent,
       },
     ],
   },
