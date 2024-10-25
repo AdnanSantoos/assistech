@@ -38,10 +38,16 @@ export class AcessoInformacaoAdministrativoComponent {
       icon: '../../../../../assets/novos-icones/carta-servico-usuario.svg'
     },
     {
-      name: 'comissoes',
+      name: 'comissões',
       externo: '',
       link: '/adm/pncp-administrativo/adicionar-comissoes',
       icon: '../../../../../assets/novos-icones/comissoes.svg'
+    },
+    {
+      name: 'cotas para serviço parlamentar',
+      externo: '',
+      link: '/adm/pncp-administrativo/adicionar-cotas-para-servico-parlamentar',
+      icon: '../../../../../assets/novos-icones/cotas-para-exercicio-atividade-parlamentar.svg'
     },
     {
       name: 'audiência pública',
