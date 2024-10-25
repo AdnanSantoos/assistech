@@ -10,6 +10,7 @@ import { SidebarAdministrativoComponent } from '../../../../shared/components/si
   templateUrl: './acesso-informacao-administrativo.component.html',
   styleUrl: './acesso-informacao-administrativo.component.scss'
 })
+
 export class AcessoInformacaoAdministrativoComponent {
   button = [
     {
