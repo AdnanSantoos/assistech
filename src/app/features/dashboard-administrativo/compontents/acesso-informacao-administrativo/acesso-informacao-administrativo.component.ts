@@ -56,6 +56,66 @@ export class AcessoInformacaoAdministrativoComponent {
       icon: '../../../../../assets/novos-icones/dados-abertos.svg'
     },
     {
+      name: 'Informações sigilosas',
+      externo: '',
+      link: '/adm/pncp-administrativo/adicionar-informacoes-sigilosas',
+      icon: '../../../../../assets/novos-icones/documentos-informacoes-sigilosas.svg'
+    },
+    {
+      name: 'Julgamento de contas',
+      externo: '',
+      link: '/adm/pncp-administrativo/adicionar-julgamentos-contas',
+      icon: '../../../../../assets/novos-icones/julgamento-contas-prefeitura.svg'
+    },
+    {
+      name: 'Cadastrar LDO',
+      externo: '',
+      link: '/adm/pncp-administrativo/adicionar-ldo',
+      icon: '../../../../../assets/novos-icones/ppa-loa-ldo.svg'
+    },
+    {
+      name: 'Cadastrar LOA',
+      externo: '',
+      link: '/adm/pncp-administrativo/adicionar-loa',
+      icon: '../../../../../assets/novos-icones/ppa-loa-ldo.svg'
+    },
+    {
+      name: 'Cadastrar Lei Organica',
+      externo: '',
+      link: '/adm/pncp-administrativo/adicionar-lei-organica',
+      icon: '../../../../../assets/novos-icones/lei-organica-municipal.svg'
+    },
+    {
+      name: 'Cadastrar Legislação',
+      externo: '',
+      link: '/adm/pncp-administrativo/adicionar-legislacao',
+      icon: '../../../../../assets/novos-icones/legislacao-pessoal-municipio.svg'
+    }, 
+    {
+      name: 'Ordem Cronológica dos pagamentos',
+      externo: '',
+      link: '/adm/pncp-administrativo/adicionar-ordem-cronologica-pagamentos',
+      icon: '../../../../../assets/novos-icones/ordem-cronologica-pagamentos.svg'
+    },
+    {
+      name: 'Ouvidoria',
+      externo: '',
+      link: '/adm/pncp-administrativo/adicionar-ouvidoria',
+      icon: '../../../../../assets/novos-icones/ouvidoria.svg'
+    },
+    {
+      name: 'Lista de Preposições e presença',
+      externo: '',
+      link: '/adm/pncp-administrativo/adicionar-lista-preposicao-presenca',
+      icon: '../../../../../assets/novos-icones/lista-preposicoes-presenca.svg'
+    },
+    {
+      name: 'lgpd',
+      externo: '',
+      link: '/adm/pncp-administrativo/adicionar-lgpd',
+      icon: '../../../../../assets/novos-icones/lgpd.svg'
+    },
+    {
       name: 'Documentos administrativos',
       externo: '',
       link: '/adm/pncp-administrativo/adicionar-documentos-administrativos',
