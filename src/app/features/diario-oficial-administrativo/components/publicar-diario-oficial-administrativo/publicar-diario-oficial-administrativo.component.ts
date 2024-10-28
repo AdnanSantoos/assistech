@@ -23,7 +23,6 @@ import { PublicarDiarioOficialMapper } from '../../mappers/publicar-diario-ofici
 export class PublicarDiarioOficialAdministrativoComponent implements OnInit {
   filtroForm: FormGroup = this.fb.group({});;
   dynamicFields: any[] = [
-    { name: 'title', type: 'text', label: 'Título' },
     { name: 'date', type: 'date', label: 'Data' },
     { name: 'description', type: 'textarea', label: 'Descrição' },
     { name: 'files', type: 'file', fileType: 'complex', label: 'Arquivo' }
