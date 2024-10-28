@@ -17,6 +17,7 @@ import { PcaAdministrativoComponent } from './compontents/pca-administrativo/pca
 import { AdicionarPcaComponent } from './compontents/adicionar-pca/adicionar-pca.component';
 import { PpaLoaLdoAdministrativoComponent } from './compontents/ppa-loa-ldo-administrativo/ppa-loa-ldo-administrativo.component';
 import { CadastrarNoticiasComponent } from './compontents/cadastrar-noticias/cadastrar-noticias.component';
+import { CadastrarFotosDiarioOficialComponent } from './compontents/cadastrar-fotos-diario-oficial/cadastrar-fotos-diario-oficial.component';
 
 const routes: Routes = [
   {
@@ -71,6 +72,10 @@ const routes: Routes = [
       {
         path: 'cadastrar-usuarios',
         component: CadastrarUsuariosAdministrativoComponent,
+      },
+      {
+        path: 'cadastrar-fotos-diario',
+        component: CadastrarFotosDiarioOficialComponent,
       },
       {
         path: 'gerenciar-diario-oficial',
