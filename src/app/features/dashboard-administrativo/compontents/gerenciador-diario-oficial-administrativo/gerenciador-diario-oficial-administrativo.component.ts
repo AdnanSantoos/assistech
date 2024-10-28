@@ -3,11 +3,12 @@ import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Location } from '@angular/common';
 import { MatIcon } from '@angular/material/icon';
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
 
 @Component({
   selector: 'app-gerenciador-diario-oficial-administrativo',
   standalone: true,
-  imports: [CommonModule, RouterLink, MatIcon],
+  imports: [CommonModule, RouterLink, MatIcon, TooltipModule],
   templateUrl: './gerenciador-diario-oficial-administrativo.component.html',
   styleUrls: ['./gerenciador-diario-oficial-administrativo.component.scss'],
 })

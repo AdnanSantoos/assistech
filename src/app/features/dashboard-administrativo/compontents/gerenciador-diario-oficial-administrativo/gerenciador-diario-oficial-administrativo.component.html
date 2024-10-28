@@ -28,43 +28,46 @@
           <td>{{ doc.date }}</td>
           <td>{{ doc.edition }}</td>
           <td>{{ doc.file }}</td>
-          <td ><strong>{{ doc.status }}</strong></td>
+          <td>
+            <strong>{{ doc.status }}</strong>
+          </td>
           <td class="w-25">
             <div class="d-flex justify-content-center align-items-center gap-2">
-              <button class="btn btn-sm" title="Protocolo">
+              <button class="btn btn-sm" tooltip="Protocolo">
                 <img
                   src="../../../../../assets/icons/megaphone-adm-icon.svg"
                   alt="Protocolo"
                 />
               </button>
-              <button class="btn btn-sm" title="Original">
+              <button class="btn btn-sm" tooltip="Original">
                 <img
                   src="../../../../../assets/icons/clipboard-adm.svg"
                   alt="Original"
                 />
               </button>
-              <button class="btn btn-sm" title="Publicado">
+              <button class="btn btn-sm" tooltip="Publicado">
                 <img
                   src="../../../../../assets/icons/check-adm.svg"
                   alt="Publicado"
                 />
               </button>
               <button class="btn btn-anexar">Anexar</button>
-              <button class="btn ps-0 pe-0 ms-0 me-0" title="Remover">
+              <button class="btn ps-0 pe-0 ms-0 me-0" tooltip="Remover">
                 <img
                   src="../../../../../assets/icons/remove-icon.svg"
                   alt="Remover"
                 />
               </button>
             </div>
-            
           </td>
         </tr>
       </tbody>
     </table>
   </div>
 
-  <div class="bkg-bottom d-flex justify-content-end align-items-center mt-3 flex-wrap">
+  <div
+    class="bkg-bottom d-flex justify-content-end align-items-center mt-3 flex-wrap"
+  >
     <span class="resultado me-3">{{ documents.length }} resultados</span>
     <nav aria-label="Page navigation">
       <ul class="pagination">
