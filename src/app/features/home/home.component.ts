@@ -1,8 +1,8 @@
-import { GeneralNewsComponent } from './../../shared/components/general-news/general-news.component';
 import { Component, OnInit } from '@angular/core';
 import { SliderComponent } from '../../shared/components/slider/slider.component';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, NavigationEnd, Router, RouterLink } from '@angular/router';
+import { GeneralNewsComponent } from '../../shared/components/general-news/general-news.component';
 
 interface AcessoRapido {
   routerLink?: string;

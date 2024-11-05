@@ -1,3 +1,4 @@
+import { GeneralNewsDetalhesComponent } from './shared/components/general-news/general-news-detalhes/general-news-detalhes.component';
 import { Routes } from '@angular/router';
 
 export const routes: Routes = [
@@ -6,7 +7,6 @@ export const routes: Routes = [
     redirectTo: 'home',
     pathMatch: 'full',
   },
-
   {
     path: 'adm',
     children: [
@@ -274,7 +274,11 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./features/home/home.component').then((c) => c.HomeComponent),
   },
-
+  {
+    path: 'noticia-detalhe/:title',
+    loadComponent: () =>
+      import('./shared/components/general-news/general-news-detalhes/general-news-detalhes.component').then((c) => c.GeneralNewsDetalhesComponent),
+  },
   {
     path: 'acesso-informacao',
     loadComponent: () =>
