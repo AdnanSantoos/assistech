@@ -56,4 +56,10 @@ export class HomeComponent implements OnInit {
       ];
     }
   }
+  scrollToNoticias() {
+    const noticiasElement = document.getElementById('noticias_gerais');
+    if (noticiasElement) {
+      noticiasElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
 }

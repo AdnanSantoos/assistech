@@ -40,14 +40,15 @@
         <app-slider></app-slider>
       </div>
 
-      <button routerLink="/trn/portal-transparencia" class="btn btn-banner">
+      <button (click)="scrollToNoticias()" class="btn btn-banner" type="button">
         ACESSAR PÁGINA DE NOTÍCIAS
       </button>
+
     </div>
   </div>
 </div>
 
-<div class="noticias-gerais">
+<div class="noticias-gerais" id="noticias_gerais">
   <div class="d-flex">
     <div class="img-row w-100" *ngFor="let content of images">
       <img class="img-fluid w-100" [src]="content.img" alt="" />
