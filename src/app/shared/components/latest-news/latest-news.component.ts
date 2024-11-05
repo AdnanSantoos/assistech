@@ -22,7 +22,7 @@ export class LatestNewsComponent implements OnInit {
     this.newsService.getLatestNews().subscribe(
       (data: Post[]) => {
         this.posts = data;
-        console.log('Dados recebidos:', this.posts); // Verifique se cada objeto tem a propriedade `slug`
+        console.log('Dados recebidos:', this.posts);
         this.updateMarqueeText();
       },
       (error) => {
@@ -51,7 +51,6 @@ export class LatestNewsComponent implements OnInit {
     }
   }
 
-  // Método para avançar para a próxima notícia
   nextNews() {
     this.currentIndex = (this.currentIndex + 1) % this.posts.length;
     this.updateMarqueeText();
