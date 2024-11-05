@@ -4,6 +4,7 @@
     .card {
         border: none;
         width: 32%;
+        transition: all 0.4s;
 
         .card-header {
             background-color: transparent;
@@ -51,6 +52,10 @@
             }
 
         }
+    }
+    .card:hover{
+      transform: scale(1.05);
+      transition: all 0.4s;
     }
 }
 @media (max-width: 768px) {
