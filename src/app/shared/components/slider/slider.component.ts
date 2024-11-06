@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { Post } from '../general-news/model/post.model';
 import { NewsService } from '../general-news/general-news-detalhes/general-news-detalhes-service/general-news-detalhes-service.service';
+import { Post } from '../general-news/model/post.model';
+import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
 @Component({
@@ -12,40 +12,25 @@ import { RouterModule } from '@angular/router';
   styleUrls: ['./slider.component.scss']
 })
 export class SliderComponent implements OnInit {
-  allSlides: Post[] = [];
-  slides: Post[] = [];
+  posts: Post[] = [];
   currentSlide = 0;
 
   constructor(private newsService: NewsService) {}
 
   ngOnInit(): void {
-    this.fetchNews();
+    this.newsService.getNews().subscribe(
+      (data: Post[]) => {
+        this.posts = data;  // Atribui os dados da API à variável posts
+      },
+      (error) => {
+        console.error('Erro ao carregar os dados:', error);
+      }
+    );
   }
 
-  fetchNews(): void {
-    this.newsService.getNews().subscribe({
-      next: (news: Post[]) => {
-        // Mapeando cada item para incluir as propriedades obrigatórias do modelo Post
-        this.allSlides = news.map((item) => ({
-          author: item.author || 'Autor desconhecido',
-          title: item.title,
-          date: item.date || '',
-          image_url: item.image_url,
-          image_label: item.image_label || '',
-          category: item.category || 'Sem categoria',
-          comments: item.comments || 0,
-          content: item.content || '',
-          slug: item.slug || '',
-          formattedDate: item.formattedDate || ''
-        }));
-
-        // Selecionando slides aleatórios
-        this.slides = this.getRandomSlides(this.allSlides, 5);
-      },
-      error: (err) => {
-        console.error('Erro ao carregar as notícias:', err);
-      }
-    });
+  // Função para gerar o slug a partir do título
+  generateSlug(title: string): string {
+    return title.toLowerCase().replace(/[\s\W-]+/g, '-').replace(/^-+|-+$/g, '');
   }
 
   getRandomSlides(slidesArray: Post[], numSlides: number): Post[] {

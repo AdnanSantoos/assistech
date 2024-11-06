@@ -1,20 +1,21 @@
 <div class="slider-container">
   <div class="slider">
     <div class="slides" [style.transform]="'translateX(-' + currentSlide * 100 + '%)'">
-      <div class="slide" *ngFor="let slide of slides">
-        <img [src]="slide.image_url" alt="{{slide.title}}">
+      <div class="slide" *ngFor="let post of posts">
+        <img [src]="post.image_url" alt="{{post.title}}">
         <div class="caption">
-          <h2>{{ slide.title }}</h2>
-          <p>{{ slide.content | slice:0:200 }}...</p>
-          <a [routerLink]="['/noticias', slide.slug]" class="btn">Ler Notícia Completa</a>
+          <h2>{{ post.title }}</h2>
+          <p>{{ post.content | slice:0:200 }}...</p>
+          <a [routerLink]="['/noticia-detalhe', generateSlug(post.title)]" class="btn">Ler Notícia Completa</a>
         </div>
       </div>
     </div>
   </div>
+
   <div class="thumbnails">
     <div class="thumbnail">
-      <ng-container *ngFor="let slide of slides; let i = index">
-        <img [src]="slide.image_url" [class.active]="i === currentSlide" alt="{{ slide.title }}" (click)="setSlide(i)">
+      <ng-container *ngFor="let post of posts; let i = index">
+        <img [src]="post.image_url" [class.active]="i === currentSlide" alt="{{ post.title }}" (click)="setSlide(i)">
       </ng-container>
     </div>
   </div>
