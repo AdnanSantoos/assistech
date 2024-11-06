@@ -1,112 +1,114 @@
 .menu-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 20px;
+  background-color: #fff;
+  border-top: 3px solid #d90012;
+
+  .menu {
     display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    li {
+      margin: 0 5px;
+
+      a {
+        text-decoration: none;
+        color: #292774;
+        font-size: 10px;
+        font-weight: 600;
+        padding: 5px 30px 5px 5px;
+        transition: color 0.3s;
+        border-right: 1px rgba(41, 39, 116, 0.5) solid;
+
+        &:hover {
+          color: #d90012;
+          transition: all 0.7s;
+        }
+      }
+    }
+    .diario-oficial{
+      text-decoration: none;
+      color: #292774;
+      font-size: 10px;
+      font-weight: 600;
+      padding: 5px 15px 5px 15px;
+      transition: color 0.3s;
+      text-transform: uppercase;
+      border-radius: 50px;
+      border:1px solid #e5e5e5;
+    }
+    li:last-child {
+      a {
+        border-right: none;
+      }
+    }
+
+    .dropdown-toggle {
+      border: none;
+      background-color: transparent;
+      color: #292774;
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+  }
+
+  .search-container {
+    display: flex;
+    flex-direction: row-reverse;
     align-items: center;
-    justify-content: center;
-    padding: 5px 20px;
-    background-color: #fff;
-    border-top: 3px solid #d90012;
+    border: 1px solid #ccc;
+    border-radius: 50px;
+    max-width: 223px;
+    max-height: 29px;
+    background: #f3f3f3;
+    border: 1px solid rgba(41, 39, 116, 0.5);
+    padding: 8px 20px;
+
+    input[type="text"] {
+      border: none;
+      outline: none;
+      padding: 5px;
+      width: 100%;
+      height: 100%;
+      background-color: transparent;
+    }
+
+    input[type="text"]::placeholder {
+      font-size: 12px;
+    }
+
+    button {
+      background: none;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      padding: 5px;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .menu-header {
+    flex-wrap: wrap;
+    padding: 5px 0;
 
     .menu {
-        display: flex;
-        list-style: none;
-        padding: 0;
+      li {
         margin: 0;
+      }
 
-        li {
-            margin: 0 5px;
-
-            a {
-                text-decoration: none;
-                color: #292774;
-                font-size: 10px;
-                font-weight: 600;
-                padding: 5px 15px 5px 5px;
-                transition: color 0.3s;
-                border-right: 1px rgba(41, 39, 116, 0.50) solid;
-
-                &:hover {
-                    color: #d90012;
-                    transition : all 0.7s;
-
-                }
-
-            }
-
-        }
-
-        li:last-child {
-            a {
-                border-right: none;
-            }
-        }
-
-        .dropdown-toggle {
-            border: none;
-            background-color: transparent;
-            color: #292774;
-            font-size: 10px;
-            font-weight: 600;
-            text-transform: uppercase;
-        }
+      a {
+        font-size: 8px;
+      }
     }
 
     .search-container {
-        display: flex;
-        flex-direction: row-reverse;
-        align-items: center;
-        border: 1px solid #ccc;
-        border-radius: 50px;
-        max-width: 223px;
-        max-height: 29px;
-        background: #F3F3F3;
-        border: 1px solid rgba(41, 39, 116, 0.50);
-        padding: 8px 20px;
-
-        input[type="text"] {
-            border: none;
-            outline: none;
-            padding: 5px;
-            width: 100%;
-            height: 100%;
-            background-color: transparent;
-            ;
-        }
-
-        input[type="text"]::placeholder {
-            font-size: 12px;
-        }
-
-        button {
-            background: none;
-            border: none;
-            outline: none;
-            cursor: pointer;
-            padding: 5px;
-        }
+      margin-top: 10px;
     }
-}
-
-
-
-@media (max-width: 768px) {
-    .menu-header {
-        flex-wrap: wrap;
-        padding: 5px 0;
-
-        .menu {
-
-            li {
-                margin: 0;
-            }
-
-            a {
-                font-size: 8px;
-            }
-        }
-
-        .search-container {
-            margin-top: 10px;
-        }
-
-    }
+  }
 }
