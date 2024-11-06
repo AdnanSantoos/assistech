@@ -11,7 +11,7 @@
               [routerLink]="acesso.routerLink"
             >
               <div class="icone">
-                <div class="btn-padrao__perfil-icon"></div>
+                <img [src]="acesso.icon_img"/>
               </div>
               <div class="texto">
                 {{ acesso.texto }}
@@ -25,7 +25,7 @@
               target="_blank"
             >
               <div class="icone">
-                <div class="btn-padrao__perfil-icon"></div>
+                <img [src]="acesso.icon_img"/>
               </div>
               <div class="texto">
                 {{ acesso.texto }}

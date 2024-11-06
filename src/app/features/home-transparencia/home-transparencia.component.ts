@@ -7,6 +7,7 @@ import { ActivatedRoute, NavigationEnd, Router, RouterLink } from '@angular/rout
 interface AcessoRapido {
   routerLink: string;
   texto: string;
+  icon_img:string;
 }
 
 @Component({
@@ -113,12 +114,12 @@ export class HomeTransparenciaComponent implements OnInit {
   updateAcessos(url: string) {
     if (url.includes('/portal-transparencia')) {
       this.acessos = [
-        { routerLink: '/trn/agenda-presidente', texto: 'AGENDA DO PRESIDENTE' },
-        { routerLink: '', texto: 'BALANÇO GERAL' },
-        { routerLink: '/balancete-financeiro', texto: 'BALANCETE FINANCEIRO' },
-        { routerLink: '', texto: 'CARTA DE SERVIÇOS AO USUÁRIO' },
-        { routerLink: '/trn/comissoes', texto: 'COMISSÕES' },
-        { routerLink: '/diario-oficial/anos', texto: 'DIÁRIO OFICIAL' },
+        { routerLink: '/trn/agenda-presidente', texto: 'AGENDA DO PRESIDENTE',icon_img:'../../../assets/novos-icones/agenda-presidente.svg' },
+        { routerLink: '', texto: 'BALANÇO GERAL',icon_img:'../../../assets/novos-icones/balanco-anual.svg' },
+        { routerLink: '/balancete-financeiro', texto: 'BALANCETE FINANCEIRO',icon_img:'../../../assets/novos-icones/balancete.svg' },
+        { routerLink: '', texto: 'CARTA DE SERVIÇOS AO USUÁRIO',icon_img:'../../../assets/novos-icones/carta-servico-usuario.svg' },
+        { routerLink: '/trn/comissoes', texto: 'COMISSÕES',icon_img:'../../../assets/novos-icones/comissoes.svg' },
+        { routerLink: '/diario-oficial/anos', texto: 'DIÁRIO OFICIAL',icon_img:'../../../assets/novos-icones/diario-oficial.svg' },
       ];
     }
   }

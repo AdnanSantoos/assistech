@@ -9,7 +9,7 @@
                     <div class="acesso-rapido" *ngFor="let acesso of acessos; let i = index"
                         [routerLink]="acesso.routerLink">
                         <div class="icone">
-                            <div class="btn-padrao__perfil-icon"></div>
+                          <img [src]="acesso.icon_img"/>
                         </div>
                         <div class="texto">
                             {{ acesso.texto }}
