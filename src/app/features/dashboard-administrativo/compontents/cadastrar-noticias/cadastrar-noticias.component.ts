@@ -23,7 +23,6 @@ export class CadastrarNoticiasComponent {
   ngOnInit(): void {
     this.noticiaForm = this.fb.group({
       titulo: ['', Validators.required],
-      comentario: ['', Validators.required],
       data: ['', Validators.required],
       texto: ['', Validators.required],
       autor: ['', Validators.required],
