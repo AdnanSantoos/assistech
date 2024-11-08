@@ -5,16 +5,36 @@
   padding: 5px 20px;
   background-color: #fff;
   border-top: 3px solid #d90012;
-
+  .diario-oficial {
+    text-decoration: none;
+    color: #292774;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 5px 15px 5px 15px;
+    transition: color 0.3s;
+    text-transform: uppercase;
+    border-radius: 50px;
+    border: 1px solid #e5e5e5;
+  }
+  @media (max-width:768px){
+    .diario-oficial{
+      margin-top: 10px;
+    }
+    .menu{
+      margin-right: 0px;
+    }
+  }
   .menu {
     display: flex;
     list-style: none;
     padding: 0;
-    margin: 0;
+  margin: 0;
+    border-right: 1px rgba(41, 39, 116, 0.5) solid;
+    margin-right: 15px;
 
     li {
       margin: 0 5px;
-
+      display: flex;
       a {
         text-decoration: none;
         color: #292774;
@@ -22,7 +42,6 @@
         font-weight: 600;
         padding: 5px 30px 5px 5px;
         transition: color 0.3s;
-        border-right: 1px rgba(41, 39, 116, 0.5) solid;
 
         &:hover {
           color: #d90012;
@@ -30,20 +49,11 @@
         }
       }
     }
-    .diario-oficial{
-      text-decoration: none;
-      color: #292774;
-      font-size: 10px;
-      font-weight: 600;
-      padding: 5px 15px 5px 15px;
-      transition: color 0.3s;
-      text-transform: uppercase;
-      border-radius: 50px;
-      border:1px solid #e5e5e5;
-    }
+
     li:last-child {
       a {
-        border-right: none;
+        border-left: 1px rgba(41, 39, 116, 0.5) solid;
+
       }
     }
 

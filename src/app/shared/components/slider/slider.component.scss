@@ -158,9 +158,10 @@
       .thumbnail {
         display: flex;
         width: 100%;
-        max-width: calc(100vw / 4.9);
+        max-width: 42vw;
         margin-top: 5px;
-
+        max-height: 76px;
+        flex-direction: row;
         img {
           &:first-child {
             border-top-right-radius: 0px;
