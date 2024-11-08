@@ -22,7 +22,6 @@ export class LatestNewsComponent implements OnInit {
     this.newsService.getLatestNews().subscribe(
       (data: Post[]) => {
         this.posts = data;
-        console.log('Dados recebidos:', this.posts);
         this.updateMarqueeText();
       },
       (error) => {

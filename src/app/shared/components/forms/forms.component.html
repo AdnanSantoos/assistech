@@ -1,222 +1,335 @@
-<form [formGroup]="form" (ngSubmit)="onSubmit()">
-  <div
-    class="form-grid"
-    [ngClass]="{ 'two-columns': dynamicFields.length > 4 }"
-  >
+
+<div class="d-flex flex-column gap-3">
+ 
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
     <div
-      *ngFor="let field of dynamicFields"
-      [ngClass]="{
-        'full-width': field.type === 'file' || field.type === 'title'
-      }"
+      class="form-grid"
+      [ngClass]="{ 'two-columns': dynamicFields.length > 4 }"
     >
-      <!-- Campo de título -->
-      <div *ngIf="field.type === 'title'" class="full-width">
-        <h3 class="form-title mt-4">{{ field.label }}</h3>
-      </div>
-
-      <!-- Campos de texto e número -->
-      <div *ngIf="field.type === 'text' || field.type === 'number'">
-        <label>{{ field.label }}</label>
-        <input
-          [type]="field.type"
-          [formControlName]="field.name"
-          class="form-control"
-          [required]="field.required"
-        />
-      </div>
-
-      <!-- Campo de textarea -->
-      <div *ngIf="field.type === 'textarea'">
-        <label>{{ field.label }}</label>
-        <textarea
-          [formControlName]="field.name"
-          class="form-control"
-          [required]="field.required"
-        ></textarea>
-      </div>
-
-      <!-- Campo de seleção (dropdown) -->
-      <div *ngIf="field.type === 'select'">
-        <label>{{ field.label }}</label>
-        <select [formControlName]="field.name" class="form-control">
-          <option value="" disabled selected hidden>
-            {{ field.placeholder || "Selecione" }}
-          </option>
-          <option *ngFor="let option of field.options" [value]="option.value">
-            {{ option.label }}
-          </option>
-        </select>
-      </div>
-  
-      <!-- Campo de Datepicker -->
-      <div class="d-flex flex-column" *ngIf="field.type === 'date' && field.page !== 'ouvidoria'">
-        <label>{{ field.label }}</label>
-        <mat-form-field appearance="fill" class="full-width">
-          <input
-            matInput
-            [matDatepicker]="picker"
-            [formControlName]="field.name"
-            [required]="field.required"
-            (focus)="picker.open()"
-            readonly
-          />
-          <mat-datepicker-toggle
-            matSuffix
-            [for]="picker"
-          ></mat-datepicker-toggle>
-          <mat-datepicker #picker></mat-datepicker>
-        </mat-form-field>
-      </div>
-       <!-- Campo de Datepicker -->
-       <div class="d-flex flex-column" *ngIf="field.type === 'date' && field.page === 'ouvidoria'">
-        <h1 class="mb-2">Anexar Relatório</h1>
-        <label>{{ field.label }}</label>
-        <mat-form-field appearance="fill" class="full-width">
-          <input
-            matInput
-            [matDatepicker]="picker"
-            [formControlName]="field.name"
-            [required]="field.required"
-            (focus)="picker.open()"
-            readonly
-          />
-          <mat-datepicker-toggle
-            matSuffix
-            [for]="picker"
-          ></mat-datepicker-toggle>
-          <mat-datepicker #picker></mat-datepicker>
-        </mat-form-field>
-      </div>
-
-      <!-- Campo de upload de arquivo complex -->
       <div
-        *ngIf="field.type === 'file' && field.fileType === 'complex'"
-        class="file-upload-wrapper d-flex flex-row flex-wrap"
+        *ngFor="let field of dynamicFields"
+        [ngClass]="{
+          'full-width': field.type === 'file' || field.type === 'title'
+        }"
       >
-      <h5 class="w-100">{{ field.title }}</h5>
-        <div class="upload-title">
+        <!-- Campo de título -->
+        <div *ngIf="field.type === 'title'" class="full-width">
+          <h3 class="form-title mt-4">{{ field.label }}</h3>
+        </div>
+
+        <!-- Campos de texto e número -->
+        <div *ngIf="field.type === 'text' || field.type === 'number'">
+          <label>{{ field.label }}</label>
+          <input
+            [type]="field.type"
+            [formControlName]="field.name"
+            class="form-control"
+            [required]="field.required"
+          />
+        </div>
+
+        <!-- Campo de textarea -->
+        <div *ngIf="field.type === 'textarea'">
+          <label>{{ field.label }}</label>
+          <textarea
+            [formControlName]="field.name"
+            class="form-control"
+            [required]="field.required"
+          ></textarea>
+        </div>
+
+        <!-- Campo de seleção (dropdown) -->
+        <div *ngIf="field.type === 'select'">
+          <label>{{ field.label }}</label>
+          <select [formControlName]="field.name" class="form-control">
+            <option value="" disabled selected hidden>
+              {{ field.placeholder || "Selecione" }}
+            </option>
+            <option *ngFor="let option of field.options" [value]="option.value">
+              {{ option.label }}
+            </option>
+          </select>
+        </div>
+
+        <!-- Campo de Datepicker -->
+        <div
+          class="d-flex flex-column"
+          *ngIf="field.type === 'date' && field.page !== 'ouvidoria'"
+        >
+          <label>{{ field.label }}</label>
+          <mat-form-field appearance="fill" class="full-width">
+            <input
+              matInput
+              [matDatepicker]="picker"
+              [formControlName]="field.name"
+              [required]="field.required"
+              (focus)="picker.open()"
+              readonly
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="picker"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        </div>
+        <!-- Campo de Datepicker -->
+        <div
+          class="d-flex flex-column"
+          *ngIf="field.type === 'date' && field.page === 'ouvidoria'"
+        >
+          <h1 class="mb-2">Anexar Relatório</h1>
+          <label>{{ field.label }}</label>
+          <mat-form-field appearance="fill" class="full-width">
+            <input
+              matInput
+              [matDatepicker]="picker"
+              [formControlName]="field.name"
+              [required]="field.required"
+              (focus)="picker.open()"
+              readonly
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="picker"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        </div>
+
+        <!-- Campo de upload de arquivo complex -->
+        <div
+          *ngIf="field.type === 'file' && field.fileType === 'complex'"
+          class="file-upload-wrapper d-flex flex-row flex-wrap"
+        >
+          <h5 class="w-100">{{ field.title }}</h5>
+          <div class="upload-title">
+            <label>
+              {{ field.label }}
+              <h5 class="obrigatorio-complex form-title">(Obrigatório)</h5>
+            </label>
+          </div>
+          <div class="upload-container">
+            <div class="upload-text text-uppercase">
+              {{ field.nameButton || "Selecionar Arquivo" }}
+            </div>
+            <input
+              type="file"
+              (change)="onFileChange($event, field.name)"
+              class="form-control-file"
+              [accept]="field.accept || '.pdf'"
+              #fileInput
+            />
+          </div>
+        </div>
+        <div>
+          <div *ngIf="field.type === 'toggle'" class="form-group mb-3">
+            <label>{{ field.label }}:</label>
+            <div class="d-flex flex-wrap flex-column justify-content-start">
+              <div class="form-check form-switch">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  [formControlName]="field.name"
+                  id="toggle_{{ field.name }}"
+                />
+                <label class="form-check-label" [for]="'toggle_' + field.name">
+                  <span
+                    class="ms-1"
+                    [ngClass]="{
+                      'text-success': form.get(field.name)?.value,
+                      'text-danger': !form.get(field.name)?.value
+                    }"
+                  >
+                    {{ form.get(field.name)?.value ? "Receita" : "Despesa" }}
+                  </span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tabela para exibir os arquivos anexados -->
+        <div
+          class="upload-content"
+          *ngIf="field.type === 'file' && field.fileType === 'complex'"
+        >
+          <p class="file-upload-instructions">
+            {{ nameFile || "Nenhum arquivo selecionado" }} <br />
+            Tipos de arquivo aceitos: <strong>.PDF</strong>
+          </p>
+
+          <table *ngIf="selectedFiles.length > 0">
+            <thead>
+              <tr>
+                <th>Arquivos Anexados</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let file of selectedFiles; let i = index">
+                <td>{{ file.name }}</td>
+                <td>
+                  <button
+                    mat-icon-button
+                    color="accent"
+                    (click)="viewFile(file)"
+                  >
+                    <mat-icon>visibility</mat-icon>
+                  </button>
+                  <button mat-icon-button color="warn" (click)="removeFile(i)">
+                    <img
+                      src="../../../../../assets/icons/remove-icon.svg"
+                      alt=""
+                    />
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Campo de upload de arquivo simples -->
+        <div
+          *ngIf="field.type === 'file' && field.fileType === 'simple'"
+          class="file-upload-wrapper_simple"
+        >
           <label>
             {{ field.label }}
-            <h5 class="obrigatorio-complex form-title">(Obrigatório)</h5>
+            <h5 class="obrigatorio-simple form-title">(Obrigatório)</h5>
           </label>
-        </div>
-        <div class="upload-container">
-          <div class="upload-text text-uppercase">{{field.nameButton || 'Selecionar Arquivo'}}</div>
           <input
             type="file"
             (change)="onFileChange($event, field.name)"
             class="form-control-file"
             [accept]="field.accept || '.pdf'"
-            #fileInput
           />
+          <p class="aviso-capacidade">MÁX. Tamanho do arquivo: 100mb.</p>
         </div>
-      </div>
-      <div>
-        <div *ngIf="field.type === 'toggle'" class="form-group mb-3">
-          <label>{{ field.label }}:</label>
-          <div class="d-flex flex-wrap flex-column justify-content-start">
-            <div class="form-check form-switch">
+
+        <!-- Campo de checkbox -->
+        <div *ngIf="field.type === 'checkbox'">
+          <div class="container-label mt-4">
+            <span class="label-text">
+              <label>{{ field.label }}</label>
+            </span>
+            <label class="switch">
               <input
-                class="form-check-input"
                 type="checkbox"
                 [formControlName]="field.name"
-                id="toggle_{{ field.name }}"
+                class="form-control"
+                [required]="field.required"
               />
-              <label class="form-check-label" [for]="'toggle_' + field.name">
-                <span
-                  class="ms-1"
-                  [ngClass]="{
-                    'text-success': form.get(field.name)?.value,
-                    'text-danger': !form.get(field.name)?.value
-                  }"
-                >
-                  {{
-                    form.get(field.name)?.value ? "Receita" : "Despesa"
-                  }}
-                </span>
-              </label>
-            </div>
+              <span class="slider"></span>
+            </label>
           </div>
         </div>
       </div>
+    </div>
 
-      <!-- Tabela para exibir os arquivos anexados -->
-      <div
-        class="upload-content"
-        *ngIf="field.type === 'file' && field.fileType === 'complex'"
-      >
-        <p class="file-upload-instructions">
-          {{ nameFile || "Nenhum arquivo selecionado" }} <br />
-          Tipos de arquivo aceitos: <strong>.PDF</strong>
-        </p>
+    <!-- Botão de envio do formulário -->
+    <button
+      type="submit"
+      [disabled]="!form.valid"
+      class="btn btn-primary mt-10 mt-4"
+    >
+      Enviar
+    </button>
 
-        <table *ngIf="selectedFiles.length > 0">
-          <thead>
-            <tr>
-              <th>Arquivos Anexados</th>
-              <th>Ações</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let file of selectedFiles; let i = index">
-              <td>{{ file.name }}</td>
-              <td>
-                <button mat-icon-button color="accent" (click)="viewFile(file)">
-                  <mat-icon>visibility</mat-icon>
-                </button>
-                <button mat-icon-button color="warn" (click)="removeFile(i)">
-                  <img src="../../../../../assets/icons/remove-icon.svg" alt="">
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+   
+  </form>
+ 
+</div>
+@if(isTargetRoute){
+  <button
+    type="button"
+    class="btn btn-dark mt-4 ml-2"
+    data-bs-toggle="modal"
+    data-bs-target="#agendarModal"
+  >
+    Agendar Publicação
+  </button>
+  <div
+  class="modal fade"
+  id="agendarModal"
+  tabindex="-1"
+  aria-labelledby="agendarModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="agendarModalLabel">Agendar Publicação</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
       </div>
-
-      <!-- Campo de upload de arquivo simples -->
-      <div
-        *ngIf="field.type === 'file' && field.fileType === 'simple'"
-        class="file-upload-wrapper_simple"
-      >
-        <label>
-          {{ field.label }}
-          <h5 class="obrigatorio-simple form-title">(Obrigatório)</h5>
-        </label>
-        <input
-          type="file"
-          (change)="onFileChange($event, field.name)"
-          class="form-control-file"
-          [accept]="field.accept || '.pdf'"
-        />
-        <p class="aviso-capacidade">MÁX. Tamanho do arquivo: 100mb.</p>
-      </div>
-
-      <!-- Campo de checkbox -->
-      <div *ngIf="field.type === 'checkbox'">
-        <div class="container-label mt-4">
-          <span class="label-text">
-            <label>{{ field.label }}</label>
-          </span>
-          <label class="switch">
+      <div class="modal-body">
+        <!-- Segundo formulário dentro do modal -->
+        <form [formGroup]="formAgendado" (ngSubmit)="onSubmitAgendado()">
+          <!-- Campo Datepicker para data agendada -->
+          <div class="mb-3">
+            <label for="dataAgendada">Data Agendada</label>
             <input
-              type="checkbox"
-              [formControlName]="field.name"
+              type="date"
+              id="dataAgendada"
               class="form-control"
-              [required]="field.required"
+              formControlName="dataAgendada"
+              required
             />
-            <span class="slider"></span>
-          </label>
-        </div>
+          </div>
+
+          <!-- Campo de upload de arquivo -->
+          <div class="mb-3">
+            <label for="fileUpload">Arquivo</label>
+            <input
+              type="file"
+              id="fileUpload"
+              (change)="onFileChange($event, 'files')"
+              class="form-control"
+              accept=".pdf"
+            />
+            <p *ngIf="formAgendado.get('files')?.value">
+              {{ formAgendado.get("files")?.value.name }}
+            </p>
+          </div>
+
+          <!-- Campo de textarea para descrição -->
+          <div class="mb-3">
+            <label for="description">Descrição</label>
+            <textarea
+              id="description"
+              class="form-control"
+              formControlName="description"
+              required
+            ></textarea>
+          </div>
+
+          <!-- Botão de envio do formulário agendado -->
+          <div class="d-flex justify-content-center align-items-center flex-column gap-2 w-100">
+            <button
+            type="submit"
+            class="btn btn-sm btn-primary"
+            [disabled]="!formAgendado.valid"
+            data-bs-dismiss="modal"
+          >
+            Confirmar Agendamento
+          </button>
+          <button
+            type="button"
+            class="btn btn-sm btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Cancelar
+          </button>
+          </div>
+        </form>
       </div>
     </div>
   </div>
+</div>
 
-  <!-- Botão de envio do formulário -->
-  <button
-    type="submit"
-    [disabled]="!form.valid"
-    class="btn btn-primary mt-10 mt-4"
-  >
-    Enviar
-  </button>
-</form>
+  }
