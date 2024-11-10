@@ -1,126 +1,129 @@
 .footer {
-    background: #0C4CBE;
-    color: #fff;
-    font-size: 13.434px;
-    font-weight: 500;
-    text-transform: uppercase;
-    padding: 0px 10px;
+  background: #0c4cbe;
+  color: #fff;
+  font-size: 13.434px;
+  font-weight: 500;
+  text-transform: uppercase;
+  padding: 0px 10px;
 
-    .container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      text-align: left;
-    }
-
-    .row {
-      display: flex;
-      justify-content: space-around;
-      flex-wrap: wrap;
-      max-width: 1200px;
-      width: 100%;
-    }
-
-    .col {
-      flex: 1;
-      margin: 20px;
-      min-width: 250px;
-    }
-
-    .title_footer ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-
-    .title_footer ul li {
-      position: relative;
-      padding-left: 20px;
-    }
-
-    .title_footer ul li::before {
-      content: "";
-      position: absolute;
-      left: 0;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 5px;
-      height: 5px;
-      background-color: #fff;
-    }
-
-    .borda-verde {
-      background-color: #55FF9F;
-      height: 3px;
-      width: 100%;
-    }
-
-    .contato-footer p {
-      margin: 0;
-      font-size: 12.6px;
-    }
-
-    .button-section_footer {
-      padding-top: 10px;
-      gap: 10px;
-      display: flex;
-      justify-content: flex-start;
-      align-items: center;
-
-    }
-
-    .img {
-      width: 48.269px;
-      height: 45.673px;
-      border-radius: 5px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      cursor: pointer;
-
-    }
-
-    .insta {
-      img{
-        width: 35.559px;
-        height: 35.043px;
-      }
-      background: linear-gradient(54deg, #CC8100 9.93%, #CC2E00 39.64%, #CC016C 69.36%, #A51296 99.97%);
-    }
-
-    .face {
-      img{
-        width: 35.559px;
-        height: 35.043px;
-      }
-      background: #0571F0;
-    }
-
-    .yt {
-      img{
-        width: 45.559px;
-        height: 45.043px;
-      }
-      background: #F00505;
-    }
-
-
-    .pwr {
-      max-width: 100px;
-      height: 45.673px;
-      margin-top: 10px;
-      padding: 10px 20px;
-      border-radius: 5px;
-    }
-
-    .pwr img {
-      width: 100%;
-    }
+  .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: left;
   }
-::ng-deep{
-  @media(max-width:768px){
-    .margin-auto{
+
+  .row {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    width: 100%;
+  }
+
+  .col {
+    flex: 1;
+    margin: 20px;
+    min-width: 250px;
+  }
+
+  .title_footer ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .title_footer ul li {
+    position: relative;
+    padding-left: 20px;
+  }
+
+  .title_footer ul li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 5px;
+    height: 5px;
+    background-color: #fff;
+  }
+
+  .borda-verde {
+    background-color: #55ff9f;
+    height: 3px;
+    width: 100%;
+  }
+
+  .contato-footer p {
+    margin: 0;
+    font-size: 12.6px;
+  }
+
+  .button-section_footer {
+    padding-top: 10px;
+    gap: 10px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+  }
+
+  .img {
+    width: 48.269px;
+    height: 45.673px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+  }
+
+  .insta {
+    img {
+      width: 35.559px;
+      height: 35.043px;
+    }
+    background: linear-gradient(
+      54deg,
+      #cc8100 9.93%,
+      #cc2e00 39.64%,
+      #cc016c 69.36%,
+      #a51296 99.97%
+    );
+  }
+
+  .face {
+    img {
+      width: 35.559px;
+      height: 35.043px;
+    }
+    background: #0571f0;
+  }
+
+  .yt {
+    img {
+      width: 45.559px;
+      height: 45.043px;
+    }
+    background: #f00505;
+  }
+
+  .pwr {
+    max-width: 160px;
+    height: 55.673px;
+    margin-top: 10px;
+    padding: 5px;
+    border-radius: 5px;
+  }
+
+  .pwr img {
+    width: 100%;
+  }
+}
+::ng-deep {
+  @media (max-width: 768px) {
+    .margin-auto {
       margin-right: auto !important;
       margin-left: 0px;
     }
