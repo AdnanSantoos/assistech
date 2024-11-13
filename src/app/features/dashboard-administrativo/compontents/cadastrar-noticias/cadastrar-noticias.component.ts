@@ -1,55 +1,91 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { NoticiasData } from '../../model/noticias.model'; // Interface do modelo
+import { CommonModule } from '@angular/common';
+import { NoticiaService } from './services/cadastrar-noticias.service';
+import { Noticia } from './models/cadastrar-noticias.model';
 
 @Component({
   selector: 'app-cadastrar-noticias',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './cadastrar-noticias.component.html',
-  styleUrl: './cadastrar-noticias.component.scss',
+  styleUrls: ['./cadastrar-noticias.component.scss'],
 })
-export class CadastrarNoticiasComponent {
+export class CadastrarNoticiasComponent implements OnInit {
   noticiaForm!: FormGroup;
-  selectedFile!: File; // Para armazenar o arquivo selecionado
+  selectedFile!: File | null;
+  isSubmitting = false;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, private noticiaService: NoticiaService) { }
 
   ngOnInit(): void {
     this.noticiaForm = this.fb.group({
       titulo: ['', Validators.required],
-      data: ['', Validators.required],
-      texto: ['', Validators.required],
-      autor: ['', Validators.required],
-      imagem: ['', Validators.required], // Form control para a imagem
+      dataPublicacao: ['', Validators.required],
+      content: ['', Validators.required],
+      author: ['', Validators.required],
+      image: ['', Validators.required],
     });
   }
 
-  // Método para capturar o arquivo selecionado
-  onFileChange(event: any) {
+  onFileChange(event: any): void {
     const file = event.target.files[0];
     if (file) {
       this.selectedFile = file;
       this.noticiaForm.patchValue({
-        imagem: file.name, // Atualiza o nome do arquivo no formulário
+        image: file.name, 
       });
     }
   }
 
-  onSubmit() {
+  onSubmit(): void {
     if (this.noticiaForm.valid) {
-      const formData: NoticiasData = this.noticiaForm.value;
+      this.isSubmitting = true;
 
-      // Adicionar lógica para upload do arquivo, se necessário
-      console.log('Form Data:', formData);
-      console.log('Selected Image File:', this.selectedFile);
+      const noticiaData: Noticia = {
+        ...this.noticiaForm.value,
+        published_at: this.noticiaForm.value.dataPublicacao, 
+      };
 
-      // Aqui vai a lógica para enviar os dados para o backend, incluindo o arquivo
+      if (this.selectedFile) {
+        const formData = new FormData();
+        formData.append('file', this.selectedFile); 
+        formData.append('noticia', JSON.stringify(noticiaData));
+
+        this.noticiaService.criarNoticiaComImagem(formData).subscribe({
+          next: (response) => {
+            console.log('Notícia criada com sucesso:', response);
+            alert('Notícia cadastrada com sucesso!');
+            this.noticiaForm.reset(); // Reseta o formulário
+            this.selectedFile = null;
+          },
+          error: (err) => {
+            console.error('Erro ao cadastrar a notícia:', err);
+            alert('Erro ao cadastrar a notícia. Tente novamente.');
+          },
+          complete: () => (this.isSubmitting = false),
+        });
+      } else {
+        this.noticiaService.criarNoticia(noticiaData).subscribe({
+          next: (response) => {
+            console.log('Notícia criada com sucesso:', response);
+            alert('Notícia cadastrada com sucesso!');
+            this.noticiaForm.reset();
+          },
+          error: (err) => {
+            console.error('Erro ao cadastrar a notícia:', err);
+            alert('Erro ao cadastrar a notícia. Tente novamente.');
+          },
+          complete: () => (this.isSubmitting = false),
+        });
+      }
+    } else {
+      alert('Por favor, preencha todos os campos obrigatórios.');
     }
   }
 }

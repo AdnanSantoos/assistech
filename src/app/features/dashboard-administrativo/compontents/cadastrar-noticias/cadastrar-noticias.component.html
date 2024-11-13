@@ -12,71 +12,89 @@
             placeholder="Título da notícia"
             required
           />
+          <div
+            class="text-danger mt-1"
+            *ngIf="noticiaForm.get('titulo')?.invalid && noticiaForm.get('titulo')?.touched"
+          >
+            O título é obrigatório.
+          </div>
         </div>
 
-        <!-- <div class="form-group mb-3">
-          <label for="comentario">Comentário*</label>
-          <input
-            id="comentario"
-            class="form-control"
-            formControlName="comentario"
-            placeholder="Comentário da notícia"
-            required
-          />
-        </div> -->
-
         <div class="form-group mb-3">
-          <label for="data">Data*</label>
+          <label for="dataPublicacao">Data*</label>
           <input
             type="date"
-            id="data"
+            id="dataPublicacao"
             class="form-control"
-            formControlName="data"
+            formControlName="dataPublicacao"
             required
           />
+          <div
+            class="text-danger mt-1"
+            *ngIf="noticiaForm.get('dataPublicacao')?.invalid && noticiaForm.get('dataPublicacao')?.touched"
+          >
+            A data de publicação é obrigatória.
+          </div>
         </div>
 
         <div class="form-group mb-3">
-          <label for="texto">Texto*</label>
+          <label for="content">Texto*</label>
           <textarea
-            id="texto"
+            id="content"
             class="form-control"
-            formControlName="texto"
+            formControlName="content"
             rows="5"
             placeholder="Texto da notícia"
             required
           ></textarea>
+          <div
+            class="text-danger mt-1"
+            *ngIf="noticiaForm.get('content')?.invalid && noticiaForm.get('content')?.touched"
+          >
+            O texto da notícia é obrigatório.
+          </div>
         </div>
 
         <div class="form-group mb-3">
-          <label for="autor">Autor*</label>
+          <label for="author">Autor*</label>
           <input
-            id="autor"
+            id="author"
             class="form-control"
-            formControlName="autor"
+            formControlName="author"
             placeholder="Nome do autor"
             required
           />
+          <div
+            class="text-danger mt-1"
+            *ngIf="noticiaForm.get('author')?.invalid && noticiaForm.get('author')?.touched"
+          >
+            O autor é obrigatório.
+          </div>
         </div>
 
-        <!-- Novo campo para o upload de imagem -->
         <div class="form-group mb-3">
-          <label for="imagem">Imagem*</label>
+          <label for="image">Imagem*</label>
           <input
             type="file"
-            id="imagem"
+            id="image"
             class="form-control"
             (change)="onFileChange($event)"
             required
           />
+          <div
+            class="text-danger mt-1"
+            *ngIf="noticiaForm.get('image')?.invalid && noticiaForm.get('image')?.touched"
+          >
+            A imagem é obrigatória.
+          </div>
         </div>
 
         <button
           type="submit"
           class="btn btn-dark w-100"
-          [disabled]="noticiaForm.invalid"
+          [disabled]="noticiaForm.invalid || isSubmitting"
         >
-          Cadastrar Notícia
+          {{ isSubmitting ? 'Cadastrando...' : 'Cadastrar Notícia' }}
         </button>
       </form>
     </div>
