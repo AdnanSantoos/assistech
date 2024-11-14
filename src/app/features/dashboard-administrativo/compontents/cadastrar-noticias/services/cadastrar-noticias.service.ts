@@ -22,10 +22,6 @@ export class NoticiaService {
     );
   }
 
-  criarNoticiaComImagem(formData: FormData): Observable<Noticia> {
-    return this.noticiaRepository.criarNoticiaComImagem(formData);
-  }
-
   atualizarNoticia(newsId: number, noticia: Noticia): Observable<Noticia> {
     return this.noticiaRepository.atualizarNoticia(newsId, noticia).pipe(
       map(response => response.data)

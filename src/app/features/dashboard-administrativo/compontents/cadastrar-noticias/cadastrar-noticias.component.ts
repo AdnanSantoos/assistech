@@ -46,46 +46,29 @@ export class CadastrarNoticiasComponent implements OnInit {
   onSubmit(): void {
     if (this.noticiaForm.valid) {
       this.isSubmitting = true;
-
+  
       const noticiaData: Noticia = {
         ...this.noticiaForm.value,
-        published_at: this.noticiaForm.value.dataPublicacao, 
+        published_at: this.noticiaForm.value.dataPublicacao,
       };
-
-      if (this.selectedFile) {
-        const formData = new FormData();
-        formData.append('file', this.selectedFile); 
-        formData.append('noticia', JSON.stringify(noticiaData));
-
-        this.noticiaService.criarNoticiaComImagem(formData).subscribe({
-          next: (response) => {
-            console.log('Notícia criada com sucesso:', response);
-            alert('Notícia cadastrada com sucesso!');
-            this.noticiaForm.reset(); // Reseta o formulário
-            this.selectedFile = null;
-          },
-          error: (err) => {
-            console.error('Erro ao cadastrar a notícia:', err);
-            alert('Erro ao cadastrar a notícia. Tente novamente.');
-          },
-          complete: () => (this.isSubmitting = false),
-        });
-      } else {
-        this.noticiaService.criarNoticia(noticiaData).subscribe({
-          next: (response) => {
-            console.log('Notícia criada com sucesso:', response);
-            alert('Notícia cadastrada com sucesso!');
-            this.noticiaForm.reset();
-          },
-          error: (err) => {
-            console.error('Erro ao cadastrar a notícia:', err);
-            alert('Erro ao cadastrar a notícia. Tente novamente.');
-          },
-          complete: () => (this.isSubmitting = false),
-        });
-      }
+  
+      this.noticiaService.criarNoticia(noticiaData).subscribe({
+        next: (response) => {
+          console.log('Notícia criada com sucesso:', response);
+          alert('Notícia cadastrada com sucesso!');
+          this.noticiaForm.reset();
+        },
+        error: (err) => {
+          console.error('Erro ao cadastrar a notícia:', err);
+          alert('Erro ao cadastrar a notícia. Tente novamente.');
+        },
+        complete: () => {
+          this.isSubmitting = false;
+        },
+      });
     } else {
       alert('Por favor, preencha todos os campos obrigatórios.');
     }
   }
+  
 }

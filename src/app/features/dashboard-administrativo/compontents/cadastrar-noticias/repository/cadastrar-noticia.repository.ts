@@ -41,8 +41,4 @@ export class NoticiaRepository {
   excluirNoticia(newsId: number) {
     return this._http.delete(`${this.baseUrl}/${newsId}`);
   }
-
-  criarNoticiaComImagem(formData: FormData): Observable<Noticia> {
-    return this._http.post<Noticia>(`${this.baseUrl}`, formData);
-  }
 }
