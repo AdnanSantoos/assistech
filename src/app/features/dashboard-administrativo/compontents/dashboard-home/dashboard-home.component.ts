@@ -1,34 +1,44 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { DashboardHomeService } from './service/dashboard-home.service';
+import { DashboardCategorias } from './models/dashboard-home.model';
 
 @Component({
   selector: 'app-dashboard-home',
   templateUrl: './dashboard-home.component.html',
-  standalone:true,
-  imports:[CommonModule],
+  standalone: true,
+  imports: [CommonModule],
   styleUrls: ['./dashboard-home.component.scss']
 })
 export class DashboardHomeComponent implements OnInit {
+  public categorias: DashboardCategorias[] = [];
 
-  constructor() { }
+  private categoryMapping:any = {
+    'Documentos': 'files',
+    'Usuários': 'users',
+    'Publicações': 'official_gazettes',
+    'Órgãos': 'agencies',
+    'Contratos': 'contracts',
+    'Licitações': 'procurements',
+    'Unidades': 'units',
+    'Planos de Contratação': 'contract_plans',
+    'Termos': 'terms'
+  };
+
+  constructor(private _service: DashboardHomeService) {}
 
   ngOnInit() {
+    this._service.getDashboard().subscribe(res => {
+      const data = res.data;
+      this.categorias = Object.keys(this.categoryMapping).map(nome => ({
+        nome,
+        quantidade: data[this.categoryMapping[nome]] || 0
+      }));
+    });
   }
-  categorias = [
-    { nome: 'Documentos', quantidade: 450 },
-    { nome: 'Usuários', quantidade: 1230 },
-    { nome: 'Publicações', quantidade: 4230 },
-    { nome: 'Órgãos', quantidade: 20 },
-    { nome: 'Contratos', quantidade: 75 },
-    { nome: 'Licitações', quantidade: 5 },
-    { nome: 'Unidades', quantidade: 12 },
-    { nome: 'Planos de Contratação', quantidade: 15 },
-    { nome: 'Termos', quantidade: 8 },
 
-  ];
   isLastTwo(index: number): boolean {
-    const total = this.categorias.length;
-    const isEven = total % 2 === 0;
-    return isEven && (index === total - 1 || index === total - 2);
+    const { length } = this.categorias;
+    return length % 2 === 0 && index >= length - 2;
   }
 }

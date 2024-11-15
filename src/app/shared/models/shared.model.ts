@@ -8,7 +8,7 @@ export interface selectModel {
 
 export interface RequisicaoModel<T> {
     data:T;
-    meta:{
+    meta?:{
         links:LinksModel,
         pagination:PaginationModel,
         tenant:TenantModel,

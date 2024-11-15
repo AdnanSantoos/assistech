@@ -1,9 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Location } from '@angular/common';
 import { MatIcon } from '@angular/material/icon';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
+import { GerenciadorDiarioOficialService } from './service/gerenciador-diario-oficial.service';
+import { RequisicaoModel } from '../../../../shared/models/shared.model';
+import { DiarioOficialPublicacoes } from './models/gerenciador-diario-oficial.model';
 
 @Component({
   selector: 'app-gerenciador-diario-oficial-administrativo',
@@ -12,23 +15,33 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
   templateUrl: './gerenciador-diario-oficial-administrativo.component.html',
   styleUrls: ['./gerenciador-diario-oficial-administrativo.component.scss'],
 })
-export class GerenciadorDiarioOficialAdministrativoComponent {
-  constructor(private location: Location) { }
-
+export class GerenciadorDiarioOficialAdministrativoComponent implements OnInit{
   // Exemplo de documentos (substitua com seus dados reais)
-  documents = [
-    { date: '01/07/2024', edition: 'II/253', file: 'PORTARIA N 25-2024', status: 'PUBLICADO' },
-    { date: '02/07/2024', edition: 'II/254', file: 'PORTARIA N 26-2024', status: 'PENDENTE' },
-    { date: '03/07/2024', edition: 'II/255', file: 'PORTARIA N 27-2024', status: 'PUBLICADO' },
-    { date: '04/07/2024', edition: 'II/256', file: 'PORTARIA N 28-2024', status: 'EM ANÁLISE' },
-  ];
+  public documents:DiarioOficialPublicacoes[]  = [];
 
   // Dados de paginação
-  currentPage = 1;
-  totalPages = 5;
+  public currentPage = 1;
+  public totalPages = 5;
+
+  constructor(
+    private _location: Location,
+    private _service: GerenciadorDiarioOficialService)
+    { }
+
+  ngOnInit(): void {
+   this.getDiario(this.currentPage);
+  }
+
+  getDiario(page:number){
+    this._service.getDashboard(page).subscribe((res:RequisicaoModel<DiarioOficialPublicacoes[]>)=>{
+      this.documents = res.data;
+      this.currentPage = res.meta?.pagination.current_page!;
+      this.totalPages = res.meta?.pagination.last_page!;
+    })
+  }
 
   goBack(): void {
-    this.location.back();
+    this._location.back();
   }
 
   goToPage(page: number) {

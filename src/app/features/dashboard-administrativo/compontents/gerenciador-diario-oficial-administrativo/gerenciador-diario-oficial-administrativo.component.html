@@ -26,8 +26,8 @@
       <tbody>
         <tr *ngFor="let doc of documents">
           <td>{{ doc.date }}</td>
-          <td>{{ doc.edition }}</td>
-          <td >{{ doc.file }}</td>
+          <td>{{ doc.year_label +'/'+doc.number}}</td>
+          <td >{{ doc.file_name }}</td>
           <td>
             <strong>{{ doc.status }}</strong>
           </td>

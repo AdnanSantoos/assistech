@@ -3,6 +3,3 @@ export const environment = {
     tenant: 'admin'
 };
 
-// usuário: admin
-// email: admin@admin.com
-// senha: teste1
