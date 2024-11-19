@@ -178,7 +178,7 @@ export class AcessoInformacaoAdministrativoComponent {
     {
       name: 'editais',
       externo: '',
-      link: '/adm/editais-licitacoes-administrativo',
+      link: '/adm/',
       icon: '../../../../../assets/novos-icones/editais.svg'
     },
     {
@@ -208,7 +208,7 @@ export class AcessoInformacaoAdministrativoComponent {
     {
       name: 'Licitações',
       externo: '',
-      link: '/adm/pncp-administrativo/licitacoes',
+      link: '/adm/pncp-administrativo/adicionar-licitacoes',
       icon: '../../../../../assets/novos-icones/licitacoes.svg'
     },
     {

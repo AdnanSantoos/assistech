@@ -32,8 +32,15 @@ export class DadosDaLicitacaoAdministrativoComponent {
     });
 
     this.dynamicFields = [
-      { name: 'orgaoDaLicitacao', type: 'file', fileType: 'simple', label: 'Órgão da licitação' },
-      { name: 'tituloDoDocumento', type: 'text', label: 'Dítulo do Documento' },
+      {
+        name: 'orgaoDaLicitacao', type: 'select', label: 'Órgão da licitação', options: [
+          { value: 'tipo1', label: 'Tipo 1' },
+          { value: 'tipo2', label: 'Tipo 2' },
+          { value: 'tipo3', label: 'Tipo 3' }
+        ]
+      },
+      { name: 'unidadeCompradora', type: 'text', label: 'Unidade Compradora' },
+      { name: 'tituloDoDocumento', type: 'text', label: 'Título do Documento' },
       { name: 'file', type: 'file', fileType: 'complex', label: 'Documento da Licitação' },
       { name: 'tipoDeDocumento', type: 'text', label: 'Tipo de Documento' },
       { name: 'tipoDeInstrumentoConvocatorio', type: 'text', label: 'Tipo de Instrumento Convocatório' },
@@ -56,7 +63,16 @@ export class DadosDaLicitacaoAdministrativoComponent {
       { name: 'unidadeDeMedida', type: 'text', label: 'Unidade de medida' },
       { name: 'valorUnitarioEstimado', type: 'text', label: 'Valor unitário estimado' },
       { name: 'valorTotal', type: 'text', label: 'Valor Total' },
+      { name: 'patrimonio', type: 'text', label: 'patrimônio' },
       { name: 'codigoDeRegistroImobiliario', type: 'text', label: 'Código de Registro Imobiliário' },
+      { name: 'aplicaMargemNormal', type: 'checkbox', label: 'Aplicabilidade da Margem de Preferência Normal' },
+      { name: 'aplicaMargemAdicional', type: 'checkbox', label: 'Aplicabilidade da Margem de Preferência Adicional' },
+      { name: 'percentMargemNormal', type: 'text', label: 'Percentual da margem de preferência Normal %' },
+      { name: 'percentMargemAdicional', type: 'text', label: 'Percentual da margem de preferência Adicional %' },
+      { name: 'cdgNcmNbs', type: 'text', label: 'Código NCM/NBS' },
+      { name: 'descricaoNCcmNbs', type: 'textarea', label: 'Descrição NCM/NBS' },
+
+
     ];
   }
 
