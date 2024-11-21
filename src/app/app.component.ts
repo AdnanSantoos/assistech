@@ -1,12 +1,12 @@
-import { Component, Inject, OnDestroy, OnInit, Optional } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit, Optional, PLATFORM_ID } from '@angular/core';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { NavbarComponent } from './shared/components/navbar/navbar.component';
 import { FooterComponent } from './shared/components/footer/footer.component';
 import { MenuComponent } from './shared/components/menu/menu.component';
 import { LatestNewsComponent } from './shared/components/latest-news/latest-news.component';
-import { CommonModule, Location } from '@angular/common';
+import { CommonModule, isPlatformServer, Location, PlatformLocation } from '@angular/common';
 import { TipoRota } from './shared/models/shared.model';
-import { TenantService } from './shared/service/tenant.service';
+import { TenantService } from './shared/services/tenant.service';
 
 @Component({
   selector: 'app-root',
@@ -18,16 +18,23 @@ import { TenantService } from './shared/service/tenant.service';
 export class AppComponent implements OnInit, OnDestroy {
   title = 'assistech';
   tipoRota: TipoRota = null;
+  domain: string = '';
 
   constructor(
-    @Optional() @Inject('X_FORWARDED_HOST') private host: any,
     private router: Router,
     private location: Location,
-    private tenantService: TenantService
+    private tenantService: TenantService,
+    private platformLocation: PlatformLocation,
+    @Inject(PLATFORM_ID) private platformId: Object
   ) {
     const currentUrl = this.location.path();
 
-    console.log('dominio:', host)
+    if (isPlatformServer(this.platformId)) {
+      const url = new URL(this.platformLocation.href);
+      this.domain = url.hostname;
+    } else {
+      this.domain = window.location.hostname;
+    }
 
     if (currentUrl.includes('/adm/') || currentUrl.includes('/login')) {
       this.tipoRota = 'adm';
