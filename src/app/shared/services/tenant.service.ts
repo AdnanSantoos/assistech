@@ -1,28 +1,26 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
-import { map } from 'rxjs/operators';
+import { finalize, map } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
-import { TenantMapper } from '../mapper/tenant.mapper';
-import { RequisicaoTenantFullModel, TenantModel } from '../models/shared.model';
+import { RequisicaoModel, RequisicaoTenantFullModel, TenantFullModel } from '../models/shared.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TenantService {
-  private baseUrl = `${environment.apiUrl}/public/tenants`;
+  private _baseUrl = `${environment.apiUrl}/public/tenants`;
+  private _tenantState = new BehaviorSubject<TenantFullModel|null>(null)
+  public state$ = this._tenantState.asObservable();
 
-  constructor(private http: HttpClient, private tenantMapper: TenantMapper) {}
+  constructor(private http: HttpClient) {}
 
-  getTenantData(tenant: string): Observable<TenantModel> {
-    return this.http
-      .get<RequisicaoTenantFullModel>(`${this.baseUrl}/${tenant}`)
-      .pipe(
-        map(response => {
-          const mappedTenant = this.tenantMapper.mapToTenant(response.data);
-          return mappedTenant;
-        })
-      );
+  getTenantData(tenant: string): Observable<RequisicaoModel<TenantFullModel>> {
+    return this.http.get<RequisicaoModel<TenantFullModel>>(`${this._baseUrl}/${tenant}`);
   }
+  updateState(newState:TenantFullModel){
+    this._tenantState.next(newState)
+  }
+
 }

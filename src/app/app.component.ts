@@ -61,9 +61,8 @@ export class AppComponent implements OnInit, OnDestroy {
     });
 
     this.tenantService.getTenantData(this.domain).subscribe(
-
       (data) => {
-        console.log('Dados do serviço:', data);
+       this.tenantService.updateState(data.data)
       },
       (error) => {
         console.error('Erro ao buscar dados do serviço:', error);

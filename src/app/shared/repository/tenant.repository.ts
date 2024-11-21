@@ -10,7 +10,7 @@ import { TenantModel } from '../models/shared.model';
 export class TenantRepository {
   constructor(private tenantService: TenantService) {}
 
-  fetchTenant(tenant: string = ''): Observable<TenantModel> {
+  fetchTenant(tenant: string = ''): Observable<any> {
     return this.tenantService.getTenantData(tenant);
   }
 }

@@ -5,8 +5,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NavigationEnd, Router, RouterLink } from '@angular/router';
-import { TipoRota } from '../../models/shared.model';
+import { TenantFullModel, TipoRota } from '../../models/shared.model';
 import { LoginModel } from '../../../features/login/models/login.model';
+import { TenantService } from '../../services/tenant.service';
 
 @Component({
   selector: 'app-navbar',
@@ -37,17 +38,23 @@ import { LoginModel } from '../../../features/login/models/login.model';
 export class NavbarComponent implements OnInit {
   mobile = false;
   logoText1: string = '';
-  logoText2 = 'Itaberaba';
+  logoText2 = '';
   tipoRota: TipoRota = null;
   isAdmRoute = false;
   isLoginRoute = false;
   isDiarioRoute = false;
   isPortalTransparencia = false;
   loggedInUserEmail: string | null = null;
+  logo:string|null = null;
 
-  constructor(private router: Router,private location: Location) {
+  constructor(private router: Router,private location: Location, private tenantService: TenantService) {
     const currentUrl = this.location.path();
     this.checkRoute(currentUrl);
+    
+    this.tenantService.state$.subscribe(tenantData=>{
+      this.logo = tenantData?.address.logo!;
+      this.logoText2 = tenantData?.name!;
+    })
   }
 
   ngOnInit(): void {

@@ -11,7 +11,6 @@ export interface RequisicaoModel<T> {
     meta?: {
         links: LinksModel,
         pagination: PaginationModel,
-        tenant: TenantModel,
     }
 }
 
@@ -31,15 +30,6 @@ export interface LinksModel {
     path: string;
     prev_page_url: string;
 }
-
-export interface TenantModel {
-    city_name: string;
-    name: string;
-    slug: string;
-    state_uf: string;
-    year: number;
-
-}
 export interface TenantNetworkModel {
     youtube: string;
     facebook: string;
@@ -56,13 +46,19 @@ export interface TenantAddressModel {
     logo?: string;
 }
 
-export interface TenantFullModel extends TenantModel {
+export interface TenantFullModel {
     domain: string;
     first_publication: string;
     country_register: string;
     phone: string;
     networks: TenantNetworkModel;
     address: TenantAddressModel;
+    city_name: string;
+    name: string;
+    slug: string;
+    state_uf: string;
+    year: number;
+
 }
 
 export type RequisicaoTenantFullModel = RequisicaoModel<TenantFullModel>;
