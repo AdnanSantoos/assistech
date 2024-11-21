@@ -34,7 +34,7 @@ export class AppComponent implements OnInit, OnDestroy {
       this.domain = url.hostname;
     } else {
       this.domain = window.location.hostname;
-      console.log('dominio:')
+      console.log('dominio:',this.domain)
     }
 
     if (currentUrl.includes('/adm/') || currentUrl.includes('/login')) {
