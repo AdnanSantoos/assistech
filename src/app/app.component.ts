@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit, Optional } from '@angular/core';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { NavbarComponent } from './shared/components/navbar/navbar.component';
 import { FooterComponent } from './shared/components/footer/footer.component';
@@ -20,11 +20,14 @@ export class AppComponent implements OnInit, OnDestroy {
   tipoRota: TipoRota = null;
 
   constructor(
+    @Optional() @Inject('X_FORWARDED_HOST') private host: any,
     private router: Router,
     private location: Location,
-    private tenantService: TenantService 
+    private tenantService: TenantService
   ) {
     const currentUrl = this.location.path();
+
+    console.log('dominio:', host)
 
     if (currentUrl.includes('/adm/') || currentUrl.includes('/login')) {
       this.tipoRota = 'adm';
@@ -49,6 +52,7 @@ export class AppComponent implements OnInit, OnDestroy {
     });
 
     this.tenantService.getTenantData().subscribe(
+
       (data) => {
         console.log('Dados do serviço:', data);
       },
