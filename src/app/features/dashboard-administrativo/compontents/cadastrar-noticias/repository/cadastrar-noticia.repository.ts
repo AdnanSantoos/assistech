@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class NoticiaRepository {
-  private baseUrl = `${environment.apiUrl}/v1/tenants/${environment.tenant}/diario-oficial/tenant-news`;
+  private baseUrl = `${environment.apiUrl}/tenants/${environment.tenant}/diario-oficial/tenant-news`;
 
   constructor(private _http: HttpClient) {}
 
