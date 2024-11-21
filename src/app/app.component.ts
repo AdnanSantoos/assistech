@@ -41,6 +41,7 @@ export class AppComponent implements OnInit, OnDestroy {
     if (isPlatformServer(this.platformId)) {
       const url = new URL(this.platformLocation.href);
       this.domain = url.hostname;
+      console.log(url)
     } else {
       this.domain = 'admin';
     }
