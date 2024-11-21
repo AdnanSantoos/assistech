@@ -25,34 +25,34 @@
       </thead>
       <tbody>
         <tr *ngFor="let doc of documents">
-          <td>{{ doc.date }}</td>
+          <td>{{ doc.date | date: 'dd/MM/yyyy' }}</td>
           <td>{{ doc.year_label +'/'+doc.number}}</td>
           <td >{{ doc.file_name }}</td>
           <td>
-            <strong>{{ doc.status }}</strong>
+            <strong>{{ doc.status =='published'? 'Publicado':'Pendente' }}</strong>
           </td>
           <td class="w-25">
             <div class="d-flex justify-content-center align-items-center gap-2">
-              <button class="btn btn-sm" tooltip="Protocolo">
+              <a [href]="doc.protocol" target="_blank" class="btn btn-sm" tooltip="Protocolo">
                 <img
                   src="../../../../../assets/icons/megaphone-adm-icon.svg"
                   alt="Protocolo"
                 />
-              </button>
-              <button class="btn btn-sm" tooltip="Original">
+              </a>
+              <a [href]="doc.file_upload" target="_blank" class="btn btn-sm" tooltip="Original">
                 <img
                   src="../../../../../assets/icons/clipboard-adm.svg"
                   alt="Original"
                 />
-              </button>
-              <button class="btn btn-sm" tooltip="Publicado">
+              </a>
+              <a [href]="doc.file_published" target="_blank" class="btn btn-sm" tooltip="Publicado">
                 <img
                   src="../../../../../assets/icons/check-adm.svg"
                   alt="Publicado"
                 />
-              </button>
-              <button class="btn btn-anexar">Anexar</button>
-              <button class="btn ps-0 pe-0 ms-0 me-0" tooltip="Remover">
+              </a>
+              <button class="btn btn-anexar" disabled>Anexar</button>
+              <button class="btn border-0 ps-0 pe-0 ms-0 me-0" disabled tooltip="Remover">
                 <img
                   src="../../../../../assets/icons/remove-icon.svg"
                   alt="Remover"
