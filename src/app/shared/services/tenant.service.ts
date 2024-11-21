@@ -15,7 +15,7 @@ export class TenantService {
 
   constructor(private http: HttpClient, private tenantMapper: TenantMapper) {}
 
-  getTenantData(tenant: string = environment.tenant): Observable<TenantModel> {
+  getTenantData(tenant: string): Observable<TenantModel> {
     return this.http
       .get<RequisicaoTenantFullModel>(`${this.baseUrl}/${tenant}`)
       .pipe(

@@ -28,15 +28,6 @@ export class AppComponent implements OnInit, OnDestroy {
     @Inject(PLATFORM_ID) private platformId: Object
   ) {
     const currentUrl = this.location.path();
-
-    if (isPlatformServer(this.platformId)) {
-      const url = new URL(this.platformLocation.href);
-      this.domain = url.hostname;
-    } else {
-      this.domain = window.location.hostname;
-      console.log('dominio:',this.domain)
-    }
-
     if (currentUrl.includes('/adm/') || currentUrl.includes('/login')) {
       this.tipoRota = 'adm';
     } else if (currentUrl.includes('/trn/')) {
@@ -47,6 +38,15 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    if (isPlatformServer(this.platformId)) {
+      const url = new URL(this.platformLocation.href);
+      this.domain = url.hostname;
+    } else {
+      this.domain = 'admin';
+    }
+
+    localStorage.setItem('tenant', this.domain)
+
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         if (event.url.includes('/adm/') || event.url.includes('/login')) {
@@ -59,7 +59,7 @@ export class AppComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.tenantService.getTenantData().subscribe(
+    this.tenantService.getTenantData(this.domain).subscribe(
 
       (data) => {
         console.log('Dados do serviço:', data);
