@@ -49,13 +49,35 @@ export class CadastrarUsuariosAdministrativoComponent implements OnInit {
       tenant_slug: ['']
     });
   }
-  
 
+  onRoleChange() {
+    const role = this.usuarioForm.get('role')?.value;
+
+    if (role === 'admin') {
+      // Se o papel for admin, define todas as permissões como true
+      this.usuarioForm.get('permissions.diario_oficial.add')?.setValue(true);
+      this.usuarioForm.get('permissions.pncp.add')?.setValue(true);
+      this.usuarioForm.get('permissions.pncp.edit_own')?.setValue(true);
+      this.usuarioForm.get('permissions.pncp.edit_others')?.setValue(true);
+      this.usuarioForm.get('permissions.transparencia.add')?.setValue(true);
+      this.usuarioForm.get('permissions.transparencia.edit_own')?.setValue(true);
+      this.usuarioForm.get('permissions.transparencia.edit_others')?.setValue(true);
+    } else if (role === 'secretary') {
+      // Se o papel for secretary, você pode definir as permissões como false ou o que for necessário
+      this.usuarioForm.get('permissions.diario_oficial.add')?.setValue(false);
+      this.usuarioForm.get('permissions.pncp.add')?.setValue(false);
+      this.usuarioForm.get('permissions.pncp.edit_own')?.setValue(false);
+      this.usuarioForm.get('permissions.pncp.edit_others')?.setValue(false);
+      this.usuarioForm.get('permissions.transparencia.add')?.setValue(false);
+      this.usuarioForm.get('permissions.transparencia.edit_own')?.setValue(false);
+      this.usuarioForm.get('permissions.transparencia.edit_others')?.setValue(false);
+    }
+  }
   onSubmit() {
     if (this.usuarioForm.valid) {
       const usuarioData: UsuarioData = this.usuarioForm.value;
       console.log('Dados do usuário antes de enviar:', usuarioData);
-      this.usuariosService.createUser (usuarioData).subscribe(
+      this.usuariosService.createUser(usuarioData).subscribe(
         response => {
           console.log('Usuário criado com sucesso:', response);
         },
