@@ -13,30 +13,38 @@
   </div>
 
   <div class="table-responsive">
-    <table class="table table-striped table-bordered mb-0">
-      <thead>
-        <tr>
-          <th>Data de Publicação</th>
-          <th>Título</th>
-          <th>Conteúdo</th>
-          <th>Autor</th>
-          <th>Ações</th>
-        </tr>
-      </thead>
-
-      <tbody>
-        <tr *ngFor="let noticia of noticias">
-          <td>{{ noticia.published_at | date : "dd/MM/yyyy" }}</td>
-          <td>{{ noticia.title }}</td>
-          <td>{{ noticia.content }}</td>
-          <td>{{ noticia.author }}</td>
-          <td>
-            <button class="btn btn-primary btn-sm">Editar</button>
-            <button class="btn btn-danger btn-sm">Excluir</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    @if(noticias.length > 0 ){
+      <table class="table table-striped table-bordered mb-0">
+        <thead>
+          <tr>
+            <th>Data de Publicação</th>
+            <th>Título</th>
+            <th>Conteúdo</th>
+            <th>Autor</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+  
+        <tbody>
+          <tr *ngFor="let noticia of noticias">
+            <td>{{ noticia.published_at | date : "dd/MM/yyyy" }}</td>
+            <td>{{ noticia.title }}</td>
+            <td>{{ noticia.content }}</td>
+            <td>{{ noticia.author }}</td>
+            <td>
+              <button class="btn btn-primary btn-sm">Editar</button>
+              <button class="btn btn-danger btn-sm">Excluir</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    }
+    @else {
+      <div class="nao-encontrado">
+        NENHUM RESULTADO ENCONTRADO
+      </div>
+    }
+    
   </div>
 
   <div
