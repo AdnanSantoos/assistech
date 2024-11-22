@@ -4,25 +4,27 @@
       <h5>Usuários</h5>
       <small>Lista de usuários cadastrados</small>
     </div>
-    <button routerLink="/adm/dashboard-administrativo/cadastrar-usuarios" class="btn btn-adm-adicionar ms-2">
-      <mat-icon>person</mat-icon> Adicionar Usuário
+    <button
+      routerLink="/adm/dashboard-administrativo/cadastrar-usuarios"
+      class="btn btn-adm-adicionar ms-2 d-flex align-items-center"
+    >
+      <mat-icon class="me-1">person</mat-icon> Adicionar Usuário
     </button>
   </div>
+
   <div class="table-responsive">
     <table class="table table-striped table-bordered mb-0">
       <thead>
         <tr>
           <th>#</th>
-          <th>Cliente</th>
           <th>Nome</th>
           <th>E-mail</th>
           <th>Usuário</th>
           <th>CPF</th>
           <th>Telefone</th>
           <th>Status</th>
-          <th>Permissão</th>
-          <th>PNCP</th>
           <th>Diário Oficial</th>
+          <th>PNCP</th>
           <th>Transparência</th>
           <th>Ações</th>
         </tr>
@@ -30,24 +32,31 @@
       <tbody>
         <tr *ngFor="let element of dataSource.data">
           <td>{{ element.id }}</td>
-          <td>{{ element.nome }}</td>
-          <td>{{ element.cidade }}</td>
+          <td>{{ element.name }}</td> 
           <td>{{ element.email }}</td>
-          <td>{{ element.usuario }}</td>
-          <td>{{ element.cpf }}</td>
-          <td>{{ element.telefone }}</td>
-          <td>{{ element.status }}</td>
-          <td>{{ element.permissao }}</td>
-          <td>{{ element.pncp }}</td>
-          <td>{{ element.diarioOficial }}</td>
-          <td>{{ element.portalTransparencia }}</td>
+          <td>{{ element.username }}</td>
+          <td>{{ element.country_register || 'N/A' }}</td>
+          <td>{{ element.phone || 'N/A' }}</td>
+          <td>{{ element.is_active ? 'Ativo' : 'Inativo' }}</td>
+          <td>{{ element.permissions.diario_oficial.add ? 'Sim' : 'Não' }}</td> 
+          <td>{{ element.permissions.pncp.add ? 'Sim' : 'Não' }}</td> 
+          <td>{{ element.permissions.transparencia.add ? 'Sim' : 'Não' }}</td>
           <td>
             <div class="d-flex justify-content-center">
-              <button class="btn btn-sm rounded btn-primary me-2 btn-edit mt-1 mat-edit d-flex justify-content-center align-items-center">
+              <button
+                class="btn btn-sm btn-primary me-2 d-flex align-items-center"
+                matTooltip="Editar"
+              >
                 <mat-icon>edit</mat-icon>
               </button>
-              <button class="btn btn-sm btn-edit  ">
-                <img src="../../../../../assets/icons/remove-icon.svg" alt="">
+              <button
+                class="btn btn-sm btn-danger d-flex align-items-center"
+                matTooltip="Remover"
+              >
+                <img
+                  src="../../../../../assets/icons/remove-icon.svg"
+                  alt="Remover"
+                />
               </button>
             </div>
           </td>
@@ -55,39 +64,50 @@
       </tbody>
     </table>
   </div>
-  <div class="bkg-bottom d-flex justify-content-end align-items-center">
-    <span class="resultado me-3">{{ dataSource.data.length }} resultados</span>
-    <nav aria-label="Page navigation">
-      <ul class="pagination">
+
+  <div class="bkg-bottom d-flex justify-content-between align-items-center mt-3">
+    <span class="resultado me-3">
+      {{ dataSource.data.length }} resultados
+    </span>
+    <nav aria-label="Navegação de Página">
+      <ul class="pagination mb-0">
         <li class="page-item" [class.disabled]="currentPage === 1">
-          <a class="page-link" (click)="goToPage(1)" aria-label="Primeira">
-            <span aria-hidden="true">&laquo;&laquo;</span>
+          <a
+            class="page-link"
+            (click)="goToPage(1)"
+            aria-label="Primeira Página"
+          >
+            &laquo;&laquo;
           </a>
         </li>
         <li class="page-item" [class.disabled]="currentPage === 1">
           <a
             class="page-link"
             (click)="goToPreviousPage()"
-            aria-label="Anterior"
+            aria-label="Página Anterior"
           >
-            <span aria-hidden="true">&laquo;</span>
+            &laquo;
           </a>
         </li>
         <li class="page-item active">
           <span class="page-link">{{ currentPage }}</span>
         </li>
         <li class="page-item" [class.disabled]="currentPage === totalPages">
-          <a class="page-link" (click)="goToNextPage()" aria-label="Próxima">
-            <span aria-hidden="true">&raquo;</span>
+          <a
+            class="page-link"
+            (click)="goToNextPage()"
+            aria-label="Próxima Página"
+          >
+            &raquo;
           </a>
         </li>
         <li class="page-item" [class.disabled]="currentPage === totalPages">
           <a
             class="page-link"
             (click)="goToPage(totalPages)"
-            aria-label="Última"
+            aria-label="Última Página"
           >
-            <span aria-hidden="true">&raquo;&raquo;</span>
+            &raquo;&raquo;
           </a>
         </li>
       </ul>

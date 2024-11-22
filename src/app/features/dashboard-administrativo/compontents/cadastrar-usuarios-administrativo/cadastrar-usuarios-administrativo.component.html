@@ -4,14 +4,6 @@
       <h3 class="mb-4">Cadastrar Novo usuário</h3>
       <form [formGroup]="usuarioForm" (ngSubmit)="onSubmit()">
         <div class="form-group mb-3">
-          <label for="cliente">Cliente*</label>
-          <select id="cliente" class="form-control" formControlName="cliente" placeholder="Selecione">
-            <option value="" disabled selected>Selecione</option>
-            <!-- Adicione as opções de cidade aqui -->
-          </select>
-        </div>
-
-        <div class="form-group mb-3">
           <label for="nome">Nome*</label>
           <input
             id="nome"
@@ -22,9 +14,7 @@
         </div>
 
         <div class="form-group mb-3">
-          <label for="email"
-            >EMAIL</label
-          >
+          <label for="email">Email*</label>
           <input
             id="email"
             class="form-control"
@@ -35,83 +25,210 @@
         </div>
 
         <div class="form-group mb-3">
-          <label for="usuario">usuário</label>
+          <label for="username">Usuário*</label>
           <input
-            id="usuario"
+            id="username"
             class="form-control"
-            formControlName="usuario"
+            formControlName="username"
             placeholder="Usuário"
           />
         </div>
 
         <div class="form-group mb-3">
-          <label for="cpf">CPF</label>
+          <label for="country_register">CPF*</label>
           <input
-            id="cpf"
+            id="country_register"
             class="form-control"
-            formControlName="cpf"
+            formControlName="country_register"
             placeholder="CPF"
           />
         </div>
+
         <div class="form-group mb-3">
-          <label for="telefone">telefone</label>
+          <label for="phone">Telefone*</label>
           <input
-            id="telefone"
+            id="phone"
             class="form-control"
-            formControlName="telefone"
+            formControlName="phone"
             placeholder="Telefone"
           />
         </div>
+
         <div class="form-group mb-3">
-          <label for="senha">senha</label>
+          <label for="password">Senha*</label>
           <input
-            id="senha"
-            class="form-control"
-            formControlName="senha"
-            placeholder="Senha"
+            id="password"
             type="password"
+            class="form-control"
+            formControlName="password"
+            placeholder="Senha"
+          />
+        </div>
+
+        <div class="form-group mb-3">
+          <label for="password_confirmation">Confirmação de Senha*</label>
+          <input
+            id="password_confirmation"
+            type="password"
+            class="form-control"
+            formControlName="password_confirmation"
+            placeholder="Confirme a Senha"
           />
         </div>
 
         <div class="form-group mb-3">
           <label>Status:</label>
-          <div class="d-flex flex-wrap flex-column justify-content-start">
-            <div class="form-check form-switch">
-              <input
-                class="form-check-input"
-                type="checkbox"
-                formControlName="status"
-                id="status"
-              />
-              <label class="form-check-label" for="status">
-                STATUS:
-
-                <span
-                  class="ms-1"
-                  [ngClass]="{
-                    'text-success': usuarioForm.get('status')?.value,
-                    'text-danger': !usuarioForm.get('status')?.value
-                  }"
-                >
-                  {{
-                    usuarioForm.get("status")?.value
-                      ? "Habilitado"
-                      : "Desabilitado"
-                  }}
-                </span>
-              </label>
-            </div>
-
+          <div class="form-check form-switch">
+            <input
+              type="checkbox"
+              class="form-check-input"
+              formControlName="is_active"
+              id="is_active"
+            />
+            <label class="form-check-label" for="is_active">
+              {{ usuarioForm.get("is_active")?.value ? "Ativo" : "Inativo" }}
+            </label>
           </div>
         </div>
 
-        
-        <div class="form-group mb-3">
-          <label for="tipo">Permissão*</label>
-          <select id="tipo" class="form-control" formControlName="tipo">
-            <option value="EMPRESA">Empresa</option>
-            <option value="OUTRO">Outro</option>
-          </select>
+        <div formGroupName="permissions">
+          <h5>Permissões</h5>
+          <div formGroupName="diario_oficial" class="mb-2">
+            <label>Adicionar Diário Oficial</label>
+            <div class="form-check form-switch">
+              <input
+                type="checkbox"
+                class="form-check-input"
+                formControlName="add"
+                id="diario_oficial_add"
+              />
+              <label class="form-check-label" for="diario_oficial_add">
+                {{
+                  usuarioForm.get("permissions.diario_oficial.add")?.value
+                    ? "Sim"
+                    : "Não"
+                }}
+              </label>
+            </div>
+          </div>
+          <div formGroupName="pncp" class="mb-2">
+            <label>PNCP</label>
+            <div class="form-check form-switch">
+              <input
+                type="checkbox"
+                class="form-check-input"
+                formControlName="add"
+                id="pncp_add"
+              />
+              <label class="form-check-label" for="pncp_add">
+                {{
+                  usuarioForm.get("permissions.pncp.add")?.value ? "Sim" : "Não"
+                }}
+              </label>
+            </div>
+            <div class="form-check form-switch">
+              <input
+                type="checkbox"
+                class="form-check-input"
+                formControlName="edit_own"
+                id="pncp_edit_own"
+              />
+              <label class="form-check-label" for="pncp_edit_own">
+                Editar Próprios:
+                {{
+                  usuarioForm.get("permissions.p ncp.edit_own")?.value ? "Sim" : "Não"
+                }}
+              </label>
+            </div>
+            <div class="form-check form-switch">
+              <input
+                type="checkbox"
+                class="form-check-input"
+                formControlName="edit_others"
+                id="pncp_edit_others"
+              />
+              <label class="form-check-label" for="pncp_edit_others">
+                Editar Outros:
+                {{
+                  usuarioForm.get("permissions.pncp.edit_others")?.value ? "Sim" : "Não"
+                }}
+              </label>
+            </div>
+          </div>
+          <div formGroupName="transparencia" class="mb-2">
+            <label>Transparência</label>
+            <div class="form-check form-switch">
+              <input
+                type="checkbox"
+                class="form-check-input"
+                formControlName="add"
+                id="transparencia_add"
+              />
+              <label class="form-check-label" for="transparencia_add">
+                {{
+                  usuarioForm.get("permissions.transparencia.add")?.value ? "Sim" : "Não"
+                }}
+              </label>
+            </div>
+            <div class="form-check form-switch">
+              <input
+                type="checkbox"
+                class="form-check-input"
+                formControlName="edit_own"
+                id="transparencia_edit_own"
+              />
+              <label class="form-check-label" for="transparencia_edit_own">
+                Editar Próprios:
+                {{
+                  usuarioForm.get("permissions.transparencia.edit_own")?.value ? "Sim" : "Não"
+                }}
+              </label>
+            </div>
+            <div class="form-check form-switch">
+              <input
+                type="checkbox"
+                class="form-check-input"
+                formControlName="edit_others"
+                id="transparencia_edit_others"
+              />
+              <label class="form-check-label" for="transparencia_edit_others">
+                Editar Outros:
+                {{
+                  usuarioForm.get("permissions.transparencia.edit_others")?.value ? "Sim" : "Não"
+                }}
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div formGroupName="tenant">
+          <div class="form-group mb-3">
+            <input
+              id="slug"
+              type="hidden"
+              class="form-control"
+              formControlName="slug"
+              placeholder="Slug"
+            />
+          </div>
+          <div class="form-group mb-3">
+            <input
+              id="name"
+              type="hidden"
+              class="form-control"
+              formControlName="name"
+              placeholder="Nome do Tenant"
+            />
+          </div>
+          <div class="form-group mb-3">
+            <input
+              type="hidden"
+              id="tenant_slug"
+              class="form-control"
+              formControlName="tenant_slug"
+              placeholder="Tenant Slug"
+            />
+          </div>
         </div>
 
         <button
