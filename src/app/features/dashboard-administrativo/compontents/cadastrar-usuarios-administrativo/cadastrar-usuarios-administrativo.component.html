@@ -8,7 +8,7 @@
           <input
             id="nome"
             class="form-control"
-            formControlName="nome"
+            formControlName="name"
             placeholder="Nome"
           />
         </div>
@@ -136,7 +136,9 @@
               <label class="form-check-label" for="pncp_edit_own">
                 Editar Próprios:
                 {{
-                  usuarioForm.get("permissions.p ncp.edit_own")?.value ? "Sim" : "Não"
+                  usuarioForm.get("permissions.p ncp.edit_own")?.value
+                    ? "Sim"
+                    : "Não"
                 }}
               </label>
             </div>
@@ -150,7 +152,9 @@
               <label class="form-check-label" for="pncp_edit_others">
                 Editar Outros:
                 {{
-                  usuarioForm.get("permissions.pncp.edit_others")?.value ? "Sim" : "Não"
+                  usuarioForm.get("permissions.pncp.edit_others")?.value
+                    ? "Sim"
+                    : "Não"
                 }}
               </label>
             </div>
@@ -166,7 +170,9 @@
               />
               <label class="form-check-label" for="transparencia_add">
                 {{
-                  usuarioForm.get("permissions.transparencia.add")?.value ? "Sim" : "Não"
+                  usuarioForm.get("permissions.transparencia.add")?.value
+                    ? "Sim"
+                    : "Não"
                 }}
               </label>
             </div>
@@ -180,7 +186,9 @@
               <label class="form-check-label" for="transparencia_edit_own">
                 Editar Próprios:
                 {{
-                  usuarioForm.get("permissions.transparencia.edit_own")?.value ? "Sim" : "Não"
+                  usuarioForm.get("permissions.transparencia.edit_own")?.value
+                    ? "Sim"
+                    : "Não"
                 }}
               </label>
             </div>
@@ -194,7 +202,10 @@
               <label class="form-check-label" for="transparencia_edit_others">
                 Editar Outros:
                 {{
-                  usuarioForm.get("permissions.transparencia.edit_others")?.value ? "Sim" : "Não"
+                  usuarioForm.get("permissions.transparencia.edit_others")
+                    ?.value
+                    ? "Sim"
+                    : "Não"
                 }}
               </label>
             </div>
@@ -220,15 +231,16 @@
               placeholder="Nome do Tenant"
             />
           </div>
-          <div class="form-group mb-3">
-            <input
-              type="hidden"
-              id="tenant_slug"
-              class="form-control"
-              formControlName="tenant_slug"
-              placeholder="Tenant Slug"
-            />
-          </div>
+        </div>
+
+        <div class="form-group mb-3">
+          <input
+            type="hidden"
+            id="tenant_slug"
+            class="form-control"
+            formControlName="tenant_slug"
+            placeholder="Tenant Slug"
+          />
         </div>
 
         <button

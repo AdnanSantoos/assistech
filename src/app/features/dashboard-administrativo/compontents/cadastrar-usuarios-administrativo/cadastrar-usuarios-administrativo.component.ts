@@ -18,14 +18,15 @@ export class CadastrarUsuariosAdministrativoComponent implements OnInit {
 
   ngOnInit(): void {
     this.usuarioForm = this.fb.group({
-      nome: ['', Validators.required],
+      name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       username: ['', Validators.required],
       country_register: ['', Validators.required],
       phone: ['', Validators.required],
       is_active: [true],
-      password: ['', [Validators.required, Validators.minLength(8)]], 
+      password: ['', [Validators.required, Validators.minLength(8)]],
       password_confirmation: ['', [Validators.required]],
+      role: ['', Validators.required],
       permissions: this.fb.group({
         diario_oficial: this.fb.group({
           add: [false]
@@ -43,11 +44,12 @@ export class CadastrarUsuariosAdministrativoComponent implements OnInit {
       }),
       tenant: this.fb.group({
         slug: [''],
-        name: [''],
-        tenant_slug: [''] 
-      })
+        name: ['']
+      }),
+      tenant_slug: ['']
     });
   }
+  
 
   onSubmit() {
     if (this.usuarioForm.valid) {

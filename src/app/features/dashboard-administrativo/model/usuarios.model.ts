@@ -1,31 +1,32 @@
 export interface UsuarioData {
   id?: string; // Tornando o id opcional
-  name: string; 
+  name: string;
   email: string;
-  username: string; 
-  country_register?: string; 
-  phone?: string; 
-  is_active?: boolean; 
-  password: string; 
+  username: string;
+  country_register?: string;
+  phone?: string;
+  is_active?: boolean;
+  password: string;
   password_confirmation: string;
   tenant_slug?: string;
+  role: string;
   permissions: {
     diario_oficial: {
-      add: boolean; 
+      add: boolean;
     };
     pncp: {
-      add: boolean; 
-      edit_own: boolean; 
-      edit_others: boolean; 
+      add: boolean;
+      edit_own: boolean;
+      edit_others: boolean;
     };
     transparencia: {
-      add: boolean; 
-      edit_own: boolean; 
-      edit_others: boolean; 
+      add: boolean;
+      edit_own: boolean;
+      edit_others: boolean;
     };
   };
   tenant: {
     slug: string;
-    name: string; 
+    name: string;
   };
 }
