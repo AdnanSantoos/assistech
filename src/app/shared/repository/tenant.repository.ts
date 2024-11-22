@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { TenantService } from '../services/tenant.service';
-import { TenantModel } from '../models/shared.model';
 
 
 @Injectable({

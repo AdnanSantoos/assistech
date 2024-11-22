@@ -18,6 +18,7 @@ import { AdicionarPcaComponent } from './compontents/adicionar-pca/adicionar-pca
 import { PpaLoaLdoAdministrativoComponent } from './compontents/ppa-loa-ldo-administrativo/ppa-loa-ldo-administrativo.component';
 import { CadastrarNoticiasComponent } from './compontents/cadastrar-noticias/cadastrar-noticias.component';
 import { CadastrarFotosDiarioOficialComponent } from './compontents/cadastrar-fotos-diario-oficial/cadastrar-fotos-diario-oficial.component';
+import { GerenciadorNoticiaOficialComponent } from './compontents/gerenciador-noticia-oficial/gerenciador-noticia-oficial.component';
 
 const routes: Routes = [
   {
@@ -80,6 +81,10 @@ const routes: Routes = [
       {
         path: 'gerenciar-diario-oficial',
         component: GerenciadorDiarioOficialAdministrativoComponent,
+      },
+      {
+        path: 'gerenciar-noticias',
+        component: GerenciadorNoticiaOficialComponent,
       },
       {
         path: 'pca',
