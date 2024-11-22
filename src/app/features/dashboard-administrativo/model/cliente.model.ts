@@ -1,12 +1,20 @@
 export interface ClienteData {
-  nome: string;
-  cidade: string;
-  pncp: boolean | string;
-  portalTransparencia:  boolean | string;
-  diarioOficial:  boolean | string;
-  anoInicial?: string;
-  proximaEdicao?: string;
-  dominio?: string;
-  tipo: string;
-  status:  boolean | string;
+  agencies: any[];
+  city: {
+    code: number;
+    label: string;
+    state_code: number;
+    uf: string;
+  };
+  city_name: string;
+  name: string;
+  permissions: {
+    pncp: boolean;
+    portal_transparencia: boolean;
+    diario_oficial: boolean;
+  };
+  slug: string;
+  state_uf: string;
+  year: number;
 }
+

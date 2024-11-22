@@ -1,60 +1,66 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { Component, OnInit } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { MatPaginator } from '@angular/material/paginator';
 import { ClienteData } from '../../model/cliente.model';
 import { RouterModule } from '@angular/router';
-
-
-
-const CLIENTE_DATA: ClienteData[] = [
-  { nome: 'Cliente 1', cidade: 'Cidade A', pncp: 'Sim', portalTransparencia: 'Ativo', diarioOficial: 'Ativo', anoInicial: '2021', proximaEdicao: '2024', dominio: 'cliente1.com', tipo: 'Prefeitura', status: 'Ativo' },
-  { nome: 'Cliente 2', cidade: 'Cidade B', pncp: 'Não', portalTransparencia: 'Inativo', diarioOficial: 'Inativo', anoInicial: '2019', proximaEdicao: '2023', dominio: 'cliente2.com', tipo: 'Câmara', status: 'Inativo' },
-];
+import { ClienteAdministrativoService } from './services/cliente-administrativo.service';
+import { RequisicaoModel } from '../../../../shared/models/shared.model';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-cliente-administrativo',
   templateUrl: './cliente-administrativo.component.html',
-  imports: [CommonModule, MatIconModule, MatPaginator, MatTableModule, RouterModule],
+  imports: [CommonModule, MatIconModule, RouterModule],
   standalone: true,
   styleUrls: ['./cliente-administrativo.component.scss']
 })
 export class ClienteAdministrativoComponent implements OnInit {
-  displayedColumns: string[] =
-    ['nome', 'cidade', 'pncp', 'portalTransparencia', 'diarioOficial',
-      'anoInicial', 'proximaEdicao', 'dominio', 'tipo', 'status', 'acoes'];
-  dataSource = new MatTableDataSource<ClienteData>(CLIENTE_DATA);
-  pageSize = 10;
-  currentPage = 1;
-  totalPages = Math.ceil(this.dataSource.data.length / this.pageSize);
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  public displayedColumns: string[] =['nome', 'cidade', 'pncp', 'portalTransparencia', 'diarioOficial', 'anoInicial', 'proximaEdicao', 'dominio', 'tipo', 'status', 'acoes'];
+  public  pageSize = 10;
+  public currentPage = 1;
+  public totalPages = 5;
+  public clientes!:ClienteData[];
+
+  constructor(
+    private _service: ClienteAdministrativoService,
+    private _location: Location,
+  ){}
 
   ngOnInit() {
-    this.dataSource.paginator = this.paginator; // Conectando o paginador aos dados da tabela
+    this.getClientes(this.currentPage);
   }
-  goToPage(pageNumber: number) {
-    this.currentPage = pageNumber;
-    this.updateTableData();
+  
+  getClientes(page:number){
+    this._service.getClientes(page).subscribe((res:RequisicaoModel<ClienteData[]>)=>{
+      this.clientes = res.data;
+      this.currentPage = res.meta?.pagination.current_page!;
+      this.totalPages = res.meta?.pagination.last_page!;
+    })
+  }
+
+  getStatus(value:boolean){
+    return value?'Habilitado':'Desabilitado'
+  }
+
+  goBack(): void {
+    this._location.back();
+  }
+
+  goToPage(page: number) {
+    this.getClientes(page);
   }
 
   goToPreviousPage() {
     if (this.currentPage > 1) {
       this.currentPage--;
-      this.updateTableData();
+      this.getClientes(this.currentPage);
     }
   }
 
   goToNextPage() {
     if (this.currentPage < this.totalPages) {
       this.currentPage++;
-      this.updateTableData();
+      this.getClientes(this.currentPage);
     }
-  }
-
-  updateTableData() {
-    const startIndex = (this.currentPage - 1) * this.pageSize;
-    const endIndex = this.currentPage * this.pageSize;
-    this.dataSource.data = CLIENTE_DATA.slice(startIndex, endIndex);
   }
 }
