@@ -45,18 +45,20 @@ export class GerenciadorDiarioOficialAdministrativoComponent implements OnInit{
   }
 
   goToPage(page: number) {
-    this.currentPage = page;
+    this.getDiario(page);
   }
 
   goToPreviousPage() {
     if (this.currentPage > 1) {
       this.currentPage--;
+      this.getDiario(this.currentPage);
     }
   }
 
   goToNextPage() {
     if (this.currentPage < this.totalPages) {
       this.currentPage++;
+      this.getDiario(this.currentPage);
     }
   }
 }
