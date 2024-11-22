@@ -24,8 +24,8 @@ export class CadastrarUsuariosAdministrativoComponent implements OnInit {
       country_register: ['', Validators.required],
       phone: ['', Validators.required],
       is_active: [true],
-      password: ['', [Validators.required, Validators.minLength(8)]], // Adicionando validação de senha
-      password_confirmation: ['', [Validators.required]], // Adicionando confirmação de senha
+      password: ['', [Validators.required, Validators.minLength(8)]], 
+      password_confirmation: ['', [Validators.required]],
       permissions: this.fb.group({
         diario_oficial: this.fb.group({
           add: [false]
