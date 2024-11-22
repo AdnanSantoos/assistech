@@ -21,14 +21,14 @@
         <h2>{{ categoria.quantidade }}</h2>
       </div>
     </div>
-    <button class="btn-ver-lista">
+    <a [routerLink]="categoria.link" class="btn-ver-lista">
       <img
         src="../../../assets/icons/burguer-menu.svg"
         width="21px"
         height="21px"
         alt=""
       />
-      ver lista completa
-    </button>
+      Ver lista completa
+    </a>
   </div>
 </div>
