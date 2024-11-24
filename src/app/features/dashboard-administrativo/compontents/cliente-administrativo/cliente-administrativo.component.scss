@@ -53,7 +53,13 @@ small {
   font-weight: 600;
   line-height: 122.487%;
 }
-
+.btn-edit{
+  img{
+    background-color: #DC3545;
+    padding: 5px;
+    border-radius: 4px;
+  }
+}
 .table-striped {
   tbody {
     tr {
