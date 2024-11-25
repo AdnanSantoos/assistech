@@ -2,6 +2,11 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ClienteData } from '../../model/cliente.model';
+import { ClienteAdministrativoService } from '../cliente-administrativo/services/cliente-administrativo.service';
+import { CadastrarClienteMapper } from './mapper/cadastrar-cliente-administrativo.mapper';
+import { response } from 'express';
+import { error } from 'console';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-cadastrar-cliente-administrativo',
@@ -14,7 +19,7 @@ export class CadastrarClienteAdministrativoComponent implements OnInit {
   
   clienteForm!: FormGroup;
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder, private _clienteService: ClienteAdministrativoService, private _toastrService: ToastrService) { }
 
   ngOnInit(): void {
     this.clienteForm = this.fb.group({
@@ -35,8 +40,17 @@ export class CadastrarClienteAdministrativoComponent implements OnInit {
   onSubmit() {
     if (this.clienteForm.valid) {
       const clienteData: ClienteData = this.clienteForm.value;
-      console.log('Form Data:', clienteData);
-      // Aqui vai a lógica para enviar os dados para o backend
+      this._clienteService.createUser(CadastrarClienteMapper.toSubmit(clienteData)).subscribe(
+        response=>{
+          this._toastrService.success('Usuário criado com sucesso');
+          this.clienteForm.reset();
+
+        },
+        error => {
+          this._toastrService.error('Erro ao criar usuário:');
+
+        }
+      )
     }
   }
 }
