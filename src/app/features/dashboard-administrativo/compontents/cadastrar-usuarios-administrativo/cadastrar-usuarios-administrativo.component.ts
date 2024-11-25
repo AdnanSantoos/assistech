@@ -2,19 +2,24 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UsuarioData } from '../../model/usuarios.model';
 import { UsuariosService } from '../usuarios-administrativo/service/usuarios-administrativos.service';
+import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
+import { debounceTime, distinctUntilChanged, Observable, of, switchMap } from 'rxjs';
+import { CadastrarUsuariosMapper } from './mapper/cadastrar-usuarios-administrativos.mapper';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-cadastrar-usuarios-administrativo',
   templateUrl: './cadastrar-usuarios-administrativo.component.html',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, TypeaheadModule],
   styleUrls: ['./cadastrar-usuarios-administrativo.component.scss']
 })
 export class CadastrarUsuariosAdministrativoComponent implements OnInit {
+  searchResults: string[] = [];
 
   usuarioForm!: FormGroup;
-
-  constructor(private fb: FormBuilder, private usuariosService: UsuariosService) { }
+  tenantSlugSelecionado!: string;
+  constructor(private fb: FormBuilder, private _usuariosService: UsuariosService, private _toastrService: ToastrService) { }
 
   ngOnInit(): void {
     this.usuarioForm = this.fb.group({
@@ -48,13 +53,30 @@ export class CadastrarUsuariosAdministrativoComponent implements OnInit {
       }),
       tenant_slug: ['']
     });
+
+    this.usuarioForm.get('tenant_slug')?.valueChanges.pipe(
+      debounceTime(300),
+      distinctUntilChanged(),
+      switchMap((termo) => this.autoCompleteResultados(termo))
+    ).subscribe((results: any) => {
+      this.searchResults = results.data;
+    });
+  }
+
+  autoCompleteResultados(termo: string): Observable<string[]> {
+    return this._usuariosService.getClientes(termo);
+  }
+
+  onSelect(event: any): void {
+    this.tenantSlugSelecionado = event.item.slug;
+    console.log('tenantslug> ', this.tenantSlugSelecionado)
+
   }
 
   onRoleChange() {
     const role = this.usuarioForm.get('role')?.value;
 
     if (role === 'admin') {
-      // Se o papel for admin, define todas as permissões como true
       this.usuarioForm.get('permissions.diario_oficial.add')?.setValue(true);
       this.usuarioForm.get('permissions.pncp.add')?.setValue(true);
       this.usuarioForm.get('permissions.pncp.edit_own')?.setValue(true);
@@ -63,7 +85,6 @@ export class CadastrarUsuariosAdministrativoComponent implements OnInit {
       this.usuarioForm.get('permissions.transparencia.edit_own')?.setValue(true);
       this.usuarioForm.get('permissions.transparencia.edit_others')?.setValue(true);
     } else if (role === 'secretary') {
-      // Se o papel for secretary, você pode definir as permissões como false ou o que for necessário
       this.usuarioForm.get('permissions.diario_oficial.add')?.setValue(false);
       this.usuarioForm.get('permissions.pncp.add')?.setValue(false);
       this.usuarioForm.get('permissions.pncp.edit_own')?.setValue(false);
@@ -76,13 +97,13 @@ export class CadastrarUsuariosAdministrativoComponent implements OnInit {
   onSubmit() {
     if (this.usuarioForm.valid) {
       const usuarioData: UsuarioData = this.usuarioForm.value;
-      console.log('Dados do usuário antes de enviar:', usuarioData);
-      this.usuariosService.createUser(usuarioData).subscribe(
+      this._usuariosService.createUser(CadastrarUsuariosMapper.toSubmit(usuarioData, this.tenantSlugSelecionado)).subscribe(
         response => {
-          console.log('Usuário criado com sucesso:', response);
+          this._toastrService.success('Usuário criado com sucesso');
+          this.usuarioForm.reset();
         },
         error => {
-          console.error('Erro ao criar usuário:', error);
+          this._toastrService.error('Erro ao criar usuário:');
         }
       );
     }

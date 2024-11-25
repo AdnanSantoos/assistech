@@ -53,11 +53,12 @@ small {
   font-weight: 600;
   line-height: 122.487%;
 }
-.btn-edit{
-  img{
-    background-color: #DC3545;
-    padding: 5px;
-    border-radius: 4px;
+.btn-remove {
+  background-color: #dc3545;
+  padding: 5px;
+  border-radius: 4px;
+  img {
+    filter: brightness(2);
   }
 }
 .table-striped {
@@ -113,7 +114,8 @@ small {
 .card-footer,
 .table-responsive {
   padding: 0;
-}.table-striped {
+}
+.table-striped {
   tbody {
     tr {
       &:nth-child(odd) {
@@ -141,7 +143,7 @@ small {
       cursor: pointer;
 
       &:hover {
-        transition : all 0.7s;
+        transition: all 0.7s;
 
         background-color: rgba(0, 123, 255, 0.1);
       }

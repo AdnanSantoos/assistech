@@ -61,4 +61,5 @@ export class UsuariosAdministrativoComponent implements OnInit {
       this.loadUsuarios(++this.currentPage);
     }
   }
+
 }

@@ -9,11 +9,11 @@ body {
   position: fixed;
 }
 
-.btn-edit{
+.btn-edit {
   border: none;
 }
 
-.nao-encontrado{
+.nao-encontrado {
   justify-content: CENTER;
   display: flex;
   color: #8d8d8d;
@@ -253,10 +253,23 @@ body {
     height: 31px;
   }
 }
+.btn-remove {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #dc3545;
+  padding: 5px;
+  border-radius: 4px;
+  width: 31px;
+  height: 31px;
+  img {
+    filter: brightness(2);
+  }
+}
 .mat-edit {
   width: 31px;
   height: 31px;
-  mat-icon{
+  mat-icon {
     margin-top: 1vh;
     font-size: 15px;
   }
@@ -288,7 +301,7 @@ body {
     padding-left: 25px !important;
   }
 }
-.cup{
+.cup {
   cursor: pointer;
 }
 
