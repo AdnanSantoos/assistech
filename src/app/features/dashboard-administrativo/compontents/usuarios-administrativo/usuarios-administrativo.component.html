@@ -32,26 +32,31 @@
       <tbody>
         <tr *ngFor="let element of dataSource.data">
           <!-- <td>{{ element.id }}</td> -->
-          <td>{{ element.name }}</td> 
+          <td>{{ element.name }}</td>
           <td>{{ element.email }}</td>
           <td>{{ element.username }}</td>
-          <td>{{ element.country_register || 'N/A' }}</td>
-          <td>{{ element.phone || 'N/A' }}</td>
-          <td>{{ element.is_active ? 'Ativo' : 'Inativo' }}</td>
-          <td>{{ element.permissions.diario_oficial.add ? 'Sim' : 'Não' }}</td> 
-          <td>{{ element.permissions.pncp.add ? 'Sim' : 'Não' }}</td> 
-          <td>{{ element.permissions.transparencia.add ? 'Sim' : 'Não' }}</td>
+          <td>{{ element.country_register || "N/A" }}</td>
+          <td>{{ element.phone || "N/A" }}</td>
+          <td>{{ element.is_active ? "Ativo" : "Inativo" }}</td>
+          <td>{{ element.permissions.diario_oficial.add ? "Sim" : "Não" }}</td>
+          <td>{{ element.permissions.pncp.add ? "Sim" : "Não" }}</td>
+          <td>{{ element.permissions.transparencia.add ? "Sim" : "Não" }}</td>
           <td>
             <div class="d-flex justify-content-center">
-              <button
+              <a
+                [routerLink]="[
+                  '/adm/dashboard-administrativo/editar-usuarios',
+                  element.id
+                ]"
                 class="btn btn-sm btn-primary me-2 d-flex align-items-center"
                 matTooltip="Editar"
               >
                 <mat-icon>edit</mat-icon>
-              </button>
+              </a>
               <button
                 class="btn btn-sm btn-danger d-flex align-items-center"
                 matTooltip="Remover"
+                disabled
               >
                 <img
                   src="../../../../../assets/icons/remove-icon.svg"
@@ -65,7 +70,9 @@
     </table>
   </div>
 
-  <div class="bkg-bottom d-flex justify-content-between align-items-center mt-3">
+  <div
+    class="bkg-bottom d-flex justify-content-between align-items-center mt-3"
+  >
     <span class="resultado me-3">
       {{ dataSource.data.length }} resultados
     </span>

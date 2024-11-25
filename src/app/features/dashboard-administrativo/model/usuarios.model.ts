@@ -1,5 +1,5 @@
 export interface UsuarioData {
-  id?: string; // Tornando o id opcional
+  id?: string;
   name: string;
   email: string;
   username: string;

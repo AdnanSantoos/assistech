@@ -5,7 +5,19 @@ export class CadastrarUsuariosMapper {
         let value = { ...form };
 
         value.tenant_slug = slug;
-        console.log('console no mapper',value)
         return value
     }
+    public static toEdit(updated: any, original: any) {
+        const changes: any = {};
+
+        for (const key in updated) {
+            if (updated[key] !== original[key]) {
+                changes[key] = updated[key];
+            }
+        }
+
+        return changes;
+    }
+
 }
+

@@ -8,18 +8,26 @@ import { UsuariosRepository } from '../repository/usuarios-administrativos.repos
   providedIn: 'root',
 })
 export class UsuariosService {
-  constructor(private _repository: UsuariosRepository) {}
+  constructor(private _repository: UsuariosRepository) { }
 
   getUsuarios(page: number): Observable<RequisicaoModel<UsuarioData[]>> {
     return this._repository.getUsuarios(page);
   }
 
-  createUser (userData: UsuarioData): Observable<UsuarioData> {
+  getUsuariosPorID(id: string): Observable<RequisicaoModel<UsuarioData[]>> {
+    return this._repository.getUsuariosPorID(id);
+  }
+
+  createUser(userData: UsuarioData): Observable<UsuarioData> {
     return this._repository.createUser(userData);
   }
 
-  public getClientes(name:string): Observable<any> {
+  editarUsuario(userData: UsuarioData, id: string): Observable<UsuarioData> {
+    return this._repository.editarUsuario(userData, id);
+  }
+
+  public getClientes(name: string): Observable<any> {
     return this._repository.getClientes(name);
   }
-  
+
 }

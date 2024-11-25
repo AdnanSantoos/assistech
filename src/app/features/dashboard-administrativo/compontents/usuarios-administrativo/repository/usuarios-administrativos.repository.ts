@@ -25,4 +25,12 @@ export class UsuariosRepository {
     const params = new HttpParams().set('name', name);
     return this._http.get<RequisicaoModel<ClienteData[]>>(`${environment.apiUrl}/staff/tenants`, { params });
   }
+
+  getUsuariosPorID(id: string) {
+    return this._http.get<RequisicaoModel<UsuarioData[]>>(`${environment.apiUrl}/staff/users/${id}`);
+  }
+
+  editarUsuario(userData: UsuarioData, id: string): Observable<UsuarioData> {
+    return this._http.put<UsuarioData>(`${environment.apiUrl}/staff/users/${id}`, userData);
+  }
 }

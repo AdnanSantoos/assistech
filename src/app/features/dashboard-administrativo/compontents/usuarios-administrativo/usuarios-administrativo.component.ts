@@ -5,7 +5,7 @@ import { UsuarioData } from '../../model/usuarios.model';
 import { UsuariosService } from './service/usuarios-administrativos.service';
 import { MatIcon } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-usuarios-administrativo',
@@ -25,7 +25,7 @@ export class UsuariosAdministrativoComponent implements OnInit {
   currentPage = 1;
   totalPages = 1;
 
-  constructor(private usuariosService: UsuariosService) { }
+  constructor(private usuariosService: UsuariosService, public router: Router) { }
 
   ngOnInit(): void {
     this.loadUsuarios(this.currentPage);

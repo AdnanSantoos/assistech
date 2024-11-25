@@ -1,7 +1,9 @@
 <div class="w-100">
   <div class="container mt-5 me-auto">
     <div class="form-content">
-      <h3 class="mb-4">Cadastrar Novo usuário</h3>
+      <h3 class="mb-4">
+        {{ isEditavel ? "Editar Usuário" : " Cadastrar Novo usuário" }}
+      </h3>
       <form [formGroup]="usuarioForm" (ngSubmit)="onSubmit()">
         <div class="form-group mb-3">
           <label for="client">Cliente*</label>
@@ -118,9 +120,7 @@
         </div>
         @if(usuarioForm.get('role')?.value === 'secretary'){
         <div formGroupName="permissions">
-          <h5>Permissões</h5>
-          <div formGroupName="diario_oficial" class="mb-2">
-            <label>Adicionar Diário Oficial</label>
+          <div formGroupName="diario_oficial">
             <div class="form-check form-switch">
               <input
                 type="checkbox"
@@ -129,16 +129,27 @@
                 id="diario_oficial_add"
               />
               <label class="form-check-label" for="diario_oficial_add">
-                {{
-                  usuarioForm.get("permissions.diario_oficial.add")?.value
-                    ? "Sim"
-                    : "Não"
-                }}
+                <strong class="text-uppercase me-1"> Diário Oficial:</strong>
+                <div
+                  [ngClass]="{
+                    habilitado: usuarioForm.get(
+                      'permissions.diario_oficial.add'
+                    )?.value,
+                    desabilitado: !usuarioForm.get(
+                      'permissions.diario_oficial.add'
+                    )?.value
+                  }"
+                >
+                  {{
+                    usuarioForm.get("permissions.diario_oficial.add")?.value
+                      ? "Habilitado"
+                      : "Desabilitado"
+                  }}
+                </div>
               </label>
             </div>
           </div>
-          <div formGroupName="pncp" class="mb-2">
-            <label>PNCP</label>
+          <div formGroupName="pncp">
             <div class="form-check form-switch">
               <input
                 type="checkbox"
@@ -147,9 +158,20 @@
                 id="pncp_add"
               />
               <label class="form-check-label" for="pncp_add">
-                {{
-                  usuarioForm.get("permissions.pncp.add")?.value ? "Sim" : "Não"
-                }}
+                <strong class="text-uppercase me-1">PNCP:</strong>
+                <div
+                  [ngClass]="{
+                    habilitado: usuarioForm.get('permissions.pncp.add')?.value,
+                    desabilitado: !usuarioForm.get('permissions.pncp.add')
+                      ?.value
+                  }"
+                >
+                  {{
+                    usuarioForm.get("permissions.pncp.add")?.value
+                      ? "Habilitado"
+                      : "Desabilitado"
+                  }}
+                </div>
               </label>
             </div>
             <div class="form-check form-switch">
@@ -160,12 +182,23 @@
                 id="pncp_edit_own"
               />
               <label class="form-check-label" for="pncp_edit_own">
-                Editar Próprios:
-                {{
-                  usuarioForm.get("permissions.p ncp.edit_own")?.value
-                    ? "Sim"
-                    : "Não"
-                }}
+                <strong class="text-uppercase me-1"
+                  >PNCP (Editar conteúdo próprios):</strong
+                >
+                <div
+                  [ngClass]="{
+                    habilitado: usuarioForm.get('permissions.pncp.edit_own')
+                      ?.value,
+                    desabilitado: !usuarioForm.get('permissions.pncp.edit_own')
+                      ?.value
+                  }"
+                >
+                  {{
+                    usuarioForm.get("permissions.pncp.edit_own")?.value
+                      ? "Habilitado"
+                      : "Desabilitado"
+                  }}
+                </div>
               </label>
             </div>
             <div class="form-check form-switch">
@@ -176,17 +209,28 @@
                 id="pncp_edit_others"
               />
               <label class="form-check-label" for="pncp_edit_others">
-                Editar Outros:
-                {{
-                  usuarioForm.get("permissions.pncp.edit_others")?.value
-                    ? "Sim"
-                    : "Não"
-                }}
+                <strong class="text-uppercase me-1"
+                  >PNCP (Editar conteúdo de outros):</strong
+                >
+                <div
+                  [ngClass]="{
+                    habilitado: usuarioForm.get('permissions.pncp.edit_others')
+                      ?.value,
+                    desabilitado: !usuarioForm.get(
+                      'permissions.pncp.edit_others'
+                    )?.value
+                  }"
+                >
+                  {{
+                    usuarioForm.get("permissions.pncp.edit_others")?.value
+                      ? "Habilitado"
+                      : "Desabilitado"
+                  }}
+                </div>
               </label>
             </div>
           </div>
-          <div formGroupName="transparencia" class="mb-2">
-            <label>Transparência</label>
+          <div formGroupName="transparencia">
             <div class="form-check form-switch">
               <input
                 type="checkbox"
@@ -195,11 +239,24 @@
                 id="transparencia_add"
               />
               <label class="form-check-label" for="transparencia_add">
-                {{
-                  usuarioForm.get("permissions.transparencia.add")?.value
-                    ? "Sim"
-                    : "Não"
-                }}
+                <strong class="text-uppercase me-1">
+                  Portal de Transparência:
+                </strong>
+                <div
+                  [ngClass]="{
+                    habilitado: usuarioForm.get('permissions.transparencia.add')
+                      ?.value,
+                    desabilitado: !usuarioForm.get(
+                      'permissions.transparencia.add'
+                    )?.value
+                  }"
+                >
+                  {{
+                    usuarioForm.get("permissions.transparencia.add")?.value
+                      ? "Habilitado"
+                      : "Desabilitado"
+                  }}
+                </div>
               </label>
             </div>
             <div class="form-check form-switch">
@@ -210,12 +267,25 @@
                 id="transparencia_edit_own"
               />
               <label class="form-check-label" for="transparencia_edit_own">
-                Editar Próprios:
-                {{
-                  usuarioForm.get("permissions.transparencia.edit_own")?.value
-                    ? "Sim"
-                    : "Não"
-                }}
+                <strong class="text-uppercase me-1"
+                  >Portal de Transparência (Editar conteúdo próprios):
+                </strong>
+                <div
+                  [ngClass]="{
+                    habilitado: usuarioForm.get(
+                      'permissions.transparencia.edit_own'
+                    )?.value,
+                    desabilitado: !usuarioForm.get(
+                      'permissions.transparencia.edit_own'
+                    )?.value
+                  }"
+                >
+                  {{
+                    usuarioForm.get("permissions.transparencia.edit_own")?.value
+                      ? "Habilitado"
+                      : "Desabilitado"
+                  }}
+                </div>
               </label>
             </div>
             <div class="form-check form-switch">
@@ -226,13 +296,26 @@
                 id="transparencia_edit_others"
               />
               <label class="form-check-label" for="transparencia_edit_others">
-                Editar Outros:
-                {{
-                  usuarioForm.get("permissions.transparencia.edit_others")
-                    ?.value
-                    ? "Sim"
-                    : "Não"
-                }}
+                <strong class="text-uppercase me-1"
+                  >Portal de Transparência (Editar conteúdo de outros):
+                </strong>
+                <div
+                  [ngClass]="{
+                    habilitado: usuarioForm.get(
+                      'permissions.transparencia.edit_others'
+                    )?.value,
+                    desabilitado: !usuarioForm.get(
+                      'permissions.transparencia.edit_others'
+                    )?.value
+                  }"
+                >
+                  {{
+                    usuarioForm.get("permissions.transparencia.edit_others")
+                      ?.value
+                      ? "Habilitado"
+                      : "Desabilitado"
+                  }}
+                </div>
               </label>
             </div>
           </div>
@@ -241,10 +324,11 @@
 
         <button
           type="submit"
-          class="btn btn-dark w-100"
+          class="btn btn-dark w-100 mt-2"
           [disabled]="usuarioForm.invalid"
         >
-          Cadastrar
+          {{ isEditavel ? "Editar" : " Cadastrar" }}
+
         </button>
       </form>
     </div>

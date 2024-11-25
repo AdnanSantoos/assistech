@@ -75,6 +75,10 @@ const routes: Routes = [
         component: CadastrarUsuariosAdministrativoComponent,
       },
       {
+        path: 'editar-usuarios/:id',
+        component: CadastrarUsuariosAdministrativoComponent,
+      },
+      {
         path: 'cadastrar-fotos-diario',
         component: CadastrarFotosDiarioOficialComponent,
       },
