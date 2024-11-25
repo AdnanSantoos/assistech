@@ -21,8 +21,7 @@ export class CadastrarFotosDiarioOficialComponent {
 
   ngOnInit(): void {
     this.fotosForm = this.fb.group({
-      titulo: ['', Validators.required],
-      imagem: ['', Validators.required],
+      image: ['', Validators.required],
     });
   }
 
@@ -31,7 +30,7 @@ export class CadastrarFotosDiarioOficialComponent {
     if (file) {
       this.selectedFile = file;
       this.fotosForm.patchValue({
-        imagem: file.name, 
+        image: file.name, 
       });
     }
   }

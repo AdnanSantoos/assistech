@@ -50,10 +50,10 @@ export class HomeComponent implements OnInit {
       this.acessos = [
         { routerLink: '/diario-oficial', texto: 'DIÁRIO OFICIAL',icon_img:'../../../assets/novos-icones/diario-oficial.svg' },
         { routerLink: '/trn/portal-transparencia', texto: 'PORTAL DE TRANSPARÊNCIA',icon_img:'../../../assets/novos-icones/portal-transparencia.svg' },
-        { link: 'https://www.gov.br/pncp/pt-br', texto: 'BIOGRAFIA DA CIDADE',icon_img:'../../../assets/novos-icones/biografia-cidade.svg' },
+        { link: 'https://www.gov.br/pncp/pt-br', texto: '',icon_img:'https://www.gov.br/++theme++padrao_govbr/img/govbr-logo-large.png' },
         { link: 'https://www.gov.br/pncp/pt-br', texto: 'PNCP',icon_img:'../../../assets/novos-icones/pncp.svg' },
         { link: 'https://www.gov.br/compras/pt-br/nllc', texto: 'Lei das Licitações',icon_img:'../../../assets/novos-icones/lei131333.svg' },
-        { link: 'https://www.tcm.ba.gov.br/', texto: 'NOTÍCIAS DO TCM',icon_img:'../../../assets/novos-icones/noticias-tcm.svg' },
+        { link: 'https://portal.tcu.gov.br/inicio', texto: 'NOTÍCIAS DO TCU',icon_img:'../../../assets/novos-icones/noticias-tcm.svg' },
       ];
     }
   }
