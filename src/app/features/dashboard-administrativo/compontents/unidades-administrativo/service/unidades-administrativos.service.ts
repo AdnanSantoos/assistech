@@ -14,5 +14,8 @@ export class UnidadesService {
     return this._repository.getOrgaos(page);
   }
 
+  createUnidade(data: { agency: string; agency_country_register: string }): Observable<void> {
+    return this._repository.createUnidade(data);
+  }
   
 }

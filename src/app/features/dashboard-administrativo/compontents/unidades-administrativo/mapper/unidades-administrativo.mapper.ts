@@ -1,8 +1,8 @@
 export class UnidadesMapper {
-    public static toSubmit(form: any): { country_register: string } {
-      return {
-        country_register: form.country_register,
-      };
-    }
+  public static toSubmit(form: any): { agency: string; agency_country_register: string } {
+    return {
+      agency: form.agency,
+      agency_country_register: form.agency_country_register,
+    };
   }
-  
+}

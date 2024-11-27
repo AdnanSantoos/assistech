@@ -17,6 +17,9 @@ export class UnidadesRepository {
     const params = new HttpParams().set('page', page.toString());
     return this._http.get<RequisicaoModel<UnidadeModel[]>>(this.baseUrl, { params });
   }
-
+  createUnidade(data: { agency: string; agency_country_register: string }): Observable<void> {
+    return this._http.post<void>(this.baseUrl, data);
+  }
+  
   
 }

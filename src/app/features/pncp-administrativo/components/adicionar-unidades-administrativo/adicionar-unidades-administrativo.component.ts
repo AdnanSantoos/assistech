@@ -1,9 +1,14 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { ToastrService } from 'ngx-toastr';
 import { LayoutFormsAdmComponent } from '../../../../shared/containers/layout-forms-adm/layout-forms-adm.component';
+import { UnidadesService } from '../../../dashboard-administrativo/compontents/unidades-administrativo/service/unidades-administrativos.service';
+import { UnidadesMapper } from '../../../dashboard-administrativo/compontents/unidades-administrativo/mapper/unidades-administrativo.mapper';
+
+
 @Component({
   selector: 'app-adicionar-unidades-administrativo',
   standalone: true,
@@ -15,32 +20,42 @@ import { LayoutFormsAdmComponent } from '../../../../shared/containers/layout-fo
     MatButtonModule,
   ],
   templateUrl: './adicionar-unidades-administrativo.component.html',
-  styleUrl: './adicionar-unidades-administrativo.component.scss',
+  styleUrls: ['./adicionar-unidades-administrativo.component.scss'],
 })
 export class AdicionarUnidadesAdministrativoComponent {
   filtroForm: FormGroup;
-  dynamicFields: any[];
+  dynamicFields: { name: string; type: string; label: string; placeholder?: string; required?: boolean }[];
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+    private unidadesService: UnidadesService,
+    private toastr: ToastrService
+  ) {
     this.filtroForm = this.fb.group({
-      cnpj: [''],
+      agency: ['', [Validators.required]],
+      agency_country_register: ['', [Validators.required]],
     });
 
     this.dynamicFields = [
-      { name: 'orgao', type: 'text', label: 'Orgão', placeholder: 'Selecione' },
-      { name: 'cnpj', type: 'text', label: 'cnpj' },
+      { name: 'agency', type: 'text', label: 'Órgão', placeholder: 'Digite o órgão', required: true },
+      { name: 'agency_country_register', type: 'text', label: 'CNPJ', placeholder: 'Digite o CNPJ', required: true },
     ];
   }
 
-  onFileChange(event: any, fieldName: string) {
-    if (event.target.files.length > 0) {
-      const file = event.target.files[0];
-      this.filtroForm.patchValue({
-        [fieldName]: file,
+  onFormSubmit(event: any): void {
+    if (this.filtroForm.valid) {
+      const formData = UnidadesMapper.toSubmit(event);
+      this.unidadesService.createUnidade(formData).subscribe({
+        next: () => {
+          this.toastr.success('Unidade criada com sucesso!', 'Sucesso');
+          this.filtroForm.reset();
+        },
+        error: () => {
+          this.toastr.error('Erro ao criar unidade. Tente novamente.', 'Erro');
+        },
       });
+    } else {
+      this.toastr.warning('Preencha todos os campos obrigatórios!', 'Atenção');
     }
-  }
-
-  onFormSubmit() {
   }
 }
