@@ -2,46 +2,29 @@ import { CommonModule, Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
-import { MatIconModule } from '@angular/material/icon'; // Alteração aqui: MatIconModule, não MatIcon
-
-interface UnidadeData {
-  numSeq: string;
-  nome: string;
-  cnpj: string;
-  cdgIBGE: string;
-  cdgUND: string;
-}
-
-const UNIDADES_DATA: UnidadeData[] = [
-  { numSeq: '1', nome: 'CAMARA DE ITABERABA', cnpj: '123.456.890/0001-01', cdgIBGE: '2930709', cdgUND: '1201' },
-  { numSeq: '2', nome: 'CAMARA DE ITABERABA', cnpj: '123.456.890/0001-01', cdgIBGE: '2930709', cdgUND: '1201' },
-  { numSeq: '3', nome: 'CAMARA DE ITABERABA', cnpj: '123.456.890/0001-01', cdgIBGE: '2930709', cdgUND: '1201' },
-  { numSeq: '4', nome: 'CAMARA DE ITABERABA', cnpj: '123.456.890/0001-01', cdgIBGE: '2930709', cdgUND: '1201' },
-  { numSeq: '5', nome: 'CAMARA DE ITABERABA', cnpj: '123.456.890/0001-01', cdgIBGE: '2930709', cdgUND: '1201' },
-  { numSeq: '6', nome: 'CAMARA DE ITABERABA', cnpj: '123.456.890/0001-01', cdgIBGE: '2930709', cdgUND: '1201' },
-  { numSeq: '7', nome: 'CAMARA DE ITABERABA', cnpj: '123.456.890/0001-01', cdgIBGE: '2930709', cdgUND: '1201' },
-  { numSeq: '8', nome: 'CAMARA DE ITABERABA', cnpj: '123.456.890/0001-01', cdgIBGE: '2930709', cdgUND: '1201' },
-  { numSeq: '9', nome: 'CAMARA DE ITABERABA', cnpj: '123.456.890/0001-01', cdgIBGE: '2930709', cdgUND: '1201' },
-];
+import { MatIconModule } from '@angular/material/icon';
+import { UnidadeModel } from './model/unidades-administrativo.model';
+import { UnidadesService } from './service/unidades-administrativos.service';
 
 @Component({
   selector: 'app-unidades-administrativo',
   standalone: true,
-  imports: [RouterLink, CommonModule, MatIconModule], // Corrigido para MatIconModule
+  imports: [RouterLink, CommonModule, MatIconModule],
   templateUrl: './unidades-administrativo.component.html',
   styleUrls: ['./unidades-administrativo.component.scss'],
 })
 export class UnidadesAdministrativoComponent implements OnInit {
   displayedColumns: string[] = ['numSeq', 'nome', 'cnpj', 'cdgIBGE', 'cdgUND', 'acoes'];
-  dataSource = new MatTableDataSource<UnidadeData>([]);
+  dataSource = new MatTableDataSource<UnidadeModel>([]);
   pageSize = 10;
   currentPage = 1;
-  totalPages = Math.ceil(UNIDADES_DATA.length / this.pageSize);
+  totalRecords = 0;
+  totalPages = 0;
 
-  constructor(private location: Location) {}
+  constructor(private location: Location, private unidadesService: UnidadesService) {}
 
   ngOnInit() {
-    this.updateTableData();
+    this.loadUnidades(this.currentPage);
   }
 
   goBack(): void {
@@ -51,27 +34,37 @@ export class UnidadesAdministrativoComponent implements OnInit {
   goToPage(pageNumber: number) {
     if (pageNumber >= 1 && pageNumber <= this.totalPages) {
       this.currentPage = pageNumber;
-      this.updateTableData();
+      this.loadUnidades(pageNumber);
     }
   }
 
   goToPreviousPage() {
     if (this.currentPage > 1) {
       this.currentPage--;
-      this.updateTableData();
+      this.loadUnidades(this.currentPage);
     }
   }
 
   goToNextPage() {
     if (this.currentPage < this.totalPages) {
       this.currentPage++;
-      this.updateTableData();
+      this.loadUnidades(this.currentPage);
     }
   }
 
-  updateTableData() {
-    const startIndex = (this.currentPage - 1) * this.pageSize;
-    const endIndex = this.currentPage * this.pageSize;
-    this.dataSource.data = UNIDADES_DATA.slice(startIndex, endIndex);
+  loadUnidades(page: number) {
+    this.unidadesService.getOrgaos(page).subscribe({
+      next: (response) => {
+        this.dataSource.data = response.data.map((unidade, index) => ({
+          ...unidade,
+          numSeq: ((page - 1) * this.pageSize + index + 1).toString(),
+        }));
+        this.totalRecords = response.meta?.pagination.total || 0;
+        this.totalPages = Math.ceil(this.totalRecords / this.pageSize);
+      },
+      error: (err) => {
+        console.error('Erro ao carregar unidades:', err);
+      },
+    });
   }
 }
