@@ -98,16 +98,29 @@
           <td>{{ element.created_at | date : "dd/MM/yy, HH:mm" }}</td>
           <td>
             <div class="d-flex justify-content-center gap-2 py-2">
-              <button
+              <a
+                class="me-2 btn-visualizar btn-format mt-0 d-flex justify-content-center align-items-center"
+                matTooltip="Visualizar"
+              >
+                <img
+                  src="../../../../../assets/icons/visualizar-adm-icon.svg"
+                  alt=""
+                />
+              </a>
+              <a
                 class="me-2 btn-edit btn-format mt-0 d-flex justify-content-center align-items-center"
                 matTooltip="Editar"
+                [routerLink]="[
+                  '/adm/dashboard-administrativo/editar-licitacoes',
+                  element.id
+                ]"
               >
                 <img
                   src="../../../../../assets/icons/edit-icon-adm.svg"
                   alt=""
                 />
-              </button>
-              <button
+              </a>
+              <a
                 class="me-2 btn-atas btn-format mt-0 d-flex justify-content-center align-items-center"
                 matTooltip="Atas"
               >
@@ -115,8 +128,8 @@
                   src="../../../../../assets/icons/atas-adm-icon.svg"
                   alt=""
                 />
-              </button>
-              <button
+              </a>
+              <a
                 class="me-2 btn-itens btn-format mt-0 d-flex justify-content-center align-items-center"
                 matTooltip="Itens"
               >
@@ -124,8 +137,8 @@
                   src="../../../../../assets/icons/itens-adm-icon.svg"
                   alt=""
                 />
-              </button>
-              <button
+              </a>
+              <a
                 class="me-2 btn-arquivo btn-format mt-0 d-flex justify-content-center align-items-center"
                 matTooltip="Arquivos"
               >
@@ -133,10 +146,10 @@
                   src="../../../../../assets/icons/arquivo-adm-icon.svg"
                   alt=""
                 />
-              </button>
-              <button class="btn btn-sm btn-remove" matTooltip="Deletar">
+              </a>
+              <a class="btn btn-sm btn-remove" matTooltip="Deletar">
                 <img src="../../../../../assets/icons/remove-icon.svg" alt="" />
-              </button>
+              </a>
             </div>
           </td>
         </tr>

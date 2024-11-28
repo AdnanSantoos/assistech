@@ -1,0 +1,179 @@
+<header class="ratificacao-header">
+  <h3>RATIFICAÇÃO DA LICITAÇÃO</h3>
+  <p>
+    Antes de enviar, certifique-se de que todas as informações preenchidas nos
+    campos abaixo estão corretas!
+  </p>
+  <button
+    class="btn btn-back"
+    type="button"
+    aria-label="Voltar"
+    (click)="onVoltar()"
+  >
+    <mat-icon>arrow_back</mat-icon> Voltar
+  </button>
+</header>
+<div class="container ratificacao-container">
+  <form
+    [formGroup]="ratificacaoForm"
+    (ngSubmit)="onSubmit()"
+    class="ratificacao-form"
+  >
+    <div class="form-group-row">
+      <div class="form-group">
+        <label for="orgao">ÓRGÃO:</label>
+        <p class="orgao">{{ agencyName }}</p>
+      </div>
+      <div class="form-group">
+        <label for="orgao">Unidade:</label>
+        <p class="orgao">{{ Unidade }}</p>
+      </div>
+    </div>
+
+    <div class="form-group-row">
+      <div class="form-group">
+        <label for="tipoInstrumento">TIPO DE INSTRUMENTO CONVOCATÓRIO*</label>
+        <input
+          id="tipoInstrumento"
+          type="text"
+          class="form-control"
+          formControlName="call_instrument_id"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="modalidade">MODALIDADE</label>
+        <input
+          id="modalidade"
+          type="text"
+          class="form-control"
+          formControlName="contracting_modality_id"
+        />
+      </div>
+    </div>
+
+    <div class="form-group-row">
+      <div class="form-group">
+        <label for="modoDisputa">MODO DE DISPUTA*</label>
+        <input
+          id="modoDisputa"
+          type="text"
+          class="form-control"
+          formControlName="dispute_mode_id"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="amparoLegal">AMPARO LEGAL*</label>
+        <input
+          id="amparoLegal"
+          type="text"
+          class="form-control"
+          formControlName="legal_basic_id"
+        />
+      </div>
+    </div>
+    <div class="form-group-row">
+      <div class="form-group">
+        <label for="dataAbertura">DATA DE ABERTURA DE PROPOSTA*</label>
+        <input
+          id="dataAbertura"
+          type="datetime-local"
+          class="form-control"
+          formControlName="opening_date_proposal"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="dataEncerramento">DATA DE ENCERRAMENTO DE PROPOSTA*</label>
+        <input
+          id="dataEncerramento"
+          type="datetime-local"
+          class="form-control"
+          formControlName="closing_date_proposal"
+        />
+      </div>
+    </div>
+
+    <div class="form-group-row">
+      <div class="form-group">
+        <label for="numeroCompra">NÚMERO DA COMPRA*</label>
+        <input
+          id="numeroCompra"
+          type="text"
+          class="form-control"
+          formControlName="number"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="numeroProcesso">NÚMERO DO PROCESSO*</label>
+        <input
+          id="numeroProcesso"
+          type="text"
+          class="form-control"
+          formControlName="process_number"
+        />
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="objetoCompra">OBJETO DA COMPRA*</label>
+      <textarea
+        id="objetoCompra"
+        rows="2"
+        class="form-control"
+        formControlName="goals"
+      ></textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="infoComplementar">INFORMAÇÃO COMPLEMENTAR</label>
+      <textarea
+        id="infoComplementar"
+        rows="2"
+        class="form-control"
+        formControlName="additional_information"
+      ></textarea>
+    </div>
+
+    <div class="form-group-row">
+      <div class="form-group">
+        <label for="situacaoCompra">SITUAÇÃO DA COMPRA*</label>
+        <input
+          id="situacaoCompra"
+          type="text"
+          class="form-control"
+          formControlName="contracting_situation_id"
+        />
+      </div>
+
+      <div class="form-group switch-group">
+        <label for="registroPreco"
+          >COMPRA DO SISTEMA DE REGISTRO DE PREÇOS?</label
+        >
+        <mat-slide-toggle formControlName="srp"></mat-slide-toggle>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="justificativaEdicao">JUSTIFICATIVA DA EDIÇÃO*</label>
+      <textarea
+        id="justificativaEdicao"
+        rows="3"
+        class="form-control"
+        formControlName="justificativa"
+      ></textarea>
+    </div>
+
+    <div class="form-actions">
+      <button
+        type="submit"
+        class="btn btn-submit"
+        [disabled]="ratificacaoForm.invalid"
+      >
+        ENVIAR
+      </button>
+    </div>
+  </form>
+</div>

@@ -19,6 +19,8 @@ import { PpaLoaLdoAdministrativoComponent } from './compontents/ppa-loa-ldo-admi
 import { CadastrarNoticiasComponent } from './compontents/cadastrar-noticias/cadastrar-noticias.component';
 import { CadastrarFotosDiarioOficialComponent } from './compontents/cadastrar-fotos-diario-oficial/cadastrar-fotos-diario-oficial.component';
 import { GerenciadorNoticiaOficialComponent } from './compontents/gerenciador-noticia-oficial/gerenciador-noticia-oficial.component';
+import { EditaisLicitacoesAdministrativoComponent } from '../editais-licitacoes-administrativo/editais-licitacoes-administrativo.component';
+import { EditarLicitacoesAdministrativoComponent } from './compontents/lista-licitacao-administrativo/editar-licitacoes/editar-licitacoes-administrativo/editar-licitacoes-administrativo.component';
 
 const routes: Routes = [
   {
@@ -77,6 +79,10 @@ const routes: Routes = [
       {
         path: 'editar-usuarios/:id',
         component: CadastrarUsuariosAdministrativoComponent,
+      },
+      {
+        path: 'editar-licitacoes/:id',
+        component: EditarLicitacoesAdministrativoComponent,
       },
       {
         path: 'cadastrar-fotos-diario',
