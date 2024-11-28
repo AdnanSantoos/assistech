@@ -6,11 +6,12 @@ import { UsuariosService } from './service/usuarios-administrativos.service';
 import { MatIcon } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-usuarios-administrativo',
   standalone: true,
-  imports: [MatPaginator, MatIcon, CommonModule, RouterModule],
+  imports: [MatPaginator, MatIcon, CommonModule, RouterModule, MatTooltipModule],
   templateUrl: './usuarios-administrativo.component.html',
   styleUrls: ['./usuarios-administrativo.component.scss'],
 })

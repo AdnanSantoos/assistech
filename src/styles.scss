@@ -9,7 +9,7 @@ body {
   position: fixed;
 }
 
-.btn-edit {
+.btn-edit btn-format {
   border: none;
 }
 
@@ -272,20 +272,33 @@ body {
     width: 25px;
   }
 }
-.btn-edit {
+.btn-format {
   display: flex;
   justify-content: center;
   align-items: center;
   border: none;
   width: 39px;
   height: 39px;
-  background: #1672f8;
   border-radius: 4px;
-
+  img {
+    filter: invert(1);
+  }
   svg {
     filter: invert(1);
     width: 25px;
   }
+}
+.btn-edit {
+  background-color: #1672f8;
+}
+.btn-atas {
+  background-color: #808080;
+}
+.btn-itens {
+  background-color: #ffa500;
+}
+.btn-arquivo {
+  background-color: #0000ff;
 }
 .btn-remove {
   display: flex;

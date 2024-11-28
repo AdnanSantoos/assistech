@@ -1,45 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { MatPaginator } from '@angular/material/paginator';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { RouterModule } from '@angular/router';
-import { LicitacaoData } from '../../model/licitacao.model';
-const LICITACAO_DATA: LicitacaoData[] = [
-  {
-    numSeq: 1,
-    liciNum: 2021001,
-    numCompra: 300045,
-    ano: '2021',
-    numProcesso: 145678,
-    orgao: 'Prefeitura de Cidade A',
-    unidade: 'Secretaria de Obras',
-    criadoEm: '2021-05-10',
-    acoes: 'Em andamento',
-  },
-  {
-    numSeq: 2,
-    liciNum: 2023002,
-    numCompra: 300123,
-    ano: '2023',
-    numProcesso: 146789,
-    orgao: 'Câmara de Cidade B',
-    unidade: 'Departamento de Finanças',
-    criadoEm: '2023-02-15',
-    acoes: 'Finalizado',
-  },
-  {
-    numSeq: 3,
-    liciNum: 2024001,
-    numCompra: 300678,
-    ano: '2024',
-    numProcesso: 148910,
-    orgao: 'Prefeitura de Cidade C',
-    unidade: 'Secretaria de Educação',
-    criadoEm: '2024-01-20',
-    acoes: 'Aguardando início',
-  },
-];
+import { LicitacaoModel } from './model/licitacoes-administrativo.model';
+import { LicitacoesService } from './service/licitacoes-administrativos.service';
+import { MatTooltipModule } from '@angular/material/tooltip';
+
 
 @Component({
   selector: 'app-lista-licitacao-administrativo',
@@ -47,14 +15,15 @@ const LICITACAO_DATA: LicitacaoData[] = [
   imports: [
     CommonModule,
     MatIconModule,
-    MatPaginator,
+    MatPaginatorModule,
     MatTableModule,
     RouterModule,
+    MatTooltipModule
   ],
   templateUrl: './lista-licitacao-administrativo.component.html',
-  styleUrl: './lista-licitacao-administrativo.component.scss',
+  styleUrls: ['./lista-licitacao-administrativo.component.scss'],
 })
-export class ListaLicitacaoAdministrativoComponent {
+export class ListaLicitacaoAdministrativoComponent implements OnInit {
   displayedColumns: string[] = [
     'numSeq',
     'liciNum',
@@ -66,37 +35,55 @@ export class ListaLicitacaoAdministrativoComponent {
     'criadoEm',
     'acoes',
   ];
-  dataSource = new MatTableDataSource<LicitacaoData>(LICITACAO_DATA);
+  dataSource = new MatTableDataSource<LicitacaoModel>([]);
   pageSize = 10;
   currentPage = 1;
-  totalPages = Math.ceil(this.dataSource.data.length / this.pageSize);
+  totalPages = 0;
+  totalRecords = 0;
+
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  ngOnInit() {
-    this.dataSource.paginator = this.paginator; // Conectando o paginador aos dados da tabela
-  }
-  goToPage(pageNumber: number) {
-    this.currentPage = pageNumber;
-    this.updateTableData();
+  constructor(private licitacoesService: LicitacoesService) { }
+
+  ngOnInit(): void {
+    this.loadLicitacoes(this.currentPage);
   }
 
-  goToPreviousPage() {
+  loadLicitacoes(page: number): void {
+    this.licitacoesService.getLicitacoes(page).subscribe({
+      next: (response) => {
+        this.dataSource.data = response.data.map((licitacao, index) => ({
+          ...licitacao,
+          numSeq: (page - 1) * this.pageSize + index + 1, // Numeração sequencial
+        }));
+        this.totalRecords = response.meta?.pagination.total || 0;
+        this.totalPages = Math.ceil(this.totalRecords / this.pageSize);
+        this.dataSource.paginator = this.paginator;
+      },
+      error: (err) => {
+        console.error('Erro ao carregar licitações:', err);
+      },
+    });
+  }
+
+  goToPage(pageNumber: number): void {
+    if (pageNumber >= 1 && pageNumber <= this.totalPages) {
+      this.currentPage = pageNumber;
+      this.loadLicitacoes(pageNumber);
+    }
+  }
+
+  goToPreviousPage(): void {
     if (this.currentPage > 1) {
       this.currentPage--;
-      this.updateTableData();
+      this.loadLicitacoes(this.currentPage);
     }
   }
 
-  goToNextPage() {
+  goToNextPage(): void {
     if (this.currentPage < this.totalPages) {
       this.currentPage++;
-      this.updateTableData();
+      this.loadLicitacoes(this.currentPage);
     }
-  }
-
-  updateTableData() {
-    const startIndex = (this.currentPage - 1) * this.pageSize;
-    const endIndex = this.currentPage * this.pageSize;
-    this.dataSource.data = LICITACAO_DATA.slice(startIndex, endIndex);
   }
 }

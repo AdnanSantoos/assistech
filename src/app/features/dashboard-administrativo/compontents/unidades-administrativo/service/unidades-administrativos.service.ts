@@ -10,8 +10,8 @@ import { UnidadeModel } from '../model/unidades-administrativo.model';
 export class UnidadesService {
   constructor(private _repository: UnidadesRepository) {}
 
-  getOrgaos(page: number): Observable<RequisicaoModel<UnidadeModel[]>> {
-    return this._repository.getOrgaos(page);
+  getUnidade(page: number): Observable<RequisicaoModel<UnidadeModel[]>> {
+    return this._repository.getUnidade(page);
   }
 
   createUnidade(data: { agency: string; agency_country_register: string }): Observable<void> {

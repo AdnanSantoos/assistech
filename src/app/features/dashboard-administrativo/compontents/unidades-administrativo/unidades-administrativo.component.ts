@@ -53,7 +53,7 @@ export class UnidadesAdministrativoComponent implements OnInit {
   }
 
   loadUnidades(page: number) {
-    this.unidadesService.getOrgaos(page).subscribe({
+    this.unidadesService.getUnidade(page).subscribe({
       next: (response) => {
         this.dataSource.data = response.data.map((unidade, index) => ({
           ...unidade,
