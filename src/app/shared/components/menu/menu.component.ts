@@ -23,5 +23,12 @@ export class MenuComponent implements OnInit {
   checkRoute() {
     this.showCamaraMenu = this.router.url === '/portal-transparencia' || this.router.url === '/acesso-informacao-transparencia' ;
   }
+
+  scrollToFooter() {
+    const footerElement = document.getElementById('footerLocation');
+    if (footerElement) {
+      footerElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
 }
 
