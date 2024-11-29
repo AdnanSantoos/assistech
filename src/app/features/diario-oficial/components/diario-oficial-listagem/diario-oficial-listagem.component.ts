@@ -34,7 +34,7 @@ import { DiarioOficialMapper } from '../../mappers/diario-oficial-mapper';
     MatButtonModule,
     NgSelectModule,
     ModalModule,
-    NgxExtendedPdfViewerModule, 
+    NgxExtendedPdfViewerModule,
     BsDatepickerModule],
   templateUrl: './diario-oficial-listagem.component.html',
   styleUrl: './diario-oficial-listagem.component.scss',
@@ -117,7 +117,7 @@ export class DiarioOficialListagemComponent implements OnChanges {
   }
 
   buscarDiario() {
-   let form = DiarioOficialMapper.toSearch(this.filterForm.value)
+    let form = DiarioOficialMapper.toSearch(this.filterForm.value)
     this.formEmiter.emit(form)
   }
 

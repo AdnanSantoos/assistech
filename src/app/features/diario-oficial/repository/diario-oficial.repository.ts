@@ -23,11 +23,11 @@ export class DiarioRepository {
     if(query.number){
       queryParams = queryParams.append('number', query.number);
     }
-    return this._http.get<RequisicaoModel<DadosDiarioOficialPublico>>(`${environment.apiUrl}/public/${environment.tenant}/official-gazettes`, { params: queryParams });
+    return this._http.get<RequisicaoModel<DadosDiarioOficialPublico>>(`${environment.apiUrl}/public/tenants/${environment.tenant}/official-gazettes`, { params: queryParams });
   }
 
   getDiarioPublicoEntidade() {
-    return this._http.get(`${environment.apiUrl}/public/${environment.tenant}`);
+    return this._http.get(`${environment.apiUrl}/public/tenants/${environment.tenant}`);
   }
 
 }
