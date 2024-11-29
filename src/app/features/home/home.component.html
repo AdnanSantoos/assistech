@@ -24,9 +24,17 @@
               [href]="acesso.link"
               target="_blank"
             >
-              <div class="icone">
-                <img [src]="acesso.icon_img"/>
-              </div>
+          
+              @if(acesso.icon_img === "../../../assets/logos/Tcu.svg"){
+                <div class="icone">
+                  <img width="50%" [src]="acesso.icon_img"/>
+                </div>
+              }
+              @else{
+                <div class="icone">
+                  <img [src]="acesso.icon_img"/>
+                </div>
+              }
               <div class="texto">
                 {{ acesso.texto }}
               </div>
