@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { Component } from '@angular/core';
 
 @Component({
@@ -8,5 +9,13 @@ import { Component } from '@angular/core';
   styleUrl: './footer.component.scss'
 })
 export class FooterComponent {
+  isAdmRoute = false;
+  checkRoute(url: string) {
+    this.isAdmRoute = url.includes('/adm');
+  }
+  constructor(private location: Location) {
+    const currentUrl = this.location.path();
+    this.checkRoute(currentUrl);
 
+  }
 }

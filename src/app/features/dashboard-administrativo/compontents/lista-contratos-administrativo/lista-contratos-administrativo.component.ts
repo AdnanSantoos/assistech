@@ -1,52 +1,29 @@
 import { CommonModule } from '@angular/common';
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { MatPaginator } from '@angular/material/paginator';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { RouterModule } from '@angular/router';
-import { ContratoData } from '../../model/contrato.model';
-const CONTRATO_DATA: ContratoData[] = [
-  {
-    numSeq: 1,
-    contratoPNCP: 2021001,
-    numProcesso: 145678,
-    orgao: 'Prefeitura de Cidade A',
-    unidade: 'Secretaria de Obras',
-    criadoEm: '2021-05-10',
-    acoes: 'Em andamento',
-  },
-  {
-    numSeq: 2,
-    contratoPNCP: 2023002,
-    numProcesso: 146789,
-    orgao: 'Câmara de Cidade B',
-    unidade: 'Departamento de Finanças',
-    criadoEm: '2023-02-15',
-    acoes: 'Finalizado',
-  },
-  {
-    numSeq: 3,
-    contratoPNCP: 2024001,
-    numProcesso: 148910,
-    orgao: 'Prefeitura de Cidade C',
-    unidade: 'Secretaria de Educação',
-    criadoEm: '2024-01-20',
-    acoes: 'Aguardando início',
-  },
-];
+import { ContratoModel } from '../../../pncp-administrativo/components/contratos-administrativo/model/contratos-administrativo.model';
+import { ContratosService } from '../../../pncp-administrativo/components/contratos-administrativo/service/contratos-administrativos.service';
+import { MatTooltipModule } from '@angular/material/tooltip';
+
 
 @Component({
   selector: 'app-lista-contratos-administrativo',
   standalone: true,
-  imports: [CommonModule,
+  imports: [
+    CommonModule,
     MatIconModule,
-    MatPaginator,
+    MatPaginatorModule,
     MatTableModule,
-    RouterModule,],
+    RouterModule,
+    MatTooltipModule
+  ],
   templateUrl: './lista-contratos-administrativo.component.html',
-  styleUrl: './lista-contratos-administrativo.component.scss'
+  styleUrls: ['./lista-contratos-administrativo.component.scss'],
 })
-export class ListaContratosAdministrativoComponent {
+export class ListaContratosAdministrativoComponent implements OnInit {
   displayedColumns: string[] = [
     'numSeq',
     'contratoPNCP',
@@ -56,37 +33,54 @@ export class ListaContratosAdministrativoComponent {
     'criadoEm',
     'acoes',
   ];
-  dataSource = new MatTableDataSource<ContratoData>(CONTRATO_DATA);
-  pageSize = 10;
+  dataSource = new MatTableDataSource<ContratoModel>([]);
+  totalPages = 0;
   currentPage = 1;
-  totalPages = Math.ceil(this.dataSource.data.length / this.pageSize);
+  pageSize = 10;
+  totalItems = 0;
+
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
+  constructor(private contratosService: ContratosService) { }
+
   ngOnInit() {
-    this.dataSource.paginator = this.paginator; // Conectando o paginador aos dados da tabela
-  }
-  goToPage(pageNumber: number) {
-    this.currentPage = pageNumber;
-    this.updateTableData();
+    this.carregarContratos(this.currentPage);
   }
 
-  goToPreviousPage() {
+  carregarContratos(page: number): void {
+    this.contratosService.getContratos(page).subscribe({
+      next: (response) => {
+        this.dataSource.data = response.data;
+        this.totalItems = response.meta?.pagination.total || 0;
+        this.totalPages = Math.ceil(this.totalItems / this.pageSize);
+      },
+      error: () => {
+        console.error('Erro ao carregar contratos.');
+      },
+    });
+  }
+  onEdit(id: string): void {
+  }
+  onDelete(id: string): void {
+  }
+  goToPage(pageNumber: number): void {
+    if (pageNumber >= 1 && pageNumber <= this.totalPages) {
+      this.currentPage = pageNumber;
+      this.carregarContratos(this.currentPage);
+    }
+  }
+
+  goToPreviousPage(): void {
     if (this.currentPage > 1) {
       this.currentPage--;
-      this.updateTableData();
+      this.carregarContratos(this.currentPage);
     }
   }
 
-  goToNextPage() {
+  goToNextPage(): void {
     if (this.currentPage < this.totalPages) {
       this.currentPage++;
-      this.updateTableData();
+      this.carregarContratos(this.currentPage);
     }
-  }
-
-  updateTableData() {
-    const startIndex = (this.currentPage - 1) * this.pageSize;
-    const endIndex = this.currentPage * this.pageSize;
-    this.dataSource.data = CONTRATO_DATA.slice(startIndex, endIndex);
   }
 }
