@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { PublicarDiarioOficialService } from '../../services/publicar-diario-oficial.service';
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { LayoutFormsAdmComponent } from '../../../../shared/containers/layout-forms-adm/layout-forms-adm.component';
 import { LogPipe } from '../../../../shared/pipes/log.pipe';
 import { PublicarDiarioOficialMapper } from '../../mappers/publicar-diario-oficial-mapper';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-publicar-diario-oficial-administrativo',
@@ -30,7 +31,9 @@ export class PublicarDiarioOficialAdministrativoComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private _publicarService: PublicarDiarioOficialService
+    private _publicarService: PublicarDiarioOficialService,
+    private _location: Location,
+    private toastr: ToastrService
   ) {
     this.dynamicFields.forEach((field) => {
       if (field.type === 'file') {
@@ -43,11 +46,19 @@ export class PublicarDiarioOficialAdministrativoComponent implements OnInit {
     });
   }
 
-  ngOnInit() {}
-
-  onFormSubmit(event: any) {
-    const formData = PublicarDiarioOficialMapper.toSubmit(event);
-    this._publicarService.publicarDiarioOficial(formData);
+  ngOnInit() { }
+  goBack(): void {
+    this._location.back();
+  }
+  onFormSubmit(formData: any) {
+    if (this.filtroForm.valid) {
+      const mappedData = PublicarDiarioOficialMapper.toSubmit(formData);
+      this._publicarService.publicarDiarioOficial(mappedData);
+      this.goBack();
+    }
+    else {
+      this.toastr.error('Por favor, preencha todos os campos obrigatórios.', 'Erro de Validação');
+    }
   }
 
 }

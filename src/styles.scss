@@ -272,6 +272,12 @@ body {
     width: 25px;
   }
 }
+.btn-enviar {
+  width: 40% !important;
+}
+.btn-enviar:hover {
+  background-color: #328b1c !important;
+}
 .btn-format {
   display: flex;
   justify-content: center;
@@ -288,7 +294,7 @@ body {
     width: 25px;
   }
 }
-.btn-visualizar{
+.btn-visualizar {
   background-color: #000;
 }
 .btn-edit {

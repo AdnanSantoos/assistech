@@ -53,7 +53,7 @@
 
         <!-- Campo de Datepicker -->
         <div
-          class="d-flex flex-column"
+          class="d-flex flex-column data-personalizada"
           *ngIf="field.type === 'date' && field.page !== 'ouvidoria'"
         >
           <label>{{ field.label }}</label>
@@ -230,8 +230,8 @@
     <!-- Botão de envio do formulário -->
     <button
       type="submit"
-      [disabled]="!form.valid"
-      class="btn btn-primary mt-10 mt-4"
+      [disabled]="form.invalid"
+      class="btn-enviar btn btn-primary mt-10 mt-4"
     >
       Enviar
     </button>

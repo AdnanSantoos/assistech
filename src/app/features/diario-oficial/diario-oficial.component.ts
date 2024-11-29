@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { DiarioOficialService } from './services/diario-oficial.service';
-import { DiarioOficialPublico } from './models/diario-oficial.model';
 import { selectModel } from '../../shared/models/shared.model';
 import { NgSelectModule } from '@ng-select/ng-select';
 @Component({
