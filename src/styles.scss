@@ -273,10 +273,15 @@ body {
   }
 }
 .btn-enviar {
-  width: 40% !important;
+  width: calc(100vw / 4.5) !important;
 }
 .btn-enviar:hover {
   background-color: #328b1c !important;
+}
+@media (max-width: 768px) {
+  .btn-enviar {
+    width: 100%;
+  }
 }
 .btn-format {
   display: flex;

@@ -51,14 +51,10 @@ export class PublicarDiarioOficialAdministrativoComponent implements OnInit {
     this._location.back();
   }
   onFormSubmit(formData: any) {
-    if (this.filtroForm.valid) {
       const mappedData = PublicarDiarioOficialMapper.toSubmit(formData);
       this._publicarService.publicarDiarioOficial(mappedData);
       this.goBack();
-    }
-    else {
-      this.toastr.error('Por favor, preencha todos os campos obrigatórios.', 'Erro de Validação');
-    }
+    
   }
 
 }

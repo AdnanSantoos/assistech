@@ -1,6 +1,4 @@
-
 <div class="d-flex flex-column gap-3">
- 
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
     <div
       class="form-grid"
@@ -170,19 +168,30 @@
               <tr *ngFor="let file of selectedFiles; let i = index">
                 <td>{{ file.name }}</td>
                 <td>
-                  <button
-                    mat-icon-button
-                    color="accent"
-                    (click)="viewFile(file)"
-                  >
-                    <mat-icon>visibility</mat-icon>
-                  </button>
-                  <button mat-icon-button color="warn" (click)="removeFile(i)">
-                    <img
-                      src="../../../../../assets/icons/remove-icon.svg"
-                      alt=""
-                    />
-                  </button>
+                  <div class="row">
+                    <div class="col d-flex flex-column justify-content-center align-items-center">
+                      <button
+                        mat-icon-button
+                        color="accent"
+                        (click)="viewFile(file)"
+                      >
+                        <mat-icon>visibility</mat-icon>
+                      </button>
+                      <span>Visualizar</span>
+                    </div>
+                    <div class="col d-flex flex-column justify-content-center align-items-center">
+                      <button
+                        class="btn-format btn-remove mt-2"
+                        (click)="removeFile(i)"
+                      >
+                        <img
+                          src="../../../../../assets/icons/remove-icon.svg"
+                          alt="Remover"
+                        />
+                      </button>
+                      <span class="mt-2">Deletar</span>
+                    </div>
+                  </div>
                 </td>
               </tr>
             </tbody>
@@ -235,21 +244,18 @@
     >
       Enviar
     </button>
-
-   
   </form>
- 
 </div>
 @if(isTargetRoute){
-  <button
-    type="button"
-    class="btn btn-dark mt-4 ml-2"
-    data-bs-toggle="modal"
-    data-bs-target="#agendarModal"
-  >
-    Agendar Publicação
-  </button>
-  <div
+<button
+  type="button"
+  class="btn btn-dark mt-4 ml-2"
+  data-bs-toggle="modal"
+  data-bs-target="#agendarModal"
+>
+  Agendar Publicação
+</button>
+<div
   class="modal fade"
   id="agendarModal"
   tabindex="-1"
@@ -309,22 +315,24 @@
           </div>
 
           <!-- Botão de envio do formulário agendado -->
-          <div class="d-flex justify-content-center align-items-center flex-column gap-2 w-100">
+          <div
+            class="d-flex justify-content-center align-items-center flex-column gap-2 w-100"
+          >
             <button
-            type="submit"
-            class="btn btn-sm btn-primary"
-            [disabled]="!formAgendado.valid"
-            data-bs-dismiss="modal"
-          >
-            Confirmar Agendamento
-          </button>
-          <button
-            type="button"
-            class="btn btn-sm btn-secondary"
-            data-bs-dismiss="modal"
-          >
-            Cancelar
-          </button>
+              type="submit"
+              class="btn btn-sm btn-primary"
+              [disabled]="!formAgendado.valid"
+              data-bs-dismiss="modal"
+            >
+              Confirmar Agendamento
+            </button>
+            <button
+              type="button"
+              class="btn btn-sm btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Cancelar
+            </button>
           </div>
         </form>
       </div>
@@ -332,4 +340,4 @@
   </div>
 </div>
 
-  }
+}

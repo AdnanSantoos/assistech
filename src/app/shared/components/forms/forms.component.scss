@@ -52,7 +52,7 @@ form {
     pointer-events: none;
   }
   .data-personalizada {
-    width: 30%;
+    width: calc(100vw / 4.5);
   }
   @media (max-width: 768px) {
     .data-personalizada {
