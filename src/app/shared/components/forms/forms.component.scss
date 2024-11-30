@@ -178,7 +178,7 @@ form {
     }
     .upload-container {
       display: flex;
-      width: 173px;
+      max-width: 12%;
       height: 38px;
       padding: 8px 9px 8px 10px;
       justify-content: center;
