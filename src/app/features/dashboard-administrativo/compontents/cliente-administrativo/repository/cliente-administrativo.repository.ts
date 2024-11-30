@@ -20,4 +20,11 @@ export class ClienteAdministrativoRepository {
     return this._http.post<ClienteData>(`${environment.apiUrl}/staff/tenants`, clientData);
   }
 
+  searchCities(label: string): Observable<any> {
+    const params = new HttpParams().set('label', label);
+    const url = `${environment.apiUrl}/${environment.tenant}/cities`; 
+    return this._http.get(url, { params });
+  }
+
+  
 }

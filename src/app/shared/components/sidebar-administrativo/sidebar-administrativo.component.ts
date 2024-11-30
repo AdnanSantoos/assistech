@@ -18,6 +18,8 @@ export class SidebarAdministrativoComponent {
       subMenu: [
         { title: 'Cliente', link: '/adm/dashboard-administrativo/cliente' },
         { title: 'Usuário', link: '/adm/dashboard-administrativo/usuarios' },
+        { title: 'Fotos', link: '/adm/dashboard-administrativo/cadastrar-fotos-diario'},
+
       ],
     },
     {
@@ -25,7 +27,6 @@ export class SidebarAdministrativoComponent {
       expanded: false,
       subMenu: [{ title: 'Publicacoes', link: '/adm/dashboard-administrativo/gerenciar-diario-oficial' },
                 // { title: 'Noticias', link: '/adm/dashboard-administrativo/gerenciar-noticias' },
-                { title: 'Fotos', link: '/adm/dashboard-administrativo/cadastrar-fotos-diario'},
       ],
     },
     {

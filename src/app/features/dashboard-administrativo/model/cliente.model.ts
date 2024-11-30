@@ -16,5 +16,8 @@ export interface ClienteData {
   slug: string;
   state_uf: string;
   year: number;
+  beginning_official_gazette?:number;
+  domain?:string;
+  next_edition_number?:number;
 }
 
