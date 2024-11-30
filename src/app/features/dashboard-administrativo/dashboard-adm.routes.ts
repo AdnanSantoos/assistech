@@ -61,6 +61,10 @@ const routes: Routes = [
         component: CadastrarClienteAdministrativoComponent,
       },
       {
+        path: 'editar-cliente/:slug',
+        component: CadastrarClienteAdministrativoComponent,
+      },
+      {
         path: 'cadastrar-pca',
         component: AdicionarPcaComponent,
       },

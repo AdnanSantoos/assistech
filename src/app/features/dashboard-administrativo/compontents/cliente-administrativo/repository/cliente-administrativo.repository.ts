@@ -22,9 +22,16 @@ export class ClienteAdministrativoRepository {
 
   searchCities(label: string): Observable<any> {
     const params = new HttpParams().set('label', label);
-    const url = `${environment.apiUrl}/${environment.tenant}/cities`; 
+    const url = `${environment.apiUrl}/${environment.tenant}/cities`;
     return this._http.get(url, { params });
   }
+  getClienteBySlug(slug: string): Observable<any> {
+    return this._http.get(`${environment.apiUrl}/staff/tenants/${slug}`);
+  }
 
-  
+  updateCliente(slug: string, data: any): Observable<void> {
+    return this._http.put<void>(`${environment.apiUrl}/${environment.tenant}/staff/tenants/${slug}`, data);
+  }
+
+
 }

@@ -3,25 +3,33 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ClienteAdministrativoService } from '../cliente-administrativo/services/cliente-administrativo.service';
 import { ToastrService } from 'ngx-toastr';
+import { ActivatedRoute, Router } from '@angular/router';
 import { catchError, debounceTime, of, switchMap } from 'rxjs';
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
+import { ClienteData } from '../../model/cliente.model';
 
 @Component({
   selector: 'app-cadastrar-cliente-administrativo',
   templateUrl: './cadastrar-cliente-administrativo.component.html',
   imports: [CommonModule, ReactiveFormsModule, TypeaheadModule],
   standalone: true,
-  styleUrls: ['./cadastrar-cliente-administrativo.component.scss']
+  styleUrls: ['./cadastrar-cliente-administrativo.component.scss'],
 })
 export class CadastrarClienteAdministrativoComponent implements OnInit {
   clienteForm!: FormGroup;
   cidadeOptions: any[] = [];
   isLoading = false;
+  isEditMode = false;
+  slug: string | null = null;
+  formularioOriginal!: ClienteData[];
 
   constructor(
     private fb: FormBuilder,
     private _clienteService: ClienteAdministrativoService,
-    private _toastrService: ToastrService
+    private _toastrService: ToastrService,
+    private route: ActivatedRoute,
+    private router: Router
+
   ) { }
 
   ngOnInit(): void {
@@ -45,11 +53,49 @@ export class CadastrarClienteAdministrativoComponent implements OnInit {
       slug: ['', Validators.required],
       state_uf: [''],
       domain: [''],
-      city_code: ['',Validators.required],
-      next_edition_number: ['', Validators.required]
+      city_code: ['', Validators.required],
+      next_edition_number: ['', Validators.required],
+    });
+    this.route.paramMap.subscribe((params) => {
+      this.slug = params.get('slug');
+      if (this.slug) {
+        this.isEditMode = true;
+        this._clienteService.getClienteBySlug(this.slug).subscribe((v) => {
+          this.formularioOriginal = v.data;
+          this.populaFormulario(v);
+        });
+      }
     });
 
     this.setupCidadeAutoComplete();
+  }
+
+  populaFormulario(clienteData: any): void {
+    this.clienteForm.patchValue({
+      agencies: clienteData.agencies || [],
+      city: {
+        code: clienteData.city?.code || '',
+        label: clienteData.city?.label || '',
+        state_code: clienteData.city?.state_code || '',
+        uf: clienteData.city?.uf || '',
+      },
+      government_body: clienteData.government_body || '',
+      city_name: clienteData.city_name || '',
+      name: clienteData.name || '',
+      permissions: {
+        pncp: clienteData.pncp || false,
+        portal_transparencia: clienteData.portal_transparencia || false,
+        diario_oficial: clienteData.diario_oficial || false,
+      },
+      beginning_official_gazette: clienteData.beginning_official_gazette || '',
+      slug: clienteData.slug || '',
+      state_uf: clienteData.state_uf || '',
+      domain: clienteData.domain || '',
+      city_code: clienteData.city_code || '',
+      next_edition_number: clienteData.next_edition_number || '',
+    });
+
+    this._toastrService.info('Dados carregados com sucesso.', 'Edição');
   }
 
   private setupCidadeAutoComplete(): void {
@@ -79,7 +125,6 @@ export class CadastrarClienteAdministrativoComponent implements OnInit {
       });
   }
 
-
   onCidadeSelect(event: any): void {
     const cidadeSelecionada = event.item;
 
@@ -101,10 +146,7 @@ export class CadastrarClienteAdministrativoComponent implements OnInit {
       city_code: cidadeSelecionada.code,
       slug,
     });
-
-    console.log('Slug gerado:', slug);
   }
-
 
   private generateSlug(cityName: string): string {
     const [fullName, stateCode] = cityName.split(' - ');
@@ -125,16 +167,26 @@ export class CadastrarClienteAdministrativoComponent implements OnInit {
     return (mainPart + (stateCode || '')).toLowerCase();
   }
 
-  getFormControl(controlName: string): FormControl {
-    return this.clienteForm.get(controlName) as FormControl;
-  }
   onSubmit(): void {
+    if (this.clienteForm.valid) {
+      const clienteData = this.clienteForm.value;
 
-    const clienteData = this.clienteForm.value;
+      if (this.isEditMode) {
+        this.updateCliente(clienteData);
+      } else {
+        this.createCliente(clienteData);
+      }
+    } else {
+      this._toastrService.error('Preencha todos os campos obrigatórios.', 'Erro');
+    }
+  }
 
+  private createCliente(clienteData: any): void {
     this._clienteService.createUser(clienteData).subscribe({
-      next: (response) => {
+      next: () => {
+        this._toastrService.success('Cliente criado com sucesso!', 'Sucesso');
         this.clienteForm.reset();
+        this.router.navigate(['/clientes']);
       },
       error: (err) => {
         this._toastrService.error(
@@ -143,5 +195,24 @@ export class CadastrarClienteAdministrativoComponent implements OnInit {
         );
       },
     });
+  }
+
+  private updateCliente(clienteData: any): void {
+    this._clienteService.updateCliente(clienteData.slug, clienteData).subscribe({
+      next: () => {
+        this._toastrService.success('Cliente atualizado com sucesso!', 'Sucesso');
+        this.router.navigate(['/adm/dashboard-administrativo/cliente']);
+      },
+      error: (err) => {
+        this._toastrService.error(
+          err?.error?.message || 'Erro ao atualizar cliente.',
+          'Erro'
+        );
+      },
+    });
+  }
+
+  getFormControl(controlName: string): FormControl {
+    return this.clienteForm.get(controlName) as FormControl;
   }
 }

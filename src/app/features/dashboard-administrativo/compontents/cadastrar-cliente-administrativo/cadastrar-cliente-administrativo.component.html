@@ -1,7 +1,11 @@
 <div class="w-100">
   <div class="container mt-5 me-auto">
     <div class="form-content">
+      @if(isEditMode){
+      <h3 class="mb-4">Editar Cliente</h3>
+      } @else {
       <h3 class="mb-4">Cadastrar Novo Cliente</h3>
+      }
       <form [formGroup]="clienteForm" (ngSubmit)="onSubmit()">
         <!-- Cidade -->
         <div class="form-group mb-3">
@@ -228,7 +232,11 @@
         </div>
 
         <!-- Submit Button -->
-        <button type="submit" class="btn btn-dark w-100">Cadastrar</button>
+        @if(isEditMode){
+          <button type="submit" class="btn btn-dark w-100">Editar</button>
+        } @else {
+            <button type="submit" class="btn btn-dark w-100">Cadastrar</button>
+          }
       </form>
     </div>
   </div>

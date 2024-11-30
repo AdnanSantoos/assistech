@@ -36,5 +36,14 @@ export class ClienteAdministrativoService {
   searchCities(label: string): Observable<any> {
     return this._repository.searchCities(label);
   }
+  
+  updateCliente(slug: string, data: any): Observable<void> {
+    return this._repository.updateCliente(slug, data);
+  }
+  
+
+  public getClienteBySlug(slug: string): Observable<any> {
+    return this._repository.getClienteBySlug(slug);
+  }
 
 }
