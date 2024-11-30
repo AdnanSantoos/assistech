@@ -19,5 +19,6 @@ export interface ClienteData {
   beginning_official_gazette?:number;
   domain?:string;
   next_edition_number?:number;
+  government_body:string;
 }
 

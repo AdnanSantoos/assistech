@@ -136,7 +136,9 @@
 
         <!-- Ano Inicial -->
         <div class="form-group mb-3">
-          <label for="beginning_official_gazette">Ano Inicial do Diário Oficial</label>
+          <label for="beginning_official_gazette"
+            >Ano Inicial do Diário Oficial</label
+          >
           <input
             id="beginning_official_gazette"
             class="form-control"
@@ -170,11 +172,13 @@
 
         <!-- Tipo -->
         <div class="form-group mb-3">
-          <label for="tipo">Tipo de Cliente*</label>
-          <select id="tipo" class="form-control" formControlName="tipo">
-            <option value="" disabled selected>
-              Selecione um tipo de cliente
-            </option>
+          <label for="government_body">Tipo de Cliente*</label>
+          <select
+            id="government_body"
+            class="form-control"
+            formControlName="government_body"
+          >
+            <option value="" disabled>Selecione um tipo de cliente</option>
             <option value="house_of_representatives">
               Câmara dos Deputados
             </option>
@@ -192,15 +196,33 @@
             <option value="company">Empresa</option>
             <option value="other">Outros</option>
           </select>
+          <div
+            *ngIf="
+              clienteForm.get('government_body')?.invalid &&
+              clienteForm.get('government_body')?.touched
+            "
+            class="text-danger"
+          >
+            Por favor, selecione um tipo de cliente.
+          </div>
         </div>
 
+        <!--city code-->
+        <input
+          type="hidden"
+          id="codigoCidade"
+          class="form-control"
+          formControlName="city_code"
+          placeholder="Código da cidade"
+          readonly
+        />
         <!-- Domínio -->
         <div class="form-group mb-3">
-          <label for="dominio">Domínio</label>
+          <label for="domain">Domínio</label>
           <input
-            id="dominio"
+            id="domain"
             class="form-control"
-            formControlName="dominio"
+            formControlName="domain"
             placeholder="Domínio"
           />
         </div>

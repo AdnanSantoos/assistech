@@ -3,19 +3,22 @@ import { ClienteAdministrativoRepository } from '../repository/cliente-administr
 import { catchError, Observable, of, switchMap } from 'rxjs';
 import { ClienteData } from '../../../model/cliente.model';
 import { ToastrService } from 'ngx-toastr';
+import { Location } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ClienteAdministrativoService {
 
-  constructor(private _repository: ClienteAdministrativoRepository, private _toastrService: ToastrService) { }
+  constructor(private _repository: ClienteAdministrativoRepository, private _toastrService: ToastrService, private _location: Location) { }
 
 
   public getClientes(page: number): Observable<any> {
     return this._repository.getClientes(page);
   }
-
+  goBack(): void {
+    this._location.back();
+  }
   createUser(clientData: ClienteData): Observable<ClienteData> {
     return this._repository.createUser(clientData).pipe(
       catchError((error) => {
@@ -24,6 +27,7 @@ export class ClienteAdministrativoService {
       }),
       switchMap((response: ClienteData) => {
         this._toastrService.success('Cliente cadastrado com sucesso!', 'Sucesso');
+        this.goBack();
         return of(response);
       })
     );

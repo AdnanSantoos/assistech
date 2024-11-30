@@ -33,6 +33,7 @@ export class CadastrarClienteAdministrativoComponent implements OnInit {
         state_code: [''],
         uf: [''],
       }),
+      government_body: ['', Validators.required],
       city_name: ['', Validators.required],
       name: ['', Validators.required],
       permissions: this.fb.group({
@@ -44,6 +45,7 @@ export class CadastrarClienteAdministrativoComponent implements OnInit {
       slug: ['', Validators.required],
       state_uf: [''],
       domain: [''],
+      city_code: ['',Validators.required],
       next_edition_number: ['', Validators.required]
     });
 
@@ -96,6 +98,7 @@ export class CadastrarClienteAdministrativoComponent implements OnInit {
         state_code: cidadeSelecionada.state_code || '',
         uf: cidadeSelecionada.uf || '',
       },
+      city_code: cidadeSelecionada.code,
       slug,
     });
 
@@ -131,7 +134,6 @@ export class CadastrarClienteAdministrativoComponent implements OnInit {
 
     this._clienteService.createUser(clienteData).subscribe({
       next: (response) => {
-        this._toastrService.success('Cliente criado com sucesso!', 'Sucesso');
         this.clienteForm.reset();
       },
       error: (err) => {
