@@ -7,7 +7,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { LayoutFormsAdmComponent } from '../../../../shared/containers/layout-forms-adm/layout-forms-adm.component';
 import { LogPipe } from '../../../../shared/pipes/log.pipe';
 import { PublicarDiarioOficialMapper } from '../../mappers/publicar-diario-oficial-mapper';
-import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-publicar-diario-oficial-administrativo',
@@ -22,39 +21,36 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./publicar-diario-oficial-administrativo.component.scss']
 })
 export class PublicarDiarioOficialAdministrativoComponent implements OnInit {
-  filtroForm: FormGroup = this.fb.group({});;
+  filtroForm: FormGroup = this.fb.group({});
   dynamicFields: any[] = [
-    { name: 'date', type: 'date', label: 'Data' },
-    { name: 'description', type: 'textarea', label: 'Descrição' },
-    { name: 'files', type: 'file', fileType: 'complex', label: 'Arquivo' }
+    { name: 'date', type: 'date', label: 'Data', required: true },
+    { name: 'description', type: 'textarea', label: 'Descrição', required: true },
+    { name: 'files', type: 'file', fileType: 'complex', label: 'Arquivo', required: true }
   ];
 
   constructor(
     private fb: FormBuilder,
-    private _publicarService: PublicarDiarioOficialService,
-    private _location: Location,
-    private toastr: ToastrService
+    private _publicarService: PublicarDiarioOficialService
+    
   ) {
     this.dynamicFields.forEach((field) => {
+      const validators = field.required ? [Validators.required] : [];
       if (field.type === 'file') {
-        this.filtroForm.addControl(field.name, this.fb.control(null, Validators.required));
+        this.filtroForm.addControl(field.name, this.fb.control(null, validators));
       } else if (field.type === 'checkbox') {
-        this.filtroForm.addControl(field.name, this.fb.control(false));
+        this.filtroForm.addControl(field.name, this.fb.control(false, validators));
       } else {
-        this.filtroForm.addControl(field.name, this.fb.control('', field.required ? Validators.required : null));
+        this.filtroForm.addControl(field.name, this.fb.control('', validators));
       }
     });
   }
 
+
   ngOnInit() { }
-  goBack(): void {
-    this._location.back();
-  }
-  onFormSubmit(formData: any) {
-      const mappedData = PublicarDiarioOficialMapper.toSubmit(formData);
-      this._publicarService.publicarDiarioOficial(mappedData);
-      this.goBack();
-    
+
+  onFormSubmit(event: any) {
+    const formData = PublicarDiarioOficialMapper.toSubmit(event);
+    this._publicarService.publicarDiarioOficial(formData);
   }
 
 }

@@ -7,6 +7,7 @@ import {
   PublicarDiarioOficialModel,
   PublicarDiarioOficialResponse,
 } from './../models/publicar-diario-oficial.model';
+import { Location } from '@angular/common';
 
 @Injectable({
   providedIn: 'root',
@@ -15,9 +16,12 @@ export class PublicarDiarioOficialService {
   constructor(
     private _repository: PublicarDiarioOficialRepository,
     private _router: Router,
-    private _toastr: ToastrService
+    private _toastr: ToastrService,
+    private _location: Location
   ) { }
-
+  goBack(): void {
+    this._location.back();
+  }
   public publicarDiarioOficial(form: FormData) {
     this._repository.publicarDiarioOficial(form).subscribe({
       next: (response: PublicarDiarioOficialResponse) => {
@@ -26,6 +30,7 @@ export class PublicarDiarioOficialService {
           'Sucesso'
 
         );
+        this.goBack();
       },
       error: (err: any) => {
         const errorMessage = err?.error?.message || 'Ocorreu um erro!';

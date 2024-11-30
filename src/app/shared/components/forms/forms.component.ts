@@ -107,8 +107,18 @@ export class FormsComponent implements OnInit {
   }
   viewFile(file: File) {
     const fileURL = URL.createObjectURL(file);
-    window.open(fileURL, '_blank');
+    const newWindow = window.open(fileURL, '_blank');
+  
+    if (newWindow) {
+      const interval = setInterval(() => {
+        if (newWindow.closed) {
+          clearInterval(interval);
+          console.log('A visualização foi fechada. Retornando ao formulário.');
+        }
+      }, 500);
+    }
   }
+  
 
   removeFile(index: number) {
     this.selectedFiles.splice(index, 1);

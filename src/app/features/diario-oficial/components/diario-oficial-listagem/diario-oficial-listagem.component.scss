@@ -255,7 +255,6 @@
 
       &:nth-child(3) {
         width: 40%; // Define uma largura maior para a descrição
-        text-align: justify !important;
       }
 
       &:last-child {
@@ -284,7 +283,7 @@
 
         &:nth-child(3) {
           width: 40%; // Aplica a mesma largura maior para a coluna de descrição no corpo da tabela
-          text-align: justify !important;
+          text-align: center;
         }
 
         .download-link {
