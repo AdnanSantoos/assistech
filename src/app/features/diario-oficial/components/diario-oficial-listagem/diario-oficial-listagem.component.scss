@@ -145,7 +145,13 @@
   border-color: #225ec9;
   cursor: pointer;
 }
-
+.thead-fixed th {
+  position: sticky; /* Torna o cabeçalho fixo */
+  top: 0; /* Define a posição do cabeçalho */
+  z-index: 1020; /* Garante que o cabeçalho fique acima do conteúdo */
+  background-color: #225ec9; /* Cor de fundo para o cabeçalho */
+  color: white; /* Cor do texto no cabeçalho */
+}
 .table-container {
   max-width: 100%;
   overflow: auto;
