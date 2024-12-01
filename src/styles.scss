@@ -288,41 +288,39 @@ body {
   justify-content: center;
   align-items: center;
   border: none;
-  width: 39px;
-  height: 39px;
+  width:50px;
+  height: 30px;
   border-radius: 4px;
+  cursor: pointer;
+
   img {
+    width: 25px;
+    height: 25px;
     filter: invert(1);
   }
   svg {
     filter: invert(1);
     width: 25px;
+    height: 25px;
   }
 }
 .btn-visualizar {
-  background-color: #000;
+  background-color: #4338ca;
 }
 .btn-edit {
-  background-color: #1672f8;
+  background-color: #2dd4bf;
 }
 .btn-atas {
-  background-color: #808080;
+  background-color: #374151;
 }
 .btn-itens {
-  background-color: #ffa500;
+  background-color: #fbbf24;
 }
 .btn-arquivo {
-  background-color: #0000ff;
+  background-color: #3b82f6;
 }
 .btn-remove {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #dc3545 !important;
-  padding: 5px;
-  border-radius: 4px;
-  width: 39px;
-  height: 39px;
+  background-color: #ef4444;
   img {
     filter: brightness(2);
   }

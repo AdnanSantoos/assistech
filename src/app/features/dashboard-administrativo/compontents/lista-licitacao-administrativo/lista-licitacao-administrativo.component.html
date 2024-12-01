@@ -97,59 +97,82 @@
           <td>{{ element.unit.name }}</td>
           <td>{{ element.created_at | date : "dd/MM/yy, HH:mm" }}</td>
           <td>
-            <div class="d-flex justify-content-center gap-2 py-2">
-              <a
-                class="me-2 btn-visualizar btn-format mt-0 d-flex justify-content-center align-items-center"
-                matTooltip="Visualizar"
-              >
-                <img
-                  src="../../../../../assets/icons/visualizar-adm-icon.svg"
-                  alt=""
-                />
-              </a>
-              <a
-                class="me-2 btn-edit btn-format mt-0 d-flex justify-content-center align-items-center"
-                matTooltip="Editar"
-                [routerLink]="[
-                  '/adm/dashboard-administrativo/editar-licitacoes',
-                  element.id
-                ]"
-              >
-                <img
-                  src="../../../../../assets/icons/edit-icon-adm.svg"
-                  alt=""
-                />
-              </a>
-              <a
-                class="me-2 btn-atas btn-format mt-0 d-flex justify-content-center align-items-center"
-                matTooltip="Atas"
-              >
-                <img
-                  src="../../../../../assets/icons/atas-adm-icon.svg"
-                  alt=""
-                />
-              </a>
-              <a
-                class="me-2 btn-itens btn-format mt-0 d-flex justify-content-center align-items-center"
-                matTooltip="Itens"
-              >
-                <img
-                  src="../../../../../assets/icons/itens-adm-icon.svg"
-                  alt=""
-                />
-              </a>
-              <a
-                class="me-2 btn-arquivo btn-format mt-0 d-flex justify-content-center align-items-center"
-                matTooltip="Arquivos"
-              >
-                <img
-                  src="../../../../../assets/icons/arquivo-adm-icon.svg"
-                  alt=""
-                />
-              </a>
-              <a class="btn btn-sm btn-remove" matTooltip="Deletar">
-                <img src="../../../../../assets/icons/remove-icon.svg" alt="" />
-              </a>
+            <div class="d-flex justify-content-evenly gap-2 py-2">
+              <div class="d-flex flex-column align-items-center">
+                <a
+                  class="btn-visualizar btn-format d-flex justify-content-center align-items-center"
+                >
+                  <img
+                    src="../../../../../assets/icons/visualizar-adm-icon.svg"
+                    alt="Visualizar"
+                  />
+                </a>
+                <span class="mt-1 legenda-icons">Visualizar</span>
+              </div>
+
+              <div class="d-flex flex-column align-items-center">
+                <a
+                  class="btn-edit btn-format d-flex justify-content-center align-items-center"
+                  [routerLink]="[
+                    '/adm/dashboard-administrativo/editar-licitacoes',
+                    element.id
+                  ]"
+                >
+                  <img
+                    src="../../../../../assets/icons/edit-icon-adm.svg"
+                    alt="Editar"
+                  />
+                </a>
+                <span class="mt-1 legenda-icons">Editar</span>
+              </div>
+
+              <div class="d-flex flex-column align-items-center">
+                <a
+                  class="btn-itens btn-format d-flex justify-content-center align-items-center"
+                >
+                  <img
+                    src="../../../../../assets/icons/itens-adm-icon.svg"
+                    alt="Itens"
+                  />
+                </a>
+                <span class="mt-1 legenda-icons">Itens</span>
+              </div>
+
+              <div class="d-flex flex-column align-items-center">
+                <a
+                  class="btn-arquivo btn-format d-flex justify-content-center align-items-center"
+                >
+                  <img
+                    src="../../../../../assets/icons/arquivo-adm-icon.svg"
+                    alt="Arquivos"
+                  />
+                </a>
+                <span class="mt-1 legenda-icons">Arquivos</span>
+              </div>
+
+              <div class="d-flex flex-column align-items-center">
+                <a
+                  class="btn-atas btn-format d-flex justify-content-center align-items-center"
+                >
+                  <img
+                    src="../../../../../assets/icons/atas-adm-icon.svg"
+                    alt="Atas"
+                  />
+                </a>
+                <span class="mt-1 legenda-icons">Atas</span>
+              </div>
+
+              <div class="d-flex flex-column align-items-center">
+                <a
+                  class="btn-remove btn-format d-flex justify-content-center align-items-center"
+                >
+                  <img
+                    src="../../../../../assets/icons/remove-icon.svg"
+                    alt="Deletar"
+                  />
+                </a>
+                <span class="mt-1 legenda-icons">Excluir</span>
+              </div>
             </div>
           </td>
         </tr>
