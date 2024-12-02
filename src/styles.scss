@@ -259,17 +259,9 @@ body {
   color: #db4646;
 }
 .btn-auth {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: none;
-  width: 39px;
-  height: 39px;
   background: #328b1c;
-  border-radius: 4px;
-
-  svg {
-    width: 25px;
+  img{
+    filter: none !important;
   }
 }
 .btn-enviar {

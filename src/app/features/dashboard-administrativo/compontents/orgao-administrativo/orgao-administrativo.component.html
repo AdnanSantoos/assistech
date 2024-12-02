@@ -4,7 +4,10 @@
       <h5>ÓRGÃOS</h5>
       <small>Lista de Órgãos cadastrados</small>
     </div>
-    <button routerLink="/adm/pncp-administrativo/adicionar-orgaos" class="btn btn-adm-adicionar ms-2">
+    <button
+      routerLink="/adm/pncp-administrativo/adicionar-orgaos"
+      class="btn btn-adm-adicionar ms-2"
+    >
       <mat-icon>person</mat-icon> Adicionar Órgão
     </button>
   </div>
@@ -23,13 +26,11 @@
           <td>{{ orgao.name }}</td>
           <td>{{ orgao.country_register }}</td>
           <td>
-            <div class="d-flex justify-content-center py-1">
-              <!-- <button class="me-2 btn-edit btn-format mt-0 d-flex justify-content-center align-items-center">
-                <mat-icon>edit</mat-icon>
-              </button> -->
-              <button class="btn btn-sm btn-format  btn-remove">
-                <img src="../../../../../assets/icons/remove-icon.svg" alt="">
-              </button>
+            <div class="d-flex flex-column align-items-center py-1">
+              <a class="btn btn-sm btn-format btn-remove" matTooltip="Deletar">
+                <img src="../../../../../assets/icons/remove-icon.svg" alt="" />
+              </a>
+              <span class="mt-1 legenda-icons">Deletar</span>
             </div>
           </td>
         </tr>
@@ -47,7 +48,11 @@
           </a>
         </li>
         <li class="page-item" [class.disabled]="currentPage === 1">
-          <a class="page-link" (click)="goToPreviousPage()" aria-label="Anterior">
+          <a
+            class="page-link"
+            (click)="goToPreviousPage()"
+            aria-label="Anterior"
+          >
             <span aria-hidden="true">&laquo;</span>
           </a>
         </li>
@@ -60,7 +65,11 @@
           </a>
         </li>
         <li class="page-item" [class.disabled]="currentPage === totalPages">
-          <a class="page-link" (click)="goToPage(totalPages)" aria-label="Última">
+          <a
+            class="page-link"
+            (click)="goToPage(totalPages)"
+            aria-label="Última"
+          >
             <span aria-hidden="true">&raquo;&raquo;</span>
           </a>
         </li>

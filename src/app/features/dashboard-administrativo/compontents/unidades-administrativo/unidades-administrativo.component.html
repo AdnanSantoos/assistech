@@ -31,9 +31,18 @@
           <td>{{ unidade.code }}</td>
           <td>
             <div class="d-flex justify-content-center py-2">
-              <button class="btn btn-sm btn-format  btn-remove">
-                <img src="../../../../../assets/icons/remove-icon.svg" alt="">
-              </button>
+              <div class="d-flex flex-column align-items-center">
+                <a
+                  class="btn btn-sm btn-format btn-remove"
+                  matTooltip="Deletar"
+                >
+                  <img
+                    src="../../../../../assets/icons/remove-icon.svg"
+                    alt=""
+                  />
+                </a>
+                <span class="mt-1 legenda-icons">Deletar</span>
+              </div>
             </div>
           </td>
         </tr>
@@ -51,7 +60,11 @@
           </a>
         </li>
         <li class="page-item" [class.disabled]="currentPage === 1">
-          <a class="page-link" (click)="goToPreviousPage()" aria-label="Anterior">
+          <a
+            class="page-link"
+            (click)="goToPreviousPage()"
+            aria-label="Anterior"
+          >
             &laquo;
           </a>
         </li>
@@ -64,7 +77,11 @@
           </a>
         </li>
         <li class="page-item" [class.disabled]="currentPage === totalPages">
-          <a class="page-link" (click)="goToPage(totalPages)" aria-label="Última">
+          <a
+            class="page-link"
+            (click)="goToPage(totalPages)"
+            aria-label="Última"
+          >
             &raquo;&raquo;
           </a>
         </li>
