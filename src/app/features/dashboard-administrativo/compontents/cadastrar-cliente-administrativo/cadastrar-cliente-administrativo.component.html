@@ -233,10 +233,29 @@
 
         <!-- Submit Button -->
         @if(isEditMode){
-          <button type="submit" class="btn btn-dark w-100">Editar</button>
+
+        <button
+          type="submit"
+          [disabled]="clienteForm.invalid || isLoadingButton"
+          class="btn btn-dark w-100"
+        >
+          @if(isLoadingButton){
+          <div class="spinner-border text-light" role="status">
+          </div>
+          } @else { Editar }
+        </button>
         } @else {
-            <button type="submit" class="btn btn-dark w-100">Cadastrar</button>
-          }
+        <button
+          type="submit"
+          [disabled]="clienteForm.invalid || isLoadingButton"
+          class="btn btn-dark w-100"
+        >
+          @if(isLoadingButton){
+          <div class="spinner-border text-light" role="status">
+          </div>
+          } @else {Cadastrar}
+        </button>
+        }
       </form>
     </div>
   </div>

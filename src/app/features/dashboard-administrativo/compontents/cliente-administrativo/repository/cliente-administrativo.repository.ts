@@ -30,7 +30,7 @@ export class ClienteAdministrativoRepository {
   }
 
   updateCliente(slug: string, data: any): Observable<void> {
-    return this._http.put<void>(`${environment.apiUrl}/${environment.tenant}/staff/tenants/${slug}`, data);
+    return this._http.put<void>(`${environment.apiUrl}/staff/tenants/${slug}`, data);
   }
 
 

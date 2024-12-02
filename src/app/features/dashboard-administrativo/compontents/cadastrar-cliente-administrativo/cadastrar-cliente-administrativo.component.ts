@@ -22,7 +22,7 @@ export class CadastrarClienteAdministrativoComponent implements OnInit {
   isEditMode = false;
   slug: string | null = null;
   formularioOriginal!: ClienteData[];
-
+  isLoadingButton = false;
   constructor(
     private fb: FormBuilder,
     private _clienteService: ClienteAdministrativoService,
@@ -42,7 +42,6 @@ export class CadastrarClienteAdministrativoComponent implements OnInit {
         uf: [''],
       }),
       government_body: ['', Validators.required],
-      city_name: ['', Validators.required],
       name: ['', Validators.required],
       permissions: this.fb.group({
         pncp: [false],
@@ -62,7 +61,7 @@ export class CadastrarClienteAdministrativoComponent implements OnInit {
         this.isEditMode = true;
         this._clienteService.getClienteBySlug(this.slug).subscribe((v) => {
           this.formularioOriginal = v.data;
-          this.populaFormulario(v);
+          this.populaFormulario(v.data);
         });
       }
     });
@@ -87,15 +86,13 @@ export class CadastrarClienteAdministrativoComponent implements OnInit {
         portal_transparencia: clienteData.portal_transparencia || false,
         diario_oficial: clienteData.diario_oficial || false,
       },
-      beginning_official_gazette: clienteData.beginning_official_gazette || '',
+      beginning_official_gazette: clienteData.year || '',
       slug: clienteData.slug || '',
       state_uf: clienteData.state_uf || '',
       domain: clienteData.domain || '',
       city_code: clienteData.city_code || '',
       next_edition_number: clienteData.next_edition_number || '',
     });
-
-    this._toastrService.info('Dados carregados com sucesso.', 'Edição');
   }
 
   private setupCidadeAutoComplete(): void {
@@ -168,6 +165,7 @@ export class CadastrarClienteAdministrativoComponent implements OnInit {
   }
 
   onSubmit(): void {
+    this.isLoadingButton = true;
     if (this.clienteForm.valid) {
       const clienteData = this.clienteForm.value;
 
@@ -184,15 +182,17 @@ export class CadastrarClienteAdministrativoComponent implements OnInit {
   private createCliente(clienteData: any): void {
     this._clienteService.createUser(clienteData).subscribe({
       next: () => {
-        this._toastrService.success('Cliente criado com sucesso!', 'Sucesso');
         this.clienteForm.reset();
-        this.router.navigate(['/clientes']);
+        this.router.navigate(['/adm/dashboard-administrativo/cliente']);
+        this.isLoadingButton = false;
       },
       error: (err) => {
         this._toastrService.error(
           err?.error?.message || 'Erro ao criar cliente.',
           'Erro'
         );
+        this.isLoadingButton = false;
+
       },
     });
   }
@@ -202,12 +202,16 @@ export class CadastrarClienteAdministrativoComponent implements OnInit {
       next: () => {
         this._toastrService.success('Cliente atualizado com sucesso!', 'Sucesso');
         this.router.navigate(['/adm/dashboard-administrativo/cliente']);
+        this.isLoadingButton = false;
+
       },
       error: (err) => {
         this._toastrService.error(
           err?.error?.message || 'Erro ao atualizar cliente.',
           'Erro'
         );
+        this.isLoadingButton = false;
+
       },
     });
   }
