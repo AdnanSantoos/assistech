@@ -80,18 +80,35 @@ export class FormsComponent implements OnInit {
   }
 
   onFileChange(event: any, fieldName: string) {
-    const file = event.target.files[0];
-    if (file && file.type === 'application/pdf') {
-      this.selectedFiles = [file];
-      this.nameFile = file.name;
-      this.form.patchValue({
-        [fieldName]: this.selectedFiles,
-      });
-      this.form.get(fieldName)?.updateValueAndValidity();
-    } else {
-      alert('Apenas arquivos PDF são permitidos.');
+    const files = event.target.files;
+    const validFiles: File[] = [];
+    const invalidFiles: string[] = [];
+
+    if (files && files.length > 0) {
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        if (file.type === 'application/pdf') {
+          validFiles.push(file);
+        } else {
+          invalidFiles.push(file.name);
+        }
+      }
+
+      if (validFiles.length > 0) {
+        this.selectedFiles = validFiles;
+        this.nameFile = validFiles.map(file => file.name).join(', ');
+        this.form.patchValue({
+          [fieldName]: this.selectedFiles,
+        });
+        this.form.get(fieldName)?.updateValueAndValidity();
+      }
+
+      if (invalidFiles.length > 0) {
+        alert(`Os seguintes arquivos não são PDFs e foram ignorados: ${invalidFiles.join(', ')}`);
+      }
     }
   }
+
   onFileChangeAgendado(event: any, fieldName: string) {
     const file = event.target.files[0];
     if (file && file.type === 'application/pdf') {
@@ -108,7 +125,7 @@ export class FormsComponent implements OnInit {
   viewFile(file: File) {
     const fileURL = URL.createObjectURL(file);
     const newWindow = window.open(fileURL, '_blank');
-  
+
     if (newWindow) {
       const interval = setInterval(() => {
         if (newWindow.closed) {
@@ -118,7 +135,7 @@ export class FormsComponent implements OnInit {
       }, 500);
     }
   }
-  
+
 
   removeFile(index: number) {
     this.selectedFiles.splice(index, 1);
