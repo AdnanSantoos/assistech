@@ -17,10 +17,8 @@ import { TenantService } from '../../../../shared/services/tenant.service';
   styleUrls: ['./gerenciador-diario-oficial-administrativo.component.scss'],
 })
 export class GerenciadorDiarioOficialAdministrativoComponent implements OnInit{
-  // Exemplo de documentos (substitua com seus dados reais)
   public documents:DiarioOficialPublicacoes[]  = [];
 
-  // Dados de paginação
   public currentPage = 1;
   public totalPages = 5;
   public isStaff : boolean | null = null;
