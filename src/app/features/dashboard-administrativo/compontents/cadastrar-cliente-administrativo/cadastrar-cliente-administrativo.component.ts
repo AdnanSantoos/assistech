@@ -23,8 +23,7 @@ export class CadastrarClienteAdministrativoComponent implements OnInit {
   slug: string | null = null;
   formularioOriginal!: ClienteData[];
   isLoadingButton = false;
-  selectedImage: string | ArrayBuffer | null = null;
-  logoFile: File | null = null;
+
 
   constructor(
     private fb: FormBuilder,
@@ -225,22 +224,5 @@ export class CadastrarClienteAdministrativoComponent implements OnInit {
     return this.clienteForm.get(controlName) as FormControl;
   }
 
-  onFileChange(event: any): void {
-    const file = event.target.files[0];
-    if (file) {
-      const allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
-      if (!allowedTypes.includes(file.type)) {
-        this._toastrService.error('Apenas imagens nos formatos JPEG, PNG ou GIF são permitidas.', 'Erro');
-        this.logoFile = null;
-        this.selectedImage = null;
-        return;
-      }
-      this.logoFile = file;
-      const reader = new FileReader();
-      reader.onload = () => {
-        this.selectedImage = reader.result;
-      };
-      reader.readAsDataURL(file);
-    }
-  }
+
 }

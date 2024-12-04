@@ -1,28 +1,82 @@
-<div class="w-100">
-  <div class="container mt-5 me-auto">
-    <div class="form-content">
-      <h3 class="mb-4">Cadastrar Nova Foto</h3>
-      <form [formGroup]="fotosForm" (ngSubmit)="onSubmit()">
-        <div class="form-group mb-3">
-          <label for="image">Imagem*</label>
-          <input
-            type="file"
-            id="image"
-            class="form-control"
-            (change)="onFileChange($event)"
-            formControlName="photo"
-            required
-          />
-        </div>
+<div class="mt-2">
+  <tabset>
+    <tab heading="Cadastrar Fotos da Home" id="tab1"
+      ><div class="w-100">
+        <div class="container mt-5 me-auto">
+          <div class="form-content">
+            <h3 class="mb-4">Cadastrar Fotos Home</h3>
+            <form [formGroup]="fotosForm" (ngSubmit)="onSubmit()">
+              <div class="form-group mb-3">
+                <label for="image">Imagens da Home*</label>
+                <input
+                  type="file"
+                  id="image"
+                  class="form-control"
+                  (change)="onFileChange($event)"
+                  formControlName="photo"
+                  required
+                />
+                <small class="form-text text-muted">
+                  Apenas imagens nos formatos JPEG, PNG ou GIF são permitidas.
+                </small>
+              </div>
 
-        <button
-          type="submit"
-          class="btn btn-dark w-100"
-          [disabled]="fotosForm.invalid"
-        >
-          Cadastrar Imagem
-        </button>
-      </form>
-    </div>
-  </div>
+              <button
+                type="submit"
+                class="btn btn-dark w-100"
+                [disabled]="fotosForm.invalid"
+              >
+                Cadastrar Imagens
+              </button>
+            </form>
+          </div>
+        </div>
+      </div></tab
+    >
+    <tab heading="Cadastrar Logo do Cliente">
+      <div class="w-100">
+        <div class="container mt-5 me-auto">
+          <div class="form-content">
+            <h3 class="mb-4">Cadastrar Logo</h3>
+            <form [formGroup]="logoForm" (ngSubmit)="onSubmitLogo()">
+              <!-- Upload de Imagem -->
+              <div class="form-group mb-3">
+                <label for="imagem">Logo do Cliente*</label>
+                <input
+                  id="imagem"
+                  type="file"
+                  class="form-control"
+                  (change)="onFileChange($event)"
+                  accept="image/*"
+                  formControlName="logo"
+                />
+                <small class="form-text text-muted">
+                  Apenas imagens nos formatos JPEG, PNG ou GIF são permitidas.
+                </small>
+              </div>
+
+              <!-- Pré-visualização da imagem selecionada -->
+              <div *ngIf="selectedImage" class="my-3">
+                <h6>Pré-visualização:</h6>
+                <img
+                  [src]="selectedImage"
+                  alt="Pré-visualização da imagem"
+                  class="img-thumbnail"
+                  width="200"
+                />
+              </div>
+
+              <button
+                type="submit"
+                class="btn btn-dark w-100"
+                [disabled]="fotosForm.invalid"
+              >
+                Cadastrar Logo</button
+              >
+            </form>
+          </div>
+        </div>
+      </div>
+    </tab>
+  </tabset>
 </div>
