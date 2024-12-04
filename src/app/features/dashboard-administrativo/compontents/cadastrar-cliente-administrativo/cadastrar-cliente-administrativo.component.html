@@ -230,6 +230,32 @@
             placeholder="Domínio"
           />
         </div>
+        <!-- Upload de Imagem -->
+        <div class="form-group mb-3">
+          <label for="imagem">Imagem do Cliente*</label>
+          <input
+            id="imagem"
+            type="file"
+            class="form-control"
+            (change)="onFileChange($event)"
+            accept="image/*"
+            formControlName="logo"
+          />
+          <small class="form-text text-muted">
+            Apenas imagens nos formatos JPEG, PNG ou GIF são permitidas.
+          </small>
+        </div>
+
+        <!-- Pré-visualização da imagem selecionada -->
+        <div *ngIf="selectedImage" class="my-3">
+          <h6>Pré-visualização:</h6>
+          <img
+            [src]="selectedImage"
+            alt="Pré-visualização da imagem"
+            class="img-thumbnail"
+            width="200"
+          />
+        </div>
 
         <!-- Submit Button -->
         @if(isEditMode){
@@ -240,8 +266,7 @@
           class="btn btn-dark w-100"
         >
           @if(isLoadingButton){
-          <div class="spinner-border text-light" role="status">
-          </div>
+          <div class="spinner-border text-light" role="status"></div>
           } @else { Editar }
         </button>
         } @else {
@@ -251,8 +276,7 @@
           class="btn btn-dark w-100"
         >
           @if(isLoadingButton){
-          <div class="spinner-border text-light" role="status">
-          </div>
+          <div class="spinner-border text-light" role="status"></div>
           } @else {Cadastrar}
         </button>
         }

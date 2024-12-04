@@ -12,13 +12,14 @@ export interface ClienteData {
     pncp: boolean;
     portal_transparencia: boolean;
     diario_oficial: boolean;
+    logo?: string;
   };
   slug: string;
   state_uf: string;
   year: number;
-  beginning_official_gazette?:number;
-  domain?:string;
-  next_edition_number?:number;
-  government_body:string;
+  beginning_official_gazette?: number;
+  domain?: string;
+  next_edition_number?: number;
+  government_body: string;
 }
 

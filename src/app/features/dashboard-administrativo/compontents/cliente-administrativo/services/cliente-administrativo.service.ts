@@ -36,14 +36,28 @@ export class ClienteAdministrativoService {
   searchCities(label: string): Observable<any> {
     return this._repository.searchCities(label);
   }
-  
+
   updateCliente(slug: string, data: any): Observable<void> {
     return this._repository.updateCliente(slug, data);
   }
-  
+
 
   public getClienteBySlug(slug: string): Observable<any> {
     return this._repository.getClienteBySlug(slug);
   }
+
+  uploadLogo(slug: string, logoFile: File): Observable<void> {
+    const formData = new FormData();
+    formData.append('file', logoFile);
+  
+    return this._repository.uploadLogo(slug, formData).pipe(
+      catchError((error) => {
+        this._toastrService.error('Erro ao enviar o logotipo!', 'Erro');
+        throw error;
+      })
+    );
+  }
+  
+
 
 }

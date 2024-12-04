@@ -1,27 +1,22 @@
-import { Component } from '@angular/core';
-import {
-  FormBuilder,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
-import { HomeImage } from '../../model/home-image.model'; 
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+
 @Component({
   selector: 'app-cadastrar-fotos-diario-oficial',
   standalone: true,
   imports: [ReactiveFormsModule],
   templateUrl: './cadastrar-fotos-diario-oficial.component.html',
-  styleUrls: ['./cadastrar-fotos-diario-oficial.component.scss']
+  styleUrls: ['./cadastrar-fotos-diario-oficial.component.scss'],
 })
-export class CadastrarFotosDiarioOficialComponent {
-
+export class CadastrarFotosDiarioOficialComponent implements OnInit {
   fotosForm!: FormGroup;
   selectedFile!: File;
-  constructor(private fb: FormBuilder) { }
+
+  constructor(private fb: FormBuilder) {}
 
   ngOnInit(): void {
     this.fotosForm = this.fb.group({
-      image: ['', Validators.required],
+      photo: ['', Validators.required],
     });
   }
 
@@ -30,19 +25,22 @@ export class CadastrarFotosDiarioOficialComponent {
     if (file) {
       this.selectedFile = file;
       this.fotosForm.patchValue({
-        image: file.name, 
+        photo: file.name,
       });
     }
   }
 
   onSubmit() {
-    if (this.fotosForm.valid) {
-      const formData: HomeImage = this.fotosForm.value;
+    if (this.fotosForm.valid && this.selectedFile) {
+      const formData = new FormData();
+      formData.append('photo', this.selectedFile);
 
-      console.log('Form Data:', formData);
+      console.log('Form Data:', formData.get('photo'));
       console.log('Selected Image File:', this.selectedFile);
 
+      // Aqui você pode enviar o `formData` ao serviço responsável
+    } else {
+      console.error('Formulário inválido ou arquivo não selecionado.');
     }
   }
-
 }
