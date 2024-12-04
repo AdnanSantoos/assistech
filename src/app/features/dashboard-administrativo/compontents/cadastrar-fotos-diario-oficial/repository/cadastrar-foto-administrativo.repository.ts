@@ -7,10 +7,15 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class ClienteAdministrativoRepository {
-  constructor(private _http: HttpClient) {}
+  constructor(private _http: HttpClient) { }
 
   CadastrarFoto(tenant: string, photoData: FormData): Observable<any> {
     const url = `${environment.apiUrl}/v1/tenants/${environment.tenant}/diario-oficial/photos`;
     return this._http.post<any>(url, photoData);
   }
+
+  uploadLogo(formData: FormData): Observable<void> {
+    return this._http.post<void>(`${environment.apiUrl}/staff/tenants/${environment.tenant}/logo`, formData);
+  }
+
 }

@@ -46,18 +46,6 @@ export class ClienteAdministrativoService {
     return this._repository.getClienteBySlug(slug);
   }
 
-  uploadLogo(logoFile: File): Observable<void> {
-    const formData = new FormData();
-    formData.append('file', logoFile);
-  
-    return this._repository.uploadLogo(formData).pipe(
-      catchError((error) => {
-        this._toastrService.error('Erro ao enviar o logotipo!', 'Erro');
-        throw error;
-      })
-    );
-  }
-  
 
 
 }
