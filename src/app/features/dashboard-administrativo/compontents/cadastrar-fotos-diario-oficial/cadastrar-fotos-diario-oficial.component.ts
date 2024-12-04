@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TabsModule } from 'ngx-bootstrap/tabs';
@@ -6,7 +7,7 @@ import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-cadastrar-fotos-diario-oficial',
   standalone: true,
-  imports: [ReactiveFormsModule, TabsModule],
+  imports: [ReactiveFormsModule, TabsModule, CommonModule],
   templateUrl: './cadastrar-fotos-diario-oficial.component.html',
   styleUrls: ['./cadastrar-fotos-diario-oficial.component.scss'],
 })
@@ -56,7 +57,7 @@ export class CadastrarFotosDiarioOficialComponent implements OnInit {
       console.error('Formulário inválido ou arquivo não selecionado.');
     }
   }
-  
+
   onLogoChange(event: any): void {
     const file = event.target.files[0];
     if (file) {
