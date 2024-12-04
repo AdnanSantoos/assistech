@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ClienteAdministrativoRepository } from '../repository/cadastrar-foto-administrativo.repository';
+import { CadastrarFotosAdministrativoRepository } from '../repository/cadastrar-foto-administrativo.repository';
 import { catchError, Observable, of, switchMap } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { Location } from '@angular/common';
@@ -7,12 +7,12 @@ import { Location } from '@angular/common';
 @Injectable({
   providedIn: 'root',
 })
-export class ClienteAdministrativoService {
+export class CadastrarFotosAdministrativoService {
   constructor(
-    private _repository: ClienteAdministrativoRepository,
+    private _repository: CadastrarFotosAdministrativoRepository,
     private _toastrService: ToastrService,
     private _location: Location
-  ) {}
+  ) { }
 
   goBack(): void {
     this._location.back();
@@ -33,10 +33,7 @@ export class ClienteAdministrativoService {
     );
   }
 
-  uploadLogo(logoFile: File): Observable<void> {
-    const formData = new FormData();
-    formData.append('file', logoFile);
-  
+  uploadLogo(formData: FormData): Observable<void> {
     return this._repository.uploadLogo(formData).pipe(
       catchError((error) => {
         this._toastrService.error('Erro ao enviar o logotipo!', 'Erro');
@@ -44,6 +41,7 @@ export class ClienteAdministrativoService {
       })
     );
   }
-  
+
+
 
 }

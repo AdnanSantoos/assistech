@@ -5,7 +5,7 @@
         <div class="container mt-5 me-auto">
           <div class="form-content">
             <h3 class="mb-4">Cadastrar Fotos Home</h3>
-            <form [formGroup]="fotosForm" (ngSubmit)="onSubmit()">
+            <form [formGroup]="fotosForm" (ngSubmit)="onSubmit(fotosForm.value)">
               <div class="form-group mb-3">
                 <label for="image">Imagens da Home*</label>
                 <input
