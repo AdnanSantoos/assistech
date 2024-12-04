@@ -37,14 +37,13 @@
 
           <!-- Somente mostra o submenu se não tiver um link direto -->
           <ul class="submenu" *ngIf="item.expanded && item.subMenu.length > 0">
-            <li
-              class="d-flex align-items-center"
-              *ngFor="let subItem of item.subMenu"
-              [routerLink]="subItem.link"
-            >
-              <!-- <mat-icon>person</mat-icon> -->
-              <span class="ms-2">{{ subItem.title }}</span>
-            </li>
+            @for (subItem of item.subMenu; track $index) {
+              @if(subItem.visible){
+                <li class="d-flex align-items-center" [routerLink]="subItem.link">
+                  <span class="ms-2">{{ subItem.title }}</span>
+                </li>
+              }
+            }
           </ul>
         </li>
       </ul>

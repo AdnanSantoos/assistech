@@ -7,6 +7,7 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { GerenciadorDiarioOficialService } from './service/gerenciador-diario-oficial.service';
 import { RequisicaoModel } from '../../../../shared/models/shared.model';
 import { DiarioOficialPublicacoes } from './models/gerenciador-diario-oficial.model';
+import { TenantService } from '../../../../shared/services/tenant.service';
 
 @Component({
   selector: 'app-gerenciador-diario-oficial-administrativo',
@@ -22,14 +23,21 @@ export class GerenciadorDiarioOficialAdministrativoComponent implements OnInit{
   // Dados de paginação
   public currentPage = 1;
   public totalPages = 5;
+  public isStaff : boolean | null = null;
 
   constructor(
     private _location: Location,
-    private _service: GerenciadorDiarioOficialService)
-    { }
+    private _service: GerenciadorDiarioOficialService,
+    public tenantService:TenantService)
+    { 
+      this.tenantService.isStaff$.subscribe(v=>{
+        this.isStaff = v;
+      })
+    }
 
   ngOnInit(): void {
    this.getDiario(this.currentPage);
+   
   }
 
   getDiario(page:number){

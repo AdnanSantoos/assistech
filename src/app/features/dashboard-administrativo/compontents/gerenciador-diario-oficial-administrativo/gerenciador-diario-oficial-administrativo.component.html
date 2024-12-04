@@ -51,10 +51,12 @@
                   alt="Publicado"
                 />
               </a>
-              <button class="btn btn-anexar" disabled>Anexar</button>
-              <button class="btn-format  btn-remove border-0 ps-0 pe-0 ms-0 me-0" disabled tooltip="Remover">
-                <img src="../../../../../assets/icons/remove-icon.svg" alt="Remover"/>
-              </button>
+              @if(isStaff){
+                <button class="btn btn-anexar" disabled>Anexar</button>
+                <button class="btn-format  btn-remove border-0 ps-0 pe-0 ms-0 me-0" disabled tooltip="Remover">
+                  <img src="../../../../../assets/icons/remove-icon.svg" alt="Remover"/>
+                </button>
+              }
             </div>
           </td>
         </tr>

@@ -7,6 +7,7 @@ import { LatestNewsComponent } from './shared/components/latest-news/latest-news
 import { CommonModule, isPlatformServer, Location, PlatformLocation } from '@angular/common';
 import { TipoRota } from './shared/models/shared.model';
 import { TenantService } from './shared/services/tenant.service';
+import { switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -60,12 +61,19 @@ export class AppComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.tenantService.getTenantData(this.domain).subscribe(
-      (data) => {
-       this.tenantService.updateState(data.data)
+    this.tenantService.getTenantData(this.domain).pipe(
+      switchMap((data) => {
+        this.tenantService.updateState(data.data);
+        return this.tenantService.getDados(data.data.slug);
+      })
+    ).subscribe(
+      (dados) => {
+        console.log(dados.data.is_staff)
+        this.tenantService.updateStateStaff(dados.data.is_staff);
+        console.log('Retorno de getDados:', dados);
       },
       (error) => {
-        console.error('Erro ao buscar dados do serviço:', error);
+        console.error('Erro em uma das chamadas:', error);
       }
     );
   }
