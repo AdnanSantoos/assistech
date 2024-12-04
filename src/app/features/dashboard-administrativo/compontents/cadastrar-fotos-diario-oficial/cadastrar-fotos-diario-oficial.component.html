@@ -1,11 +1,12 @@
 <div class="mt-2">
   <tabset>
-    <tab heading="Cadastrar Fotos da Home" id="tab1"
-      ><div class="w-100">
+    <!-- Tab for Fotos da Home -->
+    <tab heading="Cadastrar Fotos da Home" id="tab1">
+      <div class="w-100">
         <div class="container mt-5 me-auto">
           <div class="form-content">
             <h3 class="mb-4">Cadastrar Fotos Home</h3>
-            <form [formGroup]="fotosForm" (ngSubmit)="onSubmit(fotosForm.value)">
+            <form [formGroup]="fotosForm" (ngSubmit)="onSubmit()">
               <div class="form-group mb-3">
                 <label for="image">Imagens da Home*</label>
                 <input
@@ -13,7 +14,7 @@
                   id="image"
                   class="form-control"
                   (change)="onFileChange($event)"
-                  formControlName="photo"
+                  multiple
                   required
                 />
                 <small class="form-text text-muted">
@@ -21,58 +22,64 @@
                 </small>
               </div>
 
-              <button
-                type="submit"
-                class="btn btn-dark w-100"
-                [disabled]="fotosForm.invalid"
-              >
+              <!-- Preview for Fotos da Home -->
+              <div class="my-3" *ngIf="selectedImages.length > 0">
+                <h6>Pré-visualização:</h6>
+                <div class="d-flex flex-wrap gap-3">
+                  <img
+                    *ngFor="let img of selectedImages"
+                    [src]="img"
+                    alt="Pré-visualização da imagem"
+                    class="img-thumbnail"
+                    width="200"
+                  />
+                </div>
+              </div>
+
+              <button type="submit" class="btn btn-dark w-100">
                 Cadastrar Imagens
               </button>
             </form>
           </div>
         </div>
-      </div></tab
-    >
+      </div>
+    </tab>
+
+    <!-- Tab for Logo -->
     <tab heading="Cadastrar Logo do Cliente">
       <div class="w-100">
         <div class="container mt-5 me-auto">
           <div class="form-content">
             <h3 class="mb-4">Cadastrar Logo</h3>
             <form [formGroup]="logoForm" (ngSubmit)="onSubmitLogo()">
-              <!-- Upload de Imagem -->
               <div class="form-group mb-3">
                 <label for="imagem">Logo do Cliente*</label>
                 <input
                   id="imagem"
                   type="file"
                   class="form-control"
-                  (change)="onFileChange($event)"
-                  accept="image/*"
-                  formControlName="logo"
+                  (change)="onFileLogoChange($event)"
+                  required
                 />
                 <small class="form-text text-muted">
                   Apenas imagens nos formatos JPEG, PNG ou GIF são permitidas.
                 </small>
               </div>
 
-              <!-- Pré-visualização da imagem selecionada -->
-              <div *ngIf="selectedImage" class="my-3">
+              <!-- Preview for Logo -->
+              <div *ngIf="selectedLogo" class="my-3">
                 <h6>Pré-visualização:</h6>
                 <img
-                  [src]="selectedImage"
-                  alt="Pré-visualização da imagem"
+                  [src]="selectedLogo"
+                  alt="Pré-visualização da logo"
                   class="img-thumbnail"
                   width="200"
                 />
               </div>
 
-              <button
-                type="submit"
-                class="btn btn-dark w-100"
-                [disabled]="fotosForm.invalid"
-              >
-                Cadastrar Logo</button
-              >
+              <button type="submit" class="btn btn-dark w-100">
+                Cadastrar Logo
+              </button>
             </form>
           </div>
         </div>

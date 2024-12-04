@@ -9,14 +9,14 @@ import { Observable } from 'rxjs';
 export class CadastrarFotosAdministrativoRepository {
   constructor(private _http: HttpClient) { }
 
-  CadastrarFoto(tenant: string, photoData: FormData): Observable<any> {
+  CadastrarFoto(photoData: FormData): Observable<any> {
     const url = `${environment.apiUrl}/tenants/${environment.tenant}/diario-oficial/photos`;
     return this._http.post<any>(url, photoData);
   }
 
-  uploadLogo(formData: FormData): Observable<void> {
+  uploadLogo(logoData: FormData): Observable<void> {
     const url = `${environment.apiUrl}/staff/tenants/${environment.tenant}/logo`;
-    return this._http.post<void>(url, formData);
+    return this._http.post<void>(url, logoData);
   }
 
 }

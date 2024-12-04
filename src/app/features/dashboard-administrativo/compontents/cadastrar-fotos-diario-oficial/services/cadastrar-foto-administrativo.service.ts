@@ -18,9 +18,8 @@ export class CadastrarFotosAdministrativoService {
     this._location.back();
   }
 
-  CadastrarFoto(tenant: string, photoData: FormData): Observable<any> {
-    console.log('chegando no service')
-    return this._repository.CadastrarFoto(tenant, photoData).pipe(
+  CadastrarFoto(photoData: FormData): Observable<any> {
+    return this._repository.CadastrarFoto(photoData).pipe(
       catchError((error) => {
         this._toastrService.error('Erro ao cadastrar foto!', 'Erro');
         throw error;
@@ -33,8 +32,8 @@ export class CadastrarFotosAdministrativoService {
     );
   }
 
-  uploadLogo(formData: FormData): Observable<void> {
-    return this._repository.uploadLogo(formData).pipe(
+  uploadLogo(logoData: FormData): Observable<void> {
+    return this._repository.uploadLogo(logoData).pipe(
       catchError((error) => {
         this._toastrService.error('Erro ao enviar o logotipo!', 'Erro');
         throw error;
