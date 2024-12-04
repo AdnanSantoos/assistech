@@ -21,7 +21,7 @@ export class SidebarAdministrativoComponent {
       subMenu: [
         { title: 'Cliente', link: '/adm/dashboard-administrativo/cliente',visible:this.isStaff },
         { title: 'Usuário', link: '/adm/dashboard-administrativo/usuarios',visible:this.isStaff },
-        { title: 'Fotos', link: '/adm/dashboard-administrativo/cadastrar-fotos-diario',visible:true},
+        { title: 'Imagens', link: '/adm/dashboard-administrativo/cadastrar-fotos-diario',visible:true},
       ],
     },
     {
