@@ -33,7 +33,7 @@ export class ClienteAdministrativoRepository {
     return this._http.put<void>(`${environment.apiUrl}/staff/tenants/${slug}`, data);
   }
 
-  uploadLogo(slug: string, formData: FormData): Observable<void> {
+  uploadLogo(formData: FormData): Observable<void> {
     return this._http.post<void>(`${environment.apiUrl}/staff/tenants/${environment.tenant}/logo`, formData);
   }
   

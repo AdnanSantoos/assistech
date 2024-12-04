@@ -12,7 +12,7 @@ export class CadastrarFotosDiarioOficialComponent implements OnInit {
   fotosForm!: FormGroup;
   selectedFile!: File;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder) { }
 
   ngOnInit(): void {
     this.fotosForm = this.fb.group({
@@ -34,11 +34,7 @@ export class CadastrarFotosDiarioOficialComponent implements OnInit {
     if (this.fotosForm.valid && this.selectedFile) {
       const formData = new FormData();
       formData.append('photo', this.selectedFile);
-
-      console.log('Form Data:', formData.get('photo'));
-      console.log('Selected Image File:', this.selectedFile);
-
-      // Aqui você pode enviar o `formData` ao serviço responsável
+      
     } else {
       console.error('Formulário inválido ou arquivo não selecionado.');
     }
