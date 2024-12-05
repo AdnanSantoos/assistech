@@ -1,0 +1,131 @@
+.licitacao-detalhes-container {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    color: #333;
+  
+    h2 {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+  
+    p {
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 20px;
+    }
+  
+    .licitacao-info-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+  
+      .licitacao-info {
+        display: flex;
+        gap: 15vw;
+        font-size: 16px;
+        color: #444;
+  
+        span {
+          strong {
+            font-weight: bold;
+            margin-right: 5px;
+          }
+        }
+      }
+  
+      .add-item-button {
+        .btn-add {
+          background-color: #000;
+          color: #fff;
+          border: none;
+          padding: 10px 20px;
+          font-size: 14px;
+          font-weight: bold;
+          text-transform: uppercase;
+          cursor: pointer;
+          border-radius: 4px;
+  
+          &:hover {
+            background-color: #333;
+          }
+        }
+      }
+    }
+  
+    .licitacao-itens {
+      .table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+  
+        th {
+          background-color: #f9f9f9;
+          padding: 12px;
+          font-size: 14px;
+          font-weight: bold;
+          text-align: left;
+          border-bottom: 2px solid #ddd;
+        }
+  
+        td {
+          padding: 12px;
+          border-bottom: 1px solid #ddd;
+          font-size: 14px;
+          color: #555;
+  
+          &.actions-cell {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            justify-content: center;
+          }
+        }
+  
+        .btn-action {
+          background: none;
+          border: none;
+          cursor: pointer;
+          padding: 5px;
+  
+          img {
+            width: 24px;
+            height: 24px;
+          }
+  
+          &:hover {
+            opacity: 0.8;
+          }
+        }
+      }
+    }
+  
+    .footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 20px;
+  
+      .pagination-info {
+        font-size: 14px;
+        color: #666;
+      }
+  
+      .pagination-controls {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+  
+        .page-input {
+          width: 40px;
+          padding: 5px;
+          font-size: 14px;
+          text-align: center;
+          border: 1px solid #ddd;
+          border-radius: 4px;
+        }
+      }
+    }
+  }
+  

@@ -99,7 +99,8 @@
           <td>
             <div class="d-flex justify-content-evenly gap-2 py-2">
               <div class="d-flex flex-column align-items-center">
-                <a (click)="irParaPncp(1)"
+                <a
+                  (click)="irParaPncp(1)"
                   class="btn-visualizar btn-format d-flex justify-content-center align-items-center"
                 >
                   <img
@@ -128,6 +129,10 @@
 
               <div class="d-flex flex-column align-items-center">
                 <a
+                  [routerLink]="[
+                    '/adm/dashboard-administrativo/itens-licitacoes',
+                    element.id
+                  ]"
                   class="btn-itens btn-format d-flex justify-content-center align-items-center"
                 >
                   <img

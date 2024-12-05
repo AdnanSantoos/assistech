@@ -21,6 +21,7 @@ import { CadastrarFotosDiarioOficialComponent } from './compontents/cadastrar-fo
 import { GerenciadorNoticiaOficialComponent } from './compontents/gerenciador-noticia-oficial/gerenciador-noticia-oficial.component';
 import { EditaisLicitacoesAdministrativoComponent } from '../editais-licitacoes-administrativo/editais-licitacoes-administrativo.component';
 import { EditarLicitacoesAdministrativoComponent } from './compontents/lista-licitacao-administrativo/editar-licitacoes/editar-licitacoes-administrativo/editar-licitacoes-administrativo.component';
+import { ItensLicitacoesComponent } from './compontents/lista-licitacao-administrativo/itens-licitacoes/itens-licitacoes/itens-licitacoes.component';
 
 const routes: Routes = [
   {
@@ -87,6 +88,10 @@ const routes: Routes = [
       {
         path: 'editar-licitacoes/:id',
         component: EditarLicitacoesAdministrativoComponent,
+      },
+      {
+        path: 'itens-licitacoes/:id',
+        component: ItensLicitacoesComponent,
       },
       {
         path: 'cadastrar-fotos-diario',
