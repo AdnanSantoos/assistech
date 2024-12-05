@@ -47,6 +47,7 @@ export class ListaLicitacaoAdministrativoComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadLicitacoes(this.currentPage);
+    this.loadOrgaos(this.currentPage)
   }
 
   loadLicitacoes(page: number): void {
@@ -54,7 +55,7 @@ export class ListaLicitacaoAdministrativoComponent implements OnInit {
       next: (response) => {
         this.dataSource.data = response.data.map((licitacao, index) => ({
           ...licitacao,
-          numSeq: (page - 1) * this.pageSize + index + 1, // Numeração sequencial
+          numSeq: (page - 1) * this.pageSize + index + 1,
         }));
         this.totalRecords = response.meta?.pagination.total || 0;
         this.totalPages = Math.ceil(this.totalRecords / this.pageSize);
@@ -65,6 +66,48 @@ export class ListaLicitacaoAdministrativoComponent implements OnInit {
       },
     });
   }
+
+  loadOrgaos(page: number): void {
+    this.licitacoesService.getOrgaos(page).subscribe({
+      next: (response) => {
+        if (response && response.data) {
+          console.log('Orgãos carregados com sucesso:', response.data);
+        } else {
+          console.warn('Nenhum órgão encontrado.');
+        }
+      },
+      error: (error) => {
+        console.error('Erro ao carregar órgãos:', error);
+      }
+    });
+  }
+
+  irParaPncp(page: number): void {
+    this.licitacoesService.getLicitacoes(page).subscribe({
+      next: (response) => {
+        if (response && response.data && response.data.length > 0) {
+          const licitacao = response.data[0];
+          const { year, gateway_sequence, agency } = licitacao;
+  
+          if (agency && agency.country_register) {
+            const baseUrl = 'https://treina.pncp.gov.br/app/editais/';
+            const fullUrl = `${baseUrl}${agency.country_register}/${year}/${gateway_sequence}`;
+            console.log('Navigating to:', fullUrl);
+  
+            window.open(fullUrl, '_blank');
+          } else {
+            console.error('Invalid agency data or missing country_register.');
+          }
+        } else {
+          console.warn('Nenhuma licitação encontrada.');
+        }
+      },
+      error: (err) => {
+        console.error('Erro ao buscar licitações:', err);
+      },
+    });
+  }
+  
 
   goToPage(pageNumber: number): void {
     if (pageNumber >= 1 && pageNumber <= this.totalPages) {

@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { RequisicaoModel } from '../../../../../shared/models/shared.model';
 import { environment } from '../../../../../../environments/environment';
 import { LicitacaoModel, LicitacaoDetalhesModel } from '../model/licitacoes-administrativo.model';
+import { OrgaoModel } from '../../orgao-administrativo/model/orgao-administrativo.model';
 
 @Injectable({
   providedIn: 'root',
@@ -16,6 +17,11 @@ export class LicitacoesRepository {
   getLicitacoes(page: number): Observable<RequisicaoModel<LicitacaoModel[]>> {
     const params = new HttpParams().set('page', page.toString());
     return this._http.get<RequisicaoModel<LicitacaoModel[]>>(`${this.baseUrl}`, { params });
+  }
+
+  getOrgaos(page: number): Observable<RequisicaoModel<OrgaoModel[]>> {
+    const params = new HttpParams().set('page', page.toString());
+    return this._http.get<RequisicaoModel<OrgaoModel[]>>(this.baseUrl, { params });
   }
 
   getLicitacaoById(id: string): Observable<RequisicaoModel<LicitacaoDetalhesModel>> {
