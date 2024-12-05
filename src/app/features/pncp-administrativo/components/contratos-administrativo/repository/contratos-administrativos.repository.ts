@@ -8,7 +8,7 @@ import { environment } from '../../../../../../environments/environment';
   providedIn: 'root',
 })
 export class ContratosRepository {
-  private readonly baseUrl = `${environment.apiUrl}/${environment.tenant}/pncp/contracts`;
+  private readonly baseUrl = `${environment.apiUrl}/tenants/${environment.tenant}/pncp/contracts`;
 
   constructor(private _http: HttpClient) {}
 

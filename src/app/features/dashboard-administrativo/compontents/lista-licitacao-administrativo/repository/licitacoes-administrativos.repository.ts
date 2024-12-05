@@ -10,7 +10,7 @@ import { OrgaoModel } from '../../orgao-administrativo/model/orgao-administrativ
   providedIn: 'root',
 })
 export class LicitacoesRepository {
-  private readonly baseUrl = `${environment.apiUrl}/${environment.tenant}/pncp/procurements`;
+  private readonly baseUrl = `${environment.apiUrl}/tenants/${environment.tenant}/pncp/procurements`;
 
   constructor(private _http: HttpClient) {}
 

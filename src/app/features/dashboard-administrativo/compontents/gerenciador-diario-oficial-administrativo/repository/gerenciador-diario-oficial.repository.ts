@@ -12,7 +12,7 @@ export class GerenciadorDiarioOficialRepository {
   
   getListaDiarioOficial(page:number) {
     const params = new HttpParams().set('page', page.toString());
-    return this._http.get<RequisicaoModel<DiarioOficialPublicacoes[]>>(`${environment.apiUrl}/${environment.tenant}/diario-oficial/official-gazettes`, { params });
+    return this._http.get<RequisicaoModel<DiarioOficialPublicacoes[]>>(`${environment.apiUrl}/tenants/${environment.tenant}/diario-oficial/official-gazettes`, { params });
   }
 
 }

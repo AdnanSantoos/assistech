@@ -14,6 +14,6 @@ export class PublicarDiarioOficialRepository {
   constructor(private _http: HttpClient) {}
 
   publicarDiarioOficial(form: FormData): Observable<PublicarDiarioOficialResponse> {
-    return this._http.post<PublicarDiarioOficialResponse>(`${environment.apiUrl}/${environment.tenant}/diario-oficial/official-gazettes`,form)
+    return this._http.post<PublicarDiarioOficialResponse>(`${environment.apiUrl}/tenants/${environment.tenant}/diario-oficial/official-gazettes`,form)
   }
 }

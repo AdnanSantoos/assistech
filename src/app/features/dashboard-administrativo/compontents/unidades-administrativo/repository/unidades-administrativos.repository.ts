@@ -9,7 +9,7 @@ import { UnidadeModel } from '../model/unidades-administrativo.model';
   providedIn: 'root',
 })
 export class UnidadesRepository {
-  private readonly baseUrl = `${environment.apiUrl}/${environment.tenant}/pncp/units?agency_country_register=`;
+  private readonly baseUrl = `${environment.apiUrl}/tenants/${environment.tenant}/pncp/units?agency_country_register=`;
 
   constructor(private _http: HttpClient) {}
 

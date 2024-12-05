@@ -21,7 +21,7 @@ export class TenantService {
   }
 
   getDados(tenant: string): Observable<RequisicaoModel<any>> {
-    return this.http.get<RequisicaoModel<any>>(`${environment.apiUrl}/${tenant}/auth/me`);
+    return this.http.get<RequisicaoModel<any>>(`${environment.apiUrl}/tenants/${tenant}/auth/me`);
   }
 
   updateState(newState: TenantFullModel) {

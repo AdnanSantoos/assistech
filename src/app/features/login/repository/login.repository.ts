@@ -12,9 +12,9 @@ export class LoginRepository {
   constructor(private _http: HttpClient) {}
 
   login(form: LoginModel): Observable<LoginResponse> {
-    return this._http.post<LoginResponse>(`${environment.apiUrl}/${environment.tenant}/auth/login`, form);
+    return this._http.post<LoginResponse>(`${environment.apiUrl}/tenants/${environment.tenant}/auth/login`, form);
   }
   logout(tenant:string): Observable<LoginResponse> {
-    return this._http.post<LoginResponse>(`${environment.apiUrl}/${tenant}/auth/logout`,null);
+    return this._http.post<LoginResponse>(`${environment.apiUrl}/tenants/${tenant}/auth/logout`,null);
   }
 }

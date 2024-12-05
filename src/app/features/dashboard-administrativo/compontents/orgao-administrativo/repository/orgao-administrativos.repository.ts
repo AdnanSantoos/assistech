@@ -9,7 +9,7 @@ import { OrgaoModel } from '../model/orgao-administrativo.model';
   providedIn: 'root',
 })
 export class OrgaosRepository {
-  private readonly baseUrl = `${environment.apiUrl}/${environment.tenant}/pncp/agencies`;
+  private readonly baseUrl = `${environment.apiUrl}/tenants/${environment.tenant}/pncp/agencies`;
 
   constructor(private _http: HttpClient) {}
 
