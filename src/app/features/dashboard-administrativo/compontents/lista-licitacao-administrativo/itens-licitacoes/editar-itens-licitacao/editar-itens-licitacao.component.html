@@ -1,0 +1,101 @@
+<div class="container">
+  <h2 class="title">Edição de item da licitação</h2>
+  <p class="subtitle">servidor de dados (LINUX)</p>
+
+  <form [formGroup]="editarItemForm" (ngSubmit)="salvar()">
+    <fieldset>
+      <legend>Itens da Licitação</legend>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="beneficio">Incentivo fiscal PPB (Processo Produtivo Básico)</label>
+          <div class="toggle-group">
+            <input type="radio" id="beneficioNao" value="Não" formControlName="beneficio" />
+            <label for="beneficioNao">Não</label>
+            <input type="radio" id="beneficioSim" value="Sim" formControlName="beneficio" />
+            <label for="beneficioSim">Sim</label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="confidencial">Orçamento sigiloso?</label>
+          <div class="toggle-group">
+            <input type="radio" id="confidencialNao" value="Não" formControlName="margemPreferenciaNormal" />
+            <label for="confidencialNao">Não</label>
+            <input type="radio" id="confidencialSim" value="Sim" formControlName="margemPreferenciaNormal" />
+            <label for="confidencialSim">Sim</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="categoriaItem">Categoria do Item *</label>
+          <input id="categoriaItem" type="text" formControlName="categoriaItem" />
+        </div>
+
+        <div class="form-group">
+          <label for="unidadeMedida">Material ou Serviço? *</label>
+          <input id="unidadeMedida" type="text" formControlName="unidadeMedida" />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="descricaoItem">Descrição do item *</label>
+          <textarea
+            id="descricaoItem"
+            formControlName="descricaoItem"
+            maxlength="2048"
+            placeholder="Máximo de caracteres: 2048"
+          ></textarea>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="quantidade">Quantidade *</label>
+          <input id="quantidade" type="number" formControlName="quantidade" />
+        </div>
+
+        <div class="form-group">
+          <label for="valorUnitarioEstimado">Valor unitário estimado *</label>
+          <input id="valorUnitarioEstimado" type="text" formControlName="valorUnitarioEstimado" />
+        </div>
+
+        <div class="form-group">
+          <label for="valorTotal">Valor total *</label>
+          <input id="valorTotal" type="text" formControlName="valorTotal" />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="situacaoItem">Situação do item *</label>
+          <input id="situacaoItem" type="text" formControlName="situacaoItem" />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="codigoNCM">Código NCM/NBS</label>
+          <input id="codigoNCM" type="text" formControlName="codigoNCM" />
+        </div>
+
+        <div class="form-group">
+          <label for="descricaoNCM">Descrição NCM/NBS</label>
+          <textarea id="descricaoNCM" formControlName="descricaoNCM" maxlength="2048"></textarea>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="motivoEdicao">Motivo da edição</label>
+          <textarea id="motivoEdicao" formControlName="motivoEdicao" maxlength="2048"></textarea>
+        </div>
+      </div>
+    </fieldset>
+
+    <button type="submit" class="btn-submit" [disabled]="editarItemForm.invalid">Salvar</button>
+  </form>
+</div>

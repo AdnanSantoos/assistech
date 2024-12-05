@@ -8,6 +8,10 @@ body {
 .toast-container {
   position: fixed !important;
 }
+.custom-dialog-container {
+  max-height: 90vh; 
+  overflow-y: auto;
+}
 
 .btn-edit btn-format {
   border: none;

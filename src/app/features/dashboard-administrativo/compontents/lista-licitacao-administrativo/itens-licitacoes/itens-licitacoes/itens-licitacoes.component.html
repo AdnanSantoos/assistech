@@ -2,14 +2,23 @@
   <h2>DETALHES DA LICITAÇÃO</h2>
   <p>Detalhes de licitações cadastradas</p>
 
-  <!-- Info and Button Section -->
-  <div class="licitacao-info-row">
+  <div *ngIf="isLoadingDetails" class="loading-indicator">
+    Carregando detalhes...
+  </div>
+
+  <div
+    *ngIf="licitacaoDetalhes && !isLoadingDetails"
+    class="licitacao-info-row"
+  >
     <div class="licitacao-info">
       <div class="d-flex flex-column">
-        <strong>LICITAÇÃO N:</strong> {{ licitacao.numeroLicitacao }}/ {{licitacao.year}}
+        <strong>LICITAÇÃO N:</strong> {{ licitacaoDetalhes.number }}/{{
+          licitacaoDetalhes.year
+        }}
       </div>
       <div class="d-flex flex-column">
-        <strong>NÚMERO DA COMPRA:</strong> {{ licitacao.numeroCompra }}
+        <strong>NÚMERO DA COMPRA:</strong>
+        {{ licitacaoDetalhes.process_number }}
       </div>
     </div>
     <div class="add-item-button">
@@ -17,43 +26,67 @@
     </div>
   </div>
 
-  <!-- Loading Indicator -->
-  <div *ngIf="isLoadingItens" class="loading-indicator">Carregando itens...</div>
+  <div *ngIf="isLoadingItens" class="loading-indicator">
+    Carregando itens...
+  </div>
 
-  <!-- Items Table -->
-  <div *ngIf="!isLoadingItens" class="licitacao-itens">
+  <div
+    *ngIf="licitacaoItens.length > 0 && !isLoadingItens"
+    class="licitacao-itens"
+  >
     <table class="table">
       <thead>
         <tr>
           <th scope="col" class="col-number">Nº</th>
-          <th scope="col" class="col-status">Situação</th>
-          <th scope="col" class="col-description">Descrição</th>
-          <th scope="col" class="col-actions">Ações</th>
+          <th scope="col" class="col-description">Situação</th>
+          <th scope="col" class="col-quantity">Descrição</th>
+          <th scope="col" class="col-quantity">Ações</th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let item of licitacao.itens; let i = index">
+        <tr *ngFor="let item of licitacaoItens; let i = index">
           <td>{{ i + 1 }}</td>
-          <td>{{ item.contracting_situation_id }}</td>
-          <td>{{ item.additional_information }}</td>
-          <td class="actions-cell">
-            <div class="d-flex flex-column align-items-center">
-              <a class="btn-visualizar btn-format d-flex justify-content-center align-items-center">
-                <img src="../../../../../assets/icons/visualizar-adm-icon.svg" alt="Visualizar" />
-              </a>
-              <span class="mt-1 legenda-icons">Visualizar</span>
-            </div>
-            <div class="d-flex flex-column align-items-center">
-              <a class="btn-edit btn-format d-flex justify-content-center align-items-center">
-                <img src="../../../../../assets/icons/edit-icon-adm.svg" alt="Editar" />
-              </a>
-              <span class="mt-1 legenda-icons">Editar</span>
-            </div>
-            <div class="d-flex flex-column align-items-center">
-              <a class="btn-resultados btn-format d-flex justify-content-center align-items-center">
-                <img src="../../../../../assets/icons/check-adm-icon.svg" alt="Itens" />
-              </a>
-              <span class="mt-1 legenda-icons">Resultados</span>
+          <td>{{ item.quantity }}</td>
+          <td>{{ item.description }}</td>
+          <td>
+            <div class="d-flex gap-3">
+              <div class="d-flex flex-column align-items-center">
+                <a
+                  (click)="irParaPncp(1)"
+                  class="btn-visualizar btn-format d-flex justify-content-center align-items-center"
+                >
+                  <img
+                    src="../../../../../assets/icons/visualizar-adm-icon.svg"
+                    alt="Visualizar"
+                  />
+                </a>
+                <span class="mt-1 legenda-icons">Visualizar</span>
+              </div>
+
+              <div class="d-flex flex-column align-items-center">
+                <a
+                  class="btn-edit btn-format d-flex justify-content-center align-items-center"
+                  (click)="openEditDialog(item)"
+                >
+                  <img
+                    src="../../../../../assets/icons/edit-icon-adm.svg"
+                    alt="Editar"
+                  />
+                </a>
+                <span class="mt-1 legenda-icons">Editar</span>
+              </div>
+
+              <div class="d-flex flex-column align-items-center">
+                <a
+                  class="btn-resultados btn-format d-flex justify-content-center align-items-center"
+                >
+                  <img
+                    src="../../../../../assets/icons/check-adm-icon.svg"
+                    alt="Resultados"
+                  />
+                </a>
+                <span class="mt-1 legenda-icons">Resultados</span>
+              </div>
             </div>
           </td>
         </tr>
@@ -61,13 +94,26 @@
     </table>
   </div>
 
-  <!-- Footer Section -->
-  <div class="footer">
-    <div class="pagination-info">{{ pagination?.total }} resultados</div>
+  <!-- Pagination -->
+  <div class="footer" *ngIf="pagination">
+    <div class="pagination-info">{{ pagination.total }} resultados</div>
     <div class="pagination-controls">
-      <button (click)="previousPage()" [disabled]="pagination?.current_page === 1">Anterior</button>
-      <span>Página {{ pagination?.current_page }} de {{ pagination?.last_page }}</span>
-      <button (click)="nextPage()" [disabled]="pagination?.current_page === pagination?.last_page">Próxima</button>
+      <button
+        (click)="previousPage()"
+        [disabled]="pagination.current_page === 1"
+      >
+        Anterior
+      </button>
+      <span
+        >Página {{ pagination.current_page }} de
+        {{ pagination.last_page }}</span
+      >
+      <button
+        (click)="nextPage()"
+        [disabled]="pagination.current_page === pagination.last_page"
+      >
+        Próxima
+      </button>
     </div>
   </div>
 </div>

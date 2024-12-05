@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { RequisicaoModel } from '../../../../../shared/models/shared.model';
-import { LicitacaoModel, LicitacaoDetalhesModel } from '../model/licitacoes-administrativo.model';
+import { LicitacaoModel, LicitacaoDetalhesModel, LicitacaoItemModel } from '../model/licitacoes-administrativo.model';
 import { LicitacoesRepository } from '../repository/licitacoes-administrativos.repository';
 import { OrgaoModel } from '../../orgao-administrativo/model/orgao-administrativo.model';
 import { HttpParams } from '@angular/common/http';
@@ -16,10 +16,12 @@ export class LicitacoesService {
     return this._repository.getLicitacoes(page);
   }
 
- getLicitacoesItens(licitacaoId: string, page: number): Observable<RequisicaoModel<LicitacaoDetalhesModel[]>> {
-  return this._repository.getLicitacoesItens(licitacaoId, page);
-}
-
+  getLicitacoesDetalhes(licitacaoId: string, page: number): Observable<RequisicaoModel<LicitacaoDetalhesModel[]>> {
+    return this._repository.getLicitacoesDetalhes(licitacaoId, page);
+  }
+  getLicitacoesItens(licitacaoId: string, page: number): Observable<RequisicaoModel<LicitacaoItemModel[]>> {
+    return this._repository.getLicitacoesItens(licitacaoId, page);
+  }
   getOrgaos(page: number): Observable<RequisicaoModel<OrgaoModel[]>> {
     return this._repository.getOrgaos(page);
   }
