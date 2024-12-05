@@ -4,17 +4,24 @@ import { LoginModel } from './../models/login.model';
 import { Injectable } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { LoginResponse } from './../models/login.model';
+import { TenantService } from '../../../shared/services/tenant.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class LoginService {
+  
+  protected tenant! :string;
   constructor(
     private _repository: LoginRepository,
     private _router: Router,
-    private _toastr: ToastrService
-  ) {}
-
+    private _toastr: ToastrService,
+    private _tenantService: TenantService
+  ) {
+    this._tenantService.state$.subscribe(tenantData => {
+      this.tenant = tenantData?.slug!;
+    })
+  }
   loading:boolean = false;
 
   getLoading(){
@@ -30,10 +37,25 @@ export class LoginService {
         if (token) {
           localStorage.setItem('authToken', token);
         }
-        this._router.navigate(['adm/dashboard-administrativo/home']);
+        this._tenantService.getDados(this.tenant).subscribe(v=>{
+          this._tenantService.updateStateStaff(v.data.is_staff);
+          this._router.navigate(['adm/dashboard-administrativo/home']);  
+        })
       },
       error: (err: any) => {
         this.loading = false;
+        this._toastr.error(err.error.message, 'Ocorreu um erro!');
+      },
+    });
+  }
+
+  public logout(tenant: string) {
+    this._repository.logout(tenant).subscribe({
+      next: (response: LoginResponse) => {
+        localStorage.removeItem('loggedInUser');    
+        this._router.navigate(['/']);
+      },
+      error: (err: any) => {
         this._toastr.error(err.error.message, 'Ocorreu um erro!');
       },
     });
