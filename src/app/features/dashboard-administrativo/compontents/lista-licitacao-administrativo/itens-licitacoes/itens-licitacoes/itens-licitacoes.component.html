@@ -46,7 +46,7 @@
       <tbody>
         <tr *ngFor="let item of licitacaoItens; let i = index">
           <td>{{ i + 1 }}</td>
-          <td>{{ item.quantity }}</td>
+          <td>{{ getContractItemStatus(item.contract_item_situation_id) }}</td>
           <td>{{ item.description }}</td>
           <td>
             <div class="d-flex gap-3">

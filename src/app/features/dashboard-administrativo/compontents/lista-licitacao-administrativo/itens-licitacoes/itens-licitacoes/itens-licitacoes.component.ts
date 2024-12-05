@@ -39,6 +39,19 @@ export class ItensLicitacoesComponent implements OnInit {
       }
     });
   }
+
+  contractItemStatuses: Record<number, string> = {
+    1: 'Em Andamento',
+    2: 'Homologado',
+    3: 'Anulado/Revogado/Cancelado',
+    4: 'Deserto',
+    5: 'Fracassado',
+  };
+
+  getContractItemStatus(statusId: number): string {
+    return this.contractItemStatuses[statusId] || 'Status Desconhecido';
+  }
+  
   openEditDialog(item: any): void {
     const dialogRef = this.dialog.open(EditarItensLicitacaoComponent, {
       width: '800px',
