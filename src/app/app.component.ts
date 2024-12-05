@@ -61,21 +61,9 @@ export class AppComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.tenantService.getTenantData(this.domain).pipe(
-      switchMap((data) => {
-        this.tenantService.updateState(data.data);
-        return this.tenantService.getDados(data.data.slug);
-      })
-    ).subscribe(
-      (dados) => {
-        console.log(dados.data.is_staff)
-        this.tenantService.updateStateStaff(dados.data.is_staff);
-        console.log('Retorno de getDados:', dados);
-      },
-      (error) => {
-        console.error('Erro em uma das chamadas:', error);
-      }
-    );
+    this.tenantService.getTenantData(this.domain).subscribe(data=>{
+      this.tenantService.updateState(data.data);
+    })
   }
 
   ngOnDestroy(): void {

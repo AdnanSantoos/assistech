@@ -8,6 +8,7 @@ import { NavigationEnd, Router, RouterLink } from '@angular/router';
 import { TenantFullModel, TipoRota } from '../../models/shared.model';
 import { LoginModel } from '../../../features/login/models/login.model';
 import { TenantService } from '../../services/tenant.service';
+import { LoginService } from '../../../features/login/services/login.service';
 
 @Component({
   selector: 'app-navbar',
@@ -38,6 +39,7 @@ import { TenantService } from '../../services/tenant.service';
 export class NavbarComponent implements OnInit {
   mobile = false;
   logoText1: string = '';
+  tenant!: string;
   logoText2 = '';
   tipoRota: TipoRota = null;
   isAdmRoute = false;
@@ -45,15 +47,15 @@ export class NavbarComponent implements OnInit {
   isDiarioRoute = false;
   isPortalTransparencia = false;
   loggedInUserEmail: string | null = null;
-  logo:string|null = null;
-
-  constructor(private router: Router,private location: Location, private tenantService: TenantService) {
+  logo: string | null = null;
+  constructor(private router: Router, private location: Location, private tenantService: TenantService, private _loginService: LoginService) {
     const currentUrl = this.location.path();
     this.checkRoute(currentUrl);
-    
-    this.tenantService.state$.subscribe(tenantData=>{
+
+    this.tenantService.state$.subscribe(tenantData => {
       this.logo = tenantData?.address.logo!;
       this.logoText2 = tenantData?.name!;
+      this.tenant = tenantData?.slug!;
     })
   }
 
@@ -82,10 +84,11 @@ export class NavbarComponent implements OnInit {
   toggleMenu() {
     this.mobile = !this.mobile;
   }
+
   logout() {
-    localStorage.removeItem('loggedInUser');
-    this.router.navigate(['/']);
+    this._loginService.logout(this.tenant);
   }
+  
   getLoggedInUserEmail() {
     const user = localStorage.getItem('loggedInUser');
     if (user) {

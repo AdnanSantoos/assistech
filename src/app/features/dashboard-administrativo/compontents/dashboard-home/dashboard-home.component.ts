@@ -1,8 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { DashboardHomeService } from './service/dashboard-home.service';
-import { DashboardCategorias } from './models/dashboard-home.model';
 import { TenantService } from '../../../../shared/services/tenant.service';
 
 @Component({
@@ -15,22 +14,22 @@ import { TenantService } from '../../../../shared/services/tenant.service';
 export class DashboardHomeComponent implements OnInit {
   public categorias: { nome: string; quantidade: number; link: string,show: boolean | null }[] = [];
   public isStaff:boolean | null= null;
-
-  private categoryMapping: { [key: string]: { key: string; link: string,show: boolean | null, } } = {
-    'Documentos': { key: 'files', link: '/documentos',show:true },
-    'Usuários': { key: 'users', link: '/adm/dashboard-administrativo/usuarios',show:this.isStaff },
-    'Publicações': { key: 'official_gazettes', link: '/adm/dashboard-administrativo/gerenciar-diario-oficial',show:true },
-    'Órgãos': { key: 'agencies', link: '/adm/dashboard-administrativo/orgaos',show:true },
-    'Contratos': { key: 'contracts', link: '/adm/dashboard-administrativo/contratos',show:true },
-    'Licitações': { key: 'procurements', link: '/adm/dashboard-administrativo/licitacoes',show:true },
-    'Unidades': { key: 'units', link: '/adm/dashboard-administrativo/unidades',show:true },
-    'Planos de Contratação': { key: 'contract_plans', link: '/planos-contratacao',show:true },
-    'Termos': { key: 'terms', link: '/termos',show:true }
-  };
+  private categoryMapping!: { [key: string]: { key: string; link: string,show: boolean | null, } };
 
   constructor(public tenantService:TenantService,private _service: DashboardHomeService){
     this.tenantService.isStaff$.subscribe(v=>{
       this.isStaff = v;
+      this.categoryMapping = {
+        'Documentos': { key: 'files', link: '/documentos',show:true },
+        'Usuários': { key: 'users', link: '/adm/dashboard-administrativo/usuarios',show:this.isStaff },
+        'Publicações': { key: 'official_gazettes', link: '/adm/dashboard-administrativo/gerenciar-diario-oficial',show:true },
+        'Órgãos': { key: 'agencies', link: '/adm/dashboard-administrativo/orgaos',show:true },
+        'Contratos': { key: 'contracts', link: '/adm/dashboard-administrativo/contratos',show:true },
+        'Licitações': { key: 'procurements', link: '/adm/dashboard-administrativo/licitacoes',show:true },
+        'Unidades': { key: 'units', link: '/adm/dashboard-administrativo/unidades',show:true },
+        'Planos de Contratação': { key: 'contract_plans', link: '/planos-contratacao',show:true },
+        'Termos': { key: 'terms', link: '/termos',show:true }
+      };
     })
   }
 
