@@ -92,7 +92,6 @@ export class ListaLicitacaoAdministrativoComponent implements OnInit {
           if (agency && agency.country_register) {
             const baseUrl = 'https://treina.pncp.gov.br/app/editais/';
             const fullUrl = `${baseUrl}${agency.country_register}/${year}/${gateway_sequence}`;
-            console.log('Navigating to:', fullUrl);
   
             window.open(fullUrl, '_blank');
           } else {
