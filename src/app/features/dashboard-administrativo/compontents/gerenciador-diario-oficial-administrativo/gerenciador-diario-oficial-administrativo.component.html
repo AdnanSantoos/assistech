@@ -35,7 +35,7 @@
           </td>
           <td class="w-25">
             <div class="d-flex justify-content-center align-items-center gap-2">
-              @if(doc.protocol && doc.protocol.length !== 0){
+              @if(doc.protocol && doc.protocol.length > 0){
               <a
                 [href]="doc.protocol"
                 target="_blank"
