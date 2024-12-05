@@ -67,6 +67,16 @@ export class NavbarComponent implements OnInit {
     });
   }
 
+  navigate() {
+    const token = localStorage.getItem('authToken');
+    console.log(token)
+    if (token) {
+      this.router.navigate(['adm/dashboard-administrativo/home']);
+    } else {
+      this.router.navigate(['/adm/login']);
+    }
+  }
+
   checkRoute(url: string) {
     this.isAdmRoute = url.includes('/adm');
     this.isPortalTransparencia = url.includes('/trn');

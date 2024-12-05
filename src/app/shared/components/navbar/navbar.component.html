@@ -65,7 +65,7 @@
             <ng-container *ngIf="!isAdmRoute; else deslogarTemplate">
               <div
                 class="btn-padrao__hover button-login"
-                routerLink="/adm/login"
+                (click)="navigate()"
               >
                 <div class="btn-padrao__perfil-icon"></div>
                 <div class="btn-padrao__text">fazer login</div>

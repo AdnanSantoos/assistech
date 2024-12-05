@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { DashboardHomeService } from './service/dashboard-home.service';
 import { TenantService } from '../../../../shared/services/tenant.service';
@@ -17,8 +17,11 @@ export class DashboardHomeComponent implements OnInit {
   private categoryMapping!: { [key: string]: { key: string; link: string,show: boolean | null, } };
 
   constructor(public tenantService:TenantService,private _service: DashboardHomeService){
-    this.tenantService.isStaff$.subscribe(v=>{
-      this.isStaff = v;
+  
+  }
+
+  ngOnInit() {
+    this.isStaff = this.tenantService.getStaff();
       this.categoryMapping = {
         'Documentos': { key: 'files', link: '/documentos',show:true },
         'Usuários': { key: 'users', link: '/adm/dashboard-administrativo/usuarios',show:this.isStaff },
@@ -30,10 +33,6 @@ export class DashboardHomeComponent implements OnInit {
         'Planos de Contratação': { key: 'contract_plans', link: '/planos-contratacao',show:true },
         'Termos': { key: 'terms', link: '/termos',show:true }
       };
-    })
-  }
-
-  ngOnInit() {
     this._service.getDashboard().subscribe(res => {
       const data = res.data;
       this.categorias = Object.entries(this.categoryMapping).map(([nome, { key, link,show }]) => ({

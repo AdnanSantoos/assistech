@@ -1,3 +1,4 @@
+import { AuthGuard } from './guards/auth.guard';
 import { GeneralNewsDetalhesComponent } from './shared/components/general-news/general-news-detalhes/general-news-detalhes.component';
 import { Routes } from '@angular/router';
 

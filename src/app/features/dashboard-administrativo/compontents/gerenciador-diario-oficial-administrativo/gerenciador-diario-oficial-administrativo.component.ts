@@ -28,14 +28,11 @@ export class GerenciadorDiarioOficialAdministrativoComponent implements OnInit{
     private _service: GerenciadorDiarioOficialService,
     public tenantService:TenantService)
     { 
-      this.tenantService.isStaff$.subscribe(v=>{
-        this.isStaff = v;
-      })
     }
 
   ngOnInit(): void {
+    this.isStaff = this.tenantService.getStaff();
    this.getDiario(this.currentPage);
-   
   }
 
   getDiario(page:number){

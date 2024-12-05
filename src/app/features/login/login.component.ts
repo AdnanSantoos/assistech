@@ -17,7 +17,7 @@ import { ToastrService } from 'ngx-toastr';
   standalone: true,
   imports: [ReactiveFormsModule, CommonModule, RouterLink,MatProgressSpinnerModule],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.scss',
+  styleUrl: './login.component.scss'
 })
 export class LoginComponent {
   loginForm: FormGroup;

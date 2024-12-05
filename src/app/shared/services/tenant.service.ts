@@ -10,11 +10,9 @@ import { RequisicaoModel, RequisicaoTenantFullModel, TenantFullModel } from '../
 export class TenantService {
   private _baseUrl = `${environment.apiUrl}/public/tenants`;
   private _tenantState = new BehaviorSubject<TenantFullModel | null>(null)
-  private _isStaffState = new BehaviorSubject<boolean | null>(null)
-  public isStaff$ = this._isStaffState.asObservable();
   public state$ = this._tenantState.asObservable();
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getTenantData(tenant: string): Observable<RequisicaoModel<TenantFullModel>> {
     return this.http.get<RequisicaoModel<TenantFullModel>>(`${this._baseUrl}/${tenant}`);
@@ -28,8 +26,8 @@ export class TenantService {
     this._tenantState.next(newState)
   }
 
-  updateStateStaff(newState: boolean) {
-    this._isStaffState.next(newState)
+  getStaff(): boolean {
+    return localStorage.getItem('isStaff')? true:false;
   }
 
 }
