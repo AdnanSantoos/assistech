@@ -8,44 +8,33 @@
 
       <div class="form-row">
         <div class="form-group">
-          <label for="beneficio">Incentivo fiscal PPB (Processo Produtivo Básico)</label>
-          <div class="toggle-group">
-            <input type="radio" id="beneficioNao" value="Não" formControlName="beneficio" />
-            <label for="beneficioNao">Não</label>
-            <input type="radio" id="beneficioSim" value="Sim" formControlName="beneficio" />
-            <label for="beneficioSim">Sim</label>
-          </div>
+          <label for="basic_productive_incentive">Incentivo fiscal PPB (Processo Produtivo Básico)</label>
+          <label class="toggle-switch">
+            <input type="checkbox" formControlName="basic_productive_incentive" />
+            <span class="slider"></span>
+          </label>
         </div>
 
         <div class="form-group">
-          <label for="confidencial">Orçamento sigiloso?</label>
-          <div class="toggle-group">
-            <input type="radio" id="confidencialNao" value="Não" formControlName="margemPreferenciaNormal" />
-            <label for="confidencialNao">Não</label>
-            <input type="radio" id="confidencialSim" value="Sim" formControlName="margemPreferenciaNormal" />
-            <label for="confidencialSim">Sim</label>
-          </div>
+          <label for="confidential_budget">Orçamento sigiloso?</label>
+          <label class="toggle-switch">
+            <input type="checkbox" formControlName="confidential_budget" />
+            <span class="slider"></span>
+          </label>
         </div>
       </div>
 
       <div class="form-row">
         <div class="form-group">
-          <label for="categoriaItem">Categoria do Item *</label>
-          <input id="categoriaItem" type="text" formControlName="categoriaItem" />
+          <label for="item_type">Material ou Serviço? *</label>
+          <input id="item_type" type="text" formControlName="item_type" />
         </div>
 
         <div class="form-group">
-          <label for="unidadeMedida">Material ou Serviço? *</label>
-          <input id="unidadeMedida" type="text" formControlName="unidadeMedida" />
-        </div>
-      </div>
-
-      <div class="form-row">
-        <div class="form-group">
-          <label for="descricaoItem">Descrição do item *</label>
+          <label for="description">Descrição do item *</label>
           <textarea
-            id="descricaoItem"
-            formControlName="descricaoItem"
+            id="description"
+            formControlName="description"
             maxlength="2048"
             placeholder="Máximo de caracteres: 2048"
           ></textarea>
@@ -54,37 +43,48 @@
 
       <div class="form-row">
         <div class="form-group">
-          <label for="quantidade">Quantidade *</label>
-          <input id="quantidade" type="number" formControlName="quantidade" />
+          <label for="quantity">Quantidade *</label>
+          <input id="quantity" type="number" formControlName="quantity" />
         </div>
 
         <div class="form-group">
-          <label for="valorUnitarioEstimado">Valor unitário estimado *</label>
-          <input id="valorUnitarioEstimado" type="text" formControlName="valorUnitarioEstimado" />
-        </div>
-
-        <div class="form-group">
-          <label for="valorTotal">Valor total *</label>
-          <input id="valorTotal" type="text" formControlName="valorTotal" />
+          <label for="unit_of_measurement">Unidade de medida *</label>
+          <input id="unit_of_measurement" type="text" formControlName="unit_of_measurement" />
         </div>
       </div>
 
       <div class="form-row">
         <div class="form-group">
-          <label for="situacaoItem">Situação do item *</label>
-          <input id="situacaoItem" type="text" formControlName="situacaoItem" />
+          <label for="estimated_unit_value">Valor unitário estimado *</label>
+          <input id="estimated_unit_value" type="text" formControlName="estimated_unit_value" />
+        </div>
+
+        <div class="form-group">
+          <label for="total_value">Valor total *</label>
+          <input id="total_value" type="text" formControlName="total_value" />
         </div>
       </div>
 
       <div class="form-row">
         <div class="form-group">
-          <label for="codigoNCM">Código NCM/NBS</label>
-          <input id="codigoNCM" type="text" formControlName="codigoNCM" />
+          <label for="contract_item_situation_id">Situação do item *</label>
+          <input id="contract_item_situation_id" type="text" formControlName="contract_item_situation_id" />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="ncm_nbs_code">Código NCM/NBS</label>
+          <input id="ncm_nbs_code" type="text" formControlName="ncm_nbs_code" />
         </div>
 
         <div class="form-group">
-          <label for="descricaoNCM">Descrição NCM/NBS</label>
-          <textarea id="descricaoNCM" formControlName="descricaoNCM" maxlength="2048"></textarea>
+          <label for="ncm_nbs_description">Descrição NCM/NBS</label>
+          <textarea
+            id="ncm_nbs_description"
+            formControlName="ncm_nbs_description"
+            maxlength="2048"
+          ></textarea>
         </div>
       </div>
 

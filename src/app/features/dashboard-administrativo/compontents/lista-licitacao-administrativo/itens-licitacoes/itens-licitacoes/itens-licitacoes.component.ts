@@ -52,19 +52,14 @@ export class ItensLicitacoesComponent implements OnInit {
     return this.contractItemStatuses[statusId] || 'Status Desconhecido';
   }
   
-  openEditDialog(item: any): void {
-    const dialogRef = this.dialog.open(EditarItensLicitacaoComponent, {
+  openEditDialog(item: LicitacaoItemModel): void {
+    this.dialog.open(EditarItensLicitacaoComponent, {
       width: '800px',
       panelClass: 'custom-dialog-container',
-      data: item,
-    });
-  
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        console.log('Dialog closed with result:', result);
-      }
+      data: { itemId: item.id, licitacaoId: this.route.snapshot.params['id'] },
     });
   }
+  
   
   loadLicitacaoDetails(licitacaoId: string): void {
     this.isLoadingDetails = true;
