@@ -27,7 +27,7 @@
         <tr *ngFor="let doc of documents">
           <td>{{ doc.date | date : "dd/MM/yyyy" }}</td>
           <td>{{ doc.year_label + "/" + doc.number }}</td>
-          <td>{{ doc.file_name }}</td>
+          <td>{{ doc.description }}</td>
           <td>
             <strong>{{
               doc.status == "published" ? "Publicado" : "Pendente"
