@@ -104,4 +104,17 @@ export interface LicitacaoItemModel {
   }>;
 }
 
+export interface LicitacaoArquivos {
+  id: string; 
+  kind: string; 
+  label: string; 
+  mime: string; 
+  size: string; 
+  extension: string; 
+  gateway_location: string; 
+  gateway_sequence: number; 
+  document_type_id: number;
+  document_title: string;
+}
+
 export type RequisicaoLicitacaoModel = RequisicaoModel<LicitacaoModel[]>;

@@ -3,7 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { RequisicaoModel } from '../../../../../shared/models/shared.model';
 import { environment } from '../../../../../../environments/environment';
-import { LicitacaoModel, LicitacaoDetalhesModel, LicitacaoItemModel } from '../model/licitacoes-administrativo.model';
+import { LicitacaoModel, LicitacaoDetalhesModel, LicitacaoItemModel, LicitacaoArquivos } from '../model/licitacoes-administrativo.model';
 import { OrgaoModel } from '../../orgao-administrativo/model/orgao-administrativo.model';
 
 @Injectable({
@@ -24,6 +24,13 @@ export class LicitacoesRepository {
     const url = `${this.baseUrl}/${id}/items`;
     return this._http.get<RequisicaoModel<LicitacaoDetalhesModel[]>>(url, { params });
   }
+
+  getLicitacoesArquivos(id: string, page: number): Observable<RequisicaoModel<LicitacaoArquivos[]>> {
+    const params = new HttpParams().set('page', page.toString());
+    const url = `${this.baseUrl}/${id}/files`;
+    return this._http.get<RequisicaoModel<LicitacaoArquivos[]>>(url, { params });
+  }
+  
   getLicitacoesItens(licitacaoId: string, page: number): Observable<RequisicaoModel<LicitacaoItemModel[]>> {
     const params = new HttpParams().set('page', page.toString());
     const url = `${this.baseUrl}/${licitacaoId}/items`;

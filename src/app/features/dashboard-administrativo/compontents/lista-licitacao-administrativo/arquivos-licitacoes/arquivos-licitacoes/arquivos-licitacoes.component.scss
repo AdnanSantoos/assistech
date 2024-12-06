@@ -1,0 +1,122 @@
+.container {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    font-family: Arial, sans-serif;
+    color: #333;
+  
+    .title {
+      font-size: 24px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+  
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+  
+      div {
+        font-size: 16px;
+        font-weight: bold;
+      }
+    }
+  
+    .form-group {
+      margin-bottom: 20px;
+  
+      label {
+        display: block;
+        font-size: 14px;
+        margin-bottom: 5px;
+      }
+  
+      input,
+      .btn-select,
+      .btn-upload {
+        width: 100%;
+        padding: 10px;
+        font-size: 14px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        outline: none;
+      }
+  
+      .btn-select,
+      .btn-upload {
+        cursor: pointer;
+        text-align: left;
+        background-color: #f5f5f5;
+      }
+  
+      .btn-upload:hover {
+        background-color: #e0e0e0;
+      }
+    }
+  
+    .upload-group {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      span {
+        font-size: 14px;
+        font-style: italic;
+        color: #777;
+      }
+  
+      .btn-upload {
+        background-color: black;
+        color: white;
+        padding: 10px 15px;
+        font-size: 14px;
+        cursor: pointer;
+      }
+    }
+  
+    .file-info {
+      font-size: 14px;
+      color: #555;
+      margin: 20px 0;
+    }
+  
+    .file-table {
+      width: 100%;
+      border-collapse: collapse;
+  
+      th,
+      td {
+        text-align: left;
+        padding: 10px;
+        border-bottom: 1px solid #ddd;
+      }
+  
+      .btn-remove {
+        background-color: red;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        cursor: pointer;
+        border-radius: 4px;
+      }
+    }
+  
+    .actions {
+      text-align: center;
+  
+      .btn-submit {
+        background-color: black;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        font-size: 14px;
+        cursor: pointer;
+        border-radius: 4px;
+      }
+  
+      .btn-submit:disabled {
+        background-color: #ccc;
+        cursor: not-allowed;
+      }
+    }
+  }
+  
