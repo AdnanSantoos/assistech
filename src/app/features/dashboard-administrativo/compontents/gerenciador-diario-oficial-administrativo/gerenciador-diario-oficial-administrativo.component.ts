@@ -73,8 +73,8 @@ export class GerenciadorDiarioOficialAdministrativoComponent implements OnInit {
     }
   }
   openConfirmationModal(template: any, document: DiarioOficialPublicacoes): void {
-    this.selectedDocument = document; // Define o documento selecionado
-    this.modalRef = this.modalService.show(template); // Mostra o modal usando o template
+    this.selectedDocument = document; 
+    this.modalRef = this.modalService.show(template);
   }
   
 
@@ -83,12 +83,12 @@ export class GerenciadorDiarioOficialAdministrativoComponent implements OnInit {
       this._service.onDeleteItem(this.selectedDocument.id).subscribe({
         next: () => {
           console.log('Documento excluído com sucesso!');
-          this.getDiario(this.currentPage); // Atualiza a lista
-          this.modalService.hide(); // Fecha o modal
+          this.getDiario(this.currentPage);
+          this.modalService.hide();
         },
         error: (err) => {
           console.error('Erro ao excluir documento:', err);
-          this.modalService.hide(); // Fecha o modal
+          this.modalService.hide();
         },
       });
     }

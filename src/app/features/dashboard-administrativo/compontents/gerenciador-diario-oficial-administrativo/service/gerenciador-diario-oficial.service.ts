@@ -14,8 +14,7 @@ export class GerenciadorDiarioOficialService {
     private toastr: ToastrService
   ) {
   }
-
-
+  
   public getDashboard(page: number): Observable<any> {
     return this._repository.getListaDiarioOficial(page);
   }

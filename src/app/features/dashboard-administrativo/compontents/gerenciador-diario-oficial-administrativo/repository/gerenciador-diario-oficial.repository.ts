@@ -9,6 +9,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class GerenciadorDiarioOficialRepository {
+  
   constructor(private _http: HttpClient) { }
 
   getListaDiarioOficial(page: number) {
@@ -20,6 +21,4 @@ export class GerenciadorDiarioOficialRepository {
     const url = `${environment.apiUrl}/tenants/${environment.tenant}/diario-oficial/official-gazettes/${id}`;
     return this._http.delete<void>(url);
   }
-
-
 }
