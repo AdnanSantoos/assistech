@@ -5,6 +5,16 @@ body {
   height: 100%;
 }
 
+@media print {
+  #printContainer>div {
+      display: inline;
+  }
+}
+
+.unverified-signature-warning{
+  display: none;
+}
+
 .toast-container {
   position: fixed !important;
 }
