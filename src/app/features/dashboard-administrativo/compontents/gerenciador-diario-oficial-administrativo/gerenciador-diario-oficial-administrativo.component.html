@@ -75,14 +75,49 @@
               <button class="btn btn-anexar" disabled>Anexar</button>
               <button
                 class="btn-format btn-remove border-0 ps-0 pe-0 ms-0 me-0"
-                disabled
                 tooltip="Remover"
+                (click)="openConfirmationModal(confirmationTemplate, doc)"
               >
                 <img
                   src="../../../../../assets/icons/remove-icon.svg"
                   alt="Remover"
                 />
               </button>
+              <ng-template #confirmationTemplate>
+                <div class="modal-header">
+                  <h5 class="modal-title">Confirmação</h5>
+                  <button
+                    type="button"
+                    class="btn-close"
+                    aria-label="Close"
+                    (click)="modalRef?.hide()"
+                  ></button>
+                </div>
+                <div class="modal-body">
+                  <p>
+                    Você realmente deseja excluir
+                    <strong>{{ selectedDocument?.file_name }}</strong
+                    >?
+                  </p>
+                </div>
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    (click)="modalRef?.hide()"
+                  >
+                    Cancelar
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-danger"
+                    (click)="confirmDelete()"
+                  >
+                    Excluir
+                  </button>
+                </div>
+              </ng-template>
+
               }
             </div>
           </td>

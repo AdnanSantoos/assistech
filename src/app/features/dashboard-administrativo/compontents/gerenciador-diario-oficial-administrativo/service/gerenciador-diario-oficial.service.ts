@@ -1,22 +1,35 @@
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
+import { catchError, Observable, tap } from "rxjs";
 import { GerenciadorDiarioOficialRepository } from "../repository/gerenciador-diario-oficial.repository";
+import { ToastrService } from "ngx-toastr";
 
 @Injectable({
-    providedIn: 'root',
-  })
+  providedIn: 'root',
+})
 
-  export class GerenciadorDiarioOficialService {
+export class GerenciadorDiarioOficialService {
 
-    constructor(
-        private _repository: GerenciadorDiarioOficialRepository
-      ) {
-    }
-
-
-    public getDashboard(page:number): Observable<any> {
-        return this._repository.getListaDiarioOficial(page);
-      }
-
+  constructor(
+    private _repository: GerenciadorDiarioOficialRepository,
+    private toastr: ToastrService
+  ) {
   }
-  
+
+
+  public getDashboard(page: number): Observable<any> {
+    return this._repository.getListaDiarioOficial(page);
+  }
+
+  onDeleteItem(id: string): Observable<void> {
+    return this._repository.onDeleteItem(id).pipe(
+      tap(() => {
+        this.toastr.success('Documento excluído com sucesso!', 'Sucesso');
+      }),
+      catchError((error) => {
+        this.toastr.error('Erro ao excluir o documento.', 'Erro');
+        throw error;
+      })
+    );
+  }
+
+}
