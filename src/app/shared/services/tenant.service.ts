@@ -27,7 +27,7 @@ export class TenantService {
   }
 
   getStaff(): boolean {
-    return localStorage.getItem('isStaff')? true:false;
+    return !!localStorage.getItem('isStaff');
   }
 
 }

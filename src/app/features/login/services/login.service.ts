@@ -38,7 +38,9 @@ export class LoginService {
           localStorage.setItem('authToken', token);
         }
         this._tenantService.getDados(this.tenant).subscribe(v=>{
-          localStorage.setItem('isStaff',v.data.is_staff) 
+          if(v.data.is_staff){
+            localStorage.setItem('isStaff',v.data.is_staff) 
+          }
           this._router.navigate(['adm/dashboard-administrativo/home']);  
         })
       },
