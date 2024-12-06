@@ -31,7 +31,6 @@ export class PublicarDiarioOficialAdministrativoComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private _publicarService: PublicarDiarioOficialService
-    
   ) {
     this.dynamicFields.forEach((field) => {
       const validators = field.required ? [Validators.required] : [];

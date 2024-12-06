@@ -53,6 +53,7 @@ export class LoginService {
     this._repository.logout(tenant).subscribe({
       next: (response: LoginResponse) => {
         localStorage.removeItem('authToken');    
+        localStorage.removeItem('isStaff');    
         this._router.navigate(['/']);
       },
       error: (err: any) => {

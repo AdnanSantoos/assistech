@@ -99,7 +99,7 @@ export class CadastrarFotosDiarioOficialComponent implements OnInit {
       this.selectedLogo = reader.result;
     };
     reader.readAsDataURL(file);
-    this.logoForm.patchValue({ photo: 'Arquivos selecionados' });
+    this.logoForm.patchValue({ logo: 'Arquivos selecionados' });
   }
 
 
@@ -126,10 +126,9 @@ export class CadastrarFotosDiarioOficialComponent implements OnInit {
   }
 
   onSubmitLogo(): void {
-    console.log('aqui')
     if (this.logoForm.valid && this.logoFile) {
       const formData = new FormData();
-      formData.append('file', this.logoFile);
+      formData.append('logo', this.logoFile);
 
       this._cadastrarFotosAdministrativoService.uploadLogo(formData).subscribe({
         next: () => {

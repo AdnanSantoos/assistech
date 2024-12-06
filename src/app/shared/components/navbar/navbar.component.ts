@@ -53,7 +53,7 @@ export class NavbarComponent implements OnInit {
     this.checkRoute(currentUrl);
 
     this.tenantService.state$.subscribe(tenantData => {
-      this.logo = tenantData?.address.logo!;
+      this.logo = tenantData?.logo!;
       this.logoText2 = tenantData?.name!;
       this.tenant = tenantData?.slug!;
     })

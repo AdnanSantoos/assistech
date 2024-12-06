@@ -7,7 +7,7 @@ import {
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { LoginService } from './services/login.service';
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { ToastrService } from 'ngx-toastr';
 
@@ -22,11 +22,14 @@ import { ToastrService } from 'ngx-toastr';
 export class LoginComponent {
   loginForm: FormGroup;
 
-  constructor(private _service: LoginService, private _fb: FormBuilder,private _toastr : ToastrService) {
+  constructor(private _route: ActivatedRoute,private _service: LoginService, private _fb: FormBuilder,private _toastr : ToastrService) {
     this.loginForm = this._fb.group({
       email: ['', Validators.required],
       password: ['', Validators.required],
       manterConectado: [false],
+    });
+    this._route.queryParams.subscribe(params => {
+      this._toastr.info('Sua sessão expirou. Por favor, faça login novamente.')
     });
   }
 
