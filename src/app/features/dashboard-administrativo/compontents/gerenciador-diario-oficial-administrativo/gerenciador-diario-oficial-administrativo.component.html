@@ -83,10 +83,10 @@
                   alt="Remover"
                 />
               </button>
-              
+
               <ng-template #confirmationTemplate>
                 <div class="modal-header">
-                  <h5 class="modal-title">Confirmação</h5>
+                  <h5 class="text-capitalize">Excluir Diário Oficial</h5>
                   <button
                     type="button"
                     class="btn-close"
@@ -96,9 +96,10 @@
                 </div>
                 <div class="modal-body">
                   <p>
-                    Você realmente deseja excluir
-                    <strong>{{ selectedDocument?.file_name }}</strong
-                    >?
+                    Você realmente deseja excluir?
+                    <br>
+                    <strong><span class="text-uppercase">Arquivo</span>: <span class="text-danger">{{ selectedDocument?.file_name }}</span></strong
+                    >
                   </p>
                 </div>
                 <div class="modal-footer">
