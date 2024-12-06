@@ -29,7 +29,10 @@ export class LoginComponent {
       manterConectado: [false],
     });
     this._route.queryParams.subscribe(params => {
-      this._toastr.info('Sua sessão expirou. Por favor, faça login novamente.')
+      console.log(params)
+      if(params['sessionExpired']){
+        this._toastr.info('Sua sessão expirou. Por favor, faça login novamente.')
+      }
     });
   }
 
