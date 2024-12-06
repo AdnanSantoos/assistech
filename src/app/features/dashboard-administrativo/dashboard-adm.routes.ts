@@ -22,6 +22,7 @@ import { GerenciadorNoticiaOficialComponent } from './compontents/gerenciador-no
 import { EditarLicitacoesAdministrativoComponent } from './compontents/lista-licitacao-administrativo/editar-licitacoes/editar-licitacoes-administrativo/editar-licitacoes-administrativo.component';
 import { ItensLicitacoesComponent } from './compontents/lista-licitacao-administrativo/itens-licitacoes/itens-licitacoes/itens-licitacoes.component';
 import { AuthGuard } from '../../guards/auth.guard';
+import { ArquivosLicitacoesComponent } from './compontents/lista-licitacao-administrativo/arquivos-licitacoes/arquivos-licitacoes/arquivos-licitacoes.component';
 
 const routes: Routes = [
   {
@@ -93,6 +94,10 @@ const routes: Routes = [
       {
         path: 'itens-licitacoes/:id',
         component: ItensLicitacoesComponent,
+      },
+      {
+        path: 'arquivos-licitacoes/:id',
+        component: ArquivosLicitacoesComponent,
       },
       {
         path: 'cadastrar-fotos-diario',

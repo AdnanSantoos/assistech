@@ -1,0 +1,63 @@
+<div class="container">
+  <h2 class="title">ADICIONAR ARQUIVO</h2>
+
+  <div class="info-row">
+    <div><strong>LICITAÇÃO Nº:</strong> {{ data.licitacaoId }}</div>
+    <div><strong>NÚMERO DA COMPRA:</strong> 033</div>
+  </div>
+
+  <form (ngSubmit)="salvar()">
+    <div class="form-group">
+      <label for="documentTitle">TÍTULO DO DOCUMENTO*</label>
+      <input id="documentTitle" type="text" placeholder="Digite o título do documento" required />
+    </div>
+
+    <div class="form-group">
+      <label for="documentType">TIPO DE DOCUMENTO*</label>
+      <button type="button" id="documentType" class="btn-select">SELECIONE</button>
+    </div>
+
+    <div class="form-group">
+      <label for="documentUpload">DOCUMENTO DA LICITAÇÃO*</label>
+      <div class="upload-group">
+        <span>ARQUIVO...</span>
+        <button type="button" class="btn-upload">SELECIONAR ARQUIVO</button>
+      </div>
+    </div>
+
+    <p class="file-info">TIPOS DE ARQUIVOS ACEITOS: <strong>.PDF</strong></p>
+
+    <table class="file-table" *ngIf="arquivos.length > 0">
+      <thead>
+        <tr>
+          <th>Título</th>
+          <th>Tipo</th>
+          <th>Tamanho</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let arquivo of arquivos">
+          <td>{{ arquivo.document_title }}</td>
+          <td>{{ arquivo.mime }}</td>
+          <td>{{ arquivo.size }}</td>
+          <td>
+            <button class="btn-remove" (click)="removerArquivo(arquivo.id)">Remover</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="no-files" *ngIf="!arquivos.length && !isLoading">
+      Nenhum arquivo anexado.
+    </div>
+
+    <div class="loading" *ngIf="isLoading">
+      Carregando arquivos...
+    </div>
+
+    <div class="actions">
+      <button type="submit" class="btn-submit" [disabled]="isLoading">ENVIAR</button>
+    </div>
+  </form>
+</div>

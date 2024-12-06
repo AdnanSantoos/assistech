@@ -3,10 +3,12 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { RouterModule } from '@angular/router';
-import { LicitacaoModel } from './model/licitacoes-administrativo.model';
+import { ActivatedRoute, RouterModule } from '@angular/router';
+import { LicitacaoArquivos, LicitacaoModel } from './model/licitacoes-administrativo.model';
 import { LicitacoesService } from './service/licitacoes-administrativos.service';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { ArquivosLicitacoesComponent } from './arquivos-licitacoes/arquivos-licitacoes/arquivos-licitacoes.component';
+import { MatDialog } from '@angular/material/dialog';
 
 
 @Component({
@@ -18,7 +20,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatPaginatorModule,
     MatTableModule,
     RouterModule,
-    MatTooltipModule
+    MatTooltipModule,
   ],
   templateUrl: './lista-licitacao-administrativo.component.html',
   styleUrls: ['./lista-licitacao-administrativo.component.scss'],
@@ -43,7 +45,8 @@ export class ListaLicitacaoAdministrativoComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  constructor(private licitacoesService: LicitacoesService) { }
+  constructor(private licitacoesService: LicitacoesService, private route: ActivatedRoute,
+    private dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.loadLicitacoes(this.currentPage);
@@ -88,11 +91,11 @@ export class ListaLicitacaoAdministrativoComponent implements OnInit {
         if (response && response.data && response.data.length > 0) {
           const licitacao = response.data[0];
           const { year, gateway_sequence, agency } = licitacao;
-  
+
           if (agency && agency.country_register) {
             const baseUrl = 'https://treina.pncp.gov.br/app/editais/';
             const fullUrl = `${baseUrl}${agency.country_register}/${year}/${gateway_sequence}`;
-  
+
             window.open(fullUrl, '_blank');
           } else {
             console.error('Invalid agency data or missing country_register.');
@@ -106,7 +109,24 @@ export class ListaLicitacaoAdministrativoComponent implements OnInit {
       },
     });
   }
-  
+
+
+  openArquivosDialog(item: LicitacaoModel): void {
+
+    if (item && item.id) {
+      this.dialog.open(ArquivosLicitacoesComponent, {
+        width: '800px',
+        panelClass: 'custom-dialog-container',
+        data: {
+          itemId: item.id, 
+          licitacaoId: this.route.snapshot.params['id'],
+        },
+      });
+    } else {
+      console.error('O item ou o ID da licitação está ausente. Não foi possível abrir o diálogo.');
+    }
+  }
+
 
   goToPage(pageNumber: number): void {
     if (pageNumber >= 1 && pageNumber <= this.totalPages) {
