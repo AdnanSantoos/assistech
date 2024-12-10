@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class GerenciadorDiarioOficialRepository {
-  
+
   constructor(private _http: HttpClient) { }
 
   getListaDiarioOficial(page: number) {
@@ -21,4 +21,16 @@ export class GerenciadorDiarioOficialRepository {
     const url = `${environment.apiUrl}/tenants/${environment.tenant}/diario-oficial/official-gazettes/${id}`;
     return this._http.delete<void>(url);
   }
+
+  onDeletePages(id: string, pages: number[]): Observable<void> {
+    const url = `${environment.apiUrl}/tenants/${environment.tenant}/diario-oficial/official-gazettes/${id}/pages`;
+    return this._http.request<void>('DELETE', url, { body: { pages } });
+  }
+  
+  getDocumentPages(id: string): Observable<{ data: { pages: number; file_upload: string } }> {
+    const url = `${environment.apiUrl}/tenants/${environment.tenant}/diario-oficial/official-gazettes/${id}/pages`;
+    console.log('URL da requisição de páginas:', url);
+    return this._http.get<{ data: { pages: number; file_upload: string } }>(url);
+  }
+  
 }

@@ -15,7 +15,7 @@ import { BsModalRef, BsModalService, ModalModule } from 'ngx-bootstrap/modal';
 @Component({
   selector: 'app-gerenciador-diario-oficial-administrativo',
   standalone: true,
-  imports: [CommonModule, RouterLink, MatIcon, TooltipModule, ModalModule ],
+  imports: [CommonModule, RouterLink, MatIcon, TooltipModule, ModalModule],
   providers: [BsModalService],
   templateUrl: './gerenciador-diario-oficial-administrativo.component.html',
   styleUrls: ['./gerenciador-diario-oficial-administrativo.component.scss'],
@@ -28,6 +28,9 @@ export class GerenciadorDiarioOficialAdministrativoComponent implements OnInit {
   public currentPage = 1;
   public totalPages = 5;
   public isStaff: boolean | null = null;
+
+  public documentPages: number[] = []; // Lista de páginas do documento selecionado 
+  public selectedPages: number[] = []; // Páginas selecionadas para exclusão
 
   constructor(
     private _location: Location,
@@ -73,15 +76,10 @@ export class GerenciadorDiarioOficialAdministrativoComponent implements OnInit {
     }
   }
   openConfirmationModal(template: any, document: DiarioOficialPublicacoes): void {
-    this.selectedDocument = document; 
+    this.selectedDocument = document;
     this.modalRef = this.modalService.show(template);
   }
 
-
-  openDeletePage(template: any, document: DiarioOficialPublicacoes): void {
-    this.selectedDocument = document; 
-    this.modalRef = this.modalService.show(template);
-  }  
 
   confirmDelete(): void {
     if (this.selectedDocument) {
@@ -98,4 +96,72 @@ export class GerenciadorDiarioOficialAdministrativoComponent implements OnInit {
       });
     }
   }
+
+  openDeletePage(template: any, document: DiarioOficialPublicacoes): void {
+    this.selectedDocument = document;
+    this.selectedPages = [];
+
+    if (document.id) {
+      this._service.getDocumentPages(document.id).subscribe({
+        next: (response) => {
+
+          if (response.data.pages) {
+            this.documentPages = Array.from({ length: response.data.pages }, (_, i) => i + 1);
+          } else {
+            this.documentPages = [];
+          }
+        },
+        error: (err) => {
+          console.error('Erro ao carregar as páginas do documento:', err);
+          this.documentPages = [];
+        },
+      });
+    }
+    this.modalRef = this.modalService.show(template);
+  }
+
+  togglePageSelection(page: number): void {
+    const index = this.selectedPages.indexOf(page);
+    if (index === -1) {
+      this.selectedPages.push(page);
+    } else {
+      this.selectedPages.splice(index, 1);
+    }
+  }
+
+  confirmDeletePage(): void {
+    if (this.selectedDocument && this.selectedPages.length > 0) {
+      console.log('Excluindo páginas:', this.selectedPages);
+      this._service.onDeletePages(this.selectedDocument.id, this.selectedPages).subscribe({
+        next: () => {
+          console.log('Páginas excluídas com sucesso!');
+          this.modalRef?.hide();
+          this.selectedPages = [];
+          this.getDiario(this.currentPage);
+        },
+        error: (err) => {
+          console.error('Erro ao excluir páginas:', err);
+        },
+      });
+    }
+  }
+
+
+  getDocumentPages(document: DiarioOficialPublicacoes): number[] {
+    // Simulação: cada documento tem 10 páginas por padrão
+    return Array.from({ length: 10 }, (_, i) => i + 1);
+  }
+
+  viewCurrentFile(): void {
+    if (this.selectedDocument) {
+      window.open(this.selectedDocument.file_upload, '_blank');
+    }
+  }
+
+  previewFile(): void {
+    if (this.selectedDocument) {
+      window.open(this.selectedDocument.file_published || this.selectedDocument.file_upload, '_blank');
+    }
+  }
+
 }
