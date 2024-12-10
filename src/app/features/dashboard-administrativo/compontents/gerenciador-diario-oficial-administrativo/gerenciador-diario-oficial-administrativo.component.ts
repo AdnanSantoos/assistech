@@ -76,7 +76,12 @@ export class GerenciadorDiarioOficialAdministrativoComponent implements OnInit {
     this.selectedDocument = document; 
     this.modalRef = this.modalService.show(template);
   }
-  
+
+
+  openDeletePage(template: any, document: DiarioOficialPublicacoes): void {
+    this.selectedDocument = document; 
+    this.modalRef = this.modalService.show(template);
+  }  
 
   confirmDelete(): void {
     if (this.selectedDocument) {

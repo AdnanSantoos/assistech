@@ -6,12 +6,12 @@ body {
 }
 
 @media print {
-  #printContainer>div {
-      display: inline;
+  #printContainer > div {
+    display: inline;
   }
 }
 
-.unverified-signature-warning{
+.unverified-signature-warning {
   display: none;
 }
 
@@ -19,7 +19,7 @@ body {
   position: fixed !important;
 }
 .custom-dialog-container {
-  max-height: 90vh; 
+  max-height: 90vh;
   overflow-y: auto;
 }
 
@@ -294,9 +294,9 @@ body {
   justify-content: center;
   align-items: center;
   border: none;
-  width: 45px;
-  height: 30px;
-  border-radius: 4px;
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
   cursor: pointer;
 
   img {
@@ -339,6 +339,13 @@ body {
   background-color: #ef4444 !important;
   img {
     filter: brightness(2);
+  }
+}
+.btn-remove-page {
+  background-color: #ef4444 !important;
+  img {
+    min-width: 35px;
+    min-height: 35px;
   }
 }
 .mat-edit {

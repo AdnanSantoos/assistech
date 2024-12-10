@@ -29,9 +29,15 @@
           <td>{{ doc.year_label + "/" + doc.number }}</td>
           <td>{{ doc.description }}</td>
           <td>
-            <strong>{{
-              doc.status == "published" ? "Publicado" : "Pendente"
-            }}</strong>
+            <strong
+              [ngClass]="{
+                'tx-mustard': doc.status === 'scheduled',
+                'tx-green': doc.status === 'published',
+              }"
+              >{{
+                doc.status == "published" ? "Publicado" : "Pendente"
+              }}</strong
+            >
           </td>
           <td class="w-25">
             <div class="d-flex justify-content-end align-items-center gap-2">
@@ -64,6 +70,11 @@
                 [href]="doc.file_published"
                 target="_blank"
                 class="btn btn-sm"
+                [ngClass]="{
+                  'bg-mustard': doc.status === 'scheduled',
+                  'bg-green': doc.status === 'published',
+                  'bg-transparent': !doc.status
+                }"
                 tooltip="Publicado"
               >
                 <img
@@ -71,16 +82,27 @@
                   alt="Publicado"
                 />
               </a>
+
               @if(isStaff){
               <button class="btn btn-anexar" disabled>Anexar</button>
               <button
+                class="btn-format btn-remove-page border-0 ps-0 pe-0 ms-0 me-0"
+                tooltip="Remover Página"
+                (click)="openDeletePage(deletePage, doc)"
+              >
+                <img
+                  src="../../../../../assets/icons/remover-pagina-icon.svg"
+                  alt="Remover Página"
+                />
+              </button>
+              <button
                 class="btn-format btn-remove border-0 ps-0 pe-0 ms-0 me-0"
-                tooltip="Remover"
+                tooltip="Remover Publicação"
                 (click)="openConfirmationModal(confirmationTemplate, doc)"
               >
                 <img
                   src="../../../../../assets/icons/remove-icon.svg"
-                  alt="Remover"
+                  alt="Remover Publicação"
                 />
               </button>
 
@@ -97,9 +119,12 @@
                 <div class="modal-body">
                   <div>
                     <p class="mb-2">Você realmente deseja excluir?</p>
-                    <strong><span class="text-danger">{{ selectedDocument?.file_name }}</span></strong
+                    <strong
+                      ><span class="text-danger">{{
+                        selectedDocument?.file_name
+                      }}</span></strong
                     >
-                    </div>
+                  </div>
                 </div>
                 <div class="modal-footer">
                   <button
@@ -119,6 +144,44 @@
                 </div>
               </ng-template>
 
+              
+              <ng-template #deletePage>
+                <div class="modal-header">
+                  <h5 class="text-capitalize">Excluir Diário Oficial</h5>
+                  <button
+                    type="button"
+                    class="btn-close"
+                    aria-label="Close"
+                    (click)="modalRef?.hide()"
+                  ></button>
+                </div>
+                <div class="modal-body">
+                  <div>
+                    <p class="mb-2">Você realmente deseja excluir?</p>
+                    <strong
+                      ><span class="text-danger">{{
+                        selectedDocument?.file_name
+                      }}</span></strong
+                    >
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    (click)="modalRef?.hide()"
+                  >
+                    Cancelar
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-danger"
+                    (click)="confirmDelete()"
+                  >
+                    Excluir
+                  </button>
+                </div>
+              </ng-template>
               }
             </div>
           </td>

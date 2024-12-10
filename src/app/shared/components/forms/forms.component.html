@@ -288,7 +288,7 @@
               type="date"
               id="dataAgendada"
               class="form-control"
-              formControlName="dataAgendada"
+              formControlName="date"
               required
             />
           </div>
@@ -302,6 +302,8 @@
               (change)="onFileChange($event, 'files')"
               class="form-control"
               accept=".pdf"
+              formControlName="file"
+
             />
             <p *ngIf="formAgendado.get('files')?.value">
               {{ formAgendado.get("files")?.value.name }}

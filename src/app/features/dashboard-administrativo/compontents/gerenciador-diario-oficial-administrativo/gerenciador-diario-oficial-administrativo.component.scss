@@ -25,9 +25,16 @@ button:active {
   background: #bfbfbf;
   width: 39.404px;
   height: 39.404px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  img {
+    width: 25px;
+    height: 25px;
+  }
 }
 .btn-anexar {
-  border-radius: 14.006px;
+  border-radius: 8px;
   border: 1.401px solid #000;
   opacity: 0.9;
   background: #000;
@@ -37,8 +44,8 @@ button:active {
   align-items: center;
   gap: 20px;
   color: #fff;
-  height: 39px;
-  max-width:102px ;
+  height: 40px;
+  max-width: 102px;
 }
 ::ng-deep {
   .mat-mdc-paginator {
@@ -108,7 +115,6 @@ small {
   padding: 0;
 }
 
-
 .pagination {
   display: flex;
   justify-content: center;
@@ -122,7 +128,7 @@ small {
       border: none;
       cursor: pointer;
       &:hover {
-        transition : all 0.7s;
+        transition: all 0.7s;
 
         background-color: rgba(0, 123, 255, 0.1);
       }
@@ -160,11 +166,38 @@ small {
   line-height: 122.487%; /* 12.48px */
 }
 
-@media (max-width: 768px){
-  .justify-content-end{
+.bg-mustard {
+  background-color: #bbaf26;
+  img {
+    filter: invert(1);
+  }
+}
+
+.bg-green {
+  background-color: #028302;
+  img {
+    filter: invert(1);
+  }
+}
+
+.tx-mustard {
+  color: #bbaf26;
+}
+
+.tx-green {
+  color: #028302;
+}
+
+.bg-transparent {
+  background-color: transparent;
+}
+
+@media (max-width: 768px) {
+  .justify-content-end {
     justify-content: center !important;
   }
 }
+
 .table-striped {
   tbody {
     tr {
