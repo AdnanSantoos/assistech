@@ -54,5 +54,15 @@ export class GerenciadorDiarioOficialService {
     );
   }
 
-
+  attachDocument(id: string, file: File): Observable<{ data: { status: boolean } }> {
+    return this._repository.attachDocument(id, file).pipe(
+      tap(() => {
+        this.toastr.success('Documento anexado com sucesso!', 'Sucesso');
+      }),
+      catchError((error) => {
+        this.toastr.error('Erro ao anexar o documento.', 'Erro');
+        return throwError(() => error);
+      })
+    );
+  }
 }

@@ -26,11 +26,19 @@ export class GerenciadorDiarioOficialRepository {
     const url = `${environment.apiUrl}/tenants/${environment.tenant}/diario-oficial/official-gazettes/${id}/pages`;
     return this._http.request<void>('DELETE', url, { body: { pages } });
   }
-  
+
   getDocumentPages(id: string): Observable<{ data: { pages: number; file_upload: string } }> {
     const url = `${environment.apiUrl}/tenants/${environment.tenant}/diario-oficial/official-gazettes/${id}/pages`;
     console.log('URL da requisição de páginas:', url);
     return this._http.get<{ data: { pages: number; file_upload: string } }>(url);
   }
   
+  attachDocument(id: string, file: File): Observable<{ data: { status: boolean } }> {
+    const url = `${environment.apiUrl}/tenants/${environment.tenant}/diario-oficial/official-gazettes/${id}/attach`;
+
+    const formData = new FormData();
+    formData.append('file', file);
+
+    return this._http.post<{ data: { status: boolean } }>(url, formData);
+  }
 }

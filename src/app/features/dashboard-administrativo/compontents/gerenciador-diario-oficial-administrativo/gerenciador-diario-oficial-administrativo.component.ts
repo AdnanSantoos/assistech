@@ -31,6 +31,7 @@ export class GerenciadorDiarioOficialAdministrativoComponent implements OnInit {
 
   public documentPages: number[] = []; // Lista de páginas do documento selecionado 
   public selectedPages: number[] = []; // Páginas selecionadas para exclusão
+  selectedFile: File | null = null; // Armazena o arquivo selecionado
 
   constructor(
     private _location: Location,
@@ -164,4 +165,36 @@ export class GerenciadorDiarioOficialAdministrativoComponent implements OnInit {
     }
   }
 
+  openAnexarModal(template: any, document: DiarioOficialPublicacoes): void {
+    this.selectedDocument = document; // Define o documento selecionado
+    this.modalRef = this.modalService.show(template); // Abre o modal
+  }
+
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files?.length) {
+      this.selectedFile = input.files[0]; // Salva o arquivo selecionado
+      console.log('Arquivo selecionado:', this.selectedFile); // Log do arquivo selecionado
+    }
+  }
+
+  attachDocument(): void {
+    if (this.selectedDocument && this.selectedFile) {
+      console.log('Enviando arquivo:', this.selectedFile); // Log do envio
+      this._service.attachDocument(this.selectedDocument.id, this.selectedFile).subscribe({
+        next: (response) => {
+          if (response.data.status) {
+            console.log('Documento anexado com sucesso!');
+            this.modalRef?.hide(); // Fecha o modal
+            this.selectedFile = null; // Reseta o arquivo selecionado
+          }
+        },
+        error: (err) => {
+          console.error('Erro ao anexar o documento:', err);
+        },
+      });
+    } else {
+      console.warn('Nenhum arquivo selecionado ou documento inválido.');
+    }
+  }
 }

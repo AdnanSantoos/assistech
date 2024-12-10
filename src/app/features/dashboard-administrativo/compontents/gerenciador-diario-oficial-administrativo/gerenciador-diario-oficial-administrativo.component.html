@@ -84,7 +84,12 @@
               </a>
 
               @if(isStaff){
-              <button class="btn btn-anexar" disabled>Anexar</button>
+              <button
+                class="btn btn-anexar"
+                (click)="openAnexarModal(anexarDocumentos, doc)"
+              >
+                Anexar
+              </button>
               <button
                 class="btn-format btn-remove-page border-0 ps-0 pe-0 ms-0 me-0"
                 tooltip="Remover Página"
@@ -214,6 +219,57 @@
                       Excluir Selecionadas
                     </button>
                   </div>
+                </div>
+              </ng-template>
+
+              <ng-template #anexarDocumentos>
+                <div class="modal-header">
+                  <h5 class="text-capitalize">
+                    Anexar arquivo ao final da publicação de edição:
+                    {{ selectedDocument?.year_label }}/{{
+                      selectedDocument?.number
+                    }}
+                  </h5>
+                  <button
+                    type="button"
+                    class="btn-close"
+                    aria-label="Close"
+                    (click)="modalRef?.hide()"
+                  ></button>
+                </div>
+                <div class="modal-body">
+                  <div>
+                    <label for="fileInput" class="form-label"
+                      >Selecione um arquivo:</label
+                    >
+                    <input
+                      id="fileInput"
+                      type="file"
+                      class="form-control"
+                      accept=".pdf"
+                      (change)="onFileSelected($event)"
+                    />
+                    <small class="text-muted"
+                      >Tipos de arquivos aceitos: .pdf</small
+                    >
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    (click)="modalRef?.hide()"
+                  >
+                    Cancelar
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-primary"
+                    [disabled]="!selectedFile"
+                    (click)="attachDocument()"
+                  >
+                    Selecionar Arquivo
+                  </button>
                 </div>
               </ng-template>
 
