@@ -43,7 +43,7 @@ export interface TenantAddressModel {
     complement?: string;
     district: string;
     zip: string;
-    
+
 }
 
 export interface TenantFullModel {
@@ -51,7 +51,7 @@ export interface TenantFullModel {
     first_publication: string;
     country_register: string;
     phone: string;
-    logo:string;
+    logo: string;
     networks: TenantNetworkModel;
     address: TenantAddressModel;
     city_name: string;
@@ -59,6 +59,25 @@ export interface TenantFullModel {
     slug: string;
     state_uf: string;
     year: number;
+}
+
+
+export interface dynamicFields {
+    name: string;
+    type: string;
+    label: string;
+    required: boolean;
+    value?: any;
+    disabled?: boolean;
+    fileType?: string;
+    placeholder?: string;
+    accept?: string;
+    nameButton?: string;
+    title?: string;
+    page?: string;
+    options?: [
+        { value: string, label: string },
+    ],
 }
 
 export type RequisicaoTenantFullModel = RequisicaoModel<TenantFullModel>;

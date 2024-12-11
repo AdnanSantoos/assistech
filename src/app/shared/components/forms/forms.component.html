@@ -113,6 +113,7 @@
             </div>
             <input
               type="file"
+              [required]="field.required"
               (change)="onFileChange($event, field.name)"
               class="form-control-file"
               [accept]="field.accept || '.pdf'"
@@ -295,18 +296,18 @@
 
           <!-- Campo de upload de arquivo -->
           <div class="mb-3">
-            <label for="fileUpload">Arquivo</label>
+            <label for="fileUpload2">Arquivo</label>
             <input
               type="file"
-              id="fileUpload"
-              (change)="onFileChange($event, 'files')"
+              id="fileUpload2"
+              (change)="onFileChangeAgendado($event, 'file')"
               class="form-control"
               accept=".pdf"
               formControlName="file"
 
             />
-            <p *ngIf="formAgendado.get('files')?.value">
-              {{ formAgendado.get("files")?.value.name }}
+            <p *ngIf="formAgendado.get('file')?.value">
+              {{ formAgendado.get("file")?.value.name }}
             </p>
           </div>
 

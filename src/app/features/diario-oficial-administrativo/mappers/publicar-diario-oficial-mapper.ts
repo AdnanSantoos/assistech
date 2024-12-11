@@ -2,7 +2,6 @@ export class PublicarDiarioOficialMapper {
   public static toSubmit(form: any) {
     const formData = new FormData();
     let value = { ...form };
-
     formData.append('date', value.date);
     formData.append('description', value.description);
 
@@ -13,7 +12,6 @@ export class PublicarDiarioOficialMapper {
     } else {
       console.error("Nenhum arquivo foi selecionado.");
     }
-
     return formData;
   }
 }

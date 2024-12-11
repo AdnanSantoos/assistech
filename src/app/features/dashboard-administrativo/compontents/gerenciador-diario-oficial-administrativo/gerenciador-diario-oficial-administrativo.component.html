@@ -33,9 +33,10 @@
               [ngClass]="{
                 'tx-mustard': doc.status === 'scheduled',
                 'tx-green': doc.status === 'published',
+                'text-danger': doc.status === 'error',
               }"
               >{{
-                doc.status == "published" ? "Publicado" : "Pendente"
+                statusPublicacao(doc.status)
               }}</strong
             >
           </td>
@@ -73,6 +74,7 @@
                 [ngClass]="{
                   'bg-mustard': doc.status === 'scheduled',
                   'bg-green': doc.status === 'published',
+                  'bg-danger': doc.status==='error',
                   'bg-transparent': !doc.status
                 }"
                 tooltip="Publicado"

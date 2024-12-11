@@ -7,6 +7,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { LayoutFormsAdmComponent } from '../../../../shared/containers/layout-forms-adm/layout-forms-adm.component';
 import { LogPipe } from '../../../../shared/pipes/log.pipe';
 import { PublicarDiarioOficialMapper } from '../../mappers/publicar-diario-oficial-mapper';
+import { dynamicFields } from '../../../../shared/models/shared.model';
 
 @Component({
   selector: 'app-publicar-diario-oficial-administrativo',
@@ -22,8 +23,8 @@ import { PublicarDiarioOficialMapper } from '../../mappers/publicar-diario-ofici
 })
 export class PublicarDiarioOficialAdministrativoComponent implements OnInit {
   filtroForm: FormGroup = this.fb.group({});
-  dynamicFields: any[] = [
-    { name: 'date', type: 'date', label: 'Data', required: true },
+  dynamicFields: dynamicFields[] = [
+    { name: 'date', type: 'date', label: 'Data', required: true,value:new Date(),disabled:true },
     { name: 'description', type: 'textarea', label: 'Descrição', required: true },
     { name: 'files', type: 'file', fileType: 'complex', label: 'Arquivo', required: true }
   ];
@@ -38,8 +39,11 @@ export class PublicarDiarioOficialAdministrativoComponent implements OnInit {
         this.filtroForm.addControl(field.name, this.fb.control(null, validators));
       } else if (field.type === 'checkbox') {
         this.filtroForm.addControl(field.name, this.fb.control(false, validators));
-      } else {
-        this.filtroForm.addControl(field.name, this.fb.control('', validators));
+      }else if (field.type === 'date') {
+        this.filtroForm.addControl(field.name, this.fb.control({value:new Date(),disabled:true}, validators));
+      }
+       else {
+        this.filtroForm.addControl(field.name, this.fb.control('teste', validators));
       }
     });
   }

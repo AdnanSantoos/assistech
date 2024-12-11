@@ -6,7 +6,7 @@ import { MatIcon } from '@angular/material/icon';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { GerenciadorDiarioOficialService } from './service/gerenciador-diario-oficial.service';
 import { RequisicaoModel } from '../../../../shared/models/shared.model';
-import { DiarioOficialPublicacoes } from './models/gerenciador-diario-oficial.model';
+import { DiarioOficialPublicacoes, StatusPublicacao } from './models/gerenciador-diario-oficial.model';
 import { TenantService } from '../../../../shared/services/tenant.service';
 import { subscribe } from 'diagnostics_channel';
 import { MatDialog } from '@angular/material/dialog';
@@ -45,6 +45,21 @@ export class GerenciadorDiarioOficialAdministrativoComponent implements OnInit {
   ngOnInit(): void {
     this.isStaff = this.tenantService.getStaff();
     this.getDiario(this.currentPage);
+  }
+
+  statusPublicacao(status: string): string {
+    const traducoes: Record<string, string> = {
+      [StatusPublicacao.PENDING]: 'Pendente',
+      [StatusPublicacao.GENERATED_INDEX]: 'Índice Gerado',
+      [StatusPublicacao.GENERATED_PDF]: 'PDF Gerado',
+      [StatusPublicacao.SIGNED_PDF]: 'PDF Assinado',
+      [StatusPublicacao.JOINING_FILES]: 'Unindo Arquivos',
+      [StatusPublicacao.ERROR]: 'Erro',
+      [StatusPublicacao.PUBLISHED]: 'Publicado',
+      [StatusPublicacao.SCHEDULED]:'Agendado'
+    };
+  
+    return traducoes[status] || '-';
   }
 
   getDiario(page: number) {

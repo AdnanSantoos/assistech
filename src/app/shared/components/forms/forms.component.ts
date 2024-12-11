@@ -1,5 +1,5 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -10,6 +10,7 @@ import { MatNativeDateModule, MAT_DATE_LOCALE, DateAdapter, MAT_DATE_FORMATS } f
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { MatRippleModule } from '@angular/material/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { dynamicFields } from '../../models/shared.model';
 
 export const MY_DATE_FORMATS = {
   parse: {
@@ -48,7 +49,7 @@ export const MY_DATE_FORMATS = {
   ],
 })
 export class FormsComponent implements OnInit {
-  @Input() dynamicFields: any[] = [];
+  @Input() dynamicFields: dynamicFields[] = [];
   @Input() form!: FormGroup;
   @Input() formAgendado!: FormGroup;
   @Output() formSubmit = new EventEmitter<void>();
@@ -61,18 +62,22 @@ export class FormsComponent implements OnInit {
   constructor(private fb: FormBuilder, private dateAdapter: DateAdapter<Date>, private router: Router,
     private route: ActivatedRoute) {
     this.form = this.fb.group({});
-    this.formAgendado = this.fb.group({});
+    this.formAgendado = this.fb.group({
+      file: new FormControl(''),
+      date: new FormControl(''),
+      description: new FormControl(''),
+    });
     this.dateAdapter.setLocale('pt-BR');
   }
 
   ngOnInit() {
     this.dynamicFields.forEach((field) => {
       if (field.type === 'file' && field.fileType === 'simple') {
-        this.form.addControl(field.name, this.fb.control(null));
+        this.form.addControl(field.name, this.fb.control({value:field.value?field.value:null,disabled:field.disabled?field.disabled:false}));
       } else if (field.type === 'checkbox') {
-        this.form.addControl(field.name, this.fb.control(false));
+        this.form.addControl(field.name, this.fb.control({value:field.value?field.value:false,disabled:field.disabled?field.disabled:false}));
       } else {
-        this.form.addControl(field.name, this.fb.control(''));
+        this.form.addControl(field.name, this.fb.control({value:field.value?field.value:'',disabled:field.disabled?field.disabled:false}));
       }
     });
     this.isTargetRoute = this.router.url === '/adm/diario-oficial-administrativo/publicar';
@@ -110,18 +115,34 @@ export class FormsComponent implements OnInit {
   }
 
   onFileChangeAgendado(event: any, fieldName: string) {
-    const file = event.target.files[0];
-    if (file && file.type === 'application/pdf') {
-      this.selectedFiles = [file];
-      this.nameFile = file.name;
-      this.formAgendado.patchValue({
-        [fieldName]: this.selectedFiles,
-      });
-      this.formAgendado.get(fieldName)?.updateValueAndValidity();
-    } else {
-      alert('Apenas arquivos PDF são permitidos.');
+    const files = event.target.files;
+    const validFiles: File[] = [];
+    const invalidFiles: string[] = [];
+    
+
+    if (files && files.length > 0) {
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        if (file.type === 'application/pdf') {
+          validFiles.push(file);
+        } else {
+          invalidFiles.push(file.name);
+        }
+      }
+
+      if (validFiles.length > 0) {
+        this.selectedFiles = validFiles;
+        this.nameFile = validFiles.map(file => file.name).join(', ');
+        this.formAgendado.controls['file'].setValue(this.selectedFiles)
+        this.formAgendado.get(fieldName)?.updateValueAndValidity();
+      }
+
+      if (invalidFiles.length > 0) {
+        alert(`Os seguintes arquivos não são PDFs e foram ignorados: ${invalidFiles.join(', ')}`);
+      }
     }
   }
+
   viewFile(file: File) {
     const fileURL = URL.createObjectURL(file);
     const newWindow = window.open(fileURL, '_blank');
@@ -130,7 +151,6 @@ export class FormsComponent implements OnInit {
       const interval = setInterval(() => {
         if (newWindow.closed) {
           clearInterval(interval);
-          console.log('A visualização foi fechada. Retornando ao formulário.');
         }
       }, 500);
     }
@@ -146,7 +166,7 @@ export class FormsComponent implements OnInit {
 
   onSubmit() {
     if (this.form.valid) {
-      const formData = { ...this.form.value };
+      const formData = { ...this.form.getRawValue() };
 
       // Convertendo a data para o formato ISO
       Object.keys(formData).forEach((key) => {
@@ -155,13 +175,13 @@ export class FormsComponent implements OnInit {
         }
       });
 
-      console.log('Dados do formulário enviados:', formData);
       this.formSubmit.emit(formData);
     }
   }
   onSubmitAgendado() {
+    console.log(this.formAgendado)
     if (this.formAgendado.valid) {
-      const formData = { ...this.formAgendado.value };
+      const formData = { ...this.form.getRawValue() };
 
       // Convertendo a data para o formato ISO
       Object.keys(formData).forEach((key) => {
@@ -170,7 +190,6 @@ export class FormsComponent implements OnInit {
         }
       });
 
-      console.log('Dados do formulário enviados:', formData);
       this.formSubmit.emit(formData);
     }
   }

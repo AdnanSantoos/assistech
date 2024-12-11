@@ -17,3 +17,14 @@ export interface DashboardCategorias {
   nome: string;
   quantidade: number;
 }
+
+export enum StatusPublicacao {
+  PENDING = 'pending',
+  SCHEDULED = 'scheduled',
+  GENERATED_INDEX = 'generated_index',
+  GENERATED_PDF = 'generated_pdf',
+  SIGNED_PDF = 'signed_pdf',
+  JOINING_FILES = 'joining_files',
+  ERROR = 'error',
+  PUBLISHED = 'published',
+}
