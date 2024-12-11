@@ -23,10 +23,10 @@ export class GerenciadorDiarioOficialRepository {
   }
 
   onDeletePages(id: string, pages: number[]): Observable<void> {
-    const url = `${environment.apiUrl}/tenants/${environment.tenant}/diario-oficial/official-gazettes/${id}/pages`;
-    return this._http.request<void>('DELETE', url, { body: { pages } });
+    const url = `${environment.apiUrl}/tenants/${environment.tenant}/diario-oficial/official-gazettes/${id}/remove-pages`;
+    return this._http.put<void>(url, { pages });
   }
-
+  
   getDocumentPages(id: string): Observable<{ data: { pages: number; file_upload: string } }> {
     const url = `${environment.apiUrl}/tenants/${environment.tenant}/diario-oficial/official-gazettes/${id}/pages`;
     console.log('URL da requisição de páginas:', url);
