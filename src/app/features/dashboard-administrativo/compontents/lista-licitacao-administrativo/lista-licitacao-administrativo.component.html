@@ -144,7 +144,8 @@
               </div>
 
               <div class="d-flex flex-column align-items-center">
-                <a (click)="openArquivosDialog(element)"
+                <a
+                  (click)="openArquivosDialog(element)"
                   class="btn-arquivo btn-format d-flex justify-content-center align-items-center"
                 >
                   <img
@@ -157,6 +158,10 @@
 
               <div class="d-flex flex-column align-items-center">
                 <a
+                  [routerLink]="[
+                    '/adm/dashboard-administrativo/atas-licitacoes',
+                    element.id
+                  ]"
                   class="btn-atas btn-format d-flex justify-content-center align-items-center"
                 >
                   <img

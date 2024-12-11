@@ -31,12 +31,17 @@ export class LicitacoesRepository {
     return this._http.get<RequisicaoModel<LicitacaoArquivos[]>>(url, { params });
   }
   
-  
   getLicitacoesItens(licitacaoId: string, page: number): Observable<RequisicaoModel<LicitacaoItemModel[]>> {
     const params = new HttpParams().set('page', page.toString());
     const url = `${this.baseUrl}/${licitacaoId}/items`;
     return this._http.get<RequisicaoModel<LicitacaoItemModel[]>>(url, { params });
   }
+
+  getLicitacaoAtas(licitacaoId: string, page: number): Observable<RequisicaoModel<any>> {
+    const params = new HttpParams().set('page', page.toString());
+    const url = `${this.baseUrl}/${licitacaoId}/minutes`;
+    return this._http.get<RequisicaoModel<any>>(url, { params });
+  }  
   
   getOrgaos(page: number): Observable<RequisicaoModel<OrgaoModel[]>> {
     const params = new HttpParams().set('page', page.toString());

@@ -28,6 +28,9 @@ export class LicitacoesService {
     return this._repository.getLicitacoesArquivos(tenant, procurementId, page);
   }
   
+  getLicitacaoAtas(licitacaoId: string, page: number): Observable<RequisicaoModel<any>> {
+    return this._repository.getLicitacaoAtas(licitacaoId, page);
+  }  
 
   getOrgaos(page: number): Observable<RequisicaoModel<OrgaoModel[]>> {
     return this._repository.getOrgaos(page);
