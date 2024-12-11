@@ -112,20 +112,24 @@ export class ListaLicitacaoAdministrativoComponent implements OnInit {
 
 
   openArquivosDialog(item: LicitacaoModel): void {
-
     if (item && item.id) {
       this.dialog.open(ArquivosLicitacoesComponent, {
         width: '800px',
         panelClass: 'custom-dialog-container',
         data: {
-          itemId: item.id, 
-          licitacaoId: this.route.snapshot.params['id'],
+          licitacaoId: item.id,
+          tenant: item.unit?.agency_country_register, // Adiciona o tenant dinamicamente
+          number: item.number,
+          year: item.year,
+          process_number: item.process_number,
+          unit: item.unit, // Passa a unidade para o diálogo
         },
       });
     } else {
       console.error('O item ou o ID da licitação está ausente. Não foi possível abrir o diálogo.');
     }
   }
+  
 
 
   goToPage(pageNumber: number): void {

@@ -1,63 +1,177 @@
-<div class="container">
-  <h2 class="title">ADICIONAR ARQUIVO</h2>
+<div class="custom-modal" id="adicionarArquivoModal">
+  <div class="custom-modal-dialog">
+    <div class="custom-modal-content">
+      <div class="custom-modal-header bg-dark text-white">
+        <h5 class="custom-modal-title">Arquivos da Licitação</h5>
+        <button
+          type="button"
+          class="custom-modal-close text-white mat-icon-button"
+          (click)="cancelar()"
+        >
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+      <div class="custom-modal-body">
+        <p class="text-muted">Gerenciamento de arquivos da licitação.</p>
 
-  <div class="info-row">
-    <div><strong>LICITAÇÃO Nº:</strong> {{ data.licitacaoId }}</div>
-    <div><strong>NÚMERO DA COMPRA:</strong> 033</div>
-  </div>
+        <div class="info-box mb-4">
+          <h6 class="info-box-title">Detalhes da Licitação</h6>
+          <div class="info-row d-flex">
+            <div>
+              <strong>Licitação Nº:</strong> {{ data.number }}/{{ data.year }}
+            </div>
+            <div class="ms-4">
+              <strong>Número da Compra:</strong> {{ data.process_number }}
+            </div>
+          </div>
+        </div>
 
-  <form (ngSubmit)="salvar()">
-    <div class="form-group">
-      <label for="documentTitle">TÍTULO DO DOCUMENTO*</label>
-      <input id="documentTitle" type="text" placeholder="Digite o título do documento" required />
-    </div>
+        <form
+          [formGroup]="formGroup"
+          (ngSubmit)="salvar()"
+          class="custom-form mt-3"
+        >
+          <div class="form-group mb-3">
+            <label for="documentTitle" class="custom-label"
+              >Título do Documento *</label
+            >
+            <input
+              id="documentTitle"
+              type="text"
+              class="form-control"
+              formControlName="documentTitle"
+              placeholder="Digite o título do documento"
+              required
+            />
+            <div
+              *ngIf="
+                formGroup.get('documentTitle')?.invalid &&
+                formGroup.get('documentTitle')?.touched
+              "
+              class="text-danger"
+            >
+              O título do documento é obrigatório.
+            </div>
+          </div>
 
-    <div class="form-group">
-      <label for="documentType">TIPO DE DOCUMENTO*</label>
-      <button type="button" id="documentType" class="btn-select">SELECIONE</button>
-    </div>
+          <div class="form-group mb-3">
+            <label for="documentType" class="custom-label"
+              >Tipo de Documento *</label
+            >
+            <select
+              id="documentType"
+              class="form-select"
+              formControlName="documentType"
+              required
+            >
+              <option value="" disabled selected>Selecione</option>
+              <option *ngFor="let tipo of tiposDocumentos" [value]="tipo.id">
+                {{ tipo.label }}
+              </option>
+            </select>
+            <div
+              *ngIf="
+                formGroup.get('documentType')?.invalid &&
+                formGroup.get('documentType')?.touched
+              "
+              class="text-danger"
+            >
+              O tipo do documento é obrigatório.
+            </div>
+          </div>
 
-    <div class="form-group">
-      <label for="documentUpload">DOCUMENTO DA LICITAÇÃO*</label>
-      <div class="upload-group">
-        <span>ARQUIVO...</span>
-        <button type="button" class="btn-upload">SELECIONAR ARQUIVO</button>
+          <div class="form-group mb-3">
+            <label for="documentUpload" class="custom-label"
+              >Documento da Licitação *</label
+            >
+            <div class="d-flex align-items-center">
+              <input
+                type="file"
+                id="documentUpload"
+                class="form-control"
+                (change)="selecionarArquivo($event)"
+                required
+              />
+              <button type="button" class="btn btn-dark ms-2">
+                Selecionar Arquivo
+              </button>
+            </div>
+            <div *ngIf="arquivoSelecionadoInvalido" class="text-danger mt-1">
+              Um arquivo é obrigatório.
+            </div>
+          </div>
+
+          <p class="text-muted">
+            Tipos de arquivos aceitos:
+            <strong>.pdf, .txt, .rtf, .doc, .docx, .odt</strong>
+          </p>
+        </form>
+
+        <div class="custom-file-table mt-4" *ngIf="arquivos.length > 0">
+          <table class="table table-bordered table-striped">
+            <thead class="table-light">
+              <tr>
+                <th>Arquivo</th>
+                <th class="text-center">Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let arquivo of arquivos">
+                <td>{{ arquivo.label }}</td>
+                <td class="text-center">
+                  <div class="d-flex justify-content-center">
+                    <a
+                      class="btn btn-success btn-sm me-2 d-flex align-items-center"
+                      [href]="arquivo.gateway_location"
+                      target="_blank"
+                      title="Visualizar"
+                    >
+                      <mat-icon>visibility</mat-icon>
+                    </a>
+                    <button
+                      type="button"
+                      class="btn btn-danger btn-sm d-flex align-items-center"
+                      (click)="removerArquivo(arquivo.id)"
+                      title="Excluir"
+                    >
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div
+          class="custom-no-files text-center text-muted mt-4"
+          *ngIf="!arquivos.length && !isLoading"
+        >
+          Nenhum arquivo anexado.
+        </div>
+
+        <div class="text-center mt-4" *ngIf="isLoading">
+          <span class="spinner-border text-primary" role="status"></span>
+          <span class="ms-2">Carregando arquivos...</span>
+        </div>
+
+        <div class="d-flex justify-content-end mt-4">
+          <button
+            type="button"
+            class="btn btn-secondary me-2"
+            (click)="cancelar()"
+          >
+            Fechar
+          </button>
+          <button
+            type="submit"
+            class="btn btn-primary"
+            [disabled]="isLoading || formGroup.invalid"
+          >
+            Enviar
+          </button>
+        </div>
       </div>
     </div>
-
-    <p class="file-info">TIPOS DE ARQUIVOS ACEITOS: <strong>.PDF</strong></p>
-
-    <table class="file-table" *ngIf="arquivos.length > 0">
-      <thead>
-        <tr>
-          <th>Título</th>
-          <th>Tipo</th>
-          <th>Tamanho</th>
-          <th>Ações</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let arquivo of arquivos">
-          <td>{{ arquivo.document_title }}</td>
-          <td>{{ arquivo.mime }}</td>
-          <td>{{ arquivo.size }}</td>
-          <td>
-            <button class="btn-remove" (click)="removerArquivo(arquivo.id)">Remover</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-
-    <div class="no-files" *ngIf="!arquivos.length && !isLoading">
-      Nenhum arquivo anexado.
-    </div>
-
-    <div class="loading" *ngIf="isLoading">
-      Carregando arquivos...
-    </div>
-
-    <div class="actions">
-      <button type="submit" class="btn-submit" [disabled]="isLoading">ENVIAR</button>
-    </div>
-  </form>
+  </div>
 </div>

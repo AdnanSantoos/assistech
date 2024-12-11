@@ -25,11 +25,12 @@ export class LicitacoesRepository {
     return this._http.get<RequisicaoModel<LicitacaoDetalhesModel[]>>(url, { params });
   }
 
-  getLicitacoesArquivos(id: string, page: number): Observable<RequisicaoModel<LicitacaoArquivos[]>> {
+  getLicitacoesArquivos(tenant: string, procurementId: string, page: number): Observable<RequisicaoModel<LicitacaoArquivos[]>> {
     const params = new HttpParams().set('page', page.toString());
-    const url = `${this.baseUrl}/${id}/files`;
+    const url = `${environment.apiUrl}/tenants/${environment.tenant}/pncp/procurements/${procurementId}/files`;
     return this._http.get<RequisicaoModel<LicitacaoArquivos[]>>(url, { params });
   }
+  
   
   getLicitacoesItens(licitacaoId: string, page: number): Observable<RequisicaoModel<LicitacaoItemModel[]>> {
     const params = new HttpParams().set('page', page.toString());
