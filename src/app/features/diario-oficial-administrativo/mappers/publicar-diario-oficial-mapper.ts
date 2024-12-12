@@ -1,5 +1,6 @@
 export class PublicarDiarioOficialMapper {
   public static toSubmit(form: any) {
+    console.log(form)
     const formData = new FormData();
     let value = { ...form };
     formData.append('date', value.date);

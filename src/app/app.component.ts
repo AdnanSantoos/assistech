@@ -8,11 +8,13 @@ import { CommonModule, isPlatformServer, Location, PlatformLocation } from '@ang
 import { TipoRota } from './shared/models/shared.model';
 import { TenantService } from './shared/services/tenant.service';
 import { switchMap } from 'rxjs';
+import { NgxLoadingModule } from 'ngx-loading';
+import { LoadingService } from './shared/services/loading.service';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, NavbarComponent, FooterComponent, MenuComponent, LatestNewsComponent, CommonModule],
+  imports: [RouterOutlet, NavbarComponent, FooterComponent, MenuComponent, LatestNewsComponent, CommonModule,NgxLoadingModule],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
@@ -20,10 +22,12 @@ export class AppComponent implements OnInit, OnDestroy {
   title = 'assistech';
   tipoRota: TipoRota = null;
   domain: string = '';
-
+  loading:boolean = false;
+  loading$ = this._loadingService.loading$;
   constructor(
     private router: Router,
     private location: Location,
+    private _loadingService: LoadingService,
     private tenantService: TenantService,
     private platformLocation: PlatformLocation,
     @Inject(PLATFORM_ID) private platformId: Object
@@ -67,5 +71,9 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+  }
+
+  setLoadingState(isLoading: boolean) {
+    this.loading = isLoading;
   }
 }

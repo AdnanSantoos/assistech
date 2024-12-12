@@ -6,3 +6,5 @@
     <router-outlet />
     <app-footer/>
 </div>
+
+<ngx-loading [show]="(loading$ | async) ?? false"></ngx-loading>

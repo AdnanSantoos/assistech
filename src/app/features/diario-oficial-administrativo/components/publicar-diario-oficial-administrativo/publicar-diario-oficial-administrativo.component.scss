@@ -1,9 +1,8 @@
-::ng-deep{
-    form {
-        input,
-        select {
-          padding-left: 8.2vw !important;
-        }
-      }
-      
+.bkg-administrativo{
+  position: relative;
+  .btn-agendar{
+    position: absolute;
+    bottom: 94px;
+    right: 44px;
+  }
 }

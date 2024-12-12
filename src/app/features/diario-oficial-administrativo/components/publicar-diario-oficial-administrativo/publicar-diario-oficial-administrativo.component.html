@@ -1,9 +1,104 @@
 <div class="bkg-administrativo">
-  <app-layout-forms-adm
-    [titulo_pagina]="'Publicar no diário oficial'"
-    (formSubmit)="onFormSubmit($event)"
-    [dynamicFields]="dynamicFields"
-    [form]="filtroForm"
-    app-formulario>
+  <app-layout-forms-adm [titulo_pagina]="'Publicar no diário oficial'" (formSubmit)="onFormSubmit($event)"
+    [dynamicFields]="dynamicFields" [form]="filtroForm" app-formulario>
   </app-layout-forms-adm>
+  <button class="btn btn-dark btn-agendar" (click)="openModal(template)"> Agendar publicação</button>
 </div>
+
+
+<ng-template #template>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Agendar Publicação</h4>
+    <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRef?.hide()">
+      <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="formAgendado" (ngSubmit)="onSubmitAgendado()">
+      <!-- Campo Datepicker para data agendada -->
+      <div class="mb-3">
+        <label for="dataAgendada">Data Agendada</label>
+        <input type="text"  [minDate]="minDate"  [bsConfig]="bsConfig" placeholder="Data" class="form-control" formControlName="date" bsDatepicker>
+      </div>
+
+      <!-- Campo de upload de arquivo -->
+      <div class="mb-3">
+        <label for="fileUpload2">Arquivo</label>
+        <input type="file" id="fileUpload2" (change)="onFileChangeAgendado($event, 'file')" class="form-control"
+          accept=".pdf" formControlName="files" />
+        <p *ngIf="formAgendado.get('files')?.value">
+          {{ formAgendado.get("files")?.value.name }}
+        </p>
+      </div>
+
+      <!-- Campo de textarea para descrição -->
+      <div class="mb-3">
+        <label for="description">Descrição</label>
+        <textarea id="description" class="form-control" formControlName="description" required></textarea>
+      </div>
+
+      <!-- Botão de envio do formulário agendado -->
+      <div class="d-flex justify-content-center align-items-center flex-column gap-2 w-100 mt-3">
+        <button type="submit" class="btn btn-lg btn-dark w-100" [disabled]="!formAgendado.valid"
+          data-bs-dismiss="modal">
+          Confirmar Agendamento
+        </button>
+        <button type="button" class="btn btn-lg btn-outline-dark w-100" data-bs-dismiss="modal">
+          Cancelar
+        </button>
+      </div>
+    </form>
+
+    <div
+          class="upload-content"
+          *ngIf="selectedFiles.length > 0"
+        >
+          <p class="file-upload-instructions">
+            {{ nameFile || "Nenhum arquivo selecionado" }} <br />
+            Tipos de arquivo aceitos: <strong>.PDF</strong>
+          </p>
+
+          <table *ngIf="selectedFiles.length > 0" class="table table-bordered table-sm mt-5">
+            <thead>
+              <tr>
+                <th>Arquivos Anexados</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let file of selectedFiles; let i = index">
+                <td class="p-3">{{ file.name }}</td>
+                <td>
+                  <div class="row">
+                    <div
+                      class="col-2"
+                    >
+                      <a
+                        mat-icon-button
+                        color="accent"
+                        (click)="viewFile(file)"
+                      >
+                        <mat-icon>visibility</mat-icon>
+                      </a>
+                    </div>
+                    <div
+                      class="col-2"
+                    >
+                      <button
+                        class="btn-format btn-format btn-remove mt-2"
+                        (click)="removeFile(i)"
+                      >
+                        <img
+                          src="../../../../../assets/icons/remove-icon.svg"
+                          alt="Remover"
+                        />
+                      </button>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+  </div>
+</ng-template>
