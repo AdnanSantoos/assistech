@@ -1,18 +1,26 @@
-<header class="ratificacao-header">
-  <h3>RATIFICAÇÃO DA LICITAÇÃO</h3>
-  <p>
-    Antes de enviar, certifique-se de que todas as informações preenchidas nos
-    campos abaixo estão corretas!
+<h1 class="pagina-interna mt-2">
+  Ratificação da licitação
+</h1>
+<div class="d-flex justify-content-start">
+  <p class="text-left">
+    Antes de enviar certifique-se de que todas as informações
+    <br />
+    preenchidas nos campos abaixo estão corretas!
   </p>
-  <button
-    class="btn btn-back"
-    type="button"
-    aria-label="Voltar"
+  <div
     (click)="onVoltar()"
+    class="button-voltar ms-3 d-flex justify-content-center align-items-center"
   >
-    <mat-icon>arrow_back</mat-icon> Voltar
-  </button>
-</header>
+    <mat-icon
+      role="img"
+      class="mat-icon notranslate material-icons mat-ligature-font mat-icon-no-color"
+      aria-hidden="true"
+      data-mat-icon-type="font"
+      >person</mat-icon
+    >
+    Voltar
+  </div>
+</div>
 <div class="container ratificacao-container">
   <form
     [formGroup]="ratificacaoForm"
@@ -66,7 +74,6 @@
         >
           <option [value]="4">Dispensa com Disputa</option>
           <option [value]="">Não se Aplica</option>
-
         </select>
       </div>
 

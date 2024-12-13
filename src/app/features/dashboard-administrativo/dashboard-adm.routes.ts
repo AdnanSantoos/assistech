@@ -24,6 +24,7 @@ import { ItensLicitacoesComponent } from './compontents/lista-licitacao-administ
 import { AuthGuard } from '../../guards/auth.guard';
 import { ArquivosLicitacoesComponent } from './compontents/lista-licitacao-administrativo/arquivos-licitacoes/arquivos-licitacoes/arquivos-licitacoes.component';
 import { AtasLicitacoesAdministrativoComponent } from './compontents/lista-licitacao-administrativo/atas-licitacoes-administrativo/atas-licitacoes-administrativo.component';
+import { ResultadoLicitacaoComponent } from './compontents/lista-licitacao-administrativo/itens-licitacoes/resultado-licitacao/resultado-licitacao.component';
 
 const routes: Routes = [
   {
@@ -91,6 +92,10 @@ const routes: Routes = [
       {
         path: 'editar-licitacoes/:id',
         component: EditarLicitacoesAdministrativoComponent,
+      },
+      {
+        path: 'resultados-licitacoes/:id',
+        component: ResultadoLicitacaoComponent,
       },
       {
         path: 'atas-licitacoes/:id',

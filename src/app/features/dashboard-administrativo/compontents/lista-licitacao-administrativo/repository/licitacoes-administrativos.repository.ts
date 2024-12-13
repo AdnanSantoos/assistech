@@ -3,7 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { RequisicaoModel } from '../../../../../shared/models/shared.model';
 import { environment } from '../../../../../../environments/environment';
-import { LicitacaoModel, LicitacaoDetalhesModel, LicitacaoItemModel, LicitacaoArquivos } from '../model/licitacoes-administrativo.model';
+import { LicitacaoModel, LicitacaoDetalhesModel, LicitacaoItemModel, LicitacaoArquivos, LicitacaoResultados } from '../model/licitacoes-administrativo.model';
 import { OrgaoModel } from '../../orgao-administrativo/model/orgao-administrativo.model';
 
 @Injectable({
@@ -12,7 +12,7 @@ import { OrgaoModel } from '../../orgao-administrativo/model/orgao-administrativ
 export class LicitacoesRepository {
   private readonly baseUrl = `${environment.apiUrl}/tenants/${environment.tenant}/pncp/procurements`;
 
-  constructor(private _http: HttpClient) {}
+  constructor(private _http: HttpClient) { }
 
   getLicitacoes(page: number): Observable<RequisicaoModel<LicitacaoModel[]>> {
     const params = new HttpParams().set('page', page.toString());
@@ -30,7 +30,7 @@ export class LicitacoesRepository {
     const url = `${environment.apiUrl}/tenants/${environment.tenant}/pncp/procurements/${procurementId}/files`;
     return this._http.get<RequisicaoModel<LicitacaoArquivos[]>>(url, { params });
   }
-  
+
   getLicitacoesItens(licitacaoId: string, page: number): Observable<RequisicaoModel<LicitacaoItemModel[]>> {
     const params = new HttpParams().set('page', page.toString());
     const url = `${this.baseUrl}/${licitacaoId}/items`;
@@ -41,8 +41,8 @@ export class LicitacoesRepository {
     const params = new HttpParams().set('page', page.toString());
     const url = `${this.baseUrl}/${licitacaoId}/minutes`;
     return this._http.get<RequisicaoModel<any>>(url, { params });
-  }  
-  
+  }
+
   getOrgaos(page: number): Observable<RequisicaoModel<OrgaoModel[]>> {
     const params = new HttpParams().set('page', page.toString());
     return this._http.get<RequisicaoModel<OrgaoModel[]>>(this.baseUrl, { params });
@@ -59,4 +59,11 @@ export class LicitacoesRepository {
   updateLicitacao(id: string, data: any): Observable<void> {
     return this._http.put<void>(`${this.baseUrl}/${id}`, data);
   }
+
+  getResultadosItem(procurementId: string, itemId: string): Observable<RequisicaoModel<LicitacaoResultados[]>> {
+    const url = `${environment.apiUrl}/tenants/${environment.tenant}/pncp/procurements/${procurementId}/items/${itemId}/results`;
+    return this._http.get<RequisicaoModel<LicitacaoResultados[]>>(url);
+  }
+  
+  
 }

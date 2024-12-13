@@ -1,0 +1,64 @@
+<div class="container mt-4">
+  <h2>RESULTADOS DO ITEM</h2>
+  <p class="text-muted">Lista de resultados cadastrados para a licitação</p>
+
+  <!-- Botão para adicionar novo resultado -->
+  <div class="d-flex justify-content-end mb-3">
+    <button class="btn btn-dark" (click)="adicionarNovoResultado()">Adicionar novo resultado</button>
+  </div>
+
+  <!-- Informações do cabeçalho -->
+  <div class="row mb-4">
+    <div class="col-md-3">
+      <strong>LICITAÇÃO Nº</strong>
+      <p>{{ licitacao?.gateway_sequence || "N/A" }}</p>
+    </div>
+    <div class="col-md-3">
+      <strong>NÚMERO DA COMPRA</strong>
+      <p>{{ licitacao?.id || "N/A" }}</p>
+    </div>
+    <div class="col-md-3">
+      <strong>QUANTIDADE</strong>
+      <p>{{ licitacao?.quantity || 0 }}</p>
+    </div>
+    <div class="col-md-3">
+      <strong>VALOR TOTAL</strong>
+      <p>R$ {{ licitacao?.total_price}}</p>
+    </div>
+  </div>
+
+  <!-- Tabela de resultados -->
+  <div class="table-responsive">
+    <table class="table table-striped table-bordered">
+      <thead>
+        <tr>
+          <th>Fornecedor</th>
+          <th>CPF/CNPJ</th>
+          <th>Quantidade</th>
+          <th>Valor Unitário</th>
+          <th>Valor Total</th>
+          <th>Situação</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let resultado of resultados">
+          <td>{{ resultado.supplier_name_or_social_reason || "N/A" }}</td>
+          <td>{{ resultado.supplier_ni || "N/A" }}</td>
+          <td>{{ resultado.quantity || 0 }}</td>
+          <td>R$ {{ resultado.unit_price}}</td>
+          <td>R$ {{ resultado.total_price}}</td>
+          <td>{{ resultado.status === 1 ? "Ativo" : "Inativo" }}</td>
+          <td class="text-center">
+            <button class="btn btn-danger" (click)="deleteResultado(resultado.id)" aria-label="Excluir">
+              <img src="../../../../../assets/icons/trash-icon.svg" alt="Excluir" width="16" height="16" />
+            </button>
+          </td>
+        </tr>
+        <tr *ngIf="resultados.length === 0">
+          <td colspan="7" class="text-center text-muted">Nenhum resultado encontrado</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

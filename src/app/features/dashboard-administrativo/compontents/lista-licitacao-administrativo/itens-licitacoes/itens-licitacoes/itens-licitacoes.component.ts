@@ -1,16 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { LicitacoesService } from '../../service/licitacoes-administrativos.service';
-import { LicitacaoDetalhesModel, LicitacaoItemModel } from '../../model/licitacoes-administrativo.model';
+import { LicitacaoDetalhesModel, LicitacaoItemModel, LicitacaoResultados } from '../../model/licitacoes-administrativo.model';
 import { RequisicaoModel, PaginationModel } from '../../../../../../shared/models/shared.model';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { EditarItensLicitacaoComponent } from '../editar-itens-licitacao/editar-itens-licitacao.component';
+import { ResultadoLicitacaoComponent } from '../resultado-licitacao/resultado-licitacao.component';
 
 @Component({
   selector: 'app-itens-licitacoes',
   standalone: true,
-  imports: [CommonModule, MatDialogModule],
+  imports: [CommonModule, MatDialogModule, RouterModule],
   templateUrl: './itens-licitacoes.component.html',
   styleUrls: ['./itens-licitacoes.component.scss'],
 })
@@ -51,7 +52,7 @@ export class ItensLicitacoesComponent implements OnInit {
   getContractItemStatus(statusId: number): string {
     return this.contractItemStatuses[statusId] || 'Status Desconhecido';
   }
-  
+
   openEditDialog(item: LicitacaoItemModel): void {
     this.dialog.open(EditarItensLicitacaoComponent, {
       width: '800px',
@@ -59,8 +60,32 @@ export class ItensLicitacoesComponent implements OnInit {
       data: { itemId: item.id, licitacaoId: this.route.snapshot.params['id'] },
     });
   }
-  
-  
+
+  openResultadoDialog(item: LicitacaoItemModel): void {
+    const procurementId = this.route.snapshot.params['id']; // Obtem o licitacaoId da rota
+
+    this.licitacoesService.getResultadosItem(procurementId, item.id).subscribe({
+      next: (response) => {
+        const resultados = response?.data || []; // Garante que seja uma lista, mesmo que vazia
+
+        this.dialog.open(ResultadoLicitacaoComponent, {
+          width: '800px',
+          panelClass: 'custom-dialog-container',
+          data: {
+            itemId: item.id,
+            procurementId: procurementId,
+            resultados: resultados, // Passa a lista completa
+          },
+        });
+      },
+      error: (err) => {
+        console.error('Erro ao carregar os resultados do item:', err);
+      },
+    });
+  }
+
+
+
   loadLicitacaoDetails(licitacaoId: string): void {
     this.isLoadingDetails = true;
     this.licitacoesService.getLicitacaoById(licitacaoId).subscribe({
