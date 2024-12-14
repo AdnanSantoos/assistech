@@ -57,8 +57,8 @@ export class LicitacoesService {
 
   }
 
-  deleteLicitacao(procurementId: string, exclusionReason: string): Observable<void> {
-    return this._repository.deleteLicitacao(procurementId, exclusionReason);
+  deleteLicitacao(procurementId: string, justification: string): Observable<void> {
+    return this._repository.deleteLicitacao(procurementId, justification);
   }
 
 

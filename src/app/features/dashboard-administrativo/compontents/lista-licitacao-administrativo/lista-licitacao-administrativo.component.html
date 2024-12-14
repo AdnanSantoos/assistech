@@ -205,22 +205,22 @@
                     }}?
                   </p>
                   <form [formGroup]="deleteForm">
-                    <label for="exclusionReason" class="form-label fw-bold">
+                    <label for="justification" class="form-label fw-bold">
                       Informe o motivo da exclusão da licitação:
                       {{ selectedLicitacao?.number }}/{{
                         selectedLicitacao?.year
                       }}:
                     </label>
                     <textarea
-                      id="exclusionReason"
+                      id="justification"
                       class="form-control"
-                      formControlName="exclusionReason"
+                      formControlName="justification"
                       placeholder="Motivo da exclusão da licitação"
                     ></textarea>
                     <div
                       *ngIf="
-                        deleteForm.controls['exclusionReason'].invalid &&
-                        deleteForm.controls['exclusionReason'].touched
+                        deleteForm.controls['justification'].invalid &&
+                        deleteForm.controls['justification'].touched
                       "
                       class="text-danger mt-1"
                     >

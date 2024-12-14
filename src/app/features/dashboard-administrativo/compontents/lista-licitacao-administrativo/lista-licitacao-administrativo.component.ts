@@ -63,7 +63,7 @@ export class ListaLicitacaoAdministrativoComponent implements OnInit {
     this.loadOrgaos(this.currentPage)
 
     this.deleteForm = this.fb.group({
-      exclusionReason: ['', [Validators.required, Validators.minLength(5)]],
+      justification: ['', [Validators.required, Validators.minLength(5)]],
     });
   }
 
@@ -177,9 +177,9 @@ export class ListaLicitacaoAdministrativoComponent implements OnInit {
 
   confirmDelete(): void {
     if (this.deleteForm.valid && this.selectedLicitacao) {
-      const exclusionReason = this.deleteForm.value.exclusionReason;
+      const justification = this.deleteForm.value.justification;
 
-      this.licitacoesService.deleteLicitacao(this.selectedLicitacao.id, exclusionReason).subscribe({
+      this.licitacoesService.deleteLicitacao(this.selectedLicitacao.id, justification).subscribe({
         next: () => {
           console.log('Licitação excluída com sucesso');
           this.modalRef?.hide();
