@@ -1,0 +1,26 @@
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { RequisicaoModel } from '../../../shared/models/shared.model';
+import { OrgaoModel } from '../../dashboard-administrativo/compontents/orgao-administrativo/model/orgao-administrativo.model';
+import { environment } from '../../../../environments/environment.development';
+import { ProcurementModel } from '../model/adicionar-licitacao.model';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class AdicionarLicitacaoRepository {
+  private readonly baseUrl = `${environment.apiUrl}/tenants/${environment.tenant}/pncp/procurements`;
+
+  constructor(private _http: HttpClient) { }
+
+  getOrgaos(page: number): Observable<RequisicaoModel<OrgaoModel[]>> {
+    const params = new HttpParams().set('page', page.toString());
+    return this._http.get<RequisicaoModel<OrgaoModel[]>>(this.baseUrl, { params });
+  }
+
+  criarLicitacao(formData: FormData): Observable<ProcurementModel> {
+    return this._http.post<ProcurementModel>(this.baseUrl, formData);
+  }
+
+}

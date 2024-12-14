@@ -1,4 +1,4 @@
 <div class="bkg-administrativo">
-  <app-layout-forms-adm [titulo_pagina]="'Dados da Licitação'" [dynamicFields]="dynamicFields" [form]="filtroForm" app-formulario>
+  <app-layout-forms-adm [titulo_pagina]="'Dados da Licitação'" [dynamicFields]="dynamicFields" [form]="filtroForm" (formSubmit)="onFormSubmit($event)" app-formulario>
   </app-layout-forms-adm>
 </div>
