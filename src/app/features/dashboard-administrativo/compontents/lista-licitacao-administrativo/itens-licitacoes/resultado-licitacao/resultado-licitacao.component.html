@@ -4,7 +4,7 @@
 
   <!-- Botão para adicionar novo resultado -->
   <div class="d-flex justify-content-end mb-3">
-    <button class="btn btn-dark" (click)="adicionarNovoResultado()">
+    <button class="btn btn-dark" (click)="openAddResultadoModal()">
       Adicionar novo resultado
     </button>
   </div>
@@ -61,3 +61,265 @@
     </table>
   </div>
 </div>
+
+<ng-template #addResultadoModal>
+  <div class="modal-header bg-dark">
+    <h5 class="modal-title text-white">Adicionar Novo Resultado</h5>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="closeModal()"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="novoResultadoForm">
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Quantidade Homologada *</label>
+          <input
+            type="number"
+            class="form-control"
+            formControlName="quantity"
+          />
+        </div>
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Valor Unitário Homologado *</label>
+          <input
+            type="number"
+            class="form-control"
+            formControlName="unit_price"
+          />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Valor Total Homologado *</label>
+          <input
+            type="number"
+            class="form-control"
+            formControlName="total_price"
+          />
+        </div>
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Tipo de Pessoa *</label>
+          <select class="form-select" formControlName="person_type">
+            <option value="">Selecione</option>
+            <option value="PJ">Pessoa Jurídica</option>
+            <option value="PF">Pessoa Física</option>
+          </select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label class="form-label"
+            >CNPJ/CPF ou Identificador da empresa estrangeira *</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            formControlName="supplier_ni"
+          />
+        </div>
+        <div class="col-md-6 mb-3">
+          <label class="form-label"
+            >Nome ou razão social do fornecedor/arrematante *</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            formControlName="supplier_name_or_social_reason"
+          />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Porte do fornecedor *</label>
+          <select class="form-select" formControlName="supplier_size_id">
+            <option value="">Não informado</option>
+            <option value="1">Microempresa</option>
+            <option value="2">Pequena empresa</option>
+            <option value="3">Grande empresa</option>
+          </select>
+        </div>
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Natureza Jurídica *</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="legal_nature_id"
+          />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Código ISO do País *</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="country_code"
+          />
+        </div>
+        <div class="col-md-6 mb-3">
+          <label class="form-label"
+            >Indicador de sub-contratação do item *</label
+          >
+          <div class="form-check form-switch">
+            <input
+              type="checkbox"
+              class="form-check-input"
+              formControlName="subcontracting_indicator"
+            />
+            <label class="form-check-label">Sim</label>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label class="form-label"
+            >Ordem de classificação do fornecedor *</label
+          >
+          <input
+            type="number"
+            class="form-control"
+            formControlName="srp_classification_order"
+          />
+        </div>
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Porcentagem de desconto *</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="discount_percentage"
+          />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label class="form-label"
+            >Data do resultado da homologação do item *</label
+          >
+          <input type="date" class="form-control" formControlName="date" />
+        </div>
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Aplicação da Margem de Preferência *</label>
+          <div class="form-check form-switch">
+            <input
+              type="checkbox"
+              class="form-check-input"
+              formControlName="preference_margin_applicability"
+            />
+            <label class="form-check-label">Sim</label>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label class="form-label"
+            >Amparo Legal para Margem de Preferência</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            formControlName="preference_margin_legal_basis"
+          />
+        </div>
+        <div class="col-md-6 mb-3">
+          <label class="form-label">País de Origem do Produto</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="product_origin_country"
+          />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Aplicação do Benefício ME/EPP *</label>
+          <div class="form-check form-switch">
+            <input
+              type="checkbox"
+              class="form-check-input"
+              formControlName="benefit_me_epp_applicability"
+            />
+            <label class="form-check-label">Sim</label>
+          </div>
+        </div>
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Aplicação do Critério de Desempate *</label>
+          <div class="form-check form-switch">
+            <input
+              type="checkbox"
+              class="form-check-input"
+              formControlName="tiebreaker_criterion_applicability"
+            />
+            <label class="form-check-label">Sim</label>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label class="form-label"
+            >Amparo Legal para Critério de Desempate</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            formControlName="tiebreaker_criterion_legal_basis"
+          />
+        </div>
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Símbolo da Moeda Estrangeira</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="foreign_currency_symbol"
+          />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Data da Cotação da Moeda Estrangeira</label>
+          <input
+            type="date"
+            class="form-control"
+            formControlName="foreign_currency_exchange_date"
+          />
+        </div>
+        <div class="col-md-6 mb-3">
+          <label class="form-label"
+            >Fuso Horário da Cotação da Moeda Estrangeira</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            formControlName="foreign_currency_timezone_offset"
+          />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Valor Nominal da Moeda Estrangeira</label>
+          <input
+            type="number"
+            class="form-control"
+            formControlName="foreign_currency_nominal_value"
+          />
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-danger" (click)="closeModal()">
+      Cancelar
+    </button>
+    <button
+      type="button"
+      class="btn bg-dark text-white"
+      [disabled]="novoResultadoForm.invalid"
+      (click)="adicionarResultado()"
+    >
+      Salvar
+    </button>
+  </div>
+</ng-template>
