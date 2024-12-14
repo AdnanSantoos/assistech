@@ -46,6 +46,20 @@ export class ListaContratosAdministrativoComponent implements OnInit {
   ngOnInit() {
     this.carregarContratos(this.currentPage);
   }
+  
+
+  visualizar(value:any){
+    const contrato = value;
+    const { year, gateway_sequence, procurement } = contrato;
+    if (procurement && procurement.agency.country_register) {
+      const baseUrl = 'https://treina.pncp.gov.br/app/contratos/';
+      const fullUrl = `${baseUrl}${procurement.agency.country_register}/${year}/${gateway_sequence}`;
+
+      window.open(fullUrl, '_blank');
+    } else {
+      console.error('Invalid agency data or missing country_register.');
+    }
+  }
 
   carregarContratos(page: number): void {
     this.contratosService.getContratos(page).subscribe({
