@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
@@ -9,6 +9,8 @@ import { LicitacoesService } from './service/licitacoes-administrativos.service'
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ArquivosLicitacoesComponent } from './arquivos-licitacoes/arquivos-licitacoes/arquivos-licitacoes.component';
 import { MatDialog } from '@angular/material/dialog';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 
 @Component({
@@ -21,11 +23,17 @@ import { MatDialog } from '@angular/material/dialog';
     MatTableModule,
     RouterModule,
     MatTooltipModule,
+    ReactiveFormsModule
   ],
+  providers: [BsModalService],
   templateUrl: './lista-licitacao-administrativo.component.html',
   styleUrls: ['./lista-licitacao-administrativo.component.scss'],
 })
 export class ListaLicitacaoAdministrativoComponent implements OnInit {
+  modalRef?: BsModalRef;
+  deleteForm!: FormGroup;
+  selectedLicitacao: LicitacaoModel | null = null;
+  currentProcurementId: string | null = null;
   displayedColumns: string[] = [
     'numSeq',
     'liciNum',
@@ -46,11 +54,17 @@ export class ListaLicitacaoAdministrativoComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   constructor(private licitacoesService: LicitacoesService, private route: ActivatedRoute,
-    private dialog: MatDialog) { }
+    private dialog: MatDialog, private modalService: BsModalService, private fb: FormBuilder
+
+  ) { }
 
   ngOnInit(): void {
     this.loadLicitacoes(this.currentPage);
     this.loadOrgaos(this.currentPage)
+
+    this.deleteForm = this.fb.group({
+      exclusionReason: ['', [Validators.required, Validators.minLength(5)]],
+    });
   }
 
   loadLicitacoes(page: number): void {
@@ -129,7 +143,7 @@ export class ListaLicitacaoAdministrativoComponent implements OnInit {
       console.error('O item ou o ID da licitação está ausente. Não foi possível abrir o diálogo.');
     }
   }
-  
+
 
 
   goToPage(pageNumber: number): void {
@@ -152,4 +166,32 @@ export class ListaLicitacaoAdministrativoComponent implements OnInit {
       this.loadLicitacoes(this.currentPage);
     }
   }
+
+
+  openDeleteModal(procurementId: string, licitacao: LicitacaoModel, template: TemplateRef<any>): void {
+    this.selectedLicitacao = licitacao;
+    this.modalRef = this.modalService.show(template, { class: 'modal-md' });
+    this.deleteForm.reset(); // Limpa o formulário ao abrir o modal
+  }
+
+
+  confirmDelete(): void {
+    if (this.deleteForm.valid && this.selectedLicitacao) {
+      const exclusionReason = this.deleteForm.value.exclusionReason;
+
+      this.licitacoesService.deleteLicitacao(this.selectedLicitacao.id, exclusionReason).subscribe({
+        next: () => {
+          console.log('Licitação excluída com sucesso');
+          this.modalRef?.hide();
+          this.loadLicitacoes(this.currentPage); // Atualiza a lista
+        },
+        error: (err) => {
+          console.error('Erro ao excluir licitação:', err);
+          this.modalRef?.hide();
+        },
+      });
+    }
+  }
+
+
 }

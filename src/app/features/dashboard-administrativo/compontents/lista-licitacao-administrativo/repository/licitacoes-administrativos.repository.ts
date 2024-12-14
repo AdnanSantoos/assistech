@@ -64,6 +64,10 @@ export class LicitacoesRepository {
     const url = `${environment.apiUrl}/tenants/${environment.tenant}/pncp/procurements/${procurementId}/items/${itemId}/results`;
     return this._http.get<RequisicaoModel<LicitacaoResultados[]>>(url);
   }
-  
-  
+
+  deleteLicitacao(procurementId: string, exclusionReason: string): Observable<void> {
+    const body = { exclusionReason }; // Corpo com o motivo da exclusão
+    return this._http.delete<void>(`${this.baseUrl}/${procurementId}`, { body });
+  }
+
 }

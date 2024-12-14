@@ -173,16 +173,79 @@
               </div>
 
               <div class="d-flex flex-column align-items-center">
-                <a
+                <button
                   class="btn-remove btn-format d-flex justify-content-center align-items-center"
+                  (click)="openDeleteModal(element.id, element, deleteModal)"
                 >
                   <img
                     src="../../../../../assets/icons/remove-icon.svg"
                     alt="Deletar"
                   />
-                </a>
+                </button>
                 <span class="mt-1 legenda-icons">Excluir</span>
               </div>
+
+              <ng-template #deleteModal>
+                <div class="modal-header">
+                  <h5 class="modal-title text-danger">
+                    <mat-icon>warning</mat-icon> Atenção!
+                  </h5>
+                  <button
+                    type="button"
+                    class="btn-close"
+                    aria-label="Close"
+                    (click)="modalRef?.hide()"
+                  ></button>
+                </div>
+                <div class="modal-body">
+                  <p class="fw-bold">
+                    Deseja realmente excluir a licitação
+                    {{ selectedLicitacao?.number }}/{{
+                      selectedLicitacao?.year
+                    }}?
+                  </p>
+                  <form [formGroup]="deleteForm">
+                    <label for="exclusionReason" class="form-label fw-bold">
+                      Informe o motivo da exclusão da licitação:
+                      {{ selectedLicitacao?.number }}/{{
+                        selectedLicitacao?.year
+                      }}:
+                    </label>
+                    <textarea
+                      id="exclusionReason"
+                      class="form-control"
+                      formControlName="exclusionReason"
+                      placeholder="Motivo da exclusão da licitação"
+                    ></textarea>
+                    <div
+                      *ngIf="
+                        deleteForm.controls['exclusionReason'].invalid &&
+                        deleteForm.controls['exclusionReason'].touched
+                      "
+                      class="text-danger mt-1"
+                    >
+                      O motivo da exclusão é obrigatório.
+                    </div>
+                  </form>
+                </div>
+                <div class="modal-footer d-flex justify-content-between">
+                  <button
+                    type="button"
+                    class="btn btn-danger"
+                    [disabled]="deleteForm.invalid"
+                    (click)="confirmDelete()"
+                  >
+                    Excluir
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    (click)="modalRef?.hide()"
+                  >
+                    Fechar
+                  </button>
+                </div>
+              </ng-template>
             </div>
           </td>
         </tr>
