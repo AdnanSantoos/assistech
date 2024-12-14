@@ -22,7 +22,9 @@
       </div>
     </div>
     <div class="add-item-button">
-      <button class="btn-add">ADICIONAR NOVO ITEM</button>
+      <button class="btn-add" (click)="openAddItemModal()">
+        ADICIONAR NOVO ITEM
+      </button>
     </div>
   </div>
 
@@ -122,3 +124,220 @@
     </div>
   </div>
 </div>
+
+<ng-template #addItemModal>
+  <div class="modal-header bg-dark">
+    <h5 class="modal-title text-white">Adicionar Item à Licitação</h5>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="closeModal()"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="novoItemForm">
+      <h5 class="mb-3">Itens da Licitação</h5>
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label class="form-label"
+            >Incentivo fiscal PPB (Processo Produtivo Básico)</label
+          >
+          <div class="form-check form-switch">
+            <input
+              type="checkbox"
+              class="form-check-input"
+              formControlName="basic_productive_incentive"
+            />
+            <label class="form-check-label">Sim</label>
+          </div>
+        </div>
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Orçamento sigiloso?</label>
+          <div class="form-check form-switch">
+            <input
+              type="checkbox"
+              class="form-check-input"
+              formControlName="confidential_budget"
+            />
+            <label class="form-check-label">Sim</label>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Categoria do Item *</label>
+          <select class="form-select" formControlName="item_category_id">
+            <option value="">Selecionar</option>
+            <!-- Preencher com valores dinâmicos -->
+          </select>
+        </div>
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Material ou Serviço? *</label>
+          <select class="form-select" formControlName="item_type">
+            <option value="">Selecionar</option>
+            <option value="material">Material</option>
+            <option value="service">Serviço</option>
+          </select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Tipo de benefício *</label>
+          <select class="form-select" formControlName="benefit_type_id">
+            <option value="">Selecionar</option>
+            <!-- Preencher com valores dinâmicos -->
+          </select>
+        </div>
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Critério de julgamento *</label>
+          <select class="form-select" formControlName="judging_criteria_id">
+            <option value="">Selecionar</option>
+            <!-- Preencher com valores dinâmicos -->
+          </select>
+        </div>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Descrição do item *</label>
+        <textarea
+          class="form-control"
+          formControlName="description"
+          rows="3"
+          maxlength="2048"
+        ></textarea>
+      </div>
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Quantidade *</label>
+          <input
+            type="number"
+            class="form-control"
+            formControlName="quantity"
+          />
+        </div>
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Unidade de medida *</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="unit_of_measurement"
+          />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Valor unitário estimado *</label>
+          <input
+            type="number"
+            class="form-control"
+            formControlName="estimated_unit_value"
+          />
+        </div>
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Valor total *</label>
+          <input
+            type="number"
+            class="form-control"
+            formControlName="total_value"
+          />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Patrimônio</label>
+          <input type="text" class="form-control" formControlName="assets" />
+        </div>
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Código Registro Imobiliário</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="real_estate_registry_code"
+          />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label class="form-label"
+            >Aplicabilidade da Margem de Preferência Normal</label
+          >
+          <div class="form-check form-switch">
+            <input
+              type="checkbox"
+              class="form-check-input"
+              formControlName="applicability_normal_preference_margin"
+            />
+            <label class="form-check-label">Sim</label>
+          </div>
+        </div>
+        <div class="col-md-6 mb-3">
+          <label class="form-label"
+            >Aplicabilidade da Margem de Preferência Adicional</label
+          >
+          <div class="form-check form-switch">
+            <input
+              type="checkbox"
+              class="form-check-input"
+              formControlName="applicability_additional_preference_margin"
+            />
+            <label class="form-check-label">Sim</label>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label class="form-label"
+            >Percentual da Margem de Preferência Normal %</label
+          >
+          <input
+            type="number"
+            class="form-control"
+            formControlName="normal_preference_margin_percentage"
+          />
+        </div>
+        <div class="col-md-6 mb-3">
+          <label class="form-label"
+            >Percentual da Margem de Preferência Adicional %</label
+          >
+          <input
+            type="number"
+            class="form-control"
+            formControlName="additional_preference_margin_percentage"
+          />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Código NCM/NBS</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="ncm_nbs_code"
+          />
+        </div>
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Descrição NCM/NBS</label>
+          <textarea
+            class="form-control"
+            formControlName="ncm_nbs_description"
+            rows="2"
+            maxlength="2048"
+          ></textarea>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-danger" (click)="closeModal()">
+      Cancelar
+    </button>
+    <button
+      type="button"
+      class="btn bg-dark text-white"
+      [disabled]="novoItemForm.invalid"
+      (click)="adicionarItem()"
+    >
+      Salvar
+    </button>
+  </div>
+</ng-template>

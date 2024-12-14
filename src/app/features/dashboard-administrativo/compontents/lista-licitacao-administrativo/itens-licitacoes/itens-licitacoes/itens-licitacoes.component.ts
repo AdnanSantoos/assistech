@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { LicitacoesService } from '../../service/licitacoes-administrativos.service';
@@ -7,18 +7,26 @@ import { RequisicaoModel, PaginationModel } from '../../../../../../shared/model
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { EditarItensLicitacaoComponent } from '../editar-itens-licitacao/editar-itens-licitacao.component';
 import { ResultadoLicitacaoComponent } from '../resultado-licitacao/resultado-licitacao.component';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-itens-licitacoes',
   standalone: true,
-  imports: [CommonModule, MatDialogModule, RouterModule],
+  imports: [CommonModule, MatDialogModule, RouterModule, ReactiveFormsModule],
+  providers: [BsModalService],
   templateUrl: './itens-licitacoes.component.html',
   styleUrls: ['./itens-licitacoes.component.scss'],
 })
 export class ItensLicitacoesComponent implements OnInit {
+
+  @ViewChild('addItemModal') addItemModal: any;
+  novoItemForm: FormGroup;
+
   licitacaoDetalhes: LicitacaoDetalhesModel | null = null;
   licitacaoItens: LicitacaoItemModel[] = [];
   pagination: PaginationModel | null = null;
+  modalRef?: BsModalRef;
 
   isLoadingDetails = true;
   isLoadingItens = true;
@@ -26,8 +34,37 @@ export class ItensLicitacoesComponent implements OnInit {
   constructor(
     private licitacoesService: LicitacoesService,
     private route: ActivatedRoute,
-    private dialog: MatDialog
-  ) { }
+    private dialog: MatDialog,
+    private fb: FormBuilder, private modalService: BsModalService
+
+  ) {
+    this.novoItemForm = this.fb.group({
+      id: [''],
+      procurement_id: ['', Validators.required],
+      number: ['', Validators.required],
+      item_type: ['', Validators.required],
+      benefit_type_id: [null, Validators.required],
+      basic_productive_incentive: [false],
+      description: ['', [Validators.required, Validators.maxLength(2048)]],
+      quantity: [0, [Validators.required, Validators.min(1)]],
+      unit_of_measurement: ['', Validators.required],
+      estimated_unit_value: [0, [Validators.required, Validators.min(0)]],
+      total_value: [0, [Validators.required, Validators.min(0)]],
+      judging_criteria_id: [null, Validators.required],
+      confidential_budget: [false],
+      item_category_id: [null, Validators.required],
+      assets: [null],
+      real_estate_registry_code: [null],
+      contract_item_situation_id: [null],
+      applicability_normal_preference_margin: [false],
+      applicability_additional_preference_margin: [false],
+      normal_preference_margin_percentage: [0],
+      additional_preference_margin_percentage: [0],
+      ncm_nbs_code: [null],
+      ncm_nbs_description: [null]
+    });
+
+  }
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
@@ -150,5 +187,23 @@ export class ItensLicitacoesComponent implements OnInit {
         console.error('Erro ao buscar licitações:', err);
       },
     });
+  }
+
+
+  openAddItemModal(): void {
+    this.modalService.show(this.addItemModal, { class: 'modal-lg' });
+  }
+
+  closeModal(): void {
+    if (this.modalRef) {
+      this.modalRef.hide();
+    }
+  }
+
+  adicionarItem(): void {
+    if (this.novoItemForm.valid) {
+      console.log(this.novoItemForm.value);
+      this.closeModal();
+    }
   }
 }
