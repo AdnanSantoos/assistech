@@ -102,26 +102,44 @@
   </div>
 
   <!-- Pagination -->
-  <div class="footer" *ngIf="pagination">
-    <div class="pagination-info">{{ pagination.total }} resultados</div>
-    <div class="pagination-controls">
-      <button
-        (click)="previousPage()"
-        [disabled]="pagination.current_page === 1"
-      >
-        Anterior
-      </button>
-      <span
-        >Página {{ pagination.current_page }} de
-        {{ pagination.last_page }}</span
-      >
-      <button
-        (click)="nextPage()"
-        [disabled]="pagination.current_page === pagination.last_page"
-      >
-        Próxima
-      </button>
-    </div>
+  <div
+    class="bkg-bottom d-flex justify-content-end align-items-center mt-3 flex-wrap"
+    *ngIf="pagination"
+  >
+    <span class="resultado me-3">{{ pagination.total }} resultados</span>
+    <nav aria-label="Page navigation">
+      <ul class="pagination">
+        <li class="page-item" [class.disabled]="pagination.current_page === 1">
+          <a class="page-link bg-white" (click)="goToPage(1)" aria-label="Primeira">
+            <span aria-hidden="true">&laquo;&laquo;</span>
+          </a>
+        </li>
+        <li class="page-item" [class.disabled]="pagination.current_page === 1">
+          <a class="page-link bg-white" (click)="previousPage()" aria-label="Anterior">
+            <span aria-hidden="true">&laquo;</span>
+          </a>
+        </li>
+        <li class="page-item active">
+          <span class="page-link bg-dark border-0">{{ pagination.current_page }}</span>
+        </li>
+        <li
+          class="page-item"
+          [class.disabled]="pagination.current_page === pagination.last_page"
+        >
+          <a class="page-link bg-white" (click)="nextPage()" aria-label="Próxima">
+            <span aria-hidden="true">&raquo;</span>
+          </a>
+        </li>
+        <li
+          class="page-item"
+          [class.disabled]="pagination.current_page === pagination.last_page"
+        >
+          <a class="page-link bg-white" (click)="previousPage()" aria-label="Última">
+            <span aria-hidden="true">&raquo;&raquo;</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
   </div>
 </div>
 

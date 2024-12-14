@@ -189,7 +189,8 @@ export class ItensLicitacoesComponent implements OnInit {
     });
   }
 
-
+  goToPage(page: number) {
+  }
   openAddItemModal(): void {
     this.modalService.show(this.addItemModal, { class: 'modal-lg' });
   }
