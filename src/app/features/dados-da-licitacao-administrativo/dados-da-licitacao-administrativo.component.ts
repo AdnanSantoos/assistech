@@ -33,47 +33,45 @@ export class DadosDaLicitacaoAdministrativoComponent {
 
     this.dynamicFields = [
       {
-        name: 'orgaoDaLicitacao', type: 'select', label: 'Órgão da licitação', options: [
+        name: 'agency', type: 'select', label: 'Órgão da licitação', options: [
           { value: 'tipo1', label: 'Tipo 1' },
           { value: 'tipo2', label: 'Tipo 2' },
           { value: 'tipo3', label: 'Tipo 3' }
         ]
       },
-      { name: 'unidadeCompradora', type: 'text', label: 'Unidade Compradora' },
-      { name: 'tituloDoDocumento', type: 'text', label: 'Título do Documento' },
+      { name: 'unit.name', type: 'text', label: 'Unidade Compradora' },
+      { name: 'goals', type: 'text', label: 'Título do Documento' },
       { name: 'file', type: 'file', fileType: 'complex', label: 'Documento da Licitação' },
-      { name: 'tipoDeDocumento', type: 'text', label: 'Tipo de Documento' },
-      { name: 'tipoDeInstrumentoConvocatorio', type: 'text', label: 'Tipo de Instrumento Convocatório' },
-      { name: 'NumeroDaCompra', type: 'text', label: 'Número da Compra' },
-      { name: 'AnoDaCompra', type: 'text', label: 'Ano da Compra' },
-      { name: 'NumeroDaProcesso', type: 'text', label: 'Número da Processo' },
-      { name: 'AmparoLegal', type: 'text', label: 'Âmparo Legal' },
-      { name: 'dataDaAberturaDaProposta', type: 'text', label: 'Data da Abertura da Proposta' },
-      { name: 'dataDoEncerramentoDaProposta', type: 'text', label: 'Data do Encerramento da proposta' },
-      { name: 'objetoDaCompra', type: 'textarea', label: 'Objeto da Compra' },
-      { name: 'informacaoComplementar', type: 'textarea', label: 'Informação Complementar' },
-      { name: 'compraDoSistemaDePreco', type: 'checkbox', label: 'Compra do sistema de registro de preços?' },
+      { name: 'call_instrument_id', type: 'text', label: 'Tipo de Instrumento Convocatório' },
+      { name: 'number', type: 'text', label: 'Número da Compra' },
+      { name: 'year', type: 'text', label: 'Ano da Compra' },
+      { name: 'process_number', type: 'text', label: 'Número do Processo' },
+      { name: 'legal_basic_id', type: 'text', label: 'Âmparo Legal' },
+      { name: 'opening_date_proposal', type: 'text', label: 'Data da Abertura da Proposta' },
+      { name: 'closing_date_proposal', type: 'text', label: 'Data do Encerramento da Proposta' },
+      { name: 'goals', type: 'textarea', label: 'Objeto da Compra' },
+      { name: 'additional_information', type: 'textarea', label: 'Informação Complementar' },
+      { name: 'srp', type: 'checkbox', label: 'Compra do sistema de registro de preços?' },
       { name: 'title', type: 'title', label: 'Dados da Licitação' },
-      { name: 'incentivoFiscalPPB', type: 'checkbox', label: 'Incentivo fiscal ppb?' },
-      { name: 'orcamentoSigiloso', type: 'checkbox', label: 'Orçamento Sigiloso?' },
-      { name: 'categoriaDoItem', type: 'text', label: 'Categoria do Item' },
-      { name: 'materialOuServico', type: 'text', label: 'Material ou serviço?' },
-      { name: 'descricaoDoItem', type: 'textarea', label: 'Descrição do item' },
-      { name: 'quantidade', type: 'text', label: 'Quantidade' },
-      { name: 'unidadeDeMedida', type: 'text', label: 'Unidade de medida' },
-      { name: 'valorUnitarioEstimado', type: 'text', label: 'Valor unitário estimado' },
-      { name: 'valorTotal', type: 'text', label: 'Valor Total' },
-      { name: 'patrimonio', type: 'text', label: 'patrimônio' },
-      { name: 'codigoDeRegistroImobiliario', type: 'text', label: 'Código de Registro Imobiliário' },
-      { name: 'aplicaMargemNormal', type: 'checkbox', label: 'Aplicabilidade da Margem de Preferência Normal' },
-      { name: 'aplicaMargemAdicional', type: 'checkbox', label: 'Aplicabilidade da Margem de Preferência Adicional' },
-      { name: 'percentMargemNormal', type: 'text', label: 'Percentual da margem de preferência Normal %' },
-      { name: 'percentMargemAdicional', type: 'text', label: 'Percentual da margem de preferência Adicional %' },
-      { name: 'cdgNcmNbs', type: 'text', label: 'Código NCM/NBS' },
-      { name: 'descricaoNCcmNbs', type: 'textarea', label: 'Descrição NCM/NBS' },
-
-
+      { name: 'basic_productive_incentive', type: 'checkbox', label: 'Incentivo fiscal ppb?' },
+      { name: 'confidential_budget', type: 'checkbox', label: 'Orçamento Sigiloso?' },
+      { name: 'item_category_id', type: 'text', label: 'Categoria do Item' },
+      { name: 'material_or_service', type: 'text', label: 'Material ou serviço?' },
+      { name: 'description', type: 'textarea', label: 'Descrição do item' },
+      { name: 'quantity', type: 'text', label: 'Quantidade' },
+      { name: 'unit_of_measurement', type: 'text', label: 'Unidade de medida' },
+      { name: 'estimated_unit_value', type: 'text', label: 'Valor unitário estimado' },
+      { name: 'total_value', type: 'text', label: 'Valor Total' },
+      { name: 'assets', type: 'text', label: 'Patrimônio' },
+      { name: 'real_estate_registry_code', type: 'text', label: 'Código de Registro Imobiliário' },
+      { name: 'applicability_normal_preference_margin', type: 'checkbox', label: 'Aplicabilidade da Margem de Preferência Normal' },
+      { name: 'applicability_additional_preference_margin', type: 'checkbox', label: 'Aplicabilidade da Margem de Preferência Adicional' },
+      { name: 'normal_preference_margin_percentage', type: 'text', label: 'Percentual da margem de preferência Normal %' },
+      { name: 'additional_preference_margin_percentage', type: 'text', label: 'Percentual da margem de preferência Adicional %' },
+      { name: 'ncm_nbs_code', type: 'text', label: 'Código NCM/NBS' },
+      { name: 'ncm_nbs_description', type: 'textarea', label: 'Descrição NCM/NBS' },
     ];
+
   }
 
   onFileChange(event: any, fieldName: string) {
