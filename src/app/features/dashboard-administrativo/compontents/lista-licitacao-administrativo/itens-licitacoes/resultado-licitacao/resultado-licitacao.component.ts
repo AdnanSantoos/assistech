@@ -14,15 +14,16 @@ import { CommonModule } from '@angular/common';
 export class ResultadoLicitacaoComponent implements OnInit {
   resultados: LicitacaoResultados[] = [];
   licitacao: Partial<LicitacaoResultados> = {};
-  totalResults: number = 0;
-  resultsPerPage: number = 10;
+  totalResults: number = 0; 
+  resultsPerPage: number = 10; 
   currentPage: number = 1;
-  totalPages: number = 1;
+  totalPages: number = 1; 
+
   constructor(
     public dialogRef: MatDialogRef<ResultadoLicitacaoComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { itemId: string; licitacaoId: string },
     private licitacoesService: LicitacoesService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     if (this.data.licitacaoId && this.data.itemId) {
@@ -35,8 +36,9 @@ export class ResultadoLicitacaoComponent implements OnInit {
   loadResultados(): void {
     this.licitacoesService.getResultadosItem(this.data.licitacaoId, this.data.itemId).subscribe({
       next: (response) => {
-        this.resultados = response.data;
-        console.log("resultados", this.resultados)
+        this.resultados = response.data || [];
+        console.log('Resultados:', this.resultados);
+
         if (this.resultados.length > 0) {
           const firstResult = this.resultados[0];
           this.licitacao = {
@@ -46,7 +48,7 @@ export class ResultadoLicitacaoComponent implements OnInit {
             total_price: firstResult.total_price,
           };
         } else {
-          this.licitacao = {};
+          this.licitacao = {}; 
         }
 
         this.totalResults = this.resultados.length;
@@ -57,6 +59,7 @@ export class ResultadoLicitacaoComponent implements OnInit {
       },
     });
   }
+
 
   goToPage(page: number): void {
     if (page >= 1 && page <= this.totalPages) {
@@ -72,6 +75,7 @@ export class ResultadoLicitacaoComponent implements OnInit {
     }
   }
 
+
   goToNextPage(): void {
     if (this.currentPage < this.totalPages) {
       this.currentPage++;
@@ -79,9 +83,9 @@ export class ResultadoLicitacaoComponent implements OnInit {
     }
   }
 
+
   deleteResultado(resultadoId: string): void {
     console.log(`Excluir resultado com ID: ${resultadoId}`);
-
   }
 
   adicionarNovoResultado(): void {

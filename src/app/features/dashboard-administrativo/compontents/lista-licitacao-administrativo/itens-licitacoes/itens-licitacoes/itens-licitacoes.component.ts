@@ -60,21 +60,21 @@ export class ItensLicitacoesComponent implements OnInit {
       data: { itemId: item.id, licitacaoId: this.route.snapshot.params['id'] },
     });
   }
-
   openResultadoDialog(item: LicitacaoItemModel): void {
-    const procurementId = this.route.snapshot.params['id']; // Obtem o licitacaoId da rota
+    const licitacaoId = this.route.snapshot.params['id'];
 
-    this.licitacoesService.getResultadosItem(procurementId, item.id).subscribe({
-      next: (response) => {
-        const resultados = response?.data || []; // Garante que seja uma lista, mesmo que vazia
+    this.licitacoesService.getResultadosItem(licitacaoId, item.id).subscribe({
+      next: (response: RequisicaoModel<LicitacaoResultados[]>) => {
+        const resultados: LicitacaoResultados[] = response?.data || [];
 
         this.dialog.open(ResultadoLicitacaoComponent, {
           width: '800px',
           panelClass: 'custom-dialog-container',
           data: {
             itemId: item.id,
-            procurementId: procurementId,
-            resultados: resultados, // Passa a lista completa
+            licitacaoId: licitacaoId,
+            licitacao: this.licitacaoDetalhes,
+            resultados: resultados,
           },
         });
       },
@@ -83,7 +83,6 @@ export class ItensLicitacoesComponent implements OnInit {
       },
     });
   }
-
 
 
   loadLicitacaoDetails(licitacaoId: string): void {
