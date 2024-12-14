@@ -116,7 +116,7 @@ export class DadosDaLicitacaoAdministrativoComponent {
         name: 'legal_basic_id',
         type: 'select',
         label: 'Âmparo Legal',
-        options : [
+        options: [
           { value: 1, label: 'Lei nº 14.133/2021, Art. 28, I' },
           { value: 2, label: 'Lei nº 14.133/2021, Art. 28, II' },
           { value: 3, label: 'Lei nº 14.133/2021, Art. 28, III' },
@@ -261,6 +261,12 @@ export class DadosDaLicitacaoAdministrativoComponent {
           { value: 142, label: 'Lei nº 14.133/2021, Art. 79, III' }
         ],
       },
+      {
+        name: 'agency_country_register',
+        type: 'hidden',
+        label: 'cnpj',
+        disabled: true,
+      },
       { name: 'file', type: 'file', fileType: 'complex', label: 'Documento da Licitação' },
       { name: 'number', type: 'text', label: 'Número da Compra' },
       { name: 'year', type: 'number', label: 'Ano da Compra' },
@@ -320,13 +326,24 @@ export class DadosDaLicitacaoAdministrativoComponent {
           type: 'select',
           label: 'Unidade Compradora',
           options: this.orgaos.map((orgao: any) => ({
-            value: orgao.unit.agency_country_register,
+            value: orgao.unit.id,
             label: orgao.unit.name,
           })),
         };
+        const campoFormularioCNPJ = {
+          name: 'agency_country_register',
+          type: 'hidden',
+          label: 'CNPJ',
+          value: this.orgaos.map((orgao: any) => ({
+            value: orgao.unit.agency_country_register
+          })),
+        };
+
 
         this.dynamicFields[0] = campoFormularioAgencias
         this.dynamicFields[1] = campoFormularioUnidades
+        this.dynamicFields[7] = campoFormularioCNPJ
+
         console.log('orgaos', this.orgaos)
       },
       error: (err) => {
