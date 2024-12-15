@@ -117,13 +117,6 @@ export const routes: Routes = [
           ).then((c) => c.IndicacoesRequerimentoAdministrativoComponent),
       },
       {
-        path: 'dados-da-licitacao-administrativo',
-        loadComponent: () =>
-          import(
-            './features/dados-da-licitacao-administrativo/dados-da-licitacao-administrativo.component'
-          ).then((c) => c.DadosDaLicitacaoAdministrativoComponent),
-      },
-      {
         path: 'indicacoes-deliberacoes-administrativo',
         loadComponent: () =>
           import(

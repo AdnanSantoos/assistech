@@ -20,6 +20,7 @@ import { CadastrarLeiOrganicaAdministrativoComponent } from './components/cadast
 import { CadastrarListaPreposicoesAdministrativoComponent } from './components/cadastrar-lista-preposicoes-administrativo/cadastrar-lista-preposicoes-administrativo.component';
 import { OrdemCronologicaAdministrativoComponent } from './components/ordem-cronologica-administrativo/ordem-cronologica-administrativo.component';
 import { OuvidoriaAdministrativoComponent } from './components/ouvidoria-administrativo/ouvidoria-administrativo.component';
+import { DadosDaLicitacaoAdministrativoComponent } from './components/dados-da-licitacao-administrativo/dados-da-licitacao-administrativo.component';
 
 const routes: Routes = [
   {
@@ -46,6 +47,10 @@ const routes: Routes = [
       {
         path: 'adicionar-contratos',
         component: ContratosAdministrativoComponent,
+      },
+      {
+        path: 'cadastrar-licitacao',
+        component: DadosDaLicitacaoAdministrativoComponent,
       },
       {
         path: 'adicionar-agenda-do-presidente',

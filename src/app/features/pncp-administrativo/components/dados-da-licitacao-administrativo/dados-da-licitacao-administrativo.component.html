@@ -1,0 +1,453 @@
+<div class="bkg-administrativo">
+  <div class="bkg-dashboard">
+    <div class="">
+      <div class="row altura">
+        <div class="w-esq-side">
+          <app-sidebar-administrativo></app-sidebar-administrativo>
+        </div>
+        <div class="w-dir-main">
+          <div class="dashboard-header">
+            <app-navbar></app-navbar>
+          </div>
+          <div class="container-fluid">
+            <div class="ms-4 bg-pagina-interna">
+              <h1 class="pagina-interna mt-2">Dados da Licitação</h1>
+              <div class="d-flex justify-content-start">
+                <p class="text-left">
+                  Antes de enviar, certifique-se de que todas as informações<br />
+                  preenchidas nos campos abaixo estão corretas!
+                </p>
+                <div
+                  class="button-voltar ms-3 d-flex justify-content-center align-items-center"
+                >
+                  <mat-icon>arrow_back</mat-icon> Voltar
+                </div>
+              </div>
+              <div class="formulario-component novo-formulario">
+                <h1 class="pagina-form mb-4">Cadastrar Licitação</h1>
+
+                <!-- Formulário -->
+                <form
+                  [formGroup]="filtroForm"
+                  (ngSubmit)="onFormSubmit($event)"
+                >
+                  <!-- Dados da Licitação -->
+                  <div class="form-section">
+                    <div class="form-row">
+                      <div>
+                        <label for="agency">Órgão da Licitação</label>
+                        <select id="agency" formControlName="agency">
+                          <option value="" disabled selected>
+                            Selecione um órgão
+                          </option>
+                          <option
+                            *ngFor="let option of agencyOptions"
+                            [value]="option.value"
+                          >
+                            {{ option.label }}
+                          </option>
+                        </select>
+                      </div>
+
+                      <div>
+                        <label for="unit_id">Unidades Compradora</label>
+                        <select id="unit_id" formControlName="unit_id">
+                          <option value="" disabled selected>
+                            Selecione uma unidade
+                          </option>
+                          <option
+                            *ngFor="let option of unitOptions"
+                            [value]="option.value"
+                          >
+                            {{ option.label }}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="form-row">
+                      <div>
+                        <label for="document_title">Título do Documento</label>
+                        <input
+                          id="document_title"
+                          type="text"
+                          formControlName="document_title"
+                        />
+                      </div>
+                      <div>
+                        <label for="document_type_id">Tipo de Documento</label>
+                        <select
+                          id="document_type_id"
+                          formControlName="document_type_id"
+                        >
+                          <option
+                            *ngFor="let option of documentTypeOptions"
+                            [value]="option.value"
+                          >
+                            {{ option.label }}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="form-row">
+                      <div>
+                        <label for="call_instrument_id"
+                          >Tipo de Instrumento Convocatório</label
+                        >
+                        <select
+                          id="call_instrument_id"
+                          formControlName="call_instrument_id"
+                        >
+                          <option
+                            *ngFor="let option of callInstrumentOptions"
+                            [value]="option.value"
+                          >
+                            {{ option.label }}
+                          </option>
+                        </select>
+                      </div>
+                      <div>
+                        <label for="contracting_modality_id"
+                          >Modalidade de Contratação</label
+                        >
+                        <select
+                          id="contracting_modality_id"
+                          formControlName="contracting_modality_id"
+                        >
+                          <option
+                            *ngFor="let option of contractingModalityOptions"
+                            [value]="option.value"
+                          >
+                            {{ option.label }}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="form-row">
+                      <div>
+                        <label for="dispute_mode_id">Modo de Disputa</label>
+                        <select
+                          id="dispute_mode_id"
+                          formControlName="dispute_mode_id"
+                        >
+                          <option
+                            *ngFor="let option of disputeModeOptions"
+                            [value]="option.value"
+                          >
+                            {{ option.label }}
+                          </option>
+                        </select>
+                      </div>
+                      <div>
+                        <label for="legal_basic_id">Âmparo Legal</label>
+                        <select
+                          id="legal_basic_id"
+                          formControlName="legal_basic_id"
+                        >
+                          <option
+                            *ngFor="let option of legalBasicOptions"
+                            [value]="option.value"
+                          >
+                            {{ option.label }}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="form-row">
+                      <div>
+                        <label for="agency_country_register">CNPJ</label>
+                        <input
+                          id="agency_country_register"
+                          type="text"
+                          formControlName="agency_country_register"
+                          [disabled]="true"
+                        />
+                      </div>
+                      <div class="file-upload-wrapper">
+                        <label for="file">Documento da Licitação</label>
+                        <div class="file-upload">
+                          <label class="file-label" for="file">
+                            <span *ngIf="!selectedFileName"
+                              >Selecionar Arquivo</span
+                            >
+                            <span *ngIf="selectedFileName">{{
+                              selectedFileName
+                            }}</span>
+                          </label>
+                          <input
+                            id="file"
+                            type="file"
+                            formControlName="file"
+                            (change)="onFileSelected($event)"
+                          />
+                        </div>
+                        <p class="file-instructions">
+                          Tipos permitidos:
+                          <strong>PDF</strong>
+                        </p>
+                      </div>
+                    </div>
+
+                    <div class="form-row">
+                      <div>
+                        <label for="number">Número da Compra</label>
+                        <input
+                          id="number"
+                          type="text"
+                          formControlName="number"
+                        />
+                      </div>
+                      <div>
+                        <label for="year">Ano da Compra</label>
+                        <input id="year" type="number" formControlName="year" />
+                      </div>
+                    </div>
+
+                    <div class="form-row">
+                      <div>
+                        <label for="process_number">Número do Processo</label>
+                        <input
+                          id="process_number"
+                          type="text"
+                          formControlName="process_number"
+                        />
+                      </div>
+                      <div>
+                        <label for="goals">Objeto da Compra</label>
+                        <textarea id="goals" formControlName="goals"></textarea>
+                      </div>
+                    </div>
+
+                    <div class="form-row">
+                      <div>
+                        <label for="additional_information"
+                          >Informação Complementar</label
+                        >
+                        <textarea
+                          id="additional_information"
+                          formControlName="additional_information"
+                        ></textarea>
+                      </div>
+                      <div>
+                        <label for="opening_date_proposal"
+                          >Data da Abertura da Proposta</label
+                        >
+                        <input
+                          id="opening_date_proposal"
+                          type="date"
+                          formControlName="opening_date_proposal"
+                        />
+                      </div>
+                    </div>
+
+                    <div class="form-row">
+                      <div>
+                        <label for="closing_date_proposal"
+                          >Data do Encerramento da Proposta</label
+                        >
+                        <input
+                          id="closing_date_proposal"
+                          type="date"
+                          formControlName="closing_date_proposal"
+                        />
+                      </div>
+                      <div class="switch-wrapper">
+                        <label for="srp"
+                          >Compra do Sistema de Registro de Preços?</label
+                        >
+                        <label class="switch">
+                          <input
+                            id="srp"
+                            type="checkbox"
+                            formControlName="srp"
+                          />
+                          <span></span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Itens da Licitação -->
+                  <div class="form-section">
+                    <h2 class="section-title">
+                      Itens da Licitação
+                      <span
+                        class="toggle-icon"
+                        [class.open]="showItems"
+                        (click)="toggleItemsSection()"
+                        >+</span
+                      >
+                    </h2>
+                    <div [class.hidden]="!showItems" class="content">
+                      <div class="form-row">
+                        <div>
+                          <label for="description">Descrição do Item</label>
+                          <textarea
+                            id="description"
+                            formControlName="description"
+                          ></textarea>
+                        </div>
+                        <div>
+                          <label for="quantity">Quantidade</label>
+                          <input
+                            id="quantity"
+                            type="number"
+                            formControlName="quantity"
+                          />
+                        </div>
+                      </div>
+
+                      <div class="form-row">
+                        <div>
+                          <label for="unit_of_measurement"
+                            >Unidade de Medida</label
+                          >
+                          <input
+                            id="unit_of_measurement"
+                            type="text"
+                            formControlName="unit_of_measurement"
+                          />
+                        </div>
+                        <div>
+                          <label for="estimated_unit_value"
+                            >Valor Unitário Estimado</label
+                          >
+                          <input
+                            id="estimated_unit_value"
+                            type="number"
+                            formControlName="estimated_unit_value"
+                          />
+                        </div>
+                      </div>
+
+                      <div class="form-row">
+                        <div>
+                          <label for="total_value">Valor Total</label>
+                          <input
+                            id="total_value"
+                            type="number"
+                            formControlName="total_value"
+                          />
+                        </div>
+                        <div>
+                          <label for="judging_criteria_id"
+                            >Critério de Julgamento</label
+                          >
+                          <input
+                            id="judging_criteria_id"
+                            type="text"
+                            formControlName="judging_criteria_id"
+                          />
+                        </div>
+                      </div>
+
+                      <div class="form-row">
+                        <div class="switch-wrapper">
+                          <label for="confidential_budget"
+                            >Orçamento Sigiloso?</label
+                          >
+                          <label class="switch">
+                            <input
+                              id="confidential_budget"
+                              type="checkbox"
+                              formControlName="confidential_budget"
+                            />
+                            <span></span>
+                          </label>
+                        </div>
+
+                        <div>
+                          <label for="item_category_id"
+                            >Categoria do Item</label
+                          >
+                          <input
+                            id="item_category_id"
+                            type="text"
+                            formControlName="item_category_id"
+                          />
+                        </div>
+                      </div>
+
+                      <div class="form-row">
+                        <div>
+                          <label for="assets">Patrimônio</label>
+                          <input
+                            id="assets"
+                            type="text"
+                            formControlName="assets"
+                          />
+                        </div>
+                        <div>
+                          <label for="real_estate_registry_code"
+                            >Código de Registro Imobiliário</label
+                          >
+                          <input
+                            id="real_estate_registry_code"
+                            type="text"
+                            formControlName="real_estate_registry_code"
+                          />
+                        </div>
+                      </div>
+
+                      <div class="form-row">
+                        <div>
+                          <label for="normal_preference_margin_percentage"
+                            >Percentual da Margem de Preferência Normal
+                            (%)</label
+                          >
+                          <input
+                            id="normal_preference_margin_percentage"
+                            type="number"
+                            formControlName="normal_preference_margin_percentage"
+                          />
+                        </div>
+                        <div>
+                          <label for="additional_preference_margin_percentage"
+                            >Percentual da Margem de Preferência Adicional
+                            (%)</label
+                          >
+                          <input
+                            id="additional_preference_margin_percentage"
+                            type="number"
+                            formControlName="additional_preference_margin_percentage"
+                          />
+                        </div>
+                      </div>
+
+                      <div class="form-row">
+                        <div>
+                          <label for="ncm_nbs_code">Código NCM/NBS</label>
+                          <input
+                            id="ncm_nbs_code"
+                            type="text"
+                            formControlName="ncm_nbs_code"
+                          />
+                        </div>
+                        <div>
+                          <label for="ncm_nbs_description"
+                            >Descrição NCM/NBS</label
+                          >
+                          <textarea
+                            id="ncm_nbs_description"
+                            formControlName="ncm_nbs_description"
+                          ></textarea>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Botão de Envio -->
+                  <button type="submit" class="btn bg-dark text-white">
+                    Salvar
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
