@@ -19,7 +19,7 @@ export interface OrgaoModel {
 export interface SelectedAgencies {
     value: string;
     label: string;
-    unit:OrgaoUnitModel;
+    unit: OrgaoUnitModel;
 }
 
 export type RequisicaoOrgaoModel = RequisicaoModel<OrgaoModel[]>;

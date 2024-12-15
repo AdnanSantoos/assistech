@@ -34,399 +34,219 @@ export class DadosDaLicitacaoAdministrativoComponent {
   modalRef?: BsModalRef;
   selectedItem: any = null;
   showItems = false;
-  selectedFileName: string | null = null;
+
+  nameFile: string | null = null;
+  selectedFiles: File[] = [];
+
+  caminhoSelecionado: selectModel[] = [];
+  cnpjSelecionado!: string;
 
   documentTypeOptions = [
-    { value: 1, label: 'Aviso de Contratação Direta' },
-    { value: 2, label: 'Edital' },
-    { value: 3, label: 'Minuta do Contrato' },
-    { value: 4, label: 'Termo de Referência' },
-    { value: 5, label: 'Anteprojeto' },
-    { value: 6, label: 'Projeto Básico' },
-    { value: 7, label: 'Estudo Técnico Preliminar' },
-    { value: 8, label: 'Projeto Executivo' },
-    { value: 9, label: 'Mapa de Riscos' },
-    { value: 10, label: 'DFD' },
-    { value: 16, label: 'Para outros documentos do processo' }
+    { value: 1, key: 'Aviso de Contratação Direta' },
+    { value: 2, key: 'Edital' },
+    { value: 3, key: 'Minuta do Contrato' },
+    { value: 4, key: 'Termo de Referência' },
+    { value: 5, key: 'Anteprojeto' },
+    { value: 6, key: 'Projeto Básico' },
+    { value: 7, key: 'Estudo Técnico Preliminar' },
+    { value: 8, key: 'Projeto Executivo' },
+    { value: 9, key: 'Mapa de Riscos' },
+    { value: 10, key: 'DFD' },
+    { value: 16, key: 'Outros' }
   ];
   callInstrumentOptions = [
-    { value: 1, label: 'Edital' },
-    { value: 2, label: 'Aviso de Contratação Direta' },
-    { value: 3, label: 'Ato que Autoriza a Contratação Direta' },
-    { value: 4, label: 'Edital de Chamamento Público' }
+    { value: 1, key: 'Edital' },
+    { value: 2, key: 'Aviso de Contratação Direta' },
+    { value: 3, key: 'Ato que Autoriza a Contratação Direta' },
+    { value: 4, key: 'Edital de Chamamento Público' }
   ];
-  contractingModalityOptions = [
-    { value: 1, label: 'Leilão - Eletrônico' },
-    { value: 2, label: 'Diálogo Competitivo' },
-    { value: 3, label: 'Concurso' },
-    { value: 4, label: 'Concorrência - Eletrônica' },
-    { value: 5, label: 'Concorrência - Presencial' },
-    { value: 6, label: 'Pregão - Eletrônico' },
-    { value: 7, label: 'Pregão - Presencial' },
-    { value: 8, label: 'Dispensa de Licitação' },
-    { value: 9, label: 'Inexigibilidade' },
-    { value: 10, label: 'Manifestação de Interesse' },
-    { value: 11, label: 'Pré-qualificação' },
-    { value: 12, label: 'Credenciamento' },
-    { value: 13, label: 'Leilão - Presencial' },
-    { value: 14, label: 'Inaplicabilidade da Licitação' }
+  modalidadeContratoOpcoes = [
+    { value: 1, key: 'Leilão - Eletrônico' },
+    { value: 2, key: 'Diálogo Competitivo' },
+    { value: 3, key: 'Concurso' },
+    { value: 4, key: 'Concorrência - Eletrônica' },
+    { value: 5, key: 'Concorrência - Presencial' },
+    { value: 6, key: 'Pregão - Eletrônico' },
+    { value: 7, key: 'Pregão - Presencial' },
+    { value: 8, key: 'Dispensa de Licitação' },
+    { value: 9, key: 'Inexigibilidade' },
+    { value: 10, key: 'Manifestação de Interesse' },
+    { value: 11, key: 'Pré-qualificação' },
+    { value: 12, key: 'Credenciamento' },
+    { value: 13, key: 'Leilão - Presencial' },
+    { value: 14, key: 'Inaplicabilidade da Licitação' }
   ];
-  disputeModeOptions = [
-    { value: 1, label: 'Aberto' },
-    { value: 2, label: 'Fechado' },
-    { value: 3, label: 'Aberto-Fechado' },
-    { value: 4, label: 'Dispensa Com Disputa' },
-    { value: 5, label: 'Não se aplica' },
-    { value: 6, label: 'Fechado-Aberto' }
+  modoDisputaOpcoes = [
+    { value: 1, key: 'Aberto' },
+    { value: 2, key: 'Fechado' },
+    { value: 3, key: 'Aberto-Fechado' },
+    { value: 6, key: 'Fechado-Aberto' },
+    { value: 4, key: 'Dispensa Com Disputa' },
+    { value: 5, key: 'Não se aplica' }
   ];
   legalBasicOptions = [
-    { value: 1, label: 'Lei nº 14.133/2021, Art. 28, I' },
-    { value: 2, label: 'Lei nº 14.133/2021, Art. 28, II' },
-    { value: 3, label: 'Lei nº 14.133/2021, Art. 28, III' },
-    { value: 4, label: 'Lei nº 14.133/2021, Art. 28, IV' },
-    { value: 5, label: 'Lei nº 14.133/2021, Art. 28, V' },
-    { value: 6, label: 'Lei nº 14.133/2021, Art. 74, I' },
-    { value: 7, label: 'Lei nº 14.133/2021, Art. 74, II' },
-    { value: 8, label: 'Lei nº 14.133/2021, Art. 74, III, a' },
-    { value: 9, label: 'Lei nº 14.133/2021, Art. 74, III, b' },
-    { value: 10, label: 'Lei nº 14.133/2021, Art. 74, III, c' },
-    { value: 11, label: 'Lei nº 14.133/2021, Art. 74, III, d' },
-    { value: 12, label: 'Lei nº 14.133/2021, Art. 74, III, e' },
-    { value: 13, label: 'Lei nº 14.133/2021, Art. 74, III, f' },
-    { value: 14, label: 'Lei nº 14.133/2021, Art. 74, III, g' },
-    { value: 15, label: 'Lei nº 14.133/2021, Art. 74, III, h' },
-    { value: 16, label: 'Lei nº 14.133/2021, Art. 74, IV' },
-    { value: 17, label: 'Lei nº 14.133/2021, Art. 74, V' },
-    { value: 18, label: 'Lei nº 14.133/2021, Art. 75, I' },
-    { value: 19, label: 'Lei nº 14.133/2021, Art. 75, II' },
-    { value: 20, label: 'Lei nº 14.133/2021, Art. 75, III, a' },
-    { value: 21, label: 'Lei nº 14.133/2021, Art. 75, III, b' },
-    { value: 22, label: 'Lei nº 14.133/2021, Art. 75, IV, a' },
-    { value: 23, label: 'Lei nº 14.133/2021, Art. 75, IV, b' },
-    { value: 24, label: 'Lei nº 14.133/2021, Art. 75, IV, c' },
-    { value: 25, label: 'Lei nº 14.133/2021, Art. 75, IV, d' },
-    { value: 26, label: 'Lei nº 14.133/2021, Art. 75, IV, e' },
-    { value: 27, label: 'Lei nº 14.133/2021, Art. 75, IV, f' },
-    { value: 28, label: 'Lei nº 14.133/2021, Art. 75, IV, g' },
-    { value: 29, label: 'Lei nº 14.133/2021, Art. 75, IV, h' },
-    { value: 30, label: 'Lei nº 14.133/2021, Art. 75, IV, i' },
-    { value: 31, label: 'Lei nº 14.133/2021, Art. 75, IV, j' },
-    { value: 32, label: 'Lei nº 14.133/2021, Art. 75, IV, k' },
-    { value: 33, label: 'Lei nº 14.133/2021, Art. 75, IV, l' },
-    { value: 34, label: 'Lei nº 14.133/2021, Art. 75, IV, m' },
-    { value: 35, label: 'Lei nº 14.133/2021, Art. 75, V' },
-    { value: 36, label: 'Lei nº 14.133/2021, Art. 75, VI' },
-    { value: 37, label: 'Lei nº 14.133/2021, Art. 75, VII' },
-    { value: 38, label: 'Lei nº 14.133/2021, Art. 75, VIII' },
-    { value: 39, label: 'Lei nº 14.133/2021, Art. 75, IX' },
-    { value: 40, label: 'Lei nº 14.133/2021, Art. 75, X' },
-    { value: 41, label: 'Lei nº 14.133/2021, Art. 75, XI' },
-    { value: 42, label: 'Lei nº 14.133/2021, Art. 75, XII' },
-    { value: 43, label: 'Lei nº 14.133/2021, Art. 75, XIII' },
-    { value: 44, label: 'Lei nº 14.133/2021, Art. 75, XIV' },
-    { value: 45, label: 'Lei nº 14.133/2021, Art. 75, XV' },
-    { value: 46, label: 'Lei nº 14.133/2021, Art. 75, XVI' },
-    { value: 47, label: 'Lei nº 14.133/2021, Art. 78, I' },
-    { value: 48, label: 'Lei nº 14.133/2021, Art. 78, II' },
-    { value: 49, label: 'Lei nº 14.133/2021, Art. 78, III' },
-    { value: 50, label: 'Lei nº 14.133/2021, Art. 74, caput' },
-    { value: 51, label: 'Lei nº 14.284/2021, Art. 29, caput' },
-    { value: 52, label: 'Lei nº 14.284/2021, Art. 24, § 1º' },
-    { value: 53, label: 'Lei nº 14.284/2021, Art. 25, § 1º' },
-    { value: 54, label: 'Lei nº 14.284/2021, Art. 34' },
-    { value: 55, label: 'Lei nº 9.636/1998, Art. 11-C, I' },
-    { value: 56, label: 'Lei nº 9.636/1998, Art. 11-C, II' },
-    { value: 57, label: 'Lei nº 9.636/1998, Art. 24-C, I' },
-    { value: 58, label: 'Lei nº 9.636/1998, Art. 24-C, II' },
-    { value: 59, label: 'Lei nº 9.636/1998, Art. 24-C, III' },
-    { value: 60, label: 'Lei nº 14.133/2021, Art. 75, XVII' },
-    { value: 61, label: 'Lei nº 14.133/2021, Art. 76, I, a' },
-    { value: 62, label: 'Lei nº 14.133/2021, Art. 76, I, b' },
-    { value: 63, label: 'Lei nº 14.133/2021, Art. 76, I, c' },
-    { value: 64, label: 'Lei nº 14.133/2021, Art. 76, I, d' },
-    { value: 65, label: 'Lei nº 14.133/2021, Art. 76, I, e' },
-    { value: 66, label: 'Lei nº 14.133/2021, Art. 76, I, f' },
-    { value: 67, label: 'Lei nº 14.133/2021, Art. 76, I, g' },
-    { value: 68, label: 'Lei nº 14.133/2021, Art. 76, I, h' },
-    { value: 69, label: 'Lei nº 14.133/2021, Art. 76, I, i' },
-    { value: 70, label: 'Lei nº 14.133/2021, Art. 76, I, j' },
-    { value: 71, label: 'Lei nº 14.133/2021, Art. 76, II, a' },
-    { value: 72, label: 'Lei nº 14.133/2021, Art. 76, II, b' },
-    { value: 73, label: 'Lei nº 14.133/2021, Art. 76, II, c' },
-    { value: 74, label: 'Lei nº 14.133/2021, Art. 76, II, d' },
-    { value: 75, label: 'Lei nº 14.133/2021, Art. 76, II, e' },
-    { value: 76, label: 'Lei nº 14.133/2021, Art. 76, II, f' },
-    { value: 77, label: 'Lei nº 14.133/2021, Art. 75, XVIII' },
-    { value: 78, label: 'Lei nº 14.628/2023, Art. 4º' },
-    { value: 79, label: 'Lei nº 14.628/2023, Art. 12' },
-    { value: 80, label: 'Lei nº 14.133/2021, Art. 1º, § 2º' },
-    { value: 81, label: 'Lei nº 13.303/2016, Art. 27, Parágrafo 3º' },
-    { value: 82, label: 'Lei nº 13.303/2016, Art. 28, Parágrafo 3º, I' },
-    { value: 83, label: 'Lei nº 13.303/2016, Art. 28, Parágrafo 3º, II' },
-    { value: 84, label: 'Lei nº 13.303/2016, Art. 29, I' },
-    { value: 85, label: 'Lei nº 13.303/2016, Art. 29, II' },
-    { value: 86, label: 'Lei nº 13.303/2016, Art. 29, III' },
-    { value: 87, label: 'Lei nº 13.303/2016, Art. 29, IV' },
-    { value: 88, label: 'Lei nº 13.303/2016, Art. 29, V' },
-    { value: 89, label: 'Lei nº 13.303/2016, Art. 29, VI' },
-    { value: 90, label: 'Lei nº 13.303/2016, Art. 29, VII' },
-    { value: 91, label: 'Lei nº 13.303/2016, Art. 29, VIII' },
-    { value: 92, label: 'Lei nº 13.303/2016, Art. 29, IX' },
-    { value: 93, label: 'Lei nº 13.303/2016, Art. 29, X' },
-    { value: 94, label: 'Lei nº 13.303/2016, Art. 29, XI' },
-    { value: 95, label: 'Lei nº 13.303/2016, Art. 29, XII' },
-    { value: 96, label: 'Lei nº 13.303/2016, Art. 29, XIII' },
-    { value: 97, label: 'Lei nº 13.303/2016, Art. 29, XIV' },
-    { value: 98, label: 'Lei nº 13.303/2016, Art. 29, XV' },
-    { value: 99, label: 'Lei nº 13.303/2016, Art. 29, XVI' },
-    { value: 100, label: 'Lei nº 13.303/2016, Art. 29, XVII' },
-    { value: 101, label: 'Lei nº 13.303/2016, Art. 29, XVIII' },
-    { value: 102, label: 'Lei nº 13.303/2016, Art. 30, caput, Inexigibilidade' },
-    { value: 103, label: 'Lei nº 13.303/2016, Art. 30, caput, Credenciamento' },
-    { value: 104, label: 'Lei nº 13.303/2016, Art. 30, I' },
-    { value: 105, label: 'Lei nº 13.303/2016, Art. 30, II, a' },
-    { value: 106, label: 'Lei nº 13.303/2016, Art. 30, II, b' },
-    { value: 107, label: 'Lei nº 13.303/2016, Art. 30, II, c' },
-    { value: 108, label: 'Lei nº 13.303/2016, Art. 30, II, d' },
-    { value: 109, label: 'Lei nº 13.303/2016, Art. 30, II, e' },
-    { value: 110, label: 'Lei nº 13.303/2016, Art. 30, II, f' },
-    { value: 111, label: 'Lei nº 13.303/2016, Art. 30, II, g' },
-    { value: 112, label: 'Lei nº 13.303/2016, Art. 31, Parágrafo 4º' },
-    { value: 113, label: 'Lei nº 13.303/2016, Art. 32, IV' },
-    { value: 114, label: 'Lei nº 13.303/2016, Art. 54, I' },
-    { value: 115, label: 'Lei nº 13.303/2016, Art. 54, II' },
-    { value: 116, label: 'Lei nº 13.303/2016, Art. 54, III' },
-    { value: 117, label: 'Lei nº 13.303/2016, Art. 54, IV' },
-    { value: 118, label: 'Lei nº 13.303/2016, Art. 54, V' },
-    { value: 119, label: 'Lei nº 13.303/2016, Art. 54, VI' },
-    { value: 120, label: 'Lei nº 13.303/2016, Art. 54, VII' },
-    { value: 121, label: 'Lei nº 13.303/2016, Art. 54, VIII' },
-    { value: 122, label: 'Lei nº 13.303/2016, Art. 63, I' },
-    { value: 123, label: 'Lei nº 13.303/2016, Art. 63, III' },
-    { value: 124, label: 'Regulamento Interno de Licitações e Contratos Estatais (Diálogo Competitivo)' },
-    { value: 125, label: 'Regulamento Interno de Licitações e Contratos Estatais (Credenciamento)' },
-    { value: 126, label: 'Lei nº 12.850/2013, Art. 3º, Parágrafo 1º, II' },
-    { value: 127, label: 'Lei nº 12.850/2013, Art. 3º, Parágrafo 1º, V' },
-    { value: 128, label: 'Lei nº 13.529/2017, Art. 5º' },
-    { value: 129, label: 'Lei nº 8.629/1993, Art. 17, Parágrafo 3º, V' },
-    { value: 130, label: 'Lei nº 10.847/2004, Art. 6º' },
-    { value: 131, label: 'Lei nº 11.516/2007, Art. 14-A' },
-    { value: 132, label: 'Lei nº 11.652/2008, Art. 8º, Parágrafo 2º, I' },
-    { value: 133, label: 'Lei nº 11.652/2008, Art. 8º, Parágrafo 2º, II' },
-    { value: 134, label: 'Lei nº 11.759/2008, Art. 18-A' },
-    { value: 135, label: 'Lei nº 12.865/2013, Art. 18, Parágrafo 1º' },
-    { value: 136, label: 'Lei nº 12.873/2013, Art. 42' },
-    { value: 137, label: 'Lei nº 13.979/2020, Art. 4º, Parágrafo 1º' },
-    { value: 138, label: 'Lei nº 11.947/2009, Art. 141' },
-    { value: 139, label: 'Lei nº 11.947/2009, Art. 21' },
-    { value: 140, label: 'Lei nº 14.133/2021, Art. 79, I' },
-    { value: 141, label: 'Lei nº 14.133/2021, Art. 79, II' },
-    { value: 142, label: 'Lei nº 14.133/2021, Art. 79, III' }
+    { value: 1, key: 'Lei nº 14.133/2021, Art. 28, I' },
+    { value: 2, key: 'Lei nº 14.133/2021, Art. 28, II' },
+    { value: 3, key: 'Lei nº 14.133/2021, Art. 28, III' },
+    { value: 4, key: 'Lei nº 14.133/2021, Art. 28, IV' },
+    { value: 5, key: 'Lei nº 14.133/2021, Art. 28, V' },
+    { value: 6, key: 'Lei nº 14.133/2021, Art. 74, I' },
+    { value: 7, key: 'Lei nº 14.133/2021, Art. 74, II' },
+    { value: 8, key: 'Lei nº 14.133/2021, Art. 74, III, a' },
+    { value: 9, key: 'Lei nº 14.133/2021, Art. 74, III, b' },
+    { value: 10, key: 'Lei nº 14.133/2021, Art. 74, III, c' },
+    { value: 11, key: 'Lei nº 14.133/2021, Art. 74, III, d' },
+    { value: 12, key: 'Lei nº 14.133/2021, Art. 74, III, e' },
+    { value: 13, key: 'Lei nº 14.133/2021, Art. 74, III, f' },
+    { value: 14, key: 'Lei nº 14.133/2021, Art. 74, III, g' },
+    { value: 15, key: 'Lei nº 14.133/2021, Art. 74, III, h' },
+    { value: 16, key: 'Lei nº 14.133/2021, Art. 74, IV' },
+    { value: 17, key: 'Lei nº 14.133/2021, Art. 74, V' },
+    { value: 18, key: 'Lei nº 14.133/2021, Art. 75, I' },
+    { value: 19, key: 'Lei nº 14.133/2021, Art. 75, II' },
+    { value: 20, key: 'Lei nº 14.133/2021, Art. 75, III, a' },
+    { value: 21, key: 'Lei nº 14.133/2021, Art. 75, III, b' },
+    { value: 22, key: 'Lei nº 14.133/2021, Art. 75, IV, a' },
+    { value: 23, key: 'Lei nº 14.133/2021, Art. 75, IV, b' },
+    { value: 24, key: 'Lei nº 14.133/2021, Art. 75, IV, c' },
+    { value: 25, key: 'Lei nº 14.133/2021, Art. 75, IV, d' },
+    { value: 26, key: 'Lei nº 14.133/2021, Art. 75, IV, e' },
+    { value: 27, key: 'Lei nº 14.133/2021, Art. 75, IV, f' },
+    { value: 28, key: 'Lei nº 14.133/2021, Art. 75, IV, g' },
+    { value: 29, key: 'Lei nº 14.133/2021, Art. 75, IV, h' },
+    { value: 30, key: 'Lei nº 14.133/2021, Art. 75, IV, i' },
+    { value: 31, key: 'Lei nº 14.133/2021, Art. 75, IV, j' },
+    { value: 32, key: 'Lei nº 14.133/2021, Art. 75, IV, k' },
+    { value: 33, key: 'Lei nº 14.133/2021, Art. 75, IV, l' },
+    { value: 34, key: 'Lei nº 14.133/2021, Art. 75, IV, m' },
+    { value: 35, key: 'Lei nº 14.133/2021, Art. 75, V' },
+    { value: 36, key: 'Lei nº 14.133/2021, Art. 75, VI' },
+    { value: 37, key: 'Lei nº 14.133/2021, Art. 75, VII' },
+    { value: 38, key: 'Lei nº 14.133/2021, Art. 75, VIII' },
+    { value: 39, key: 'Lei nº 14.133/2021, Art. 75, IX' },
+    { value: 40, key: 'Lei nº 14.133/2021, Art. 75, X' },
+    { value: 41, key: 'Lei nº 14.133/2021, Art. 75, XI' },
+    { value: 42, key: 'Lei nº 14.133/2021, Art. 75, XII' },
+    { value: 43, key: 'Lei nº 14.133/2021, Art. 75, XIII' },
+    { value: 44, key: 'Lei nº 14.133/2021, Art. 75, XIV' },
+    { value: 45, key: 'Lei nº 14.133/2021, Art. 75, XV' },
+    { value: 46, key: 'Lei nº 14.133/2021, Art. 75, XVI' },
+    { value: 47, key: 'Lei nº 14.133/2021, Art. 78, I' },
+    { value: 48, key: 'Lei nº 14.133/2021, Art. 78, II' },
+    { value: 49, key: 'Lei nº 14.133/2021, Art. 78, III' },
+    { value: 50, key: 'Lei nº 14.133/2021, Art. 74, caput' },
+    { value: 51, key: 'Lei nº 14.284/2021, Art. 29, caput' },
+    { value: 52, key: 'Lei nº 14.284/2021, Art. 24, § 1º' },
+    { value: 53, key: 'Lei nº 14.284/2021, Art. 25, § 1º' },
+    { value: 54, key: 'Lei nº 14.284/2021, Art. 34' },
+    { value: 55, key: 'Lei nº 9.636/1998, Art. 11-C, I' },
+    { value: 56, key: 'Lei nº 9.636/1998, Art. 11-C, II' },
+    { value: 57, key: 'Lei nº 9.636/1998, Art. 24-C, I' },
+    { value: 58, key: 'Lei nº 9.636/1998, Art. 24-C, II' },
+    { value: 59, key: 'Lei nº 9.636/1998, Art. 24-C, III' },
+    { value: 60, key: 'Lei nº 14.133/2021, Art. 75, XVII' },
+    { value: 61, key: 'Lei nº 14.133/2021, Art. 76, I, a' },
+    { value: 62, key: 'Lei nº 14.133/2021, Art. 76, I, b' },
+    { value: 63, key: 'Lei nº 14.133/2021, Art. 76, I, c' },
+    { value: 64, key: 'Lei nº 14.133/2021, Art. 76, I, d' },
+    { value: 65, key: 'Lei nº 14.133/2021, Art. 76, I, e' },
+    { value: 66, key: 'Lei nº 14.133/2021, Art. 76, I, f' },
+    { value: 67, key: 'Lei nº 14.133/2021, Art. 76, I, g' },
+    { value: 68, key: 'Lei nº 14.133/2021, Art. 76, I, h' },
+    { value: 69, key: 'Lei nº 14.133/2021, Art. 76, I, i' },
+    { value: 70, key: 'Lei nº 14.133/2021, Art. 76, I, j' },
+    { value: 71, key: 'Lei nº 14.133/2021, Art. 76, II, a' },
+    { value: 72, key: 'Lei nº 14.133/2021, Art. 76, II, b' },
+    { value: 73, key: 'Lei nº 14.133/2021, Art. 76, II, c' },
+    { value: 74, key: 'Lei nº 14.133/2021, Art. 76, II, d' },
+    { value: 75, key: 'Lei nº 14.133/2021, Art. 76, II, e' },
+    { value: 76, key: 'Lei nº 14.133/2021, Art. 76, II, f' },
+    { value: 77, key: 'Lei nº 14.133/2021, Art. 75, XVIII' },
+    { value: 78, key: 'Lei nº 14.628/2023, Art. 4º' },
+    { value: 79, key: 'Lei nº 14.628/2023, Art. 12' },
+    { value: 80, key: 'Lei nº 14.133/2021, Art. 1º, § 2º' },
+    { value: 81, key: 'Lei nº 13.303/2016, Art. 27, Parágrafo 3º' },
+    { value: 82, key: 'Lei nº 13.303/2016, Art. 28, Parágrafo 3º, I' },
+    { value: 83, key: 'Lei nº 13.303/2016, Art. 28, Parágrafo 3º, II' },
+    { value: 84, key: 'Lei nº 13.303/2016, Art. 29, I' },
+    { value: 85, key: 'Lei nº 13.303/2016, Art. 29, II' },
+    { value: 86, key: 'Lei nº 13.303/2016, Art. 29, III' },
+    { value: 87, key: 'Lei nº 13.303/2016, Art. 29, IV' },
+    { value: 88, key: 'Lei nº 13.303/2016, Art. 29, V' },
+    { value: 89, key: 'Lei nº 13.303/2016, Art. 29, VI' },
+    { value: 90, key: 'Lei nº 13.303/2016, Art. 29, VII' },
+    { value: 91, key: 'Lei nº 13.303/2016, Art. 29, VIII' },
+    { value: 92, key: 'Lei nº 13.303/2016, Art. 29, IX' },
+    { value: 93, key: 'Lei nº 13.303/2016, Art. 29, X' },
+    { value: 94, key: 'Lei nº 13.303/2016, Art. 29, XI' },
+    { value: 95, key: 'Lei nº 13.303/2016, Art. 29, XII' },
+    { value: 96, key: 'Lei nº 13.303/2016, Art. 29, XIII' },
+    { value: 97, key: 'Lei nº 13.303/2016, Art. 29, XIV' },
+    { value: 98, key: 'Lei nº 13.303/2016, Art. 29, XV' },
+    { value: 99, key: 'Lei nº 13.303/2016, Art. 29, XVI' },
+    { value: 100, key: 'Lei nº 13.303/2016, Art. 29, XVII' },
+    { value: 101, key: 'Lei nº 13.303/2016, Art. 29, XVIII' },
+    { value: 102, key: 'Lei nº 13.303/2016, Art. 30, caput, Inexigibilidade' },
+    { value: 103, key: 'Lei nº 13.303/2016, Art. 30, caput, Credenciamento' },
+    { value: 104, key: 'Lei nº 13.303/2016, Art. 30, I' },
+    { value: 105, key: 'Lei nº 13.303/2016, Art. 30, II, a' },
+    { value: 106, key: 'Lei nº 13.303/2016, Art. 30, II, b' },
+    { value: 107, key: 'Lei nº 13.303/2016, Art. 30, II, c' },
+    { value: 108, key: 'Lei nº 13.303/2016, Art. 30, II, d' },
+    { value: 109, key: 'Lei nº 13.303/2016, Art. 30, II, e' },
+    { value: 110, key: 'Lei nº 13.303/2016, Art. 30, II, f' },
+    { value: 111, key: 'Lei nº 13.303/2016, Art. 30, II, g' },
+    { value: 112, key: 'Lei nº 13.303/2016, Art. 31, Parágrafo 4º' },
+    { value: 113, key: 'Lei nº 13.303/2016, Art. 32, IV' },
+    { value: 114, key: 'Lei nº 13.303/2016, Art. 54, I' },
+    { value: 115, key: 'Lei nº 13.303/2016, Art. 54, II' },
+    { value: 116, key: 'Lei nº 13.303/2016, Art. 54, III' },
+    { value: 117, key: 'Lei nº 13.303/2016, Art. 54, IV' },
+    { value: 118, key: 'Lei nº 13.303/2016, Art. 54, V' },
+    { value: 119, key: 'Lei nº 13.303/2016, Art. 54, VI' },
+    { value: 120, key: 'Lei nº 13.303/2016, Art. 54, VII' },
+    { value: 121, key: 'Lei nº 13.303/2016, Art. 54, VIII' },
+    { value: 122, key: 'Lei nº 13.303/2016, Art. 63, I' },
+    { value: 123, key: 'Lei nº 13.303/2016, Art. 63, III' },
+    { value: 124, key: 'Regulamento Interno de Licitações e Contratos Estatais (Diálogo Competitivo)' },
+    { value: 125, key: 'Regulamento Interno de Licitações e Contratos Estatais (Credenciamento)' },
+    { value: 126, key: 'Lei nº 12.850/2013, Art. 3º, Parágrafo 1º, II' },
+    { value: 127, key: 'Lei nº 12.850/2013, Art. 3º, Parágrafo 1º, V' },
+    { value: 128, key: 'Lei nº 13.529/2017, Art. 5º' },
+    { value: 129, key: 'Lei nº 8.629/1993, Art. 17, Parágrafo 3º, V' },
+    { value: 130, key: 'Lei nº 10.847/2004, Art. 6º' },
+    { value: 131, key: 'Lei nº 11.516/2007, Art. 14-A' },
+    { value: 132, key: 'Lei nº 11.652/2008, Art. 8º, Parágrafo 2º, I' },
+    { value: 133, key: 'Lei nº 11.652/2008, Art. 8º, Parágrafo 2º, II' },
+    { value: 134, key: 'Lei nº 11.759/2008, Art. 18-A' },
+    { value: 135, key: 'Lei nº 12.865/2013, Art. 18, Parágrafo 1º' },
+    { value: 136, key: 'Lei nº 12.873/2013, Art. 42' },
+    { value: 137, key: 'Lei nº 13.979/2020, Art. 4º, Parágrafo 1º' },
+    { value: 138, key: 'Lei nº 11.947/2009, Art. 141' },
+    { value: 139, key: 'Lei nº 11.947/2009, Art. 21' },
+    { value: 140, key: 'Lei nº 14.133/2021, Art. 79, I' },
+    { value: 141, key: 'Lei nº 14.133/2021, Art. 79, II' },
+    { value: 142, key: 'Lei nº 14.133/2021, Art. 79, III' },
+    { value: 149, key: 'MP nº 1.221/2024, Art. 2º, I (Calamidade pública)' },
+    { value: 150, key: 'MP nº 1.221/2024, Art. 2º, II (Calamidade pública)' },
+    { value: 151, key: 'MP nº 1.221/2024, Art. 2º, II (Calamidade pública)' },
+
+
   ];
+
+
   constructor(private fb: FormBuilder, private _adicionarLicitacaoService: AdicionarLicitacaoService, private modalService: BsModalService) {
 
     this.filtroForm = this.fb.group({
       agency: [''],
-      unit_id: [''],
+      unit_id: [null],
       document_title: [''],
-      document_type_id: [null, {
-        options: [
-          { value: 1, label: 'Aviso de Contratação Direta' },
-          { value: 2, label: 'Edital' },
-          { value: 3, label: 'Minuta do Contrato' },
-          { value: 4, label: 'Termo de Referência' },
-          { value: 5, label: 'Anteprojeto' },
-          { value: 6, label: 'Projeto Básico' },
-          { value: 7, label: 'Estudo Técnico Preliminar' },
-          { value: 8, label: 'Projeto Executivo' },
-          { value: 9, label: 'Mapa de Riscos' },
-          { value: 10, label: 'DFD' },
-          { value: 16, label: 'Para outros documentos do processo' }
-        ]
-      }],
-      call_instrument_id: [null, {
-        options: [
-          { value: 1, label: 'Edital' },
-          { value: 2, label: 'Aviso de Contratação Direta' },
-          { value: 3, label: 'Ato que Autoriza a Contratação Direta' },
-          { value: 4, label: 'Edital de Chamamento Público' }
-        ]
-      }],
-      contracting_modality_id: [null, {
-        options: [
-          { value: 1, label: 'Leilão - Eletrônico' },
-          { value: 2, label: 'Diálogo Competitivo' },
-          { value: 3, label: 'Concurso' },
-          { value: 4, label: 'Concorrência - Eletrônica' },
-          { value: 5, label: 'Concorrência - Presencial' },
-          { value: 6, label: 'Pregão - Eletrônico' },
-          { value: 7, label: 'Pregão - Presencial' },
-          { value: 8, label: 'Dispensa de Licitação' },
-          { value: 9, label: 'Inexigibilidade' },
-          { value: 10, label: 'Manifestação de Interesse' },
-          { value: 11, label: 'Pré-qualificação' },
-          { value: 12, label: 'Credenciamento' },
-          { value: 13, label: 'Leilão - Presencial' },
-          { value: 14, label: 'Inaplicabilidade da Licitação' }
-        ]
-      }],
-      dispute_mode_id: [null, {
-        options: [
-          { value: 1, label: 'Aberto' },
-          { value: 2, label: 'Fechado' },
-          { value: 3, label: 'Aberto-Fechado' },
-          { value: 4, label: 'Dispensa Com Disputa' },
-          { value: 5, label: 'Não se aplica' },
-          { value: 6, label: 'Fechado-Aberto' }
-        ]
-      }],
-      legal_basic_id: [null, {
-        options: [
-          { value: 1, label: 'Lei nº 14.133/2021, Art. 28, I' },
-          { value: 2, label: 'Lei nº 14.133/2021, Art. 28, II' },
-          { value: 3, label: 'Lei nº 14.133/2021, Art. 28, III' },
-          { value: 4, label: 'Lei nº 14.133/2021, Art. 28, IV' },
-          { value: 5, label: 'Lei nº 14.133/2021, Art. 28, V' },
-          { value: 6, label: 'Lei nº 14.133/2021, Art. 74, I' },
-          { value: 7, label: 'Lei nº 14.133/2021, Art. 74, II' },
-          { value: 8, label: 'Lei nº 14.133/2021, Art. 74, III, a' },
-          { value: 9, label: 'Lei nº 14.133/2021, Art. 74, III, b' },
-          { value: 10, label: 'Lei nº 14.133/2021, Art. 74, III, c' },
-          { value: 11, label: 'Lei nº 14.133/2021, Art. 74, III, d' },
-          { value: 12, label: 'Lei nº 14.133/2021, Art. 74, III, e' },
-          { value: 13, label: 'Lei nº 14.133/2021, Art. 74, III, f' },
-          { value: 14, label: 'Lei nº 14.133/2021, Art. 74, III, g' },
-          { value: 15, label: 'Lei nº 14.133/2021, Art. 74, III, h' },
-          { value: 16, label: 'Lei nº 14.133/2021, Art. 74, IV' },
-          { value: 17, label: 'Lei nº 14.133/2021, Art. 74, V' },
-          { value: 18, label: 'Lei nº 14.133/2021, Art. 75, I' },
-          { value: 19, label: 'Lei nº 14.133/2021, Art. 75, II' },
-          { value: 20, label: 'Lei nº 14.133/2021, Art. 75, III, a' },
-          { value: 21, label: 'Lei nº 14.133/2021, Art. 75, III, b' },
-          { value: 22, label: 'Lei nº 14.133/2021, Art. 75, IV, a' },
-          { value: 23, label: 'Lei nº 14.133/2021, Art. 75, IV, b' },
-          { value: 24, label: 'Lei nº 14.133/2021, Art. 75, IV, c' },
-          { value: 25, label: 'Lei nº 14.133/2021, Art. 75, IV, d' },
-          { value: 26, label: 'Lei nº 14.133/2021, Art. 75, IV, e' },
-          { value: 27, label: 'Lei nº 14.133/2021, Art. 75, IV, f' },
-          { value: 28, label: 'Lei nº 14.133/2021, Art. 75, IV, g' },
-          { value: 29, label: 'Lei nº 14.133/2021, Art. 75, IV, h' },
-          { value: 30, label: 'Lei nº 14.133/2021, Art. 75, IV, i' },
-          { value: 31, label: 'Lei nº 14.133/2021, Art. 75, IV, j' },
-          { value: 32, label: 'Lei nº 14.133/2021, Art. 75, IV, k' },
-          { value: 33, label: 'Lei nº 14.133/2021, Art. 75, IV, l' },
-          { value: 34, label: 'Lei nº 14.133/2021, Art. 75, IV, m' },
-          { value: 35, label: 'Lei nº 14.133/2021, Art. 75, V' },
-          { value: 36, label: 'Lei nº 14.133/2021, Art. 75, VI' },
-          { value: 37, label: 'Lei nº 14.133/2021, Art. 75, VII' },
-          { value: 38, label: 'Lei nº 14.133/2021, Art. 75, VIII' },
-          { value: 39, label: 'Lei nº 14.133/2021, Art. 75, IX' },
-          { value: 40, label: 'Lei nº 14.133/2021, Art. 75, X' },
-          { value: 41, label: 'Lei nº 14.133/2021, Art. 75, XI' },
-          { value: 42, label: 'Lei nº 14.133/2021, Art. 75, XII' },
-          { value: 43, label: 'Lei nº 14.133/2021, Art. 75, XIII' },
-          { value: 44, label: 'Lei nº 14.133/2021, Art. 75, XIV' },
-          { value: 45, label: 'Lei nº 14.133/2021, Art. 75, XV' },
-          { value: 46, label: 'Lei nº 14.133/2021, Art. 75, XVI' },
-          { value: 47, label: 'Lei nº 14.133/2021, Art. 78, I' },
-          { value: 48, label: 'Lei nº 14.133/2021, Art. 78, II' },
-          { value: 49, label: 'Lei nº 14.133/2021, Art. 78, III' },
-          { value: 50, label: 'Lei nº 14.133/2021, Art. 74, caput' },
-          { value: 51, label: 'Lei nº 14.284/2021, Art. 29, caput' },
-          { value: 52, label: 'Lei nº 14.284/2021, Art. 24, § 1º' },
-          { value: 53, label: 'Lei nº 14.284/2021, Art. 25, § 1º' },
-          { value: 54, label: 'Lei nº 14.284/2021, Art. 34' },
-          { value: 55, label: 'Lei nº 9.636/1998, Art. 11-C, I' },
-          { value: 56, label: 'Lei nº 9.636/1998, Art. 11-C, II' },
-          { value: 57, label: 'Lei nº 9.636/1998, Art. 24-C, I' },
-          { value: 58, label: 'Lei nº 9.636/1998, Art. 24-C, II' },
-          { value: 59, label: 'Lei nº 9.636/1998, Art. 24-C, III' },
-          { value: 60, label: 'Lei nº 14.133/2021, Art. 75, XVII' },
-          { value: 61, label: 'Lei nº 14.133/2021, Art. 76, I, a' },
-          { value: 62, label: 'Lei nº 14.133/2021, Art. 76, I, b' },
-          { value: 63, label: 'Lei nº 14.133/2021, Art. 76, I, c' },
-          { value: 64, label: 'Lei nº 14.133/2021, Art. 76, I, d' },
-          { value: 65, label: 'Lei nº 14.133/2021, Art. 76, I, e' },
-          { value: 66, label: 'Lei nº 14.133/2021, Art. 76, I, f' },
-          { value: 67, label: 'Lei nº 14.133/2021, Art. 76, I, g' },
-          { value: 68, label: 'Lei nº 14.133/2021, Art. 76, I, h' },
-          { value: 69, label: 'Lei nº 14.133/2021, Art. 76, I, i' },
-          { value: 70, label: 'Lei nº 14.133/2021, Art. 76, I, j' },
-          { value: 71, label: 'Lei nº 14.133/2021, Art. 76, II, a' },
-          { value: 72, label: 'Lei nº 14.133/2021, Art. 76, II, b' },
-          { value: 73, label: 'Lei nº 14.133/2021, Art. 76, II, c' },
-          { value: 74, label: 'Lei nº 14.133/2021, Art. 76, II, d' },
-          { value: 75, label: 'Lei nº 14.133/2021, Art. 76, II, e' },
-          { value: 76, label: 'Lei nº 14.133/2021, Art. 76, II, f' },
-          { value: 77, label: 'Lei nº 14.133/2021, Art. 75, XVIII' },
-          { value: 78, label: 'Lei nº 14.628/2023, Art. 4º' },
-          { value: 79, label: 'Lei nº 14.628/2023, Art. 12' },
-          { value: 80, label: 'Lei nº 14.133/2021, Art. 1º, § 2º' },
-          { value: 81, label: 'Lei nº 13.303/2016, Art. 27, Parágrafo 3º' },
-          { value: 82, label: 'Lei nº 13.303/2016, Art. 28, Parágrafo 3º, I' },
-          { value: 83, label: 'Lei nº 13.303/2016, Art. 28, Parágrafo 3º, II' },
-          { value: 84, label: 'Lei nº 13.303/2016, Art. 29, I' },
-          { value: 85, label: 'Lei nº 13.303/2016, Art. 29, II' },
-          { value: 86, label: 'Lei nº 13.303/2016, Art. 29, III' },
-          { value: 87, label: 'Lei nº 13.303/2016, Art. 29, IV' },
-          { value: 88, label: 'Lei nº 13.303/2016, Art. 29, V' },
-          { value: 89, label: 'Lei nº 13.303/2016, Art. 29, VI' },
-          { value: 90, label: 'Lei nº 13.303/2016, Art. 29, VII' },
-          { value: 91, label: 'Lei nº 13.303/2016, Art. 29, VIII' },
-          { value: 92, label: 'Lei nº 13.303/2016, Art. 29, IX' },
-          { value: 93, label: 'Lei nº 13.303/2016, Art. 29, X' },
-          { value: 94, label: 'Lei nº 13.303/2016, Art. 29, XI' },
-          { value: 95, label: 'Lei nº 13.303/2016, Art. 29, XII' },
-          { value: 96, label: 'Lei nº 13.303/2016, Art. 29, XIII' },
-          { value: 97, label: 'Lei nº 13.303/2016, Art. 29, XIV' },
-          { value: 98, label: 'Lei nº 13.303/2016, Art. 29, XV' },
-          { value: 99, label: 'Lei nº 13.303/2016, Art. 29, XVI' },
-          { value: 100, label: 'Lei nº 13.303/2016, Art. 29, XVII' },
-          { value: 101, label: 'Lei nº 13.303/2016, Art. 29, XVIII' },
-          { value: 102, label: 'Lei nº 13.303/2016, Art. 30, caput, Inexigibilidade' },
-          { value: 103, label: 'Lei nº 13.303/2016, Art. 30, caput, Credenciamento' },
-          { value: 104, label: 'Lei nº 13.303/2016, Art. 30, I' },
-          { value: 105, label: 'Lei nº 13.303/2016, Art. 30, II, a' },
-          { value: 106, label: 'Lei nº 13.303/2016, Art. 30, II, b' },
-          { value: 107, label: 'Lei nº 13.303/2016, Art. 30, II, c' },
-          { value: 108, label: 'Lei nº 13.303/2016, Art. 30, II, d' },
-          { value: 109, label: 'Lei nº 13.303/2016, Art. 30, II, e' },
-          { value: 110, label: 'Lei nº 13.303/2016, Art. 30, II, f' },
-          { value: 111, label: 'Lei nº 13.303/2016, Art. 30, II, g' },
-          { value: 112, label: 'Lei nº 13.303/2016, Art. 31, Parágrafo 4º' },
-          { value: 113, label: 'Lei nº 13.303/2016, Art. 32, IV' },
-          { value: 114, label: 'Lei nº 13.303/2016, Art. 54, I' },
-          { value: 115, label: 'Lei nº 13.303/2016, Art. 54, II' },
-          { value: 116, label: 'Lei nº 13.303/2016, Art. 54, III' },
-          { value: 117, label: 'Lei nº 13.303/2016, Art. 54, IV' },
-          { value: 118, label: 'Lei nº 13.303/2016, Art. 54, V' },
-          { value: 119, label: 'Lei nº 13.303/2016, Art. 54, VI' },
-          { value: 120, label: 'Lei nº 13.303/2016, Art. 54, VII' },
-          { value: 121, label: 'Lei nº 13.303/2016, Art. 54, VIII' },
-          { value: 122, label: 'Lei nº 13.303/2016, Art. 63, I' },
-          { value: 123, label: 'Lei nº 13.303/2016, Art. 63, III' },
-          { value: 124, label: 'Regulamento Interno de Licitações e Contratos Estatais (Diálogo Competitivo)' },
-          { value: 125, label: 'Regulamento Interno de Licitações e Contratos Estatais (Credenciamento)' },
-          { value: 126, label: 'Lei nº 12.850/2013, Art. 3º, Parágrafo 1º, II' },
-          { value: 127, label: 'Lei nº 12.850/2013, Art. 3º, Parágrafo 1º, V' },
-          { value: 128, label: 'Lei nº 13.529/2017, Art. 5º' },
-          { value: 129, label: 'Lei nº 8.629/1993, Art. 17, Parágrafo 3º, V' },
-          { value: 130, label: 'Lei nº 10.847/2004, Art. 6º' },
-          { value: 131, label: 'Lei nº 11.516/2007, Art. 14-A' },
-          { value: 132, label: 'Lei nº 11.652/2008, Art. 8º, Parágrafo 2º, I' },
-          { value: 133, label: 'Lei nº 11.652/2008, Art. 8º, Parágrafo 2º, II' },
-          { value: 134, label: 'Lei nº 11.759/2008, Art. 18-A' },
-          { value: 135, label: 'Lei nº 12.865/2013, Art. 18, Parágrafo 1º' },
-          { value: 136, label: 'Lei nº 12.873/2013, Art. 42' },
-          { value: 137, label: 'Lei nº 13.979/2020, Art. 4º, Parágrafo 1º' },
-          { value: 138, label: 'Lei nº 11.947/2009, Art. 141' },
-          { value: 139, label: 'Lei nº 11.947/2009, Art. 21' },
-          { value: 140, label: 'Lei nº 14.133/2021, Art. 79, I' },
-          { value: 141, label: 'Lei nº 14.133/2021, Art. 79, II' },
-          { value: 142, label: 'Lei nº 14.133/2021, Art. 79, III' }
-        ]
-      }],
-      agency_country_register: [{ value: '', disabled: true }],
+      document_type_id: [null],
+      call_instrument_id: [null],
+      contracting_modality_id: [null],
+      dispute_mode_id: [null],
+      legal_basic_id: [null],
+      agency_country_register: [null],
       file: [null],
       number: [''],
       year: [''],
@@ -461,14 +281,237 @@ export class DadosDaLicitacaoAdministrativoComponent {
     this.filtroForm.get('agency')?.valueChanges.subscribe((selectedAgencies: SelectedAgencies) => {
       this.unitOptions.push({
         key: selectedAgencies.unit.name,
-        value: selectedAgencies.unit.agency_country_register
+        value: selectedAgencies.unit.id
       })
+      this.cnpjSelecionado = selectedAgencies.unit.agency_country_register
     });
 
-    this.filtroForm.get('unit_id')?.valueChanges.subscribe((v)=>{
-      this.filtroForm.get('agency_country_register')?.setValue(v)
+    this.filtroForm.get('unit_id')?.valueChanges.subscribe((v) => {
+      this.filtroForm.get('agency_country_register')?.setValue(this.cnpjSelecionado)
     })
 
+    this.filtroForm.get('call_instrument_id')?.valueChanges.subscribe((tipoInstrumentoSelecionado) => {
+      switch (tipoInstrumentoSelecionado) {
+        case "4":
+          this.modalidadeContratoOpcoes = [
+            { key: 'Dispensa Licitação', value: 8 },
+            { key: 'Manifestação de Interesse', value: 10 },
+            { key: 'Pré-qualificação', value: 11 },
+            { key: 'Credenciamento', value: 12 },
+          ];
+          break;
+
+        default:// edital - Aviso Contratação Direta - ato que autoriza a contratação direta
+          this.modalidadeContratoOpcoes = [
+            { key: 'Leilão - Eletrônico', value: 1 },
+            { key: 'Diálogo Competitivo', value: 2 },
+            { key: 'Concurso', value: 3 },
+            { key: 'Concorrência - Eletrônica', value: 4 },
+            { key: 'Concorrência - Presencial', value: 5 },
+            { key: 'Pregão - Eletrônico', value: 6 },
+            { key: 'Pregão - Presencial', value: 7 },
+            { key: 'Dispensa Licitação', value: 8 },
+            { key: 'Inexigibilidade', value: 9 },
+            { key: 'Manifestação de Interesse', value: 10 },
+            { key: 'Pré-qualificação', value: 11 },
+            { key: 'Credenciamento', value: 12 },
+            { key: 'Leilao - Presencial', value: 13 },
+
+          ];
+          break;
+      }
+    });
+
+    this.filtroForm.get('contracting_modality_id')?.valueChanges.subscribe((tipoModalidadeSelecionado) => {
+      switch (tipoModalidadeSelecionado) {
+        case "1": //Leilão eletrônico
+        case "2": //Dialogo Competitivo
+          this.modoDisputaOpcoes = [
+            { key: 'Aberto', value: 1 },
+            { key: 'Fechado', value: 2 },
+            { key: 'Aberto-Fechado', value: 3 },
+            { key: 'Fechado-Aberto', value: 6 },
+          ];
+          this.legalBasicOptions = [
+            { value: 4, key: 'Lei nº 14.133/2021, Art. 28, IV' },
+            { value: 80, key: 'Lei nº 14.133/2021, Art. 1º, § 2º' },
+            { value: 121, key: 'Lei nº 13.303/2016, Art. 54, VIII' },
+          ];
+          break;
+
+        case "3": //Concurso
+          this.modoDisputaOpcoes = [
+            { key: 'Aberto', value: 1 },
+            { key: 'Fechado', value: 2 },
+            { key: 'Aberto-Fechado', value: 3 },
+            { key: 'Fechado-Aberto', value: 6 },
+          ];
+          this.legalBasicOptions = [
+            { value: 3, key: 'Lei nº 14.133/2021, Art. 28, III' },
+            { value: 80, key: 'Lei nº 14.133/2021, Art. 1º, § 2º' },
+            { value: 116, key: 'Lei nº 13.303/2016, Art. 54, III' },
+            { value: 117, key: 'Lei nº 13.303/2016, Art. 54, IV' },
+            { value: 118, key: 'Lei nº 13.303/2016, Art. 54, V' },
+            { value: 119, key: 'Lei nº 13.303/2016, Art. 54, VI' },
+            { value: 120, key: 'Lei nº 13.303/2016, Art. 54, VII' },
+            { value: 150, key: 'MP nº 1.221/2024, Art. 2º, II (Calamidade pública)' },
+          ];
+          break;
+        case "4": // Concorrência - eletrônica 
+          this.modoDisputaOpcoes = [
+            { key: 'Aberto', value: 1 },
+            { key: 'Fechado', value: 2 },
+            { key: 'Aberto-Fechado', value: 3 },
+            { key: 'Fechado-Aberto', value: 6 },
+          ];
+          this.legalBasicOptions = [
+            { value: 2, key: 'Lei nº 14.133/2021, Art. 28, II' },
+            { value: 80, key: 'Lei nº 14.133/2021, Art. 1º, § 2º' },
+            { value: 114, key: 'Lei nº 13.303/2016, Art. 54, I' },
+            { value: 115, key: 'Lei nº 13.303/2016, Art. 54, II' },
+            { value: 116, key: 'Lei nº 13.303/2016, Art. 54, III' },
+            { value: 117, key: 'Lei nº 13.303/2016, Art. 54, IV' },
+            { value: 118, key: 'Lei nº 13.303/2016, Art. 54, V' },
+            { value: 119, key: 'Lei nº 13.303/2016, Art. 54, VI' },
+            { value: 120, key: 'Lei nº 13.303/2016, Art. 54, VII' },
+            { value: 123, key: 'Lei nº 13.303/2016, Art. 63, III' },
+            { value: 150, key: 'MP nº 1.221/2024, Art. 2º, II (Calamidade pública)' },
+          ];
+
+          break;
+        case "5": // Concorrência - presencial 
+          this.modoDisputaOpcoes = [
+            { key: 'Aberto', value: 1 },
+            { key: 'Fechado', value: 2 },
+            { key: 'Aberto-Fechado', value: 3 },
+            { key: 'Fechado-Aberto', value: 6 },
+          ];
+          this.legalBasicOptions = [
+            { value: 2, key: 'Lei nº 14.133/2021, Art. 28, II' },
+            { value: 80, key: 'Lei nº 14.133/2021, Art. 1º, § 2º' },
+            { value: 150, key: 'MP nº 1.221/2024, Art. 2º, II (Calamidade pública)' },
+          ];
+          break
+
+        case "6": // Pregão - eletrônico 
+          this.modoDisputaOpcoes = [
+            { key: 'Aberto', value: 1 },
+            { key: 'Fechado', value: 2 },
+            { key: 'Aberto-Fechado', value: 3 },
+            { key: 'Fechado-Aberto', value: 6 },
+          ];
+          this.legalBasicOptions = [
+            { value: 2, key: 'Lei nº 14.133/2021, Art. 28, II' },
+            { value: 80, key: 'Lei nº 14.133/2021, Art. 1º, § 2º' },
+            { value: 113, key: 'Lei nº 13.303/2016, Art. 32, IV' },
+            { value: 123, key: 'Lei nº 13.303/2016, Art. 63, III' },
+            { value: 150, key: 'MP nº 1.221/2024, Art. 2º, II (Calamidade pública)' },
+          ];
+          break
+
+        case "7": // Pregão - Presencial 
+          this.modoDisputaOpcoes = [
+            { key: 'Aberto', value: 1 },
+            { key: 'Fechado', value: 2 },
+            { key: 'Aberto-Fechado', value: 3 },
+            { key: 'Fechado-Aberto', value: 6 },
+          ];
+          this.legalBasicOptions = [
+            { value: 2, key: 'Lei nº 14.133/2021, Art. 28, II' },
+            { value: 80, key: 'Lei nº 14.133/2021, Art. 1º, § 2º' },
+            { value: 150, key: 'MP nº 1.221/2024, Art. 2º, II (Calamidade pública)' },
+          ];
+          break
+
+        case "8":// Dispensa - Licitação 
+        case "9": // Inexigibilidade
+          this.modoDisputaOpcoes = [
+            { key: 'Aberto', value: 1 },
+            { key: 'Fechado', value: 2 },
+            { key: 'Aberto-Fechado', value: 3 },
+            { key: 'Fechado-Aberto', value: 6 },
+          ];
+          this.legalBasicOptions = [
+            { value: 80, key: 'Lei nº 14.133/2021, Art. 1º, § 2º' },
+          ];
+          break
+
+        case "10": // Manifestação de Interesse
+          this.modoDisputaOpcoes = [
+            { key: 'Aberto', value: 1 },
+            { key: 'Fechado', value: 2 },
+            { key: 'Aberto-Fechado', value: 3 },
+            { key: 'Fechado-Aberto', value: 6 },
+          ];
+          this.legalBasicOptions = [
+            { value: 80, key: 'Lei nº 14.133/2021, Art. 1º, § 2º' },
+            { value: 49, key: 'Lei nº 14.133/2021, Art. 78, III' },
+          ];
+          break
+
+        case "11": // Pre qualificação
+          this.modoDisputaOpcoes = [
+            { key: 'Aberto', value: 1 },
+            { key: 'Fechado', value: 2 },
+            { key: 'Aberto-Fechado', value: 3 },
+            { key: 'Fechado-Aberto', value: 6 },
+          ];
+          this.legalBasicOptions = [
+            { value: 80, key: 'Lei nº 14.133/2021, Art. 1º, § 2º' },
+            { value: 48, key: 'Lei nº 14.133/2021, Art. 78, II' },
+            { value: 112, key: 'Lei nº 13.303/2016, Art. 31, Parágrafo 4º' },
+          ];
+          break
+
+        case "12": // Credenciamento
+          this.modoDisputaOpcoes = [
+            { key: 'Aberto', value: 1 },
+            { key: 'Fechado', value: 2 },
+            { key: 'Aberto-Fechado', value: 3 },
+            { key: 'Fechado-Aberto', value: 6 },
+          ];
+          this.legalBasicOptions = [
+            { value: 80, key: 'Lei nº 14.133/2021, Art. 1º, § 2º' },
+            { value: 125, key: 'Regulamento Interno de Licitações e Contratos Estatais (Credenciamento)' },
+          ];
+          break
+
+        case "13": // Leilão - Presencial
+          this.modoDisputaOpcoes = [
+            { key: 'Aberto', value: 1 },
+            { key: 'Fechado', value: 2 },
+            { key: 'Aberto-Fechado', value: 3 },
+            { key: 'Fechado-Aberto', value: 6 },
+          ];
+          this.legalBasicOptions = [
+            { value: 4, key: 'Lei nº 14.133/2021, Art. 28, IV' },
+            { value: 80, key: 'Lei nº 14.133/2021, Art. 1º, § 2º' },
+            { value: 121, key: 'Lei nº 13.303/2016, Art. 54, VIII' },
+          ];
+          break
+        case "14": // Inaplicalibiade da Licitação
+          this.modoDisputaOpcoes = [
+            { key: 'Aberto', value: 1 },
+            { key: 'Fechado', value: 2 },
+            { key: 'Aberto-Fechado', value: 3 },
+            { key: 'Fechado-Aberto', value: 6 },
+          ];
+          this.legalBasicOptions = [
+            { value: 81, key: 'Lei nº 13.303/2016, Art. 27, Parágrafo 3º' },
+            { value: 82, key: 'Lei nº 13.303/2016, Art. 28, Parágrafo 3º, I' },
+            { value: 83, key: 'Lei nº 13.303/2016, Art. 28, Parágrafo 3º, II' },
+          ];
+          break
+
+
+        default:
+          this.legalBasicOptions = [
+            { value: 4555, key: 'Não carregada.' },
+          ];
+          break;
+
+      }
+    });
     this.loadOrgaos();
   }
 
@@ -482,6 +525,7 @@ export class DadosDaLicitacaoAdministrativoComponent {
           unit: orgao.unit
         }));
         this.unitOptions = [];
+        console.log("ORGAOS", this.orgaos)
       },
       error: (err) => {
         console.error('Erro ao carregar órgãos:', err);
@@ -503,30 +547,51 @@ export class DadosDaLicitacaoAdministrativoComponent {
     console.log('showItems toggled:', this.showItems); // Rastrear o estado de showItems
 
   }
-  onFormSubmit(event: any): void {
-    if (!this.filtroForm.valid) {
-      console.error('O formulário contém erros. Verifique os campos obrigatórios.');
-      return;
-    }
 
-    const formData = AdicionarLicitacaoMapper.toSubmit(event);
-    this._adicionarLicitacaoService.criarLicitacao(formData).subscribe(
-      (response) => {
-        console.log('Licitação criada com sucesso!', response);
-      },
-      (error) => {
-        console.error('Erro ao criar a licitação:', error);
+  onFormSubmit(): void {
+    const novaLicitacao = this.filtroForm.value;
+    console.log(novaLicitacao)
+
+    this._adicionarLicitacaoService.criarLicitacao(novaLicitacao).subscribe((v) => {
+      console.log(v)
+    });
+  }
+
+  onFileSelected(event: any, fieldName: string): void {
+    const files: FileList = event.target.files;
+    const validFiles: File[] = [];
+    const invalidFiles: string[] = [];
+
+    if (files && files.length > 0) {
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        if (file.type === 'application/pdf') {
+          validFiles.push(file);
+        } else {
+          invalidFiles.push(file.name);
+        }
       }
-    );
-  }
 
-  onFileSelected(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    if (input.files && input.files.length > 0) {
-      this.selectedFileName = input.files[0].name;
-      console.log('File selected:', this.selectedFileName);
+      // Atualiza o formulário com arquivos válidos
+      if (validFiles.length > 0) {
+        this.filtroForm.patchValue({
+          [fieldName]: validFiles, // Atualiza o campo com os arquivos válidos
+        });
+        this.filtroForm.get(fieldName)?.updateValueAndValidity();
+
+        // Atualiza os nomes dos arquivos para exibição
+        this.nameFile = validFiles.map((file) => file.name).join(', ');
+        console.log('Arquivos válidos selecionados:', this.nameFile);
+      }
+
+      // Alerta o usuário sobre arquivos inválidos
+      if (invalidFiles.length > 0) {
+        alert(`Os seguintes arquivos não são PDFs e foram ignorados: ${invalidFiles.join(', ')}`);
+        console.log('Arquivos inválidos:', invalidFiles);
+      }
     } else {
-      this.selectedFileName = null;
+      console.log('Nenhum arquivo selecionado');
     }
   }
+
 }

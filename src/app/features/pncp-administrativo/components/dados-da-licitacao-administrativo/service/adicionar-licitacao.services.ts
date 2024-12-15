@@ -16,9 +16,11 @@ export class AdicionarLicitacaoService {
   getOrgaosPage(page: number): Observable<RequisicaoModel<OrgaoModel[]>> {
     return this._repository.getOrgaosPage(page);
   } 
+
   getOrgaos(): Observable<RequisicaoModel<OrgaoModel[]>> {
     return this._repository.getOrgaos();
   }
+
   criarLicitacao(formData: FormData): Observable<ProcurementModel> {
     return this._repository.criarLicitacao(formData);
   }

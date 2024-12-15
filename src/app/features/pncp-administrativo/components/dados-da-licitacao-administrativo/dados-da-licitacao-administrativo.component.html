@@ -27,10 +27,7 @@
                 <h1 class="pagina-form mb-4">Cadastrar Licitação</h1>
 
                 <!-- Formulário -->
-                <form
-                  [formGroup]="filtroForm"
-                  (ngSubmit)="onFormSubmit($event)"
-                >
+                <form [formGroup]="filtroForm" (ngSubmit)="onFormSubmit()">
                   <!-- Dados da Licitação -->
                   <div class="form-section">
                     <div class="form-row">
@@ -80,11 +77,13 @@
                           id="document_type_id"
                           formControlName="document_type_id"
                         >
+                          <option></option>
+
                           <option
                             *ngFor="let option of documentTypeOptions"
                             [value]="option.value"
                           >
-                            {{ option.label }}
+                            {{ option.key }}
                           </option>
                         </select>
                       </div>
@@ -99,11 +98,13 @@
                           id="call_instrument_id"
                           formControlName="call_instrument_id"
                         >
+                          <option></option>
+
                           <option
                             *ngFor="let option of callInstrumentOptions"
                             [value]="option.value"
                           >
-                            {{ option.label }}
+                            {{ option.key }}
                           </option>
                         </select>
                       </div>
@@ -115,11 +116,12 @@
                           id="contracting_modality_id"
                           formControlName="contracting_modality_id"
                         >
+                          <option></option>
                           <option
-                            *ngFor="let option of contractingModalityOptions"
+                            *ngFor="let option of modalidadeContratoOpcoes"
                             [value]="option.value"
                           >
-                            {{ option.label }}
+                            {{ option.key }}
                           </option>
                         </select>
                       </div>
@@ -132,11 +134,13 @@
                           id="dispute_mode_id"
                           formControlName="dispute_mode_id"
                         >
+                          <option></option>
+
                           <option
-                            *ngFor="let option of disputeModeOptions"
+                            *ngFor="let option of modoDisputaOpcoes"
                             [value]="option.value"
                           >
-                            {{ option.label }}
+                            {{ option.key }}
                           </option>
                         </select>
                       </div>
@@ -146,11 +150,13 @@
                           id="legal_basic_id"
                           formControlName="legal_basic_id"
                         >
+                          <option></option>
+
                           <option
                             *ngFor="let option of legalBasicOptions"
                             [value]="option.value"
                           >
-                            {{ option.label }}
+                            {{ option.key }}
                           </option>
                         </select>
                       </div>
@@ -161,18 +167,18 @@
                         <label for="file">Documento da Licitação</label>
                         <div class="file-upload">
                           <label class="file-label" for="file">
-                            <span *ngIf="!selectedFileName"
+                            <span *ngIf="!selectedFiles"
                               >Selecionar Arquivo</span
                             >
-                            <span *ngIf="selectedFileName">{{
-                              selectedFileName
+                            <span *ngIf="selectedFiles">{{
+                              selectedFiles
                             }}</span>
                           </label>
                           <input
                             id="file"
                             type="file"
                             formControlName="file"
-                            (change)="onFileSelected($event)"
+                            (change)="onFileSelected($event,'Arquivo:')"
                           />
                         </div>
                         <p class="file-instructions">
