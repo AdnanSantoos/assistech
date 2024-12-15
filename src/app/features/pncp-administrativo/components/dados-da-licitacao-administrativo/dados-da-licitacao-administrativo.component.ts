@@ -4,9 +4,9 @@ import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { AdicionarLicitacaoService } from './service/adicionar-licitacao.services';
-import { RequisicaoModel } from '../../../../shared/models/shared.model';
+import { RequisicaoModel, selectModel } from '../../../../shared/models/shared.model';
 import { AdicionarLicitacaoMapper } from './mapper/adicionar-licitacao.mapper';
-import { OrgaoModel, OrgaoUnitModel, RequisicaoOrgaoModel } from '../../../dashboard-administrativo/compontents/orgao-administrativo/model/orgao-administrativo.model';
+import { OrgaoModel, OrgaoUnitModel, RequisicaoOrgaoModel, SelectedAgencies } from '../../../dashboard-administrativo/compontents/orgao-administrativo/model/orgao-administrativo.model';
 import { SidebarAdministrativoComponent } from '../../../../shared/components/sidebar-administrativo/sidebar-administrativo.component';
 import { NavbarComponent } from '../../../../shared/components/navbar/navbar.component';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
@@ -29,8 +29,8 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 export class DadosDaLicitacaoAdministrativoComponent {
   filtroForm: FormGroup;
   orgaos: OrgaoModel[] = [];
-  agencyOptions: { value: string; label: string }[] = [];
-  unitOptions: { value: string; label: string }[] = [];
+  agencyOptions: SelectedAgencies[] = [];
+  unitOptions: selectModel[] = [];
   modalRef?: BsModalRef;
   selectedItem: any = null;
   showItems = false;
@@ -458,59 +458,34 @@ export class DadosDaLicitacaoAdministrativoComponent {
       ncm_nbs_description: ['']
     });
 
-    this.loadOrgaos();
-    this.onAgencyChange();
+    this.filtroForm.get('agency')?.valueChanges.subscribe((selectedAgencies: SelectedAgencies) => {
+      this.unitOptions.push({
+        key: selectedAgencies.unit.name,
+        value: selectedAgencies.unit.agency_country_register
+      })
+    });
 
+    this.filtroForm.get('unit_id')?.valueChanges.subscribe((v)=>{
+      this.filtroForm.get('agency_country_register')?.setValue(v)
+    })
+
+    this.loadOrgaos();
   }
+
   loadOrgaos(): void {
     this._adicionarLicitacaoService.getOrgaos().subscribe({
       next: (response: any) => {
-        console.log('Resposta da API:', response);
-
         this.orgaos = response.data;
-
         this.agencyOptions = this.orgaos.map((orgao: any) => ({
           value: orgao.agency.country_register,
-          label: orgao.agency.name
+          label: orgao.agency.name,
+          unit: orgao.unit
         }));
-
-        console.log('Opções de Órgãos:', this.agencyOptions);
-
         this.unitOptions = [];
       },
       error: (err) => {
         console.error('Erro ao carregar órgãos:', err);
       }
-    });
-  }
-
-
-  onAgencyChange(): void {
-    this.filtroForm.get('agency')?.valueChanges.subscribe((selectedAgency) => {
-      console.log('Órgão selecionado:', selectedAgency);
-
-      const selectedOrgao = this.orgaos.find(
-        (orgao) => orgao.country_register === selectedAgency
-      );
-
-      console.log('Detalhes do órgão selecionado:', selectedOrgao);
-
-      if (selectedOrgao && selectedOrgao.units && selectedOrgao.units.length > 0) {
-        this.unitOptions = selectedOrgao.units.map((unit: OrgaoUnitModel) => ({
-          value: unit.id,
-          label: unit.name,
-          agency_country_register: unit.agency_country_register,
-          name: unit.name
-        }));
-      } else {
-        this.unitOptions = [{ value: '', label: 'Unidades não encontradas' }];
-      }
-
-      this.filtroForm.get('agency_country_register')?.setValue(
-        selectedOrgao ? selectedOrgao.country_register : ''
-      );
-
-      console.log('Opções de Unidades:', this.unitOptions);
     });
   }
 
