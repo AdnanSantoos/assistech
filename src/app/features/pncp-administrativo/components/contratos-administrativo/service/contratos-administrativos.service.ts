@@ -20,4 +20,8 @@ export class ContratosService {
   getContratoById(id: string): Observable<ContratoModel> {
     return this._repository.getContratoById(id);
   }
+
+  deleteContrato(procurementId: string, justification: string): Observable<void> {
+    return this._repository.deleteContrato(procurementId, justification);
+  }
 }

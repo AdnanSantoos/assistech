@@ -51,6 +51,7 @@ export class ListaLicitacaoAdministrativoComponent implements OnInit {
   totalPages = 0;
   totalRecords = 0;
 
+
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   constructor(private licitacoesService: LicitacoesService, private route: ActivatedRoute,
@@ -168,7 +169,7 @@ export class ListaLicitacaoAdministrativoComponent implements OnInit {
   }
 
 
-  openDeleteModal(procurementId: string, licitacao: LicitacaoModel, template: TemplateRef<any>): void {
+  openDeleteModal(licitacao: LicitacaoModel, template: TemplateRef<any>): void {
     this.selectedLicitacao = licitacao;
     this.modalRef = this.modalService.show(template, { class: 'modal-md' });
     this.deleteForm.reset(); // Limpa o formulário ao abrir o modal

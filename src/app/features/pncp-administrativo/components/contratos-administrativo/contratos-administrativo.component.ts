@@ -1,10 +1,15 @@
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { SidebarAdministrativoComponent } from './../../../../shared/components/sidebar-administrativo/sidebar-administrativo.component';
+import { NavbarComponent } from './../../../../shared/components/navbar/navbar.component';
+import { Component, TemplateRef } from '@angular/core';
+import { FormBuilder, FormGroup, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { LayoutFormsAdmComponent } from '../../../../shared/containers/layout-forms-adm/layout-forms-adm.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { LicitacoesService } from '../../../dashboard-administrativo/compontents/lista-licitacao-administrativo/service/licitacoes-administrativos.service';
+import { LicitacaoModel } from '../../../dashboard-administrativo/compontents/lista-licitacao-administrativo/model/licitacoes-administrativo.model';
 
 @Component({
   selector: 'app-contratos-administrativo',
@@ -14,16 +19,24 @@ import { ReactiveFormsModule } from '@angular/forms';
     ReactiveFormsModule,
     MatIconModule,
     MatButtonModule,
-    LayoutFormsAdmComponent,
+    NavbarComponent,
+    FormsModule,
+    SidebarAdministrativoComponent
   ],
+  providers: [BsModalService],
   templateUrl: './contratos-administrativo.component.html',
   styleUrls: ['./contratos-administrativo.component.scss'],
 })
+
+
 export class ContratosAdministrativoComponent {
   filtroForm: FormGroup;
-  dynamicFields: any[];
+  contratoForm: FormGroup;
+  modalRef?: BsModalRef;
+  selectedItem: any = null;
+  licitacoes!: LicitacaoModel[];
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private modalService: BsModalService, private _licitacaoService: LicitacoesService) {
     this.filtroForm = this.fb.group({
       ataDaSessao: [''],
       day: [''],
@@ -32,77 +45,30 @@ export class ContratosAdministrativoComponent {
       file: [null],
     });
 
-    this.dynamicFields = [
-      { name: 'selecioneLista', title: 'Selecione Contrato', type: 'file', fileType: 'complex', label: 'Selecione na Lista', nameButton: 'Selecione na Lista' },
-      { name: 'receitaDespesa', type: 'toggle', label: 'Receita/Despesa' },
-    
-      { 
-        name: 'tipoContrato', 
-        type: 'select', 
-        label: 'Tipo do Contrato', 
-        options: [
-          { value: 'tipo1', label: 'Tipo 1' },
-          { value: 'tipo2', label: 'Tipo 2' },
-          { value: 'tipo3', label: 'Tipo 3' }
-        ] 
-      },
-      { 
-        name: 'categoriaProcesso', 
-        type: 'select', 
-        label: 'Categoria do Processo', 
-        options: [
-          { value: 'categoria1', label: 'Categoria 1' },
-          { value: 'categoria2', label: 'Categoria 2' },
-          { value: 'categoria3', label: 'Categoria 3' }
-        ] 
-      },
-    
-      { name: 'numContrato', type: 'text', label: 'Número do contrato ou empenho' },
-      { name: 'anoContrato', type: 'text', label: 'Ano do contrato' },
-    
-      { name: 'numProcesso', type: 'text', label: 'Número do processo' },
-      { 
-        name: 'tipoPessoa', 
-        type: 'select', 
-        label: 'Tipo da Pessoa', 
-        options: [
-          { value: 'tipo1', label: 'Tipo 1' },
-          { value: 'tipo2', label: 'Tipo 2' },
-          { value: 'tipo3', label: 'Tipo 3' }
-        ] 
-      },
-    
-      { name: 'numCNPJCPF', type: 'text', label: 'Número do CNPJ/CPF do fornecedor/prestador' },
-      { name: 'nomerazao', type: 'text', label: 'Nome ou Razão Social' },
-    
-      { name: 'ValorInicialContrato', type: 'text', label: 'Valor Inicial do contrato' },
-      { name: 'valParcela', type: 'text', label: 'Valor da parcela' },
-    
-      { name: 'valGlobContrato', type: 'text', label: 'Valor Global do Contrato' },
-      { name: 'valAcumuladoContrato', type: 'text', label: 'Valor acumulado do contrato' },
-    
-      { 
-        name: 'tipoFornecedor', 
-        type: 'select', 
-        label: 'Tipo de fornecedor subcontratado', 
-        options: [
-          { value: 'tipo1', label: 'Tipo 1' },
-          { value: 'tipo2', label: 'Tipo 2' },
-          { value: 'tipo3', label: 'Tipo 3' }
-        ] 
-      },
-      { name: 'numCNPJFornecSubcontratado', type: 'text', label: 'Número do CNPJ/CPF do fornecedor/prestador subcontratado' },
-    
-      { name: 'nomeFornecedorSub', type: 'text', label: 'Nome do fornecedor subcontratado' },
-      { name: 'identificadorContrato', type: 'text', label: 'Identificador do Contrato' },
-    
-      { name: 'urfInformacoesContrato', type: 'text', label: 'URF COM INFORMAÇÕES DO CONTRATO' },
-      { name: 'dataAssinatura', type: 'date', label: 'Data de assinatura do contrato' },
-    
-      { name: 'dataAssinaturaContrato', type: 'date', label: 'Data de assinatura do contrato' },
-      { name: 'dataFinalVigencia', type: 'date', label: 'Data final da vigência' }
-    ];
-    
+    this.contratoForm = this.fb.group({
+      selecioneLista: [''],
+      receitaDespesa: [''],
+      tipoContrato: [''],
+      categoriaProcesso: [''],
+      numContrato: [''],
+      anoContrato: [''],
+      numProcesso: [''],
+      tipoPessoa: [''],
+      numCNPJCPF: [''],
+      nomerazao: [''],
+      valorInicialContrato: [''],
+      valParcela: [''],
+      valGlobContrato: [''],
+      valAcumuladoContrato: [''],
+      tipoFornecedor: [''],
+      numCNPJFornecSubcontratado: [''],
+      nomeFornecedorSub: [''],
+      identificadorContrato: [''],
+      urfInformacoesContrato: [''],
+      dataAssinatura: [''],
+      dataAssinaturaContrato: [''],
+      dataFinalVigencia: ['']
+    });
   }
 
   onFileChange(event: any) {
@@ -114,5 +80,25 @@ export class ContratosAdministrativoComponent {
     }
   }
 
-  onFormSubmit() {}
+  onSubmit(): void {
+    console.log(this.contratoForm.value);
+  }
+
+  openModal(template: TemplateRef<void>) {
+    this.modalRef = this.modalService.show(template, Object.assign({}, { class: 'modal-lg modal-licitacoes' }));
+    this._licitacaoService.getLicitacoes(1).subscribe({
+      next: (response) => {
+        this.licitacoes = response.data
+      },
+      error: (err) => {
+        console.error('Erro ao carregar licitações:', err);
+      },
+    });
+  }
+
+  onSelecionarItem(item: any): void {
+    this.selectedItem = item;
+    console.log('Item selecionado:', this.selectedItem);
+    this.modalRef?.hide();
+  }
 }

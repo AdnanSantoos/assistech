@@ -1,4 +1,187 @@
 <div class="bkg-administrativo">
-  <app-layout-forms-adm [titulo_pagina]="'Dados do Contratos'" [dynamicFields]="dynamicFields" [form]="filtroForm" app-formulario>
-  </app-layout-forms-adm>
+  <div class="bkg-dashboard">
+    <div class="">
+      <div class="row altura">
+        <div class="w-esq-side">
+          <app-sidebar-administrativo></app-sidebar-administrativo>
+        </div>
+        <div class="w-dir-main">
+          <div class="dashboard-header">
+            <app-navbar></app-navbar>
+          </div>
+          <div class="container-fluid">
+            <div class="ms-4 bg-pagina-interna">
+              <h1 class="pagina-interna mt-2">Dados do Contratos</h1>
+              <div class="d-flex justify-content-start">
+                <p class="text-left">
+                  Antes de enviar certifique-se de que todas as informações
+                  <br />
+                  preenchidas nos campos abaixo estão corretas!
+                </p>
+                <div class="button-voltar ms-3 d-flex justify-content-center align-items-center"><mat-icon>person</mat-icon> Voltar</div>
+  
+              </div>
+              <div class="formulario-component novo-formulario">
+                <h1 class="pagina-form mb-4">Cadastrar Dados do Contratos</h1>
+                <form [formGroup]="contratoForm" (ngSubmit)="onSubmit()">
+                  <div class="container-fluid">
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label class="d-block">SELECIONE CONTRATO</label>
+                          <button class="btn btn-dark" type="button" (click)="openModal(template)">SELECIONE NA LISTA</button>
+                        </div>
+                        <div class="form-group">
+                          <label>Tipo do Contrato</label>
+                          <select class="form-control" formControlName="tipoContrato">
+                            <option value="tipo1">Tipo 1</option>
+                            <option value="tipo2">Tipo 2</option>
+                            <option value="tipo3">Tipo 3</option>
+                          </select>
+                        </div>
+                        <div class="form-group">
+                          <label>Número do Contrato</label>
+                          <input type="text" class="form-control" formControlName="numContrato">
+                        </div>
+                        <div class="form-group">
+                          <label>Número do Processo</label>
+                          <input type="text" class="form-control" formControlName="numProcesso">
+                        </div>
+                        <div class="form-group">
+                          <label>Tipo da Pessoa</label>
+                          <select class="form-control" formControlName="tipoPessoa">
+                            <option value="tipo1">Tipo 1</option>
+                            <option value="tipo2">Tipo 2</option>
+                            <option value="tipo3">Tipo 3</option>
+                          </select>
+                        </div>
+                        <div class="form-group">
+                          <label>Valor Inicial do Contrato</label>
+                          <input type="text" class="form-control" formControlName="valorInicialContrato">
+                        </div>
+                        <div class="form-group">
+                          <label>Valor Global do Contrato</label>
+                          <input type="text" class="form-control" formControlName="valGlobContrato">
+                        </div>
+                        <div class="form-group">
+                          <label>Tipo de Fornecedor Subcontratado</label>
+                          <select class="form-control" formControlName="tipoFornecedor">
+                            <option value="tipo1">Tipo 1</option>
+                            <option value="tipo2">Tipo 2</option>
+                            <option value="tipo3">Tipo 3</option>
+                          </select>
+                        </div>
+                        <div class="form-group">
+                          <label>Data de Assinatura do Contrato</label>
+                          <input type="date" class="form-control" formControlName="dataAssinatura">
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label>Receita/Despesa</label>
+                          <input type="checkbox" class="form-check-input" formControlName="receitaDespesa">
+                        </div>
+                        <div class="form-group">
+                          <label>Categoria do Processo</label>
+                          <select class="form-control" formControlName="categoriaProcesso">
+                            <option value="categoria1">Categoria 1</option>
+                            <option value="categoria2">Categoria 2</option>
+                            <option value="categoria3">Categoria 3</option>
+                          </select>
+                        </div>
+                        <div class="form-group">
+                          <label>Ano do Contrato</label>
+                          <input type="text" class="form-control" formControlName="anoContrato">
+                        </div>
+                        <div class="form-group">
+                          <label>Número do CNPJ/CPF</label>
+                          <input type="text" class="form-control" formControlName="numCNPJCPF">
+                        </div>
+                        <div class="form-group">
+                          <label>Nome ou Razão Social</label>
+                          <input type="text" class="form-control" formControlName="nomerazao">
+                        </div>
+                        <div class="form-group">
+                          <label>Valor da Parcela</label>
+                          <input type="text" class="form-control" formControlName="valParcela">
+                        </div>
+                        <div class="form-group">
+                          <label>Valor Acumulado do Contrato</label>
+                          <input type="text" class="form-control" formControlName="valAcumuladoContrato">
+                        </div>
+                        <div class="form-group">
+                          <label>URF com Informações do Contrato</label>
+                          <input type="text" class="form-control" formControlName="urfInformacoesContrato">
+                        </div>
+                        <div class="form-group">
+                          <label>Data Final da Vigência</label>
+                          <input type="date" class="form-control" formControlName="dataFinalVigencia">
+                        </div>
+                      </div>
+                    </div>
+                
+                    <div class="form-group text-center">
+                      <button type="submit" class="btn btn-primary">Adicionar</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
 </div>
+
+
+<ng-template #template>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Selecionar Contratação</h4>
+    <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRef?.hide()">
+      <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="table-responsive">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+          <th scope="col">Nº Seq</th>
+          <th scope="col">Licitação nº</th>
+          <th scope="col">Nº Compra</th>
+          <th scope="col">Ano</th>
+          <th scope="col">Nº Processo</th>
+          <th scope="col">Órgão</th>
+          <th scope="col">Unidade</th>
+          <th scope="col">Criado em</th>
+          <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of licitacoes">
+           
+            <td>{{ item.gateway_sequence }}</td>
+            <td>{{ item.process_number }}/{{ item.year }}</td>
+            <td>{{ item.number }}</td>
+            <td>{{ item.year }}</td>
+            <td>{{ item.process_number }}</td>
+            <td>{{ item.agency.name }}</td>
+            <td>{{ item.unit.name }}</td>
+            <td>{{ item.created_at | date : "dd/MM/yy, HH:mm" }}</td>
+            <td>
+              <input
+                type="radio"
+                name="selecionarItem"
+                [value]="item"
+                [(ngModel)]="selectedItem"
+                (change)="onSelecionarItem(item)"
+              />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</ng-template>

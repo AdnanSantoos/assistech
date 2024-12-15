@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
@@ -7,6 +7,8 @@ import { RouterModule } from '@angular/router';
 import { ContratoModel } from '../../../pncp-administrativo/components/contratos-administrativo/model/contratos-administrativo.model';
 import { ContratosService } from '../../../pncp-administrativo/components/contratos-administrativo/service/contratos-administrativos.service';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
 
 @Component({
@@ -18,8 +20,10 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatPaginatorModule,
     MatTableModule,
     RouterModule,
-    MatTooltipModule
+    MatTooltipModule,
+    ReactiveFormsModule
   ],
+  providers: [BsModalService],
   templateUrl: './lista-contratos-administrativo.component.html',
   styleUrls: ['./lista-contratos-administrativo.component.scss'],
 })
@@ -38,10 +42,17 @@ export class ListaContratosAdministrativoComponent implements OnInit {
   currentPage = 1;
   pageSize = 10;
   totalItems = 0;
+  deleteForm!: FormGroup;
+  modalRef?: BsModalRef;
+  selectedContrato: ContratoModel | null = null;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  constructor(private contratosService: ContratosService) { }
+  constructor(private contratosService: ContratosService,private fb: FormBuilder,private modalService: BsModalService) { 
+    this.deleteForm = this.fb.group({
+          justification: ['', [Validators.required]],
+    });
+  }
 
   ngOnInit() {
     this.carregarContratos(this.currentPage);
@@ -75,8 +86,28 @@ export class ListaContratosAdministrativoComponent implements OnInit {
   }
   onEdit(id: string): void {
   }
-  onDelete(id: string): void {
+  openDeleteModal(contrato: ContratoModel, template: TemplateRef<any>): void {
+    this.selectedContrato = contrato;
+    this.modalRef = this.modalService.show(template, { class: 'modal-md' });
+    this.deleteForm.reset(); // Limpa o formulário ao abrir o modal
   }
+
+  confirmDelete(): void {
+    if (this.deleteForm.valid && this.selectedContrato) {
+      const justification = this.deleteForm.value.justification;
+
+      this.contratosService.deleteContrato(this.selectedContrato.id, justification).subscribe({
+        next: () => {
+          this.modalRef?.hide();
+          this.carregarContratos(this.currentPage); // Atualiza a lista
+        },
+        error: (err) => {
+          this.modalRef?.hide();
+        },
+      });
+    }
+  }
+
   goToPage(pageNumber: number): void {
     if (pageNumber >= 1 && pageNumber <= this.totalPages) {
       this.currentPage = pageNumber;

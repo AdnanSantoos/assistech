@@ -24,4 +24,9 @@ export class ContratosRepository {
   getContratoById(id: string): Observable<ContratoModel> {
     return this._http.get<ContratoModel>(`${this.baseUrl}/${id}`);
   }
+
+  deleteContrato(procurementId: string, justification: string): Observable<void> {
+    const body = { justification };
+    return this._http.delete<void>(`${this.baseUrl}/${procurementId}`, { body });
+  }
 }

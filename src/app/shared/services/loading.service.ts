@@ -9,7 +9,6 @@ export class LoadingService {
   public readonly loading$ = this._loading.asObservable();
 
   setLoading(isLoading: boolean): void {
-    console.log(isLoading)
     this._loading.next(isLoading);
   }
 }
