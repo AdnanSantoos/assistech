@@ -2,8 +2,9 @@ export type TipoRota = 'adm' | 'trn' | null;
 
 export interface selectModel {
     key: string;
-    value: number;
+    value: number | string;
 }
+
 
 
 export interface RequisicaoModel<T> {

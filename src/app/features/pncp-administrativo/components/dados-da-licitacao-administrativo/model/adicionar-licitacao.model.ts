@@ -12,7 +12,7 @@ export interface ProcurementItem {
     total_value: number;
     judging_criteria_id: string;
     confidential_budget: boolean;
-    item_category_id: string;
+    item_category_id: number;
     assets: string;
     real_estate_registry_code: string;
     source_system_link: string;
