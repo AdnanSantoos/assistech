@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
@@ -45,21 +45,54 @@ export class ListaContratosAdministrativoComponent implements OnInit {
   deleteForm!: FormGroup;
   modalRef?: BsModalRef;
   selectedContrato: ContratoModel | null = null;
+  files: any[] = [];
+  currentFilePage: number = 1;
+  fileForm!: FormGroup;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  constructor(private contratosService: ContratosService,private fb: FormBuilder,private modalService: BsModalService) { 
+  constructor(private contratosService: ContratosService, private fb: FormBuilder, private modalService: BsModalService, private _location: Location
+  ) {
     this.deleteForm = this.fb.group({
-          justification: ['', [Validators.required]],
+      justification: ['', [Validators.required]],
+    });
+    this.fileForm = this.fb.group({
+      tituloDocumento: [''],
+      tipoDocumento: [''],
+      arquivo: [null],
     });
   }
 
   ngOnInit() {
     this.carregarContratos(this.currentPage);
   }
-  
+  openFilesModal(contrato: ContratoModel, template: TemplateRef<any>): void {
+    this.selectedContrato = contrato;
+    this.loadContractFiles(contrato.id, this.currentFilePage);
+    this.modalRef = this.modalService.show(template, { class: 'modal-lg' });
+  }
 
-  visualizar(value:any){
+  loadContractFiles(contractId: string | undefined, page: number): void {
+    if (!contractId) {
+      console.error('ID do contrato está indefinido.');
+      return;
+    }
+
+    this.contratosService.getContractFiles(contractId, page).subscribe({
+      next: (response) => {
+        this.files = response.data;
+        this.currentFilePage = page;
+        console.log('Arquivos carregados:', this.files);
+      },
+      error: (err) => {
+        console.error('Erro ao carregar arquivos:', err);
+      },
+    });
+  }
+
+
+
+  visualizar(value: any) {
     const contrato = value;
     const { year, gateway_sequence, procurement } = contrato;
     if (procurement && procurement.agency.country_register) {
@@ -107,7 +140,9 @@ export class ListaContratosAdministrativoComponent implements OnInit {
       });
     }
   }
-
+  goBack(): void {
+    this._location.back();
+  }
   goToPage(pageNumber: number): void {
     if (pageNumber >= 1 && pageNumber <= this.totalPages) {
       this.currentPage = pageNumber;
@@ -126,6 +161,21 @@ export class ListaContratosAdministrativoComponent implements OnInit {
     if (this.currentPage < this.totalPages) {
       this.currentPage++;
       this.carregarContratos(this.currentPage);
+    }
+  }
+
+  onFileChange(event: any): void {
+    const file = event.target.files[0];
+    if (file) {
+      this.fileForm.patchValue({ arquivo: file });
+    }
+  }
+
+  onSubmitFileForm(): void {
+    if (this.fileForm.valid) {
+      console.log('Dados do Formulário:', this.fileForm.value);
+    } else {
+      console.warn('Formulário inválido');
     }
   }
 }

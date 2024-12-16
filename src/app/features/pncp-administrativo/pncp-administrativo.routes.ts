@@ -21,6 +21,7 @@ import { CadastrarListaPreposicoesAdministrativoComponent } from './components/c
 import { OrdemCronologicaAdministrativoComponent } from './components/ordem-cronologica-administrativo/ordem-cronologica-administrativo.component';
 import { OuvidoriaAdministrativoComponent } from './components/ouvidoria-administrativo/ouvidoria-administrativo.component';
 import { DadosDaLicitacaoAdministrativoComponent } from './components/dados-da-licitacao-administrativo/dados-da-licitacao-administrativo.component';
+import { EditarContratoAdministrativoComponent } from './components/contratos-administrativo/editar-contrato-administrativo/editar-contrato-administrativo.component';
 
 const routes: Routes = [
   {
@@ -47,6 +48,10 @@ const routes: Routes = [
       {
         path: 'adicionar-contratos',
         component: ContratosAdministrativoComponent,
+      },
+      {
+        path: 'editar-contratos/:id',
+        component: EditarContratoAdministrativoComponent,
       },
       {
         path: 'cadastrar-licitacao',
@@ -124,4 +129,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class PncpAdministrativoRoutingModule {}
+export class PncpAdministrativoRoutingModule { }
