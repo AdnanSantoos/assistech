@@ -17,9 +17,10 @@ export interface OrgaoModel {
 }
 
 export interface SelectedAgencies {
+    country_register?:string;
     value: string;
     label: string;
-    unit: OrgaoUnitModel;
+    unit: OrgaoUnitModel[];
 }
 
 export type RequisicaoOrgaoModel = RequisicaoModel<OrgaoModel[]>;

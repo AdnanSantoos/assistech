@@ -11,6 +11,7 @@ import { OrgaoModel } from '../../../../dashboard-administrativo/compontents/org
 })
 export class AdicionarLicitacaoRepository {
   private readonly baseUrl = `${environment.apiUrl}/tenants/${environment.tenant}/pncp/procurements`;
+  private readonly baseUrlOrgao = `${environment.apiUrl}/tenants/${environment.tenant}/pncp/agencies`;
 
   constructor(private _http: HttpClient) { }
 
@@ -19,7 +20,7 @@ export class AdicionarLicitacaoRepository {
     return this._http.get<RequisicaoModel<OrgaoModel[]>>(this.baseUrl, { params });
   }
   getOrgaos(): Observable<RequisicaoModel<OrgaoModel[]>> {
-    return this._http.get<RequisicaoModel<OrgaoModel[]>>(this.baseUrl);
+    return this._http.get<RequisicaoModel<OrgaoModel[]>>(this.baseUrlOrgao);
   }
 
   criarLicitacao(formData: FormData): Observable<ProcurementModel> {

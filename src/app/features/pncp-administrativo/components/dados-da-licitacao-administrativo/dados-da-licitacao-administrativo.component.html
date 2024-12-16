@@ -163,9 +163,9 @@
                     </div>
 
                     <div class="form-row">
-                      <div class="file-upload-wrapper">
+                      <div class="">
                         <label for="file">Documento da Licitação</label>
-                        <div class="file-upload">
+                        <div class="">
                           <label class="file-label" for="file">
                             <span *ngIf="!selectedFiles"
                               >Selecionar Arquivo</span
@@ -178,7 +178,7 @@
                             id="file"
                             type="file"
                             formControlName="file"
-                            (change)="onFileSelected($event, 'Arquivo:')"
+                            (change)="onFileSelected($event, 'file')"
                           />
                         </div>
                         <p class="file-instructions">
@@ -312,7 +312,7 @@
                         </div>
                         <div>
                           <label for="confidential_budget"
-                            >Orçamento Sigiloso?</label
+                            >Orçamento Sigiloso?*</label
                           >
                           <div class="switch-wrapper">
                             <label class="switch">
@@ -331,7 +331,7 @@
                       <div class="form-row">
                         <div>
                           <label for="item_type">Tipo de Benefício *</label>
-                          <select id="item_type" formControlName="item_type">
+                          <select id="item_type" formControlName="benefit_type_id">
                             <option></option>
 
                             <option
@@ -374,6 +374,18 @@
                           ></textarea>
                         </div>
                       </div>
+
+                      <div class="form-row">
+                        <div>
+                          <label for="description">Justificativa da compra presencial *</label>
+                          <textarea
+                            id="description"
+                            formControlName="justification_in_person"
+                            maxlength="2048"
+                            placeholder="Descrição do item"
+                          ></textarea>
+                        </div>
+                      </div>
                       <div class="form-row">
                         <div>
                           <label
@@ -386,6 +398,20 @@
                                 id="applicability_normal_preference_margin"
                                 type="checkbox"
                                 formControlName="applicability_normal_preference_margin"
+                              />
+                              <span></span>
+                            </label>
+                          </div>
+                        </div>
+                        <div>
+                          <label>Incentivo fiscal PPB (Processo Produtivo Básico)</label
+                          >
+                          <div class="switch-wrapper">
+                            <label class="switch">
+                              <input
+                                id="applicability_normal_preference_margin"
+                                type="checkbox"
+                                formControlName="basic_productive_incentive"
                               />
                               <span></span>
                             </label>
