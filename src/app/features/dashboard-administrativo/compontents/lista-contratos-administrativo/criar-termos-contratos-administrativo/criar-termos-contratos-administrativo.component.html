@@ -6,22 +6,50 @@
     <div class="form-toggles mb-4">
       <div class="form-toggle-group">
         <div class="form-check form-switch">
-          <input type="checkbox" class="form-check-input" id="validity_qualification" formControlName="validity_qualification" />
-          <label class="form-check-label" for="validity_qualification">Alterar vigência e número de parcelas?</label>
+          <input
+            type="checkbox"
+            class="form-check-input"
+            id="validity_qualification"
+            formControlName="validity_qualification"
+          />
+          <label class="form-check-label" for="validity_qualification"
+            >Alterar vigência e número de parcelas?</label
+          >
         </div>
         <div class="form-check form-switch">
-          <input type="checkbox" class="form-check-input" id="adjustment_qualification" formControlName="adjustment_qualification" />
-          <label class="form-check-label" for="adjustment_qualification">Alterar valor unitário?</label>
+          <input
+            type="checkbox"
+            class="form-check-input"
+            id="adjustment_qualification"
+            formControlName="adjustment_qualification"
+          />
+          <label class="form-check-label" for="adjustment_qualification"
+            >Alterar valor unitário?</label
+          >
         </div>
       </div>
       <div class="form-toggle-group">
         <div class="form-check form-switch">
-          <input type="checkbox" class="form-check-input" id="supplier_qualification" formControlName="supplier_qualification" />
-          <label class="form-check-label" for="supplier_qualification">Alterar fornecedor?</label>
+          <input
+            type="checkbox"
+            class="form-check-input"
+            id="supplier_qualification"
+            formControlName="supplier_qualification"
+          />
+          <label class="form-check-label" for="supplier_qualification"
+            >Alterar fornecedor?</label
+          >
         </div>
         <div class="form-check form-switch">
-          <input type="checkbox" class="form-check-input" id="informative_qualification" formControlName="informative_qualification" />
-          <label class="form-check-label" for="informative_qualification">Tem alguma observação?</label>
+          <input
+            type="checkbox"
+            class="form-check-input"
+            id="informative_qualification"
+            formControlName="informative_qualification"
+          />
+          <label class="form-check-label" for="informative_qualification"
+            >Tem alguma observação?</label
+          >
         </div>
       </div>
     </div>
@@ -31,32 +59,63 @@
       <!-- Coluna 1 -->
       <div class="form-column">
         <div class="mb-3">
-          <label for="contract_term_type_id" class="form-label">Tipo do Termo de Contrato *</label>
-          <select class="form-control" formControlName="contract_term_type_id" id="contract_term_type_id">
+          <label for="contract_term_type_id" class="form-label"
+            >Tipo do Termo de Contrato *</label
+          >
+          <select
+            class="form-control"
+            formControlName="contract_term_type_id"
+            id="contract_term_type_id"
+          >
             <option value="" disabled selected>Selecionar</option>
             <option value="1">Acréscimo</option>
             <option value="2">Supressão</option>
           </select>
         </div>
+        <div class="mb-3">
+          <label for="number" class="form-label"
+            >Número do termo de contrato *</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            formControlName="number"
+            id="number"
+          />
+        </div>
 
         <div class="mb-3">
           <label for="added_value" class="form-label">Valor Acrescido *</label>
-          <input type="number" class="form-control" formControlName="added_value" id="added_value" />
+          <input
+            type="number"
+            class="form-control"
+            formControlName="added_value"
+            id="added_value"
+          />
         </div>
 
         <div class="mb-3">
-          <label for="installment_value" class="form-label">Valor da Parcela *</label>
-          <input type="number" class="form-control" formControlName="installment_value" id="installment_value" />
+          <label for="installment_value" class="form-label"
+            >Valor da Parcela *</label
+          >
+          <input
+            type="number"
+            class="form-control"
+            formControlName="installment_value"
+            id="installment_value"
+          />
         </div>
 
         <div class="mb-3">
-          <label for="added_term_days" class="form-label">Prazo Aditado em Dias *</label>
-          <input type="number" class="form-control" formControlName="added_term_days" id="added_term_days" />
-        </div>
-
-        <div class="mb-3">
-          <label for="validity_start_date" class="form-label">Data Início da Vigência *</label>
-          <input type="text" class="form-control" bsDatepicker formControlName="validity_start_date" id="validity_start_date" placeholder="dd/mm/yyyy" />
+          <label for="added_term_days" class="form-label"
+            >Prazo Aditado em Dias *</label
+          >
+          <input
+            type="number"
+            class="form-control"
+            formControlName="added_term_days"
+            id="added_term_days"
+          />
         </div>
       </div>
 
@@ -64,34 +123,76 @@
       <div class="form-column">
         <div class="mb-3">
           <label for="total_value" class="form-label">Valor Global *</label>
-          <input type="number" class="form-control" formControlName="total_value" id="total_value" />
+          <input
+            type="number"
+            class="form-control"
+            formControlName="total_value"
+            id="total_value"
+          />
+        </div>
+        <div class="mb-3">
+          <label for="validity_start_date" class="form-label"
+            >Data Início da Vigência *</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            bsDatepicker
+            formControlName="validity_start_date"
+            id="validity_start_date"
+            placeholder="dd/mm/yyyy"
+          />
         </div>
 
         <div class="mb-3">
-          <label for="validity_end_date" class="form-label">Data Final da Vigência *</label>
-          <input type="text" class="form-control" bsDatepicker formControlName="validity_end_date" id="validity_end_date" placeholder="dd/mm/yyyy" />
+          <label for="signature_date" class="form-label"
+            >Data de Assinatura *</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            bsDatepicker
+            formControlName="signature_date"
+            id="signature_date"
+            placeholder="dd/mm/yyyy"
+          />
         </div>
-
         <div class="mb-3">
-          <label for="signature_date" class="form-label">Data de Assinatura *</label>
-          <input type="text" class="form-control" bsDatepicker formControlName="signature_date" id="signature_date" placeholder="dd/mm/yyyy" />
+          <label for="validity_end_date" class="form-label"
+            >Data Final da Vigência *</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            bsDatepicker
+            formControlName="validity_end_date"
+            id="validity_end_date"
+            placeholder="dd/mm/yyyy"
+          />
         </div>
-
         <div class="mb-3">
           <label for="goals" class="form-label">Objeto *</label>
-          <textarea class="form-control" formControlName="goals" rows="4"></textarea>
+          <textarea
+            class="form-control"
+            formControlName="goals"
+            rows="4"
+          ></textarea>
         </div>
 
         <div class="mb-3">
           <label for="legal_basis" class="form-label">Fundamento Legal *</label>
-          <textarea class="form-control" formControlName="legal_basis" rows="4"></textarea>
+          <textarea
+            class="form-control"
+            formControlName="legal_basis"
+            rows="4"
+          ></textarea>
         </div>
       </div>
     </div>
 
     <!-- Botão Salvar -->
     <div class="text-end mt-3">
-      <button type="submit" class="btn btn-primary">Salvar</button>
+      <button type="submit" class="btn btn-primary">Criar Item</button>
     </div>
   </form>
 </div>
