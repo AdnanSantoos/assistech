@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { ContratosRepository } from '../repository/contratos-administrativos.repository';
 import { ContratoModel, RequisicaoContratoModel, TermosContratosModel } from '../model/contratos-administrativo.model';
+import { Location } from '@angular/common';
 
 @Injectable({
   providedIn: 'root',

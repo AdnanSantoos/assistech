@@ -88,7 +88,7 @@ const routes: Routes = [
         component: CadastrarUsuariosAdministrativoComponent,
       },
       {
-        path: 'adicionar-termos',
+        path: 'adicionar-termos/:id',
         component: CriarTermosContratosAdministrativoComponent,
       },
       {
