@@ -5,11 +5,13 @@ import { FormBuilder, FormGroup, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { LayoutFormsAdmComponent } from '../../../../shared/containers/layout-forms-adm/layout-forms-adm.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { LicitacoesService } from '../../../dashboard-administrativo/compontents/lista-licitacao-administrativo/service/licitacoes-administrativos.service';
 import { LicitacaoModel } from '../../../dashboard-administrativo/compontents/lista-licitacao-administrativo/model/licitacoes-administrativo.model';
+import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
+import { ContratosService } from './service/contratos-administrativos.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-contratos-administrativo',
@@ -21,9 +23,10 @@ import { LicitacaoModel } from '../../../dashboard-administrativo/compontents/li
     MatButtonModule,
     NavbarComponent,
     FormsModule,
-    SidebarAdministrativoComponent
+    SidebarAdministrativoComponent,
+    NgxMaskDirective
   ],
-  providers: [BsModalService],
+  providers: [BsModalService,provideNgxMask()],
   templateUrl: './contratos-administrativo.component.html',
   styleUrls: ['./contratos-administrativo.component.scss'],
 })
@@ -36,7 +39,7 @@ export class ContratosAdministrativoComponent {
   selectedItem: any = null;
   licitacoes!: LicitacaoModel[];
 
-  constructor(private fb: FormBuilder, private modalService: BsModalService, private _licitacaoService: LicitacoesService) {
+  constructor(private fb: FormBuilder, private _toastrService: ToastrService, private modalService: BsModalService, private _licitacaoService: LicitacoesService,private _contratoService: ContratosService) {
     this.filtroForm = this.fb.group({
       ataDaSessao: [''],
       day: [''],
@@ -46,28 +49,31 @@ export class ContratosAdministrativoComponent {
     });
 
     this.contratoForm = this.fb.group({
-      selecioneLista: [''],
-      receitaDespesa: [''],
-      tipoContrato: [''],
-      categoriaProcesso: [''],
-      numContrato: [''],
-      anoContrato: [''],
-      numProcesso: [''],
-      tipoPessoa: [''],
-      numCNPJCPF: [''],
-      nomerazao: [''],
-      valorInicialContrato: [''],
-      valParcela: [''],
-      valGlobContrato: [''],
-      valAcumuladoContrato: [''],
-      tipoFornecedor: [''],
-      numCNPJFornecSubcontratado: [''],
-      nomeFornecedorSub: [''],
-      identificadorContrato: [''],
-      urfInformacoesContrato: [''],
-      dataAssinatura: [''],
-      dataAssinaturaContrato: [''],
-      dataFinalVigencia: ['']
+      number: [''],
+      procurement_id:[''],
+      year: [''],
+      process: [''],
+      process_category_id: [''],
+      contract_type_id: [''], 
+      number_of_installments:[''],
+      revenue: [false],
+      supplier_id: [''],
+      cipi_identifier: [''],
+      supplier_name: [''],
+      cipi_url:[''],
+      supplier_person_type: [''],
+      initial_value: [''],
+      installment_value: [''],
+      global_value: [''],
+      accumulated_value: [''],
+      subcontracted_supplier_id: [''], 
+      subcontracted_supplier_name: [''],
+      subcontracted_supplier_person_type: [''],
+      additional_information: [''], 
+      signature_date: [''], 
+      start_date: [''], 
+      end_date: [''], 
+      goals: [''], 
     });
   }
 
@@ -82,6 +88,13 @@ export class ContratosAdministrativoComponent {
 
   onSubmit(): void {
     console.log(this.contratoForm.value);
+    this._contratoService.createContrato(this.contratoForm.value).subscribe(v=>{
+      console.log(v)
+    },
+  (err)=>{
+    console.log(err)
+    this._toastrService.error(err.error.message)
+  })
   }
 
   openModal(template: TemplateRef<void>) {
@@ -91,13 +104,14 @@ export class ContratosAdministrativoComponent {
         this.licitacoes = response.data
       },
       error: (err) => {
-        console.error('Erro ao carregar licitações:', err);
+        this._toastrService.error(err)
       },
     });
   }
 
   onSelecionarItem(item: any): void {
     this.selectedItem = item;
+    this.contratoForm.controls['procurement_id'].setValue(item.id)
     console.log('Item selecionado:', this.selectedItem);
     this.modalRef?.hide();
   }
