@@ -12,7 +12,7 @@ export class AdicionarLicitacaoMapper {
     }  
     else{
       value.items = [value.items]
-      value.items[0].number = 0
+      value.items[0].number = 1
     }
 
     const formData = new FormData();
