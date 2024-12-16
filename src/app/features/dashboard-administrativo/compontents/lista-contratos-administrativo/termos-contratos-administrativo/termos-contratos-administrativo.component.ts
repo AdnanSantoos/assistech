@@ -1,6 +1,6 @@
 import { CommonModule, Location } from '@angular/common';
 import { Component, OnInit, Inject } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { RequisicaoModel } from '../../../../../shared/models/shared.model';
 import { MatIcon } from '@angular/material/icon';
 import { LicitacoesService } from '../../lista-licitacao-administrativo/service/licitacoes-administrativos.service';
@@ -10,7 +10,7 @@ import { ContratosService } from '../../../../pncp-administrativo/components/con
 @Component({
   selector: 'app-termos-contratos-administrativo',
   standalone: true,
-  imports: [CommonModule, MatIcon],
+  imports: [CommonModule, MatIcon, RouterModule],
   templateUrl: './termos-contratos-administrativo.component.html',
   styleUrls: ['./termos-contratos-administrativo.component.scss'],
 })
@@ -26,7 +26,7 @@ export class TermosContratosAdministrativoComponent implements OnInit {
     private route: ActivatedRoute,
     private location: Location,
     private contratosService: ContratosService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {

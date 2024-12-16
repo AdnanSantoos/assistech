@@ -26,6 +26,7 @@ import { ArquivosLicitacoesComponent } from './compontents/lista-licitacao-admin
 import { AtasLicitacoesAdministrativoComponent } from './compontents/lista-licitacao-administrativo/atas-licitacoes-administrativo/atas-licitacoes-administrativo.component';
 import { ResultadoLicitacaoComponent } from './compontents/lista-licitacao-administrativo/itens-licitacoes/resultado-licitacao/resultado-licitacao.component';
 import { TermosContratosAdministrativoComponent } from './compontents/lista-contratos-administrativo/termos-contratos-administrativo/termos-contratos-administrativo.component';
+import { CriarTermosContratosAdministrativoComponent } from './compontents/lista-contratos-administrativo/criar-termos-contratos-administrativo/criar-termos-contratos-administrativo.component';
 
 const routes: Routes = [
   {
@@ -85,6 +86,10 @@ const routes: Routes = [
       {
         path: 'cadastrar-usuarios',
         component: CadastrarUsuariosAdministrativoComponent,
+      },
+      {
+        path: 'adicionar-termos',
+        component: CriarTermosContratosAdministrativoComponent,
       },
       {
         path: 'editar-usuarios/:id',

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { RequisicaoContratoModel, ContratoModel } from '../model/contratos-administrativo.model';
+import { RequisicaoContratoModel, ContratoModel, TermosContratosModel } from '../model/contratos-administrativo.model';
 import { environment } from '../../../../../../environments/environment';
 import { RequisicaoModel } from '../../../../../shared/models/shared.model';
 
@@ -20,6 +20,11 @@ export class ContratosRepository {
 
   createContrato(data: Partial<ContratoModel>): Observable<void> {
     return this._http.post<void>(this.baseUrl, data);
+  }
+
+  createTermoContrato(data: Partial<TermosContratosModel>): Observable<void> {
+    const url = `${environment.apiUrl}/tenants/${environment.tenant}/pncp/terms`;
+    return this._http.post<void>(url, data);
   }
 
   getContratoById(id: string): Observable<RequisicaoModel<ContratoModel>> {

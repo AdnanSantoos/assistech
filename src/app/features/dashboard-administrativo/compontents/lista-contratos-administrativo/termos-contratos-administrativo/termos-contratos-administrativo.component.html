@@ -3,7 +3,10 @@
   <small>Lista de termos cadastrados</small>
 
   <div class="action-button text-end mb-3 justify-content-end d-flex">
-    <button class="btn btn-dark d-flex justify-content-center align-items-center">
+    <button
+      class="btn btn-dark d-flex justify-content-center align-items-center"
+      [routerLink]="['/adm/dashboard-administrativo/adicionar-termos']"
+    >
       <mat-icon>add</mat-icon> Adicionar Novo Item
     </button>
   </div>
@@ -23,9 +26,9 @@
       <tbody>
         <tr *ngFor="let termo of termos; let i = index">
           <td>{{ i + 1 }}</td>
-          <td>{{ termo.name || 'N/A' }}</td>
-          <td>{{ termo.contract_number || 'N/A' }}</td>
-          <td>{{ termo.created_at | date: 'dd/MM/yyyy' }}</td>
+          <td>{{ termo.name || "N/A" }}</td>
+          <td>{{ termo.contract_number || "N/A" }}</td>
+          <td>{{ termo.created_at | date : "dd/MM/yyyy" }}</td>
           <td class="text-center">
             <button
               class="btn btn-sm btn-danger"
@@ -37,7 +40,9 @@
           </td>
         </tr>
         <tr *ngIf="termos.length === 0 && !isLoading">
-          <td colspan="5" class="text-center text-muted">Nenhum termo encontrado.</td>
+          <td colspan="5" class="text-center text-muted">
+            Nenhum termo encontrado.
+          </td>
         </tr>
       </tbody>
     </table>
@@ -45,19 +50,35 @@
 
   <!-- Paginação -->
   <div class="d-flex justify-content-end gap-2 align-items-center mt-3">
-    <button class="btn btn-secondary" (click)="goToPage(1)" [disabled]="currentPage === 1">
+    <button
+      class="btn btn-secondary"
+      (click)="goToPage(1)"
+      [disabled]="currentPage === 1"
+    >
       &laquo;&laquo;
     </button>
-    <button class="btn btn-secondary" (click)="goToPreviousPage()" [disabled]="currentPage === 1">
+    <button
+      class="btn btn-secondary"
+      (click)="goToPreviousPage()"
+      [disabled]="currentPage === 1"
+    >
       &laquo;
     </button>
 
     <span>{{ currentPage }} de {{ totalPages }}</span>
 
-    <button class="btn btn-secondary" (click)="goToNextPage()" [disabled]="currentPage === totalPages">
+    <button
+      class="btn btn-secondary"
+      (click)="goToNextPage()"
+      [disabled]="currentPage === totalPages"
+    >
       &raquo;
     </button>
-    <button class="btn btn-secondary" (click)="goToPage(totalPages)" [disabled]="currentPage === totalPages">
+    <button
+      class="btn btn-secondary"
+      (click)="goToPage(totalPages)"
+      [disabled]="currentPage === totalPages"
+    >
       &raquo;&raquo;
     </button>
   </div>
