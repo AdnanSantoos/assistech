@@ -33,13 +33,118 @@
           <td>{{ termo.contract_term_type_id }} / {{ termo.contract_year }}</td>
           <td>{{ termo.created_at | date : "dd/MM/yyyy" }}</td>
           <td class="text-center">
-            <button
-              class="btn btn-sm btn-danger"
-              (click)="deleteTerm(termo.id)"
-              matTooltip="Excluir"
-            >
-              <mat-icon>delete</mat-icon>
-            </button>
+            <div class="d-flex justify-content-center gap-3 py-2">
+              <div
+                class="d-flex flex-column align-items-center"
+              >
+                <a
+                  class="btn-visualizar btn-format cup mt-0 d-flex justify-content-center align-items-center"
+                  matTooltip="Visualizar"
+                >
+                  <img
+                    src="../../../../../assets/icons/visualizar-adm-icon.svg"
+                    alt=""
+                  />
+                </a>
+                <span class="mt-1 legenda-icons">Visualizar</span>
+              </div>
+              <div class="d-flex flex-column align-items-center">
+                <a
+                  class="btn-edit btn-format cup mt-0 d-flex justify-content-center align-items-center"
+                  matTooltip="Editar"
+                >
+                  <img
+                    src="../../../../../assets/icons/edit-icon-adm.svg"
+                    alt=""
+                  />
+                </a>
+                <span class="mt-1 legenda-icons">Editar</span>
+              </div>
+              <div class="d-flex flex-column align-items-center">
+                <a
+                  class="btn-arquivo btn-format cup mt-0 d-flex justify-content-center align-items-center"
+                  matTooltip="Arquivos"
+                >
+                  <img
+                    src="../../../../../assets/icons/arquivo-adm-icon.svg"
+                    alt=""
+                  />
+                </a>
+                <span class="mt-1 legenda-icons">Arquivos</span>
+              </div>
+
+              <div
+                class="d-flex flex-column align-items-center"
+              >
+                <a
+                  class="btn btn-sm btn-format btn-remove"
+                  matTooltip="Deletar"
+                >
+                  <img
+                    src="../../../../../assets/icons/remove-icon.svg"
+                    alt=""
+                  />
+                </a>
+                <span class="mt-1 legenda-icons">Deletar</span>
+              </div>
+              <ng-template #deleteModal>
+                <div class="modal-header">
+                  <h5 class="modal-title text-danger">
+                    <mat-icon>warning</mat-icon> Atenção!
+                  </h5>
+                  <!-- <button
+                    type="button"
+                    class="btn-close"
+                    aria-label="Close"
+                    (click)="modalRef?.hide()"
+                  ></button> -->
+                </div>
+                <div class="modal-body">
+                  <p class="fw-bold">
+                    Deseja realmente excluir a licitação
+                    <!-- {{ element?.number }}/{{ element?.year }}? -->
+                  </p>
+                  <!-- <form [formGroup]="deleteForm">
+                    <label for="justification" class="form-label fw-bold">
+                      Informe o motivo da exclusão da licitação:
+                      {{ element?.number }}/{{ element?.year }}:
+                    </label>
+                    <textarea
+                      id="justification"
+                      class="form-control"
+                      formControlName="justification"
+                      placeholder="Motivo da exclusão da licitação"
+                    ></textarea>
+                    <div
+                      *ngIf="
+                        deleteForm.controls['justification'].invalid &&
+                        deleteForm.controls['justification'].touched
+                      "
+                      class="text-danger mt-1"
+                    >
+                      O motivo da exclusão é obrigatório.
+                    </div>
+                  </form> -->
+                </div>
+                <div class="modal-footer d-flex justify-content-between">
+                  <!-- <button
+                    type="button"
+                    class="btn btn-danger"
+                    [disabled]="deleteForm.invalid"
+                    (click)="confirmDelete()"
+                  >
+                    Excluir
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    (click)="modalRef?.hide()"
+                  >
+                    Fechar
+                  </button> -->
+                </div>
+              </ng-template>
+            </div>
           </td>
         </tr>
 

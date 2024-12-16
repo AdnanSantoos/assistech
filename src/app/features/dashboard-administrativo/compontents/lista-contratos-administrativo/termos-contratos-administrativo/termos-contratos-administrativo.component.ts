@@ -151,4 +151,7 @@ export class TermosContratosAdministrativoComponent implements OnInit {
     console.log(`Excluir termo com ID: ${termId}`);
     // Implemente aqui o serviço para deletar o termo
   }
+
+
+  
 }
