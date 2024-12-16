@@ -1,14 +1,17 @@
 import { CommonModule, Location } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { ContratosService } from '../../../../pncp-administrativo/components/contratos-administrativo/service/contratos-administrativos.service';
 import { ContratoModel, TermosContratosModel } from '../../../../pncp-administrativo/components/contratos-administrativo/model/contratos-administrativo.model';
 import { MatIcon } from '@angular/material/icon';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-termos-contratos-administrativo',
   standalone: true,
-  imports: [CommonModule, MatIcon, RouterModule],
+  imports: [CommonModule, MatIcon, RouterModule, ReactiveFormsModule],
+  providers: [BsModalService],
   templateUrl: './termos-contratos-administrativo.component.html',
   styleUrls: ['./termos-contratos-administrativo.component.scss'],
 })
@@ -17,16 +20,21 @@ export class TermosContratosAdministrativoComponent implements OnInit {
   termos: TermosContratosModel[] = []; // Lista de termos carregados
   termosTotal: ContratoModel[] = []
   combinedTerms: any[] = [];
-
+  deleteForm!: FormGroup;
+  modalRef?: BsModalRef;
   isLoading = true; // Controle de carregamento
   currentPage = 1; // Página atual
   totalPages = 1; // Total de páginas
   totalItems = 0; // Total de itens
+  selectedContrato: ContratoModel | null = null;
+  currentFilePage: number = 1;
+  files: any[] = [];
 
   constructor(
     private route: ActivatedRoute,
-    private location: Location,
-    private contratosService: ContratosService
+    private _location: Location,
+    private contratosService: ContratosService,
+    private modalService: BsModalService,
   ) { }
 
   ngOnInit(): void {
@@ -39,29 +47,6 @@ export class TermosContratosAdministrativoComponent implements OnInit {
       }
     });
   }
-
-  // loadTerms(page: number): void {
-  //   this.isLoading = true;
-  //   this.contratosService.getContractTerms(this.contratoId, page).subscribe({
-  //     next: (response) => {
-  //       this.termos = response.data.map((item: any) => ({
-  //         id: item.id,
-  //         number: item.number,
-  //         gateway_sequence: item.gateway_sequence,
-  //         created_at_show: item.created_at_show,
-  //         created_at: item.created_at,
-  //       }));
-  //       this.totalPages = response.meta?.pagination?.last_page || 1;
-  //       this.currentPage = response.meta?.pagination?.current_page || page;
-  //       this.totalItems = response.meta?.pagination?.total || 0;
-  //       this.isLoading = false;
-  //     },
-  //     error: (err) => {
-  //       console.error('Erro ao carregar os termos:', err);
-  //       this.isLoading = false;
-  //     },
-  //   });
-  // }
 
   loadTerms(page: number): void {
     this.isLoading = true;
@@ -143,9 +128,7 @@ export class TermosContratosAdministrativoComponent implements OnInit {
     }
   }
 
-  goBack(): void {
-    this.location.back();
-  }
+
 
   deleteTerm(termId: string): void {
     console.log(`Excluir termo com ID: ${termId}`);
@@ -153,5 +136,77 @@ export class TermosContratosAdministrativoComponent implements OnInit {
   }
 
 
-  
+  openFilesModal(contrato: ContratoModel, template: TemplateRef<any>): void {
+    this.selectedContrato = contrato;
+    this.loadContractFiles(contrato.id, this.currentFilePage);
+    this.modalRef = this.modalService.show(template, { class: 'modal-lg' });
+  }
+
+  loadContractFiles(contractId: string | undefined, page: number): void {
+    if (!contractId) {
+      console.error('ID do contrato está indefinido.');
+      return;
+    }
+
+    this.contratosService.getContractFiles(contractId, page).subscribe({
+      next: (response) => {
+        this.files = response.data;
+        this.currentFilePage = page;
+        console.log('Arquivos carregados:', this.files);
+      },
+      error: (err) => {
+        console.error('Erro ao carregar arquivos:', err);
+      },
+    });
+  }
+
+  visualizar(value: any) {
+    const contrato = value;
+    const { year, gateway_sequence, procurement } = contrato;
+    if (procurement && procurement.agency.country_register) {
+      const baseUrl = 'https://treina.pncp.gov.br/app/contratos/';
+      const fullUrl = `${baseUrl}${procurement.agency.country_register}/${year}/${gateway_sequence}`;
+
+      window.open(fullUrl, '_blank');
+    } else {
+      console.error('Invalid agency data or missing country_register.');
+    }
+  }
+
+  carregarContratos(page: number): void {
+    this.contratosService.getContratos(page).subscribe({
+      next: (response) => {
+       
+      },
+      error: () => {
+        console.error('Erro ao carregar contratos.');
+      },
+    });
+  }
+  onEdit(id: string): void {
+  }
+  openDeleteModal(contrato: ContratoModel, template: TemplateRef<any>): void {
+    this.selectedContrato = contrato;
+    this.modalRef = this.modalService.show(template, { class: 'modal-md' });
+    this.deleteForm.reset(); // Limpa o formulário ao abrir o modal
+  }
+
+  confirmDelete(): void {
+    if (this.deleteForm.valid && this.selectedContrato) {
+      const justification = this.deleteForm.value.justification;
+
+      this.contratosService.deleteContrato(this.selectedContrato.id, justification).subscribe({
+        next: () => {
+          this.modalRef?.hide();
+          this.carregarContratos(this.currentPage); // Atualiza a lista
+        },
+        error: (err) => {
+          this.modalRef?.hide();
+        },
+      });
+    }
+  }
+  goBack(): void {
+    this._location.back();
+  }
 }
