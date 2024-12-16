@@ -34,4 +34,20 @@ export class ContratosRepository {
   updateContrato(id: string, data: Partial<ContratoModel>): Observable<void> {
     return this._http.put<void>(`${this.baseUrl}/${id}`, data);
   }
+
+  getContractFiles(contractId: string, page: number): Observable<any> {
+    const url = `${this.baseUrl}/${contractId}/files`;
+    const params = new HttpParams().set('page', page.toString());
+    return this._http.get<any>(url, { params });
+  }
+
+  getContractTerms(contractId: string, page: number): Observable<any> {
+    const url = `${environment.apiUrl}/tenants/${environment.tenant}/pncp/terms`;
+    const params = new HttpParams()
+      .set('contract_id', contractId)
+      .set('page', page.toString());
+
+    return this._http.get<any>(url, { params });
+  }
+
 }

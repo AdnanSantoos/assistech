@@ -7,7 +7,7 @@ import { ContratoModel, RequisicaoContratoModel } from '../model/contratos-admin
   providedIn: 'root',
 })
 export class ContratosService {
-  constructor(private _repository: ContratosRepository) {}
+  constructor(private _repository: ContratosRepository) { }
 
   getContratos(page: number): Observable<RequisicaoContratoModel> {
     return this._repository.getContratos(page);
@@ -28,10 +28,18 @@ export class ContratosService {
     );
   }
 
+  getContractTerms(contractId: string, page: number): Observable<any> {
+    return this._repository.getContractTerms(contractId, page);
+  }
+
+  getContractFiles(contractId: string, page: number): Observable<any> {
+    return this._repository.getContractFiles(contractId, page);
+  }
+
   updateContrato(id: string, data: Partial<ContratoModel>): Observable<void> {
     return this._repository.updateContrato(id, data);
   }
-  
+
   deleteContrato(procurementId: string, justification: string): Observable<void> {
     return this._repository.deleteContrato(procurementId, justification);
   }

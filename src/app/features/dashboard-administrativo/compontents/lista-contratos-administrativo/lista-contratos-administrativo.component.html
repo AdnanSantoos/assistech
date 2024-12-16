@@ -8,7 +8,7 @@
       routerLink="/adm/pncp-administrativo/adicionar-contratos"
       class="btn btn-adm-adicionar ms-2"
     >
-      <mat-icon>add_circle</mat-icon> Adicionar Contrato
+      <mat-icon>add_circle</mat-icon> Adicionar novo termo
     </button>
   </div>
 
@@ -113,6 +113,7 @@
                 <a
                   class="btn-arquivo btn-format cup mt-0 d-flex justify-content-center align-items-center"
                   matTooltip="Arquivos"
+                  (click)="openFilesModal(element, templateFiles)"
                 >
                   <img
                     src="../../../../../assets/icons/arquivo-adm-icon.svg"
@@ -121,10 +122,15 @@
                 </a>
                 <span class="mt-1 legenda-icons">Arquivos</span>
               </div>
+
               <div class="d-flex flex-column align-items-center">
                 <a
                   class="btn-atas btn-format cup mt-0 d-flex justify-content-center align-items-center"
                   matTooltip="Termos"
+                  [routerLink]="[
+                    '/adm/dashboard-administrativo/termos-contratos',
+                    element.id
+                  ]"
                 >
                   <img
                     src="../../../../../assets/icons/atas-adm-icon.svg"
@@ -255,3 +261,153 @@
     </nav>
   </div>
 </div>
+
+<ng-template #templateFiles>
+  <!-- Cabeçalho -->
+  <div class="modal-header bg-dark d-flex justify-content-between">
+    <div>
+      <h5 class="modal-title text-white">Arquivos do Contrato</h5>
+      <small class="text-white">Gerenciamento de arquivos do contrato.</small>
+    </div>
+    <button
+      type="button"
+      class="btn text-white"
+      aria-label="Close"
+      (click)="modalRef?.hide()"
+    >
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <!-- Corpo -->
+  <div class="modal-body">
+    <!-- Detalhes do Contrato -->
+    <div class="d-flex justify-content-between mb-3">
+      <div>
+        <strong>Contrato PNCP Nº</strong> <br />
+        <span
+          >{{ selectedContrato?.number || "N/A" }}/{{
+            selectedContrato?.year || "N/A"
+          }}</span
+        >
+      </div>
+      <div>
+        <strong>Número da Compra</strong> <br />
+        <span>{{
+          selectedContrato?.procurement?.process_number || "N/A"
+        }}</span>
+      </div>
+    </div>
+
+    <!-- Formulário -->
+    <form [formGroup]="fileForm" (ngSubmit)="onSubmitFileForm()">
+      <!-- Título do Documento -->
+      <div class="mb-3">
+        <label for="tituloDocumento" class="form-label"
+          >Título do documento *</label
+        >
+        <input
+          type="text"
+          class="form-control mw-100"
+          id="tituloDocumento"
+          formControlName="tituloDocumento"
+          placeholder="Título do documento"
+          required
+        />
+      </div>
+
+      <!-- Tipo de Documento -->
+      <div class="mb-3">
+        <label for="tipoDocumento" class="form-label"
+          >Tipo de documento *</label
+        >
+        <select
+          class="form-select mw-100"
+          id="tipoDocumento"
+          formControlName="tipoDocumento"
+          required
+        >
+          <option value="" disabled selected>Selecionar</option>
+          <option value="Contrato">Contrato</option>
+          <option value="Termo de Rescisão">Termo de Rescisão</option>
+          <option value="Termo de Aditivo">Termo de Aditivo</option>
+          <option value="Termo de Apostilamento">Termo de Apostilamento</option>
+          <option value="Nota de Empenho">Nota de Empenho</option>
+          <option value="Relatório Final de Contrato">
+            Relatório Final de Contrato
+          </option>
+          <option value="Outros ">Outros</option>
+        </select>
+      </div>
+
+      <!-- Upload de Arquivo -->
+      <div class="mb-3">
+        <label for="arquivo" class="form-label">Documento da Licitação</label>
+        <input
+          type="file"
+          class="form-control mw-100"
+          id="arquivo"
+          (change)="onFileChange($event)"
+          accept=".pdf, .txt, .rtf, .doc, .docx, .odt"
+        />
+        <small class="form-text text-muted"
+          >Tipos de arquivos aceitos: .pdf, .txt, .rtf, .doc, .docx, .odt</small
+        >
+      </div>
+
+      <!-- Botão de Submissão -->
+      <!-- Botão de Submissão Condicional -->
+      <div class="d-flex justify-content-end">
+        <button
+          type="submit"
+          class="btn bg-dark text-white"
+          *ngIf="fileForm.valid"
+        >
+          Salvar Arquivo
+        </button>
+      </div>
+    </form>
+
+    <!-- Tabela de Arquivos -->
+    <table class="table table-striped mt-3">
+      <thead>
+        <tr>
+          <th>Nome do Arquivo</th>
+          <th>Tipo</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let file of files">
+          <td>{{ file.name }}</td>
+          <td>{{ file.type }}</td>
+          <td>
+            <a [href]="file.url" target="_blank" class="btn btn-sm btn-primary">
+              Visualizar
+            </a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Rodapé -->
+  <div class="modal-footer d-flex justify-content-between">
+    <button
+      class="btn btn-secondary"
+      (click)="loadContractFiles(selectedContrato?.id, currentFilePage - 1)"
+      [disabled]="currentFilePage === 1"
+    >
+      <mat-icon>chevron_left</mat-icon>
+    </button>
+
+    <span>Página {{ currentFilePage }}</span>
+
+    <button
+      class="btn btn-secondary"
+      (click)="loadContractFiles(selectedContrato?.id, currentFilePage + 1)"
+    >
+      <mat-icon>chevron_right</mat-icon>
+    </button>
+  </div>
+</ng-template>
