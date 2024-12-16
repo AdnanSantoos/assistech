@@ -10,6 +10,7 @@
     "/adm/convenios-administrativo",
     "/adm/dados-da-frota-administrativo",
     "/adm/dashboard-administrativo",
+    "/adm/dashboard-administrativo/adicionar-termos",
     "/adm/dashboard-administrativo/cadastrar-cliente",
     "/adm/dashboard-administrativo/cadastrar-fotos-diario",
     "/adm/dashboard-administrativo/cadastrar-noticia",
