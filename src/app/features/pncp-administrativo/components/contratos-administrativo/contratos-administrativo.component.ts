@@ -2,7 +2,7 @@ import { SidebarAdministrativoComponent } from './../../../../shared/components/
 import { NavbarComponent } from './../../../../shared/components/navbar/navbar.component';
 import { Component, TemplateRef } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -39,7 +39,7 @@ export class ContratosAdministrativoComponent {
   selectedItem: any = null;
   licitacoes!: LicitacaoModel[];
 
-  constructor(private fb: FormBuilder, private _toastrService: ToastrService, private modalService: BsModalService, private _licitacaoService: LicitacoesService,private _contratoService: ContratosService) {
+  constructor(private fb: FormBuilder,private _location: Location, private _toastrService: ToastrService, private modalService: BsModalService, private _licitacaoService: LicitacoesService,private _contratoService: ContratosService) {
     this.filtroForm = this.fb.group({
       ataDaSessao: [''],
       day: [''],
@@ -85,7 +85,9 @@ export class ContratosAdministrativoComponent {
       });
     }
   }
-
+  goBack(): void {
+    this._location.back();
+  }
   onSubmit(): void {
     console.log(this.contratoForm.value);
     this._contratoService.createContrato(this.contratoForm.value).subscribe(v=>{

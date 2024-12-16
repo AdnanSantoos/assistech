@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
@@ -48,18 +48,19 @@ export class ListaContratosAdministrativoComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  constructor(private contratosService: ContratosService,private fb: FormBuilder,private modalService: BsModalService) { 
+  constructor(private contratosService: ContratosService, private fb: FormBuilder, private modalService: BsModalService, private _location: Location
+  ) {
     this.deleteForm = this.fb.group({
-          justification: ['', [Validators.required]],
+      justification: ['', [Validators.required]],
     });
   }
 
   ngOnInit() {
     this.carregarContratos(this.currentPage);
   }
-  
 
-  visualizar(value:any){
+
+  visualizar(value: any) {
     const contrato = value;
     const { year, gateway_sequence, procurement } = contrato;
     if (procurement && procurement.agency.country_register) {
@@ -107,7 +108,9 @@ export class ListaContratosAdministrativoComponent implements OnInit {
       });
     }
   }
-
+  goBack(): void {
+    this._location.back();
+  }
   goToPage(pageNumber: number): void {
     if (pageNumber >= 1 && pageNumber <= this.totalPages) {
       this.currentPage = pageNumber;

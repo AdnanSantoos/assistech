@@ -3,6 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { RequisicaoContratoModel, ContratoModel } from '../model/contratos-administrativo.model';
 import { environment } from '../../../../../../environments/environment';
+import { RequisicaoModel } from '../../../../../shared/models/shared.model';
 
 @Injectable({
   providedIn: 'root',
@@ -10,7 +11,7 @@ import { environment } from '../../../../../../environments/environment';
 export class ContratosRepository {
   private readonly baseUrl = `${environment.apiUrl}/tenants/${environment.tenant}/pncp/contracts`;
 
-  constructor(private _http: HttpClient) {}
+  constructor(private _http: HttpClient) { }
 
   getContratos(page: number): Observable<RequisicaoContratoModel> {
     const params = new HttpParams().set('page', page.toString());
@@ -21,12 +22,16 @@ export class ContratosRepository {
     return this._http.post<void>(this.baseUrl, data);
   }
 
-  getContratoById(id: string): Observable<ContratoModel> {
-    return this._http.get<ContratoModel>(`${this.baseUrl}/${id}`);
+  getContratoById(id: string): Observable<RequisicaoModel<ContratoModel>> {
+    return this._http.get<RequisicaoModel<ContratoModel>>(`${this.baseUrl}/${id}`);
   }
 
   deleteContrato(procurementId: string, justification: string): Observable<void> {
     const body = { justification };
     return this._http.delete<void>(`${this.baseUrl}/${procurementId}`, { body });
+  }
+
+  updateContrato(id: string, data: Partial<ContratoModel>): Observable<void> {
+    return this._http.put<void>(`${this.baseUrl}/${id}`, data);
   }
 }

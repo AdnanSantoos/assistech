@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { ContratosRepository } from '../repository/contratos-administrativos.repository';
 import { ContratoModel, RequisicaoContratoModel } from '../model/contratos-administrativo.model';
 
@@ -18,9 +18,20 @@ export class ContratosService {
   }
 
   getContratoById(id: string): Observable<ContratoModel> {
-    return this._repository.getContratoById(id);
+    return this._repository.getContratoById(id).pipe(
+      map((response) => {
+        if (!response || !response.data) {
+          throw new Error('Contrato não encontrado.');
+        }
+        return response.data;
+      })
+    );
   }
 
+  updateContrato(id: string, data: Partial<ContratoModel>): Observable<void> {
+    return this._repository.updateContrato(id, data);
+  }
+  
   deleteContrato(procurementId: string, justification: string): Observable<void> {
     return this._repository.deleteContrato(procurementId, justification);
   }

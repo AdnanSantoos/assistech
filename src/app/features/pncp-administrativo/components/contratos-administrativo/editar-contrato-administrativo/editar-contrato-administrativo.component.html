@@ -24,7 +24,7 @@
 
               </div>
               <div class="formulario-component novo-formulario">
-                <h1 class="pagina-form mb-4">Cadastrar Dados do Contratos</h1>
+                <h1 class="pagina-form mb-4">Editar Dados do Contratos</h1>
                 <form [formGroup]="contratoForm" (ngSubmit)="onSubmit()">
                   <div class="container-fluid">
                     <div class="row">
@@ -192,10 +192,14 @@
                           <label>Informação complementar</label>
                           <textarea type="text" class="form-control" rows="4" formControlName="additional_information"></textarea>
                         </div>
+                        <div class="form-group">
+                          <label>Justificativa da Edição</label>
+                          <textarea type="text" class="form-control" rows="4" formControlName="change_reason"></textarea>
+                        </div>
                       </div>
                     </div>
                     <div class="form-group text-center mt-4">
-                      <button type="submit" class="btn btn-dark">Adicionar Contrato</button>
+                      <button type="submit" class="btn btn-dark">Editar Contrato</button>
                     </div>
                   </div>
                 </form>
