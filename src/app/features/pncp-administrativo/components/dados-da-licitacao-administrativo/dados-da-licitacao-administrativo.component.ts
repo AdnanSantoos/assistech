@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -10,6 +10,7 @@ import { OrgaoModel, OrgaoUnitModel, RequisicaoOrgaoModel, SelectedAgencies } fr
 import { SidebarAdministrativoComponent } from '../../../../shared/components/sidebar-administrativo/sidebar-administrativo.component';
 import { NavbarComponent } from '../../../../shared/components/navbar/navbar.component';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { ProcurementItem, ProcurementModel } from './model/adicionar-licitacao.model';
 
 @Component({
   selector: 'app-dados-da-licitacao-administrativo',
@@ -233,14 +234,64 @@ export class DadosDaLicitacaoAdministrativoComponent {
 
 
   ];
+  beneficiosEnum = [
+    { value: 1, key: 'Participação exclusiva para ME/EPP' },
+    { value: 2, key: 'Subcontratação para ME/EPP' },
+    { value: 3, key: 'Cota reservada para ME/EPP' },
+    { value: 4, key: 'Sem benefício' },
+    { value: 5, key: 'Não se aplica' },
+  ]
+  itemCategoriaEnum = [
+    { value: 1, key: 'Bens imóveis' },
+    { value: 2, key: 'Bens móveis' },
+    { value: 3, key: 'Não se aplica' },
+  ]
+  criterioDeJulgamentoEnum = [
+    { value: 1, key: 'Menor Preço' },
+    { value: 2, key: 'Maior Desconto' },
+    { value: 3, key: 'Melhor técnica ou conteúdo artístico' },
+    { value: 4, key: 'Técnica e preço' },
+    { value: 5, key: 'Maior Lance' },
+    { value: 6, key: 'Maior retorno econômico' },
+    { value: 7, key: 'Não se aplica' },
+    { value: 8, key: 'Melhor técnica' },
+    { value: 9, key: 'Conteúdo artístico' },
+  ]
+  unidadeDeMedidaEnum = [
+    { value: 'Caixa', key: 'Caixa' },
+    { value: 'Bloco', key: 'Bloco' },
+    { value: 'Centímetro', key: 'Centímetro' },
+    { value: 'Dúzia', key: 'Dúzia' },
+    { value: 'Fardo', key: 'Fardo' },
+    { value: 'Frasco', key: 'Frasco' },
+    { value: 'Galão', key: 'Galão' },
+    { value: 'Grama', key: 'Grama' },
+    { value: 'Quilograma', key: 'Quilograma' },
+    { value: 'Metro', key: 'Metro' },
+    { value: 'Jogo', key: 'Jogo' },
+    { value: 'Par', key: 'Par' },
+    { value: 'Kit', key: 'Kit' },
+    { value: 'Lata', key: 'Lata' },
+    { value: 'Litro', key: 'Litro' },
+    { value: 'Pacote', key: 'Pacote' },
+    { value: 'Unidade', key: 'Unidade' },
+    { value: 'Resma', key: 'Resma' },
+    { value: 'Rolo', key: 'Rolo' },
+    { value: 'Saco', key: 'Saco' },
+    { value: 'Serviço', key: 'Serviço' }
+  ];
 
+  materialOuServicoEnum = [
+    { value: "Material", key: 'Material' },
+    { value: "Serviço", key: 'Serviço' }
+  ];
 
   constructor(private fb: FormBuilder, private _adicionarLicitacaoService: AdicionarLicitacaoService, private modalService: BsModalService) {
 
     this.filtroForm = this.fb.group({
-      agency: [''],
+      agency: [null],
       unit_id: [null],
-      document_title: [''],
+      document_title: [null],
       document_type_id: [null],
       call_instrument_id: [null],
       contracting_modality_id: [null],
@@ -248,35 +299,44 @@ export class DadosDaLicitacaoAdministrativoComponent {
       legal_basic_id: [null],
       agency_country_register: [null],
       file: [null],
-      number: [''],
-      year: [''],
-      process_number: [''],
-      goals: [''],
+      number: [null],
+      year: [null],
+      process_number: [null],
+      goals: [null],
       srp: [false],
-      additional_information: [''],
-      opening_date_proposal: [''],
-      closing_date_proposal: [''],
-      contracting_situation_id: [{ value: 1, disabled: true }],
-      basic_productive_incentive: [false],
-      description: [''],
-      quantity: [''],
-      unit_of_measurement: [''],
-      estimated_unit_value: [''],
-      total_value: [''],
-      judging_criteria_id: [''],
-      confidential_budget: [false],
-      item_category_id: [''],
-      assets: [''],
-      real_estate_registry_code: [''],
-      source_system_link: [''],
-      justification_in_person: [''],
-      applicability_normal_preference_margin: [false],
-      applicability_additional_preference_margin: [false],
-      normal_preference_margin_percentage: [''],
-      additional_preference_margin_percentage: [''],
-      ncm_nbs_code: [''],
-      ncm_nbs_description: ['']
+      items: this.fb.group({
+        tenant_slug: [null],
+        created_by_id: [null],
+        procurement_id: [null],
+        item_type: [null],
+        benefit_type_id: [null],
+        basic_productive_incentive: [null],
+        description: [null],
+        quantity: [null],
+        unit_of_measurement: [null],
+        estimated_unit_value: [null],
+        total_value: [null],
+        judging_criteria_id: [null],
+        confidential_budget: [null],
+        item_category_id: [null],
+        assets: [null],
+        real_estate_registry_code: [null],
+        source_system_link: [null],
+        justification_in_person: [null],
+        number: [null],
+        applicability_normal_preference_margin: [null],
+        applicability_additional_preference_margin: [null],
+        normal_preference_margin_percentage: [null],
+        additional_preference_margin_percentage: [null],
+        ncm_nbs_code: [null],
+        ncm_nbs_description: [null]
+      }),
+      additional_information: [null],
+      opening_date_proposal: [null],
+      closing_date_proposal: [null],
+      contracting_situation_id: [{ value: 1, disabled: true }]
     });
+
 
     this.filtroForm.get('agency')?.valueChanges.subscribe((selectedAgencies: SelectedAgencies) => {
       this.unitOptions.push({
@@ -291,8 +351,9 @@ export class DadosDaLicitacaoAdministrativoComponent {
     })
 
     this.filtroForm.get('call_instrument_id')?.valueChanges.subscribe((tipoInstrumentoSelecionado) => {
+      console.log(tipoInstrumentoSelecionado)
       switch (tipoInstrumentoSelecionado) {
-        case "4":
+        case 4:
           this.modalidadeContratoOpcoes = [
             { key: 'Dispensa Licitação', value: 8 },
             { key: 'Manifestação de Interesse', value: 10 },
@@ -323,9 +384,10 @@ export class DadosDaLicitacaoAdministrativoComponent {
     });
 
     this.filtroForm.get('contracting_modality_id')?.valueChanges.subscribe((tipoModalidadeSelecionado) => {
+      console.log(tipoModalidadeSelecionado)
       switch (tipoModalidadeSelecionado) {
-        case "1": //Leilão eletrônico
-        case "2": //Dialogo Competitivo
+        case 1: //Leilão eletrônico
+        case 2: //Dialogo Competitivo
           this.modoDisputaOpcoes = [
             { key: 'Aberto', value: 1 },
             { key: 'Fechado', value: 2 },
@@ -339,7 +401,7 @@ export class DadosDaLicitacaoAdministrativoComponent {
           ];
           break;
 
-        case "3": //Concurso
+        case 3: //Concurso
           this.modoDisputaOpcoes = [
             { key: 'Aberto', value: 1 },
             { key: 'Fechado', value: 2 },
@@ -357,7 +419,7 @@ export class DadosDaLicitacaoAdministrativoComponent {
             { value: 150, key: 'MP nº 1.221/2024, Art. 2º, II (Calamidade pública)' },
           ];
           break;
-        case "4": // Concorrência - eletrônica 
+        case 4: // Concorrência - eletrônica 
           this.modoDisputaOpcoes = [
             { key: 'Aberto', value: 1 },
             { key: 'Fechado', value: 2 },
@@ -379,7 +441,7 @@ export class DadosDaLicitacaoAdministrativoComponent {
           ];
 
           break;
-        case "5": // Concorrência - presencial 
+        case 5: // Concorrência - presencial 
           this.modoDisputaOpcoes = [
             { key: 'Aberto', value: 1 },
             { key: 'Fechado', value: 2 },
@@ -393,7 +455,7 @@ export class DadosDaLicitacaoAdministrativoComponent {
           ];
           break
 
-        case "6": // Pregão - eletrônico 
+        case 6: // Pregão - eletrônico 
           this.modoDisputaOpcoes = [
             { key: 'Aberto', value: 1 },
             { key: 'Fechado', value: 2 },
@@ -409,7 +471,7 @@ export class DadosDaLicitacaoAdministrativoComponent {
           ];
           break
 
-        case "7": // Pregão - Presencial 
+        case 7: // Pregão - Presencial 
           this.modoDisputaOpcoes = [
             { key: 'Aberto', value: 1 },
             { key: 'Fechado', value: 2 },
@@ -423,8 +485,8 @@ export class DadosDaLicitacaoAdministrativoComponent {
           ];
           break
 
-        case "8":// Dispensa - Licitação 
-        case "9": // Inexigibilidade
+        case 8:// Dispensa - Licitação 
+        case 9: // Inexigibilidade
           this.modoDisputaOpcoes = [
             { key: 'Aberto', value: 1 },
             { key: 'Fechado', value: 2 },
@@ -436,7 +498,7 @@ export class DadosDaLicitacaoAdministrativoComponent {
           ];
           break
 
-        case "10": // Manifestação de Interesse
+        case 10: // Manifestação de Interesse
           this.modoDisputaOpcoes = [
             { key: 'Aberto', value: 1 },
             { key: 'Fechado', value: 2 },
@@ -449,7 +511,7 @@ export class DadosDaLicitacaoAdministrativoComponent {
           ];
           break
 
-        case "11": // Pre qualificação
+        case 11: // Pre qualificação
           this.modoDisputaOpcoes = [
             { key: 'Aberto', value: 1 },
             { key: 'Fechado', value: 2 },
@@ -463,7 +525,7 @@ export class DadosDaLicitacaoAdministrativoComponent {
           ];
           break
 
-        case "12": // Credenciamento
+        case 12: // Credenciamento
           this.modoDisputaOpcoes = [
             { key: 'Aberto', value: 1 },
             { key: 'Fechado', value: 2 },
@@ -476,7 +538,7 @@ export class DadosDaLicitacaoAdministrativoComponent {
           ];
           break
 
-        case "13": // Leilão - Presencial
+        case 13: // Leilão - Presencial
           this.modoDisputaOpcoes = [
             { key: 'Aberto', value: 1 },
             { key: 'Fechado', value: 2 },
@@ -489,7 +551,7 @@ export class DadosDaLicitacaoAdministrativoComponent {
             { value: 121, key: 'Lei nº 13.303/2016, Art. 54, VIII' },
           ];
           break
-        case "14": // Inaplicalibiade da Licitação
+        case 14: // Inaplicalibiade da Licitação
           this.modoDisputaOpcoes = [
             { key: 'Aberto', value: 1 },
             { key: 'Fechado', value: 2 },
@@ -533,15 +595,6 @@ export class DadosDaLicitacaoAdministrativoComponent {
     });
   }
 
-  onFileChange(event: any, fieldName: string): void {
-    if (event.target.files.length > 0) {
-      const file = event.target.files[0];
-      this.filtroForm.patchValue({
-        [fieldName]: file,
-      });
-    }
-  }
-
   toggleItemsSection(): void {
     this.showItems = !this.showItems;
     console.log('showItems toggled:', this.showItems); // Rastrear o estado de showItems
@@ -549,7 +602,7 @@ export class DadosDaLicitacaoAdministrativoComponent {
   }
 
   onFormSubmit(): void {
-    const novaLicitacao = this.filtroForm.value;
+    const novaLicitacao = AdicionarLicitacaoMapper.toSubmit(this.filtroForm.value);
     console.log(novaLicitacao)
 
     this._adicionarLicitacaoService.criarLicitacao(novaLicitacao).subscribe((v) => {
