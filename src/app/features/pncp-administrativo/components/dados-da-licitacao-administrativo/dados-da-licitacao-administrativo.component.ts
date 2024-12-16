@@ -282,8 +282,8 @@ export class DadosDaLicitacaoAdministrativoComponent {
   ];
 
   materialOuServicoEnum = [
-    { value: "Material", key: 'Material' },
-    { value: "Serviço", key: 'Serviço' }
+    { value: "M", key: 'Material' },
+    { value: "S", key: 'Serviço' }
   ];
 
   constructor(private fb: FormBuilder, private _adicionarLicitacaoService: AdicionarLicitacaoService, private modalService: BsModalService) {
