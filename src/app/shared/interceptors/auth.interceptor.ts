@@ -3,9 +3,11 @@ import { inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const router = inject(Router);
+  const toastr = inject(ToastrService);
 
   // Lista de URLs excluídas do interceptor
   const excludedUrls = ['/home', '/login'];
@@ -28,7 +30,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   // Passar a requisição para o próximo handler e capturar erros
   return next(cloned).pipe(
     catchError(err => {
-      console.log(err)
+      toastr.error(err.error.message)
       if (err.status === 401) {
         // Redirecionar para a tela de login
         localStorage.removeItem('authToken'); // Limpar o token, se necessário

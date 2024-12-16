@@ -1,25 +1,53 @@
 export class AdicionarLicitacaoMapper {
-  public static toSubmit(form: any) {
+  public static toSubmit(form: any,selectedFile:any,itens:boolean) {
     let value = {
       ...form
     }
-    const formData = new FormData();
 
-    value.agency = {
-      country_register: value.agency.unit.agency.country_register,
-      name: value.agency.unit.agency.name
+    value.opening_date_proposal = new Date(value.opening_date_proposal).toISOString();
+    value.closing_date_proposal = new Date(value.closing_date_proposal).toISOString();
+    
+    if(!itens){
+      value.items = null
+    }  
+    else{
+      value.items = [value.items]
+      value.items[0].number = 0
     }
-    Object.keys(form).forEach((key) => {
-      formData.append(key, form[key]);
+
+    const formData = new FormData();
+    Object.keys(value).forEach((key) => {
+      const valueForm = value[key];
+    
+      if (key=='file') {
+       return
+      }
+      else if (Array.isArray(valueForm)) {
+        valueForm.forEach((item, index) => {
+          Object.keys(item).forEach((subKey) => {
+            formData.append(`${key}[${index}][${subKey}]`, item[subKey] ?? '');
+          });
+        });
+      } else if (typeof valueForm === 'object') {
+        formData.append(key, JSON.stringify(valueForm));
+      } 
+      
+      else if (Array.isArray(valueForm) || typeof valueForm === 'object') {
+        // Serializa arrays ou objetos para JSON
+        formData.append(key, JSON.stringify(valueForm));
+      } else {
+        // Adiciona valores simples
+        formData.append(key, valueForm);
+      }
     });
 
-    if (value.files && value.files.length > 0) {
-      value.files.forEach((file: File) => {
-        formData.append('files[]', file);
+    if (selectedFile.file && selectedFile.file.length > 0) {
+      selectedFile.file.forEach((file: File) => {
+        formData.append('file', file);
       });
     } else {
       console.error("Nenhum arquivo foi selecionado.");
     }
-    return value
+    return formData
   }
 }

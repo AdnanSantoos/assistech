@@ -37,7 +37,7 @@ export class DadosDaLicitacaoAdministrativoComponent {
   showItems = false;
 
   nameFile: string | null = null;
-  selectedFiles: File[] = [];
+  selectedFiles: any[] = [];
 
   caminhoSelecionado: selectModel[] = [];
   cnpjSelecionado!: string;
@@ -339,14 +339,17 @@ export class DadosDaLicitacaoAdministrativoComponent {
 
 
     this.filtroForm.get('agency')?.valueChanges.subscribe((selectedAgencies: SelectedAgencies) => {
-      this.unitOptions.push({
-        key: selectedAgencies.unit.name,
-        value: selectedAgencies.unit.id
-      })
-      this.cnpjSelecionado = selectedAgencies.unit.agency_country_register
+      this.cnpjSelecionado = selectedAgencies.value;
+      selectedAgencies.unit.forEach(unit => {
+        this.unitOptions.push({
+          key: unit.name,
+          value: unit.id
+        });
+      });
     });
 
     this.filtroForm.get('unit_id')?.valueChanges.subscribe((v) => {
+      console.log(this.cnpjSelecionado)
       this.filtroForm.get('agency_country_register')?.setValue(this.cnpjSelecionado)
     })
 
@@ -582,12 +585,11 @@ export class DadosDaLicitacaoAdministrativoComponent {
       next: (response: any) => {
         this.orgaos = response.data;
         this.agencyOptions = this.orgaos.map((orgao: any) => ({
-          value: orgao.agency.country_register,
-          label: orgao.agency.name,
-          unit: orgao.unit
+          value: orgao.country_register,
+          label: orgao.name,
+          unit: orgao.units
         }));
         this.unitOptions = [];
-        console.log("ORGAOS", this.orgaos)
       },
       error: (err) => {
         console.error('Erro ao carregar órgãos:', err);
@@ -597,47 +599,36 @@ export class DadosDaLicitacaoAdministrativoComponent {
 
   toggleItemsSection(): void {
     this.showItems = !this.showItems;
-    console.log('showItems toggled:', this.showItems); // Rastrear o estado de showItems
-
   }
 
   onFormSubmit(): void {
-    const novaLicitacao = AdicionarLicitacaoMapper.toSubmit(this.filtroForm.value);
-    console.log(novaLicitacao)
+    const novaLicitacao = AdicionarLicitacaoMapper.toSubmit(this.filtroForm.value,this.selectedFiles,this.showItems);
 
     this._adicionarLicitacaoService.criarLicitacao(novaLicitacao).subscribe((v) => {
       console.log(v)
     });
   }
 
-  onFileSelected(event: any, fieldName: string): void {
+  onFileSelected(event: any, fieldName: any): void {
     const files: FileList = event.target.files;
     const validFiles: File[] = [];
     const invalidFiles: string[] = [];
-
     if (files && files.length > 0) {
       for (let i = 0; i < files.length; i++) {
         const file = files[i];
         if (file.type === 'application/pdf') {
           validFiles.push(file);
         } else {
-          invalidFiles.push(file.name);
+          invalidFiles.push(file.name); 
         }
       }
-
-      // Atualiza o formulário com arquivos válidos
+  
       if (validFiles.length > 0) {
-        this.filtroForm.patchValue({
-          [fieldName]: validFiles, // Atualiza o campo com os arquivos válidos
-        });
-        this.filtroForm.get(fieldName)?.updateValueAndValidity();
-
-        // Atualiza os nomes dos arquivos para exibição
+        this.selectedFiles[fieldName] = validFiles;
         this.nameFile = validFiles.map((file) => file.name).join(', ');
         console.log('Arquivos válidos selecionados:', this.nameFile);
       }
-
-      // Alerta o usuário sobre arquivos inválidos
+  
       if (invalidFiles.length > 0) {
         alert(`Os seguintes arquivos não são PDFs e foram ignorados: ${invalidFiles.join(', ')}`);
         console.log('Arquivos inválidos:', invalidFiles);
@@ -646,5 +637,6 @@ export class DadosDaLicitacaoAdministrativoComponent {
       console.log('Nenhum arquivo selecionado');
     }
   }
+  
 
 }
