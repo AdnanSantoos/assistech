@@ -245,6 +245,7 @@ export class ItensLicitacoesComponent implements OnInit {
   goToPage(page: number) {
   }
   openAddItemModal(): void {
+
     const licitacaoId = this.route.snapshot.params['id']; // Captura o ID da URL
 
     if (!licitacaoId) {
@@ -367,8 +368,7 @@ export class ItensLicitacoesComponent implements OnInit {
             break;
         }
 
-        // Abre o modal após atualizar as listas
-        this.modalService.show(this.addItemModal, { class: 'modal-lg' });
+        this.modalRef = this.modalService.show(this.addItemModal, { class: 'modal-lg' });
       },
       error: (err) => {
         console.error('Erro ao buscar detalhes da licitação:', err);
@@ -381,8 +381,10 @@ export class ItensLicitacoesComponent implements OnInit {
   closeModal(): void {
     if (this.modalRef) {
       this.modalRef.hide();
+      this.modalRef = undefined; // Limpa a referência
     }
   }
+
 
   adicionarItem(): void {
     if (this.novoItemForm.invalid) {
