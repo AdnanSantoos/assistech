@@ -106,6 +106,7 @@
     <span class="resultado me-3">{{ pagination.total }} resultados</span>
     <nav aria-label="Page navigation">
       <ul class="pagination">
+        <!-- Primeira Página -->
         <li class="page-item" [class.disabled]="pagination.current_page === 1">
           <a
             class="page-link bg-white"
@@ -115,6 +116,8 @@
             <span aria-hidden="true">&laquo;&laquo;</span>
           </a>
         </li>
+
+        <!-- Página Anterior -->
         <li class="page-item" [class.disabled]="pagination.current_page === 1">
           <a
             class="page-link bg-white"
@@ -124,11 +127,15 @@
             <span aria-hidden="true">&laquo;</span>
           </a>
         </li>
+
+        <!-- Página Atual -->
         <li class="page-item active">
           <span class="page-link bg-dark border-0">{{
             pagination.current_page
           }}</span>
         </li>
+
+        <!-- Próxima Página -->
         <li
           class="page-item"
           [class.disabled]="pagination.current_page === pagination.last_page"
@@ -141,13 +148,15 @@
             <span aria-hidden="true">&raquo;</span>
           </a>
         </li>
+
+        <!-- Última Página -->
         <li
           class="page-item"
           [class.disabled]="pagination.current_page === pagination.last_page"
         >
           <a
             class="page-link bg-white"
-            (click)="previousPage()"
+            (click)="goToPage(pagination.last_page)"
             aria-label="Última"
           >
             <span aria-hidden="true">&raquo;&raquo;</span>

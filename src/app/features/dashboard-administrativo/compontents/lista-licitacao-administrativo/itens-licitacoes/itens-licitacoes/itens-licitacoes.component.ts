@@ -206,16 +206,21 @@ export class ItensLicitacoesComponent implements OnInit {
 
   nextPage(): void {
     if (this.pagination && this.pagination.current_page < this.pagination.last_page) {
-      this.loadLicitacaoItens(this.route.snapshot.params['id'], this.pagination.current_page + 1);
+      this.goToPage(this.pagination.current_page + 1);
     }
   }
 
   previousPage(): void {
     if (this.pagination && this.pagination.current_page > 1) {
-      this.loadLicitacaoItens(this.route.snapshot.params['id'], this.pagination.current_page - 1);
+      this.goToPage(this.pagination.current_page - 1);
     }
   }
 
+  goToPage(page: number): void {
+    if (this.pagination && page >= 1 && page <= this.pagination.last_page) {
+      this.loadLicitacaoItens(this.route.snapshot.params['id'], page);
+    }
+  }
 
   irParaPncp(page: number): void {
     this.licitacoesService.getLicitacoes(page).subscribe({
@@ -242,8 +247,6 @@ export class ItensLicitacoesComponent implements OnInit {
     });
   }
 
-  goToPage(page: number) {
-  }
   openAddItemModal(): void {
 
     const licitacaoId = this.route.snapshot.params['id']; // Captura o ID da URL
