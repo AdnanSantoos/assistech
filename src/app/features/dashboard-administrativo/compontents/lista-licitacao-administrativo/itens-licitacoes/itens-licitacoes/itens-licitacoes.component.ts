@@ -31,6 +31,58 @@ export class ItensLicitacoesComponent implements OnInit {
   isLoadingDetails = true;
   isLoadingItens = true;
 
+  beneficiosEnum = [
+    { value: 1, key: 'Participação exclusiva para ME/EPP' },
+    { value: 2, key: 'Subcontratação para ME/EPP' },
+    { value: 3, key: 'Cota reservada para ME/EPP' },
+    { value: 4, key: 'Sem benefício' },
+    { value: 5, key: 'Não se aplica' },
+  ]
+  itemCategoriaEnum = [
+    { value: 1, key: 'Bens imóveis' },
+    { value: 2, key: 'Bens móveis' },
+    { value: 3, key: 'Não se aplica' },
+  ]
+  criterioDeJulgamentoEnum = [
+    { value: 1, key: 'Menor Preço' },
+    { value: 2, key: 'Maior Desconto' },
+    { value: 3, key: 'Melhor técnica ou conteúdo artístico' },
+    { value: 4, key: 'Técnica e preço' },
+    { value: 5, key: 'Maior Lance' },
+    { value: 6, key: 'Maior retorno econômico' },
+    { value: 7, key: 'Não se aplica' },
+    { value: 8, key: 'Melhor técnica' },
+    { value: 9, key: 'Conteúdo artístico' },
+  ]
+  unidadeDeMedidaEnum = [
+    { value: 'Caixa', key: 'Caixa' },
+    { value: 'Bloco', key: 'Bloco' },
+    { value: 'Centímetro', key: 'Centímetro' },
+    { value: 'Dúzia', key: 'Dúzia' },
+    { value: 'Fardo', key: 'Fardo' },
+    { value: 'Frasco', key: 'Frasco' },
+    { value: 'Galão', key: 'Galão' },
+    { value: 'Grama', key: 'Grama' },
+    { value: 'Quilograma', key: 'Quilograma' },
+    { value: 'Metro', key: 'Metro' },
+    { value: 'Jogo', key: 'Jogo' },
+    { value: 'Par', key: 'Par' },
+    { value: 'Kit', key: 'Kit' },
+    { value: 'Lata', key: 'Lata' },
+    { value: 'Litro', key: 'Litro' },
+    { value: 'Pacote', key: 'Pacote' },
+    { value: 'Unidade', key: 'Unidade' },
+    { value: 'Resma', key: 'Resma' },
+    { value: 'Rolo', key: 'Rolo' },
+    { value: 'Saco', key: 'Saco' },
+    { value: 'Serviço', key: 'Serviço' }
+  ];
+
+  materialOuServicoEnum = [
+    { value: "M", key: 'Material' },
+    { value: "S", key: 'Serviço' }
+  ];
+
   constructor(
     private licitacoesService: LicitacoesService,
     private route: ActivatedRoute,
@@ -39,31 +91,31 @@ export class ItensLicitacoesComponent implements OnInit {
 
   ) {
     this.novoItemForm = this.fb.group({
-      id: [''],
-      procurement_id: ['', Validators.required],
-      number: ['', Validators.required],
-      item_type: ['', Validators.required],
-      benefit_type_id: [null, Validators.required],
+      procurement_id: [null,],
+      item_type: [null,],
+      benefit_type_id: [null,],
       basic_productive_incentive: [false],
-      description: ['', [Validators.required, Validators.maxLength(2048)]],
-      quantity: [0, [Validators.required, Validators.min(1)]],
-      unit_of_measurement: ['', Validators.required],
-      estimated_unit_value: [0, [Validators.required, Validators.min(0)]],
-      total_value: [0, [Validators.required, Validators.min(0)]],
-      judging_criteria_id: [null, Validators.required],
+      description: [null],
+      quantity: [null],
+      unit_of_measurement: [null],
+      estimated_unit_value: [null],
+      total_value: [null],
+      judging_criteria_id: [null,],
       confidential_budget: [false],
-      item_category_id: [null, Validators.required],
+      item_category_id: [null,],
       assets: [null],
       real_estate_registry_code: [null],
-      contract_item_situation_id: [null],
-      applicability_normal_preference_margin: [false],
-      applicability_additional_preference_margin: [false],
-      normal_preference_margin_percentage: [0],
-      additional_preference_margin_percentage: [0],
-      ncm_nbs_code: [null],
-      ncm_nbs_description: [null]
+      // contract_item_situation_id: [null], // Situação do contrato - NÃO ESTÁ NA REQUISIÇÃO
+      applicability_normal_preference_margin: [false], // Margem de preferência normal
+      applicability_additional_preference_margin: [false], // Margem de preferência adicional
+      // normal_preference_margin_percentage: [null], // Percentual de margem normal - NÃO ESTÁ NA REQUISIÇÃO
+      // additional_preference_margin_percentage: [null], // Percentual de margem adicional - NÃO ESTÁ NA REQUISIÇÃO
+      ncm_nbs_code: [null], // Código NCM/NBS
+      ncm_nbs_description: [null], // Descrição NCM/NBS
+      // change_reason: [null], // Motivo da mudança - NÃO ESTÁ NA REQUISIÇÃO
+      // justification_in_person: [null], // Justificativa presencial - NÃO ESTÁ NA REQUISIÇÃO
+      // source_system_link: [null], // Link do sistema de origem - NÃO ESTÁ NA REQUISIÇÃO
     });
-
   }
 
   ngOnInit(): void {
@@ -72,6 +124,7 @@ export class ItensLicitacoesComponent implements OnInit {
       if (licitacaoId) {
         this.loadLicitacaoDetails(licitacaoId);
         this.loadLicitacaoItens(licitacaoId, 1);
+        this.novoItemForm.patchValue({ procurement_id: licitacaoId });
       } else {
         console.error('Licitacao ID not provided in route parameters.');
       }
@@ -192,8 +245,138 @@ export class ItensLicitacoesComponent implements OnInit {
   goToPage(page: number) {
   }
   openAddItemModal(): void {
-    this.modalService.show(this.addItemModal, { class: 'modal-lg' });
+    const licitacaoId = this.route.snapshot.params['id']; // Captura o ID da URL
+
+    if (!licitacaoId) {
+      console.error('ID da licitação não encontrado na URL.');
+      return;
+    }
+
+    // Busca os detalhes da licitação
+    this.licitacoesService.getLicitacaoById(licitacaoId).subscribe({
+      next: (response: RequisicaoModel<LicitacaoDetalhesModel>) => {
+        const contractingModalityId = response.data.contracting_modality_id;
+
+        console.log('Contracting Modality ID:', contractingModalityId);
+
+        // Atualiza as listas com base no contracting_modality_id
+        switch (contractingModalityId) {
+          case 1:
+            this.itemCategoriaEnum = [
+              { value: 1, key: 'Bens imóveis' },
+              { value: 2, key: 'Bens móveis' },
+            ];
+            this.beneficiosEnum = [
+              { value: 5, key: 'Não se aplica' },
+            ];
+            this.criterioDeJulgamentoEnum = [
+              { value: 5, key: 'Maior Lance' },
+            ];
+            break;
+
+          case 2:
+            this.itemCategoriaEnum = [
+              { value: 3, key: 'Não se aplica' },
+            ];
+            this.criterioDeJulgamentoEnum = [
+              { value: 1, key: 'Menor Preço' },
+              { value: 2, key: 'Maior Desconto' },
+              { value: 4, key: 'Técnica e preço' },
+              { value: 5, key: 'Maior Lance' },
+              { value: 6, key: 'Maior retorno econômico' },
+              { value: 8, key: 'Melhor técnica' },
+              { value: 9, key: 'Conteúdo artístico' },
+            ];
+            break;
+
+          case 3:
+            this.itemCategoriaEnum = [{ value: 3, key: 'Não se aplica' }];
+            this.criterioDeJulgamentoEnum = [
+              { value: 8, key: 'Melhor técnica' },
+              { value: 9, key: 'Conteúdo artístico' },
+            ];
+            break;
+
+          case 4:
+          case 5:
+            this.itemCategoriaEnum = [{ value: 3, key: 'Não se aplica' }];
+            this.criterioDeJulgamentoEnum = [
+              { value: 1, key: 'Menor Preço' },
+              { value: 2, key: 'Maior Desconto' },
+              { value: 4, key: 'Técnica e preço' },
+              { value: 5, key: 'Maior Lance' },
+              { value: 6, key: 'Maior retorno econômico' },
+              { value: 8, key: 'Melhor técnica' },
+              { value: 9, key: 'Conteúdo artístico' },
+            ];
+            break;
+
+          case 6:
+          case 7:
+            this.itemCategoriaEnum = [{ value: 3, key: 'Não se aplica' }];
+            this.criterioDeJulgamentoEnum = [
+              { value: 1, key: 'Menor Preço' },
+              { value: 2, key: 'Maior Desconto' },
+              { value: 5, key: 'Maior Lance' },
+            ];
+            break;
+
+          case 8:
+            this.itemCategoriaEnum = [{ value: 3, key: 'Não se aplica' }];
+            this.criterioDeJulgamentoEnum = [
+              { value: 1, key: 'Menor Preço' },
+              { value: 2, key: 'Maior Desconto' },
+              { value: 5, key: 'Maior Lance' },
+              { value: 7, key: 'Não se aplica' },
+            ];
+            break;
+
+          case 9:
+          case 10:
+          case 11:
+          case 12:
+            this.itemCategoriaEnum = [{ value: 3, key: 'Não se aplica' }];
+            this.criterioDeJulgamentoEnum = [{ value: 7, key: 'Não se aplica' }];
+            break;
+
+          case 13:
+            this.itemCategoriaEnum = [
+              { value: 1, key: 'Bens imóveis' },
+              { value: 2, key: 'Bens móveis' },
+            ];
+            this.criterioDeJulgamentoEnum = [
+              { value: 5, key: 'Maior Lance' },
+            ];
+            break;
+
+          case 14:
+            this.itemCategoriaEnum = [{ value: 3, key: 'Não se aplica' }];
+            this.criterioDeJulgamentoEnum = [
+              { value: 1, key: 'Menor Preço' },
+              { value: 2, key: 'Maior Desconto' },
+              { value: 4, key: 'Técnica e preço' },
+              { value: 5, key: 'Maior Lance' },
+              { value: 6, key: 'Maior retorno econômico' },
+              { value: 8, key: 'Melhor técnica' },
+              { value: 9, key: 'Conteúdo artístico' },
+            ];
+            break;
+
+          default:
+            console.warn('Contracting Modality ID não reconhecido.');
+            break;
+        }
+
+        // Abre o modal após atualizar as listas
+        this.modalService.show(this.addItemModal, { class: 'modal-lg' });
+      },
+      error: (err) => {
+        console.error('Erro ao buscar detalhes da licitação:', err);
+      },
+    });
   }
+
+
 
   closeModal(): void {
     if (this.modalRef) {
@@ -202,9 +385,56 @@ export class ItensLicitacoesComponent implements OnInit {
   }
 
   adicionarItem(): void {
-    if (this.novoItemForm.valid) {
-      console.log(this.novoItemForm.value);
-      this.closeModal();
+    if (this.novoItemForm.invalid) {
+      console.error('Formulário inválido. Verifique os campos obrigatórios.');
+      return;
     }
+
+    this.isLoadingItens = true;
+
+    const formData = this.novoItemForm.value;
+
+    const itemData = {
+      procurement: formData.procurement_id,
+      item: {
+        id: formData.id,
+        procurement_id: formData.procurement_id,
+        item_type: formData.item_type,
+        benefit_type_id: formData.benefit_type_id,
+        basic_productive_incentive: formData.basic_productive_incentive,
+        description: formData.description,
+        quantity: formData.quantity,
+        unit_of_measurement: formData.unit_of_measurement,
+        estimated_unit_value: formData.estimated_unit_value,
+        total_value: formData.total_value,
+        judging_criteria_id: formData.judging_criteria_id,
+        confidential_budget: formData.confidential_budget,
+        item_category_id: formData.item_category_id,
+        assets: formData.assets,
+        real_estate_registry_code: formData.real_estate_registry_code,
+        applicability_normal_preference_margin: formData.applicability_normal_preference_margin,
+        applicability_additional_preference_margin: formData.applicability_additional_preference_margin,
+        ncm_nbs_code: formData.ncm_nbs_code,
+        ncm_nbs_description: formData.ncm_nbs_description,
+      } as LicitacaoItemModel,
+    };
+
+
+    this.licitacoesService.createLicitacaoItem(itemData).subscribe({
+      next: () => {
+        console.log('Item de licitação criado com sucesso!');
+        this.novoItemForm.reset();
+        this.closeModal();
+        this.loadLicitacaoItens(formData.procurement_id, 1);
+        this.isLoadingItens = false;
+      },
+      error: (err) => {
+        console.error('Erro ao criar item de licitação:', err);
+        this.isLoadingItens = false;
+      },
+    });
   }
+
+
+
 }

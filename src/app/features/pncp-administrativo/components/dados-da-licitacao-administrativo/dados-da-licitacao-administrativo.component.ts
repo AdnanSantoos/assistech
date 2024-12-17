@@ -390,6 +390,28 @@ export class DadosDaLicitacaoAdministrativoComponent {
       console.log(tipoModalidadeSelecionado)
       switch (tipoModalidadeSelecionado) {
         case 1: //Leilão eletrônico
+          this.modoDisputaOpcoes = [
+            { key: 'Aberto', value: 1 },
+            { key: 'Fechado', value: 2 },
+            { key: 'Aberto-Fechado', value: 3 },
+            { key: 'Fechado-Aberto', value: 6 },
+          ];
+          this.legalBasicOptions = [
+            { value: 4, key: 'Lei nº 14.133/2021, Art. 28, IV' },
+            { value: 80, key: 'Lei nº 14.133/2021, Art. 1º, § 2º' },
+            { value: 121, key: 'Lei nº 13.303/2016, Art. 54, VIII' },
+          ];
+          this.itemCategoriaEnum = [
+            { value: 1, key: 'Bens imóveis' },
+            { value: 2, key: 'Bens móveis' },
+          ]
+          this.beneficiosEnum = [
+            { value: 5, key: 'Não se aplica' }
+          ]
+          this.criterioDeJulgamentoEnum = [
+            { value: 5, key: 'Maior Lance' },
+          ]
+          break;
         case 2: //Dialogo Competitivo
           this.modoDisputaOpcoes = [
             { key: 'Aberto', value: 1 },
@@ -402,6 +424,18 @@ export class DadosDaLicitacaoAdministrativoComponent {
             { value: 80, key: 'Lei nº 14.133/2021, Art. 1º, § 2º' },
             { value: 121, key: 'Lei nº 13.303/2016, Art. 54, VIII' },
           ];
+          this.itemCategoriaEnum = [
+            { value: 3, key: 'Não se aplica' },
+          ]
+          this.criterioDeJulgamentoEnum = [
+            { value: 1, key: 'Menor Preço' },
+            { value: 2, key: 'Maior Desconto' },
+            { value: 4, key: 'Técnica e preço' },
+            { value: 5, key: 'Maior Lance' },
+            { value: 6, key: 'Maior retorno econômico' },
+            { value: 8, key: 'Melhor técnica' },
+            { value: 9, key: 'Conteúdo artístico' },
+          ]
           break;
 
         case 3: //Concurso
@@ -421,6 +455,13 @@ export class DadosDaLicitacaoAdministrativoComponent {
             { value: 120, key: 'Lei nº 13.303/2016, Art. 54, VII' },
             { value: 150, key: 'MP nº 1.221/2024, Art. 2º, II (Calamidade pública)' },
           ];
+          this.itemCategoriaEnum = [
+            { value: 3, key: 'Não se aplica' },
+          ]
+          this.criterioDeJulgamentoEnum = [
+            { value: 8, key: 'Melhor técnica' },
+            { value: 9, key: 'Conteúdo artístico' },
+          ]
           break;
         case 4: // Concorrência - eletrônica 
           this.modoDisputaOpcoes = [
@@ -442,7 +483,18 @@ export class DadosDaLicitacaoAdministrativoComponent {
             { value: 123, key: 'Lei nº 13.303/2016, Art. 63, III' },
             { value: 150, key: 'MP nº 1.221/2024, Art. 2º, II (Calamidade pública)' },
           ];
-
+          this.itemCategoriaEnum = [
+            { value: 3, key: 'Não se aplica' },
+          ]
+          this.criterioDeJulgamentoEnum = [
+            { value: 1, key: 'Menor Preço' },
+            { value: 2, key: 'Maior Desconto' },
+            { value: 4, key: 'Técnica e preço' },
+            { value: 5, key: 'Maior Lance' },
+            { value: 6, key: 'Maior retorno econômico' },
+            { value: 8, key: 'Melhor técnica' },
+            { value: 9, key: 'Conteúdo artístico' },
+          ]
           break;
         case 5: // Concorrência - presencial 
           this.modoDisputaOpcoes = [
@@ -456,6 +508,18 @@ export class DadosDaLicitacaoAdministrativoComponent {
             { value: 80, key: 'Lei nº 14.133/2021, Art. 1º, § 2º' },
             { value: 150, key: 'MP nº 1.221/2024, Art. 2º, II (Calamidade pública)' },
           ];
+          this.itemCategoriaEnum = [
+            { value: 3, key: 'Não se aplica' },
+          ]
+          this.criterioDeJulgamentoEnum = [
+            { value: 1, key: 'Menor Preço' },
+            { value: 2, key: 'Maior Desconto' },
+            { value: 4, key: 'Técnica e preço' },
+            { value: 5, key: 'Maior Lance' },
+            { value: 6, key: 'Maior retorno econômico' },
+            { value: 8, key: 'Melhor técnica' },
+            { value: 9, key: 'Conteúdo artístico' },
+          ]
           break
 
         case 6: // Pregão - eletrônico 
@@ -472,6 +536,14 @@ export class DadosDaLicitacaoAdministrativoComponent {
             { value: 123, key: 'Lei nº 13.303/2016, Art. 63, III' },
             { value: 150, key: 'MP nº 1.221/2024, Art. 2º, II (Calamidade pública)' },
           ];
+          this.itemCategoriaEnum = [
+            { value: 3, key: 'Não se aplica' },
+          ]
+          this.criterioDeJulgamentoEnum = [
+            { value: 1, key: 'Menor Preço' },
+            { value: 2, key: 'Maior Desconto' },
+            { value: 5, key: 'Maior Lance' },
+          ]
           break
 
         case 7: // Pregão - Presencial 
@@ -486,9 +558,36 @@ export class DadosDaLicitacaoAdministrativoComponent {
             { value: 80, key: 'Lei nº 14.133/2021, Art. 1º, § 2º' },
             { value: 150, key: 'MP nº 1.221/2024, Art. 2º, II (Calamidade pública)' },
           ];
+          this.itemCategoriaEnum = [
+            { value: 3, key: 'Não se aplica' },
+          ]
+          this.criterioDeJulgamentoEnum = [
+            { value: 1, key: 'Menor Preço' },
+            { value: 2, key: 'Maior Desconto' },
+            { value: 5, key: 'Maior Lance' },
+          ]
           break
 
         case 8:// Dispensa - Licitação 
+          this.modoDisputaOpcoes = [
+            { key: 'Aberto', value: 1 },
+            { key: 'Fechado', value: 2 },
+            { key: 'Aberto-Fechado', value: 3 },
+            { key: 'Fechado-Aberto', value: 6 },
+          ];
+          this.legalBasicOptions = [
+            { value: 80, key: 'Lei nº 14.133/2021, Art. 1º, § 2º' },
+          ];
+          this.itemCategoriaEnum = [
+            { value: 3, key: 'Não se aplica' },
+          ]
+          this.criterioDeJulgamentoEnum = [
+            { value: 1, key: 'Menor Preço' },
+            { value: 2, key: 'Maior Desconto' },
+            { value: 5, key: 'Maior Lance' },
+            { value: 7, key: 'Não se aplica' },
+          ]
+          break
         case 9: // Inexigibilidade
           this.modoDisputaOpcoes = [
             { key: 'Aberto', value: 1 },
@@ -499,6 +598,12 @@ export class DadosDaLicitacaoAdministrativoComponent {
           this.legalBasicOptions = [
             { value: 80, key: 'Lei nº 14.133/2021, Art. 1º, § 2º' },
           ];
+          this.itemCategoriaEnum = [
+            { value: 3, key: 'Não se aplica' },
+          ]
+          this.criterioDeJulgamentoEnum = [
+            { value: 7, key: 'Não se aplica' },
+          ]
           break
 
         case 10: // Manifestação de Interesse
@@ -512,6 +617,12 @@ export class DadosDaLicitacaoAdministrativoComponent {
             { value: 80, key: 'Lei nº 14.133/2021, Art. 1º, § 2º' },
             { value: 49, key: 'Lei nº 14.133/2021, Art. 78, III' },
           ];
+          this.itemCategoriaEnum = [
+            { value: 3, key: 'Não se aplica' },
+          ]
+          this.criterioDeJulgamentoEnum = [
+            { value: 7, key: 'Não se aplica' },
+          ]
           break
 
         case 11: // Pre qualificação
@@ -526,6 +637,12 @@ export class DadosDaLicitacaoAdministrativoComponent {
             { value: 48, key: 'Lei nº 14.133/2021, Art. 78, II' },
             { value: 112, key: 'Lei nº 13.303/2016, Art. 31, Parágrafo 4º' },
           ];
+          this.itemCategoriaEnum = [
+            { value: 3, key: 'Não se aplica' },
+          ]
+          this.criterioDeJulgamentoEnum = [
+            { value: 7, key: 'Não se aplica' },
+          ]
           break
 
         case 12: // Credenciamento
@@ -539,6 +656,12 @@ export class DadosDaLicitacaoAdministrativoComponent {
             { value: 80, key: 'Lei nº 14.133/2021, Art. 1º, § 2º' },
             { value: 125, key: 'Regulamento Interno de Licitações e Contratos Estatais (Credenciamento)' },
           ];
+          this.itemCategoriaEnum = [
+            { value: 3, key: 'Não se aplica' },
+          ]
+          this.criterioDeJulgamentoEnum = [
+            { value: 7, key: 'Não se aplica' },
+          ]
           break
 
         case 13: // Leilão - Presencial
@@ -553,6 +676,13 @@ export class DadosDaLicitacaoAdministrativoComponent {
             { value: 80, key: 'Lei nº 14.133/2021, Art. 1º, § 2º' },
             { value: 121, key: 'Lei nº 13.303/2016, Art. 54, VIII' },
           ];
+          this.itemCategoriaEnum = [
+            { value: 1, key: 'Bens imóveis' },
+            { value: 2, key: 'Bens móveis' },
+          ]
+          this.criterioDeJulgamentoEnum = [
+            { value: 5, key: 'Maior Lance' },
+          ]
           break
         case 14: // Inaplicalibiade da Licitação
           this.modoDisputaOpcoes = [
@@ -566,6 +696,19 @@ export class DadosDaLicitacaoAdministrativoComponent {
             { value: 82, key: 'Lei nº 13.303/2016, Art. 28, Parágrafo 3º, I' },
             { value: 83, key: 'Lei nº 13.303/2016, Art. 28, Parágrafo 3º, II' },
           ];
+
+          this.itemCategoriaEnum = [
+            { value: 3, key: 'Não se aplica' },
+          ]
+          this.criterioDeJulgamentoEnum = [
+            { value: 1, key: 'Menor Preço' },
+            { value: 2, key: 'Maior Desconto' },
+            { value: 4, key: 'Técnica e preço' },
+            { value: 5, key: 'Maior Lance' },
+            { value: 6, key: 'Maior retorno econômico' },
+            { value: 8, key: 'Melhor técnica' },
+            { value: 9, key: 'Conteúdo artístico' },
+          ]
           break
 
 
@@ -602,7 +745,7 @@ export class DadosDaLicitacaoAdministrativoComponent {
   }
 
   onFormSubmit(): void {
-    const novaLicitacao = AdicionarLicitacaoMapper.toSubmit(this.filtroForm.value,this.selectedFiles,this.showItems);
+    const novaLicitacao = AdicionarLicitacaoMapper.toSubmit(this.filtroForm.value, this.selectedFiles, this.showItems);
 
     this._adicionarLicitacaoService.criarLicitacao(novaLicitacao).subscribe((v) => {
       console.log(v)
@@ -619,16 +762,16 @@ export class DadosDaLicitacaoAdministrativoComponent {
         if (file.type === 'application/pdf') {
           validFiles.push(file);
         } else {
-          invalidFiles.push(file.name); 
+          invalidFiles.push(file.name);
         }
       }
-  
+
       if (validFiles.length > 0) {
         this.selectedFiles[fieldName] = validFiles;
         this.nameFile = validFiles.map((file) => file.name).join(', ');
         console.log('Arquivos válidos selecionados:', this.nameFile);
       }
-  
+
       if (invalidFiles.length > 0) {
         alert(`Os seguintes arquivos não são PDFs e foram ignorados: ${invalidFiles.join(', ')}`);
         console.log('Arquivos inválidos:', invalidFiles);
@@ -637,6 +780,6 @@ export class DadosDaLicitacaoAdministrativoComponent {
       console.log('Nenhum arquivo selecionado');
     }
   }
-  
+
 
 }

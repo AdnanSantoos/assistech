@@ -55,7 +55,10 @@ export class LicitacoesRepository {
   createLicitacoes(data: { agency: string; agency_country_register: string }): Observable<void> {
     return this._http.post<void>(this.baseUrl, data);
   }
-
+  createLicitacaoItem(procurementId: string, data: LicitacaoItemModel): Observable<void> {
+    const url = `${this.baseUrl}/${procurementId}/items`;
+    return this._http.post<void>(url, data);
+  }
   updateLicitacao(id: string, data: any): Observable<void> {
     return this._http.put<void>(`${this.baseUrl}/${id}`, data);
   }
