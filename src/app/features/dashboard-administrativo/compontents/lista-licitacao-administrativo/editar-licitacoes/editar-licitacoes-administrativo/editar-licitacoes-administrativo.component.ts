@@ -45,6 +45,8 @@ export class EditarLicitacoesAdministrativoComponent implements OnInit {
       additional_information: [''],
       opening_date_proposal: ['', Validators.required],
       closing_date_proposal: ['', Validators.required],
+      change_reason: ['', Validators.required]
+
     });
 
     // Obter ID da licitação da rota
