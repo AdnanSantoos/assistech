@@ -29,7 +29,7 @@ export class TermosContratosAdministrativoComponent implements OnInit {
   selectedContrato: ContratoModel | null = null;
   currentFilePage: number = 1;
   files: any[] = [];
-
+  termosCompletos: any[] = [];
   constructor(
     private route: ActivatedRoute,
     private _location: Location,
@@ -46,7 +46,10 @@ export class TermosContratosAdministrativoComponent implements OnInit {
         console.error('ID do contrato não fornecido na rota.');
       }
     });
+    this.carregarContratos(this.currentPage);
+
   }
+
 
   loadTerms(page: number): void {
     this.isLoading = true;
@@ -78,6 +81,8 @@ export class TermosContratosAdministrativoComponent implements OnInit {
           goals: item.contract.goals,
           start_date: item.contract.start_date,
           end_date: item.contract.end_date,
+          gateway_sequence: item.contract.gateway_sequence,
+          country_register: item.contract.country_register
         }));
 
         // Combina os dados após o carregamento
@@ -101,14 +106,20 @@ export class TermosContratosAdministrativoComponent implements OnInit {
       const relatedContract = this.termosTotal.find(
         (contrato) => contrato.id === termo.contract_id
       );
+      const countryRegister = relatedContract?.procurement?.agency?.country_register || 'N/A';
+      const year = relatedContract?.year || 'N/A';
 
       return {
         ...termo,
         contract_number: relatedContract?.number || 'N/A',
-        contract_year: relatedContract?.year || 'N/A',
         contract_goals: relatedContract?.goals || 'N/A',
+        year: year,
+        gateway_sequence: relatedContract?.gateway_sequence || 'N/A',
+        country_register: countryRegister,
       };
     });
+    console.log('Combined Terms:', this.combinedTerms);
+
   }
   goToPage(page: number): void {
     if (page >= 1 && page <= this.totalPages) {
@@ -159,30 +170,54 @@ export class TermosContratosAdministrativoComponent implements OnInit {
       },
     });
   }
+  visualizar(contrato: any): void {
+    if (!contrato) {
+      console.error('Contrato inválido.');
+      return;
+    }
 
-  visualizar(value: any) {
-    const contrato = value;
-    const { year, gateway_sequence, procurement } = contrato;
-    if (procurement && procurement.agency.country_register) {
+    // Extraindo valores de forma segura com operador de optional chaining (?.)
+    const year = contrato.year;
+    const gateway_sequence = contrato.gateway_sequence;
+    const country_register = contrato.procurement?.agency?.country_register;
+
+    // Validação dos dados antes de construir a URL
+    if (year && gateway_sequence && country_register) {
       const baseUrl = 'https://treina.pncp.gov.br/app/contratos/';
-      const fullUrl = `${baseUrl}${procurement.agency.country_register}/${year}/${gateway_sequence}`;
+      const fullUrl = `${baseUrl}${country_register}/${year}/${gateway_sequence}`;
 
+      console.log('URL do contrato:', fullUrl);
       window.open(fullUrl, '_blank');
     } else {
-      console.error('Invalid agency data or missing country_register.');
+      console.error('Dados do contrato incompletos. Verifique:');
+      if (!year) console.error('Faltando o campo "year".');
+      if (!gateway_sequence) console.error('Faltando o campo "gateway_sequence".');
+      if (!country_register)
+        console.error('Faltando o campo "country_register" em procurement.agency.');
     }
   }
+
+
+
 
   carregarContratos(page: number): void {
     this.contratosService.getContratos(page).subscribe({
       next: (response) => {
-       
+        if (response && response.data) {
+          this.termosTotal = response.data; // Atribui todo o array retornado
+          this.totalItems = response.meta?.pagination.total || 0;
+          console.log('Contratos carregados:', this.termosTotal);
+        } else {
+          console.error('Resposta da API inválida ou vazia.');
+        }
       },
-      error: () => {
-        console.error('Erro ao carregar contratos.');
+      error: (err) => {
+        console.error('Erro ao carregar contratos:', err);
       },
     });
   }
+
+
   onEdit(id: string): void {
   }
   openDeleteModal(contrato: ContratoModel, template: TemplateRef<any>): void {

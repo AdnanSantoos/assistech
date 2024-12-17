@@ -27,16 +27,16 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let termo of combinedTerms; let i = index">
+        <tr *ngFor="let item of combinedTerms; let i = index">
           <td>{{ i + 1 }}</td>
-          <td>{{ termo.number }}</td>
-          <td>{{ termo.contract_term_type_id }} / {{ termo.contract_year }}</td>
-          <td>{{ termo.created_at | date : "dd/MM/yyyy" }}</td>
+          <td>{{ item.number }}</td>
+          <td>{{ item.contract_term_type_id }} / {{ item.contract_year }}</td>
+          <td>{{ item.created_at | date : "dd/MM/yyyy" }}</td>
           <td class="text-center">
             <div class="d-flex justify-content-center gap-3 py-2">
               <div
                 class="d-flex flex-column align-items-center"
-                (click)="visualizar(termo)"
+                (click)="visualizar(item)"
               >
                 <a
                   class="btn-visualizar btn-format cup mt-0 d-flex justify-content-center align-items-center"
@@ -76,7 +76,7 @@
 
               <div
                 class="d-flex flex-column align-items-center"
-                (click)="openDeleteModal(termo, deleteModal)"
+                (click)="openDeleteModal(item, deleteModal)"
               >
                 <a
                   class="btn btn-sm btn-format btn-remove"
@@ -104,12 +104,12 @@
                 <div class="modal-body">
                   <p class="fw-bold">
                     Deseja realmente excluir a licitação
-                    {{ termo?.number }}/{{ termo?.year }}?
+                    {{ item?.number }}/{{ item?.year }}?
                   </p>
                   <form [formGroup]="deleteForm">
                     <label for="justification" class="form-label fw-bold">
                       Informe o motivo da exclusão da licitação:
-                      {{ termo?.number }}/{{ termo?.year }}:
+                      {{ item?.number }}/{{ item?.year }}:
                     </label>
                     <textarea
                       id="justification"
