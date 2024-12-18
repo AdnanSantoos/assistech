@@ -17,7 +17,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 export class ResultadoLicitacaoComponent implements OnInit {
   @ViewChild('addResultadoModal') addResultadoModal!: TemplateRef<any>;
   resultados: LicitacaoResultados[] = [];
-  licitacao: Partial<LicitacaoResultados> = {};
+  licitacao: { quantity?: number; estimated_unit_value?: number } = {};
   totalResults: number = 0;
   resultsPerPage: number = 10;
   currentPage: number = 1;
@@ -31,7 +31,6 @@ export class ResultadoLicitacaoComponent implements OnInit {
     private licitacoesService: LicitacoesService,
     private modalService: BsModalService,
     private fb: FormBuilder
-
   ) {
     this.novoResultadoForm = this.fb.group({
       id: [''],
@@ -66,32 +65,39 @@ export class ResultadoLicitacaoComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.data.licitacaoId && this.data.itemId) {
+      this.loadItemDetails(this.data.licitacaoId, this.data.itemId);
       this.loadResultados();
     } else {
       console.error('IDs necessários (licitacaoId e itemId) não fornecidos.');
     }
   }
 
+  loadItemDetails(licitacaoId: string, itemId: string): void {
+    this.licitacoesService.getLicitacoesItens(licitacaoId, 1).subscribe({
+      next: (response) => {
+        const item = response.data.find((itm: any) => itm.id === itemId);
+        if (item) {
+          this.licitacao = {
+            quantity: item.quantity,
+            estimated_unit_value: item.estimated_unit_value,
+          };
+        } else {
+          console.error('Item não encontrado.');
+        }
+      },
+      error: (err) => {
+        console.error('Erro ao carregar os detalhes do item:', err);
+      },
+    });
+  }
+
   loadResultados(): void {
     this.licitacoesService.getResultadosItem(this.data.licitacaoId, this.data.itemId).subscribe({
       next: (response) => {
         this.resultados = response.data || [];
-        console.log('Resultados:', this.resultados);
-
-        if (this.resultados.length > 0) {
-          const firstResult = this.resultados[0];
-          this.licitacao = {
-            gateway_sequence: firstResult.gateway_sequence,
-            id: firstResult.procurement_item_id,
-            quantity: firstResult.quantity,
-            total_price: firstResult.total_price,
-          };
-        } else {
-          this.licitacao = {};
-        }
-
         this.totalResults = this.resultados.length;
         this.totalPages = Math.ceil(this.totalResults / this.resultsPerPage);
+        console.log('Resultados carregados:', this.resultados);
       },
       error: (err) => {
         console.error('Erro ao carregar resultados:', err);
@@ -99,29 +105,12 @@ export class ResultadoLicitacaoComponent implements OnInit {
     });
   }
 
-
   goToPage(page: number): void {
     if (page >= 1 && page <= this.totalPages) {
       this.currentPage = page;
       this.loadResultados();
     }
   }
-
-  goToPreviousPage(): void {
-    if (this.currentPage > 1) {
-      this.currentPage--;
-      this.loadResultados();
-    }
-  }
-
-
-  goToNextPage(): void {
-    if (this.currentPage < this.totalPages) {
-      this.currentPage++;
-      this.loadResultados();
-    }
-  }
-
 
   deleteResultado(resultadoId: string): void {
     console.log(`Excluir resultado com ID: ${resultadoId}`);
@@ -140,8 +129,12 @@ export class ResultadoLicitacaoComponent implements OnInit {
   adicionarResultado(): void {
     if (this.novoResultadoForm.valid) {
       const novoResultado = this.novoResultadoForm.value;
+      console.log('Novo resultado adicionado:', novoResultado);
       this.resultados.push(novoResultado);
       this.closeModal();
+    } else {
+      console.error('Formulário inválido');
+      this.novoResultadoForm.markAllAsTouched();
     }
   }
 }
