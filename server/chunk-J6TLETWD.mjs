@@ -1,0 +1,2 @@
+import './polyfills.server.mjs';
+import{b as p}from"./chunk-EVPDCH5S.mjs";import{ca as a,ha as s,u as e}from"./chunk-6ZJAAIVQ.mjs";var l=(()=>{let t=class t{constructor(i){this.http=i,this.apiUrl="https://api-staging.assistechpublicacoes.com.br/v1/public/news"}getNews(){return this.http.get(this.apiUrl).pipe(e(i=>i.data))}getLatestNews(){return this.http.get(this.apiUrl).pipe(e(i=>i.data))}};t.\u0275fac=function(o){return new(o||t)(s(p))},t.\u0275prov=a({token:t,factory:t.\u0275fac,providedIn:"root"});let r=t;return r})();export{l as a};
