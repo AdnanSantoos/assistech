@@ -351,7 +351,6 @@ export class AtasLicitacoesAdministrativoComponent implements OnInit {
         return;
       }
   
-      // Envia o arquivo para a API
       this.licitacoesService.uploadArquivo(minutesId, formData).subscribe({
         next: () => {
           console.log('Arquivo enviado com sucesso!');
