@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { BehaviorSubject, catchError, Observable, tap, throwError } from "rxjs";
+import { BehaviorSubject, catchError, Observable, of, tap, throwError } from "rxjs";
 import { GerenciadorDiarioOficialRepository } from "../repository/gerenciador-diario-oficial.repository";
 import { ToastrService } from "ngx-toastr";
 import { DiarioOficialPublicacoes } from "../models/gerenciador-diario-oficial.model";
@@ -10,26 +10,24 @@ import { DiarioOficialPublicacoes } from "../models/gerenciador-diario-oficial.m
 
 export class GerenciadorDiarioOficialService {
   private publicacoesSubject = new BehaviorSubject<DiarioOficialPublicacoes[]>([]);
-  publicacoes$ = this.publicacoesSubject.asObservable();
+  publicacoes$: Observable<DiarioOficialPublicacoes[]> = this.publicacoesSubject.asObservable();
+
   constructor(
     private _repository: GerenciadorDiarioOficialRepository,
     private toastr: ToastrService
   ) {
   }
-  public loadPublicacoes(page: number): void {
-    this._repository.getListaDiarioOficial(page).subscribe({
-      next: (response) => {
-        const publicacoes = response.data || [];
-        this.publicacoesSubject.next(publicacoes); // Emite os dados atualizados
-      },
-      error: (err) => {
-        console.error('Erro ao carregar publicações:', err);
-      },
-    });
+  loadPublicacoes(page: number): void {
+    this._repository.getListaDiarioOficial(page).pipe(
+      tap((response) => this.publicacoesSubject.next(response.data || [])),
+      catchError((error) => {
+        console.error('Erro ao carregar publicações:', error);
+        return of([]); // Retorna um Observable vazio em caso de erro
+      })
+    ).subscribe();
   }
-
   public getPublicacoes(): Observable<DiarioOficialPublicacoes[]> {
-    return this.publicacoes$;
+    return this.publicacoes$; // Exponha apenas o Observable
   }
   public getDashboard(page: number): Observable<any> {
     return this._repository.getListaDiarioOficial(page);

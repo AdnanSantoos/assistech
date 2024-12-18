@@ -11,6 +11,7 @@ import { TenantService } from '../../../../shared/services/tenant.service';
 import { subscribe } from 'diagnostics_channel';
 import { MatDialog } from '@angular/material/dialog';
 import { BsModalRef, BsModalService, ModalModule } from 'ngx-bootstrap/modal';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-gerenciador-diario-oficial-administrativo',
@@ -33,6 +34,7 @@ export class GerenciadorDiarioOficialAdministrativoComponent implements OnInit {
   public selectedPages: number[] = []; // Páginas selecionadas para exclusão
   selectedFile: File | null = null; // Armazena o arquivo selecionado
   public publicacoes: DiarioOficialPublicacoes[] = [];
+  public publicacoes$: Observable<DiarioOficialPublicacoes[]>; // Observable das publicações
 
   constructor(
     private _location: Location,
@@ -40,10 +42,18 @@ export class GerenciadorDiarioOficialAdministrativoComponent implements OnInit {
     private dialog: MatDialog,
     public tenantService: TenantService,
     private modalService: BsModalService,
-    private cdr: ChangeDetectorRef
   ) {
     this._service.publicacoes$.subscribe((data) => {
       this.publicacoes = data;
+    });
+    this.publicacoes$ = this._service.publicacoes$;
+    this._service.publicacoes$.subscribe({
+      next: (data) => {
+        this.documents = data;
+      },
+      error: (err) => {
+        console.error('Erro ao atualizar os documentos:', err);
+      },
     });
   }
   loadPublicacoes(page: number): void {
@@ -53,20 +63,8 @@ export class GerenciadorDiarioOficialAdministrativoComponent implements OnInit {
   ngOnInit(): void {
     this.isStaff = this.tenantService.getStaff();
 
-    // Assina o Observable para atualizar os documentos em tempo real
-    this._service.publicacoes$.subscribe({
-      next: (data) => {
-        this.documents = data; // Atualiza os documentos
-        this.cdr.detectChanges(); // Força a detecção de mudanças
-      },
-      error: (err) => {
-        console.error('Erro ao atualizar os documentos:', err);
-      },
-    });
-
-
-    // Carrega a primeira página
-    this.getDiario(this.currentPage);
+    this.publicacoes$ = this._service.publicacoes$; // Fluxo direto
+    this._service.loadPublicacoes(this.currentPage);
   }
 
 
@@ -131,7 +129,6 @@ export class GerenciadorDiarioOficialAdministrativoComponent implements OnInit {
         next: () => {
           console.log('Documento excluído com sucesso!');
           this.getDiario(this.currentPage);
-          this.cdr.detectChanges(); // Força atualização do template
           this.modalService.hide();
         },
         error: (err) => {
@@ -141,7 +138,7 @@ export class GerenciadorDiarioOficialAdministrativoComponent implements OnInit {
       });
     }
   }
-  
+
 
   openDeletePage(template: any, document: DiarioOficialPublicacoes): void {
     this.selectedDocument = document;
