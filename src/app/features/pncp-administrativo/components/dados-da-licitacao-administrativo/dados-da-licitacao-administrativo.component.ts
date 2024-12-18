@@ -570,10 +570,8 @@ export class DadosDaLicitacaoAdministrativoComponent {
 
         case 8:// Dispensa - Licitação 
           this.modoDisputaOpcoes = [
-            { key: 'Aberto', value: 1 },
-            { key: 'Fechado', value: 2 },
-            { key: 'Aberto-Fechado', value: 3 },
-            { key: 'Fechado-Aberto', value: 6 },
+            { value: 4, key: 'Dispensa Com Disputa' },
+            { value: 5, key: 'Não se aplica' }
           ];
           this.legalBasicOptions = [
             { value: 80, key: 'Lei nº 14.133/2021, Art. 1º, § 2º' },
