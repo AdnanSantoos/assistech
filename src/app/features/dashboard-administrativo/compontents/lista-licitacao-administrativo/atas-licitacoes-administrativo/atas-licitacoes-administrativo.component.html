@@ -79,7 +79,18 @@
                 </a>
                 <span class="mt-1 legenda-icons">Editar</span>
               </div>
-
+              <div class="d-flex flex-column align-items-center">
+                <a
+                  (click)="openArquivosModal(cancelamentoModal, ata)"
+                  class="btn-cancelar btn-format d-flex justify-content-center align-items-center"
+                >
+                  <img
+                    src="../../../../../assets/icons/cancelar-adm-icon.svg"
+                    alt="Deletar"
+                  />
+                </a>
+                <span class="mt-1 legenda-icons">Cancelar</span>
+              </div>
               <div class="d-flex flex-column align-items-center">
                 <a
                   class="btn-arquivo btn-format d-flex justify-content-center align-items-center"
@@ -95,9 +106,9 @@
 
               <div class="d-flex flex-column align-items-center">
                 <button
+                  (click)="openDeleteModal(ata, deleteModal)"
                   class="btn-remove btn-format d-flex justify-content-center align-items-center"
                 >
-                  <!-- (click)="openDeleteModal(element, deleteModal)" -->
                   <img
                     src="../../../../../assets/icons/remove-icon.svg"
                     alt="Deletar"
@@ -105,68 +116,6 @@
                 </button>
                 <span class="mt-1 legenda-icons">Excluir</span>
               </div>
-
-              <!-- <ng-template #deleteModal>
-                <div class="modal-header">
-                  <h5 class="modal-title text-danger">
-                    <mat-icon>warning</mat-icon> Atenção!
-                  </h5>
-                  <button
-                    type="button"
-                    class="btn-close"
-                    aria-label="Close"
-                    (click)="modalRef?.hide()"
-                  ></button>
-                </div>
-                <div class="modal-body">
-                  <p class="fw-bold">
-                    Deseja realmente excluir a licitação
-                    {{ selectedLicitacao?.number }}/{{
-                      selectedLicitacao?.year
-                    }}?
-                  </p>
-                  <form [formGroup]="deleteForm">
-                    <label for="justification" class="form-label fw-bold">
-                      Informe o motivo da exclusão da licitação:
-                      {{ selectedLicitacao?.number }}/{{
-                        selectedLicitacao?.year
-                      }}:
-                    </label>
-                    <textarea
-                      id="justification"
-                      class="form-control"
-                      formControlName="justification"
-                      placeholder="Motivo da exclusão da licitação"
-                    ></textarea>
-                    <div
-                      *ngIf="
-                        deleteForm.controls['justification'].invalid &&
-                        deleteForm.controls['justification'].touched
-                      "
-                      class="text-danger mt-1"
-                    >
-                      O motivo da exclusão é obrigatório.
-                    </div>
-                  </form>
-                </div>
-                <div class="modal-footer d-flex justify-content-between">
-                  <button
-                    type="button"
-                    class="btn btn-danger"
-                    [disabled]="deleteForm.invalid"
-                    (click)="confirmDelete()"
-                  >
-                    Excluir
-                  </button>
-                  <button
-                    type="button"
-                    class="btn btn-secondary"
-                    (click)="modalRef?.hide()"
-                  >
-                    Fechar
-                  </button>
-                </div>
-              </ng-template> -->
             </div>
           </td>
         </tr>
@@ -583,6 +532,113 @@
       [disabled]="!formArquivo.valid"
     >
       Salvar
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #deleteModal>
+  <div class="modal-header bg-white">
+    <h5 class="modal-title text-danger">
+      <mat-icon>warning</mat-icon> Atenção!
+    </h5>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modalRef?.hide()"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <p class="fw-bold">
+      Deseja realmente excluir a ATA
+      {{ selectedAta?.numero }}/{{ selectedAta?.ano }}?
+    </p>
+    <form [formGroup]="deleteForm">
+      <label for="justification" class="form-label fw-bold">
+        Informe o motivo da exclusão da ATA:
+        {{ selectedAta?.numero }}/{{ selectedAta?.ano }}:
+      </label>
+      <textarea
+        id="justification"
+        class="form-control"
+        formControlName="justification"
+        placeholder="Motivo da exclusão da ATA"
+      ></textarea>
+      <div
+        *ngIf="
+          deleteForm.controls['justification'].invalid &&
+          deleteForm.controls['justification'].touched
+        "
+        class="text-danger mt-1"
+      >
+        O motivo da exclusão é obrigatório.
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer d-flex justify-content-between">
+    <button
+      type="button"
+      class="btn btn-danger"
+      [disabled]="deleteForm.invalid"
+      (click)="confirmDelete()"
+    >
+      Excluir
+    </button>
+    <button type="button" class="btn btn-secondary" (click)="modalRef?.hide()">
+      Fechar
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #cancelamentoModal>
+  <div class="modal-header bg-dark text-white">
+    <h5 class="modal-title">Cancelamento da ATA</h5>
+    <button
+      type="button"
+      class="btn-close text-white"
+      aria-label="Close"
+      (click)="closeModal()"
+    ></button>
+  </div>
+
+  <div class="modal-body">
+    <p class="text-muted mb-4">Informe os dados de Cancelamento</p>
+
+    <form [formGroup]="formCancelamento" class="row g-3">
+      <!-- Data e Hora do Cancelamento -->
+      <div class="col-md-6">
+        <label class="form-label">Data e Hora de Cancelamento *</label>
+        <input
+          type="datetime-local"
+          class="form-control"
+          formControlName="date_canceled"
+        />
+      </div>
+
+      <!-- Motivo da Edição -->
+      <div class="col-md-6">
+        <label class="form-label">Motivo da edição *</label>
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Motivo da edição"
+          formControlName="change_reason"
+        />
+      </div>
+    </form>
+  </div>
+
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-danger"
+      [disabled]="formCancelamento.invalid"
+      (click)="confirmCancel()"
+    >
+      Cancelar ATA
+    </button>
+    <button type="button" class="btn btn-secondary" (click)="closeModal()">
+      Fechar
     </button>
   </div>
 </ng-template>

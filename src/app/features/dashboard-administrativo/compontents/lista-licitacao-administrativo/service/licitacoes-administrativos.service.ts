@@ -134,5 +134,31 @@ export class LicitacoesService {
     return this._repository.deleteLicitacao(procurementId, justification);
   }
 
+  deleteAta(minutesId: string, justification: string): Observable<void> {
+    return new Observable((observer) => {
+      this._repository.deleteAta(minutesId, justification).subscribe({
+        next: () => {
+          this.toastr.success('ATA excluída com sucesso!', 'Sucesso');
+          observer.next();
+          observer.complete();
+        },
+        error: (err) => {
+          this.toastr.error('Erro ao excluir a ATA.', 'Erro');
+          observer.error(err);
+        },
+      });
+    });
+  }
 
+  cancelarAta(procurementId: string, minutesId: string, payload: any): Observable<void> {
+    return this._repository.cancelarAta(procurementId, minutesId, payload).pipe(
+      tap(() => {
+        this.toastr.success('ATA cancelada com sucesso!', 'Sucesso');
+      }),
+      catchError((error) => {
+        this.toastr.error('Erro ao cancelar a ATA. Tente novamente.', 'Erro');
+        throw error; // Propaga o erro
+      })
+    );
+  }
 }

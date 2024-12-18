@@ -24,6 +24,7 @@ export class AtasLicitacoesAdministrativoComponent implements OnInit {
   isLoading = true;
   currentPage = 1;
   totalPages = 1;
+  procurementId: string = ''; 
 
   tiposDocumentos = [
     { value: 11, key: 'Minuta de Ata de Registro de Preços' },
@@ -38,9 +39,10 @@ export class AtasLicitacoesAdministrativoComponent implements OnInit {
   selectedAta: any = null; // Dados da ATA selecionada para edição
   modalTitle = 'Adicionar ATA'; // Título dinâmico do modal
 
-
+  deleteForm!: FormGroup;
   formArquivo!: FormGroup; // Formulário de arquivos
   arquivos: any[] = []; // Lista de arquivos
+  formCancelamento!: FormGroup; // Formulário de cancelamento
 
   constructor(
     private route: ActivatedRoute,
@@ -76,6 +78,18 @@ export class AtasLicitacoesAdministrativoComponent implements OnInit {
       document_type_id: [''],       // Campo tipo de documento
       file: [null]                  // Campo arquivo
     });
+
+    this.deleteForm = this.fb.group({
+      justification: [null], // Campo obrigatório com validação mínima
+    });
+
+    this.formCancelamento = this.fb.group({
+      date_canceled: [null],
+      change_reason: [null],
+    });
+
+    this.procurementId = this.route.snapshot.params['id'];
+
   }
 
   ngOnInit() {
@@ -335,22 +349,22 @@ export class AtasLicitacoesAdministrativoComponent implements OnInit {
     if (this.formArquivo.valid) {
       const formValue = this.formArquivo.value;
       const selectedFile: File = this.formArquivo.get('file')?.value;
-  
+
       if (!selectedFile) {
         console.error('Nenhum arquivo selecionado.');
         return;
       }
-  
+
       // Mapeia os dados com o ArquivoUploadMapper
       const formData = ArquivoUploadMapper.toSubmit(formValue, selectedFile);
-  
+
       const minutesId = this.selectedAta?.id;
-  
+
       if (!minutesId) {
         console.error('ID da ATA não encontrado.');
         return;
       }
-  
+
       this.licitacoesService.uploadArquivo(minutesId, formData).subscribe({
         next: () => {
           console.log('Arquivo enviado com sucesso!');
@@ -374,7 +388,7 @@ export class AtasLicitacoesAdministrativoComponent implements OnInit {
       console.warn('Nenhum arquivo selecionado.');
     }
   }
-  
+
   // Baixa o arquivo
   downloadArquivo(arquivo: any): void {
     if (arquivo && arquivo.id) {
@@ -390,4 +404,67 @@ export class AtasLicitacoesAdministrativoComponent implements OnInit {
     console.log('Excluindo arquivo:', arquivo);
     // Adicione a lógica para excluir o arquivo
   }
+
+  openDeleteModal(ata: any, template: TemplateRef<any>): void {
+    this.selectedAta = ata; // Define a ata selecionada para exclusão
+    this.modalRef = this.modalService.show(template, { class: 'modal-md' }); // Exibe o modal
+    this.deleteForm.reset(); // Limpa o formulário ao abrir o modal
+  }
+
+  confirmDelete(): void {
+    if (this.deleteForm.valid) {
+      const justification = this.deleteForm.get('justification')?.value;
+      const ataId = this.selectedAta?.id;
+
+      if (!ataId) {
+        console.error('ID da ATA não encontrado.');
+        return;
+      }
+
+      this.licitacoesService.deleteAta(ataId, justification).subscribe({
+        next: () => {
+          this.modalRef?.hide(); // Fecha o modal
+          this.loadAtas(this.currentPage); // Recarrega a lista de atas
+        },
+        error: (err) => {
+          console.error('Erro ao excluir a ATA:', err);
+        },
+      });
+    }
+  }
+  openCancelamentoModal(template: TemplateRef<any>, ata: any): void {
+    this.selectedAta = ata;
+    this.formCancelamento.reset(); // Reseta o formulário
+    this.modalRef = this.modalService.show(template, { class: 'modal-md' });
+  }
+  // Confirma o cancelamento da ATA
+  confirmCancel(): void {
+    const minutesId = this.selectedAta?.id;
+  
+    if (!this.procurementId || !minutesId) {
+      console.error('IDs não encontrados:', {
+        procurementId: this.procurementId,
+        minutesId,
+      });
+      return;
+    }
+  
+    const payload = {
+      procurement_id: this.procurementId,
+      change_reason: this.formCancelamento.value.change_reason,
+      date_canceled: this.formCancelamento.value.date_canceled,
+    };
+  
+    this.licitacoesService.cancelarAta(this.procurementId, minutesId, payload).subscribe({
+      next: () => {
+        console.log('ATA cancelada com sucesso!');
+        this.loadAtas(this.currentPage); // Recarrega a lista de atas
+        this.modalRef?.hide(); // Fecha o modal
+      },
+      error: (err) => {
+        console.error('Erro ao cancelar a ATA:', err);
+      },
+    });
+  }
+  
 }
