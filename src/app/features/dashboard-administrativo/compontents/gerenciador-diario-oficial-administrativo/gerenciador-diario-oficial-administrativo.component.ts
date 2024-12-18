@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Location } from '@angular/common';
 import { MatIcon } from '@angular/material/icon';
@@ -32,20 +32,43 @@ export class GerenciadorDiarioOficialAdministrativoComponent implements OnInit {
   public documentPages: number[] = []; // Lista de páginas do documento selecionado 
   public selectedPages: number[] = []; // Páginas selecionadas para exclusão
   selectedFile: File | null = null; // Armazena o arquivo selecionado
+  public publicacoes: DiarioOficialPublicacoes[] = [];
 
   constructor(
     private _location: Location,
     private _service: GerenciadorDiarioOficialService,
     private dialog: MatDialog,
     public tenantService: TenantService,
-    private modalService: BsModalService
+    private modalService: BsModalService,
+    private cdr: ChangeDetectorRef
   ) {
+    this._service.publicacoes$.subscribe((data) => {
+      this.publicacoes = data;
+    });
   }
-
+  loadPublicacoes(page: number): void {
+    this._service.loadPublicacoes(page);
+    this.currentPage = page;
+  }
   ngOnInit(): void {
     this.isStaff = this.tenantService.getStaff();
+
+    // Assina o Observable para atualizar os documentos em tempo real
+    this._service.publicacoes$.subscribe({
+      next: (data) => {
+        this.documents = data; // Atualiza os documentos
+        this.cdr.detectChanges(); // Força a detecção de mudanças
+      },
+      error: (err) => {
+        console.error('Erro ao atualizar os documentos:', err);
+      },
+    });
+
+
+    // Carrega a primeira página
     this.getDiario(this.currentPage);
   }
+
 
   statusPublicacao(status: string): string {
     const traducoes: Record<string, string> = {
@@ -56,18 +79,23 @@ export class GerenciadorDiarioOficialAdministrativoComponent implements OnInit {
       [StatusPublicacao.JOINING_FILES]: 'Unindo Arquivos',
       [StatusPublicacao.ERROR]: 'Erro',
       [StatusPublicacao.PUBLISHED]: 'Publicado',
-      [StatusPublicacao.SCHEDULED]:'Agendado'
+      [StatusPublicacao.SCHEDULED]: 'Agendado'
     };
-  
+
     return traducoes[status] || '-';
   }
 
-  getDiario(page: number) {
-    this._service.getDashboard(page).subscribe((res: RequisicaoModel<DiarioOficialPublicacoes[]>) => {
-      this.documents = res.data;
-      this.currentPage = res.meta?.pagination.current_page!;
-      this.totalPages = res.meta?.pagination.last_page!;
-    })
+  getDiario(page: number): void {
+    this._service.loadPublicacoes(page); // Carrega os dados e atualiza o BehaviorSubject
+    this._service.getDashboard(page).subscribe({
+      next: (res) => {
+        this.currentPage = res.meta?.pagination.current_page || 1;
+        this.totalPages = res.meta?.pagination.last_page || 1;
+      },
+      error: (err) => {
+        console.error('Erro ao carregar o Diário Oficial:', err);
+      }
+    });
   }
 
   goBack(): void {
@@ -103,6 +131,7 @@ export class GerenciadorDiarioOficialAdministrativoComponent implements OnInit {
         next: () => {
           console.log('Documento excluído com sucesso!');
           this.getDiario(this.currentPage);
+          this.cdr.detectChanges(); // Força atualização do template
           this.modalService.hide();
         },
         error: (err) => {
@@ -112,6 +141,7 @@ export class GerenciadorDiarioOficialAdministrativoComponent implements OnInit {
       });
     }
   }
+  
 
   openDeletePage(template: any, document: DiarioOficialPublicacoes): void {
     this.selectedDocument = document;
