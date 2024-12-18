@@ -1,15 +1,19 @@
 import { CommonModule, Location } from '@angular/common';
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, TemplateRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { LicitacoesService } from '../service/licitacoes-administrativos.service';
 import { RequisicaoModel } from '../../../../../shared/models/shared.model';
 import { MatIcon } from '@angular/material/icon';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { AtaLicitacaoMapper } from './mapper/ata.mapper';
 
 
 @Component({
   selector: 'app-atas-licitacoes-administrativo',
   standalone: true,
-  imports: [CommonModule, MatIcon],
+  imports: [CommonModule, MatIcon, ReactiveFormsModule],
+  providers: [BsModalService],
   templateUrl: './atas-licitacoes-administrativo.component.html',
   styleUrls: ['./atas-licitacoes-administrativo.component.scss'],
 })
@@ -21,11 +25,33 @@ export class AtasLicitacoesAdministrativoComponent implements OnInit {
   currentPage = 1;
   totalPages = 1;
 
+  tiposDocumentos = [
+    { value: 11, key: 'Minuta de Ata de Registro de Preços' },
+    { value: 16, key: 'Outros' },
+  ];
+  modalRef?: BsModalRef; // Referência ao modal
+  formAta!: FormGroup; // Formulário para criar nova ata
+
   constructor(
     private route: ActivatedRoute,
     private _location: Location,
-    private licitacoesService: LicitacoesService
-  ) { }
+    private licitacoesService: LicitacoesService,
+    private modalService: BsModalService,
+    private fb: FormBuilder,
+
+
+  ) {
+    this.formAta = this.fb.group({
+      price_registry_number: [null],
+      year_of_registry: [null],
+      start_date_of_validity: [null],
+      end_date_of_validity: [null],
+      signature_date: [null],
+      document_type_id: [null],
+      document_title: [null],
+      file: [null],
+    });
+  }
 
   ngOnInit() {
     // Captura o ID da licitação a partir da rota
@@ -56,9 +82,20 @@ export class AtasLicitacoesAdministrativoComponent implements OnInit {
 
   loadAtas(page: number): void {
     this.isLoading = true;
+
     this.licitacoesService.getLicitacaoAtas(this.licitacaoId, page).subscribe({
       next: (response: RequisicaoModel<any>) => {
-        this.atas = response.data;
+        // Mapeia os dados da resposta para os campos necessários na tabela
+        this.atas = response.data.map((ata: any) => ({
+          numero: ata.price_registry_number || 'N/A',
+          ano: ata.year_of_registry || 'N/A',
+          data_assinatura: ata.signature_date || 'N/A',
+          inicio_vigencia: ata.start_date_of_validity || 'N/A',
+          fim_vigencia: ata.end_date_of_validity || 'N/A',
+          status: ata.date_canceled ? 'cancelada' : 'ativa', // Define status baseado na existência de 'date_canceled'
+          gateway_location: ata.gateway_location || '',
+        }));
+
         this.totalPages = response.meta?.pagination?.last_page || 1;
         this.isLoading = false;
       },
@@ -68,7 +105,25 @@ export class AtasLicitacoesAdministrativoComponent implements OnInit {
       },
     });
   }
-  deleteAta(){
+  irParaPncp(ata: any): void {
+    if (ata && ata.gateway_sequence && ata.year_of_registry && ata.procurement_id) {
+      // Dados para construção do link
+      const agencyCountryRegister = '13267315000141'; // Código fixo ou pode ser obtido dinamicamente, se necessário
+      const year = ata.year_of_registry;
+      const sequence = ata.gateway_sequence;
+
+      // Construção do link baseado nos dados
+      const baseUrl = 'https://treina.pncp.gov.br/app/atas/';
+      const fullUrl = `${baseUrl}${agencyCountryRegister}/${year}/${ata.procurement_id}/${sequence}`;
+
+      // Abre o link em uma nova aba
+      window.open(fullUrl, '_blank');
+    } else {
+      console.error('Dados insuficientes para gerar o link da ATA.');
+    }
+  }
+
+  deleteAta() {
 
   }
   goToPage(page: number): void {
@@ -82,10 +137,57 @@ export class AtasLicitacoesAdministrativoComponent implements OnInit {
   }
 
   goToPreviousPage() {
-   
+
   }
 
   goToNextPage() {
-    
+
   }
+
+
+  openModal(template: TemplateRef<any>): void {
+    this.modalRef = this.modalService.show(template, { class: 'modal-lg' });
+  }
+  closeModal(): void {
+    if (this.modalRef) {
+      this.modalRef.hide();
+    }
+  }
+
+  saveAta(): void {
+    if (this.formAta.valid) {
+      console.log('Iniciando o processo de salvar a ATA...');
+
+      // Mapeia os dados do formulário e do arquivo
+      const ataFormData = AtaLicitacaoMapper.toSubmit(this.formAta.value, { file: [this.formAta.value.file] });
+
+      // Chama o serviço para salvar a ATA
+      this.licitacoesService.createLicitacaoAta(this.licitacaoId, ataFormData).subscribe({
+        next: () => {
+          console.log('ATA criada com sucesso!');
+          this.loadAtas(this.currentPage); // Recarrega a lista de atas
+          this.closeModal(); // Fecha o modal
+          this.formAta.reset(); // Reseta o formulário
+        },
+        error: (err) => {
+          console.error('Erro ao salvar a ATA:', err);
+        },
+      });
+    } else {
+      console.error('Formulário inválido.');
+    }
+  }
+
+
+
+  onFileSelected(event: any): void {
+    const file = event.target.files[0];
+    if (file) {
+      this.formAta.patchValue({ file });
+      console.log('Arquivo selecionado:', file);
+    } else {
+      console.error('Nenhum arquivo selecionado.');
+    }
+  }
+
 }

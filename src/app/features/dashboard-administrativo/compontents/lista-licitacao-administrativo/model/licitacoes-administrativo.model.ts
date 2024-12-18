@@ -146,5 +146,19 @@ export interface LicitacaoResultados {
   foreign_currency_timezone_offset: string | null;
   foreign_currency_nominal_value: number;
 }
+export interface LicitacaoAtaModel {
+  id: string;
+  created_by_id: string;
+  procurement_id: string;
+  price_registry_number: string;
+  year_of_registry: number;
+  signature_date: string; 
+  start_date_of_validity: string; 
+  end_date_of_validity: string;
+  gateway_location?: string;
+  gateway_sequence?: number;
+  date_canceled?: string;
+  change_reason?: string;
+}
 
 export type RequisicaoLicitacaoModel = RequisicaoModel<LicitacaoModel[]>;

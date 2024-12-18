@@ -129,3 +129,39 @@ h3 {
     }
   }
 }
+
+
+
+
+.modal-header {
+  background-color: #000; /* Azul semelhante */
+  color: white;
+}
+
+.modal-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+.btn-primary {
+  background-color: #000;
+  border-color: #000;
+}
+
+.btn-primary:hover {
+  background-color: #000;
+  border-color: #000;
+}
+
+.form-label {
+  font-weight: 600;
+}
+
+.form-control,
+.form-select {
+  border-radius: 8px;
+}
+
+#fileInput {
+  border-radius: 8px;
+}

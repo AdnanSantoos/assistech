@@ -3,7 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { RequisicaoModel } from '../../../../../shared/models/shared.model';
 import { environment } from '../../../../../../environments/environment';
-import { LicitacaoModel, LicitacaoDetalhesModel, LicitacaoItemModel, LicitacaoArquivos, LicitacaoResultados } from '../model/licitacoes-administrativo.model';
+import { LicitacaoModel, LicitacaoDetalhesModel, LicitacaoItemModel, LicitacaoArquivos, LicitacaoResultados, LicitacaoAtaModel } from '../model/licitacoes-administrativo.model';
 import { OrgaoModel } from '../../orgao-administrativo/model/orgao-administrativo.model';
 
 @Injectable({
@@ -70,7 +70,11 @@ export class LicitacoesRepository {
     return this._http.post<LicitacaoArquivos>(url, fileData);
   }
 
-
+  createLicitacaoAta(procurementId: string, ataData: FormData): Observable<void> {
+    const url = `${this.baseUrl}/${procurementId}/minutes`;
+    return this._http.post<void>(url, ataData);
+  }
+  
   updateLicitacao(id: string, data: any): Observable<void> {
     return this._http.put<void>(`${this.baseUrl}/${id}`, data);
   }

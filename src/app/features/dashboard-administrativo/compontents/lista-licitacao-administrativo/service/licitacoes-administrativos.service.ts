@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { RequisicaoModel } from '../../../../../shared/models/shared.model';
-import { LicitacaoModel, LicitacaoDetalhesModel, LicitacaoItemModel, LicitacaoArquivos, LicitacaoResultados } from '../model/licitacoes-administrativo.model';
+import { LicitacaoModel, LicitacaoDetalhesModel, LicitacaoItemModel, LicitacaoArquivos, LicitacaoResultados, LicitacaoAtaModel } from '../model/licitacoes-administrativo.model';
 import { LicitacoesRepository } from '../repository/licitacoes-administrativos.repository';
 import { OrgaoModel } from '../../orgao-administrativo/model/orgao-administrativo.model';
 import { HttpParams } from '@angular/common/http';
@@ -56,7 +56,10 @@ export class LicitacoesService {
     return this._repository.createArquivoLicitacao(data.tenant, data.procurement, data.file);
   }
 
-
+  createLicitacaoAta(procurementId: string, ataData: FormData): Observable<void> {
+    return this._repository.createLicitacaoAta(procurementId, ataData);
+  }
+  
 
   updateLicitacao(id: string, data: any): Observable<void> {
     return this._repository.updateLicitacao(id, data);
