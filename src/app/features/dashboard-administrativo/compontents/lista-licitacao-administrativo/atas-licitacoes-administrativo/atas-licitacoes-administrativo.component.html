@@ -504,7 +504,12 @@
               <!-- Botão de Exclusão -->
               <button
                 class="btn btn-danger btn-sm"
-                (click)="deleteArquivo(arquivo)"
+                (click)="
+                  openDeleteAtasArquivosModal(
+                    arquivo,
+                    confirmDeleteArquivoModal
+                  )
+                "
               >
                 <mat-icon>delete</mat-icon>
               </button>
@@ -639,6 +644,61 @@
     </button>
     <button type="button" class="btn btn-secondary" (click)="closeModal()">
       Fechar
+    </button>
+  </div>
+</ng-template>
+
+<!-- Modal de Confirmação -->
+<ng-template #confirmDeleteArquivoModal>
+  <div class="modal-header bg-white">
+    <h5 class="modal-title text-danger">
+      <mat-icon>warning</mat-icon> Atenção!
+    </h5>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modalRef?.hide()"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <p class="fw-bold">
+      Deseja realmente excluir o arquivo:
+      <strong>{{ selectedArquivo?.label }}</strong
+      >?
+    </p>
+    <form [formGroup]="deleteForm">
+      <label for="justification" class="form-label fw-bold"
+        >Informe o motivo da exclusão:</label
+      >
+      <textarea
+        id="justification"
+        class="form-control"
+        formControlName="justification"
+        placeholder="Motivo da exclusão"
+      ></textarea>
+      <div
+        *ngIf="
+          deleteForm.controls['justification'].invalid &&
+          deleteForm.controls['justification'].touched
+        "
+        class="text-danger mt-1"
+      >
+        O motivo da exclusão é obrigatório.
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="modalRef?.hide()">
+      Cancelar
+    </button>
+    <button
+      type="button"
+      class="btn btn-danger"
+      [disabled]="deleteForm.invalid"
+      (click)="confirmDeleteArquivo()"
+    >
+      Excluir
     </button>
   </div>
 </ng-template>

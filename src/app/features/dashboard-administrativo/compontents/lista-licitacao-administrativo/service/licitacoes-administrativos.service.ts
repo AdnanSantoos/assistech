@@ -139,7 +139,18 @@ export class LicitacoesService {
   deleteResultado() {
 
   }
-
+  deleteAtasArquivo(minutesId: string, fileId: string, justification: string): Observable<void> {
+    return this._repository.deleteAtasArquivo(minutesId, fileId, justification).pipe(
+      tap(() => {
+        this.toastr.success('Arquivo excluído com sucesso!', 'Sucesso');
+      }),
+      catchError((error) => {
+        this.toastr.error('Erro ao excluir o arquivo.', 'Erro');
+        return throwError(() => error);
+      })
+    );
+  }
+  
   deleteLicitacao(procurementId: string, justification: string): Observable<void> {
     return this._repository.deleteLicitacao(procurementId, justification);
   }

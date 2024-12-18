@@ -116,7 +116,14 @@ export class LicitacoesRepository {
     const params = { justification }; // Payload enviado como parâmetro
     return this._http.delete<void>(url, { params });
   }
-
+  
+  deleteAtasArquivo(minutesId: string, fileId: string, justification: string): Observable<void> {
+    const url = `${environment.apiUrl}/tenants/${environment.tenant}/pncp/minutes/${minutesId}/files/${fileId}`;
+    return this._http.delete<void>(url, {
+      params: { justification },
+    });
+  }
+  
   cancelarAta(procurementId: string, minutesId: string, payload: any): Observable<void> {
     const url = `${this.baseUrl}/${procurementId}/minutes/${minutesId}/cancel`;
     return this._http.put<void>(url, payload);

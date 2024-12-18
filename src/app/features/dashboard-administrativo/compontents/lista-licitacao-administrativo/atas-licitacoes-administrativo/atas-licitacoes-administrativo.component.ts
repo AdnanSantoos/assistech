@@ -24,7 +24,9 @@ export class AtasLicitacoesAdministrativoComponent implements OnInit {
   isLoading = true;
   currentPage = 1;
   totalPages = 1;
-  procurementId: string = ''; 
+  procurementId: string = '';
+  deleteArquivoAtasForm!: FormGroup;
+  selectedArquivo: any = null; // Arquivo selecionado para exclusão
 
   tiposDocumentos = [
     { value: 11, key: 'Minuta de Ata de Registro de Preços' },
@@ -43,6 +45,9 @@ export class AtasLicitacoesAdministrativoComponent implements OnInit {
   formArquivo!: FormGroup; // Formulário de arquivos
   arquivos: any[] = []; // Lista de arquivos
   formCancelamento!: FormGroup; // Formulário de cancelamento
+
+  justification: string = '';
+  arquivoSelecionado: any;
 
   constructor(
     private route: ActivatedRoute,
@@ -89,7 +94,9 @@ export class AtasLicitacoesAdministrativoComponent implements OnInit {
     });
 
     this.procurementId = this.route.snapshot.params['id'];
-
+    this.deleteArquivoAtasForm = this.fb.group({
+      justification: [''], // Campo obrigatório
+    });
   }
 
   ngOnInit() {
@@ -440,7 +447,7 @@ export class AtasLicitacoesAdministrativoComponent implements OnInit {
   // Confirma o cancelamento da ATA
   confirmCancel(): void {
     const minutesId = this.selectedAta?.id;
-  
+
     if (!this.procurementId || !minutesId) {
       console.error('IDs não encontrados:', {
         procurementId: this.procurementId,
@@ -448,13 +455,13 @@ export class AtasLicitacoesAdministrativoComponent implements OnInit {
       });
       return;
     }
-  
+
     const payload = {
       procurement_id: this.procurementId,
       change_reason: this.formCancelamento.value.change_reason,
       date_canceled: this.formCancelamento.value.date_canceled,
     };
-  
+
     this.licitacoesService.cancelarAta(this.procurementId, minutesId, payload).subscribe({
       next: () => {
         console.log('ATA cancelada com sucesso!');
@@ -466,5 +473,32 @@ export class AtasLicitacoesAdministrativoComponent implements OnInit {
       },
     });
   }
-  
+  openDeleteAtasArquivosModal(arquivo: any, template: TemplateRef<any>): void {
+    this.selectedArquivo = arquivo; // Define o arquivo atual
+    this.justification = '';
+    this.modalRef = this.modalService.show(template, { class: 'modal-md' }); // Exibe o modal
+
+  }
+
+  confirmDeleteArquivo(): void {
+    if (this.deleteForm.valid && this.selectedArquivo) {
+      const justification = this.deleteForm.value.justification; // Captura o motivo
+      const minutesId = this.selectedAta.id; // ID da ATA
+      const fileId = this.selectedArquivo.id; // ID do arquivo
+
+      this.licitacoesService.deleteAtasArquivo(minutesId, fileId, justification).subscribe({
+        next: () => {
+          this.loadArquivos(); // Recarrega a lista de arquivos
+          this.modalRef?.hide();
+          console.log('Arquivo excluído com sucesso.');
+        },
+        error: (err) => {
+          console.error('Erro ao excluir arquivo:', err);
+        },
+      });
+    } else {
+      console.error('Formulário inválido ou arquivo não selecionado.');
+    }
+  }
+
 }
