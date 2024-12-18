@@ -46,14 +46,17 @@
               [ngClass]="{
                 'tx-mustard': ata.status === 'pendente',
                 'tx-green': ata.status === 'ativa',
-                'text-danger': ata.status === 'cancelada'
+                'tx-red': ata.status === 'cancelada'
               }"
+              class="status-label"
             >
-              {{ ata.status }}
+              {{ ata.status | titlecase }}
             </strong>
           </td>
+
           <td class="text-center">
             <div class="d-flex justify-content-evenly gap-2 py-2">
+              <!-- Botão de Visualizar -->
               <div class="d-flex flex-column align-items-center">
                 <a
                   (click)="irParaPncp(ata)"
@@ -67,43 +70,51 @@
                 <span class="mt-1 legenda-icons">Visualizar</span>
               </div>
 
-              <div class="d-flex flex-column align-items-center">
-                <a
-                  class="btn-edit btn-format d-flex justify-content-center align-items-center"
-                  (click)="openEditModal(editAtaModal, ata)"
-                >
-                  <img
-                    src="../../../../../assets/icons/edit-icon-adm.svg"
-                    alt="Editar"
-                  />
-                </a>
-                <span class="mt-1 legenda-icons">Editar</span>
-              </div>
-              <div class="d-flex flex-column align-items-center">
-                <a
-                  (click)="openArquivosModal(cancelamentoModal, ata)"
-                  class="btn-cancelar btn-format d-flex justify-content-center align-items-center"
-                >
-                  <img
-                    src="../../../../../assets/icons/cancelar-adm-icon.svg"
-                    alt="Deletar"
-                  />
-                </a>
-                <span class="mt-1 legenda-icons">Cancelar</span>
-              </div>
-              <div class="d-flex flex-column align-items-center">
-                <a
-                  class="btn-arquivo btn-format d-flex justify-content-center align-items-center"
-                  (click)="openArquivosModal(modalArquivosLicitacao, ata)"
-                >
-                  <img
-                    src="../../../../../assets/icons/arquivo-adm-icon.svg"
-                    alt="Arquivos"
-                  />
-                </a>
-                <span class="mt-1 legenda-icons">Arquivos</span>
-              </div>
+              <!-- Botões disponíveis apenas para status diferente de 'cancelada' -->
+              <ng-container *ngIf="ata.status !== 'cancelada'">
+                <div class="d-flex flex-column align-items-center">
+                  <a
+                    class="btn-edit btn-format d-flex justify-content-center align-items-center"
+                    (click)="openEditModal(editAtaModal, ata)"
+                  >
+                    <img
+                      src="../../../../../assets/icons/edit-icon-adm.svg"
+                      alt="Editar"
+                    />
+                  </a>
+                  <span class="mt-1 legenda-icons">Editar</span>
+                </div>
+                <div class="d-flex flex-column align-items-center">
+                  <a
+                    (click)="openArquivosModal(cancelamentoModal, ata)"
+                    class="btn-cancelar btn-format d-flex justify-content-center align-items-center"
+                  >
+                    <img
+                      src="../../../../../assets/icons/cancelar-adm-icon.svg"
+                      alt="Cancelar"
+                    />
+                  </a>
+                  <span class="mt-1 legenda-icons">Cancelar</span>
+                </div>
+              </ng-container>
 
+              <!-- Botão de Arquivos (exibido somente se não for cancelada) -->
+              <ng-container *ngIf="ata.status !== 'cancelada'">
+                <div class="d-flex flex-column align-items-center">
+                  <a
+                    class="btn-arquivo btn-format d-flex justify-content-center align-items-center"
+                    (click)="openArquivosModal(modalArquivosLicitacao, ata)"
+                  >
+                    <img
+                      src="../../../../../assets/icons/arquivo-adm-icon.svg"
+                      alt="Arquivos"
+                    />
+                  </a>
+                  <span class="mt-1 legenda-icons">Arquivos</span>
+                </div>
+              </ng-container>
+
+              <!-- Botão de Excluir -->
               <div class="d-flex flex-column align-items-center">
                 <button
                   (click)="openDeleteModal(ata, deleteModal)"

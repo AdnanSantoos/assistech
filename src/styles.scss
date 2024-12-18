@@ -482,7 +482,36 @@ body {
   text-transform: uppercase;
   margin-top: 2vh;
 }
-.strong_font{
+.strong_font {
   font-weight: 700;
   color: #000;
+}
+
+/* Estilo para status "ativa" */
+.tx-green {
+  background: #e0efe3;
+  color: #28a745;
+  border: 2px solid #1c7a30;
+  padding: 4px 8px;
+  border-radius: 4px;
+  text-transform: capitalize;
+  display: inline-block;
+}
+.tx-red {
+  background: #efe0e0;
+  color: #a72828;
+  border: 2px solid #7a1c1c;
+  padding: 4px 8px;
+  border-radius: 4px;
+  text-transform: capitalize;
+  display: inline-block;
+}
+.tx-mustard{
+  background: #efece0;
+  color: #a79a28;
+  border: 2px solid #7a711c;
+  padding: 4px 8px;
+  border-radius: 4px;
+  text-transform: capitalize;
+  display: inline-block;
 }
