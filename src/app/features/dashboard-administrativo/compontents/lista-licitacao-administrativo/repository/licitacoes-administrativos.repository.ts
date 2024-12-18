@@ -64,6 +64,10 @@ export class LicitacoesRepository {
     const url = `${this.baseUrl}/${procurementId}/items`;
     return this._http.post<void>(url, data);
   }
+  updateLicitacaoItem(procurementId: string, itemId: string, data: any): Observable<void> {
+    const url = `${this.baseUrl}/${procurementId}/items/${itemId}`;
+    return this._http.put<void>(url, data);
+  }
 
   createArquivoLicitacao(
     tenant: string,

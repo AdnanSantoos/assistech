@@ -120,7 +120,17 @@ export class LicitacoesService {
       })
     );
   }
-
+  updateLicitacaoItem(procurementId: string, itemId: string, data: any): Observable<void> {
+    return this._repository.updateLicitacaoItem(procurementId, itemId, data).pipe(
+      tap(() => {
+        this.toastr.success('Item atualizado com sucesso!', 'Sucesso');
+      }),
+      catchError((error) => {
+        this.toastr.error('Erro ao atualizar o item. Tente novamente.', 'Erro');
+        throw error;
+      })
+    );
+  }
   getResultadosItem(procurementId: string, itemId: string): Observable<RequisicaoModel<LicitacaoResultados[]>> {
     return this._repository.getResultadosItem(procurementId, itemId);
   }
@@ -172,5 +182,5 @@ export class LicitacoesService {
       })
     );
   }
-  
+
 }
