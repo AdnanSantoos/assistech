@@ -1,12 +1,19 @@
-.bkg-administrativo{
+.bkg-administrativo {
   position: relative;
-  .btn-agendar{
+  .btn-agendar {
     position: absolute;
     bottom: 94px;
     right: 44px;
   }
 }
 
-.btn-dark:hover{
+.btn-dark:hover {
   background-color: #057a0b;
+}
+
+::ng-deep {
+  .mat-mdc-form-field .mdc-text-field__input {
+    text-align: center !important;
+    color: #000 !important;
+  }
 }
