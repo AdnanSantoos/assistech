@@ -70,6 +70,7 @@
               <div class="d-flex flex-column align-items-center">
                 <a
                   class="btn-edit btn-format d-flex justify-content-center align-items-center"
+                  (click)="openEditModal(editAtaModal, ata)"
                 >
                   <img
                     src="../../../../../assets/icons/edit-icon-adm.svg"
@@ -79,13 +80,11 @@
                 <span class="mt-1 legenda-icons">Editar</span>
               </div>
 
-
               <div class="d-flex flex-column align-items-center">
                 <a
-               
                   class="btn-arquivo btn-format d-flex justify-content-center align-items-center"
                 >
-                <!-- (click)="openArquivosDialog(element)" -->
+                  <!-- (click)="openArquivosDialog(element)" -->
                   <img
                     src="../../../../../assets/icons/arquivo-adm-icon.svg"
                     alt="Arquivos"
@@ -94,13 +93,11 @@
                 <span class="mt-1 legenda-icons">Arquivos</span>
               </div>
 
-
               <div class="d-flex flex-column align-items-center">
                 <button
                   class="btn-remove btn-format d-flex justify-content-center align-items-center"
-                  
                 >
-                <!-- (click)="openDeleteModal(element, deleteModal)" -->
+                  <!-- (click)="openDeleteModal(element, deleteModal)" -->
                   <img
                     src="../../../../../assets/icons/remove-icon.svg"
                     alt="Deletar"
@@ -227,7 +224,7 @@
 <!-- Modal -->
 <ng-template #addAtaModal>
   <div class="modal-header bg-dark text-white">
-    <h5 class="modal-title">Adicionar ATA</h5>
+    <h5 class="modal-title">{{ modalTitle }}</h5>
     <button
       type="button"
       class="btn-close text-white"
@@ -313,17 +310,26 @@
         />
       </div>
 
+      <!-- Motivo da Edição (apenas no modo edição) -->
+      <div class="col-12" *ngIf="isEditMode">
+        <label class="form-label">Motivo da edição *</label>
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Motivo da edição"
+          formControlName="change_reason"
+        />
+      </div>
+
       <!-- Upload do Arquivo -->
       <div class="col-12">
         <label class="form-label">Documento da ATA *</label>
-        <div class="d-flex align-items-center">
-          <input
-            id="fileInput"
-            type="file"
-            class="form-control"
-            (change)="onFileSelected($event)"
-          />
-        </div>
+        <input
+          id="fileInput"
+          type="file"
+          class="form-control"
+          (change)="onFileSelected($event)"
+        />
         <small class="text-muted"
           >Tipos de arquivos aceitos: .pdf, .txt, .rtf, .doc, .docx, .odt</small
         >
@@ -342,6 +348,98 @@
       [disabled]="!formAta.valid"
     >
       Salvar
+    </button>
+  </div>
+</ng-template>
+
+<!-- Modal de Edição -->
+<ng-template #editAtaModal>
+  <div class="modal-header bg-dark text-white">
+    <h5 class="modal-title">Ratificação da ATA</h5>
+    <button
+      type="button"
+      class="btn-close text-white"
+      aria-label="Close"
+      (click)="closeModal()"
+    ></button>
+  </div>
+
+  <div class="modal-body">
+    <p class="text-muted mb-4">Informe os dados para ratificação da ATA</p>
+    <form [formGroup]="formEditAta" class="row g-3">
+      <!-- Número da ATA -->
+      <div class="col-md-6">
+        <label class="form-label">Número da ATA *</label>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="price_registry_number"
+        />
+      </div>
+
+      <!-- Ano da ATA -->
+      <div class="col-md-6">
+        <label class="form-label">Ano da ATA *</label>
+        <input
+          type="number"
+          class="form-control"
+          formControlName="year_of_registry"
+        />
+      </div>
+
+      <!-- Data de Assinatura -->
+      <div class="col-md-6">
+        <label class="form-label">Data da Assinatura *</label>
+        <input
+          type="date"
+          class="form-control"
+          formControlName="signature_date"
+        />
+      </div>
+
+      <!-- Início da Vigência -->
+      <div class="col-md-6">
+        <label class="form-label">Início da Vigência *</label>
+        <input
+          type="date"
+          class="form-control"
+          formControlName="start_date_of_validity"
+        />
+      </div>
+
+      <!-- Fim da Vigência -->
+      <div class="col-md-6">
+        <label class="form-label">Fim da Vigência *</label>
+        <input
+          type="date"
+          class="form-control"
+          formControlName="end_date_of_validity"
+        />
+      </div>
+
+      <!-- Justificativa (Motivo de Edição) -->
+      <div class="col-12">
+        <label class="form-label">Justificativa *</label>
+        <textarea
+          class="form-control"
+          placeholder="Informe o motivo da ratificação"
+          formControlName="change_reason"
+        ></textarea>
+      </div>
+    </form>
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="closeModal()">
+      Fechar
+    </button>
+    <button
+      type="button"
+      class="btn btn-primary"
+      (click)="updateAta()"
+      [disabled]="!formEditAta.valid"
+    >
+      Salvar Alterações
     </button>
   </div>
 </ng-template>

@@ -31,6 +31,12 @@ export class AtasLicitacoesAdministrativoComponent implements OnInit {
   ];
   modalRef?: BsModalRef; // Referência ao modal
   formAta!: FormGroup; // Formulário para criar nova ata
+  formEditAta!: FormGroup;
+
+
+  isEditMode = false; // Flag para controlar o modo de edição
+  selectedAta: any = null; // Dados da ATA selecionada para edição
+  modalTitle = 'Adicionar ATA'; // Título dinâmico do modal
 
   constructor(
     private route: ActivatedRoute,
@@ -50,6 +56,15 @@ export class AtasLicitacoesAdministrativoComponent implements OnInit {
       document_type_id: [null],
       document_title: [null],
       file: [null],
+    });
+
+    this.formEditAta = this.fb.group({
+      price_registry_number: [{ value: null, disabled: true }], // Desabilitado
+      year_of_registry: [{ value: null, disabled: true }], // Desabilitado
+      signature_date: [null],
+      start_date_of_validity: [null],
+      end_date_of_validity: [null],
+      change_reason: [null],
     });
   }
 
@@ -87,12 +102,13 @@ export class AtasLicitacoesAdministrativoComponent implements OnInit {
       next: (response: RequisicaoModel<any>) => {
         // Mapeia os dados da resposta para os campos necessários na tabela
         this.atas = response.data.map((ata: any) => ({
+          id: ata.id, // Adiciona o campo id para usar na edição
           numero: ata.price_registry_number || 'N/A',
           ano: ata.year_of_registry || 'N/A',
           data_assinatura: ata.signature_date || 'N/A',
           inicio_vigencia: ata.start_date_of_validity || 'N/A',
           fim_vigencia: ata.end_date_of_validity || 'N/A',
-          status: ata.date_canceled ? 'cancelada' : 'ativa', // Define status baseado na existência de 'date_canceled'
+          status: ata.date_canceled ? 'cancelada' : 'ativa',
           gateway_location: ata.gateway_location || '',
         }));
 
@@ -105,6 +121,7 @@ export class AtasLicitacoesAdministrativoComponent implements OnInit {
       },
     });
   }
+
   irParaPncp(ata: any): void {
     if (ata && ata.gateway_sequence && ata.year_of_registry && ata.procurement_id) {
       // Dados para construção do link
@@ -148,6 +165,7 @@ export class AtasLicitacoesAdministrativoComponent implements OnInit {
   openModal(template: TemplateRef<any>): void {
     this.modalRef = this.modalService.show(template, { class: 'modal-lg' });
   }
+
   closeModal(): void {
     if (this.modalRef) {
       this.modalRef.hide();
@@ -187,6 +205,65 @@ export class AtasLicitacoesAdministrativoComponent implements OnInit {
       console.log('Arquivo selecionado:', file);
     } else {
       console.error('Nenhum arquivo selecionado.');
+    }
+  }
+
+
+  openEditModal(template: TemplateRef<any>, ataToEdit: any): void {
+    this.isEditMode = true;
+    this.selectedAta = ataToEdit;
+
+    // Atualiza os campos necessários no formulário
+    this.formEditAta.patchValue({
+      price_registry_number: ataToEdit.numero,
+      year_of_registry: ataToEdit.ano,
+      start_date_of_validity: ataToEdit.inicio_vigencia.split(' ')[0],
+      end_date_of_validity: ataToEdit.fim_vigencia.split(' ')[0],
+      signature_date: ataToEdit.data_assinatura.split(' ')[0],
+      change_reason: ataToEdit.change_reason || '',
+    });
+
+    this.modalRef = this.modalService.show(template, { class: 'modal-lg' });
+  }
+
+
+  // Atualiza os dados da ATA
+  updateAta(): void {
+    if (this.formEditAta.valid) {
+      const updatedData = this.formEditAta.getRawValue(); // Inclui valores desabilitados
+      const formData = new FormData();
+
+      // Adiciona os campos ao FormData
+      Object.keys(updatedData).forEach((key) => {
+        if (updatedData[key] !== null && updatedData[key] !== undefined) {
+          formData.append(key, updatedData[key]);
+        }
+      });
+
+      // Captura os IDs necessários
+      const procurementId = this.licitacaoId; // ID da licitação atual
+      const minutesId = this.selectedAta?.id; // ID da ata sendo editada
+
+      if (!procurementId || !minutesId) {
+        console.error('IDs necessários não encontrados.');
+        return;
+      }
+
+      // Chama o serviço para atualizar a ata
+      this.licitacoesService
+        .updateLicitacaoAta(procurementId, minutesId, formData)
+        .subscribe({
+          next: () => {
+            console.log('ATA atualizada com sucesso!');
+            this.loadAtas(this.currentPage); // Recarrega a lista de atas
+            this.closeModal(); // Fecha o modal
+          },
+          error: (err) => {
+            console.error('Erro ao atualizar a ATA:', err);
+          },
+        });
+    } else {
+      console.error('Formulário inválido para atualização.');
     }
   }
 

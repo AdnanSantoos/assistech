@@ -78,6 +78,11 @@ export class LicitacoesRepository {
   updateLicitacao(id: string, data: any): Observable<void> {
     return this._http.put<void>(`${this.baseUrl}/${id}`, data);
   }
+  updateLicitacaoAta(procurementId: string, minutesId: string, ataData: FormData): Observable<void> {
+    const url = `${this.baseUrl}/${procurementId}/minutes/${minutesId}`;
+    return this._http.put<void>(url, ataData);
+  }
+  
 
   getResultadosItem(procurementId: string, itemId: string): Observable<RequisicaoModel<LicitacaoResultados[]>> {
     const url = `${environment.apiUrl}/tenants/${environment.tenant}/pncp/procurements/${procurementId}/items/${itemId}/results`;
