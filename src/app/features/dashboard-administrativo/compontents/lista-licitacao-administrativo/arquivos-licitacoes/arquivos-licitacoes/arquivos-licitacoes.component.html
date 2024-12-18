@@ -32,21 +32,21 @@
           class="custom-form mt-3"
         >
           <div class="form-group mb-3">
-            <label for="documentTitle" class="custom-label"
+            <label for="document_title" class="custom-label"
               >Título do Documento *</label
             >
             <input
-              id="documentTitle"
+              id="document_title"
               type="text"
               class="form-control"
-              formControlName="documentTitle"
+              formControlName="document_title"
               placeholder="Digite o título do documento"
               required
             />
             <div
               *ngIf="
-                formGroup.get('documentTitle')?.invalid &&
-                formGroup.get('documentTitle')?.touched
+                formGroup.get('document_title')?.invalid &&
+                formGroup.get('document_title')?.touched
               "
               class="text-danger"
             >
@@ -55,24 +55,24 @@
           </div>
 
           <div class="form-group mb-3">
-            <label for="documentType" class="custom-label"
+            <label for="document_type_id" class="custom-label"
               >Tipo de Documento *</label
             >
             <select
-              id="documentType"
+              id="document_type_id"
               class="form-select"
-              formControlName="documentType"
+              formControlName="document_type_id"
               required
             >
               <option value="" disabled selected>Selecione</option>
-              <option *ngFor="let tipo of tiposDocumentos" [value]="tipo.id">
-                {{ tipo.label }}
+              <option *ngFor="let tipo of tiposDocumentos" [value]="tipo.value">
+                {{ tipo.key }}
               </option>
             </select>
             <div
               *ngIf="
-                formGroup.get('documentType')?.invalid &&
-                formGroup.get('documentType')?.touched
+                formGroup.get('document_type_id')?.invalid &&
+                formGroup.get('document_type_id')?.touched
               "
               class="text-danger"
             >
@@ -86,11 +86,10 @@
             >
             <div class="d-flex align-items-center">
               <input
+                id="file"
                 type="file"
-                id="documentUpload"
-                class="form-control"
-                (change)="selecionarArquivo($event)"
-                required
+                formControlName="file"
+                (change)="onFileSelected($event)"
               />
               <button type="button" class="btn btn-dark ms-2">
                 Selecionar Arquivo
@@ -105,6 +104,13 @@
             Tipos de arquivos aceitos:
             <strong>.pdf, .txt, .rtf, .doc, .docx, .odt</strong>
           </p>
+          <button
+            type="submit"
+            class="btn btn-primary mt-4"
+            [disabled]="formGroup.invalid"
+          >
+            Enviar
+          </button>
         </form>
 
         <div class="custom-file-table mt-4" *ngIf="arquivos.length > 0">
@@ -162,13 +168,6 @@
             (click)="cancelar()"
           >
             Fechar
-          </button>
-          <button
-            type="submit"
-            class="btn btn-primary"
-            [disabled]="isLoading || formGroup.invalid"
-          >
-            Enviar
           </button>
         </div>
       </div>

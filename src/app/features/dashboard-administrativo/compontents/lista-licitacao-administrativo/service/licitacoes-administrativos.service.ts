@@ -43,11 +43,21 @@ export class LicitacoesService {
   createLicitacoes(data: { agency: string; agency_country_register: string }): Observable<void> {
     return this._repository.createLicitacoes(data);
   }
-  
+
   createLicitacaoItem(data: { procurement: string; item: LicitacaoItemModel }): Observable<void> {
     return this._repository.createLicitacaoItem(data.procurement, data.item);
   }
-  
+
+  createArquivoLicitacao(data: {
+    tenant: string;
+    procurement: string;
+    file: FormData;
+  }): Observable<LicitacaoArquivos> {
+    return this._repository.createArquivoLicitacao(data.tenant, data.procurement, data.file);
+  }
+
+
+
   updateLicitacao(id: string, data: any): Observable<void> {
     return this._repository.updateLicitacao(id, data);
   }

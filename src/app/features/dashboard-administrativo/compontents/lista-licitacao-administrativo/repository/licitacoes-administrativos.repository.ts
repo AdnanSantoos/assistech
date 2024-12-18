@@ -55,10 +55,22 @@ export class LicitacoesRepository {
   createLicitacoes(data: { agency: string; agency_country_register: string }): Observable<void> {
     return this._http.post<void>(this.baseUrl, data);
   }
+
   createLicitacaoItem(procurementId: string, data: LicitacaoItemModel): Observable<void> {
     const url = `${this.baseUrl}/${procurementId}/items`;
     return this._http.post<void>(url, data);
   }
+
+  createArquivoLicitacao(
+    tenant: string,
+    procurementId: string,
+    fileData: FormData
+  ): Observable<LicitacaoArquivos> {
+    const url = `${environment.apiUrl}/tenants/${environment.tenant}/pncp/procurements/${procurementId}/files`;
+    return this._http.post<LicitacaoArquivos>(url, fileData);
+  }
+
+
   updateLicitacao(id: string, data: any): Observable<void> {
     return this._http.put<void>(`${this.baseUrl}/${id}`, data);
   }
