@@ -65,7 +65,10 @@ export class NavbarComponent implements OnInit {
         this.checkRoute(event.url);
       }
     });
+    this.getLoggedInUserEmail();
+
   }
+
 
   navigate() {
     const token = localStorage.getItem('authToken');
@@ -98,12 +101,10 @@ export class NavbarComponent implements OnInit {
   logout() {
     this._loginService.logout(this.tenant);
   }
-  
-  getLoggedInUserEmail() {
-    const user = localStorage.getItem('loggedInUser');
-    if (user) {
-      const loginModel: LoginModel = JSON.parse(user);
-      this.loggedInUserEmail = loginModel.email;
-    }
+
+  getLoggedInUserEmail(): void {
+    // Busca diretamente a chave 'userEmail' no localStorage
+    const email = localStorage.getItem('userEmail');
+    this.loggedInUserEmail = email ? email : 'Usuário não logado';
   }
 }

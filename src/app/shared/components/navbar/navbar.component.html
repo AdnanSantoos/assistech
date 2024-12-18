@@ -10,18 +10,21 @@
       <div
         class="ps-0 col-8 d-flex col-md-4 logo-mobile align-items-center w-auto ml-auto mr-auto"
       >
-        <div class="logo-container"  routerLink="/home">
+        <div class="logo-container" routerLink="/home">
           <div class="logo">
-            <img [src]="logo" alt="" onError="this.src='../../../../assets/logos/pwr.webp';" />          
-          </div> 
+            <img
+              [src]="logo"
+              alt=""
+              onError="this.src='../../../../assets/logos/pwr.webp';"
+            />
+          </div>
         </div>
         <div
           class="d-lg-flex d-none flex-column ms-4 mt-3 text-light logado"
           *ngIf="!isLoginRoute && isAdmRoute"
         >
           <h6 class="m-0 text-uppercase">Seja Bem Vindo,</h6>
-          <!-- <h2>{{loggedInUserEmail}}</h2> -->
-          <h2 class="m-0 bold">{{logoText2}}</h2>
+          <h2 class="m-0 bold">{{ logoText2 }}</h2>
         </div>
       </div>
 
@@ -50,25 +53,37 @@
 
           <ng-container *ngIf="!isLoginRoute">
             <ng-container *ngIf="!isAdmRoute; else deslogarTemplate">
-              <div
-                class="btn-padrao__hover button-login"
-                (click)="navigate()"
-              >
+              <div class="btn-padrao__hover button-login" (click)="navigate()">
                 <div class="btn-padrao__perfil-icon"></div>
                 <div class="btn-padrao__text">fazer login</div>
               </div>
             </ng-container>
 
             <ng-template #deslogarTemplate>
+              <div
+                class="button-login text-align-center d-flex justify-content-center text-white me-4"
+              >
+                <div class="d-flex">
+                  <mat-icon>person</mat-icon>
+                  <div class="d-flex flex-column">
+                    <p class="text-dark">Usuário logado :</p>
+                    <p class="text-dark" *ngIf="loggedInUserEmail">
+                      {{ loggedInUserEmail }}
+                    </p>
+                  </div>
+                </div>
+              </div>
               <div class="deslogar me-4">
                 <div
                   class="btn-padrao__hover d-flex flex-row button-login"
                   (click)="logout()"
                 >
-                 <img class="btn-padrao__icon" src="../../../../assets/icons/deslogar.svg" alt="">
-                 <div class="btn-padrao__text">
-                  Sair
-                 </div>
+                  <img
+                    class="btn-padrao__icon"
+                    src="../../../../assets/icons/deslogar.svg"
+                    alt=""
+                  />
+                  <div class="btn-padrao__text">Sair</div>
                 </div>
               </div>
             </ng-template>
