@@ -34,9 +34,8 @@
 
   <div
     *ngIf="licitacaoItens.length > 0 && !isLoadingItens"
-    class="licitacao-itens"
-  >
-    <table class="table">
+    class="licitacao-itens table-responsive">
+    <table class="table-editada">
       <thead>
         <tr>
           <th scope="col" class="col-number">Nº</th>
@@ -178,7 +177,7 @@
     ></button>
   </div>
   <div class="modal-body">
-    <form [formGroup]="novoItemForm">
+    <form class="form-itens-licitacao" [formGroup]="novoItemForm">
       <h5 class="mb-3 strong_font">Itens da Licitação</h5>
       <div class="row">
         <div class="col-md-6 mb-3">

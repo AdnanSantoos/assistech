@@ -170,7 +170,8 @@ export class FormsComponent implements OnInit {
     }
   }
 
-  viewFile(file: File) {
+  viewFile(event: Event, file: File) {
+    event.preventDefault(); // Impede o submit do formulário
     const fileURL = URL.createObjectURL(file);
     const newWindow = window.open(fileURL, '_blank');
 
