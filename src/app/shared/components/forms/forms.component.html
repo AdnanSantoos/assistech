@@ -159,7 +159,13 @@
             Tipos de arquivo aceitos: <strong>.PDF</strong>
           </p>
 
-          <table *ngIf="selectedFiles.length > 0">
+          <table
+            *ngIf="
+              selectedFilesMap[field.name] &&
+              selectedFilesMap[field.name].length > 0
+            "
+            class="table table-bordered mt-3"
+          >
             <thead>
               <tr>
                 <th>Arquivos Anexados</th>
@@ -167,28 +173,26 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let file of selectedFiles; let i = index">
+              <tr
+                *ngFor="let file of selectedFilesMap[field.name]; let i = index"
+              >
                 <td>{{ file.name }}</td>
                 <td>
-                  <div class="row">
-                    <div
-                      class="col d-flex flex-column justify-content-center align-items-center"
-                    >
-                      <a
+                  <div class="d-flex justify-content-evenly">
+                    <div class="d-flex flex-column">
+                      <button
                         mat-icon-button
                         color="accent"
                         (click)="viewFile(file)"
                       >
                         <mat-icon>visibility</mat-icon>
-                      </a>
+                      </button>
                       <span>Visualizar</span>
                     </div>
-                    <div
-                      class="col d-flex flex-column justify-content-center align-items-center"
-                    >
+                    <div class="d-flex flex-column">
                       <button
-                        class="btn-format btn-format btn-remove mt-2"
-                        (click)="removeFile(i)"
+                        class="btn-format btn-remove border-0 ps-0 pe-0 ms-0 me-0"
+                        (click)="removeFile(field.name, i)"
                       >
                         <img
                           src="../../../../../assets/icons/remove-icon.svg"

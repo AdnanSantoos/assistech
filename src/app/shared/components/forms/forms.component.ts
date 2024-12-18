@@ -58,6 +58,7 @@ export class FormsComponent implements OnInit {
   isTargetRoute: boolean = false;
   selectedFiles: File[] = [];
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
+  selectedFilesMap: { [key: string]: File[] } = {}; // Mapeia os arquivos por campo
 
   constructor(private fb: FormBuilder, private dateAdapter: DateAdapter<Date>, private router: Router,
     private route: ActivatedRoute) {
@@ -73,11 +74,11 @@ export class FormsComponent implements OnInit {
   ngOnInit() {
     this.dynamicFields.forEach((field) => {
       if (field.type === 'file' && field.fileType === 'simple') {
-        this.form.addControl(field.name, this.fb.control({value:field.value?field.value:null,disabled:field.disabled?field.disabled:false}));
+        this.form.addControl(field.name, this.fb.control({ value: field.value ? field.value : null, disabled: field.disabled ? field.disabled : false }));
       } else if (field.type === 'checkbox') {
-        this.form.addControl(field.name, this.fb.control({value:field.value?field.value:false,disabled:field.disabled?field.disabled:false}));
+        this.form.addControl(field.name, this.fb.control({ value: field.value ? field.value : false, disabled: field.disabled ? field.disabled : false }));
       } else {
-        this.form.addControl(field.name, this.fb.control({value:field.value?field.value:'',disabled:field.disabled?field.disabled:false}));
+        this.form.addControl(field.name, this.fb.control({ value: field.value ? field.value : '', disabled: field.disabled ? field.disabled : false }));
       }
     });
     this.isTargetRoute = this.router.url === '/adm/diario-oficial-administrativo/publicar';
@@ -92,33 +93,59 @@ export class FormsComponent implements OnInit {
     if (files && files.length > 0) {
       for (let i = 0; i < files.length; i++) {
         const file = files[i];
-        if (file.type === 'application/pdf') {
+        // Verifica se o arquivo é PDF e não está duplicado
+        if (
+          file.type === 'application/pdf' &&
+          !this.selectedFilesMap[fieldName]?.some(f => f.name === file.name)
+        ) {
           validFiles.push(file);
-        } else {
+        } else if (file.type !== 'application/pdf') {
           invalidFiles.push(file.name);
         }
       }
 
+      // Inicializa a lista caso ainda não exista
+      if (!this.selectedFilesMap[fieldName]) {
+        this.selectedFilesMap[fieldName] = [];
+      }
+
+      // Adiciona arquivos válidos
       if (validFiles.length > 0) {
-        this.selectedFiles = validFiles;
-        this.nameFile = validFiles.map(file => file.name).join(', ');
+        this.selectedFilesMap[fieldName].push(...validFiles);
         this.form.patchValue({
-          [fieldName]: this.selectedFiles,
+          [fieldName]: this.selectedFilesMap[fieldName],
         });
         this.form.get(fieldName)?.updateValueAndValidity();
       }
 
+      // Alerta para arquivos inválidos
       if (invalidFiles.length > 0) {
-        alert(`Os seguintes arquivos não são PDFs e foram ignorados: ${invalidFiles.join(', ')}`);
+        alert(`Os seguintes arquivos não são PDFs ou estão duplicados: ${invalidFiles.join(', ')}`);
       }
     }
   }
+
+  removeFile(fieldName: string, index: number): void {
+    if (this.selectedFilesMap[fieldName]) {
+      this.selectedFilesMap[fieldName].splice(index, 1);
+      if (this.selectedFilesMap[fieldName].length === 0) {
+        delete this.selectedFilesMap[fieldName];
+      }
+
+      // Atualiza o formulário
+      this.form.patchValue({
+        [fieldName]: this.selectedFilesMap[fieldName] || [],
+      });
+      this.form.get(fieldName)?.updateValueAndValidity();
+    }
+  }
+
 
   onFileChangeAgendado(event: any, fieldName: string) {
     const files = event.target.files;
     const validFiles: File[] = [];
     const invalidFiles: string[] = [];
-    
+
 
     if (files && files.length > 0) {
       for (let i = 0; i < files.length; i++) {
@@ -157,12 +184,6 @@ export class FormsComponent implements OnInit {
   }
 
 
-  removeFile(index: number) {
-    this.selectedFiles.splice(index, 1);
-    if (this.selectedFiles.length === 0) {
-      this.nameFile = null;
-    }
-  }
 
   onSubmit() {
     if (this.form.valid) {
