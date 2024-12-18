@@ -7,6 +7,7 @@ import { MatIcon, MatIconModule } from '@angular/material/icon';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ArquivoUploadMapper, AtaLicitacaoMapper } from './mapper/ata.mapper';
+import { LicitacaoDetalhesModel } from '../model/licitacoes-administrativo.model';
 
 
 @Component({
@@ -19,7 +20,7 @@ import { ArquivoUploadMapper, AtaLicitacaoMapper } from './mapper/ata.mapper';
 })
 export class AtasLicitacoesAdministrativoComponent implements OnInit {
   licitacaoId!: string; // Capturado da URL
-  licitacao: { number: string; year: number; process_number: string, agency: string } | null = null; // Armazena os dados da licitação
+  licitacao!: LicitacaoDetalhesModel;
   atas: any[] = []; // Armazena as atas de registro
   isLoading = true;
   currentPage = 1;
@@ -113,13 +114,8 @@ export class AtasLicitacoesAdministrativoComponent implements OnInit {
 
   loadLicitacaoDetalhes(): void {
     this.licitacoesService.getLicitacaoById(this.licitacaoId).subscribe({
-      next: (response: any) => {
-        this.licitacao = {
-          number: response.data.number,
-          year: response.data.year,
-          process_number: response.data.process_number,
-          agency: response.data.agency.name
-        };
+      next: (response: { data: LicitacaoDetalhesModel }) => {
+        this.licitacao = response.data; // Mapeia o retorno diretamente
       },
       error: (err) => {
         console.error('Erro ao carregar detalhes da licitação:', err);
@@ -134,7 +130,7 @@ export class AtasLicitacoesAdministrativoComponent implements OnInit {
       next: (response: RequisicaoModel<any>) => {
         // Mapeia os dados da resposta para os campos necessários na tabela
         this.atas = response.data.map((ata: any) => ({
-          id: ata.id, // Adiciona o campo id para usar na edição
+          id: ata.id,
           numero: ata.price_registry_number || 'N/A',
           ano: ata.year_of_registry || 'N/A',
           data_assinatura: ata.signature_date || 'N/A',
@@ -142,6 +138,7 @@ export class AtasLicitacoesAdministrativoComponent implements OnInit {
           fim_vigencia: ata.end_date_of_validity || 'N/A',
           status: ata.date_canceled ? 'cancelada' : 'ativa',
           gateway_location: ata.gateway_location || '',
+          gateway_sequence: ata.gateway_sequence || null, // Certifique-se de mapear essa propriedade
         }));
 
         this.totalPages = response.meta?.pagination?.last_page || 1;
@@ -154,23 +151,36 @@ export class AtasLicitacoesAdministrativoComponent implements OnInit {
     });
   }
 
+
   irParaPncp(ata: any): void {
-    if (ata && ata.gateway_sequence && ata.year_of_registry && ata.procurement_id) {
-      // Dados para construção do link
-      const agencyCountryRegister = '13267315000141'; // Código fixo ou pode ser obtido dinamicamente, se necessário
-      const year = ata.year_of_registry;
+    if (!ata.gateway_sequence) {
+      console.error('Propriedade gateway_sequence não encontrada no objeto ata:', ata);
+      return;
+    }
+
+    if (
+      this.licitacao &&
+      this.licitacao.agency?.country_register &&
+      this.licitacao.dispute_mode_id &&
+      this.licitacao.year // Obtendo o ano dos detalhes da licitação
+    ) {
+      const agencyCountryRegister = this.licitacao.agency.country_register;
+      const year = this.licitacao.year; // Ano da licitação, não da ata
+      const disputeModeId = this.licitacao.dispute_mode_id;
       const sequence = ata.gateway_sequence;
 
-      // Construção do link baseado nos dados
       const baseUrl = 'https://treina.pncp.gov.br/app/atas/';
-      const fullUrl = `${baseUrl}${agencyCountryRegister}/${year}/${ata.procurement_id}/${sequence}`;
+      const fullUrl = `${baseUrl}${agencyCountryRegister}/${year}/${disputeModeId}/${sequence}`;
 
-      // Abre o link em uma nova aba
       window.open(fullUrl, '_blank');
     } else {
       console.error('Dados insuficientes para gerar o link da ATA.');
     }
   }
+
+
+
+
 
   deleteAta() {
 
