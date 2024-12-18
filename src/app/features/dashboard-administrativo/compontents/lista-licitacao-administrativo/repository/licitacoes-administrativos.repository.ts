@@ -37,12 +37,16 @@ export class LicitacoesRepository {
     return this._http.get<RequisicaoModel<LicitacaoItemModel[]>>(url, { params });
   }
 
-  getLicitacaoAtas(licitacaoId: string, page: number): Observable<RequisicaoModel<any>> {
+  getLicitacaoAtas(licitacaoId: string, page: number): Observable<RequisicaoModel<LicitacaoAtaModel>> {
     const params = new HttpParams().set('page', page.toString());
     const url = `${this.baseUrl}/${licitacaoId}/minutes`;
     return this._http.get<RequisicaoModel<any>>(url, { params });
   }
-
+  getAtaArquivos(minutesId: string, page: number): Observable<RequisicaoModel<LicitacaoArquivos>> {
+    const params = new HttpParams().set('page', page.toString());
+    const url = `${environment.apiUrl}/tenants/${environment.tenant}/pncp/minutes/${minutesId}/files`;
+    return this._http.get<RequisicaoModel<any>>(url, { params });
+  }
   getOrgaos(page: number): Observable<RequisicaoModel<OrgaoModel[]>> {
     const params = new HttpParams().set('page', page.toString());
     return this._http.get<RequisicaoModel<OrgaoModel[]>>(this.baseUrl, { params });
@@ -74,7 +78,10 @@ export class LicitacoesRepository {
     const url = `${this.baseUrl}/${procurementId}/minutes`;
     return this._http.post<void>(url, ataData);
   }
-  
+  uploadArquivo(minutesId: string, formData: FormData): Observable<LicitacaoArquivos> {
+    const url = `${environment.apiUrl}/tenants/${environment.tenant}/pncp/minutes/${minutesId}/files`;
+    return this._http.post<LicitacaoArquivos>(url, formData);
+  }
   updateLicitacao(id: string, data: any): Observable<void> {
     return this._http.put<void>(`${this.baseUrl}/${id}`, data);
   }
@@ -82,7 +89,7 @@ export class LicitacoesRepository {
     const url = `${this.baseUrl}/${procurementId}/minutes/${minutesId}`;
     return this._http.put<void>(url, ataData);
   }
-  
+
 
   getResultadosItem(procurementId: string, itemId: string): Observable<RequisicaoModel<LicitacaoResultados[]>> {
     const url = `${environment.apiUrl}/tenants/${environment.tenant}/pncp/procurements/${procurementId}/items/${itemId}/results`;

@@ -3,23 +3,23 @@ import { Component, OnInit, Inject, TemplateRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { LicitacoesService } from '../service/licitacoes-administrativos.service';
 import { RequisicaoModel } from '../../../../../shared/models/shared.model';
-import { MatIcon } from '@angular/material/icon';
+import { MatIcon, MatIconModule } from '@angular/material/icon';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { AtaLicitacaoMapper } from './mapper/ata.mapper';
+import { ArquivoUploadMapper, AtaLicitacaoMapper } from './mapper/ata.mapper';
 
 
 @Component({
   selector: 'app-atas-licitacoes-administrativo',
   standalone: true,
-  imports: [CommonModule, MatIcon, ReactiveFormsModule],
+  imports: [CommonModule, MatIcon, ReactiveFormsModule, MatIconModule],
   providers: [BsModalService],
   templateUrl: './atas-licitacoes-administrativo.component.html',
   styleUrls: ['./atas-licitacoes-administrativo.component.scss'],
 })
 export class AtasLicitacoesAdministrativoComponent implements OnInit {
   licitacaoId!: string; // Capturado da URL
-  licitacao: { number: string; year: number; process_number: string } | null = null; // Armazena os dados da licitação
+  licitacao: { number: string; year: number; process_number: string, agency: string } | null = null; // Armazena os dados da licitação
   atas: any[] = []; // Armazena as atas de registro
   isLoading = true;
   currentPage = 1;
@@ -37,6 +37,10 @@ export class AtasLicitacoesAdministrativoComponent implements OnInit {
   isEditMode = false; // Flag para controlar o modo de edição
   selectedAta: any = null; // Dados da ATA selecionada para edição
   modalTitle = 'Adicionar ATA'; // Título dinâmico do modal
+
+
+  formArquivo!: FormGroup; // Formulário de arquivos
+  arquivos: any[] = []; // Lista de arquivos
 
   constructor(
     private route: ActivatedRoute,
@@ -66,6 +70,12 @@ export class AtasLicitacoesAdministrativoComponent implements OnInit {
       end_date_of_validity: [null],
       change_reason: [null],
     });
+
+    this.formArquivo = this.fb.group({
+      document_title: [''],         // Campo título do documento
+      document_type_id: [''],       // Campo tipo de documento
+      file: [null]                  // Campo arquivo
+    });
   }
 
   ngOnInit() {
@@ -87,6 +97,7 @@ export class AtasLicitacoesAdministrativoComponent implements OnInit {
           number: response.data.number,
           year: response.data.year,
           process_number: response.data.process_number,
+          agency: response.data.agency.name
         };
       },
       error: (err) => {
@@ -266,5 +277,118 @@ export class AtasLicitacoesAdministrativoComponent implements OnInit {
       console.error('Formulário inválido para atualização.');
     }
   }
+  openArquivosModal(template: TemplateRef<any>, ata: any): void {
+    this.selectedAta = {
+      id: ata.id,
+      price_registry_number: ata.numero,
+      year_of_registry: ata.ano,
+      signature_date: ata.data_assinatura
+    };
 
+    this.loadArquivos(); // Carrega os arquivos relacionados à ATA selecionada
+
+    this.modalRef = this.modalService.show(template, { class: 'modal-lg' });
+  }
+
+
+  loadArquivos(): void {
+    if (!this.selectedAta?.id) {
+      console.error('ID da ATA não encontrado.');
+      return;
+    }
+
+    const ataId = this.selectedAta.id;
+
+    this.licitacoesService.getAtaArquivos(ataId, 1).subscribe({
+      next: (response) => {
+        // Garante que response.data é um array
+        if (Array.isArray(response.data)) {
+          this.arquivos = response.data.map((file) => ({
+            id: file.id,
+            created_by_id: file.created_by_id,
+            procurement_id: file.procurement_id,
+            label: file.label, // Nome do arquivo
+            mime: file.mime, // Tipo MIME do arquivo
+            size: file.size, // Tamanho do arquivo
+            extension: file.extension, // Extensão do arquivo
+            gateway_location: file.gateway_location, // URL para download
+            document_type_id: file.document_type_id, // Tipo de documento
+            document_title: file.document_title, // Título do documento
+            gateway_sequence: file.gateway_sequence, // Sequência no gateway
+          }));
+        } else {
+          console.error('Resposta inválida: dados não são um array.');
+          this.arquivos = [];
+        }
+
+        console.log('Arquivos carregados:', this.arquivos);
+      },
+      error: (err) => {
+        console.error('Erro ao carregar arquivos da ATA:', err);
+      },
+    });
+  }
+
+
+
+  salvarArquivo(): void {
+    if (this.formArquivo.valid) {
+      const formValue = this.formArquivo.value;
+      const selectedFile: File = this.formArquivo.get('file')?.value;
+  
+      if (!selectedFile) {
+        console.error('Nenhum arquivo selecionado.');
+        return;
+      }
+  
+      // Mapeia os dados com o ArquivoUploadMapper
+      const formData = ArquivoUploadMapper.toSubmit(formValue, selectedFile);
+  
+      const minutesId = this.selectedAta?.id;
+  
+      if (!minutesId) {
+        console.error('ID da ATA não encontrado.');
+        return;
+      }
+  
+      // Envia o arquivo para a API
+      this.licitacoesService.uploadArquivo(minutesId, formData).subscribe({
+        next: () => {
+          console.log('Arquivo enviado com sucesso!');
+          this.loadArquivos(); // Recarrega a lista de arquivos
+          this.formArquivo.reset();
+        },
+        error: (err) => {
+          console.error('Erro ao enviar o arquivo:', err);
+        },
+      });
+    } else {
+      console.error('Formulário inválido.');
+    }
+  }
+  onFileSelectedModal(event: any): void {
+    const file = event.target.files[0];
+    if (file) {
+      this.formArquivo.patchValue({ file });
+      console.log('Arquivo selecionado:', file);
+    } else {
+      console.warn('Nenhum arquivo selecionado.');
+    }
+  }
+  
+  // Baixa o arquivo
+  downloadArquivo(arquivo: any): void {
+    if (arquivo && arquivo.id) {
+      console.log('Baixando arquivo com ID:', arquivo.id);
+      // Implementar lógica para download real do arquivo, exemplo:
+      window.open(arquivo.gateway_location, '_blank');
+    } else {
+      console.error('Dados do arquivo incompletos.');
+    }
+  }
+
+  deleteArquivo(arquivo: any): void {
+    console.log('Excluindo arquivo:', arquivo);
+    // Adicione a lógica para excluir o arquivo
+  }
 }

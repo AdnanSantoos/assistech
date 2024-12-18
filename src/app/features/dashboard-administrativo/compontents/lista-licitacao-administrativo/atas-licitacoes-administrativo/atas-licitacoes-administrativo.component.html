@@ -83,8 +83,8 @@
               <div class="d-flex flex-column align-items-center">
                 <a
                   class="btn-arquivo btn-format d-flex justify-content-center align-items-center"
+                  (click)="openArquivosModal(modalArquivosLicitacao, ata)"
                 >
-                  <!-- (click)="openArquivosDialog(element)" -->
                   <img
                     src="../../../../../assets/icons/arquivo-adm-icon.svg"
                     alt="Arquivos"
@@ -440,6 +440,149 @@
       [disabled]="!formEditAta.valid"
     >
       Salvar Alterações
+    </button>
+  </div>
+</ng-template>
+
+<!-- Modal de Arquivos da Licitação -->
+<ng-template #modalArquivosLicitacao>
+  <div class="modal-header bg-dark text-white">
+    <h5 class="modal-title">Arquivos da Licitação</h5>
+    <button
+      type="button"
+      class="btn-close text-white"
+      aria-label="Close"
+      (click)="closeModal()"
+    ></button>
+  </div>
+
+  <div class="modal-body">
+    <p class="text-muted mb-4">Gerenciamento de arquivos da licitação.</p>
+
+    <!-- Informações principais -->
+    <div class="info-box mb-4">
+      <h6 class="fw-bold">ATA</h6>
+      <div class="d-flex justify-content-between">
+        <div>
+          <strong>Número da ATA:</strong>
+          <span>
+            {{ selectedAta?.price_registry_number }}/{{
+              selectedAta?.year_of_registry
+            }}
+          </span>
+        </div>
+        <div>
+          <strong>Data de Assinatura:</strong>
+          <span class="fw-bold">
+            {{ selectedAta?.signature_date | date : "dd/MM/yyyy" }}
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Formulário de Upload -->
+    <form [formGroup]="formArquivo" class="row g-3">
+      <!-- Título do Documento -->
+      <div class="col-12">
+        <label for="tituloDocumento" class="form-label"
+          >Título do documento *</label
+        >
+        <input
+          type="text"
+          id="tituloDocumento"
+          class="form-control"
+          placeholder="Título do documento"
+          formControlName="document_title"
+        />
+      </div>
+
+      <!-- Tipo de Documento -->
+      <div class="col-12">
+        <label for="tipoDocumento" class="form-label"
+          >Tipo de documento *</label
+        >
+        <select
+          id="tipoDocumento"
+          class="form-select"
+          formControlName="document_type_id"
+        >
+          <option value="" disabled selected>Selecionar</option>
+          <option *ngFor="let tipo of tiposDocumentos" [value]="tipo.value">
+            {{ tipo.key }}
+          </option>
+        </select>
+      </div>
+
+      <!-- Upload do Arquivo -->
+      <div class="col-12">
+        <label class="form-label">Documento da ATA *</label>
+        <input
+          id="fileInput"
+          type="file"
+          class="form-control"
+          (change)="onFileSelectedModal($event)"
+        />
+        <small class="text-muted">
+          Tipos de arquivos aceitos: .pdf, .txt, .rtf, .doc, .docx, .odt
+        </small>
+      </div>
+    </form>
+
+    <!-- Lista de Arquivos -->
+    <div class="mt-4">
+      <h6 class="fw-bold">Arquivos</h6>
+      <table class="table table-striped table-bordered">
+        <thead>
+          <tr>
+            <th>Arquivo</th>
+            <th class="text-center">Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let arquivo of arquivos">
+            <td>
+              <strong>{{ arquivo.label }}</strong>
+            </td>
+            <td class="text-center">
+              <!-- Botão de Download -->
+              <button
+                class="btn btn-success btn-sm me-2"
+                (click)="downloadArquivo(arquivo)"
+              >
+                <mat-icon>visibility</mat-icon>
+              </button>
+
+              <!-- Botão de Exclusão -->
+              <button
+                class="btn btn-danger btn-sm"
+                (click)="deleteArquivo(arquivo)"
+              >
+                <mat-icon>delete</mat-icon>
+              </button>
+            </td>
+          </tr>
+          <!-- Caso não haja arquivos -->
+          <tr *ngIf="arquivos.length === 0">
+            <td colspan="2" class="text-center text-muted">
+              Nenhum arquivo disponível.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="closeModal()">
+      Fechar
+    </button>
+    <button
+      type="button"
+      class="btn btn-primary"
+      (click)="salvarArquivo()"
+      [disabled]="!formArquivo.valid"
+    >
+      Salvar
     </button>
   </div>
 </ng-template>

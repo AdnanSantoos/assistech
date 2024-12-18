@@ -40,3 +40,27 @@ export class AtaLicitacaoMapper {
     return formData;
   }
 }
+
+
+export class ArquivoUploadMapper {
+  public static toSubmit(form: any, file: File): FormData {
+    const formData = new FormData();
+
+    // Adiciona os campos do formulário ao FormData
+    Object.keys(form).forEach((key) => {
+      if (form[key] !== null && form[key] !== undefined && key !== 'file') {
+        formData.append(key, form[key]);
+      }
+    });
+
+    // Adiciona o arquivo em formato binary ao FormData
+    if (file) {
+      formData.append('file', file, file.name);
+    } else {
+      console.warn('Nenhum arquivo selecionado para upload.');
+    }
+
+    return formData;
+  }
+}
+

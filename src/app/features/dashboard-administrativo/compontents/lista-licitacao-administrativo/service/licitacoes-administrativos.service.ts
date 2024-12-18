@@ -32,10 +32,12 @@ export class LicitacoesService {
     return this._repository.getLicitacoesArquivos(tenant, procurementId, page);
   }
 
-  getLicitacaoAtas(licitacaoId: string, page: number): Observable<RequisicaoModel<any>> {
+  getLicitacaoAtas(licitacaoId: string, page: number): Observable<RequisicaoModel<LicitacaoAtaModel>> {
     return this._repository.getLicitacaoAtas(licitacaoId, page);
   }
-
+  getAtaArquivos(minutesId: string, page: number): Observable<RequisicaoModel<LicitacaoArquivos>> {
+    return this._repository.getAtaArquivos(minutesId, page);
+  }
   getOrgaos(page: number): Observable<RequisicaoModel<OrgaoModel[]>> {
     return this._repository.getOrgaos(page);
   }
@@ -43,7 +45,22 @@ export class LicitacoesService {
   getLicitacaoById(id: string): Observable<RequisicaoModel<LicitacaoDetalhesModel>> {
     return this._repository.getLicitacaoById(id);
   }
-
+  uploadArquivo(minutesId: string, formData: FormData): Observable<LicitacaoArquivos> {
+    return new Observable<LicitacaoArquivos>((observer) => {
+      this._repository.uploadArquivo(minutesId, formData).subscribe({
+        next: (response) => {
+          this.toastr.success('Arquivo enviado com sucesso!', 'Sucesso');
+          observer.next(response); // Emite a resposta para o componente
+          observer.complete();
+        },
+        error: (err) => {
+          console.error('Erro ao enviar o arquivo:', err);
+          this.toastr.error('Erro ao enviar o arquivo. Tente novamente.', 'Erro');
+          observer.error(err); // Emite o erro para o componente
+        },
+      });
+    });
+  }
   createLicitacoes(data: { agency: string; agency_country_register: string }): Observable<void> {
     return this._repository.createLicitacoes(data).pipe(
       tap(() => this.toastr.success('Licitação criada com sucesso!')),
