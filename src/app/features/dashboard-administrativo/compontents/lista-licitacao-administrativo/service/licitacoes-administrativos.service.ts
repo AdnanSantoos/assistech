@@ -161,4 +161,16 @@ export class LicitacoesService {
       })
     );
   }
+  deleteArquivos(tenant: string, minutesId: string, fileId: string, justification: string): Observable<void> {
+    return this._repository.deleteArquivos(tenant, minutesId, fileId, justification).pipe(
+      tap(() => {
+        this.toastr.success('Arquivo excluído com sucesso!', 'Sucesso');
+      }),
+      catchError((error) => {
+        this.toastr.error('Erro ao excluir o arquivo. Tente novamente.', 'Erro');
+        throw error; // Propaga o erro
+      })
+    );
+  }
+  
 }

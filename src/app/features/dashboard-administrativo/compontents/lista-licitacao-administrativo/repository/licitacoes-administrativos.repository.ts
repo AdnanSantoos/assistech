@@ -100,9 +100,16 @@ export class LicitacoesRepository {
     const body = { justification }; // Corpo com o motivo da exclusão
     return this._http.delete<void>(`${this.baseUrl}/${procurementId}`, { body });
   }
+
   deleteAta(minutesId: string, justification: string): Observable<void> {
     const params = new HttpParams().set('justification', justification);
     const url = `${environment.apiUrl}/tenants/${environment.tenant}/pncp/minutes/${minutesId}`;
+    return this._http.delete<void>(url, { params });
+  }
+
+  deleteArquivos(tenant: string, minutesId: string, fileId: string, justification: string): Observable<void> {
+    const url = `${environment.apiUrl}/tenants/${environment.tenant}/pncp/procurements/${minutesId}/files/${fileId}`;
+    const params = { justification }; // Payload enviado como parâmetro
     return this._http.delete<void>(url, { params });
   }
 
@@ -110,5 +117,5 @@ export class LicitacoesRepository {
     const url = `${this.baseUrl}/${procurementId}/minutes/${minutesId}/cancel`;
     return this._http.put<void>(url, payload);
   }
-  
+
 }

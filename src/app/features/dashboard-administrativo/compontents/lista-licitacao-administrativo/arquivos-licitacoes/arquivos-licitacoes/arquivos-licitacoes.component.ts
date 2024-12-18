@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, TemplateRef } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatIcon } from '@angular/material/icon';
 import { LicitacaoArquivos } from '../../model/licitacoes-administrativo.model';
@@ -8,11 +8,13 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AdicionarLicitacaoMapper } from '../../../../../pncp-administrativo/components/dados-da-licitacao-administrativo/mapper/adicionar-licitacao.mapper';
 import { AdicionarArquivoLicitacaoMapper } from '../mapper/AdicionarArquivoLicitacao.mapper';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-arquivos-licitacoes',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, MatIcon],
+  providers: [BsModalService],
   templateUrl: './arquivos-licitacoes.component.html',
   styleUrls: ['./arquivos-licitacoes.component.scss'],
 })
@@ -20,9 +22,11 @@ export class ArquivosLicitacoesComponent implements OnInit {
   formGroup!: FormGroup;
   arquivos: LicitacaoArquivos[] = [];
   isLoading = true;
-
+  modalRef?: BsModalRef; // Referência ao modal
+  deleteForm!: FormGroup;
   nameFile: string | null = null;
   selectedFiles: any[] = [];
+  selectedFile: any = null; // Propriedade para armazenar o arquivo selecionado
 
   tiposDocumentos = [
     { value: 1, key: 'Aviso de Contratação Direta' },
@@ -53,8 +57,14 @@ export class ArquivosLicitacoesComponent implements OnInit {
     },
     private dialogRef: MatDialogRef<ArquivosLicitacoesComponent>,
     private licitacoesService: LicitacoesService,
-    private fb: FormBuilder
-  ) { }
+    private fb: FormBuilder,
+    private modalService: BsModalService,
+
+  ) {
+    this.deleteForm = this.fb.group({
+      justification: [null, [Validators.required, Validators.minLength(5)]],
+    });
+  }
 
   ngOnInit(): void {
     this.formGroup = this.fb.group({
@@ -188,5 +198,34 @@ export class ArquivosLicitacoesComponent implements OnInit {
     }
   }
 
+  openDeleteModal(arquivo: any, template: TemplateRef<any>): void {
+    this.selectedFile = arquivo; // Armazena o arquivo selecionado
+    this.deleteForm.reset(); // Limpa o formulário ao abrir
+    this.modalRef = this.modalService.show(template, { class: 'modal-md' });
+  }
+  confirmDelete(): void {
+    if (this.deleteForm.valid && this.selectedFile) {
+      const tenant = this.data.unit?.agency_country_register;
+      const minutesId = this.data.licitacaoId;
+      const fileId = this.selectedFile.id;
+      const justification = this.deleteForm.value.justification;
+
+      if (!tenant || !minutesId || !fileId) {
+        console.error('IDs obrigatórios não encontrados.');
+        return;
+      }
+
+      this.licitacoesService.deleteArquivos(tenant, minutesId, fileId, justification).subscribe({
+        next: () => {
+          console.log('Arquivo excluído com sucesso!');
+          this.loadArquivos(tenant, minutesId, 1); // Recarrega a lista
+          this.modalRef?.hide(); // Fecha o modal
+        },
+        error: (err) => {
+          console.error('Erro ao excluir arquivo:', err);
+        },
+      });
+    }
+  }
 
 }
