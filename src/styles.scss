@@ -506,7 +506,7 @@ body {
   text-transform: capitalize;
   display: inline-block;
 }
-.tx-mustard{
+.tx-mustard {
   background: #efece0;
   color: #a79a28;
   border: 2px solid #7a711c;
@@ -514,4 +514,41 @@ body {
   border-radius: 4px;
   text-transform: capitalize;
   display: inline-block;
+}
+
+.table-editada {
+  padding: 20px;
+  thead {
+    background-color: #ebebeb;
+    border: 1px solid #d4d3d3;
+    tr {
+      th {
+        color: #000;
+        text-align: left;
+        font-size: 12.527px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 122.487%;
+        background: #ebebeb;
+        border: none;
+        padding: 15px;
+      }
+    }
+  }
+
+  tbody {
+    td{
+      padding: 10px;
+      border: 1px solid #d4d3d3;
+    }
+    tr {
+      &:nth-child(even) {
+        background-color: #ebeaea !important;
+      }
+
+      &:nth-child(odd) {
+        background-color: #ffffff !important;
+      }
+    }
+  }
 }
