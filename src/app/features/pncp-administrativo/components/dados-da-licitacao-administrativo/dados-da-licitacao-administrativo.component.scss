@@ -328,16 +328,30 @@
   justify-content: space-between;
   font-size: 1.4rem;
   font-weight: bold;
-
-  .toggle-icon {
-    font-size: 1.4rem;
-    cursor: pointer;
-    transition: transform 0.3s ease;
-
-    &.open {
-      transform: rotate(45deg);
-    }
+}
+.toggle-icon {
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  background-color: #027e38;
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  &.open {
+    transform: rotate(45deg);
+    background-color: red;
   }
+  &.open:hover{
+    background-color: rgb(107, 3, 3);
+
+  }
+}
+.toggle-icon:hover{
+  background-color: #025827;
+
 }
 
 .form-section .content {
@@ -347,7 +361,6 @@
 .hidden {
   display: none;
 }
-
 
 .file-upload-wrapper {
   margin-bottom: 20px;

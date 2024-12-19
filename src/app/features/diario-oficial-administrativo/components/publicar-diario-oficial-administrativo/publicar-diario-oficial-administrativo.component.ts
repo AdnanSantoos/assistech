@@ -39,7 +39,7 @@ export class PublicarDiarioOficialAdministrativoComponent implements OnInit {
   modalRef?: BsModalRef;
   nameFile: string | null = null;
   selectedFiles: File[] = [];
-  minDate:Date = new Date()
+  minDate: Date = new Date()
   bsConfig?: Partial<BsDatepickerConfig> = Object.assign({}, { containerClass: 'theme-default' });
   dynamicFields: dynamicFields[] = [
     { name: 'date', type: 'date', label: 'Data', required: true, value: new Date(), disabled: true },
@@ -146,7 +146,12 @@ export class PublicarDiarioOficialAdministrativoComponent implements OnInit {
   }
 
   openModal(template: TemplateRef<void>) {
-    this.modalRef = this._modalService.show(template,Object.assign({}, { class: 'modal-lg' }));
+    this.modalRef = this._modalService.show(template, Object.assign({}, { class: 'modal-lg' }));
   }
-
+  closeModal(): void {
+    if (this.modalRef) {
+      this.modalRef.hide();
+      this.modalRef = undefined; // Limpa a referência do modal
+    }
+  }
 }
