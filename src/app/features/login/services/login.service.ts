@@ -39,6 +39,7 @@ export class LoginService {
         }
         this._tenantService.getDados(this.tenant).subscribe(v=>{
           if(v.data.is_staff){
+            localStorage.setItem('userEmail', v.data.email)
             localStorage.setItem('isStaff',v.data.is_staff) 
           }
           this._router.navigate(['adm/dashboard-administrativo/home']);  
@@ -55,6 +56,7 @@ export class LoginService {
     this._repository.logout(tenant).subscribe({
       next: (response: LoginResponse) => {
         localStorage.removeItem('authToken');    
+        localStorage.removeItem('userEmail')
         localStorage.removeItem('isStaff');    
         this._router.navigate(['/']);
       },
