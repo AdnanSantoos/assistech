@@ -27,6 +27,7 @@ import { AtasLicitacoesAdministrativoComponent } from './compontents/lista-licit
 import { ResultadoLicitacaoComponent } from './compontents/lista-licitacao-administrativo/itens-licitacoes/resultado-licitacao/resultado-licitacao.component';
 import { TermosContratosAdministrativoComponent } from './compontents/lista-contratos-administrativo/termos-contratos-administrativo/termos-contratos-administrativo.component';
 import { CriarTermosContratosAdministrativoComponent } from './compontents/lista-contratos-administrativo/criar-termos-contratos-administrativo/criar-termos-contratos-administrativo.component';
+import { AdicionarOrgaoAdministrativoComponent } from './compontents/adicionar-orgao-administrativo/adicionar-orgao-administrativo.component';
 
 const routes: Routes = [
   {
@@ -134,6 +135,10 @@ const routes: Routes = [
       {
         path: 'pca',
         component: PcaAdministrativoComponent,
+      },
+      {
+        path: 'adicionar-orgaos',
+        component: AdicionarOrgaoAdministrativoComponent,
       },
       {
         path: 'ppa-loa-ldo',

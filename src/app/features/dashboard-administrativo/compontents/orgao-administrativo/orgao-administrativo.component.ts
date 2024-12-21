@@ -1,21 +1,26 @@
 import { CommonModule, Location } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { OrgaoModel } from './model/orgao-administrativo.model';
 import { OrgaosService } from './service/orgao-administrativos.service';
 import { RequisicaoModel } from '../../../../shared/models/shared.model';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
 
 @Component({
   selector: 'app-orgao-administrativo',
   standalone: true,
   imports: [RouterLink, CommonModule, MatIconModule],
+  providers: [BsModalService],
+
   templateUrl: './orgao-administrativo.component.html',
   styleUrls: ['./orgao-administrativo.component.scss'],
 })
 export class OrgaoAdministrativoComponent implements OnInit {
+  @ViewChild('deleteModal') deleteModal!: TemplateRef<any>;
+
   displayedColumns: string[] = [
     'nome',
     'cnpj',
@@ -26,11 +31,13 @@ export class OrgaoAdministrativoComponent implements OnInit {
   currentPage = 1;
   totalPages = 0;
   totalRecords = 0;
+  selectedOrgao: { name: string; country_register: string } | null = null;
+  modalRef?: BsModalRef;
 
   constructor(
-    private location: Location,
+    private location: Location, private modalService: BsModalService,
     private _orgaosService: OrgaosService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.loadOrgaos(this.currentPage);
@@ -76,4 +83,29 @@ export class OrgaoAdministrativoComponent implements OnInit {
       },
     });
   }
+
+  openDeleteModal(orgao: { name: string; country_register: string }): void {
+    this.selectedOrgao = orgao;
+    this.modalRef = this.modalService.show(this.deleteModal);
+  }
+
+
+  confirmDelete(): void {
+    if (this.selectedOrgao) {
+      const countryRegister = this.selectedOrgao.country_register;
+
+      this._orgaosService.deleteOrgao(countryRegister).subscribe(
+        () => {
+          this.dataSource.data = this.dataSource.data.filter(
+            (o) => o.country_register !== countryRegister
+          );
+          this.modalRef?.hide();
+        },
+        (error) => {
+          console.error('Erro ao excluir órgão:', error);
+        }
+      );
+    }
+  }
+
 }

@@ -6,7 +6,6 @@ import { PncpAdministrativoIndexComponent } from './containers/pncp-administrati
 import { LicitacoesAdministrativoComponent } from './components/licitacoes-administrativo/licitacoes-administrativo.component';
 import { ContratosAdministrativoComponent } from './components/contratos-administrativo/contratos-administrativo.component';
 import { AdicionarUnidadesAdministrativoComponent } from './components/adicionar-unidades-administrativo/adicionar-unidades-administrativo.component';
-import { AdicionarOrgaoAdministrativoComponent } from './components/adicionar-orgao-administrativo/adicionar-orgao-administrativo.component';
 import { CartaDeServicosAdministrativoComponent } from './components/carta-de-servicos-administrativo/carta-de-servicos-administrativo.component';
 import { CotasParaServicoParlamentarAdministrativoComponent } from './components/cotas-para-servico-parlamentar-administrativo/cotas-para-servico-parlamentar-administrativo.component';
 import { DadosAbertosAdministrativoComponent } from './components/dados-abertos-administrativo/dados-abertos-administrativo.component';
@@ -32,10 +31,6 @@ const routes: Routes = [
         path: '',
         redirectTo: 'orgaos',
         pathMatch: 'full',
-      },
-      {
-        path: 'adicionar-orgaos',
-        component: AdicionarOrgaoAdministrativoComponent,
       },
       {
         path: 'adicionar-unidades',

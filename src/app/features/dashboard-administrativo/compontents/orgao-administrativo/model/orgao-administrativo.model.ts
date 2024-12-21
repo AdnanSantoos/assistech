@@ -9,7 +9,9 @@ export interface OrgaoUnitModel {
     city_code: number;
     agency_country_register: string;
 }
-
+export interface OrgaoResponse {
+    data: OrgaoModel;
+  }
 export interface OrgaoModel {
     name: string;
     country_register: string;

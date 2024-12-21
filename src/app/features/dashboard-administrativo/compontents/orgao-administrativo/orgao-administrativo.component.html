@@ -5,7 +5,7 @@
       <small>Lista de Órgãos cadastrados</small>
     </div>
     <button
-      routerLink="/adm/pncp-administrativo/adicionar-orgaos"
+      routerLink="/adm/dashboard-administrativo/adicionar-orgaos"
       class="btn btn-adm-adicionar ms-2"
     >
       <mat-icon>person</mat-icon> Adicionar Órgão
@@ -27,7 +27,11 @@
           <td>{{ orgao.country_register }}</td>
           <td>
             <div class="d-flex flex-column align-items-center py-1">
-              <a class="btn btn-sm btn-format btn-remove" matTooltip="Deletar">
+              <a
+                class="btn btn-sm btn-format btn-remove"
+                (click)="openDeleteModal(orgao)"
+                matTooltip="Deletar"
+              >
                 <img src="../../../../../assets/icons/remove-icon.svg" alt="" />
               </a>
               <span class="mt-1 legenda-icons">Deletar</span>
@@ -77,3 +81,32 @@
     </nav>
   </div>
 </div>
+
+<!-- Modal de Confirmação -->
+<ng-template #deleteModal>
+  <div class="modal-header">
+    <h5 class="modal-title text-danger">
+      <mat-icon>warning</mat-icon> Atenção!
+    </h5>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modalRef?.hide()"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <p class="fw-bold">
+      Deseja realmente excluir o órgão <br> <strong class="text-danger">{{ selectedOrgao?.name }}</strong
+      >?
+    </p>
+  </div>
+  <div class="modal-footer d-flex justify-content-between">
+    <button type="button" class="btn btn-danger" (click)="confirmDelete()">
+      Excluir
+    </button>
+    <button type="button" class="btn btn-secondary" (click)="modalRef?.hide()">
+      Fechar
+    </button>
+  </div>
+</ng-template>
