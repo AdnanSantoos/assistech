@@ -28,6 +28,7 @@ import { ResultadoLicitacaoComponent } from './compontents/lista-licitacao-admin
 import { TermosContratosAdministrativoComponent } from './compontents/lista-contratos-administrativo/termos-contratos-administrativo/termos-contratos-administrativo.component';
 import { CriarTermosContratosAdministrativoComponent } from './compontents/lista-contratos-administrativo/criar-termos-contratos-administrativo/criar-termos-contratos-administrativo.component';
 import { AdicionarOrgaoAdministrativoComponent } from './compontents/adicionar-orgao-administrativo/adicionar-orgao-administrativo.component';
+import { AdicionarUnidadesAdministrativoComponent } from '../pncp-administrativo/components/adicionar-unidades-administrativo/adicionar-unidades-administrativo.component';
 
 const routes: Routes = [
   {
@@ -147,6 +148,10 @@ const routes: Routes = [
       {
         path: 'outros',
         component: AcessoInformacaoAdministrativoComponent,
+      },
+      {
+        path: 'adicionar-unidades',
+        component: AdicionarUnidadesAdministrativoComponent,
       },
     ],
   },

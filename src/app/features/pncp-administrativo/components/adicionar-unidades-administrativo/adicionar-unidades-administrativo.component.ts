@@ -1,61 +1,123 @@
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { CommonModule, Location } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { ToastrService } from 'ngx-toastr';
-import { LayoutFormsAdmComponent } from '../../../../shared/containers/layout-forms-adm/layout-forms-adm.component';
+import { OrgaosService } from '../../../dashboard-administrativo/compontents/orgao-administrativo/service/orgao-administrativos.service';
 import { UnidadesService } from '../../../dashboard-administrativo/compontents/unidades-administrativo/service/unidades-administrativos.service';
-import { UnidadesMapper } from '../../../dashboard-administrativo/compontents/unidades-administrativo/mapper/unidades-administrativo.mapper';
-
 
 @Component({
   selector: 'app-adicionar-unidades-administrativo',
   standalone: true,
   imports: [
-    LayoutFormsAdmComponent,
     CommonModule,
-    ReactiveFormsModule,
-    MatIconModule,
     MatButtonModule,
+    MatIconModule,
+    ReactiveFormsModule,
   ],
   templateUrl: './adicionar-unidades-administrativo.component.html',
   styleUrls: ['./adicionar-unidades-administrativo.component.scss'],
 })
-export class AdicionarUnidadesAdministrativoComponent {
-  filtroForm: FormGroup;
-  dynamicFields: { name: string; type: string; label: string; placeholder?: string; required?: boolean }[];
+export class AdicionarUnidadesAdministrativoComponent implements OnInit {
+  formulario!: FormGroup;
+  orgaos: Array<{ name: string; country_register: string }> = [];
+  cidades: Array<{ code: number; label: string }> = []; // Ajustado para usar `code` da API
+  cidadeSelecionada: { code: number; label: string } | null = null;
+  isLoading = false;
 
   constructor(
-    private fb: FormBuilder,
-    private unidadesService: UnidadesService,
-    private toastr: ToastrService
-  ) {
-    this.filtroForm = this.fb.group({
-      agency: ['', [Validators.required]],
-      agency_country_register: ['', [Validators.required]],
-    });
+    private formBuilder: FormBuilder,
+    private orgaosService: OrgaosService,
+    private _location: Location,
+    private _unidadesService: UnidadesService
+  ) {}
 
-    this.dynamicFields = [
-      { name: 'agency', type: 'text', label: 'Órgão', placeholder: 'Digite o órgão', required: true },
-      { name: 'agency_country_register', type: 'text', label: 'CNPJ', placeholder: 'Digite o CNPJ', required: true },
-    ];
+  ngOnInit(): void {
+    this.inicializarFormulario();
+    this.carregarOrgaos();
   }
 
-  onFormSubmit(event: any): void {
-    if (this.filtroForm.valid) {
-      const formData = UnidadesMapper.toSubmit(event);
-      this.unidadesService.createUnidade(formData).subscribe({
-        next: () => {
-          this.toastr.success('Unidade criada com sucesso!', 'Sucesso');
-          this.filtroForm.reset();
-        },
-        error: () => {
-          this.toastr.error('Erro ao criar unidade. Tente novamente.', 'Erro');
-        },
-      });
+  inicializarFormulario(): void {
+    this.formulario = this.formBuilder.group({
+      agency_country_register: [null, Validators.required], // Órgão
+      code: ['', Validators.required], // Código da Unidade
+      name: ['', Validators.required], // Nome da Unidade
+      city_code: [null, Validators.required], // Cidade (será preenchido com o `code` da cidade selecionada)
+    });
+
+    console.log('Formulário inicializado:', this.formulario.value);
+  }
+
+  carregarOrgaos(): void {
+    this.isLoading = true;
+    this.orgaosService.getOrgaos(1).subscribe(
+      (response) => {
+        this.orgaos = response.data;
+        this.isLoading = false;
+        console.log('Órgãos carregados:', this.orgaos);
+      },
+      (error) => {
+        console.error('Erro ao carregar órgãos:', error);
+        this.isLoading = false;
+      }
+    );
+  }
+
+  onInputCidade(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const value = input?.value?.trim();
+    if (value && value.length >= 1) {
+      this.buscarCidades(value);
     } else {
-      this.toastr.warning('Preencha todos os campos obrigatórios!', 'Atenção');
+      this.cidades = [];
     }
+  }
+
+  buscarCidades(label: string): void {
+    console.log('Buscando cidades para:', label);
+    this.isLoading = true;
+    this._unidadesService.getCidades(label).subscribe(
+      (response) => {
+        this.cidades = response.data.map((cidade) => ({
+          code: Number(cidade.code), // Converte o `code` para número
+          label: cidade.label,
+        }));
+        this.isLoading = false;
+        console.log('Cidades encontradas:', this.cidades);
+      },
+      (error) => {
+        console.error('Erro ao buscar cidades:', error);
+        this.isLoading = false;
+      }
+    );
+  }
+
+  selecionarCidade(cidade: { code: number; label: string }): void {
+    this.cidadeSelecionada = cidade; // Armazena a cidade selecionada
+    this.formulario.get('city_code')?.setValue(cidade.code); // Define o `code` no formulário
+    this.cidades = []; // Limpa as sugestões de autocomplete
+    console.log('Cidade selecionada:', cidade);
+  }
+
+  cadastrarUnidade(): void {
+    if (this.formulario.valid) {
+      const unidadeData = this.formulario.value;
+      console.log('Dados para cadastro:', unidadeData);
+
+      this._unidadesService.createUnidade(unidadeData).subscribe(
+        () => {
+          console.log('Unidade cadastrada com sucesso!');
+        },
+        (error) => {
+          console.error('Erro ao cadastrar unidade:', error);
+        }
+      );
+    } else {
+      console.error('Formulário inválido ou cidade não selecionada!');
+    }
+  }
+
+  goBack(): void {
+    this._location.back();
   }
 }

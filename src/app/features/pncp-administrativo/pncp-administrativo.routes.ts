@@ -32,10 +32,7 @@ const routes: Routes = [
         redirectTo: 'orgaos',
         pathMatch: 'full',
       },
-      {
-        path: 'adicionar-unidades',
-        component: AdicionarUnidadesAdministrativoComponent,
-      },
+  
       {
         path: 'adicionar-licitacoes',
         component: LicitacoesAdministrativoComponent,
