@@ -4,13 +4,17 @@ import { RequisicaoModel } from '../../../../../shared/models/shared.model';
 import { OrgaoModel } from '../model/orgao-administrativo.model';
 import { OrgaosRepository } from '../repository/orgao-administrativos.repository';
 import { ToastrService } from 'ngx-toastr';
+import { Location } from '@angular/common';
 
 @Injectable({
   providedIn: 'root',
 })
 export class OrgaosService {
-  constructor(private _repository: OrgaosRepository, private _toastr: ToastrService) { }
+  constructor(private _repository: OrgaosRepository, private _toastr: ToastrService, private _location: Location) { }
 
+  goBack(): void {
+    this._location.back();
+  }
   getOrgaos(page: number): Observable<RequisicaoModel<OrgaoModel[]>> {
     return this._repository.getOrgaos(page);
   }
@@ -19,9 +23,10 @@ export class OrgaosService {
     return this._repository.createOrgao(orgaoData).pipe(
       tap((orgaoCriado) => {
         this._toastr.success(
-          `Órgão com registro "${orgaoCriado.country_register}" cadastrado com sucesso!`,
+          `Órgão cadastrado com sucesso!`,
           'Sucesso'
         );
+        this.goBack()
       }),
       catchError((erro) => {
         this._toastr.error('Erro ao cadastrar órgão. Tente novamente.', 'Erro');
