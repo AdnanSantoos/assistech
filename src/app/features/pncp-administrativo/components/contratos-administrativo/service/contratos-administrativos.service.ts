@@ -67,4 +67,10 @@ export class ContratosService {
   updateTermo(termoId: string, data: Partial<TermosContratosModel>): Observable<void> {
     return this._repository.updateTermoContrato(termoId, data);
   }
+
+
+  uploadFile(contractId: string, data: FormData): Observable<void> {
+    return this._repository.uploadFile(contractId, data);
+  }
+  
 }

@@ -5,7 +5,7 @@ import { ContratosService } from '../../../../pncp-administrativo/components/con
 import { ContratoModel, TermosContratosModel } from '../../../../pncp-administrativo/components/contratos-administrativo/model/contratos-administrativo.model';
 import { MatIcon } from '@angular/material/icon';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-termos-contratos-administrativo',
@@ -30,12 +30,23 @@ export class TermosContratosAdministrativoComponent implements OnInit {
   currentFilePage: number = 1;
   files: any[] = [];
   termosCompletos: any[] = [];
+  selectedTerm: TermosContratosModel | null = null;
+  fileForm!: FormGroup;
+
   constructor(
     private route: ActivatedRoute,
-    private _location: Location,
+    private _location: Location, private fb: FormBuilder,
+
     private contratosService: ContratosService,
     private modalService: BsModalService,
-  ) { }
+  ) {
+
+    this.fileForm = this.fb.group({
+      titulo: [''],
+      tipo: [''],
+      arquivo: [null],
+    });
+  }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
@@ -78,9 +89,10 @@ export class TermosContratosAdministrativoComponent implements OnInit {
       ...termo,
       contract_number: termo.contract?.number || '-',
       contract_year: termo.contract?.year || '-',
+      contract: termo.contract, // Adiciona a referência completa ao contrato
     }));
-
   }
+
 
 
   goToPage(page: number): void {
@@ -108,12 +120,22 @@ export class TermosContratosAdministrativoComponent implements OnInit {
     // Implemente aqui o serviço para deletar o termo
   }
 
-
-  openFilesModal(contrato: ContratoModel, template: TemplateRef<any>): void {
-    this.selectedContrato = contrato;
-    this.loadContractFiles(contrato.id, this.currentFilePage);
+  openFilesModal(term: TermosContratosModel, template: TemplateRef<any>): void {
+    this.selectedTerm = term; // Define o termo selecionado
+    this.selectedContrato = term.contract ?? null; // Usa null se contract for undefined
+  
+    if (!this.selectedTerm.id) {
+      console.error('O termo não possui um ID válido.');
+      return;
+    }
+  
+    // Carregar os arquivos relacionados ao termo
+    this.loadContractFiles(this.selectedTerm.id, this.currentFilePage);
+  
+    // Exibir o modal
     this.modalRef = this.modalService.show(template, { class: 'modal-lg' });
   }
+  
 
   loadContractFiles(contractId: string | undefined, page: number): void {
     if (!contractId) {
@@ -131,6 +153,7 @@ export class TermosContratosAdministrativoComponent implements OnInit {
       },
     });
   }
+
   visualizar(contrato: any): void {
     if (!contrato) {
       console.error('Contrato inválido ou não fornecido.');
@@ -203,4 +226,37 @@ export class TermosContratosAdministrativoComponent implements OnInit {
   goBack(): void {
     this._location.back();
   }
+  onFileChange(event: any): void {
+    const file = event.target.files[0];
+    if (file) {
+      this.fileForm.patchValue({ arquivo: file });
+    }
+  }
+
+  onSubmitFile(): void {
+    if (this.fileForm.invalid || !this.fileForm.value.arquivo) {
+      console.error('Formulário inválido ou arquivo ausente.');
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('titulo', this.fileForm.value.titulo);
+    formData.append('tipo', this.fileForm.value.tipo);
+    formData.append('arquivo', this.fileForm.value.arquivo);
+
+    this.contratosService.uploadFile(this.selectedContrato?.id || '', formData).subscribe({
+      next: () => {
+        // Atualizar a lista de arquivos carregados
+        this.loadContractFiles(this.selectedContrato?.id || '', this.currentFilePage);
+
+        // Resetar o formulário após o envio bem-sucedido
+        this.fileForm.reset();
+        console.log('Arquivo enviado com sucesso!');
+      },
+      error: (err) => {
+        console.error('Erro ao enviar arquivo:', err);
+      },
+    });
+  }
+
 }

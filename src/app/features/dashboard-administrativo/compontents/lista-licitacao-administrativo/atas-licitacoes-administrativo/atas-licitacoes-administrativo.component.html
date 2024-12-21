@@ -22,7 +22,7 @@
   </div>
 
   <div class="table-responsive">
-    <table class="table table-striped table-bordered">
+    <table class="table-editada table-bordered">
       <thead>
         <tr>
           <th>Nº da Ata</th>
@@ -41,7 +41,7 @@
           <td>{{ ata.data_assinatura | date : "dd/MM/yyyy" }}</td>
           <td>{{ ata.inicio_vigencia | date : "dd/MM/yyyy" }}</td>
           <td>{{ ata.fim_vigencia | date : "dd/MM/yyyy" }}</td>
-          <td>
+          <td class="text-center">
             <strong
               [ngClass]="{
                 'tx-mustard': ata.status === 'pendente',
@@ -55,7 +55,7 @@
           </td>
 
           <td class="text-center">
-            <div class="d-flex justify-content-evenly gap-2 py-1">
+            <div class="d-flex justify-content-center gap-4 py-1">
               <!-- Botão de Visualizar -->
               <div class="d-flex flex-column align-items-center">
                 <a

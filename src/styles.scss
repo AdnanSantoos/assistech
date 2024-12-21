@@ -531,7 +531,7 @@ body {
         line-height: 122.487%;
         background: #ebebeb;
         border: none;
-        padding: 10px 0;
+        text-align: center;
       }
     }
   }
@@ -539,6 +539,7 @@ body {
   tbody {
     td {
       border: 1px solid #d4d3d3;
+      text-align: center;
     }
     tr {
       &:nth-child(even) {

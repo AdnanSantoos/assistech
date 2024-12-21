@@ -40,11 +40,12 @@ export class ContratosRepository {
     return this._http.put<void>(`${this.baseUrl}/${id}`, data);
   }
 
-  getContractFiles(contractId: string, page: number): Observable<any> {
-    const url = `${this.baseUrl}/${contractId}/files`;
+  getContractFiles(termId: string, page: number): Observable<any> {
+    const url = `${environment.apiUrl}/tenants/${environment.tenant}/pncp/terms/${termId}/files`;
     const params = new HttpParams().set('page', page.toString());
-    return this._http.get<any>(url, { params });
+      return this._http.get<any>(url, { params });
   }
+  
 
   getContractTerms(contractId: string, page: number): Observable<any> {
     const url = `${environment.apiUrl}/tenants/${environment.tenant}/pncp/terms`;
@@ -66,5 +67,10 @@ export class ContratosRepository {
     const url = `${this.baseUrl}/terms/${termoId}`;
     return this._http.put<void>(url, data);
   }
+
+  uploadFile(url: string, data: FormData): Observable<void> {
+    return this._http.post<void>(url, data);
+  }
+  
 
 }

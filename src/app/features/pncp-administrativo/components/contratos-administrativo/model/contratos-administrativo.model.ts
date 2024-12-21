@@ -60,6 +60,7 @@ export interface TermosContratosModel {
   validity_qualification: boolean;
   validity_start_date: string;
   contract?:ContratoModel;
+  id?:string;
 }
 
 
