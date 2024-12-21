@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { RequisicaoContratoModel, ContratoModel, TermosContratosModel } from '../model/contratos-administrativo.model';
 import { environment } from '../../../../../../environments/environment';
 import { RequisicaoModel } from '../../../../../shared/models/shared.model';
@@ -53,6 +53,18 @@ export class ContratosRepository {
       .set('page', page.toString());
 
     return this._http.get<any>(url, { params });
+  }
+
+
+  getTermoById(termoId: string): Observable<{ data: TermosContratosModel }> {
+    const url = `${environment.apiUrl}/tenants/${environment.tenant}/pncp/terms/${termoId}`;
+    return this._http.get<{ data: TermosContratosModel }>(url);
+  }
+  
+  // Adicionar método para atualizar um termo existente
+  updateTermoContrato(termoId: string, data: Partial<TermosContratosModel>): Observable<void> {
+    const url = `${this.baseUrl}/terms/${termoId}`;
+    return this._http.put<void>(url, data);
   }
 
 }

@@ -50,44 +50,16 @@ export class TermosContratosAdministrativoComponent implements OnInit {
 
   }
 
-
   loadTerms(page: number): void {
     this.isLoading = true;
     this.contratosService.getContractTerms(this.contratoId, page).subscribe({
       next: (response) => {
         this.termos = response.data.map((item: any) => ({
-          id: item.id,
-          number: item.number,
-          goals: item.goals,
-          signature_date: item.signature_date,
-          added_value: item.added_value,
-          number_of_installments: item.number_of_installments,
-          installment_value: item.installment_value,
-          total_value: item.total_value,
-          added_term_days: item.added_term_days,
-          validity_start_date: item.validity_start_date,
-          validity_end_date: item.validity_end_date,
-          legal_basis: item.legal_basis,
-          gateway_sequence: item.gateway_sequence,
-          change_reason: item.change_reason,
-          contract_id: item.contract_id,
-          created_at: item.created_at,
+          ...item,
+          contract: item.contract || null, // Certifique-se de mapear o contrato
         }));
 
-        this.termosTotal = response.data.map((item: any) => ({
-          id: item.contract.id,
-          number: item.contract.number,
-          year: item.contract.year,
-          goals: item.contract.goals,
-          start_date: item.contract.start_date,
-          end_date: item.contract.end_date,
-          gateway_sequence: item.contract.gateway_sequence,
-          country_register: item.contract.country_register
-        }));
-
-        // Combina os dados após o carregamento
         this.combineTermsAndContracts();
-
         this.totalPages = response.meta?.pagination?.last_page || 1;
         this.currentPage = response.meta?.pagination?.current_page || page;
         this.totalItems = response.meta?.pagination?.total || 0;
@@ -102,25 +74,15 @@ export class TermosContratosAdministrativoComponent implements OnInit {
 
 
   combineTermsAndContracts(): void {
-    this.combinedTerms = this.termos.map((termo) => {
-      const relatedContract = this.termosTotal.find(
-        (contrato) => contrato.id === termo.contract_id
-      );
-      const countryRegister = relatedContract?.procurement?.agency?.country_register || 'N/A';
-      const year = relatedContract?.year || 'N/A';
-
-      return {
-        ...termo,
-        contract_number: relatedContract?.number || 'N/A',
-        contract_goals: relatedContract?.goals || 'N/A',
-        year: year,
-        gateway_sequence: relatedContract?.gateway_sequence || 'N/A',
-        country_register: countryRegister,
-      };
-    });
-    console.log('Combined Terms:', this.combinedTerms);
+    this.combinedTerms = this.termos.map((termo) => ({
+      ...termo,
+      contract_number: termo.contract?.number || '-',
+      contract_year: termo.contract?.year || '-',
+    }));
 
   }
+
+
   goToPage(page: number): void {
     if (page >= 1 && page <= this.totalPages) {
       this.loadTerms(page);
@@ -163,7 +125,6 @@ export class TermosContratosAdministrativoComponent implements OnInit {
       next: (response) => {
         this.files = response.data;
         this.currentFilePage = page;
-        console.log('Arquivos carregados:', this.files);
       },
       error: (err) => {
         console.error('Erro ao carregar arquivos:', err);
@@ -172,32 +133,31 @@ export class TermosContratosAdministrativoComponent implements OnInit {
   }
   visualizar(contrato: any): void {
     if (!contrato) {
-      console.error('Contrato inválido.');
+      console.error('Contrato inválido ou não fornecido.');
       return;
     }
 
-    // Extraindo valores de forma segura com operador de optional chaining (?.)
-    const year = contrato.year;
-    const gateway_sequence = contrato.gateway_sequence;
-    const country_register = contrato.procurement?.agency?.country_register;
+    // Extrair valores com validação e fallback
+    const year = contrato?.contract?.year || contrato.year || null;
+    const gateway_sequence = contrato?.contract?.gateway_sequence || contrato.gateway_sequence || null;
+    const country_register = contrato?.contract?.procurement?.agency?.country_register || null;
 
-    // Validação dos dados antes de construir a URL
-    if (year && gateway_sequence && country_register) {
-      const baseUrl = 'https://treina.pncp.gov.br/app/contratos/';
-      const fullUrl = `${baseUrl}${country_register}/${year}/${gateway_sequence}`;
-
-      console.log('URL do contrato:', fullUrl);
-      window.open(fullUrl, '_blank');
-    } else {
-      console.error('Dados do contrato incompletos. Verifique:');
+    // Validar se os campos essenciais estão presentes
+    if (!year || !gateway_sequence || !country_register) {
+      console.error('Dados do contrato incompletos. Verifique os seguintes campos:');
       if (!year) console.error('Faltando o campo "year".');
       if (!gateway_sequence) console.error('Faltando o campo "gateway_sequence".');
-      if (!country_register)
-        console.error('Faltando o campo "country_register" em procurement.agency.');
+      if (!country_register) console.error('Faltando o campo "country_register".');
+      return;
     }
+
+    // Construir a URL do contrato
+    const baseUrl = 'https://treina.pncp.gov.br/app/contratos/';
+    const fullUrl = `${baseUrl}${country_register}/${year}/${gateway_sequence}`;
+
+    // Exibir ou abrir o link
+    window.open(fullUrl, '_blank');
   }
-
-
 
 
   carregarContratos(page: number): void {
@@ -206,7 +166,6 @@ export class TermosContratosAdministrativoComponent implements OnInit {
         if (response && response.data) {
           this.termosTotal = response.data; // Atribui todo o array retornado
           this.totalItems = response.meta?.pagination.total || 0;
-          console.log('Contratos carregados:', this.termosTotal);
         } else {
           console.error('Resposta da API inválida ou vazia.');
         }

@@ -48,4 +48,23 @@ export class ContratosService {
   deleteContrato(procurementId: string, justification: string): Observable<void> {
     return this._repository.deleteContrato(procurementId, justification);
   }
+
+  getTermoById(termoId: string): Observable<TermosContratosModel> {
+    return this._repository.getTermoById(termoId).pipe(
+      map((response) => {
+        if (!response || !response.data) {
+          throw new Error('Termo não encontrado.');
+        }
+
+        // Retornando o termo como está, sem conversão de datas
+        return response.data;
+      })
+    );
+  }
+
+
+  // Adicionar método para atualizar um termo existente
+  updateTermo(termoId: string, data: Partial<TermosContratosModel>): Observable<void> {
+    return this._repository.updateTermoContrato(termoId, data);
+  }
 }

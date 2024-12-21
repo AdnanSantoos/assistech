@@ -1,5 +1,7 @@
 <div class="m-4">
-  <h4 class="mb-4">Dados do Termo</h4>
+  <h4 class="mb-4">
+    {{ isEditMode ? "Editar Dados do Termo" : "Criar Novo Termo de Contrato" }}
+  </h4>
 
   <form class="form-container" [formGroup]="termoForm" (ngSubmit)="onSubmit()">
     <!-- Linha de Toggles -->
@@ -192,7 +194,9 @@
 
     <!-- Botão Salvar -->
     <div class="text-end mt-3">
-      <button type="submit" class="btn btn-primary">Criar Item</button>
+      <button type="submit" class="btn btn-primary hover-sucesso">
+        {{ isEditMode ? 'Salvar Alterações' : 'Criar Item' }}
+      </button>
     </div>
   </form>
 </div>

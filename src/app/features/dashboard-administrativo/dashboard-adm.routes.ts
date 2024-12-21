@@ -94,6 +94,10 @@ const routes: Routes = [
         component: CriarTermosContratosAdministrativoComponent,
       },
       {
+        path: 'editar-termos/:termoId',
+        component: CriarTermosContratosAdministrativoComponent,
+      },        
+      {
         path: 'editar-usuarios/:id',
         component: CadastrarUsuariosAdministrativoComponent,
       },
