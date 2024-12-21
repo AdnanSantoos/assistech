@@ -35,6 +35,7 @@
                 <a
                   class="btn btn-sm btn-format btn-remove"
                   matTooltip="Deletar"
+                  (click)="openDeleteModal(unidade)"
                 >
                   <img
                     src="../../../../../assets/icons/remove-icon.svg"
@@ -89,3 +90,33 @@
     </nav>
   </div>
 </div>
+
+
+
+<ng-template #deleteModal>
+  <div class="modal-header">
+    <h5 class="modal-title text-danger">
+      <mat-icon>warning</mat-icon> Atenção!
+    </h5>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modalRef?.hide()"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <p class="fw-bold">
+      Deseja realmente excluir a unidade <br> <strong class="text-danger">{{ selectedUnidade?.name }}</strong
+      >?
+    </p>
+  </div>
+  <div class="modal-footer d-flex justify-content-between">
+    <button type="button" class="btn btn-danger" (click)="confirmDelete()">
+      Excluir
+    </button>
+    <button type="button" class="btn btn-secondary" (click)="modalRef?.hide()">
+      Fechar
+    </button>
+  </div>
+</ng-template>

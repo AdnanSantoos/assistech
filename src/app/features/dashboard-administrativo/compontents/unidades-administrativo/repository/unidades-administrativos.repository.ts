@@ -33,5 +33,8 @@ export class UnidadesRepository {
     );
   }
 
-
+  deleteUnidade(unitId: string): Observable<void> {
+    const url = `${environment.apiUrl}/staff/tenants/${environment.tenant}/units/${unitId}`;
+    return this._http.delete<void>(url);
+  }
 }

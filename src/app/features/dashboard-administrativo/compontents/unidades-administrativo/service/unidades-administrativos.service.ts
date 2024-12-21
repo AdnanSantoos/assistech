@@ -42,4 +42,19 @@ export class UnidadesService {
   getCidades(label: string): Observable<{ data: Array<{ code: string; label: string }> }> {
     return this._repository.getCidades(label);
   }
+
+  deleteUnidade(unitId: string): Observable<void> {
+    return this._repository.deleteUnidade(unitId).pipe(
+      tap(() => {
+        this._toastr.success('Unidade excluída com sucesso!', 'Sucesso');
+      }),
+      catchError((error) => {
+        this._toastr.error(
+          'Erro ao tentar excluir a unidade. Tente novamente.',
+          'Erro'
+        );
+        throw error;
+      })
+    );
+  }
 }
