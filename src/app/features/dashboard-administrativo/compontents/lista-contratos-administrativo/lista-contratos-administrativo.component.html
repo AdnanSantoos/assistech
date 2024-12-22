@@ -439,6 +439,7 @@
                   type="button"
                   class="btn btn-danger"
                   [disabled]="deleteForm.invalid"
+                  (click)="confirmDeleteContratoArquivo(file.id)"
                 >
                   Excluir
                 </button>

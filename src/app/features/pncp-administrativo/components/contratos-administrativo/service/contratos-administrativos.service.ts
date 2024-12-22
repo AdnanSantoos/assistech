@@ -151,6 +151,16 @@ export class ContratosService {
     );
   }
 
+  deleteArquivoContrato(contractId: string, fileId: string, justification: string): Observable<void> {
+    return this._repository.deleteArquivoContrato(contractId, fileId, justification).pipe(
+      tap(() => this.toastr.success('Arquivo excluído com sucesso!')),
+      catchError((error) => {
+        this.toastr.error('Erro ao excluir o arquivo.');
+        throw error;
+      })
+    );
+  }
+
   getTermoById(termoId: string): Observable<TermosContratosModel> {
     return this._repository.getTermoById(termoId).pipe(
       map((response) => {

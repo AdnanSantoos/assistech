@@ -114,7 +114,11 @@ export class ContratosRepository {
     const url = `${this.baseUrl}/${contractId}/files`;
     return this._http.post<void>(url, data);
   }
-  
+  deleteArquivoContrato(contractId: string, fileId: string, justification: string): Observable<void> {
+    const url = `${this.baseUrl}/${contractId}/files/${fileId}`;
+    const params = new HttpParams().set('justification', justification);
+    return this._http.delete<void>(url, { params });
+  }
 
   getContractTerms(contractId: string, page: number): Observable<any> {
     const url = `${environment.apiUrl}/tenants/${environment.tenant}/pncp/terms`;

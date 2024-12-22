@@ -295,4 +295,33 @@ export class ListaContratosAdministrativoComponent implements OnInit {
     this.deleteForm.reset(); // Reseta o formulário
     this.modalRef = this.modalService.show(template, { class: 'modal-md' });
   }
+  confirmDeleteContratoArquivo(fileId: string): void {
+    if (!this.selectedContrato?.id) {
+      console.error('Contrato não selecionado.');
+      return;
+    }
+  
+    if (this.deleteForm.valid) {
+      const justification = this.deleteForm.value.justification;
+  
+      this.contratosService
+        .deleteArquivoContrato(this.selectedContrato.id, fileId, justification)
+        .subscribe({
+          next: () => {
+            console.log('Arquivo excluído com sucesso.');
+            // Remove o arquivo da lista local
+            this.files = this.files.filter((file) => file.id !== fileId);
+            this.modalRef?.hide(); // Fecha o modal após a exclusão
+            window.location.reload(); // Atualiza a página após o sucesso
+
+          },
+          error: (err) => {
+            console.error('Erro ao excluir arquivo:', err);
+          },
+        });
+    } else {
+      console.warn('Justificativa não foi preenchida.');
+    }
+  }
+  
 }
