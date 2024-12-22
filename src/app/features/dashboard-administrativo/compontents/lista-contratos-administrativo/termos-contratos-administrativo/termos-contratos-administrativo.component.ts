@@ -2,10 +2,14 @@ import { CommonModule, Location } from '@angular/common';
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { ContratosService } from '../../../../pncp-administrativo/components/contratos-administrativo/service/contratos-administrativos.service';
-import { ContratoModel, TermosContratosModel } from '../../../../pncp-administrativo/components/contratos-administrativo/model/contratos-administrativo.model';
+import {
+  ContratoModel,
+  TermosContratosModel,
+} from '../../../../pncp-administrativo/components/contratos-administrativo/model/contratos-administrativo.model';
 import { MatIcon } from '@angular/material/icon';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { TermosContratosMapper } from './mapper/termos-contratos.mapper';
 
 @Component({
   selector: 'app-termos-contratos-administrativo',
@@ -18,7 +22,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 export class TermosContratosAdministrativoComponent implements OnInit {
   contratoId!: string; // ID do contrato capturado da URL
   termos: TermosContratosModel[] = []; // Lista de termos carregados
-  termosTotal: ContratoModel[] = []
+  termosTotal: ContratoModel[] = [];
   combinedTerms: any[] = [];
   deleteForm!: FormGroup;
   modalRef?: BsModalRef;
@@ -30,21 +34,30 @@ export class TermosContratosAdministrativoComponent implements OnInit {
   currentFilePage: number = 1;
   files: any[] = [];
   termosCompletos: any[] = [];
+  selectedFile: File | null = null; // Armazena o arquivo selecionado
   selectedTerm: TermosContratosModel | null = null;
   fileForm!: FormGroup;
-
+  tiposDocumentos = [
+    { value: 12, key: 'Contrato' },
+    { value: 13, key: 'Termo de Rescisão' },
+    { value: 14, key: 'Termo de Aditivo' },
+    { value: 15, key: 'Termo de Apostilamento' },
+    { value: 17, key: 'Nota de Empenho' },
+    { value: 18, key: 'Relatório Final de Contrato' },
+    { value: 16, key: 'Outros' },
+  ];
   constructor(
     private route: ActivatedRoute,
-    private _location: Location, private fb: FormBuilder,
+    private _location: Location,
+    private fb: FormBuilder,
 
     private contratosService: ContratosService,
-    private modalService: BsModalService,
+    private modalService: BsModalService
   ) {
-
     this.fileForm = this.fb.group({
-      titulo: [''],
-      tipo: [''],
-      arquivo: [null],
+      document_title: [null],
+      document_type_id: [null],
+      file: [null],
     });
   }
 
@@ -58,7 +71,6 @@ export class TermosContratosAdministrativoComponent implements OnInit {
       }
     });
     this.carregarContratos(this.currentPage);
-
   }
 
   loadTerms(page: number): void {
@@ -83,7 +95,6 @@ export class TermosContratosAdministrativoComponent implements OnInit {
     });
   }
 
-
   combineTermsAndContracts(): void {
     this.combinedTerms = this.termos.map((termo) => ({
       ...termo,
@@ -92,8 +103,6 @@ export class TermosContratosAdministrativoComponent implements OnInit {
       contract: termo.contract, // Adiciona a referência completa ao contrato
     }));
   }
-
-
 
   goToPage(page: number): void {
     if (page >= 1 && page <= this.totalPages) {
@@ -113,8 +122,6 @@ export class TermosContratosAdministrativoComponent implements OnInit {
     }
   }
 
-
-
   deleteTerm(termId: string): void {
     console.log(`Excluir termo com ID: ${termId}`);
     // Implemente aqui o serviço para deletar o termo
@@ -123,21 +130,20 @@ export class TermosContratosAdministrativoComponent implements OnInit {
   openFilesModal(term: TermosContratosModel, template: TemplateRef<any>): void {
     this.selectedTerm = term; // Define o termo selecionado
     this.selectedContrato = term.contract ?? null; // Usa null se contract for undefined
-  
+
     if (!this.selectedTerm.id) {
       console.error('O termo não possui um ID válido.');
       return;
     }
-  
+
     // Carregar os arquivos relacionados ao termo
     this.loadContractFiles(this.selectedTerm.id, this.currentFilePage);
-  
+
     // Exibir o modal
     this.modalRef = this.modalService.show(template, { class: 'modal-lg' });
   }
-  
 
-  loadContractFiles(contractId: string | undefined, page: number): void {
+  loadContractFiles(contractId: string, page: number): void {
     if (!contractId) {
       console.error('ID do contrato está indefinido.');
       return;
@@ -145,13 +151,35 @@ export class TermosContratosAdministrativoComponent implements OnInit {
 
     this.contratosService.getContractFiles(contractId, page).subscribe({
       next: (response) => {
-        this.files = response.data;
+        this.files = response.data.map((file: any) => ({
+          ...file,
+          size: parseInt(file.size, 10), // Certifica-se de que o tamanho está correto
+        }));
         this.currentFilePage = page;
       },
       error: (err) => {
         console.error('Erro ao carregar arquivos:', err);
       },
     });
+  }
+  onRemoveFile(file: any): void {
+    if (confirm(`Tem certeza que deseja remover o arquivo "${file.label}"?`)) {
+      this.contratosService.deleteFileTermos(file.id).subscribe({
+        next: () => {
+          this.files = this.files.filter((f) => f.id !== file.id);
+        },
+        error: (err) => {
+          console.error('Erro ao remover arquivo:', err);
+          alert('Ocorreu um erro ao remover o arquivo. Tente novamente.');
+        },
+      });
+    }
+  }
+  onFileChangeTermos(event: any): void {
+    const file = event.target.files[0];
+    if (file) {
+      this.selectedFile = file; // Armazena o arquivo selecionado
+    }
   }
 
   visualizar(contrato: any): void {
@@ -162,15 +190,21 @@ export class TermosContratosAdministrativoComponent implements OnInit {
 
     // Extrair valores com validação e fallback
     const year = contrato?.contract?.year || contrato.year || null;
-    const gateway_sequence = contrato?.contract?.gateway_sequence || contrato.gateway_sequence || null;
-    const country_register = contrato?.contract?.procurement?.agency?.country_register || null;
+    const gateway_sequence =
+      contrato?.contract?.gateway_sequence || contrato.gateway_sequence || null;
+    const country_register =
+      contrato?.contract?.procurement?.agency?.country_register || null;
 
     // Validar se os campos essenciais estão presentes
     if (!year || !gateway_sequence || !country_register) {
-      console.error('Dados do contrato incompletos. Verifique os seguintes campos:');
+      console.error(
+        'Dados do contrato incompletos. Verifique os seguintes campos:'
+      );
       if (!year) console.error('Faltando o campo "year".');
-      if (!gateway_sequence) console.error('Faltando o campo "gateway_sequence".');
-      if (!country_register) console.error('Faltando o campo "country_register".');
+      if (!gateway_sequence)
+        console.error('Faltando o campo "gateway_sequence".');
+      if (!country_register)
+        console.error('Faltando o campo "country_register".');
       return;
     }
 
@@ -181,7 +215,6 @@ export class TermosContratosAdministrativoComponent implements OnInit {
     // Exibir ou abrir o link
     window.open(fullUrl, '_blank');
   }
-
 
   carregarContratos(page: number): void {
     this.contratosService.getContratos(page).subscribe({
@@ -199,9 +232,7 @@ export class TermosContratosAdministrativoComponent implements OnInit {
     });
   }
 
-
-  onEdit(id: string): void {
-  }
+  onEdit(id: string): void {}
   openDeleteModal(contrato: ContratoModel, template: TemplateRef<any>): void {
     this.selectedContrato = contrato;
     this.modalRef = this.modalService.show(template, { class: 'modal-md' });
@@ -212,15 +243,17 @@ export class TermosContratosAdministrativoComponent implements OnInit {
     if (this.deleteForm.valid && this.selectedContrato) {
       const justification = this.deleteForm.value.justification;
 
-      this.contratosService.deleteContrato(this.selectedContrato.id, justification).subscribe({
-        next: () => {
-          this.modalRef?.hide();
-          this.carregarContratos(this.currentPage); // Atualiza a lista
-        },
-        error: (err) => {
-          this.modalRef?.hide();
-        },
-      });
+      this.contratosService
+        .deleteContrato(this.selectedContrato.id, justification)
+        .subscribe({
+          next: () => {
+            this.modalRef?.hide();
+            this.carregarContratos(this.currentPage); // Atualiza a lista
+          },
+          error: (err) => {
+            this.modalRef?.hide();
+          },
+        });
     }
   }
   goBack(): void {
@@ -234,29 +267,35 @@ export class TermosContratosAdministrativoComponent implements OnInit {
   }
 
   onSubmitFile(): void {
-    if (this.fileForm.invalid || !this.fileForm.value.arquivo) {
+    if (this.fileForm.invalid || !this.selectedFile) {
       console.error('Formulário inválido ou arquivo ausente.');
       return;
     }
 
-    const formData = new FormData();
-    formData.append('titulo', this.fileForm.value.titulo);
-    formData.append('tipo', this.fileForm.value.tipo);
-    formData.append('arquivo', this.fileForm.value.arquivo);
+    // Transforma os dados do formulário em FormData usando o mapper
+    const formData = TermosContratosMapper.toSubmit(
+      this.fileForm.value,
+      this.selectedFile
+    );
 
-    this.contratosService.uploadFile(this.selectedContrato?.id || '', formData).subscribe({
-      next: () => {
-        // Atualizar a lista de arquivos carregados
-        this.loadContractFiles(this.selectedContrato?.id || '', this.currentFilePage);
+    // Envia os dados
+    this.contratosService
+      .createTermosContratos(this.selectedTerm?.id || '', formData)
+      .subscribe({
+        next: () => {
+          // Atualiza a lista de arquivos carregados
+          this.loadContractFiles(
+            this.selectedTerm?.id || '',
+            this.currentFilePage
+          );
 
-        // Resetar o formulário após o envio bem-sucedido
-        this.fileForm.reset();
-        console.log('Arquivo enviado com sucesso!');
-      },
-      error: (err) => {
-        console.error('Erro ao enviar arquivo:', err);
-      },
-    });
+          // Reseta o formulário após envio
+          this.fileForm.reset();
+          this.selectedFile = null; // Limpa o arquivo selecionado
+        },
+        error: (err) => {
+          console.error('Erro ao enviar arquivo:', err);
+        },
+      });
   }
-
 }

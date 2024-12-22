@@ -223,54 +223,95 @@
       <div><strong>Termo</strong>: {{ selectedTerm?.number }}</div>
     </div>
     <form [formGroup]="fileForm" (ngSubmit)="onSubmitFile()">
-      <div class="mb-3">
-        <label for="titulo" class="form-label strong_font">Título do Documento *</label>
-        <input
-          type="text"
-          id="titulo"
-          class="form-control"
-          formControlName="titulo"
-        />
+      <div class="row">
+        <!-- Campo Título do Documento -->
+        <div class="col-md-6">
+          <label for="document_title" class="form-label"
+            >Título do Documento *</label
+          >
+          <input
+            type="text"
+            id="document_title"
+            class="form-control"
+            formControlName="document_title"
+            required
+          />
+        </div>
+
+        <!-- Campo Tipo de Documento -->
+        <div class="col-md-6">
+          <label class="form-label">Tipo de Documento *</label>
+          <select
+            class="form-select"
+            formControlName="document_type_id"
+            required
+          >
+            <option value="" disabled selected>Selecionar</option>
+            <option *ngFor="let tipo of tiposDocumentos" [ngValue]="tipo.value">
+              {{ tipo.key }}
+            </option>
+          </select>
+        </div>
       </div>
-      <div class="mb-3">
-        <label for="tipo" class="form-label strong_font ">Tipo de Documento *</label>
-        <select id="tipo" class="form-control strong_font" formControlName="tipo">
-          <option value="" disabled selected>Selecione</option>
-          <option value="Contrato">Contrato</option>
-          <option value="Termo Aditivo">Termo Aditivo</option>
-        </select>
+
+      <!-- Campo Arquivo -->
+      <div class="row mt-3">
+        <div class="col-md-12">
+          <label for="file" class="form-label">Documento *</label>
+          <input
+            type="file"
+            id="file"
+            class="form-control"
+            (change)="onFileChangeTermos($event)"
+            required
+          />
+        </div>
       </div>
-      <div class="mb-3">
-        <label for="arquivo" class="form-label strong_font ">Documento</label>
-        <input
-          type="file"
-          id="arquivo"
-          class="form-control"
-          (change)="onFileChange($event)"
-        />
+
+      <!-- Botão de Submissão -->
+      <div class="row mt-3">
+        <div class="col-md-12">
+          <button
+            type="submit"
+            class="btn btn-dark"
+            [disabled]="fileForm.invalid"
+          >
+            Adicionar
+          </button>
+        </div>
       </div>
-      <button
-        type="submit"
-        class="btn btn-dark hover-sucesso"
-        [disabled]="fileForm.invalid"
-      >
-        Adicionar
-      </button>
     </form>
+
     <table class="table table-striped mt-3" *ngIf="files && files.length > 0">
       <thead>
         <tr>
           <th>Arquivo</th>
+          <th>Titulo</th>
           <th>Ações</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let file of files">
-          <td>{{ file.name }}</td>
+          <td>{{ file.label }}</td>
+          <td>{{ file.document_title }}</td>
           <td>
-            <a [href]="file.url" target="_blank" class="btn btn-sm btn-primary"
-              >Visualizar</a
+            <!-- Botão de Visualizar -->
+            <a
+              [href]="file.gateway_location"
+              target="_blank"
+              class="btn btn-sm btn-primary me-2"
+              matTooltip="Visualizar"
             >
+              <mat-icon>visibility</mat-icon>
+            </a>
+            <!-- Botão de Remover -->
+            <button
+              class="btn btn-sm btn-danger"
+              (click)="onRemoveFile(file)"
+              matTooltip="Remover"
+            >
+              <mat-icon>delete</mat-icon>
+            </button>
           </td>
         </tr>
       </tbody>

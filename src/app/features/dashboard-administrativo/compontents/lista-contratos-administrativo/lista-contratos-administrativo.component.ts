@@ -82,7 +82,6 @@ export class ListaContratosAdministrativoComponent implements OnInit {
       next: (response) => {
         this.files = response.data;
         this.currentFilePage = page;
-        console.log('Arquivos carregados:', this.files);
       },
       error: (err) => {
         console.error('Erro ao carregar arquivos:', err);
@@ -173,7 +172,6 @@ export class ListaContratosAdministrativoComponent implements OnInit {
 
   onSubmitFileForm(): void {
     if (this.fileForm.valid) {
-      console.log('Dados do Formulário:', this.fileForm.value);
     } else {
       console.warn('Formulário inválido');
     }

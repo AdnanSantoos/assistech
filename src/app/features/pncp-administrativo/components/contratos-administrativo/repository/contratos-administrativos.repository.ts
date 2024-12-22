@@ -43,8 +43,19 @@ export class ContratosRepository {
   getContractFiles(termId: string, page: number): Observable<any> {
     const url = `${environment.apiUrl}/tenants/${environment.tenant}/pncp/terms/${termId}/files`;
     const params = new HttpParams().set('page', page.toString());
-      return this._http.get<any>(url, { params });
+    return this._http.get<any>(url, { params });
   }
+  
+  deleteFileTermos(fileId: string): Observable<void> {
+    const url = `${environment.apiUrl}/tenants/${environment.tenant}/pncp/files/${fileId}`;
+    return this._http.delete<void>(url);
+  }
+
+  createTermosContratos(termId: string, data: FormData): Observable<void> {
+    const url = `${environment.apiUrl}/tenants/${environment.tenant}/pncp/terms/${termId}/files`;
+    return this._http.post<void>(url, data);
+  }
+  
   
 
   getContractTerms(contractId: string, page: number): Observable<any> {
@@ -64,7 +75,7 @@ export class ContratosRepository {
   
   // Adicionar método para atualizar um termo existente
   updateTermoContrato(termoId: string, data: Partial<TermosContratosModel>): Observable<void> {
-    const url = `${this.baseUrl}/terms/${termoId}`;
+    const url = `${environment.apiUrl}/tenants/${environment.tenant}/pncp/terms/${termoId}`;
     return this._http.put<void>(url, data);
   }
 

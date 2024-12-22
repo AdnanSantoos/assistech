@@ -1,25 +1,45 @@
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
+import { tap, catchError } from 'rxjs/operators';
+import { ToastrService } from 'ngx-toastr';
 import { ContratosRepository } from '../repository/contratos-administrativos.repository';
-import { ContratoModel, RequisicaoContratoModel, TermosContratosModel } from '../model/contratos-administrativo.model';
-import { Location } from '@angular/common';
+import {
+  ContratoModel,
+  RequisicaoContratoModel,
+  TermosContratosModel,
+} from '../model/contratos-administrativo.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ContratosService {
-  constructor(private _repository: ContratosRepository) { }
+  constructor(
+    private _repository: ContratosRepository,
+    private toastr: ToastrService // Injeta o ToastrService
+  ) {}
 
   getContratos(page: number): Observable<RequisicaoContratoModel> {
     return this._repository.getContratos(page);
   }
 
   createContrato(data: Partial<ContratoModel>): Observable<void> {
-    return this._repository.createContrato(data);
+    return this._repository.createContrato(data).pipe(
+      tap(() => this.toastr.success('Contrato criado com sucesso!')),
+      catchError((error) => {
+        this.toastr.error('Erro ao criar contrato.');
+        throw error;
+      })
+    );
   }
 
   createTermo(data: Partial<TermosContratosModel>): Observable<void> {
-    return this._repository.createTermoContrato(data);
+    return this._repository.createTermoContrato(data).pipe(
+      tap(() => this.toastr.success('Termo criado com sucesso!')),
+      catchError((error) => {
+        this.toastr.error('Erro ao criar termo.');
+        throw error;
+      })
+    );
   }
 
   getContratoById(id: string): Observable<ContratoModel> {
@@ -29,6 +49,9 @@ export class ContratosService {
           throw new Error('Contrato não encontrado.');
         }
         return response.data;
+      }),
+      catchError((error) => {
+        throw error;
       })
     );
   }
@@ -42,11 +65,33 @@ export class ContratosService {
   }
 
   updateContrato(id: string, data: Partial<ContratoModel>): Observable<void> {
-    return this._repository.updateContrato(id, data);
+    return this._repository.updateContrato(id, data).pipe(
+      tap(() => this.toastr.success('Contrato atualizado com sucesso!')),
+      catchError((error) => {
+        this.toastr.error('Erro ao atualizar contrato.');
+        throw error;
+      })
+    );
   }
 
   deleteContrato(procurementId: string, justification: string): Observable<void> {
-    return this._repository.deleteContrato(procurementId, justification);
+    return this._repository.deleteContrato(procurementId, justification).pipe(
+      tap(() => this.toastr.success('Contrato excluído com sucesso!')),
+      catchError((error) => {
+        this.toastr.error('Erro ao excluir contrato.');
+        throw error;
+      })
+    );
+  }
+
+  createTermosContratos(termId: string, data: FormData): Observable<void> {
+    return this._repository.createTermosContratos(termId, data).pipe(
+      tap(() => this.toastr.success('Termos do contrato criados com sucesso!')),
+      catchError((error) => {
+        this.toastr.error('Erro ao criar termos do contrato.');
+        throw error;
+      })
+    );
   }
 
   getTermoById(termoId: string): Observable<TermosContratosModel> {
@@ -55,22 +100,41 @@ export class ContratosService {
         if (!response || !response.data) {
           throw new Error('Termo não encontrado.');
         }
-
-        // Retornando o termo como está, sem conversão de datas
         return response.data;
+      }),
+      catchError((error) => {
+        throw error;
       })
     );
   }
 
-
-  // Adicionar método para atualizar um termo existente
   updateTermo(termoId: string, data: Partial<TermosContratosModel>): Observable<void> {
-    return this._repository.updateTermoContrato(termoId, data);
+    return this._repository.updateTermoContrato(termoId, data).pipe(
+      tap(() => this.toastr.success('Termo atualizado com sucesso!')),
+      catchError((error) => {
+        this.toastr.error('Erro ao atualizar termo.');
+        throw error;
+      })
+    );
   }
-
 
   uploadFile(contractId: string, data: FormData): Observable<void> {
-    return this._repository.uploadFile(contractId, data);
+    return this._repository.uploadFile(contractId, data).pipe(
+      tap(() => this.toastr.success('Arquivo enviado com sucesso!')),
+      catchError((error) => {
+        this.toastr.error('Erro ao enviar arquivo.');
+        throw error;
+      })
+    );
   }
-  
+
+  deleteFileTermos(fileId: string): Observable<void> {
+    return this._repository.deleteFileTermos(fileId).pipe(
+      tap(() => this.toastr.success('Arquivo excluído com sucesso!')),
+      catchError((error) => {
+        this.toastr.error('Erro ao excluir arquivo.');
+        throw error;
+      })
+    );
+  }
 }
