@@ -67,6 +67,10 @@ export class ContratosService {
     return this._repository.getContractFiles(contractId, page);
   }
 
+  getArquivosContractFiles(contractId: string, page: number): Observable<any> {
+    return this._repository.getArquivosContractFiles(contractId, page);
+  }
+
   updateContrato(id: string, data: Partial<ContratoModel>): Observable<void> {
     return this._repository.updateContrato(id, data).pipe(
       tap(() => this.toastr.success('Contrato atualizado com sucesso!')),
@@ -133,6 +137,15 @@ export class ContratosService {
       tap(() => this.toastr.success('Termos do contrato criados com sucesso!')),
       catchError((error) => {
         this.toastr.error('Erro ao criar termos do contrato.');
+        throw error;
+      })
+    );
+  }
+  createArquivoContrato(contractId: string, data: FormData): Observable<void> {
+    return this._repository.createArquivoContrato(contractId, data).pipe(
+      tap(() => this.toastr.success('Arquivo do contrato criado com sucesso!')),
+      catchError((error) => {
+        this.toastr.error('Erro ao criar arquivo do contrato.');
         throw error;
       })
     );

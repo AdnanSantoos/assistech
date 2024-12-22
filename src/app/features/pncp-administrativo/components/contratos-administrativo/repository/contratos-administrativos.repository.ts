@@ -84,6 +84,17 @@ export class ContratosRepository {
     return this._http.put<void>(`${this.baseUrl}/${id}`, data);
   }
 
+  getArquivosContractFiles(
+    termId: string,
+    page: number
+  ): Observable<{ data: ArquivoContratoModel[]; meta: any }> {
+    const url = `${environment.apiUrl}/tenants/${environment.tenant}/pncp/contracts/${termId}/files`;
+    const params = new HttpParams().set('page', page.toString());
+    return this._http.get<{ data: ArquivoContratoModel[]; meta: any }>(url, {
+      params,
+    });
+  }
+
   getContractFiles(termId: string, page: number): Observable<any> {
     const url = `${environment.apiUrl}/tenants/${environment.tenant}/pncp/terms/${termId}/files`;
     const params = new HttpParams().set('page', page.toString());
@@ -99,6 +110,11 @@ export class ContratosRepository {
     const url = `${environment.apiUrl}/tenants/${environment.tenant}/pncp/terms/${termId}/files`;
     return this._http.post<void>(url, data);
   }
+  createArquivoContrato(contractId: string, data: FormData): Observable<void> {
+    const url = `${this.baseUrl}/${contractId}/files`;
+    return this._http.post<void>(url, data);
+  }
+  
 
   getContractTerms(contractId: string, page: number): Observable<any> {
     const url = `${environment.apiUrl}/tenants/${environment.tenant}/pncp/terms`;

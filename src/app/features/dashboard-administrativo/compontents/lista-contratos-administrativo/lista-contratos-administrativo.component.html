@@ -285,11 +285,11 @@
     <div class="d-flex justify-content-between mb-3">
       <div>
         <strong>Contrato PNCP Nº</strong> <br />
-        <span
-          >{{ selectedContrato?.number || "N/A" }}/{{
+        <span>
+          {{ selectedContrato?.number || "N/A" }}/{{
             selectedContrato?.year || "N/A"
-          }}</span
-        >
+          }}
+        </span>
       </div>
       <div>
         <strong>Número da Compra</strong> <br />
@@ -303,14 +303,14 @@
     <form [formGroup]="fileForm" (ngSubmit)="onSubmitFileForm()">
       <!-- Título do Documento -->
       <div class="mb-3">
-        <label for="tituloDocumento" class="form-label"
+        <label for="document_title" class="form-label"
           >Título do documento *</label
         >
         <input
           type="text"
           class="form-control mw-100"
-          id="tituloDocumento"
-          formControlName="tituloDocumento"
+          id="document_title"
+          formControlName="document_title"
           placeholder="Título do documento"
           required
         />
@@ -318,73 +318,139 @@
 
       <!-- Tipo de Documento -->
       <div class="mb-3">
-        <label for="tipoDocumento" class="form-label"
+        <label for="document_type_id" class="form-label"
           >Tipo de documento *</label
         >
         <select
           class="form-select mw-100"
-          id="tipoDocumento"
-          formControlName="tipoDocumento"
+          id="document_type_id"
+          formControlName="document_type_id"
           required
         >
           <option value="" disabled selected>Selecionar</option>
-          <option value="Contrato">Contrato</option>
-          <option value="Termo de Rescisão">Termo de Rescisão</option>
-          <option value="Termo de Aditivo">Termo de Aditivo</option>
-          <option value="Termo de Apostilamento">Termo de Apostilamento</option>
-          <option value="Nota de Empenho">Nota de Empenho</option>
-          <option value="Relatório Final de Contrato">
-            Relatório Final de Contrato
+          <option *ngFor="let tipo of tiposDocumentos" [value]="tipo.value">
+            {{ tipo.key }}
           </option>
-          <option value="Outros ">Outros</option>
         </select>
       </div>
 
       <!-- Upload de Arquivo -->
       <div class="mb-3">
-        <label for="arquivo" class="form-label">Documento da Licitação</label>
+        <label for="file" class="form-label">Documento da Licitação</label>
         <input
           type="file"
           class="form-control mw-100"
-          id="arquivo"
+          id="file"
           (change)="onFileChange($event)"
           accept=".pdf, .txt, .rtf, .doc, .docx, .odt"
         />
-        <small class="form-text text-muted"
-          >Tipos de arquivos aceitos: .pdf, .txt, .rtf, .doc, .docx, .odt</small
-        >
+        <small class="form-text text-muted">
+          Tipos de arquivos aceitos: .pdf, .txt, .rtf, .doc, .docx, .odt
+        </small>
       </div>
 
       <!-- Botão de Submissão -->
-      <!-- Botão de Submissão Condicional -->
+      @if(fileForm.valid){
       <div class="d-flex justify-content-end">
-        <button
-          type="submit"
-          class="btn bg-dark text-white"
-          *ngIf="fileForm.valid"
-        >
+        <a type="submit" class="btn bg-dark text-white hover-sucesso">
           Salvar Arquivo
-        </button>
+        </a>
       </div>
+      }
     </form>
 
     <!-- Tabela de Arquivos -->
-    <table class="table table-striped mt-3">
+    <table class="table-editada mt-3">
       <thead>
         <tr>
-          <th>Nome do Arquivo</th>
-          <th>Tipo</th>
+          <th>Nome</th>
+          <th>Título do Documento</th>
           <th>Ações</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let file of files">
-          <td>{{ file.name }}</td>
-          <td>{{ file.type }}</td>
+          <td>{{ file.label }}</td>
+          <td>{{ file.document_title }}</td>
           <td>
-            <a [href]="file.url" target="_blank" class="btn btn-sm btn-primary">
-              Visualizar
+            <!-- Botão de Visualizar -->
+            <a
+              [href]="file.gateway_location"
+              target="_blank"
+              class="btn btn-sm btn-primary me-2"
+              matTooltip="Visualizar"
+            >
+              <mat-icon>visibility</mat-icon>
             </a>
+            <!-- Botão de Remover -->
+            <button
+              class="btn btn-sm btn-danger"
+              (click)="openDeleteArquivosModal(file, deleteModalArquivos)"
+              matTooltip="Remover"
+            >
+              <mat-icon>delete</mat-icon>
+            </button>
+            <ng-template #deleteModalArquivos>
+              <div class="modal-header">
+                <h5 class="modal-title text-danger">
+                  <mat-icon>warning</mat-icon> Atenção!
+                </h5>
+                <button
+                  type="button"
+                  class="btn-close text-white"
+                  aria-label="Close"
+                  (click)="modalRef?.hide()"
+                ></button>
+              </div>
+
+              <div class="modal-body">
+                <p class="fw-bold">
+                  Deseja realmente excluir o arquivo
+                  <span class="text-danger">{{
+                    selectedFileArquivo?.label
+                  }}</span
+                  >?
+                </p>
+                <form [formGroup]="deleteForm">
+                  <label for="justification" class="form-label fw-bold">
+                    Informe o motivo da exclusão do arquivo:
+                  </label>
+                  <textarea
+                    id="justification"
+                    class="form-control"
+                    formControlName="justification"
+                    placeholder="Motivo da exclusão do arquivo"
+                    rows="3"
+                  ></textarea>
+                  <div
+                    *ngIf="
+                      deleteForm.controls['justification'].invalid &&
+                      deleteForm.controls['justification'].touched
+                    "
+                    class="text-danger mt-1"
+                  >
+                    O motivo da exclusão é obrigatório.
+                  </div>
+                </form>
+              </div>
+
+              <div class="modal-footer d-flex justify-content-between">
+                <button
+                  type="button"
+                  class="btn btn-danger"
+                  [disabled]="deleteForm.invalid"
+                >
+                  Excluir
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  (click)="modalRef?.hide()"
+                >
+                  Fechar
+                </button>
+              </div>
+            </ng-template>
           </td>
         </tr>
       </tbody>
@@ -395,7 +461,7 @@
   <div class="modal-footer d-flex justify-content-between">
     <button
       class="btn btn-secondary"
-      (click)="loadContractFiles(selectedContrato?.id, currentFilePage - 1)"
+      (click)="navigateFiles(-1)"
       [disabled]="currentFilePage === 1"
     >
       <mat-icon>chevron_left</mat-icon>
@@ -405,7 +471,8 @@
 
     <button
       class="btn btn-secondary"
-      (click)="loadContractFiles(selectedContrato?.id, currentFilePage + 1)"
+      (click)="navigateFiles(1)"
+      [disabled]="!selectedContrato?.id"
     >
       <mat-icon>chevron_right</mat-icon>
     </button>

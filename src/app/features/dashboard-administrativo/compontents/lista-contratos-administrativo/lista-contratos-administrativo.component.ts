@@ -4,12 +4,20 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { RouterModule } from '@angular/router';
-import { ContratoModel } from '../../../pncp-administrativo/components/contratos-administrativo/model/contratos-administrativo.model';
+import {
+  ArquivoContratoModel,
+  ContratoModel,
+} from '../../../pncp-administrativo/components/contratos-administrativo/model/contratos-administrativo.model';
 import { ContratosService } from '../../../pncp-administrativo/components/contratos-administrativo/service/contratos-administrativos.service';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-
+import { ArquivosContratoMapper } from './mapper/arquivos-contratos.mapper';
 
 @Component({
   selector: 'app-lista-contratos-administrativo',
@@ -21,13 +29,15 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
     MatTableModule,
     RouterModule,
     MatTooltipModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
   providers: [BsModalService],
   templateUrl: './lista-contratos-administrativo.component.html',
   styleUrls: ['./lista-contratos-administrativo.component.scss'],
 })
 export class ListaContratosAdministrativoComponent implements OnInit {
+  selectedFileArquivo!: ArquivoContratoModel; // Representa um arquivo retornado pela API
+
   displayedColumns: string[] = [
     'numSeq',
     'contratoPNCP',
@@ -48,18 +58,32 @@ export class ListaContratosAdministrativoComponent implements OnInit {
   files: any[] = [];
   currentFilePage: number = 1;
   fileForm!: FormGroup;
+  selectedFile: File | null = null; // Armazena o arquivo selecionado
 
+  tiposDocumentos = [
+    { value: 12, key: 'Contrato' },
+    { value: 13, key: 'Termo de Rescisão' },
+    { value: 14, key: 'Termo de Aditivo' },
+    { value: 15, key: 'Termo de Apostilamento' },
+    { value: 17, key: 'Nota de Empenho' },
+    { value: 18, key: 'Relatório Final de Contrato' },
+    { value: 16, key: 'Outros' },
+  ];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  constructor(private contratosService: ContratosService, private fb: FormBuilder, private modalService: BsModalService, private _location: Location
+  constructor(
+    private contratosService: ContratosService,
+    private fb: FormBuilder,
+    private modalService: BsModalService,
+    private _location: Location
   ) {
     this.deleteForm = this.fb.group({
       justification: ['', [Validators.required]],
     });
     this.fileForm = this.fb.group({
-      tituloDocumento: [''],
-      tipoDocumento: [''],
-      arquivo: [null],
+      document_title: [null],
+      document_type_id: [null],
+      file: [null],
     });
   }
 
@@ -67,9 +91,33 @@ export class ListaContratosAdministrativoComponent implements OnInit {
     this.carregarContratos(this.currentPage);
   }
   openFilesModal(contrato: ContratoModel, template: TemplateRef<any>): void {
+    if (!contrato || !contrato.id) {
+      console.error('Contrato inválido ou ID do contrato não fornecido.');
+      return;
+    }
+
     this.selectedContrato = contrato;
-    this.loadContractFiles(contrato.id, this.currentFilePage);
+
+    // Chamada para carregar os arquivos do contrato
+    this.getArquivosContractFiles(contrato.id, 1); // Carrega os arquivos da primeira página
+
     this.modalRef = this.modalService.show(template, { class: 'modal-lg' });
+  }
+
+  getArquivosContractFiles(contractId: string, page: number): void {
+    this.contratosService.getArquivosContractFiles(contractId, page).subscribe({
+      next: (response) => {
+        this.files = response.data.map((file: ArquivoContratoModel) => ({
+          ...file,
+          size: +file.size, // Garantir que o tamanho seja numérico
+        }));
+        this.currentFilePage = page; // Atualiza a página atual
+        console.log('Arquivos carregados:', this.files);
+      },
+      error: (err) => {
+        console.error('Erro ao carregar arquivos do contrato:', err);
+      },
+    });
   }
 
   loadContractFiles(contractId: string | undefined, page: number): void {
@@ -82,14 +130,13 @@ export class ListaContratosAdministrativoComponent implements OnInit {
       next: (response) => {
         this.files = response.data;
         this.currentFilePage = page;
+        console.log('Arquivos carregados:', this.files);
       },
       error: (err) => {
         console.error('Erro ao carregar arquivos:', err);
       },
     });
   }
-
-
 
   visualizar(value: any) {
     const contrato = value;
@@ -116,8 +163,7 @@ export class ListaContratosAdministrativoComponent implements OnInit {
       },
     });
   }
-  onEdit(id: string): void {
-  }
+  onEdit(id: string): void {}
   openDeleteModal(contrato: ContratoModel, template: TemplateRef<any>): void {
     this.selectedContrato = contrato;
     this.modalRef = this.modalService.show(template, { class: 'modal-md' });
@@ -128,15 +174,17 @@ export class ListaContratosAdministrativoComponent implements OnInit {
     if (this.deleteForm.valid && this.selectedContrato) {
       const justification = this.deleteForm.value.justification;
 
-      this.contratosService.deleteContrato(this.selectedContrato.id, justification).subscribe({
-        next: () => {
-          this.modalRef?.hide();
-          this.carregarContratos(this.currentPage); // Atualiza a lista
-        },
-        error: (err) => {
-          this.modalRef?.hide();
-        },
-      });
+      this.contratosService
+        .deleteContrato(this.selectedContrato.id, justification)
+        .subscribe({
+          next: () => {
+            this.modalRef?.hide();
+            this.carregarContratos(this.currentPage); // Atualiza a lista
+          },
+          error: (err) => {
+            this.modalRef?.hide();
+          },
+        });
     }
   }
   goBack(): void {
@@ -166,14 +214,85 @@ export class ListaContratosAdministrativoComponent implements OnInit {
   onFileChange(event: any): void {
     const file = event.target.files[0];
     if (file) {
-      this.fileForm.patchValue({ arquivo: file });
+      this.fileForm.patchValue({ file }); // Atualiza o campo 'file' do formulário
+    }
+  }
+
+  navigateFiles(direction: number): void {
+    if (this.selectedContrato?.id) {
+      this.getArquivosContractFiles(
+        this.selectedContrato.id,
+        this.currentFilePage + direction
+      );
     }
   }
 
   onSubmitFileForm(): void {
     if (this.fileForm.valid) {
+      // Obtém os valores do formulário
+      const formValues = this.fileForm.value;
+
+      // Obtém o arquivo diretamente do campo 'file'
+      const file: File = formValues.file;
+
+      // Verifica se o arquivo foi selecionado
+      if (!file) {
+        console.warn('Nenhum arquivo foi selecionado.');
+        return;
+      }
+
+      // Converte os dados para FormData usando o Mapper
+      const formData = ArquivosContratoMapper.toSubmit(formValues, file);
+
+      // Chama o serviço para enviar os dados
+      if (this.selectedContrato?.id) {
+        this.contratosService
+          .createArquivoContrato(this.selectedContrato.id, formData)
+          .subscribe({
+            next: () => {
+              console.log('Arquivo enviado com sucesso.');
+              this.fileForm.reset(); // Reseta o formulário após o envio
+            },
+            error: (err) => {
+              console.error('Erro ao enviar arquivo:', err);
+            },
+          });
+      } else {
+        console.warn('Contrato não selecionado.');
+      }
     } else {
-      console.warn('Formulário inválido');
+      console.warn('Formulário inválido.');
     }
+  }
+
+  onDeleteFile(file: ArquivoContratoModel): void {
+    const confirmDelete = confirm(
+      `Deseja realmente excluir o arquivo "${file.label}"?`
+    );
+    if (confirmDelete && this.selectedContrato) {
+      this.contratosService
+        .deleteArquivoTermos(
+          this.selectedContrato.id,
+          file,
+          'Justificativa de exclusão'
+        )
+        .subscribe({
+          next: () => {
+            this.files = this.files.filter((f) => f.id !== file.id); // Remove o arquivo localmente
+            console.log(`Arquivo "${file.label}" excluído com sucesso.`);
+          },
+          error: (err) => {
+            console.error(`Erro ao excluir o arquivo "${file.label}":`, err);
+          },
+        });
+    }
+  }
+  openDeleteArquivosModal(
+    file: ArquivoContratoModel,
+    template: TemplateRef<any>
+  ): void {
+    this.selectedFileArquivo = file; // Define o arquivo selecionado com tipagem correta
+    this.deleteForm.reset(); // Reseta o formulário
+    this.modalRef = this.modalService.show(template, { class: 'modal-md' });
   }
 }
