@@ -4,6 +4,7 @@ import { tap, catchError } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
 import { ContratosRepository } from '../repository/contratos-administrativos.repository';
 import {
+  ArquivoContratoModel,
   ContratoModel,
   RequisicaoContratoModel,
   TermosContratosModel,
@@ -76,7 +77,10 @@ export class ContratosService {
     );
   }
 
-  deleteContrato(procurementId: string, justification: string): Observable<void> {
+  deleteContrato(
+    procurementId: string,
+    justification: string
+  ): Observable<void> {
     return this._repository.deleteContrato(procurementId, justification).pipe(
       tap(() => this.toastr.success('Contrato excluído com sucesso!')),
       catchError((error) => {
@@ -85,24 +89,45 @@ export class ContratosService {
       })
     );
   }
-  deleteTermosContrato(procurementId: string, justification: string): Observable<void> {
-    return this._repository.deleteTermosContrato(procurementId, justification).pipe(
-      tap(() => {
-        this.toastr.success('Contrato excluído com sucesso!');
-        this.contratosUpdated.next(); // Notifica a atualização
-      }),
-      catchError((error) => {
-        this.toastr.error('Erro ao excluir contrato.');
-        throw error;
-      })
-    );
+  deleteTermosContrato(
+    procurementId: string,
+    justification: string
+  ): Observable<void> {
+    return this._repository
+      .deleteTermosContrato(procurementId, justification)
+      .pipe(
+        tap(() => {
+          this.toastr.success('Contrato excluído com sucesso!');
+          this.contratosUpdated.next(); // Notifica a atualização
+        }),
+        catchError((error) => {
+          this.toastr.error('Erro ao excluir contrato.');
+          throw error;
+        })
+      );
   }
 
   getContratosUpdatedListener(): Observable<void> {
     return this.contratosUpdated.asObservable();
   }
-  
-  
+  deleteArquivoTermos(
+    termId: string,
+    file: ArquivoContratoModel,
+    justification: string
+  ): Observable<void> {
+    return this._repository
+      .deleteArquivoTermos(termId, file, justification)
+      .pipe(
+        tap(() =>
+          this.toastr.success(`Arquivo "${file.label}" excluído com sucesso!`)
+        ),
+        catchError((error) => {
+          this.toastr.error(`Erro ao excluir o arquivo "${file.label}".`);
+          throw error;
+        })
+      );
+  }
+
   createTermosContratos(termId: string, data: FormData): Observable<void> {
     return this._repository.createTermosContratos(termId, data).pipe(
       tap(() => this.toastr.success('Termos do contrato criados com sucesso!')),
@@ -127,7 +152,10 @@ export class ContratosService {
     );
   }
 
-  updateTermo(termoId: string, data: Partial<TermosContratosModel>): Observable<void> {
+  updateTermo(
+    termoId: string,
+    data: Partial<TermosContratosModel>
+  ): Observable<void> {
     return this._repository.updateTermoContrato(termoId, data).pipe(
       tap(() => this.toastr.success('Termo atualizado com sucesso!')),
       catchError((error) => {

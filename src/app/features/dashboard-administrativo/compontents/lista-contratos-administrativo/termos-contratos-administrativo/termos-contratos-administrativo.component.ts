@@ -3,6 +3,7 @@ import { Component, OnInit, TemplateRef } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { ContratosService } from '../../../../pncp-administrativo/components/contratos-administrativo/service/contratos-administrativos.service';
 import {
+  ArquivoContratoModel,
   ContratoModel,
   TermosContratosModel,
 } from '../../../../pncp-administrativo/components/contratos-administrativo/model/contratos-administrativo.model';
@@ -25,6 +26,7 @@ import { TermosContratosMapper } from './mapper/termos-contratos.mapper';
   styleUrls: ['./termos-contratos-administrativo.component.scss'],
 })
 export class TermosContratosAdministrativoComponent implements OnInit {
+  selectedFileArquivo!: ArquivoContratoModel; // Representa um arquivo retornado pela API
   contratoId!: string; // ID do contrato capturado da URL
   termos: TermosContratosModel[] = []; // Lista de termos carregados
   termosTotal: ContratoModel[] = [];
@@ -274,6 +276,41 @@ export class TermosContratosAdministrativoComponent implements OnInit {
       console.error('Formulário inválido ou contrato não selecionado.');
     }
   }
+
+
+  openDeleteArquivosModal(
+    file: ArquivoContratoModel,
+    template: TemplateRef<any>
+  ): void {
+    this.selectedFileArquivo = file; // Define o arquivo selecionado com tipagem correta
+    this.deleteForm.reset(); // Reseta o formulário
+    this.modalRef = this.modalService.show(template, { class: 'modal-md' });
+  }
+  
+
+  confirmDeleteArquivosTermos(): void {
+  if (this.deleteForm.valid && this.selectedFileArquivo && this.selectedTerm?.id) {
+    const justification = this.deleteForm.value.justification;
+
+    this.contratosService
+      .deleteArquivoTermos(this.selectedTerm.id, this.selectedFileArquivo, justification)
+      .subscribe({
+        next: () => {
+          this.modalRef?.hide();
+          this.files = this.files.filter(
+            (file) => file.id !== this.selectedFileArquivo.id
+          ); // Atualiza a tabela removendo o arquivo excluído
+        },
+        error: (err) => {
+          this.modalRef?.hide();
+          console.error('Erro ao excluir arquivo:', err);
+        },
+      });
+  } else {
+    console.error('Formulário inválido ou dados incompletos.');
+  }
+}
+
 
   goBack(): void {
     this._location.back();
