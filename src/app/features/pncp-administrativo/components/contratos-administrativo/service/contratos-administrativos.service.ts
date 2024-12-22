@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { map, Observable } from 'rxjs';
+import { map, Observable, Subject } from 'rxjs';
 import { tap, catchError } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
 import { ContratosRepository } from '../repository/contratos-administrativos.repository';
@@ -13,6 +13,8 @@ import {
   providedIn: 'root',
 })
 export class ContratosService {
+  private contratosUpdated = new Subject<void>();
+
   constructor(
     private _repository: ContratosRepository,
     private toastr: ToastrService // Injeta o ToastrService
@@ -83,7 +85,24 @@ export class ContratosService {
       })
     );
   }
+  deleteTermosContrato(procurementId: string, justification: string): Observable<void> {
+    return this._repository.deleteTermosContrato(procurementId, justification).pipe(
+      tap(() => {
+        this.toastr.success('Contrato excluído com sucesso!');
+        this.contratosUpdated.next(); // Notifica a atualização
+      }),
+      catchError((error) => {
+        this.toastr.error('Erro ao excluir contrato.');
+        throw error;
+      })
+    );
+  }
 
+  getContratosUpdatedListener(): Observable<void> {
+    return this.contratosUpdated.asObservable();
+  }
+  
+  
   createTermosContratos(termId: string, data: FormData): Observable<void> {
     return this._repository.createTermosContratos(termId, data).pipe(
       tap(() => this.toastr.success('Termos do contrato criados com sucesso!')),

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { map, Observable } from 'rxjs';
+import { catchError, map, Observable, tap } from 'rxjs';
 import { RequisicaoContratoModel, ContratoModel, TermosContratosModel } from '../model/contratos-administrativo.model';
 import { environment } from '../../../../../../environments/environment';
 import { RequisicaoModel } from '../../../../../shared/models/shared.model';
@@ -35,6 +35,20 @@ export class ContratosRepository {
     const body = { justification };
     return this._http.delete<void>(`${this.baseUrl}/${procurementId}`, { body });
   }
+
+  deleteTermosContrato(procurementId: string, justification: string): Observable<void> {
+    const url = `${environment.apiUrl}/tenants/${environment.tenant}/pncp/terms/${procurementId}`;
+    const params = { justification }; // Adiciona o parâmetro como query string
+  
+    return this._http.delete<void>(url, { params }).pipe(
+      tap(() => console.log('Contrato excluído com sucesso!')), // Para logs internos
+      catchError((error) => {
+        console.error('Erro ao excluir contrato:', error); // Log do erro
+        throw error;
+      })
+    );
+  }
+
 
   updateContrato(id: string, data: Partial<ContratoModel>): Observable<void> {
     return this._http.put<void>(`${this.baseUrl}/${id}`, data);

@@ -8,7 +8,12 @@ import {
 } from '../../../../pncp-administrativo/components/contratos-administrativo/model/contratos-administrativo.model';
 import { MatIcon } from '@angular/material/icon';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { TermosContratosMapper } from './mapper/termos-contratos.mapper';
 
 @Component({
@@ -59,6 +64,16 @@ export class TermosContratosAdministrativoComponent implements OnInit {
       document_type_id: [null],
       file: [null],
     });
+
+    this.deleteForm = this.fb.group({
+      justification: ['', [Validators.required]], // Validação de campo obrigatório
+    });
+
+    this.contratosService.getContratosUpdatedListener().subscribe(() => {
+      this.carregarContratos(this.currentPage); // Atualiza a tabela ao ser notificado
+    });
+
+    this.carregarContratos(this.currentPage); // Carregamento inicial
   }
 
   ngOnInit(): void {
@@ -244,18 +259,22 @@ export class TermosContratosAdministrativoComponent implements OnInit {
       const justification = this.deleteForm.value.justification;
 
       this.contratosService
-        .deleteContrato(this.selectedContrato.id, justification)
+        .deleteTermosContrato(this.selectedContrato.id, justification)
         .subscribe({
           next: () => {
             this.modalRef?.hide();
-            this.carregarContratos(this.currentPage); // Atualiza a lista
+            window.location.reload(); // Atualiza a página após o sucesso
           },
           error: (err) => {
             this.modalRef?.hide();
+            console.error('Erro ao excluir contrato:', err);
           },
         });
+    } else {
+      console.error('Formulário inválido ou contrato não selecionado.');
     }
   }
+
   goBack(): void {
     this._location.back();
   }
