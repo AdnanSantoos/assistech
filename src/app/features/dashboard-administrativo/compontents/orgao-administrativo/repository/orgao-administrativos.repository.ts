@@ -4,14 +4,15 @@ import { Observable } from 'rxjs';
 import { RequisicaoModel } from '../../../../../shared/models/shared.model';
 import { environment } from '../../../../../../environments/environment';
 import { OrgaoModel, OrgaoResponse } from '../model/orgao-administrativo.model';
+import { TenantService } from '../../../../../shared/services/tenant.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class OrgaosRepository {
-  private readonly baseUrl = `${environment.apiUrl}/tenants/${environment.tenant}/pncp/agencies`;
+  private readonly baseUrl = `${environment.apiUrl}/tenants/${this._tenantService.getTenant()}/pncp/agencies`;
 
-  constructor(private _http: HttpClient) { }
+  constructor(private _http: HttpClient, private _tenantService: TenantService ) { }
 
   getOrgaos(page: number): Observable<RequisicaoModel<OrgaoModel[]>> {
     const params = new HttpParams().set('page', page.toString());

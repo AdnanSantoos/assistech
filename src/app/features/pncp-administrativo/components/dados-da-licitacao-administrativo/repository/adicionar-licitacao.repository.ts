@@ -5,15 +5,16 @@ import { RequisicaoModel } from '../../../../../shared/models/shared.model';
 import { environment } from '../../../../../../environments/environment.development';
 import { ProcurementModel } from '../model/adicionar-licitacao.model';
 import { OrgaoModel } from '../../../../dashboard-administrativo/compontents/orgao-administrativo/model/orgao-administrativo.model';
+import { TenantService } from '../../../../../shared/services/tenant.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AdicionarLicitacaoRepository {
-  private readonly baseUrl = `${environment.apiUrl}/tenants/${environment.tenant}/pncp/procurements`;
-  private readonly baseUrlOrgao = `${environment.apiUrl}/tenants/${environment.tenant}/pncp/agencies`;
+  private readonly baseUrl = `${environment.apiUrl}/tenants/${this._tenantService.getTenant()}/pncp/procurements`;
+  private readonly baseUrlOrgao = `${environment.apiUrl}/tenants/${this._tenantService.getTenant()}/pncp/agencies`;
 
-  constructor(private _http: HttpClient) { }
+  constructor(private _http: HttpClient, private _tenantService: TenantService) { }
 
   getOrgaosPage(page: number): Observable<RequisicaoModel<OrgaoModel[]>> {
     const params = new HttpParams().set('page', page.toString());

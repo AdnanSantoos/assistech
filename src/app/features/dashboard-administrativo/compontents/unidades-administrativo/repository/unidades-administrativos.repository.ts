@@ -4,14 +4,15 @@ import { Observable } from 'rxjs';
 import { RequisicaoModel } from '../../../../../shared/models/shared.model';
 import { environment } from '../../../../../../environments/environment';
 import { UnidadeModel } from '../model/unidades-administrativo.model';
+import { TenantService } from '../../../../../shared/services/tenant.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UnidadesRepository {
-  private readonly baseUrl = `${environment.apiUrl}/tenants/${environment.tenant}/pncp/units?agency_country_register=`;
+  private readonly baseUrl = `${environment.apiUrl}/tenants/${this._tenantService.getTenant()}/pncp/units?agency_country_register=`;
 
-  constructor(private _http: HttpClient) { }
+  constructor(private _http: HttpClient, private _tenantService: TenantService) { }
 
   getUnidade(page: number): Observable<RequisicaoModel<UnidadeModel[]>> {
     const params = new HttpParams().set('page', page.toString());
@@ -28,13 +29,13 @@ export class UnidadesRepository {
   getCidades(label: string): Observable<{ data: Array<{ code: string; label: string }> }> {
     const params = new HttpParams().set('label', label);
     return this._http.get<{ data: Array<{ code: string; label: string }> }>(
-      `${environment.apiUrl}/tenants/${environment.tenant}/cities`,
+      `${environment.apiUrl}/tenants/${this._tenantService.getTenant()}/cities`,
       { params }
     );
   }
 
   deleteUnidade(unitId: string): Observable<void> {
-    const url = `${environment.apiUrl}/staff/tenants/${environment.tenant}/units/${unitId}`;
+    const url = `${environment.apiUrl}/staff/tenants/${this._tenantService.getTenant()}/units/${unitId}`;
     return this._http.delete<void>(url);
   }
 }

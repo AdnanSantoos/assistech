@@ -4,12 +4,13 @@ import { RequisicaoModel } from '../../../../../shared/models/shared.model';
 import { environment } from '../../../../../../environments/environment';
 import { ClienteData } from '../../../model/cliente.model';
 import { Observable } from 'rxjs';
+import { TenantService } from '../../../../../shared/services/tenant.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ClienteAdministrativoRepository {
-  constructor(private _http: HttpClient) { }
+  constructor(private _http: HttpClient, private _tenantService: TenantService) { }
 
   getClientes(page: number) {
     const params = new HttpParams().set('page', page.toString());
@@ -22,7 +23,7 @@ export class ClienteAdministrativoRepository {
 
   searchCities(label: string): Observable<any> {
     const params = new HttpParams().set('label', label);
-    const url = `${environment.apiUrl}/${environment.tenant}/cities`;
+    const url = `${environment.apiUrl}/${this._tenantService.getTenant()}/cities`;
     return this._http.get(url, { params });
   }
   getClienteBySlug(slug: string): Observable<any> {

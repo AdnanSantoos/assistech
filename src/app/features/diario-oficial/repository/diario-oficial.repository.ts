@@ -3,11 +3,12 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 import { RequisicaoModel } from '../../../shared/models/shared.model';
 import { DadosDiarioOficialPublico, DiarioOficialPesquisaData } from '../models/diario-oficial.model';
+import { TenantService } from '../../../shared/services/tenant.service';
 @Injectable({
   providedIn: 'root',
 })
 export class DiarioRepository {
-  constructor(private _http: HttpClient) {}
+  constructor(private _http: HttpClient, private _tenantService: TenantService) {}
   
   getDiarioPublicoPorFiltro(query:DiarioOficialPesquisaData) {
     let queryParams = new HttpParams();
@@ -23,11 +24,11 @@ export class DiarioRepository {
     if(query.number){
       queryParams = queryParams.append('number', query.number);
     }
-    return this._http.get<RequisicaoModel<DadosDiarioOficialPublico>>(`${environment.apiUrl}/public/tenants/${environment.tenant}/official-gazettes`, { params: queryParams });
+    return this._http.get<RequisicaoModel<DadosDiarioOficialPublico>>(`${environment.apiUrl}/public/tenants/${this._tenantService.getTenant()}/official-gazettes`, { params: queryParams });
   }
 
   getDiarioPublicoEntidade() {
-    return this._http.get(`${environment.apiUrl}/public/tenants/${environment.tenant}`);
+    return this._http.get(`${environment.apiUrl}/public/tenants/${this._tenantService.getTenant()}`);
   }
 
 }
