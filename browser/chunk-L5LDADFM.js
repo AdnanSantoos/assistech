@@ -1,1 +1,0 @@
-import{a}from"./chunk-JQJU2YU5.js";import"./chunk-OE4S5XUQ.js";import"./chunk-4LHWUBEW.js";import"./chunk-2GFVZ5G4.js";import"./chunk-W2C4X7ZQ.js";import"./chunk-S2VRJCHE.js";import"./chunk-2RM62BPO.js";import"./chunk-RSPWAVDF.js";export{a as AcessoInformacaoAdministrativoComponent};
