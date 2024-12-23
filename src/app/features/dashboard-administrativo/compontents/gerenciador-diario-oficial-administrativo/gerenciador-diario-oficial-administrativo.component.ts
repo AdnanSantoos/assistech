@@ -1,17 +1,15 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Location } from '@angular/common';
 import { MatIcon } from '@angular/material/icon';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { GerenciadorDiarioOficialService } from './service/gerenciador-diario-oficial.service';
-import { RequisicaoModel } from '../../../../shared/models/shared.model';
 import { DiarioOficialPublicacoes, StatusPublicacao } from './models/gerenciador-diario-oficial.model';
 import { TenantService } from '../../../../shared/services/tenant.service';
-import { subscribe } from 'diagnostics_channel';
-import { MatDialog } from '@angular/material/dialog';
 import { BsModalRef, BsModalService, ModalModule } from 'ngx-bootstrap/modal';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
+import { WebSocketService } from '../../../../shared/services/web-socket.service';
 
 @Component({
   selector: 'app-gerenciador-diario-oficial-administrativo',
@@ -21,7 +19,7 @@ import { Observable } from 'rxjs';
   templateUrl: './gerenciador-diario-oficial-administrativo.component.html',
   styleUrls: ['./gerenciador-diario-oficial-administrativo.component.scss'],
 })
-export class GerenciadorDiarioOficialAdministrativoComponent implements OnInit {
+export class GerenciadorDiarioOficialAdministrativoComponent implements OnInit, OnDestroy {
   public documents: DiarioOficialPublicacoes[] = [];
   public selectedDocument: DiarioOficialPublicacoes | null = null;
   public modalRef?: BsModalRef;
@@ -34,27 +32,21 @@ export class GerenciadorDiarioOficialAdministrativoComponent implements OnInit {
   public selectedPages: number[] = []; // Páginas selecionadas para exclusão
   selectedFile: File | null = null; // Armazena o arquivo selecionado
   public publicacoes: DiarioOficialPublicacoes[] = [];
-  public publicacoes$: Observable<DiarioOficialPublicacoes[]>; // Observable das publicações
+  private webSocketSubscription: Subscription | null = null;
 
   constructor(
     private _location: Location,
     private _service: GerenciadorDiarioOficialService,
-    private dialog: MatDialog,
+    private webSocketService: WebSocketService,
     public tenantService: TenantService,
     private modalService: BsModalService,
   ) {
     this._service.publicacoes$.subscribe((data) => {
       this.publicacoes = data;
     });
-    this.publicacoes$ = this._service.publicacoes$;
-    this._service.publicacoes$.subscribe({
-      next: (data) => {
-        this.documents = data;
-      },
-      error: (err) => {
-        console.error('Erro ao atualizar os documentos:', err);
-      },
-    });
+  }
+  ngOnDestroy(): void {
+    this.webSocketService.disconnect();
   }
   loadPublicacoes(page: number): void {
     this._service.loadPublicacoes(page);
@@ -62,11 +54,42 @@ export class GerenciadorDiarioOficialAdministrativoComponent implements OnInit {
   }
   ngOnInit(): void {
     this.isStaff = this.tenantService.getStaff();
-
-    this.publicacoes$ = this._service.publicacoes$; // Fluxo direto
     this._service.loadPublicacoes(this.currentPage);
+
+    const token = 'seu-token-aqui'; // Obtenha o token do usuário ou da sessão
+    const tenant = 'seu-tenant-aqui'; // Obtenha o tenant adequado
+
+    const echo = this.webSocketService.initializeWebSocket(token, tenant);
+
+    const channelName = `official_gazette.${tenant}`; // Canal privado
+    console.log({ channelName });
+
+    // Escutando o evento do WebSocket
+    echo.private(channelName)
+      .listen('.OfficialGazetteProcessed', (event: any) => {
+        console.log({ event });
+        this.updatePublicationStatus(event); // Atualiza o status da publicação
+      })
+      .error((error: any) => {
+        console.error('Erro ao escutar o canal:', error);
+      });
   }
 
+
+   /**
+   * Atualiza o status da publicação com base no evento recebido.
+   * @param event Dados do evento.
+   */
+   private updatePublicationStatus(event: any): void {
+    const { official_gazette_id, status } = event;
+    // Procure a publicação na lista e atualize seu status
+    const publication = this.publicacoes.find(pub => pub.id === official_gazette_id);
+    if (publication) {
+      publication.status = status;
+    } else {
+      console.warn('Publicação não encontrada', event);
+    }
+  }
 
   statusPublicacao(status: string): string {
     const traducoes: Record<string, string> = {
