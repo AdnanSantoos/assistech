@@ -20,7 +20,7 @@ export class WebSocketService {
       return this.echo;
     }
 
-    const authorizeUrl = `${environment.apiUrl}/api/${tenant}/broadcasting/auth`;
+    const authorizeUrl = `${environment.authorize_URl}/api/${tenant}/broadcasting/auth`;
 
     const params = {
       broadcaster: 'pusher',
@@ -30,6 +30,7 @@ export class WebSocketService {
       wssPort: environment.pusherPort,
       cluster: environment.pusherCluster,
       forceTLS: environment.pusherForceTLS,
+      // Define o authorizer para autenticação personalizada
       authorizer: (channel: any, options: any) => {
         return {
           authorize: (socketId: string, callback: Function) => {
@@ -39,32 +40,28 @@ export class WebSocketService {
                 {
                   socket_id: socketId,
                   channel_name: channel.name,
-                  token,
                 },
                 {
                   headers: {
-                    Authorization: `Bearer ${token}`,
+                    Authorization: `Bearer ${token}`, // Passa o token no header
                   },
                 }
               )
               .subscribe(
                 (response: any) => {
-                  callback(false, response);
+                  callback(false, response); // Autorização bem-sucedida
                 },
                 (error) => {
-                  callback(true, error);
+                  console.error('Erro na autorização do WebSocket:', error);
+                  callback(true, error); // Erro na autorização
                 }
               );
           },
         };
       },
-      auth: {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      },
     };
 
+    // Inicializa o Echo com os parâmetros configurados
     this.echo = new Echo<any>(params);
     return this.echo;
   }

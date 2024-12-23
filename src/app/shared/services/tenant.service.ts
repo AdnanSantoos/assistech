@@ -30,9 +30,8 @@ export class TenantService {
     return !!localStorage.getItem('isStaff');
   }
 
-
-  getTenant(): boolean {
-    return !!localStorage.getItem('tenant');
+  getTenant(): string {
+    return localStorage.getItem('tenant')!;
   }
 
 }

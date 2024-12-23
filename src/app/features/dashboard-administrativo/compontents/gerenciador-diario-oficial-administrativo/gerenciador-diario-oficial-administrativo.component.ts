@@ -40,6 +40,8 @@ export class GerenciadorDiarioOficialAdministrativoComponent implements OnInit, 
     private webSocketService: WebSocketService,
     public tenantService: TenantService,
     private modalService: BsModalService,
+    private _tenantService:TenantService,
+    
   ) {
     this._service.publicacoes$.subscribe((data) => {
       this.publicacoes = data;
@@ -56,8 +58,8 @@ export class GerenciadorDiarioOficialAdministrativoComponent implements OnInit, 
     this.isStaff = this.tenantService.getStaff();
     this._service.loadPublicacoes(this.currentPage);
 
-    const token = 'seu-token-aqui'; // Obtenha o token do usuário ou da sessão
-    const tenant = 'seu-tenant-aqui'; // Obtenha o tenant adequado
+    const token = localStorage.getItem('authToken')!;
+    const tenant = this._tenantService.getTenant();
 
     const echo = this.webSocketService.initializeWebSocket(token, tenant);
 
