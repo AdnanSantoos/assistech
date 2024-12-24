@@ -588,10 +588,7 @@ export class DadosDaLicitacaoAdministrativoComponent {
           break
         case 9: // Inexigibilidade
           this.modoDisputaOpcoes = [
-            { key: 'Aberto', value: 1 },
-            { key: 'Fechado', value: 2 },
-            { key: 'Aberto-Fechado', value: 3 },
-            { key: 'Fechado-Aberto', value: 6 },
+            { value: 5, key: 'Não se aplica' }
           ];
           this.legalBasicOptions = [
             { value: 80, key: 'Lei nº 14.133/2021, Art. 1º, § 2º' },
