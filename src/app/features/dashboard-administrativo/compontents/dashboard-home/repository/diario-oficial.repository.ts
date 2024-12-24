@@ -12,7 +12,7 @@ export class DashboardHomeRepository {
   constructor(private _http: HttpClient, private _tenantService: TenantService) {}
   
   getDashboard() {
-    return this._http.get<RequisicaoModel<DashboardModel>>(`${environment.apiUrl}/tenants/${this._tenantService.getTenant()}/dashboard`);
+    return this._http.get<RequisicaoModel<DashboardModel>>(`${environment.API_URL}/tenants/${this._tenantService.getTenant()}/dashboard`);
   }
 
 }

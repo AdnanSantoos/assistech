@@ -8,7 +8,7 @@ import { RequisicaoModel, RequisicaoTenantFullModel, TenantFullModel } from '../
   providedIn: 'root'
 })
 export class TenantService {
-  private _baseUrl = `${environment.apiUrl}/public/tenants`;
+  private _baseUrl = `${environment.API_URL}/public/tenants`;
   private _tenantState = new BehaviorSubject<TenantFullModel | null>(null)
   public state$ = this._tenantState.asObservable();
 
@@ -19,7 +19,7 @@ export class TenantService {
   }
 
   getDados(tenant: string): Observable<RequisicaoModel<any>> {
-    return this.http.get<RequisicaoModel<any>>(`${environment.apiUrl}/tenants/${tenant}/auth/me`);
+    return this.http.get<RequisicaoModel<any>>(`${environment.API_URL}/tenants/${tenant}/auth/me`);
   }
 
   updateState(newState: TenantFullModel) {

@@ -14,23 +14,23 @@ export class UsuariosRepository {
 
   getUsuarios(page: number): Observable<RequisicaoModel<UsuarioData[]>> {
     const params = new HttpParams().set('page', page.toString());
-    return this._http.get<RequisicaoModel<UsuarioData[]>>(`${environment.apiUrl}/staff/users`, { params });
+    return this._http.get<RequisicaoModel<UsuarioData[]>>(`${environment.API_URL}/staff/users`, { params });
   }
 
   createUser(userData: UsuarioData): Observable<UsuarioData> {
-    return this._http.post<UsuarioData>(`${environment.apiUrl}/staff/users`, userData);
+    return this._http.post<UsuarioData>(`${environment.API_URL}/staff/users`, userData);
   }
 
   getClientes(name: string) {
     const params = new HttpParams().set('name', name);
-    return this._http.get<RequisicaoModel<ClienteData[]>>(`${environment.apiUrl}/staff/tenants`, { params });
+    return this._http.get<RequisicaoModel<ClienteData[]>>(`${environment.API_URL}/staff/tenants`, { params });
   }
 
   getUsuariosPorID(id: string) {
-    return this._http.get<RequisicaoModel<UsuarioData[]>>(`${environment.apiUrl}/staff/users/${id}`);
+    return this._http.get<RequisicaoModel<UsuarioData[]>>(`${environment.API_URL}/staff/users/${id}`);
   }
 
   editarUsuario(userData: UsuarioData, id: string): Observable<UsuarioData> {
-    return this._http.put<UsuarioData>(`${environment.apiUrl}/staff/users/${id}`, userData);
+    return this._http.put<UsuarioData>(`${environment.API_URL}/staff/users/${id}`, userData);
   }
 }

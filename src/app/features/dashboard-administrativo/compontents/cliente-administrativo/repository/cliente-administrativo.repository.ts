@@ -14,24 +14,24 @@ export class ClienteAdministrativoRepository {
 
   getClientes(page: number) {
     const params = new HttpParams().set('page', page.toString());
-    return this._http.get<RequisicaoModel<ClienteData[]>>(`${environment.apiUrl}/staff/tenants`, { params });
+    return this._http.get<RequisicaoModel<ClienteData[]>>(`${environment.API_URL}/staff/tenants`, { params });
   }
 
   createUser(clientData: ClienteData): Observable<ClienteData> {
-    return this._http.post<ClienteData>(`${environment.apiUrl}/staff/tenants`, clientData);
+    return this._http.post<ClienteData>(`${environment.API_URL}/staff/tenants`, clientData);
   }
 
   searchCities(label: string): Observable<any> {
     const params = new HttpParams().set('label', label);
-    const url = `${environment.apiUrl}/${this._tenantService.getTenant()}/cities`;
+    const url = `${environment.API_URL}/${this._tenantService.getTenant()}/cities`;
     return this._http.get(url, { params });
   }
   getClienteBySlug(slug: string): Observable<any> {
-    return this._http.get(`${environment.apiUrl}/staff/tenants/${slug}`);
+    return this._http.get(`${environment.API_URL}/staff/tenants/${slug}`);
   }
 
   updateCliente(slug: string, data: any): Observable<void> {
-    return this._http.put<void>(`${environment.apiUrl}/staff/tenants/${slug}`, data);
+    return this._http.put<void>(`${environment.API_URL}/staff/tenants/${slug}`, data);
   }
 
 

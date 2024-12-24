@@ -13,9 +13,9 @@ export class LoginRepository {
   constructor(private _http: HttpClient, private _tenantService: TenantService) {}
 
   login(form: LoginModel): Observable<LoginResponse> {
-    return this._http.post<LoginResponse>(`${environment.apiUrl}/tenants/${this._tenantService.getTenant()}/auth/login`, form);
+    return this._http.post<LoginResponse>(`${environment.API_URL}/tenants/${this._tenantService.getTenant()}/auth/login`, form);
   }
   logout(tenant:string): Observable<LoginResponse> {
-    return this._http.post<LoginResponse>(`${environment.apiUrl}/tenants/${tenant}/auth/logout`,null);
+    return this._http.post<LoginResponse>(`${environment.API_URL}/tenants/${tenant}/auth/logout`,null);
   }
 }

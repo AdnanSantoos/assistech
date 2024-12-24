@@ -9,7 +9,7 @@ import { TenantService } from '../../../../../shared/services/tenant.service';
   providedIn: 'root',
 })
 export class NoticiaRepository {
-  private readonly baseUrl = `${environment.apiUrl}/tenants/${this._tenantService.getTenant()}/diario-oficial/tenant-news`;
+  private readonly baseUrl = `${environment.API_URL}/tenants/${this._tenantService.getTenant()}/diario-oficial/tenant-news`;
 
   constructor(private _http: HttpClient, private _tenantService:TenantService) { }
 

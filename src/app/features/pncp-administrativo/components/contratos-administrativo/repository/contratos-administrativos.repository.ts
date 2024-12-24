@@ -15,7 +15,7 @@ import { TenantService } from '../../../../../shared/services/tenant.service';
   providedIn: 'root',
 })
 export class ContratosRepository {
-  private readonly baseUrl = `${environment.apiUrl}/tenants/${this._tenantService.getTenant()}/pncp/contracts`;
+  private readonly baseUrl = `${environment.API_URL}/tenants/${this._tenantService.getTenant()}/pncp/contracts`;
 
   constructor(private _http: HttpClient, private _tenantService: TenantService) {}
 
@@ -29,7 +29,7 @@ export class ContratosRepository {
   }
 
   createTermoContrato(data: Partial<TermosContratosModel>): Observable<void> {
-    const url = `${environment.apiUrl}/tenants/${this._tenantService.getTenant()}/pncp/terms`;
+    const url = `${environment.API_URL}/tenants/${this._tenantService.getTenant()}/pncp/terms`;
     return this._http.post<void>(url, data);
   }
 
@@ -53,7 +53,7 @@ export class ContratosRepository {
     procurementId: string,
     justification: string
   ): Observable<void> {
-    const url = `${environment.apiUrl}/tenants/${this._tenantService.getTenant()}/pncp/terms/${procurementId}`;
+    const url = `${environment.API_URL}/tenants/${this._tenantService.getTenant()}/pncp/terms/${procurementId}`;
     const params = { justification }; // Adiciona o parâmetro como query string
 
     return this._http.delete<void>(url, { params }).pipe(
@@ -70,7 +70,7 @@ export class ContratosRepository {
     file: ArquivoContratoModel,
     justification: string
   ): Observable<void> {
-    const url = `${environment.apiUrl}/tenants/${this._tenantService.getTenant()}/pncp/terms/${termId}/files/${file.id}`;
+    const url = `${environment.API_URL}/tenants/${this._tenantService.getTenant()}/pncp/terms/${termId}/files/${file.id}`;
     const params = { justification }; // Passa justification como query param
 
     return this._http.delete<void>(url, { params }).pipe(
@@ -89,7 +89,7 @@ export class ContratosRepository {
     termId: string,
     page: number
   ): Observable<{ data: ArquivoContratoModel[]; meta: any }> {
-    const url = `${environment.apiUrl}/tenants/${this._tenantService.getTenant()}/pncp/contracts/${termId}/files`;
+    const url = `${environment.API_URL}/tenants/${this._tenantService.getTenant()}/pncp/contracts/${termId}/files`;
     const params = new HttpParams().set('page', page.toString());
     return this._http.get<{ data: ArquivoContratoModel[]; meta: any }>(url, {
       params,
@@ -97,18 +97,18 @@ export class ContratosRepository {
   }
 
   getContractFiles(termId: string, page: number): Observable<any> {
-    const url = `${environment.apiUrl}/tenants/${this._tenantService.getTenant()}/pncp/terms/${termId}/files`;
+    const url = `${environment.API_URL}/tenants/${this._tenantService.getTenant()}/pncp/terms/${termId}/files`;
     const params = new HttpParams().set('page', page.toString());
     return this._http.get<any>(url, { params });
   }
 
   deleteFileTermos(fileId: string): Observable<void> {
-    const url = `${environment.apiUrl}/tenants/${this._tenantService.getTenant()}/pncp/files/${fileId}`;
+    const url = `${environment.API_URL}/tenants/${this._tenantService.getTenant()}/pncp/files/${fileId}`;
     return this._http.delete<void>(url);
   }
 
   createTermosContratos(termId: string, data: FormData): Observable<void> {
-    const url = `${environment.apiUrl}/tenants/${this._tenantService.getTenant()}/pncp/terms/${termId}/files`;
+    const url = `${environment.API_URL}/tenants/${this._tenantService.getTenant()}/pncp/terms/${termId}/files`;
     return this._http.post<void>(url, data);
   }
   createArquivoContrato(contractId: string, data: FormData): Observable<void> {
@@ -122,7 +122,7 @@ export class ContratosRepository {
   }
 
   getContractTerms(contractId: string, page: number): Observable<any> {
-    const url = `${environment.apiUrl}/tenants/${this._tenantService.getTenant()}/pncp/terms`;
+    const url = `${environment.API_URL}/tenants/${this._tenantService.getTenant()}/pncp/terms`;
     const params = new HttpParams()
       .set('contract_id', contractId)
       .set('page', page.toString());
@@ -131,7 +131,7 @@ export class ContratosRepository {
   }
 
   getTermoById(termoId: string): Observable<{ data: TermosContratosModel }> {
-    const url = `${environment.apiUrl}/tenants/${this._tenantService.getTenant()}/pncp/terms/${termoId}`;
+    const url = `${environment.API_URL}/tenants/${this._tenantService.getTenant()}/pncp/terms/${termoId}`;
     return this._http.get<{ data: TermosContratosModel }>(url);
   }
 
@@ -140,7 +140,7 @@ export class ContratosRepository {
     termoId: string,
     data: Partial<TermosContratosModel>
   ): Observable<void> {
-    const url = `${environment.apiUrl}/tenants/${this._tenantService.getTenant()}/pncp/terms/${termoId}`;
+    const url = `${environment.API_URL}/tenants/${this._tenantService.getTenant()}/pncp/terms/${termoId}`;
     return this._http.put<void>(url, data);
   }
 

@@ -10,7 +10,7 @@ import { TenantService } from '../../../../../shared/services/tenant.service';
   providedIn: 'root',
 })
 export class OrgaosRepository {
-  private readonly baseUrl = `${environment.apiUrl}/tenants/${this._tenantService.getTenant()}/pncp/agencies`;
+  private readonly baseUrl = `${environment.API_URL}/tenants/${this._tenantService.getTenant()}/pncp/agencies`;
 
   constructor(private _http: HttpClient, private _tenantService: TenantService ) { }
 

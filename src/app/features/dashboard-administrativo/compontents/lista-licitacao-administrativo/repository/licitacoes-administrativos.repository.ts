@@ -11,7 +11,7 @@ import { TenantService } from '../../../../../shared/services/tenant.service';
   providedIn: 'root',
 })
 export class LicitacoesRepository {
-  private readonly baseUrl = `${environment.apiUrl}/tenants/${this._tenantService.getTenant()}/pncp/procurements`;
+  private readonly baseUrl = `${environment.API_URL}/tenants/${this._tenantService.getTenant()}/pncp/procurements`;
 
   constructor(private _http: HttpClient, private _tenantService: TenantService) { }
 
@@ -28,7 +28,7 @@ export class LicitacoesRepository {
 
   getLicitacoesArquivos(tenant: string, procurementId: string, page: number): Observable<RequisicaoModel<LicitacaoArquivos[]>> {
     const params = new HttpParams().set('page', page.toString());
-    const url = `${environment.apiUrl}/tenants/${this._tenantService.getTenant()}/pncp/procurements/${procurementId}/files`;
+    const url = `${environment.API_URL}/tenants/${this._tenantService.getTenant()}/pncp/procurements/${procurementId}/files`;
     return this._http.get<RequisicaoModel<LicitacaoArquivos[]>>(url, { params });
   }
 
@@ -45,7 +45,7 @@ export class LicitacoesRepository {
   }
   getAtaArquivos(minutesId: string, page: number): Observable<RequisicaoModel<LicitacaoArquivos>> {
     const params = new HttpParams().set('page', page.toString());
-    const url = `${environment.apiUrl}/tenants/${this._tenantService.getTenant()}/pncp/minutes/${minutesId}/files`;
+    const url = `${environment.API_URL}/tenants/${this._tenantService.getTenant()}/pncp/minutes/${minutesId}/files`;
     return this._http.get<RequisicaoModel<any>>(url, { params });
   }
   getOrgaos(page: number): Observable<RequisicaoModel<OrgaoModel[]>> {
@@ -75,7 +75,7 @@ export class LicitacoesRepository {
     procurementId: string,
     fileData: FormData
   ): Observable<LicitacaoArquivos> {
-    const url = `${environment.apiUrl}/tenants/${this._tenantService.getTenant()}/pncp/procurements/${procurementId}/files`;
+    const url = `${environment.API_URL}/tenants/${this._tenantService.getTenant()}/pncp/procurements/${procurementId}/files`;
     return this._http.post<LicitacaoArquivos>(url, fileData);
   }
 
@@ -84,7 +84,7 @@ export class LicitacoesRepository {
     return this._http.post<void>(url, ataData);
   }
   uploadArquivo(minutesId: string, formData: FormData): Observable<LicitacaoArquivos> {
-    const url = `${environment.apiUrl}/tenants/${this._tenantService.getTenant()}/pncp/minutes/${minutesId}/files`;
+    const url = `${environment.API_URL}/tenants/${this._tenantService.getTenant()}/pncp/minutes/${minutesId}/files`;
     return this._http.post<LicitacaoArquivos>(url, formData);
   }
   updateLicitacao(id: string, data: any): Observable<void> {
@@ -97,7 +97,7 @@ export class LicitacoesRepository {
 
 
   getResultadosItem(procurementId: string, itemId: string): Observable<RequisicaoModel<LicitacaoResultados[]>> {
-    const url = `${environment.apiUrl}/tenants/${this._tenantService.getTenant()}/pncp/procurements/${procurementId}/items/${itemId}/results`;
+    const url = `${environment.API_URL}/tenants/${this._tenantService.getTenant()}/pncp/procurements/${procurementId}/items/${itemId}/results`;
     return this._http.get<RequisicaoModel<LicitacaoResultados[]>>(url);
   }
 
@@ -108,18 +108,18 @@ export class LicitacoesRepository {
 
   deleteAta(minutesId: string, justification: string): Observable<void> {
     const params = new HttpParams().set('justification', justification);
-    const url = `${environment.apiUrl}/tenants/${this._tenantService.getTenant()}/pncp/minutes/${minutesId}`;
+    const url = `${environment.API_URL}/tenants/${this._tenantService.getTenant()}/pncp/minutes/${minutesId}`;
     return this._http.delete<void>(url, { params });
   }
 
   deleteArquivos(tenant: string, minutesId: string, fileId: string, justification: string): Observable<void> {
-    const url = `${environment.apiUrl}/tenants/${this._tenantService.getTenant()}/pncp/procurements/${minutesId}/files/${fileId}`;
+    const url = `${environment.API_URL}/tenants/${this._tenantService.getTenant()}/pncp/procurements/${minutesId}/files/${fileId}`;
     const params = { justification }; // Payload enviado como parâmetro
     return this._http.delete<void>(url, { params });
   }
   
   deleteAtasArquivo(minutesId: string, fileId: string, justification: string): Observable<void> {
-    const url = `${environment.apiUrl}/tenants/${this._tenantService.getTenant()}/pncp/minutes/${minutesId}/files/${fileId}`;
+    const url = `${environment.API_URL}/tenants/${this._tenantService.getTenant()}/pncp/minutes/${minutesId}/files/${fileId}`;
     return this._http.delete<void>(url, {
       params: { justification },
     });

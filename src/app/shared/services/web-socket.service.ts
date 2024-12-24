@@ -20,16 +20,16 @@ export class WebSocketService {
       return this.echo;
     }
 
-    const authorizeUrl = `${environment.authorize_URl}/api/${tenant}/broadcasting/auth`;
+    const authorizeUrl = `${environment.AUTHORIZE_URL}/api/${tenant}/broadcasting/auth`;
 
     const params = {
       broadcaster: 'pusher',
-      key: environment.pusherKey,
-      wsHost: environment.pusherHost,
-      wsPort: environment.pusherPort,
-      wssPort: environment.pusherPort,
-      cluster: environment.pusherCluster,
-      forceTLS: environment.pusherForceTLS,
+      key: environment.PUSHER_KEY,
+      wsHost: environment.PUSHER_HOST,
+      wsPort: environment.PUSHER_PORT,
+      wssPort: environment.PUSHER_PORT,
+      cluster: environment.PUSHER_CLUSTER,
+      forceTLS: environment.PUSHER_FORCE_TLS,
       // Define o authorizer para autenticação personalizada
       authorizer: (channel: any, options: any) => {
         return {
