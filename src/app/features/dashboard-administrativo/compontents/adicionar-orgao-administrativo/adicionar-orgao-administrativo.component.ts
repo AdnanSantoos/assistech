@@ -88,6 +88,11 @@ export class AdicionarOrgaoAdministrativoComponent implements OnInit {
     }
   }
 
-
+  onInputCNPJ(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const cleanedValue = input.value.replace(/[^\d]/g, ''); // Remove tudo que não for número
+    input.value = cleanedValue; // Atualiza o valor exibido no input
+    this.formulario.get('country_register')?.setValue(cleanedValue, { emitEvent: false }); // Atualiza o formulário
+  }
 
 }

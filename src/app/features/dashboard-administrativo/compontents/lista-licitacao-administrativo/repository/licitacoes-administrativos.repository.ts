@@ -20,6 +20,11 @@ export class LicitacoesRepository {
     return this._http.get<RequisicaoModel<LicitacaoModel[]>>(`${this.baseUrl}`, { params });
   }
 
+  getLicitacoesWithFilters(params: HttpParams): Observable<RequisicaoModel<LicitacaoModel[]>> {
+    return this._http.get<RequisicaoModel<LicitacaoModel[]>>(`${this.baseUrl}`, { params });
+  }
+  
+
   getLicitacoesDetalhes(id: string, page: number): Observable<RequisicaoModel<LicitacaoDetalhesModel[]>> {
     const params = new HttpParams().set('page', page.toString());
     const url = `${this.baseUrl}/${id}/items`;
@@ -47,10 +52,17 @@ export class LicitacoesRepository {
     const params = new HttpParams().set('page', page.toString());
     const url = `${environment.API_URL}/tenants/${this._tenantService.getTenant()}/pncp/minutes/${minutesId}/files`;
     return this._http.get<RequisicaoModel<any>>(url, { params });
+
   }
   getOrgaos(page: number): Observable<RequisicaoModel<OrgaoModel[]>> {
     const params = new HttpParams().set('page', page.toString());
     return this._http.get<RequisicaoModel<OrgaoModel[]>>(this.baseUrl, { params });
+  }
+
+  getOrgaosAtualizado(page: number): Observable<RequisicaoModel<OrgaoModel[]>> {
+    const url = `${environment.API_URL}/tenants/${this._tenantService.getTenant()}/pncp/agencies`;
+    const params = new HttpParams().set('page', page.toString());
+    return this._http.get<RequisicaoModel<OrgaoModel[]>>(url, { params });
   }
 
   getLicitacaoById(id: string): Observable<RequisicaoModel<LicitacaoDetalhesModel>> {

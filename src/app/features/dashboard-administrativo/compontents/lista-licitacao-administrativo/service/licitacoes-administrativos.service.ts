@@ -16,6 +16,17 @@ export class LicitacoesService {
 
   ) { }
 
+  getLicitacoesWithFilters(filters: any): Observable<RequisicaoModel<LicitacaoModel[]>> {
+    const params = new HttpParams({
+      fromObject: {
+        ...filters,
+        page: filters.page?.toString() || '1',
+      },
+    });
+  
+    return this._repository.getLicitacoesWithFilters(params);
+  }
+  
   getLicitacoes(page: number): Observable<RequisicaoModel<LicitacaoModel[]>> {
     return this._repository.getLicitacoes(page);
   }
@@ -40,6 +51,10 @@ export class LicitacoesService {
   }
   getOrgaos(page: number): Observable<RequisicaoModel<OrgaoModel[]>> {
     return this._repository.getOrgaos(page);
+  }
+
+  getOrgaosAtualizado(page: number): Observable<RequisicaoModel<OrgaoModel[]>> {
+    return this._repository.getOrgaosAtualizado(page);
   }
 
   getLicitacaoById(id: string): Observable<RequisicaoModel<LicitacaoDetalhesModel>> {

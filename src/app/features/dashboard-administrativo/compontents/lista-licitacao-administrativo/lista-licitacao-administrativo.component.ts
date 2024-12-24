@@ -11,6 +11,7 @@ import { ArquivosLicitacoesComponent } from './arquivos-licitacoes/arquivos-lici
 import { MatDialog } from '@angular/material/dialog';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { OrgaoModel } from '../orgao-administrativo/model/orgao-administrativo.model';
 
 
 @Component({
@@ -50,7 +51,24 @@ export class ListaLicitacaoAdministrativoComponent implements OnInit {
   currentPage = 1;
   totalPages = 0;
   totalRecords = 0;
-
+  filtersForm!: FormGroup;
+  orgaos: any[] = []; // Armazena os órgãos
+  modalidadeContratoOpcoes = [
+    { value: 1, key: 'Leilão - Eletrônico' },
+    { value: 2, key: 'Diálogo Competitivo' },
+    { value: 3, key: 'Concurso' },
+    { value: 4, key: 'Concorrência - Eletrônica' },
+    { value: 5, key: 'Concorrência - Presencial' },
+    { value: 6, key: 'Pregão - Eletrônico' },
+    { value: 7, key: 'Pregão - Presencial' },
+    { value: 8, key: 'Dispensa de Licitação' },
+    { value: 9, key: 'Inexigibilidade' },
+    { value: 10, key: 'Manifestação de Interesse' },
+    { value: 11, key: 'Pré-qualificação' },
+    { value: 12, key: 'Credenciamento' },
+    { value: 13, key: 'Leilão - Presencial' },
+    { value: 14, key: 'Inaplicabilidade da Licitação' }
+  ];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -66,15 +84,19 @@ export class ListaLicitacaoAdministrativoComponent implements OnInit {
     this.deleteForm = this.fb.group({
       justification: ['', [Validators.required, Validators.minLength(5)]],
     });
+
+    this.filtersForm = this.fb.group({
+      number: [''],
+      year: [''],
+      contracting_modality_id: [''],
+      agency_country_register: [''],
+    });
   }
 
-  loadLicitacoes(page: number): void {
-    this.licitacoesService.getLicitacoes(page).subscribe({
+  loadLicitacoes(page: number, filters: any = {}): void {
+    this.licitacoesService.getLicitacoesWithFilters({ ...filters, page }).subscribe({
       next: (response) => {
-        this.dataSource.data = response.data.map((licitacao, index) => ({
-          ...licitacao,
-          numSeq: (page - 1) * this.pageSize + index + 1,
-        }));
+        this.dataSource.data = response.data;
         this.totalRecords = response.meta?.pagination.total || 0;
         this.totalPages = Math.ceil(this.totalRecords / this.pageSize);
         this.dataSource.paginator = this.paginator;
@@ -84,12 +106,25 @@ export class ListaLicitacaoAdministrativoComponent implements OnInit {
       },
     });
   }
-
+  applyFilters(): void {
+    const filters = this.filtersForm.value;
+    this.loadLicitacoes(this.currentPage, filters);
+  }
   loadOrgaos(page: number): void {
-    this.licitacoesService.getOrgaos(page).subscribe({
+    this.licitacoesService.getOrgaosAtualizado(page).subscribe({
       next: (response) => {
         if (response && response.data) {
-          console.log('Orgãos carregados com sucesso:', response.data);
+          const uniqueOrgaos = new Map<string, OrgaoModel>(); // Usando um Map para garantir a unicidade
+
+          response.data.forEach(orgao => {
+            const countryRegister = orgao.country_register; // Acessando diretamente a propriedade
+            if (countryRegister && !uniqueOrgaos.has(countryRegister)) {
+              uniqueOrgaos.set(countryRegister, orgao); // Adiciona o órgão se não estiver presente
+            }
+          });
+
+          this.orgaos = Array.from(uniqueOrgaos.values()); // Converte o Map de volta para um array
+          console.log('Órgãos carregados com sucesso:', this.orgaos);
         } else {
           console.warn('Nenhum órgão encontrado.');
         }
