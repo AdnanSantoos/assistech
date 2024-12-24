@@ -39,6 +39,7 @@ export class PublicarDiarioOficialAdministrativoComponent implements OnInit {
   modalRef?: BsModalRef;
   nameFile: string | null = null;
   selectedFiles: File[] = [];
+  selectedFilesMap: { [key: string]: File[] } = {};
   minDate: Date = new Date()
   bsConfig?: Partial<BsDatepickerConfig> = Object.assign({}, { containerClass: 'theme-default' });
   dynamicFields: dynamicFields[] = [
@@ -98,27 +99,45 @@ export class PublicarDiarioOficialAdministrativoComponent implements OnInit {
     const files = event.target.files;
     const validFiles: File[] = [];
     const invalidFiles: string[] = [];
-
-
+  
+    // Inicializa a lista caso ainda não exista
+    if (!this.selectedFilesMap) {
+      this.selectedFilesMap = {};
+    }
+    
+    if (!this.selectedFilesMap[fieldName]) {
+      this.selectedFilesMap[fieldName] = [];
+    }
+  
     if (files && files.length > 0) {
       for (let i = 0; i < files.length; i++) {
         const file = files[i];
-        if (file.type === 'application/pdf') {
+        // Verifica se o arquivo é PDF e não está duplicado
+        if (
+          file.type === 'application/pdf' &&
+          !this.selectedFilesMap[fieldName].some(f => f.name === file.name)
+        ) {
           validFiles.push(file);
+        } else if (file.type !== 'application/pdf') {
+          invalidFiles.push(file.name);
         } else {
+          // Se o arquivo é PDF mas já está na lista, adiciona à lista de inválidos
           invalidFiles.push(file.name);
         }
       }
-
+  
+      // Adiciona arquivos válidos
       if (validFiles.length > 0) {
-        this.selectedFiles = validFiles;
-        this.nameFile = validFiles.map(file => file.name).join(', ');
-        this.formAgendado.controls['files'].setValue(this.selectedFiles)
+        this.selectedFilesMap[fieldName].push(...validFiles);
+        this.selectedFiles = this.selectedFilesMap[fieldName]; // Atualiza a lista de arquivos selecionados
+        this.nameFile = this.selectedFiles.map(file => file.name).join(', ');
+        this.formAgendado.controls['files'].setValue(this.selectedFiles);
         this.formAgendado.get(fieldName)?.updateValueAndValidity();
       }
-
+  
+      // Alerta para arquivos inválidos
       if (invalidFiles.length > 0) {
-        alert(`Os seguintes arquivos não são PDFs e foram ignorados: ${invalidFiles.join(', ')}`);
+        alert(`Os seguintes arquivos não são PDFs ou estão duplicados: ${invalidFiles.join(', ')}`);
       }
     }
   }
