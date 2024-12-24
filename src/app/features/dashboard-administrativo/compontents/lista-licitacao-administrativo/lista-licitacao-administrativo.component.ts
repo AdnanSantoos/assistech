@@ -108,6 +108,11 @@ export class ListaLicitacaoAdministrativoComponent implements OnInit {
   }
   applyFilters(): void {
     const filters = this.filtersForm.value;
+  
+    if (!filters.agency_country_register) {
+      delete filters.agency_country_register;
+    }
+  
     this.loadLicitacoes(this.currentPage, filters);
   }
   loadOrgaos(page: number): void {

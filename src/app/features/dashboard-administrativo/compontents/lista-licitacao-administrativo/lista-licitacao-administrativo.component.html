@@ -51,7 +51,7 @@
             class="form-select"
             formControlName="contracting_modality_id"
           >
-            <option value="" disabled selected>Selecione a modalidade</option>
+            <option value="" selected>Todos</option>
             <option
               *ngFor="let modalidade of modalidadeContratoOpcoes"
               [value]="modalidade.value"
@@ -63,8 +63,12 @@
 
         <div class="flex-grow-1">
           <label for="agency_country_register" class="form-label">Órgão</label>
-          <select id="agency_country_register" class="form-select" formControlName="agency_country_register">
-            <option value="" disabled selected>Selecione o órgão</option>
+          <select
+            id="agency_country_register"
+            class="form-select"
+            formControlName="agency_country_register"
+          >
+            <option value="" selected>Todos</option>
             <option
               *ngFor="let orgao of orgaos"
               [value]="orgao.country_register"
