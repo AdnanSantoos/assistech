@@ -292,11 +292,11 @@ export class DadosDaLicitacaoAdministrativoComponent {
       agency: [null],
       unit_id: [null],
       document_title: [null],
-      document_type_id: [null],
-      call_instrument_id: [null],
-      contracting_modality_id: [null],
-      dispute_mode_id: [null],
-      legal_basic_id: [null],
+      document_type_id: [{ value: null, disabled: false }],
+      call_instrument_id: [{ value: null, disabled: true }],
+      contracting_modality_id: [{ value: null, disabled: true }],
+      dispute_mode_id: [{ value: null, disabled: true }],
+      legal_basic_id: [{ value: null, disabled: true }],
       agency_country_register: [null],
       file: [null],
       number: [null],
@@ -347,6 +347,9 @@ export class DadosDaLicitacaoAdministrativoComponent {
         });
       });
     });
+    this.filtroForm.get('document_type_id')?.valueChanges.subscribe(() => {
+      this.filtroForm.get('call_instrument_id')?.enable(); // Habilita o campo Tipo de Instrumento Convocatório
+    });
 
     this.filtroForm.get('unit_id')?.valueChanges.subscribe((v) => {
       console.log(this.cnpjSelecionado)
@@ -354,6 +357,7 @@ export class DadosDaLicitacaoAdministrativoComponent {
     })
 
     this.filtroForm.get('call_instrument_id')?.valueChanges.subscribe((tipoInstrumentoSelecionado) => {
+      this.filtroForm.get('contracting_modality_id')?.enable(); // Habilita o campo Modalidade de Contratação
       console.log(tipoInstrumentoSelecionado)
       switch (tipoInstrumentoSelecionado) {
         case 4:
@@ -387,6 +391,8 @@ export class DadosDaLicitacaoAdministrativoComponent {
     });
 
     this.filtroForm.get('contracting_modality_id')?.valueChanges.subscribe((tipoModalidadeSelecionado) => {
+      this.filtroForm.get('dispute_mode_id')?.enable(); // Habilita o campo Modo de Disputa
+
       console.log(tipoModalidadeSelecionado)
       switch (tipoModalidadeSelecionado) {
         case 1: //Leilão eletrônico
@@ -714,6 +720,9 @@ export class DadosDaLicitacaoAdministrativoComponent {
           break;
 
       }
+    });
+    this.filtroForm.get('dispute_mode_id')?.valueChanges.subscribe(() => {
+      this.filtroForm.get('legal_basic_id')?.enable(); // Habilita o campo Âmparo Legal
     });
     this.loadOrgaos();
   }
