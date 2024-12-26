@@ -11,8 +11,8 @@ RUN if [ "$APP_ENV" = "production" ] && [ -f "/app/.env.deploy.local" ]; then \
     cp /app/.env.deploy.local /app/.env; \
     fi
 
-RUN if [ "$APP_ENV" = "dev" ] && [ -f "/app/.env.homologation.local" ]; then \
-    cp /app/.env.homologation.local /app/.env; \
+RUN if [ "$APP_ENV" = "dev" ] && [ -f "/app/.env.staging.local" ]; then \
+    cp /app/.env.staging.local /app/.env; \
     fi
 
 RUN ENV_COMMANDS=$(cat .env | sed 's/ / \&\& export /g' | sed 's/^/export /') && \
@@ -20,7 +20,8 @@ RUN ENV_COMMANDS=$(cat .env | sed 's/ / \&\& export /g' | sed 's/^/export /') &&
 
 RUN npm install
 
-RUN npm run build-env && npm run build
+RUN npm run build-env
+RUN npm run build
 
 FROM node:18-alpine as production-stage
 

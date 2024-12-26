@@ -44,4 +44,7 @@ Thumbs.db
 .env.local
 .env.*.local
 *.gz
+frontend.docker.gz
 frontend.docker
+dev-frontend.docker.gz
+dev-frontend.docker
