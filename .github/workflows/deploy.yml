@@ -21,6 +21,8 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Build Envs
+        run: npm run build-env
       - name: Build Angular app
         run: npm run build
 
