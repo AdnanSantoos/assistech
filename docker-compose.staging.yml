@@ -1,0 +1,6 @@
+services:
+  frontend:
+    image: dev-sai:frontend
+    restart: always
+    ports:
+      - "${DOCKER_FRONTEND_HTTP_PORT:-6999}:4000"
