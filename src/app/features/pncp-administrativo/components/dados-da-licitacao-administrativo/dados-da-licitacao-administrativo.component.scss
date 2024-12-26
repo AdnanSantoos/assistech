@@ -113,7 +113,9 @@
         outline: none;
       }
     }
-
+    .btn-salvar {
+      max-width: 330px !important;
+    }
     textarea {
       resize: vertical;
       min-height: 150px;
@@ -345,14 +347,12 @@
     transform: rotate(45deg);
     background-color: red;
   }
-  &.open:hover{
+  &.open:hover {
     background-color: rgb(107, 3, 3);
-
   }
 }
-.toggle-icon:hover{
+.toggle-icon:hover {
   background-color: #025827;
-
 }
 
 .form-section .content {
