@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule, Location } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -287,7 +287,7 @@ export class DadosDaLicitacaoAdministrativoComponent {
     { value: "S", key: 'Serviço' }
   ];
 
-  constructor(private fb: FormBuilder, private _adicionarLicitacaoService: AdicionarLicitacaoService, private modalService: BsModalService, private _location:Location) {
+  constructor(private fb: FormBuilder, private _adicionarLicitacaoService: AdicionarLicitacaoService, private modalService: BsModalService, private _location: Location) {
 
     this.filtroForm = this.fb.group({
       agency: [null],
@@ -305,40 +305,13 @@ export class DadosDaLicitacaoAdministrativoComponent {
       process_number: [null],
       goals: [null],
       srp: [false],
-      items: this.fb.group({
-        tenant_slug: [null],
-        created_by_id: [null],
-        procurement_id: [null],
-        item_type: [null],
-        benefit_type_id: [null],
-        basic_productive_incentive: [null],
-        description: [null],
-        quantity: [null],
-        unit_of_measurement: [null],
-        estimated_unit_value: [null],
-        total_value: [null],
-        judging_criteria_id: [null],
-        confidential_budget: [null],
-        item_category_id: [null],
-        assets: [null],
-        real_estate_registry_code: [null],
-        source_system_link: [null],
-        justification_in_person: [null],
-        number: [null],
-        applicability_normal_preference_margin: [null],
-        applicability_additional_preference_margin: [null],
-        normal_preference_margin_percentage: [null],
-        additional_preference_margin_percentage: [null],
-        ncm_nbs_code: [null],
-        ncm_nbs_description: [null]
-      }),
+      items: this.fb.array([]),
       additional_information: [null],
       opening_date_proposal: [null],
       closing_date_proposal: [null],
       contracting_situation_id: [{ value: 1, disabled: true }]
     });
-
-
+    this.addItem();
     this.filtroForm.get('agency')?.valueChanges.subscribe((selectedAgencies: SelectedAgencies) => {
       this.cnpjSelecionado = selectedAgencies.value;
       selectedAgencies.unit.forEach(unit => {
@@ -393,8 +366,6 @@ export class DadosDaLicitacaoAdministrativoComponent {
 
     this.filtroForm.get('contracting_modality_id')?.valueChanges.subscribe((tipoModalidadeSelecionado) => {
       this.filtroForm.get('dispute_mode_id')?.enable(); // Habilita o campo Modo de Disputa
-
-      console.log(tipoModalidadeSelecionado)
       switch (tipoModalidadeSelecionado) {
         case 1: //Leilão eletrônico
           this.modoDisputaOpcoes = [
@@ -728,6 +699,50 @@ export class DadosDaLicitacaoAdministrativoComponent {
     this.loadOrgaos();
   }
 
+
+  get items(): FormArray {
+    return this.filtroForm.get('items') as FormArray;
+  }
+
+  createItem(): FormGroup {
+    return this.fb.group({
+      tenant_slug: [null],
+      created_by_id: [null],
+      procurement_id: [null],
+      item_type: [null],
+      benefit_type_id: [null],
+      basic_productive_incentive: [false],
+      description: [null, Validators.required],
+      quantity: [null, [Validators.required, Validators.min(1)]],
+      unit_of_measurement: [null],
+      estimated_unit_value: [null],
+      total_value: [null],
+      judging_criteria_id: [null],
+      confidential_budget: [false],
+      item_category_id: [null],
+      assets: [null],
+      real_estate_registry_code: [null],
+      source_system_link: [null],
+      justification_in_person: [null],
+      applicability_normal_preference_margin: [false],
+      applicability_additional_preference_margin: [false],
+      normal_preference_margin_percentage: [null],
+      additional_preference_margin_percentage: [null],
+      ncm_nbs_code: [null],
+      ncm_nbs_description: [null],
+    });
+  }
+
+  // Adicionar um item ao FormArray
+  addItem(): void {
+    this.items.push(this.createItem());
+  }
+
+  // Remover um item do FormArray
+  removeItem(index: number): void {
+    this.items.removeAt(index);
+  }
+
   loadOrgaos(): void {
     this._adicionarLicitacaoService.getOrgaos().subscribe({
       next: (response: any) => {
@@ -745,12 +760,8 @@ export class DadosDaLicitacaoAdministrativoComponent {
     });
   }
 
-  toggleItemsSection(): void {
-    this.showItems = !this.showItems;
-  }
-
   onFormSubmit(): void {
-    const novaLicitacao = AdicionarLicitacaoMapper.toSubmit(this.filtroForm.value, this.selectedFiles, this.showItems);
+    const novaLicitacao = AdicionarLicitacaoMapper.toSubmit(this.filtroForm.value, this.selectedFiles, this.items.controls.length>0?true:false);
 
     this._adicionarLicitacaoService.criarLicitacao(novaLicitacao).subscribe((v) => {
       console.log(v)

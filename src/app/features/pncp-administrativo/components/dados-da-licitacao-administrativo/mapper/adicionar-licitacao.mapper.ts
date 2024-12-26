@@ -11,8 +11,7 @@ export class AdicionarLicitacaoMapper {
       value.items = null
     }  
     else{
-      value.items = [value.items]
-      value.items[0].number = 1
+      value.items[0].number = value.number
     }
 
     const formData = new FormData();

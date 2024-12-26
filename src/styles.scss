@@ -11,6 +11,10 @@ body {
   }
 }
 
+select:disabled {
+  background: #ededed;
+}
+
 .unverified-signature-warning {
   display: none;
 }
