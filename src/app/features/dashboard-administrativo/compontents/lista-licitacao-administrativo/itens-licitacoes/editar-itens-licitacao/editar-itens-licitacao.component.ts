@@ -1,14 +1,21 @@
 import { Component, OnInit, ViewEncapsulation, Inject } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { LicitacoesService } from '../../service/licitacoes-administrativos.service';
 import { LicitacaoItemModel } from '../../model/licitacoes-administrativo.model';
+import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 
 @Component({
   selector: 'app-editar-itens-licitacao',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, NgxMaskDirective],
+  providers: [provideNgxMask()],
   templateUrl: './editar-itens-licitacao.component.html',
   styleUrls: ['./editar-itens-licitacao.component.scss'],
   encapsulation: ViewEncapsulation.None,
@@ -16,13 +23,40 @@ import { LicitacaoItemModel } from '../../model/licitacoes-administrativo.model'
 export class EditarItensLicitacaoComponent implements OnInit {
   editarItemForm!: FormGroup;
   isLoading = true;
-
+  materialOuServicoEnum = [
+    { value: 'M', key: 'Material' },
+    { value: 'S', key: 'Serviço' },
+  ];
+  unidadeDeMedidaEnum = [
+    { value: 'Caixa', key: 'Caixa' },
+    { value: 'Bloco', key: 'Bloco' },
+    { value: 'Centímetro', key: 'Centímetro' },
+    { value: 'Dúzia', key: 'Dúzia' },
+    { value: 'Fardo', key: 'Fardo' },
+    { value: 'Frasco', key: 'Frasco' },
+    { value: 'Galão', key: 'Galão' },
+    { value: 'Grama', key: 'Grama' },
+    { value: 'Quilograma', key: 'Quilograma' },
+    { value: 'Metro', key: 'Metro' },
+    { value: 'Jogo', key: 'Jogo' },
+    { value: 'Par', key: 'Par' },
+    { value: 'Kit', key: 'Kit' },
+    { value: 'Lata', key: 'Lata' },
+    { value: 'Litro', key: 'Litro' },
+    { value: 'Pacote', key: 'Pacote' },
+    { value: 'Unidade', key: 'Unidade' },
+    { value: 'Resma', key: 'Resma' },
+    { value: 'Rolo', key: 'Rolo' },
+    { value: 'Saco', key: 'Saco' },
+    { value: 'Serviço', key: 'Serviço' }
+  ];
   constructor(
     private fb: FormBuilder,
     private licitacoesService: LicitacoesService,
-    @Inject(MAT_DIALOG_DATA) public data: { itemId: string; licitacaoId: string },
+    @Inject(MAT_DIALOG_DATA)
+    public data: { itemId: string; licitacaoId: string },
     private dialogRef: MatDialogRef<EditarItensLicitacaoComponent>
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.initializeForm();
@@ -36,29 +70,28 @@ export class EditarItensLicitacaoComponent implements OnInit {
 
   initializeForm(): void {
     this.editarItemForm = this.fb.group({
-      number: [1, Validators.required],
-      item_type: ['', Validators.required],
-      benefit_type_id: [null, Validators.required],
-      basic_productive_incentive: [false, Validators.required],
-      description: ['', [Validators.required, Validators.maxLength(2048)]],
-      quantity: [1, [Validators.required, Validators.min(1)]],
-      unit_of_measurement: ['', Validators.required],
-      estimated_unit_value: [null, Validators.required],
-      total_value: [null, Validators.required],
-      judging_criteria_id: [null, Validators.required],
-      confidential_budget: [false, Validators.required],
-      item_category_id: [null, Validators.required],
+      number: [1],
+      item_type: [''],
+      benefit_type_id: [null],
+      basic_productive_incentive: [false],
+      description: ['', Validators.maxLength(2048)],
+      quantity: [1, Validators.min(1)],
+      unit_of_measurement: [''],
+      estimated_unit_value: [null],
+      total_value: [null],
+      judging_criteria_id: [null],
+      confidential_budget: [false],
+      item_category_id: [null],
       real_estate_registry_code: [''],
-      contract_item_situation_id: [null, Validators.required],
-      applicability_normal_preference_margin: [false, Validators.required],
-      applicability_additional_preference_margin: [false, Validators.required],
+      contract_item_situation_id: [null],
+      applicability_normal_preference_margin: [false],
+      applicability_additional_preference_margin: [false],
       normal_preference_margin_percentage: [null],
       additional_preference_margin_percentage: [null],
       ncm_nbs_code: [''],
       ncm_nbs_description: ['', [Validators.maxLength(2048)]],
-      change_reason: ['', Validators.required],
-      assets: ['', Validators.required],
-
+      change_reason: [''],
+      assets: [''],
     });
   }
 
@@ -86,7 +119,6 @@ export class EditarItensLicitacaoComponent implements OnInit {
     });
   }
 
-
   populateForm(item: LicitacaoItemModel): void {
     this.editarItemForm.patchValue({
       number: item.number,
@@ -103,14 +135,18 @@ export class EditarItensLicitacaoComponent implements OnInit {
       item_category_id: item.item_category_id,
       real_estate_registry_code: item.real_estate_registry_code,
       contract_item_situation_id: item.contract_item_situation_id,
-      applicability_normal_preference_margin: item.applicability_normal_preference_margin,
-      applicability_additional_preference_margin: item.applicability_additional_preference_margin,
-      normal_preference_margin_percentage: item.normal_preference_margin_percentage,
-      additional_preference_margin_percentage: item.additional_preference_margin_percentage,
+      applicability_normal_preference_margin:
+        item.applicability_normal_preference_margin,
+      applicability_additional_preference_margin:
+        item.applicability_additional_preference_margin,
+      normal_preference_margin_percentage:
+        item.normal_preference_margin_percentage,
+      additional_preference_margin_percentage:
+        item.additional_preference_margin_percentage,
       ncm_nbs_code: item.ncm_nbs_code,
       ncm_nbs_description: item.ncm_nbs_description,
       change_reason: '',
-      assets: item.assets || '', 
+      assets: item.assets || '',
     });
   }
 

@@ -152,8 +152,8 @@ export interface LicitacaoAtaModel {
   procurement_id: string;
   price_registry_number: string;
   year_of_registry: number;
-  signature_date: string; 
-  start_date_of_validity: string; 
+  signature_date: string;
+  start_date_of_validity: string;
   end_date_of_validity: string;
   gateway_location?: string;
   gateway_sequence?: number;

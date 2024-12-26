@@ -31,10 +31,9 @@
   <div *ngIf="isLoadingItens" class="loading-indicator">
     Carregando itens...
   </div>
-
   <div
     *ngIf="licitacaoItens.length > 0 && !isLoadingItens"
-    class="licitacao-itens table-responsive">
+    class="table-responsive">
     <table class="table-editada">
       <thead>
         <tr>
@@ -50,7 +49,7 @@
           <td>{{ getContractItemStatus(item.contract_item_situation_id) }}</td>
           <td>{{ item.description }}</td>
           <td>
-            <div class="d-flex gap-3">
+            <div class="d-flex align-items-center justify-content-center gap-3">
               <div class="d-flex flex-column align-items-center">
                 <a
                   (click)="irParaPncp(1)"

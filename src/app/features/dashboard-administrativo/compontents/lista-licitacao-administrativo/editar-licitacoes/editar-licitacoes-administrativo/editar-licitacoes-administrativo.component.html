@@ -1,6 +1,4 @@
-<h1 class="pagina-interna mt-2">
-  Ratificação da licitação
-</h1>
+<h1 class="pagina-interna mt-2">Ratificação da licitação</h1>
 <div class="d-flex justify-content-start">
   <p class="text-left">
     Antes de enviar certifique-se de que todas as informações
@@ -37,7 +35,6 @@
         <p class="orgao">{{ Unidade }}</p>
       </div>
     </div>
-
     <div class="form-group-row">
       <div class="form-group">
         <label for="tipoInstrumento">TIPO DE INSTRUMENTO CONVOCATÓRIO*</label>
@@ -46,21 +43,29 @@
           class="form-select"
           formControlName="call_instrument_id"
         >
-          <option [value]="1">Edital</option>
-          <option [value]="2">Aviso de Contratação Direta</option>
-          <option [value]="3">Ato que Autoriza Contratação Direta</option>
-          <option [value]="4">Edital de Chamamento Público</option>
+          <option
+            *ngFor="let option of modoDisputaOpcoes"
+            [value]="option.value"
+          >
+            {{ option.key }}
+          </option>
         </select>
       </div>
 
       <div class="form-group">
-        <label for="modalidade">MODALIDADE</label>
-        <input
+        <label for="modalidade">MODALIDADE*</label>
+        <select
           id="modalidade"
-          type="text"
-          class="form-control"
+          class="form-select"
           formControlName="contracting_modality_id"
-        />
+        >
+          <option
+            *ngFor="let option of modalidadeContratoOpcoes"
+            [value]="option.value"
+          >
+            {{ option.key }}
+          </option>
+        </select>
       </div>
     </div>
 
@@ -72,19 +77,29 @@
           class="form-select"
           formControlName="dispute_mode_id"
         >
-          <option [value]="4">Dispensa com Disputa</option>
-          <option [value]="">Não se Aplica</option>
+          <option
+            *ngFor="let option of modoDisputaOpcoes"
+            [value]="option.value"
+          >
+            {{ option.key }}
+          </option>
         </select>
       </div>
 
       <div class="form-group">
         <label for="amparoLegal">AMPARO LEGAL*</label>
-        <input
+        <select
           id="amparoLegal"
-          type="text"
-          class="form-control"
+          class="form-select"
           formControlName="legal_basic_id"
-        />
+        >
+          <option
+            *ngFor="let option of legalBasicOptions"
+            [value]="option.value"
+          >
+            {{ option.key }}
+          </option>
+        </select>
       </div>
     </div>
     <div class="form-group-row">
@@ -154,12 +169,18 @@
     <div class="form-group-row">
       <div class="form-group">
         <label for="situacaoCompra">SITUAÇÃO DA COMPRA*</label>
-        <input
+        <select
           id="situacaoCompra"
-          type="text"
-          class="form-control"
+          class="form-select"
           formControlName="contracting_situation_id"
-        />
+        >
+          <option
+            *ngFor="let option of situacaoCompra"
+            [value]="option.value"
+          >
+            {{ option.key }}
+          </option>
+        </select>
       </div>
 
       <div class="form-group switch-group">
@@ -180,10 +201,10 @@
       ></textarea>
     </div>
 
-    <div class="form-actions">
+    <div class="form-actions d-flex justify-content-start">
       <button
         type="submit"
-        class="btn btn-submit"
+        class="bg-dark text-white hover-sucesso"
         [disabled]="ratificacaoForm.invalid"
       >
         ENVIAR

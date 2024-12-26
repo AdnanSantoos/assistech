@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { AdicionarLicitacaoService } from './service/adicionar-licitacao.services';
@@ -35,6 +35,7 @@ export class DadosDaLicitacaoAdministrativoComponent {
   modalRef?: BsModalRef;
   selectedItem: any = null;
   showItems = false;
+  showItemsFrontend: boolean = false;
 
   nameFile: string | null = null;
   selectedFiles: any[] = [];
@@ -286,7 +287,7 @@ export class DadosDaLicitacaoAdministrativoComponent {
     { value: "S", key: 'Serviço' }
   ];
 
-  constructor(private fb: FormBuilder, private _adicionarLicitacaoService: AdicionarLicitacaoService, private modalService: BsModalService) {
+  constructor(private fb: FormBuilder, private _adicionarLicitacaoService: AdicionarLicitacaoService, private modalService: BsModalService, private _location:Location) {
 
     this.filtroForm = this.fb.group({
       agency: [null],
@@ -469,7 +470,7 @@ export class DadosDaLicitacaoAdministrativoComponent {
             { value: 9, key: 'Conteúdo artístico' },
           ]
           break;
-        case 4: // Concorrência - eletrônica 
+        case 4: // Concorrência - eletrônica
           this.modoDisputaOpcoes = [
             { key: 'Aberto', value: 1 },
             { key: 'Fechado', value: 2 },
@@ -502,7 +503,7 @@ export class DadosDaLicitacaoAdministrativoComponent {
             { value: 9, key: 'Conteúdo artístico' },
           ]
           break;
-        case 5: // Concorrência - presencial 
+        case 5: // Concorrência - presencial
           this.modoDisputaOpcoes = [
             { key: 'Aberto', value: 1 },
             { key: 'Fechado', value: 2 },
@@ -528,7 +529,7 @@ export class DadosDaLicitacaoAdministrativoComponent {
           ]
           break
 
-        case 6: // Pregão - eletrônico 
+        case 6: // Pregão - eletrônico
           this.modoDisputaOpcoes = [
             { key: 'Aberto', value: 1 },
             { key: 'Fechado', value: 2 },
@@ -552,7 +553,7 @@ export class DadosDaLicitacaoAdministrativoComponent {
           ]
           break
 
-        case 7: // Pregão - Presencial 
+        case 7: // Pregão - Presencial
           this.modoDisputaOpcoes = [
             { key: 'Aberto', value: 1 },
             { key: 'Fechado', value: 2 },
@@ -574,7 +575,7 @@ export class DadosDaLicitacaoAdministrativoComponent {
           ]
           break
 
-        case 8:// Dispensa - Licitação 
+        case 8:// Dispensa - Licitação
           this.modoDisputaOpcoes = [
             { value: 4, key: 'Dispensa Com Disputa' },
             { value: 5, key: 'Não se aplica' }
@@ -784,6 +785,9 @@ export class DadosDaLicitacaoAdministrativoComponent {
       console.log('Nenhum arquivo selecionado');
     }
   }
-
+  // Método para voltar
+  onVoltar(): void {
+    this._location.back();
+  }
 
 }

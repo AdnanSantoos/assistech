@@ -33,7 +33,15 @@
       <div class="form-row">
         <div class="form-group">
           <label for="item_type">Material ou Serviço? *</label>
-          <input id="item_type" type="text" formControlName="item_type" />
+          <select id="item_type" formControlName="item_type">
+            <option></option>
+            <option
+              *ngFor="let option of materialOuServicoEnum"
+              [ngValue]="option.value"
+            >
+              {{ option.key }}
+            </option>
+          </select>
         </div>
 
         <div class="form-group">
@@ -55,11 +63,15 @@
 
         <div class="form-group">
           <label for="unit_of_measurement">Unidade de medida *</label>
-          <input
-            id="unit_of_measurement"
-            type="text"
-            formControlName="unit_of_measurement"
-          />
+          <select id="item_type" formControlName="unit_of_measurement">
+            <option></option>
+            <option
+              *ngFor="let option of unidadeDeMedidaEnum"
+              [ngValue]="option.value"
+            >
+              {{ option.key }}
+            </option>
+          </select>
         </div>
       </div>
 
@@ -70,12 +82,26 @@
             id="estimated_unit_value"
             type="text"
             formControlName="estimated_unit_value"
+            mask="separator.2"
+            prefix="R$ "
+            thousandSeparator="."
+            decimalMarker=","
+            class="form-control"
           />
         </div>
 
         <div class="form-group">
           <label for="total_value">Valor total *</label>
-          <input id="total_value" type="text" formControlName="total_value" />
+          <input
+            id="total_value"
+            type="text"
+            formControlName="total_value"
+            mask="separator.2"
+            prefix="R$ "
+            thousandSeparator="."
+            decimalMarker=","
+            class="form-control"
+          />
         </div>
       </div>
 
@@ -118,6 +144,6 @@
       </div>
     </fieldset>
 
-    <button type="submit" class="btn bg-dark text-white">Salvar</button>
+    <button type="submit" class="btn bg-dark text-white hover-sucesso">Salvar</button>
   </form>
 </div>
