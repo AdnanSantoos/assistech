@@ -11,6 +11,7 @@ import { SidebarAdministrativoComponent } from '../../../../shared/components/si
 import { NavbarComponent } from '../../../../shared/components/navbar/navbar.component';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { ProcurementItem, ProcurementModel } from './model/adicionar-licitacao.model';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-dados-da-licitacao-administrativo',
@@ -287,7 +288,7 @@ export class DadosDaLicitacaoAdministrativoComponent {
     { value: "S", key: 'Serviço' }
   ];
 
-  constructor(private fb: FormBuilder, private _adicionarLicitacaoService: AdicionarLicitacaoService, private modalService: BsModalService, private _location: Location) {
+  constructor(private fb: FormBuilder, private _adicionarLicitacaoService: AdicionarLicitacaoService, private modalService: BsModalService, private _location: Location, private toastService:ToastrService) {
 
     this.filtroForm = this.fb.group({
       agency: [null],
@@ -326,7 +327,6 @@ export class DadosDaLicitacaoAdministrativoComponent {
     });
 
     this.filtroForm.get('unit_id')?.valueChanges.subscribe((v) => {
-      console.log(this.cnpjSelecionado)
       this.filtroForm.get('agency_country_register')?.setValue(this.cnpjSelecionado)
     })
 
@@ -764,7 +764,8 @@ export class DadosDaLicitacaoAdministrativoComponent {
     const novaLicitacao = AdicionarLicitacaoMapper.toSubmit(this.filtroForm.value, this.selectedFiles, this.items.controls.length>0?true:false);
 
     this._adicionarLicitacaoService.criarLicitacao(novaLicitacao).subscribe((v) => {
-      console.log(v)
+      this.toastService.success('Licitação Criada com sucesso')
+      this._location.back();
     });
   }
 
