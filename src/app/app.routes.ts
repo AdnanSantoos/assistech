@@ -1,5 +1,3 @@
-import { AuthGuard } from './guards/auth.guard';
-import { GeneralNewsDetalhesComponent } from './shared/components/general-news/general-news-detalhes/general-news-detalhes.component';
 import { Routes } from '@angular/router';
 
 export const routes: Routes = [
@@ -447,5 +445,12 @@ export const routes: Routes = [
       import(
         './features/transferencia-recursos/transferencia-recursos.component'
       ).then((c) => c.TransferenciaRecursosComponent),
+  },
+  {
+    path: '**',
+    loadComponent: () =>
+      import('./shared/components/not-found/not-found.component').then(
+        (c) => c.NotFoundComponent
+      ),
   },
 ];

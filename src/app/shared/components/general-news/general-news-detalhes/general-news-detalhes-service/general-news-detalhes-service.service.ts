@@ -17,6 +17,12 @@ export class NewsService {
       map(response => response.data)
     );
   }
+
+  getNewsPerTitle(slug:string): Observable<Post> {
+    return this.http.get<{ data: Post }>(`${this.apiUrl}/${slug}`).pipe(
+      map(response => response.data)
+    );
+  }
   getLatestNews(): Observable<Post[]> {
     return this.http.get<{ data: Post[] }>(this.apiUrl).pipe(
       map(response => response.data)

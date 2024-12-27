@@ -17,17 +17,9 @@ export class GeneralNewsService {
       map((response) =>
         response.data.map((post) => ({
           ...post,
-          slug: this.generateSlug(post.title),
           formattedDate: new Date(post.date).toLocaleDateString('pt-BR'),
         }))
       )
     );
-  }
-
-  private generateSlug(title: string): string {
-    return title
-      .toLowerCase()
-      .replace(/[\s\W-]+/g, '-')
-      .replace(/^-+|-+$/g, '');
   }
 }
