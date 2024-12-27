@@ -8,18 +8,18 @@ import { RouterModule } from '@angular/router';
 @Component({
   selector: 'app-general-news',
   standalone: true,
-  imports: [CommonModule,RouterModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './general-news.component.html',
   styleUrl: './general-news.component.scss'
 })
-export class GeneralNewsComponent implements OnInit{
+export class GeneralNewsComponent implements OnInit {
   posts: Post[] = [];
 
-  constructor(private newsService: GeneralNewsService) {}
+  constructor(private newsService: GeneralNewsService) { }
 
   ngOnInit(): void {
     this.newsService.getPosts().subscribe(
-      data => this.posts = data,
+      data => { this.posts = data},
       error => console.error('Erro ao carregar os dados:', error)
     );
   }

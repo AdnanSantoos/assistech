@@ -33,14 +33,14 @@
         <tr *ngFor="let element of clientes">
           <td>{{ element.name }}</td>
           <td>{{ element.city_name }}</td>
-          <td>{{ getStatus(element.permissions.pncp) }}</td>
-          <td>{{ getStatus(element.permissions.portal_transparencia) }}</td>
-          <td>{{ getStatus(element.permissions.diario_oficial) }}</td>
+          <td>{{ getStatus(element.pncp) }}</td>
+          <td>{{ getStatus(element.portal_transparencia) }}</td>
+          <td>{{ getStatus(element.diario_oficial) }}</td>
           <td>{{ element.year }}</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
+          <td>{{element.next_edition_number}}</td>
+          <td>{{element.domain}}</td>
+          <td>{{element.government_body}}</td>
+          <td>{{element.is_active}}</td>
           <td>
             <div class="d-flex justify-content-center py-1">
               <div class="d-flex flex-column align-items-center">

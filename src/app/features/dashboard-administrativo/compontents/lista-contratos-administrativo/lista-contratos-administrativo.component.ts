@@ -59,7 +59,25 @@ export class ListaContratosAdministrativoComponent implements OnInit {
   currentFilePage: number = 1;
   fileForm!: FormGroup;
   selectedFile: File | null = null; // Armazena o arquivo selecionado
+  orgaos: any[] = []; // Armazena os órgãos
+  filtersForm!: FormGroup;
 
+  modalidadeContratoOpcoes = [
+    { value: 1, key: 'Leilão - Eletrônico' },
+    { value: 2, key: 'Diálogo Competitivo' },
+    { value: 3, key: 'Concurso' },
+    { value: 4, key: 'Concorrência - Eletrônica' },
+    { value: 5, key: 'Concorrência - Presencial' },
+    { value: 6, key: 'Pregão - Eletrônico' },
+    { value: 7, key: 'Pregão - Presencial' },
+    { value: 8, key: 'Dispensa de Licitação' },
+    { value: 9, key: 'Inexigibilidade' },
+    { value: 10, key: 'Manifestação de Interesse' },
+    { value: 11, key: 'Pré-qualificação' },
+    { value: 12, key: 'Credenciamento' },
+    { value: 13, key: 'Leilão - Presencial' },
+    { value: 14, key: 'Inaplicabilidade da Licitação' },
+  ];
   tiposDocumentos = [
     { value: 12, key: 'Contrato' },
     { value: 13, key: 'Termo de Rescisão' },
@@ -85,11 +103,16 @@ export class ListaContratosAdministrativoComponent implements OnInit {
       document_type_id: [null],
       file: [null],
     });
+    this.filtersForm = this.fb.group({
+      number: [''],
+      year: [''],
+    });
   }
 
   ngOnInit() {
     this.carregarContratos(this.currentPage);
   }
+
   openFilesModal(contrato: ContratoModel, template: TemplateRef<any>): void {
     if (!contrato || !contrato.id) {
       console.error('Contrato inválido ou ID do contrato não fornecido.');
@@ -151,15 +174,35 @@ export class ListaContratosAdministrativoComponent implements OnInit {
     }
   }
 
-  carregarContratos(page: number): void {
-    this.contratosService.getContratos(page).subscribe({
+  applyFilters(): void {
+    const filters = this.filtersForm.value;
+
+    // Remove campos vazios
+    const cleanedFilters = Object.keys(filters)
+      .filter((key) => filters[key] !== null && filters[key] !== '')
+      .reduce((acc, key) => {
+        acc[key] = filters[key];
+        return acc;
+      }, {} as any);
+
+    this.carregarContratos(this.currentPage, cleanedFilters);
+  }
+
+  carregarContratos(page: number, filters: any = {}): void {
+    const params = {
+      ...filters,
+      page: page.toString(),
+    };
+
+    this.contratosService.getContratosWithFilters(params).subscribe({
       next: (response) => {
         this.dataSource.data = response.data;
         this.totalItems = response.meta?.pagination.total || 0;
         this.totalPages = Math.ceil(this.totalItems / this.pageSize);
+        this.dataSource.paginator = this.paginator;
       },
-      error: () => {
-        console.error('Erro ao carregar contratos.');
+      error: (err) => {
+        console.error('Erro ao carregar contratos:', err);
       },
     });
   }
@@ -300,10 +343,10 @@ export class ListaContratosAdministrativoComponent implements OnInit {
       console.error('Contrato não selecionado.');
       return;
     }
-  
+
     if (this.deleteForm.valid) {
       const justification = this.deleteForm.value.justification;
-  
+
       this.contratosService
         .deleteArquivoContrato(this.selectedContrato.id, fileId, justification)
         .subscribe({
@@ -313,7 +356,6 @@ export class ListaContratosAdministrativoComponent implements OnInit {
             this.files = this.files.filter((file) => file.id !== fileId);
             this.modalRef?.hide(); // Fecha o modal após a exclusão
             window.location.reload(); // Atualiza a página após o sucesso
-
           },
           error: (err) => {
             console.error('Erro ao excluir arquivo:', err);
@@ -323,5 +365,4 @@ export class ListaContratosAdministrativoComponent implements OnInit {
       console.warn('Justificativa não foi preenchida.');
     }
   }
-  
 }

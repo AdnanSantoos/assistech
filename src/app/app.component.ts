@@ -10,6 +10,7 @@ import { TenantService } from './shared/services/tenant.service';
 import { switchMap } from 'rxjs';
 import { NgxLoadingModule } from 'ngx-loading';
 import { LoadingService } from './shared/services/loading.service';
+import { DomainService } from './shared/services/domain.service';
 
 @Component({
   selector: 'app-root',
@@ -28,6 +29,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private router: Router,
     private location: Location,
     private _loadingService: LoadingService,
+    private _domainService: DomainService,
     private tenantService: TenantService,
     private platformLocation: PlatformLocation,
     @Inject(PLATFORM_ID) private platformId: Object
@@ -43,16 +45,13 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    if (isPlatformServer(this.platformId)) {
-      const url = new URL(this.platformLocation.href);
-      this.domain = url.hostname;
-      console.log(url)
+    const domain = this._domainService.getDomain();
+    console.log('Domínio atual:', domain);
+    if (domain) {
+      this.domain = domain;
     } else {
       this.domain = 'admin';
     }
-
-    localStorage.setItem('tenant', this.domain)
-
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         if (event.url.includes('/adm/') || event.url.includes('/login')) {
@@ -66,6 +65,7 @@ export class AppComponent implements OnInit, OnDestroy {
     });
 
     this.tenantService.getTenantData(this.domain).subscribe(data=>{
+      localStorage.setItem('tenant', data.data.slug)
       this.tenantService.updateState(data.data);
     })
   }

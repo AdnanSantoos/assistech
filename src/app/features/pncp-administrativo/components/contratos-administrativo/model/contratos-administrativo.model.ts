@@ -37,6 +37,7 @@ export interface ContratoModel {
   subrogated_organization_country_register: string | null;
 }
 
+
 export interface TermosContratosModel {
   added_term_days: number;
   added_value: number;

@@ -3,6 +3,7 @@ import { Post } from '../model/post.model';
 import { NewsService } from './general-news-detalhes-service/general-news-detalhes-service.service';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-general-news-detalhes',
@@ -15,27 +16,19 @@ export class GeneralNewsDetalhesComponent implements OnInit {
   postTitle: string | null = '';
   post: Post | null = null;
 
-  constructor(private newsService: NewsService, private route: ActivatedRoute) {}
+  constructor(private newsService: NewsService, private route: ActivatedRoute,private _toastService:ToastrService) {}
 
   ngOnInit(): void {
     // Captura o parâmetro 'title' da rota
     this.postTitle = this.route.snapshot.paramMap.get('title');
-
     if (this.postTitle) {
-      this.newsService.getNews().subscribe({
-        next: (newsList: Post[]) => {
-          const normalizedTitle = (str: string) =>
-            str.toLowerCase().replace(/[\s\W-]+/g, '-').replace(/^-+|-+$/g, '');
-
-          // Encontra o post que corresponde ao título
-          this.post = newsList.find(item => normalizedTitle(item.title) === this.postTitle) ?? null;
-
+      this.newsService.getNewsPerTitle(this.postTitle).subscribe({
+        next: (newsList: Post) => {
+          console.log(newsList)
+          this.post = newsList;
           if (!this.post) {
-            console.error('Post não encontrado');
+            this._toastService.error('Post não encontrado')
           }
-        },
-        error: (error) => {
-          console.error('Erro ao carregar os dados:', error);
         }
       });
     }

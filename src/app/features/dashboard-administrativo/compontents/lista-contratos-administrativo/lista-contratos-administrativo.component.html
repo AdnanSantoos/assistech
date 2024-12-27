@@ -14,41 +14,41 @@
 
   <div class="container-fluid">
     <div class="filtro-row mb-4">
-      <form class="d-flex flex-wrap align-items-end gap-3">
+      <form
+        [formGroup]="filtersForm"
+        (ngSubmit)="applyFilters()"
+        class="d-flex flex-wrap align-items-end gap-3"
+      >
         <div class="flex-grow-1">
-          <label for="processo" class="form-label"
-            >N° da compra ou PROCESSO</label
-          >
-          <input id="processo" type="text" class="form-control" />
+          <label for="processo" class="form-label">N° do Processo</label>
+          <input
+            id="processo"
+            type="text"
+            class="form-control"
+            placeholder="Digite o número"
+            formControlName="number"
+          />
         </div>
 
         <div class="flex-grow-1" style="max-width: 120px">
           <label for="ano" class="form-label">Ano</label>
-          <input id="ano" type="text" class="form-control" />
-        </div>
-
-        <div class="flex-grow-1">
-          <label for="modalidade" class="form-label">Modalidade</label>
-          <select id="modalidade" class="form-select">
-            <option value="" disabled selected>Selecione a modalidade</option>
-            <option value="modalidade1">Modalidade 1</option>
-            <option value="modalidade2">Modalidade 2</option>
-            <option value="modalidade3">Modalidade 3</option>
-          </select>
-        </div>
-
-        <div class="flex-grow-1">
-          <label for="orgao" class="form-label">Órgão</label>
-          <select id="orgao" class="form-select">
-            <option value="" disabled selected>Selecione o órgão</option>
-            <option value="orgao1">Órgão 1</option>
-            <option value="orgao2">Órgão 2</option>
-            <option value="orgao3">Órgão 3</option>
-          </select>
+          <input
+            id="ano"
+            type="text"
+            class="form-control"
+            placeholder="Digite o ano"
+            formControlName="year"
+          />
         </div>
 
         <div>
-          <button class="btn btn-primary" type="button">Filtrar</button>
+          <button
+            type="submit"
+            class="btn btn-primary"
+            aria-label="Filtrar licitações"
+          >
+            Filtrar
+          </button>
         </div>
       </form>
     </div>

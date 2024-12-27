@@ -3,7 +3,7 @@
       <li><a routerLink="/home">INÍCIO</a></li>
       <!-- <li><a>LEGISLAÇÃO</a></li>
       <li><a href="#">DADOS MUNICIPAIS</a></li>-->
-      <li><a (click)="scrollToFooter()" style=" cursor: pointer;">CONTATO</a></li>
+      <li><a (click)="scrollToFooter()" class="pointer" >CONTATO</a></li>
 
       <div class="dropdown" *ngIf="showCamaraMenu">
         <button class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -22,11 +22,5 @@
     <div class="diario-oficial">
       Diário Oficial (O Art. 37 da Constituição Federal do Brasil de 1988)
     </div>
-    <!-- <div class="search-container">
-      <input type="text" placeholder="BUSQUE POR ALGO AQUI">
-      <button type="button">
-        <img src="../../../../assets/icons/search-icon.svg" alt="">
-      </button>
-    </div> -->
   </nav>
 

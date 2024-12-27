@@ -4,8 +4,8 @@
   "scripts": {
     "build-env": "node set-env.js",
     "ng": "ng",
-    "start": "npm run build-env && ng serve",
-    "build": "npm run build-env && ng build --configuration=production",
+    "start": "npm run build-env && ng serve -o",
+    "build": "ng build --configuration=production",
     "watch": "ng build --watch --configuration development ",
     "test": "ng test",
     "serve:ssr:assistech": "node dist/assistech/server/server.mjs"
