@@ -9,6 +9,8 @@ import {
   RequisicaoContratoModel,
   TermosContratosModel,
 } from '../model/contratos-administrativo.model';
+import { RequisicaoModel } from '../../../../../shared/models/shared.model';
+import { HttpParams } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
@@ -151,14 +153,20 @@ export class ContratosService {
     );
   }
 
-  deleteArquivoContrato(contractId: string, fileId: string, justification: string): Observable<void> {
-    return this._repository.deleteArquivoContrato(contractId, fileId, justification).pipe(
-      tap(() => this.toastr.success('Arquivo excluído com sucesso!')),
-      catchError((error) => {
-        this.toastr.error('Erro ao excluir o arquivo.');
-        throw error;
-      })
-    );
+  deleteArquivoContrato(
+    contractId: string,
+    fileId: string,
+    justification: string
+  ): Observable<void> {
+    return this._repository
+      .deleteArquivoContrato(contractId, fileId, justification)
+      .pipe(
+        tap(() => this.toastr.success('Arquivo excluído com sucesso!')),
+        catchError((error) => {
+          this.toastr.error('Erro ao excluir o arquivo.');
+          throw error;
+        })
+      );
   }
 
   getTermoById(termoId: string): Observable<TermosContratosModel> {
@@ -206,5 +214,19 @@ export class ContratosService {
         throw error;
       })
     );
+  }
+
+  getContratosWithFilters(
+    filters: any
+  ): Observable<RequisicaoModel<ContratoModel[]>> {
+    const params = new HttpParams({
+      fromObject: {
+        ...filters,
+        page: filters.page?.toString() || '1',
+        number: filters.number || '', // Adiciona o número aqui
+      },
+    });
+
+    return this._repository.getContratosWithFilters(params);
   }
 }
