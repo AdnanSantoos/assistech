@@ -32,6 +32,7 @@ export class ClienteAdministrativoComponent implements OnInit {
   
   getClientes(page:number){
     this._service.getClientes(page).subscribe((res:RequisicaoModel<ClienteData[]>)=>{
+      console.log(res.data)
       this.clientes = res.data;
       this.currentPage = res.meta?.pagination.current_page!;
       this.totalPages = res.meta?.pagination.last_page!;

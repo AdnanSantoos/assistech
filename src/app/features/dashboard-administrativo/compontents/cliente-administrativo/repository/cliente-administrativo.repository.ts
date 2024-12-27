@@ -23,7 +23,7 @@ export class ClienteAdministrativoRepository {
 
   searchCities(label: string): Observable<any> {
     const params = new HttpParams().set('label', label);
-    const url = `${environment.API_URL}/${this._tenantService.getTenant()}/cities`;
+    const url = `${environment.API_URL}/tenants/${this._tenantService.getTenant()}/cities`;
     return this._http.get(url, { params });
   }
   getClienteBySlug(slug: string): Observable<any> {
