@@ -3,6 +3,7 @@ import { SliderComponent } from '../../shared/components/slider/slider.component
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, NavigationEnd, Router, RouterLink } from '@angular/router';
 import { GeneralNewsComponent } from '../../shared/components/general-news/general-news.component';
+import { HomeService } from './services/home-service.service';
 
 interface AcessoRapido {
   routerLink?: string;
@@ -22,10 +23,10 @@ export class HomeComponent implements OnInit {
   acessos: AcessoRapido[] = [];
 
   images = [
-    { img: '../../../../assets/imgs-home/1.png' },
-    { img: '../../../../assets/imgs-home/2.png' },
-    { img: '../../../../assets/imgs-home/3.png' },
-    { img: '../../../../assets/imgs-home/4.png' },
+    { url: '../../../../assets/imgs-home/1.png' },
+    { url: '../../../../assets/imgs-home/2.png' },
+    { url: '../../../../assets/imgs-home/3.png' },
+    { url: '../../../../assets/imgs-home/4.png' },
   ];
 
   images2 = [
@@ -34,9 +35,15 @@ export class HomeComponent implements OnInit {
     { img: '../../../../assets/imgs-home/7.png' },
   ];
 
-  constructor(private router: Router, private route: ActivatedRoute) {}
+  constructor(private router: Router, private route: ActivatedRoute,private _homeService: HomeService) {}
 
   ngOnInit(): void {
+    this._homeService.getPhotos().subscribe(data=>{
+      if(data.length >= 4){
+        this.images = data;
+      }
+    })
+
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.updateAcessos(event.urlAfterRedirects);

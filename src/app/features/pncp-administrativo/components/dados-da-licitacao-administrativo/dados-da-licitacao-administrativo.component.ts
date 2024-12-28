@@ -6,7 +6,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { CommonModule, Location } from '@angular/common';
+import { CommonModule, CurrencyPipe, Location } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { AdicionarLicitacaoService } from './service/adicionar-licitacao.services';
@@ -29,6 +29,7 @@ import {
   ProcurementModel,
 } from './model/adicionar-licitacao.model';
 import { ToastrService } from 'ngx-toastr';
+import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 
 @Component({
   selector: 'app-dados-da-licitacao-administrativo',
@@ -40,8 +41,11 @@ import { ToastrService } from 'ngx-toastr';
     MatButtonModule,
     SidebarAdministrativoComponent,
     NavbarComponent,
+    NgxMaskDirective,
+    NgxMaskPipe,
+    CurrencyPipe
   ],
-  providers: [BsModalService],
+  providers: [BsModalService, provideNgxMask()],
 
   templateUrl: './dados-da-licitacao-administrativo.component.html',
   styleUrl: './dados-da-licitacao-administrativo.component.scss',
@@ -58,6 +62,7 @@ export class DadosDaLicitacaoAdministrativoComponent {
 
   nameFile: string | null = null;
   selectedFiles: any[] = [];
+  isLoading: boolean = false;
 
   caminhoSelecionado: selectModel[] = [];
   cnpjSelecionado!: string;
@@ -853,6 +858,8 @@ export class DadosDaLicitacaoAdministrativoComponent {
   }
 
   onFormSubmit(): void {
+    this.isLoading = true;
+
     const novaLicitacao = AdicionarLicitacaoMapper.toSubmit(
       this.filtroForm.value,
       this.selectedFiles,
