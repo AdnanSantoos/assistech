@@ -17,6 +17,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-resultado-licitacao',
@@ -443,7 +444,8 @@ export class ResultadoLicitacaoComponent implements OnInit {
     public data: { itemId: string; licitacaoId: string },
     private licitacoesService: LicitacoesService,
     private modalService: BsModalService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private toastr: ToastrService
   ) {
     this.novoResultadoForm = this.fb.group({
       id: [''],
@@ -546,11 +548,21 @@ export class ResultadoLicitacaoComponent implements OnInit {
   adicionarResultado(): void {
     if (this.novoResultadoForm.valid) {
       const novoResultado = this.novoResultadoForm.value;
+
       console.log('Novo resultado adicionado:', novoResultado);
+
       this.resultados.push(novoResultado);
+
+      // Exibe o toastr de sucesso
+      this.toastr.success('Resultado adicionado com sucesso!', 'Sucesso');
+
       this.closeModal();
     } else {
       console.error('Formulário inválido');
+
+      // Exibe o toastr de erro
+      this.toastr.error('Por favor, preencha todos os campos obrigatórios.', 'Erro');
+
       this.novoResultadoForm.markAllAsTouched();
     }
   }

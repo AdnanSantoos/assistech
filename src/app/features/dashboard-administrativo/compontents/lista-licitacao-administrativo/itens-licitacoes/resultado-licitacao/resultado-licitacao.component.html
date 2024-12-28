@@ -26,8 +26,8 @@
   </div>
 
   <!-- Tabela de resultados -->
-  <div class="table-responsive">
-    <table class="table table-striped table-bordered">
+  <div class="table-responsive my-4">
+    <table class="table-editada table-bordered">
       <thead>
         <tr>
           <th>Situação</th>
@@ -366,7 +366,6 @@
     <button
       type="button"
       class="btn bg-dark text-white hover-sucesso"
-      [disabled]="novoResultadoForm.invalid"
       (click)="adicionarResultado()"
     >
       Salvar
