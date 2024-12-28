@@ -1,25 +1,45 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, CurrencyPipe } from '@angular/common';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { LicitacoesService } from '../../service/licitacoes-administrativos.service';
-import { LicitacaoDetalhesModel, LicitacaoItemModel, LicitacaoResultados } from '../../model/licitacoes-administrativo.model';
-import { RequisicaoModel, PaginationModel } from '../../../../../../shared/models/shared.model';
+import {
+  LicitacaoDetalhesModel,
+  LicitacaoItemModel,
+  LicitacaoResultados,
+} from '../../model/licitacoes-administrativo.model';
+import {
+  RequisicaoModel,
+  PaginationModel,
+} from '../../../../../../shared/models/shared.model';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { EditarItensLicitacaoComponent } from '../editar-itens-licitacao/editar-itens-licitacao.component';
 import { ResultadoLicitacaoComponent } from '../resultado-licitacao/resultado-licitacao.component';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 
 @Component({
   selector: 'app-itens-licitacoes',
   standalone: true,
-  imports: [CommonModule, MatDialogModule, RouterModule, ReactiveFormsModule],
-  providers: [BsModalService],
+  imports: [
+    CommonModule,
+    MatDialogModule,
+    RouterModule,
+    ReactiveFormsModule,
+    NgxMaskDirective,
+    NgxMaskPipe,
+    CurrencyPipe,
+  ],
+  providers: [BsModalService,provideNgxMask()],
   templateUrl: './itens-licitacoes.component.html',
   styleUrls: ['./itens-licitacoes.component.scss'],
 })
 export class ItensLicitacoesComponent implements OnInit {
-
   @ViewChild('addItemModal') addItemModal: any;
   novoItemForm: FormGroup;
 
@@ -37,12 +57,12 @@ export class ItensLicitacoesComponent implements OnInit {
     { value: 3, key: 'Cota reservada para ME/EPP' },
     { value: 4, key: 'Sem benefício' },
     { value: 5, key: 'Não se aplica' },
-  ]
+  ];
   itemCategoriaEnum = [
     { value: 1, key: 'Bens imóveis' },
     { value: 2, key: 'Bens móveis' },
     { value: 3, key: 'Não se aplica' },
-  ]
+  ];
   criterioDeJulgamentoEnum = [
     { value: 1, key: 'Menor Preço' },
     { value: 2, key: 'Maior Desconto' },
@@ -53,7 +73,7 @@ export class ItensLicitacoesComponent implements OnInit {
     { value: 7, key: 'Não se aplica' },
     { value: 8, key: 'Melhor técnica' },
     { value: 9, key: 'Conteúdo artístico' },
-  ]
+  ];
   unidadeDeMedidaEnum = [
     { value: 'Caixa', key: 'Caixa' },
     { value: 'Bloco', key: 'Bloco' },
@@ -75,34 +95,34 @@ export class ItensLicitacoesComponent implements OnInit {
     { value: 'Resma', key: 'Resma' },
     { value: 'Rolo', key: 'Rolo' },
     { value: 'Saco', key: 'Saco' },
-    { value: 'Serviço', key: 'Serviço' }
+    { value: 'Serviço', key: 'Serviço' },
   ];
 
   materialOuServicoEnum = [
-    { value: "M", key: 'Material' },
-    { value: "S", key: 'Serviço' }
+    { value: 'M', key: 'Material' },
+    { value: 'S', key: 'Serviço' },
   ];
 
   constructor(
     private licitacoesService: LicitacoesService,
     private route: ActivatedRoute,
     private dialog: MatDialog,
-    private fb: FormBuilder, private modalService: BsModalService
-
+    private fb: FormBuilder,
+    private modalService: BsModalService
   ) {
     this.novoItemForm = this.fb.group({
-      procurement_id: [null,],
-      item_type: [null,],
-      benefit_type_id: [null,],
+      procurement_id: [null],
+      item_type: [null],
+      benefit_type_id: [null],
       basic_productive_incentive: [false],
       description: [null],
       quantity: [null],
       unit_of_measurement: [null],
       estimated_unit_value: [null],
       total_value: [null],
-      judging_criteria_id: [null,],
+      judging_criteria_id: [null],
       confidential_budget: [false],
-      item_category_id: [null,],
+      item_category_id: [null],
       assets: [null],
       real_estate_registry_code: [null],
       // contract_item_situation_id: [null], // Situação do contrato - NÃO ESTÁ NA REQUISIÇÃO
@@ -174,7 +194,6 @@ export class ItensLicitacoesComponent implements OnInit {
     });
   }
 
-
   loadLicitacaoDetails(licitacaoId: string): void {
     this.isLoadingDetails = true;
     this.licitacoesService.getLicitacaoById(licitacaoId).subscribe({
@@ -205,7 +224,10 @@ export class ItensLicitacoesComponent implements OnInit {
   }
 
   nextPage(): void {
-    if (this.pagination && this.pagination.current_page < this.pagination.last_page) {
+    if (
+      this.pagination &&
+      this.pagination.current_page < this.pagination.last_page
+    ) {
       this.goToPage(this.pagination.current_page + 1);
     }
   }
@@ -248,7 +270,6 @@ export class ItensLicitacoesComponent implements OnInit {
   }
 
   openAddItemModal(): void {
-
     const licitacaoId = this.route.snapshot.params['id']; // Captura o ID da URL
 
     if (!licitacaoId) {
@@ -270,18 +291,12 @@ export class ItensLicitacoesComponent implements OnInit {
               { value: 1, key: 'Bens imóveis' },
               { value: 2, key: 'Bens móveis' },
             ];
-            this.beneficiosEnum = [
-              { value: 5, key: 'Não se aplica' },
-            ];
-            this.criterioDeJulgamentoEnum = [
-              { value: 5, key: 'Maior Lance' },
-            ];
+            this.beneficiosEnum = [{ value: 5, key: 'Não se aplica' }];
+            this.criterioDeJulgamentoEnum = [{ value: 5, key: 'Maior Lance' }];
             break;
 
           case 2:
-            this.itemCategoriaEnum = [
-              { value: 3, key: 'Não se aplica' },
-            ];
+            this.itemCategoriaEnum = [{ value: 3, key: 'Não se aplica' }];
             this.criterioDeJulgamentoEnum = [
               { value: 1, key: 'Menor Preço' },
               { value: 2, key: 'Maior Desconto' },
@@ -340,7 +355,9 @@ export class ItensLicitacoesComponent implements OnInit {
           case 11:
           case 12:
             this.itemCategoriaEnum = [{ value: 3, key: 'Não se aplica' }];
-            this.criterioDeJulgamentoEnum = [{ value: 7, key: 'Não se aplica' }];
+            this.criterioDeJulgamentoEnum = [
+              { value: 7, key: 'Não se aplica' },
+            ];
             break;
 
           case 13:
@@ -348,9 +365,7 @@ export class ItensLicitacoesComponent implements OnInit {
               { value: 1, key: 'Bens imóveis' },
               { value: 2, key: 'Bens móveis' },
             ];
-            this.criterioDeJulgamentoEnum = [
-              { value: 5, key: 'Maior Lance' },
-            ];
+            this.criterioDeJulgamentoEnum = [{ value: 5, key: 'Maior Lance' }];
             break;
 
           case 14:
@@ -371,7 +386,9 @@ export class ItensLicitacoesComponent implements OnInit {
             break;
         }
 
-        this.modalRef = this.modalService.show(this.addItemModal, { class: 'modal-lg' });
+        this.modalRef = this.modalService.show(this.addItemModal, {
+          class: 'modal-lg',
+        });
       },
       error: (err) => {
         console.error('Erro ao buscar detalhes da licitação:', err);
@@ -379,15 +396,12 @@ export class ItensLicitacoesComponent implements OnInit {
     });
   }
 
-
-
   closeModal(): void {
     if (this.modalRef) {
       this.modalRef.hide();
       this.modalRef = undefined; // Limpa a referência
     }
   }
-
 
   adicionarItem(): void {
     if (this.novoItemForm.invalid) {
@@ -417,13 +431,14 @@ export class ItensLicitacoesComponent implements OnInit {
         item_category_id: formData.item_category_id,
         assets: formData.assets,
         real_estate_registry_code: formData.real_estate_registry_code,
-        applicability_normal_preference_margin: formData.applicability_normal_preference_margin,
-        applicability_additional_preference_margin: formData.applicability_additional_preference_margin,
+        applicability_normal_preference_margin:
+          formData.applicability_normal_preference_margin,
+        applicability_additional_preference_margin:
+          formData.applicability_additional_preference_margin,
         ncm_nbs_code: formData.ncm_nbs_code,
         ncm_nbs_description: formData.ncm_nbs_description,
       } as LicitacaoItemModel,
     };
-
 
     this.licitacoesService.createLicitacaoItem(itemData).subscribe({
       next: () => {
@@ -439,7 +454,4 @@ export class ItensLicitacoesComponent implements OnInit {
       },
     });
   }
-
-
-
 }

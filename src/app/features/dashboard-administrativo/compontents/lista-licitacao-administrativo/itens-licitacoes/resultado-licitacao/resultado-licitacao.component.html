@@ -18,7 +18,6 @@
     <div class="col">
       <strong>VALOR TOTAL</strong>
       <p>
-        
         {{
           licitacao.estimated_unit_value | currency : "BRL" : "symbol" : "1.2-2"
         }}
@@ -77,7 +76,7 @@
       (click)="closeModal()"
     ></button>
   </div>
-<div class="modal-body">
+  <div class="modal-body">
     <form class="form-itens-licitacao" [formGroup]="novoResultadoForm">
       <div class="row">
         <div class="col-md-6 mb-3">
@@ -89,11 +88,17 @@
           />
         </div>
         <div class="col-md-6 mb-3">
-          <label class="form-label strong_font">Valor Unitário Homologado *</label>
+          <label class="form-label strong_font"
+            >Valor Unitário Homologado *</label
+          >
           <input
-            type="number"
+            type="text"
             class="form-control"
             formControlName="unit_price"
+            mask="separator.2"
+            thousandSeparator="."
+            decimalMarker=","
+            prefix="R$ "
           />
         </div>
       </div>
@@ -101,9 +106,13 @@
         <div class="col-md-6 mb-3">
           <label class="form-label strong_font">Valor Total Homologado *</label>
           <input
-            type="number"
+            type="text"
             class="form-control"
             formControlName="total_price"
+            mask="separator.2"
+            thousandSeparator="."
+            decimalMarker=","
+            prefix="R$ "
           />
         </div>
         <div class="col-md-6 mb-3">
@@ -149,21 +158,26 @@
         </div>
         <div class="col-md-6 mb-3">
           <label class="form-label strong_font">Natureza Jurídica *</label>
-          <input
-            type="text"
-            class="form-control"
-            formControlName="legal_nature_id"
-          />
+          <select class="form-control" formControlName="legal_nature_id">
+            <option value="" disabled selected>Selecione uma opção</option>
+            <option
+              *ngFor="let option of naturezaJuridicaOptions"
+              [ngValue]="option.value"
+            >
+              {{ option.key }}
+            </option>
+          </select>
         </div>
       </div>
       <div class="row">
         <div class="col-md-6 mb-3">
           <label class="form-label strong_font">Código ISO do País *</label>
-          <input
-            type="text"
-            class="form-control"
-            formControlName="country_code"
-          />
+          <select class="form-control" formControlName="country_code">
+            <option value="" disabled selected>Selecione um país</option>
+            <option *ngFor="let pais of paisDeOrigem" [ngValue]="pais.id">
+              {{ pais.label }}
+            </option>
+          </select>
         </div>
         <div class="col-md-6 mb-3">
           <label class="form-label strong_font"
@@ -191,7 +205,9 @@
           />
         </div>
         <div class="col-md-6 mb-3">
-          <label class="form-label strong_font">Porcentagem de desconto *</label>
+          <label class="form-label strong_font"
+            >Porcentagem de desconto *</label
+          >
           <input
             type="text"
             class="form-control"
@@ -207,7 +223,9 @@
           <input type="date" class="form-control" formControlName="date" />
         </div>
         <div class="col-md-6 mb-3">
-          <label class="form-label strong_font">Aplicação da Margem de Preferência *</label>
+          <label class="form-label strong_font"
+            >Aplicação da Margem de Preferência *</label
+          >
           <div class="form-check form-switch">
             <input
               type="checkbox"
@@ -223,24 +241,36 @@
           <label class="form-label strong_font"
             >Amparo Legal para Margem de Preferência</label
           >
-          <input
-            type="text"
+          <select
             class="form-control"
             formControlName="preference_margin_legal_basis"
-          />
+          >
+            <option value="" disabled selected>Selecione uma opção</option>
+            <option
+              *ngFor="let option of amparoParaMargem"
+              [ngValue]="option.value"
+            >
+              {{ option.key }}
+            </option>
+          </select>
         </div>
         <div class="col-md-6 mb-3">
-          <label class="form-label strong_font">País de Origem do Produto</label>
-          <input
-            type="text"
-            class="form-control"
-            formControlName="product_origin_country"
-          />
+          <label class="form-label strong_font"
+            >País de Origem do Produto</label
+          >
+          <select class="form-control" formControlName="product_origin_country">
+            <option value="" disabled selected>Selecione um país</option>
+            <option *ngFor="let pais of paisDeOrigem" [ngValue]="pais.id">
+              {{ pais.label }}
+            </option>
+          </select>
         </div>
       </div>
       <div class="row">
         <div class="col-md-6 mb-3">
-          <label class="form-label strong_font">Aplicação do Benefício ME/EPP *</label>
+          <label class="form-label strong_font"
+            >Aplicação do Benefício ME/EPP *</label
+          >
           <div class="form-check form-switch">
             <input
               type="checkbox"
@@ -251,7 +281,9 @@
           </div>
         </div>
         <div class="col-md-6 mb-3">
-          <label class="form-label strong_font">Aplicação do Critério de Desempate *</label>
+          <label class="form-label strong_font"
+            >Aplicação do Critério de Desempate *</label
+          >
           <div class="form-check form-switch">
             <input
               type="checkbox"
@@ -267,14 +299,23 @@
           <label class="form-label strong_font"
             >Amparo Legal para Critério de Desempate</label
           >
-          <input
-            type="text"
+          <select
             class="form-control"
             formControlName="tiebreaker_criterion_legal_basis"
-          />
+          >
+            <option value="" disabled selected>Selecione uma opção</option>
+            <option
+              *ngFor="let option of amparoParaDesempate"
+              [ngValue]="option.value"
+            >
+              {{ option.key }}
+            </option>
+          </select>
         </div>
         <div class="col-md-6 mb-3">
-          <label class="form-label strong_font">Símbolo da Moeda Estrangeira</label>
+          <label class="form-label strong_font"
+            >Símbolo da Moeda Estrangeira</label
+          >
           <input
             type="text"
             class="form-control"
@@ -284,7 +325,9 @@
       </div>
       <div class="row">
         <div class="col-md-6 mb-3">
-          <label class="form-label strong_font">Data da Cotação da Moeda Estrangeira</label>
+          <label class="form-label strong_font"
+            >Data da Cotação da Moeda Estrangeira</label
+          >
           <input
             type="date"
             class="form-control"
@@ -304,7 +347,9 @@
       </div>
       <div class="row">
         <div class="col-md-6 mb-3">
-          <label class="form-label strong_font">Valor Nominal da Moeda Estrangeira</label>
+          <label class="form-label strong_font"
+            >Valor Nominal da Moeda Estrangeira</label
+          >
           <input
             type="number"
             class="form-control"

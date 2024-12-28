@@ -30,6 +30,7 @@ import {
 } from './model/adicionar-licitacao.model';
 import { ToastrService } from 'ngx-toastr';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 @Component({
   selector: 'app-dados-da-licitacao-administrativo',
@@ -44,6 +45,7 @@ import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
     NgxMaskDirective,
     NgxMaskPipe,
     CurrencyPipe,
+    BsDatepickerModule
   ],
   providers: [BsModalService, provideNgxMask()],
 
@@ -856,6 +858,7 @@ export class DadosDaLicitacaoAdministrativoComponent {
       },
     });
   }
+
 
   onFormSubmit(): void {
     this.isLoading = true;
