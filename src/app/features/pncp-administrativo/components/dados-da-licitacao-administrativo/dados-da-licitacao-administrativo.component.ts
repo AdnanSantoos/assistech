@@ -43,7 +43,7 @@ import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
     NavbarComponent,
     NgxMaskDirective,
     NgxMaskPipe,
-    CurrencyPipe
+    CurrencyPipe,
   ],
   providers: [BsModalService, provideNgxMask()],
 
@@ -422,7 +422,6 @@ export class DadosDaLicitacaoAdministrativoComponent {
               { value: 1, key: 'Bens imóveis' },
               { value: 2, key: 'Bens móveis' },
             ];
-            this.beneficiosEnum = [{ value: 5, key: 'Não se aplica' }];
             this.criterioDeJulgamentoEnum = [{ value: 5, key: 'Maior Lance' }];
             break;
           case 2: //Dialogo Competitivo
@@ -544,6 +543,7 @@ export class DadosDaLicitacaoAdministrativoComponent {
               { key: 'Fechado-Aberto', value: 6 },
             ];
             this.legalBasicOptions = [
+              { value: 1, key: 'Lei nº 14.133/2021, Art. 28, I' },
               { value: 2, key: 'Lei nº 14.133/2021, Art. 28, II' },
               { value: 80, key: 'Lei nº 14.133/2021, Art. 1º, § 2º' },
               { value: 113, key: 'Lei nº 13.303/2016, Art. 32, IV' },
@@ -863,15 +863,21 @@ export class DadosDaLicitacaoAdministrativoComponent {
     const novaLicitacao = AdicionarLicitacaoMapper.toSubmit(
       this.filtroForm.value,
       this.selectedFiles,
-      this.items.controls.length > 0 ? true : false
+      this.items.controls.length > 0
     );
 
-    this._adicionarLicitacaoService
-      .criarLicitacao(novaLicitacao)
-      .subscribe((v) => {
+    this._adicionarLicitacaoService.criarLicitacao(novaLicitacao).subscribe({
+      next: () => {
         this.toastService.success('Licitação Criada com sucesso');
+        this.isLoading = false;
         this._location.back();
-      });
+      },
+      error: (err) => {
+        console.error('Erro ao criar licitação:', err);
+        this.toastService.error('Erro ao criar a licitação. Tente novamente.');
+        this.isLoading = false;
+      },
+    });
   }
 
   onFileSelected(event: any, fieldName: any): void {
