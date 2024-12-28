@@ -16,7 +16,7 @@ import { DashboardHomeRepository } from "../repository/diario-oficial.repository
 
     public getDashboard(): Observable<any> {
         return this._repository.getDashboard();
-      }
+    }
 
   }
   
