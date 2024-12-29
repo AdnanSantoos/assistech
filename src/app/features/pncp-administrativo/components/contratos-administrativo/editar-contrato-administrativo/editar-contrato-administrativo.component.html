@@ -245,10 +245,7 @@
                           <label>Valor Inicial do Contrato</label>
                           <input
                             type="text"
-                            mask="separator.2"
-                            [thousandSeparator]="'.'"
-                            [decimalMarker]="','"
-                            prefix="R$ "
+                            currencyMask
                             class="form-control"
                             formControlName="initial_value"
                           />
@@ -257,10 +254,7 @@
                           <label>Valor da Parcela</label>
                           <input
                             type="text"
-                            mask="separator.2"
-                            [thousandSeparator]="'.'"
-                            [decimalMarker]="','"
-                            prefix="R$ "
+                            currencyMask
                             class="form-control"
                             formControlName="installment_value"
                           />

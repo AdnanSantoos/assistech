@@ -280,7 +280,6 @@ export class EditarLicitacoesAdministrativoComponent implements OnInit {
     this.ratificacaoForm
       .get('contracting_modality_id')
       ?.valueChanges.subscribe((tipoModalidadeSelecionado) => {
-
         console.log(tipoModalidadeSelecionado);
         switch (tipoModalidadeSelecionado) {
           case 1: //Leilão eletrônico
@@ -530,13 +529,16 @@ export class EditarLicitacoesAdministrativoComponent implements OnInit {
   carregarLicitacao(id: string): void {
     this.licitacoesService.getLicitacaoById(id).subscribe({
       next: (response) => {
-        const licitacao: LicitacaoDetalhesModel = response.data;
-
-        // Atualizar nome do órgão e unidade
+        const licitacao = response.data;
         this.agencyName = licitacao.agency.name;
         this.Unidade = licitacao.unit.name;
+        // Primeiro, atualize as opções baseadas nos valores recebidos
+        this.updateModalidadeOptions(licitacao.call_instrument_id);
+        this.updateModoDisputaAndLegalBasicOptions(
+          licitacao.contracting_modality_id
+        );
 
-        // Formatando as datas para o formato datetime-local
+        // Formate as datas
         const formattedOpeningDate = formatDate(
           licitacao.opening_date_proposal,
           "yyyy-MM-dd'T'HH:mm",
@@ -548,26 +550,64 @@ export class EditarLicitacoesAdministrativoComponent implements OnInit {
           'en-US'
         );
 
-        // Preenchendo o formulário com os dados recebidos
-        this.ratificacaoForm.patchValue({
-          call_instrument_id: licitacao.call_instrument_id,
-          contracting_modality_id: licitacao.contracting_modality_id,
-          contracting_situation_id: licitacao.contracting_situation_id,
-          dispute_mode_id: licitacao.dispute_mode_id,
-          legal_basic_id: licitacao.legal_basic_id,
-          number: licitacao.number,
-          year: licitacao.year,
-          process_number: licitacao.process_number,
-          goals: licitacao.goals,
-          srp: licitacao.srp,
-          additional_information: licitacao.additional_information,
-          opening_date_proposal: formattedOpeningDate,
-          closing_date_proposal: formattedClosingDate,
-        });
+        // Então, atualize o formulário com todos os valores
+        this.ratificacaoForm.patchValue(
+          {
+            call_instrument_id: licitacao.call_instrument_id,
+            contracting_modality_id: licitacao.contracting_modality_id,
+            contracting_situation_id: licitacao.contracting_situation_id,
+            contracting_situation: licitacao.contracting_situation,
+            dispute_mode_id: licitacao.dispute_mode_id,
+            legal_basic_id: licitacao.legal_basic_id,
+            number: licitacao.number,
+            year: licitacao.year,
+            process_number: licitacao.process_number,
+            goals: licitacao.goals,
+            srp: licitacao.srp,
+            additional_information: licitacao.additional_information,
+            opening_date_proposal: formattedOpeningDate,
+            closing_date_proposal: formattedClosingDate,
+          },
+          { emitEvent: false }
+        ); // Importante: não dispare eventos ao patchValue
+      },
+      error: (err) => {
+        console.error('Erro ao carregar a licitação:', err);
+        this.toastr.error('Erro ao carregar os dados da licitação');
       },
     });
   }
+  private updateModalidadeOptions(tipoInstrumentoId: number): void {
+    // Implemente a lógica de atualização das modalidades baseada no tipo de instrumento
+    switch (tipoInstrumentoId) {
+      case 4:
+        this.modalidadeContratoOpcoes = [
+          { key: 'Dispensa Licitação', value: 8 },
+          { key: 'Manifestação de Interesse', value: 10 },
+          // ... outras opções
+        ];
+        break;
+      default:
+        // Mantenha suas opções padrão
+        break;
+    }
+  }
 
+  private updateModoDisputaAndLegalBasicOptions(modalidadeId: number): void {
+    // Implemente a lógica de atualização do modo de disputa e amparo legal baseada na modalidade
+    switch (modalidadeId) {
+      case 8: // Dispensa - Licitação
+        this.modoDisputaOpcoes = [
+          { value: 4, key: 'Dispensa Com Disputa' },
+          { value: 5, key: 'Não se aplica' },
+        ];
+        this.legalBasicOptions = [
+          { value: 80, key: 'Lei nº 14.133/2021, Art. 1º, § 2º' },
+        ];
+        break;
+      // Adicione outros casos conforme necessário
+    }
+  }
   // Método para envio do formulário
   onSubmit(): void {
     if (this.ratificacaoForm.invalid) {

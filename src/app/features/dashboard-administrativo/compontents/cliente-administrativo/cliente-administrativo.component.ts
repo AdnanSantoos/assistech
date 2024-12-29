@@ -7,6 +7,35 @@ import { ClienteAdministrativoService } from './services/cliente-administrativo.
 import { RequisicaoModel } from '../../../../shared/models/shared.model';
 import { Location } from '@angular/common';
 
+export enum GovernmentBody {
+  HouseOfRepresentatives = 'house_of_representatives',
+  FederalSenate = 'federal_senate',
+  StateGovernmentPalace = 'state_government_palace',
+  LegislativeAssembly = 'legislative_assembly',
+  CityHall = 'city_hall',
+  CityCouncil = 'city_council',
+  Ministries = 'ministries',
+  Court = 'court',
+  StateDepartment = 'state_department',
+  MunicipalDepartment = 'municipal_department',
+  Company = 'company',
+  Other = 'other',
+}
+
+const governmentBodyLabels: Record<GovernmentBody, string> = {
+  [GovernmentBody.HouseOfRepresentatives]: 'Câmara dos Deputados',
+  [GovernmentBody.FederalSenate]: 'Senado Federal',
+  [GovernmentBody.StateGovernmentPalace]: 'Palácio do Governo Estadual',
+  [GovernmentBody.LegislativeAssembly]: 'Assembleia Legislativa',
+  [GovernmentBody.CityHall]: 'Prefeitura',
+  [GovernmentBody.CityCouncil]: 'Câmara Municipal',
+  [GovernmentBody.Ministries]: 'Ministérios',
+  [GovernmentBody.Court]: 'Tribunal',
+  [GovernmentBody.StateDepartment]: 'Secretaria Estadual',
+  [GovernmentBody.MunicipalDepartment]: 'Secretaria Municipal',
+  [GovernmentBody.Company]: 'Empresa',
+  [GovernmentBody.Other]: 'Outro',
+};
 @Component({
   selector: 'app-cliente-administrativo',
   templateUrl: './cliente-administrativo.component.html',
@@ -29,7 +58,7 @@ export class ClienteAdministrativoComponent implements OnInit {
   ngOnInit() {
     this.getClientes(this.currentPage);
   }
-  
+
   getClientes(page:number){
     this._service.getClientes(page).subscribe((res:RequisicaoModel<ClienteData[]>)=>{
       console.log(res.data)
@@ -38,7 +67,9 @@ export class ClienteAdministrativoComponent implements OnInit {
       this.totalPages = res.meta?.pagination.last_page!;
     })
   }
-
+  getGovernmentBodyLabel(key: string): string {
+    return governmentBodyLabels[key as GovernmentBody] || 'Desconhecido';
+  }
   getStatus(value:boolean){
     return value?'Habilitado':'Desabilitado'
   }

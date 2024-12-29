@@ -33,7 +33,8 @@
   </div>
   <div
     *ngIf="licitacaoItens.length > 0 && !isLoadingItens"
-    class="table-responsive">
+    class="table-responsive"
+  >
     <table class="table-editada">
       <thead>
         <tr>
@@ -317,17 +318,19 @@
             >Valor unitário estimado *</label
           >
           <input
-            type="number"
+            type="text"
             class="form-control"
             formControlName="estimated_unit_value"
+            currencyMask
           />
         </div>
         <div class="col-md-6 mb-3">
           <label class="form-label strong_font">Valor total *</label>
           <input
-            type="number"
+            type="text"
             class="form-control"
             formControlName="total_value"
+            currencyMask
           />
         </div>
       </div>

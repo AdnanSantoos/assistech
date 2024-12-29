@@ -37,10 +37,12 @@
           <td>{{ getStatus(element.portal_transparencia) }}</td>
           <td>{{ getStatus(element.diario_oficial) }}</td>
           <td>{{ element.year }}</td>
-          <td>{{element.next_edition_number}}</td>
-          <td>{{element.domain}}</td>
-          <td>{{element.government_body}}</td>
-          <td>{{element.is_active}}</td>
+          <td>{{ element.next_edition_number }}</td>
+          <td>{{ element.domain }}</td>
+          {{
+            getGovernmentBodyLabel(element.government_body)
+          }}
+          <td>{{ element.is_active }}</td>
           <td>
             <div class="d-flex justify-content-center py-1">
               <div class="d-flex flex-column align-items-center">

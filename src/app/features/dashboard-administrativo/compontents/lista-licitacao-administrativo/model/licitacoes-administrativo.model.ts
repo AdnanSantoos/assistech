@@ -19,6 +19,7 @@ export interface LicitacaoDetalhesModel {
   call_instrument_id: number;
   contracting_modality_id: number;
   contracting_situation_id: number;
+  contracting_situation?:number;
   dispute_mode_id: number;
   legal_basic_id: number;
   number: string;

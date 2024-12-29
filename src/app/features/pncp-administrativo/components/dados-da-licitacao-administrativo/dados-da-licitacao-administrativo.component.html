@@ -243,7 +243,7 @@
                         >
                         <input
                           id="opening_date_proposal"
-                          type="date"
+                          type="datetime-local"
                           formControlName="opening_date_proposal"
                         />
                       </div>
@@ -253,13 +253,17 @@
                         >
                         <input
                           id="closing_date_proposal"
-                          type="date"
+                          type="datetime-local"
                           formControlName="closing_date_proposal"
                         />
                       </div>
                     </div>
 
                     <div class="form-row">
+                      <div>
+                        <label for="goals">Objeto da Compra</label>
+                        <textarea id="goals" formControlName="goals"></textarea>
+                      </div>
                       <div>
                         <label for="additional_information"
                           >Informação Complementar</label
@@ -268,10 +272,6 @@
                           id="additional_information"
                           formControlName="additional_information"
                         ></textarea>
-                      </div>
-                      <div>
-                        <label for="goals">Objeto da Compra</label>
-                        <textarea id="goals" formControlName="goals"></textarea>
                       </div>
                     </div>
                   </div>
@@ -299,6 +299,39 @@
                             >+</span
                           >
                         </h2>
+                        <div class="form-row">
+                          <div>
+                            <label
+                              >Incentivo fiscal PPB (Processo Produtivo
+                              Básico)</label
+                            >
+                            <div class="switch-wrapper">
+                              <label class="switch">
+                                <input
+                                  id="applicability_normal_preference_margin"
+                                  type="checkbox"
+                                  formControlName="basic_productive_incentive"
+                                />
+                                <span></span>
+                              </label>
+                            </div>
+                          </div>
+                          <div>
+                            <label for="confidential_budget"
+                              >Orçamento Sigiloso?*</label
+                            >
+                            <div class="switch-wrapper">
+                              <label class="switch">
+                                <input
+                                  id="confidential_budget"
+                                  type="checkbox"
+                                  formControlName="confidential_budget"
+                                />
+                                <span></span>
+                              </label>
+                            </div>
+                          </div>
+                        </div>
                         <!-- Primeira linha -->
                         <div class="form-row">
                           <div>
@@ -318,21 +351,6 @@
                                 {{ option.key }}
                               </option>
                             </select>
-                          </div>
-                          <div>
-                            <label for="confidential_budget"
-                              >Orçamento Sigiloso?*</label
-                            >
-                            <div class="switch-wrapper">
-                              <label class="switch">
-                                <input
-                                  id="confidential_budget"
-                                  type="checkbox"
-                                  formControlName="confidential_budget"
-                                />
-                                <span></span>
-                              </label>
-                            </div>
                           </div>
                         </div>
                         <!-- Segunda linha -->
@@ -453,10 +471,7 @@
                               type="text"
                               formControlName="estimated_unit_value"
                               placeholder="R$ 0,00"
-                              mask="separator.2"
-                              thousandSeparator="."
-                              decimalMarker=","
-                              prefix="R$ "
+                              currencyMask
                             />
                           </div>
                           <div>
@@ -466,13 +481,11 @@
                               type="text"
                               formControlName="total_value"
                               placeholder="R$ 0,00"
-                              mask="separator.2"
-                              thousandSeparator="."
-                              decimalMarker=","
-                              prefix="R$ "
+                              currencyMask
                             />
                           </div>
                         </div>
+
                         <!-- Sexta linha -->
                         <div class="form-row">
                           <div>
@@ -508,22 +521,6 @@
                                   id="applicability_normal_preference_margin"
                                   type="checkbox"
                                   formControlName="applicability_normal_preference_margin"
-                                />
-                                <span></span>
-                              </label>
-                            </div>
-                          </div>
-                          <div>
-                            <label
-                              >Incentivo fiscal PPB (Processo Produtivo
-                              Básico)</label
-                            >
-                            <div class="switch-wrapper">
-                              <label class="switch">
-                                <input
-                                  id="applicability_normal_preference_margin"
-                                  type="checkbox"
-                                  formControlName="basic_productive_incentive"
                                 />
                                 <span></span>
                               </label>

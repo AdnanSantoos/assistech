@@ -132,6 +132,7 @@
                             formControlName="global_value"
                           />
                         </div>
+
                         <div class="form-group">
                           <label>Tipo Fornecedor Subcontratado</label>
                           <select
@@ -178,7 +179,7 @@
                         </div>
                       </div>
                       <div class="col-md-6">
-                        <div class="form-group mb-3">
+                        <div class="form-group mb-1">
                           <label>Despesa/Receita?</label>
                           <div class="form-check form-switch">
                             <input
@@ -245,10 +246,7 @@
                           <label>Valor Inicial do Contrato</label>
                           <input
                             type="text"
-                            mask="separator.2"
-                            [thousandSeparator]="'.'"
-                            [decimalMarker]="','"
-                            prefix="R$ "
+                            currencyMask
                             class="form-control"
                             formControlName="initial_value"
                           />
@@ -257,15 +255,19 @@
                           <label>Valor da Parcela</label>
                           <input
                             type="text"
-                            mask="separator.2"
-                            [thousandSeparator]="'.'"
-                            [decimalMarker]="','"
-                            prefix="R$ "
+                            currencyMask
                             class="form-control"
                             formControlName="installment_value"
                           />
                         </div>
-
+                        <div class="form-group">
+                          <label>Valor Acumulado do Contrato</label>
+                          <input
+                            type="text"
+                            class="form-control"
+                            formControlName="accumulated_value"
+                          />
+                        </div>
                         <div class="form-group">
                           <label
                             >Número do CNPJ/CPF do Fornecedor/Prestador
@@ -316,8 +318,7 @@
                       </div>
                     </div>
                     <div class="d-flex flex-start mt-4">
-                      <button 
-                      type="submit" class="btn btn-dark hover-sucesso">
+                      <button type="submit" class="btn btn-dark hover-sucesso">
                         Adicionar Contrato
                       </button>
                     </div>

@@ -12,6 +12,7 @@ import { ToastrService } from 'ngx-toastr';
 import { LicitacoesService } from '../../../../dashboard-administrativo/compontents/lista-licitacao-administrativo/service/licitacoes-administrativos.service';
 import { ContratosService } from '../service/contratos-administrativos.service';
 import { ActivatedRoute } from '@angular/router';
+import { CurrencyMaskDirective } from '../../../../../shared/directives/currencyMask.directive';
 
 @Component({
   selector: 'app-editar-contrato-administrativo',
@@ -24,7 +25,8 @@ import { ActivatedRoute } from '@angular/router';
     NavbarComponent,
     FormsModule,
     SidebarAdministrativoComponent,
-    NgxMaskDirective
+    NgxMaskDirective,
+    CurrencyMaskDirective
   ],
   providers: [BsModalService, provideNgxMask()],
   templateUrl: './editar-contrato-administrativo.component.html',
