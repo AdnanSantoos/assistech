@@ -18,6 +18,7 @@ import {
 } from '@angular/forms';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { ToastrService } from 'ngx-toastr';
+import { CurrencyMaskDirective } from '../../../../../../shared/directives/currencyMask.directive';
 
 @Component({
   selector: 'app-resultado-licitacao',
@@ -26,8 +27,8 @@ import { ToastrService } from 'ngx-toastr';
     CommonModule,
     ReactiveFormsModule,
     NgxMaskDirective,
-    NgxMaskPipe,
     CurrencyPipe,
+    CurrencyMaskDirective
   ],
   providers: [BsModalService, provideNgxMask()],
   templateUrl: './resultado-licitacao.component.html',

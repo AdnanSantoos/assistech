@@ -22,6 +22,7 @@ import {
 } from '@angular/forms';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
+import { CurrencyMaskDirective } from '../../../../../../shared/directives/currencyMask.directive';
 
 @Component({
   selector: 'app-itens-licitacoes',
@@ -31,9 +32,7 @@ import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
     MatDialogModule,
     RouterModule,
     ReactiveFormsModule,
-    NgxMaskDirective,
-    NgxMaskPipe,
-    CurrencyPipe,
+    CurrencyMaskDirective
   ],
   providers: [BsModalService,provideNgxMask()],
   templateUrl: './itens-licitacoes.component.html',

@@ -12,6 +12,7 @@ import { LicitacaoModel } from '../../../dashboard-administrativo/compontents/li
 import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 import { ContratosService } from './service/contratos-administrativos.service';
 import { ToastrService } from 'ngx-toastr';
+import { CurrencyMaskDirective } from '../../../../shared/directives/currencyMask.directive';
 
 @Component({
   selector: 'app-contratos-administrativo',
@@ -24,14 +25,13 @@ import { ToastrService } from 'ngx-toastr';
     NavbarComponent,
     FormsModule,
     SidebarAdministrativoComponent,
-    NgxMaskDirective
+    NgxMaskDirective,
+    CurrencyMaskDirective
   ],
-  providers: [BsModalService,provideNgxMask()],
+  providers: [BsModalService, provideNgxMask()],
   templateUrl: './contratos-administrativo.component.html',
   styleUrls: ['./contratos-administrativo.component.scss'],
 })
-
-
 export class ContratosAdministrativoComponent {
   filtroForm: FormGroup;
   contratoForm: FormGroup;
@@ -39,7 +39,14 @@ export class ContratosAdministrativoComponent {
   selectedItem: any = null;
   licitacoes!: LicitacaoModel[];
 
-  constructor(private fb: FormBuilder,private _location: Location, private _toastrService: ToastrService, private modalService: BsModalService, private _licitacaoService: LicitacoesService,private _contratoService: ContratosService) {
+  constructor(
+    private fb: FormBuilder,
+    private _location: Location,
+    private _toastrService: ToastrService,
+    private modalService: BsModalService,
+    private _licitacaoService: LicitacoesService,
+    private _contratoService: ContratosService
+  ) {
     this.filtroForm = this.fb.group({
       ataDaSessao: [''],
       day: [''],
@@ -50,30 +57,30 @@ export class ContratosAdministrativoComponent {
 
     this.contratoForm = this.fb.group({
       number: [''],
-      procurement_id:[''],
+      procurement_id: [''],
       year: [''],
       process: [''],
       process_category_id: [''],
-      contract_type_id: [''], 
-      number_of_installments:[''],
+      contract_type_id: [''],
+      number_of_installments: [''],
       revenue: [false],
       supplier_id: [''],
       cipi_identifier: [''],
       supplier_name: [''],
-      cipi_url:[''],
+      cipi_url: [''],
       supplier_person_type: [''],
       initial_value: [''],
       installment_value: [''],
       global_value: [''],
       accumulated_value: [''],
-      subcontracted_supplier_id: [''], 
+      subcontracted_supplier_id: [''],
       subcontracted_supplier_name: [''],
       subcontracted_supplier_person_type: [''],
-      additional_information: [''], 
-      signature_date: [''], 
-      start_date: [''], 
-      end_date: [''], 
-      goals: [''], 
+      additional_information: [''],
+      signature_date: [''],
+      start_date: [''],
+      end_date: [''],
+      goals: [''],
     });
   }
 
@@ -90,30 +97,35 @@ export class ContratosAdministrativoComponent {
   }
   onSubmit(): void {
     console.log(this.contratoForm.value);
-    this._contratoService.createContrato(this.contratoForm.value).subscribe(v=>{
-      console.log(v)
-    },
-  (err)=>{
-    console.log(err)
-    this._toastrService.error(err.error.message)
-  })
+    this._contratoService.createContrato(this.contratoForm.value).subscribe(
+      (v) => {
+        console.log(v);
+      },
+      (err) => {
+        console.log(err);
+        this._toastrService.error(err.error.message);
+      }
+    );
   }
 
   openModal(template: TemplateRef<void>) {
-    this.modalRef = this.modalService.show(template, Object.assign({}, { class: 'modal-lg modal-licitacoes' }));
+    this.modalRef = this.modalService.show(
+      template,
+      Object.assign({}, { class: 'modal-lg modal-licitacoes' })
+    );
     this._licitacaoService.getLicitacoes(1).subscribe({
       next: (response) => {
-        this.licitacoes = response.data
+        this.licitacoes = response.data;
       },
       error: (err) => {
-        this._toastrService.error(err)
+        this._toastrService.error(err);
       },
     });
   }
 
   onSelecionarItem(item: any): void {
     this.selectedItem = item;
-    this.contratoForm.controls['procurement_id'].setValue(item.id)
+    this.contratoForm.controls['procurement_id'].setValue(item.id);
     console.log('Item selecionado:', this.selectedItem);
     this.modalRef?.hide();
   }

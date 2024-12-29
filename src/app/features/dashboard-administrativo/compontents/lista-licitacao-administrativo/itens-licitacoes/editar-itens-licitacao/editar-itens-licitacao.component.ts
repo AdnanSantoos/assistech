@@ -10,11 +10,12 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { LicitacoesService } from '../../service/licitacoes-administrativos.service';
 import { LicitacaoItemModel } from '../../model/licitacoes-administrativo.model';
 import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
+import { CurrencyMaskDirective } from '../../../../../../shared/directives/currencyMask.directive';
 
 @Component({
   selector: 'app-editar-itens-licitacao',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, NgxMaskDirective],
+  imports: [CommonModule, ReactiveFormsModule,CurrencyMaskDirective],
   providers: [provideNgxMask()],
   templateUrl: './editar-itens-licitacao.component.html',
   styleUrls: ['./editar-itens-licitacao.component.scss'],

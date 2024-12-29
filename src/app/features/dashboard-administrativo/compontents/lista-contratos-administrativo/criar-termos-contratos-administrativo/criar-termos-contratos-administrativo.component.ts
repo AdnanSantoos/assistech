@@ -1,15 +1,37 @@
-import { CommonModule, Location } from '@angular/common';
+import { CommonModule, CurrencyPipe, Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { BsDatepickerConfig, BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import {
+  BsDatepickerConfig,
+  BsDatepickerModule,
+  BsLocaleService,
+} from 'ngx-bootstrap/datepicker';
 import { TermosContratosModel } from '../../../../pncp-administrativo/components/contratos-administrativo/model/contratos-administrativo.model';
 import { ContratosService } from '../../../../pncp-administrativo/components/contratos-administrativo/service/contratos-administrativos.service';
 import { ActivatedRoute } from '@angular/router';
+import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
+import { defineLocale } from 'ngx-bootstrap/chronos';
+import { ptBrLocale } from 'ngx-bootstrap/locale';
+import { CurrencyMaskDirective } from '../../../../../shared/directives/currencyMask.directive';
+defineLocale('pt-br', ptBrLocale);
 
 @Component({
   selector: 'app-criar-termos-contratos-administrativo',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, BsDatepickerModule],
+  imports: [
+    ReactiveFormsModule,
+    CommonModule,
+    BsDatepickerModule,
+    FormsModule,
+    CurrencyMaskDirective,
+  ],
+  providers: [provideNgxMask()],
   templateUrl: './criar-termos-contratos-administrativo.component.html',
   styleUrls: ['./criar-termos-contratos-administrativo.component.scss'],
 })
@@ -19,13 +41,20 @@ export class CriarTermosContratosAdministrativoComponent implements OnInit {
   contractId!: string;
   termoId!: string | null;
   isEditMode = false;
+  isChecked = false;
+  supplierQualification: boolean = false;
+  informativeQualification: boolean = false;
+  locale = 'pt-BR';
 
   constructor(
     private fb: FormBuilder,
     private _contratoService: ContratosService,
     private route: ActivatedRoute,
-    private _location: Location
+    private _location: Location,
+    private _localeService: BsLocaleService
   ) {
+    _localeService.use('pt-br');
+
     this.bsConfig = {
       containerClass: 'theme-dark-blue',
       dateInputFormat: 'DD/MM/YYYY',
@@ -34,26 +63,42 @@ export class CriarTermosContratosAdministrativoComponent implements OnInit {
 
   ngOnInit(): void {
     this.initializeForm();
-  
+
     // Capturar IDs da rota
     this.route.paramMap.subscribe((params) => {
       this.contractId = params.get('id') || '';
       this.termoId = params.get('termoId'); // Captura termoId para modo de edição
-  
+
       console.log('Contract ID:', this.contractId);
       console.log('Termo ID:', this.termoId);
-  
+
       if (this.termoId) {
         this.isEditMode = true;
         console.log('Modo de edição ativado.');
         this.loadTermo(this.termoId); // Carrega os dados do termo
-    } else if (this.contractId) {
+      } else if (this.contractId) {
         this.termoForm.patchValue({ contract_id: this.contractId });
       }
     });
   }
-  
-
+  onSupplierToggle(event: Event): void {
+    const inputElement = event.target as HTMLInputElement;
+    this.supplierQualification = inputElement.checked; // Atualiza o estado com base no checkbox
+    console.log('Alterar fornecedor?', this.supplierQualification);
+  }
+  onToggle(event: Event): void {
+    const inputElement = event.target as HTMLInputElement;
+    this.isChecked = inputElement.checked; // Atualiza o estado com base no checkbox
+    console.log('Estado atual:', this.isChecked ? 'Acréscimo' : 'Supressão');
+  }
+  onInformativeToggle(event: Event): void {
+    const inputElement = event.target as HTMLInputElement;
+    this.informativeQualification = inputElement.checked; // Atualiza o estado
+    console.log(
+      'Tem alguma observação?',
+      this.informativeQualification ? 'Sim' : 'Não'
+    );
+  }
   initializeForm(): void {
     this.termoForm = this.fb.group({
       contract_id: ['', Validators.required],

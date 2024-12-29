@@ -14,7 +14,9 @@
             id="validity_qualification"
             formControlName="validity_qualification"
           />
-          <label class="form-check-label" for="validity_qualification"
+          <label
+            class="form-check-label strong_font"
+            for="validity_qualification"
             >Alterar vigência e número de parcelas?</label
           >
         </div>
@@ -25,7 +27,9 @@
             id="adjustment_qualification"
             formControlName="adjustment_qualification"
           />
-          <label class="form-check-label" for="adjustment_qualification"
+          <label
+            class="form-check-label strong_font"
+            for="adjustment_qualification"
             >Alterar valor unitário?</label
           >
         </div>
@@ -37,8 +41,12 @@
             class="form-check-input"
             id="supplier_qualification"
             formControlName="supplier_qualification"
+            [checked]="supplierQualification"
+            (change)="onSupplierToggle($event)"
           />
-          <label class="form-check-label" for="supplier_qualification"
+          <label
+            class="form-check-label strong_font"
+            for="supplier_qualification"
             >Alterar fornecedor?</label
           >
         </div>
@@ -47,11 +55,31 @@
             type="checkbox"
             class="form-check-input"
             id="informative_qualification"
-            formControlName="informative_qualification"
+            [checked]="informativeQualification"
+            (change)="onInformativeToggle($event)"
           />
-          <label class="form-check-label" for="informative_qualification"
-            >Tem alguma observação?</label
+          <label
+            class="form-check-label strong_font"
+            for="informative_qualification"
           >
+            Tem alguma observação?
+          </label>
+        </div>
+
+        <div class="form-check form-switch">
+          <input
+            type="checkbox"
+            class="form-check-input"
+            id="addition_suppression_qualification"
+            [checked]="isChecked"
+            (change)="onToggle($event)"
+          />
+          <label
+            class="form-check-label strong_font"
+            for="addition_suppression_qualification"
+          >
+            {{ isChecked ? "Acréscimo" : "Supressão" }}
+          </label>
         </div>
       </div>
     </div>
@@ -61,7 +89,7 @@
       <!-- Coluna 1 -->
       <div class="form-column">
         <div class="mb-3">
-          <label for="contract_term_type_id" class="form-label"
+          <label for="contract_term_type_id" class="form-label strong_font"
             >Tipo do Termo de Contrato *</label
           >
           <select
@@ -70,46 +98,40 @@
             id="contract_term_type_id"
           >
             <option value="" disabled selected>Selecionar</option>
-            <option value="1">Acréscimo</option>
-            <option value="2">Supressão</option>
+            <option value="1">Termo de Rescisão</option>
+            <option value="2">Termo Aditivo</option>
+            <option value="3">Termo de Apostilamento</option>
           </select>
         </div>
+
         <div class="mb-3">
-          <label for="number" class="form-label"
-            >Número do termo de contrato *</label
+          <label for="added_value" class="form-label strong_font"
+            >Valor Suprimido *</label
           >
           <input
             type="text"
             class="form-control"
-            formControlName="number"
-            id="number"
-          />
-        </div>
-
-        <div class="mb-3">
-          <label for="added_value" class="form-label">Valor Acrescido *</label>
-          <input
-            type="number"
-            class="form-control"
             formControlName="added_value"
             id="added_value"
+            currencyMask
           />
         </div>
 
         <div class="mb-3">
-          <label for="installment_value" class="form-label"
+          <label for="installment_value" class="form-label strong_font"
             >Valor da Parcela *</label
           >
           <input
-            type="number"
+            type="text"
             class="form-control"
             formControlName="installment_value"
             id="installment_value"
+            currencyMask
           />
         </div>
 
         <div class="mb-3">
-          <label for="added_term_days" class="form-label"
+          <label for="added_term_days" class="form-label strong_font"
             >Prazo Aditado em Dias *</label
           >
           <input
@@ -119,21 +141,8 @@
             id="added_term_days"
           />
         </div>
-      </div>
-
-      <!-- Coluna 2 -->
-      <div class="form-column">
         <div class="mb-3">
-          <label for="total_value" class="form-label">Valor Global *</label>
-          <input
-            type="number"
-            class="form-control"
-            formControlName="total_value"
-            id="total_value"
-          />
-        </div>
-        <div class="mb-3">
-          <label for="validity_start_date" class="form-label"
+          <label for="validity_start_date" class="form-label strong_font"
             >Data Início da Vigência *</label
           >
           <input
@@ -145,9 +154,77 @@
             placeholder="dd/mm/yyyy"
           />
         </div>
+        <div *ngIf="supplierQualification" class="supplier-fields">
+          <div class="form-group">
+            <label>Nome ou Razão Social</label>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="supplier_name"
+            />
+          </div>
+          <div class="form-group">
+            <label>
+              Número do CNPJ/CPF do Fornecedor/Prestador subcontratado
+            </label>
+            <input
+              type="text"
+              mask="000.000.000-00||00.000.000/0000-00"
+              class="form-control"
+              formControlName="subcontracted_supplier_id"
+            />
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="goals" class="form-label strong_font">Objeto *</label>
+          <textarea
+            class="form-control"
+            formControlName="goals"
+            rows="4"
+          ></textarea>
+        </div>
+      </div>
+
+      <!-- Coluna 2 -->
+
+      <div class="form-column">
+        <div class="mb-3">
+          <label for="number" class="form-label strong_font"
+            >Número do termo de contrato *</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            formControlName="number"
+            id="number"
+          />
+        </div>
+        <div class="mb-3">
+          <label for="number_of_installments" class="form-label strong_font"
+            >Número de Parcelas *</label
+          >
+          <input
+            type="number"
+            class="form-control"
+            formControlName="number_of_installments"
+            id="number_of_installments"
+          />
+        </div>
+        <div class="mb-3">
+          <label for="total_value" class="form-label strong_font"
+            >Valor Global *</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            formControlName="total_value"
+            id="total_value"
+            currencyMask
+          />
+        </div>
 
         <div class="mb-3">
-          <label for="signature_date" class="form-label"
+          <label for="signature_date" class="form-label strong_font"
             >Data de Assinatura *</label
           >
           <input
@@ -160,7 +237,7 @@
           />
         </div>
         <div class="mb-3">
-          <label for="validity_end_date" class="form-label"
+          <label for="validity_end_date" class="form-label strong_font"
             >Data Final da Vigência *</label
           >
           <input
@@ -172,17 +249,42 @@
             placeholder="dd/mm/yyyy"
           />
         </div>
-        <div class="mb-3">
-          <label for="goals" class="form-label">Objeto *</label>
+        <div *ngIf="informativeQualification" class="mb-3">
+          <label for="informative_note" class="form-label strong_font">
+            Observação Informativa*
+          </label>
           <textarea
             class="form-control"
-            formControlName="goals"
+            formControlName="informative_note"
+            id="informative_note"
             rows="4"
           ></textarea>
         </div>
-
+        <div *ngIf="supplierQualification" class="supplier-fields">
+          <div class="form-group">
+            <label>Tipo Fornecedor Subcontratado</label>
+            <select
+              class="form-control"
+              formControlName="subcontracted_supplier_person_type"
+            >
+              <option value="PF">Pessoa Física</option>
+              <option value="PJ">Pessoa Jurídica</option>
+              <option value="PE">Pessoa Extrangeira</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Nome do fornecedor subcontratado</label>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="subcontracted_supplier_name"
+            />
+          </div>
+        </div>
         <div class="mb-3">
-          <label for="legal_basis" class="form-label">Fundamento Legal *</label>
+          <label for="legal_basis" class="form-label strong_font"
+            >Fundamento Legal *</label
+          >
           <textarea
             class="form-control"
             formControlName="legal_basis"
@@ -193,7 +295,8 @@
     </div>
     @if(isEditMode){
     <div class="mb-3">
-      <label for="goals" class="form-label">Justificativa da Edição *
+      <label for="goals" class="form-label strong_font"
+        >Justificativa da Edição *
       </label>
       <textarea
         class="form-control"

@@ -31,6 +31,7 @@ import {
 import { ToastrService } from 'ngx-toastr';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { CurrencyMaskDirective } from '../../../../shared/directives/currencyMask.directive';
 
 @Component({
   selector: 'app-dados-da-licitacao-administrativo',
@@ -45,7 +46,8 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
     NgxMaskDirective,
     NgxMaskPipe,
     CurrencyPipe,
-    BsDatepickerModule
+    BsDatepickerModule,
+    CurrencyMaskDirective
   ],
   providers: [BsModalService, provideNgxMask()],
 

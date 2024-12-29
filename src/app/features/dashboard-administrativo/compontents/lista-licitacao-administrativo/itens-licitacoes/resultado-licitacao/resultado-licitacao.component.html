@@ -19,7 +19,8 @@
       <strong>VALOR TOTAL</strong>
       <p>
         {{
-          licitacao.estimated_unit_value | currency : "BRL" : "symbol" : "1.2-2"
+          licitacao.estimated_unit_value
+          | currency:'BRL'
         }}
       </p>
     </div>
@@ -42,7 +43,7 @@
           <td>{{ resultado.status === 1 ? "Pendente" : "Inativo" }}</td>
           <td>{{ resultado.supplier_name_or_social_reason || "N/A" }}</td>
           <td>{{ resultado.quantity || 0 }}</td>
-          <td>R$ {{ resultado.total_price }}</td>
+          <td>R$ {{ resultado.total_price | currency:'BRL' }}</td>
           <td class="text-center">
             <button
               class="btn-format btn-remove border-0 ps-0 pe-0 ms-0 me-0"
@@ -95,10 +96,7 @@
             type="text"
             class="form-control"
             formControlName="unit_price"
-            mask="separator.2"
-            thousandSeparator="."
-            decimalMarker=","
-            prefix="R$ "
+            currencyMask
           />
         </div>
       </div>
@@ -109,10 +107,7 @@
             type="text"
             class="form-control"
             formControlName="total_price"
-            mask="separator.2"
-            thousandSeparator="."
-            decimalMarker=","
-            prefix="R$ "
+            currencyMask
           />
         </div>
         <div class="col-md-6 mb-3">
