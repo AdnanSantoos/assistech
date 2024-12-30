@@ -5,81 +5,92 @@
 
   <form class="form-container" [formGroup]="termoForm" (ngSubmit)="onSubmit()">
     <!-- Linha de Toggles -->
-    <div class="form-toggles mb-4">
-      <div class="form-toggle-group">
-        <div class="form-check form-switch">
-          <input
-            type="checkbox"
-            class="form-check-input"
-            id="validity_qualification"
-            formControlName="validity_qualification"
-          />
-          <label
-            class="form-check-label strong_font"
-            for="validity_qualification"
-            >Alterar vigência e número de parcelas?</label
-          >
-        </div>
-        <div class="form-check form-switch">
-          <input
-            type="checkbox"
-            class="form-check-input"
-            id="adjustment_qualification"
-            formControlName="adjustment_qualification"
-          />
-          <label
-            class="form-check-label strong_font"
-            for="adjustment_qualification"
-            >Alterar valor unitário?</label
-          >
+
+    <div class="row">
+      <div class="col-6">
+        <div class="form-toggles mb-4">
+          <div class="form-toggle-group">
+            <div class="form-check form-switch">
+              <input
+                type="checkbox"
+                class="form-check-input"
+                id="validity_qualification"
+                formControlName="validity_qualification"
+              />
+              <label
+                class="form-check-label strong_font"
+                for="validity_qualification"
+                >Alterar vigência e número de parcelas?</label
+              >
+            </div>
+            <div class="form-check form-switch">
+              <input
+                type="checkbox"
+                class="form-check-input"
+                id="adjustment_qualification"
+                formControlName="adjustment_qualification"
+              />
+              <label
+                class="form-check-label strong_font"
+                for="adjustment_qualification"
+                >Alterar valor unitário?</label
+              >
+            </div>
+          </div>
         </div>
       </div>
-      <div class="form-toggle-group">
-        <div class="form-check form-switch">
-          <input
-            type="checkbox"
-            class="form-check-input"
-            id="supplier_qualification"
-            formControlName="supplier_qualification"
-            [checked]="supplierQualification"
-            (change)="onSupplierToggle($event)"
-          />
-          <label
-            class="form-check-label strong_font"
-            for="supplier_qualification"
-            >Alterar fornecedor?</label
-          >
-        </div>
-        <div class="form-check form-switch">
-          <input
-            type="checkbox"
-            class="form-check-input"
-            id="informative_qualification"
-            [checked]="informativeQualification"
-            (change)="onInformativeToggle($event)"
-          />
-          <label
-            class="form-check-label strong_font"
-            for="informative_qualification"
-          >
-            Tem alguma observação?
-          </label>
-        </div>
-
-        <div class="form-check form-switch">
-          <input
-            type="checkbox"
-            class="form-check-input"
-            id="addition_suppression_qualification"
-            [checked]="isChecked"
-            (change)="onToggle($event)"
-          />
-          <label
-            class="form-check-label strong_font"
-            for="addition_suppression_qualification"
-          >
-            {{ isChecked ? "Acréscimo" : "Supressão" }}
-          </label>
+      <div class="col-6">
+        <div class="form-toggles mb-4">
+          <div class="form-toggle-group">
+            <div class="d-flex flex-column">
+              <div class="strong_font">Supressão / Acréscimo</div>
+              <div class="form-check form-switch strong_font">
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  id="addition_suppression_qualification"
+                  [checked]="isChecked"
+                  (change)="onToggle($event)"
+                />
+                <label
+                  class="form-check-label strong_font"
+                  for="addition_suppression_qualification"
+                >
+                  {{ isChecked ? "Acréscimo" : "Supressão" }}
+                </label>
+              </div>
+            </div>
+            <div class="form-check form-switch">
+              <input
+                type="checkbox"
+                class="form-check-input"
+                id="supplier_qualification"
+                formControlName="supplier_qualification"
+                [checked]="supplierQualification"
+                (change)="onSupplierToggle($event)"
+              />
+              <label
+                class="form-check-label strong_font"
+                for="supplier_qualification"
+                >Alterar fornecedor?</label
+              >
+            </div>
+            <div class="form-check form-switch">
+              <input
+                type="checkbox"
+                class="form-check-input"
+                id="informative_qualification"
+                [checked]="informativeQualification"
+                (change)="onInformativeToggle($event)"
+              />
+              <label
+                class="form-check-label strong_font"
+                for="informative_qualification"
+              >
+                Tem alguma observação?
+              </label>
+            </div>
+          </div>
         </div>
       </div>
     </div>
