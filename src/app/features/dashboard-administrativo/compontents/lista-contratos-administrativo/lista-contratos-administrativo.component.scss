@@ -136,7 +136,6 @@ small {
 
     &.disabled .page-link {
       pointer-events: none;
-      opacity: 0.6;
     }
 
     &.active .page-link {
@@ -187,7 +186,6 @@ form {
     gap: 5.188px;
     border-radius: 4px;
     border: 1.382px solid #1f1f1f;
-    opacity: 0.3;
     background: #000;
     height: 42px;
     color: #fff;

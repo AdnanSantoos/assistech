@@ -295,6 +295,7 @@ export class ListaContratosAdministrativoComponent implements OnInit {
             next: () => {
               console.log('Arquivo enviado com sucesso.');
               this.fileForm.reset(); // Reseta o formulário após o envio
+              this.modalRef?.hide(); // Fecha o modal após a exclusão
             },
             error: (err) => {
               console.error('Erro ao enviar arquivo:', err);

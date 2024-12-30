@@ -1,4 +1,4 @@
-import { RequisicaoModel } from "../../../../../shared/models/shared.model";
+import { LinksModel, PaginationModel, RequisicaoModel } from "../../../../../shared/models/shared.model";
 import { AgenciaModel, UnidadeModel } from "../../unidades-administrativo/model/unidades-administrativo.model";
 
 export interface LicitacaoModel {
@@ -163,3 +163,35 @@ export interface LicitacaoAtaModel {
 }
 
 export type RequisicaoLicitacaoModel = RequisicaoModel<LicitacaoModel[]>;
+
+
+export interface ProcurementMeta {
+  agency_country_register: string;
+  year: number;
+  gateway_sequence: number;
+}
+
+export interface ExtendedMeta {
+  links: LinksModel;
+  pagination: PaginationModel;
+  procurement: ProcurementMeta;
+}
+
+export interface LicitacaoAtaExtendedResponse extends RequisicaoModel<LicitacaoAtaModel[]> {
+  meta: ExtendedMeta;
+}
+
+export interface TransformedAta {
+  id: string;
+  numero: string;
+  ano: string | number;
+  data_assinatura: string;
+  inicio_vigencia: string;
+  fim_vigencia: string;
+  status: 'cancelada' | 'ativa';
+  gateway_location: string;
+  gateway_sequence: number | null;
+  agencyCountryRegister: string;
+  procurementYear: number;
+  procurementSequence: number;
+}
