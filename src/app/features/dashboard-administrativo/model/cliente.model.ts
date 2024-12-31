@@ -22,11 +22,13 @@ export interface ClienteData {
   is_active?: boolean;
   file_is_sent_signed: boolean;
   errors?: any;
-  address: Array<{
-    street: string;
-    number: string;
-    complement: string;
-    district: string;
-    zip: string;
-  }>;
+  address: ClientAddressModel[];
+}
+
+export interface ClientAddressModel {
+  street: string;
+  number: string;
+  complement?: string;
+  district: string;
+  zip: string;
 }
