@@ -64,9 +64,12 @@ export class CadastrarClienteAdministrativoComponent implements OnInit {
       if (this.slug) {
         this.isEditMode = true;
         this._clienteService.getClienteBySlug(this.slug).subscribe((v) => {
-          this.originalCliente = v.data; // Inicializando originalCliente
+          this.originalCliente = v.data;
           this.formularioOriginal = v.data;
           this.populaFormulario(v.data);
+
+          // Armazene o estado inicial do formulário
+          this.formularioOriginal = this.clienteForm.getRawValue();
         });
       }
     });
@@ -76,25 +79,23 @@ export class CadastrarClienteAdministrativoComponent implements OnInit {
 
   populaFormulario(clienteData: any): void {
     this.clienteForm.patchValue({
-      agencies: clienteData.agencies || [],
       city: {
         code: clienteData.city?.code || '',
         label: clienteData.city?.label || '',
       },
       government_body: clienteData.government_body || '',
-      city_name: clienteData.city_name || '',
       name: clienteData.name || '',
       pncp: clienteData.pncp || false,
       portal_transparencia: clienteData.portal_transparencia || false,
       diario_oficial: clienteData.diario_oficial || false,
-      beginning_official_gazette: clienteData.year || '',
+      beginning_official_gazette: clienteData.beginning_official_gazette || 0,
       slug: clienteData.slug || '',
-      state_uf: clienteData.state_uf || '',
+      is_active: clienteData.is_active || true,
       domain: clienteData.domain || '',
       city_code: clienteData.city_code || '',
-      next_edition_number: clienteData.next_edition_number || '',
+      next_edition_number: clienteData.next_edition_number || 0,
       file_is_sent_signed: clienteData.file_is_sent_signed || false,
-      errors:clienteData.errors || null
+      errors: clienteData.errors || null,
     });
   }
 
@@ -203,62 +204,26 @@ export class CadastrarClienteAdministrativoComponent implements OnInit {
   }
 
   private updateCliente(formValue: any): void {
-    const changedFields = this.getChangedFields(formValue);
-    if (Object.keys(changedFields).length === 0) {
-      this._toastrService.info('Nenhuma alteração detectada.', 'Informação');
-      return;
-    }
+    console.log('Dados do formulário:', formValue); // Adicionado para depuração
 
     this.isLoadingButton = true;
-    this._clienteService
-      .updateCliente(formValue.slug, changedFields)
-      .subscribe({
-        next: () => {
-          this._toastrService.success(
-            'Cliente atualizado com sucesso!',
-            'Sucesso'
-          );
-          this.isLoadingButton = false;
-        },
-        error: (err) => {
-          this._toastrService.error(
-            err?.error?.message || 'Erro ao atualizar cliente.',
-            'Erro'
-          );
-          this.isLoadingButton = false;
-        },
-      });
-  }
-
-  private getChangedFields(
-    formValue: Partial<ClienteData>
-  ): Partial<Omit<ClienteData, 'slug'>> {
-    const changedFields: Partial<Omit<ClienteData, 'slug'>> = {};
-
-    // Verifica se originalCliente está definido
-    if (!this.originalCliente) {
-      console.error('originalCliente não está definido.');
-      return changedFields;
-    }
-
-    Object.keys(formValue).forEach((key) => {
-      // Ignorar explicitamente o campo 'slug'
-      if (key === 'slug') return;
-
-      // Fazer type assertion para a chave
-      const typedKey = key as keyof Omit<ClienteData, 'slug'>;
-
-      // Evitar erros acessando valores indefinidos
-      const originalValue = this.originalCliente[typedKey];
-      const newValue = formValue[typedKey];
-
-      // Comparar valores e atualizar somente se houver mudanças
-      if (originalValue !== newValue) {
-        changedFields[typedKey] = newValue as any;
-      }
+    this._clienteService.updateCliente(formValue.slug, formValue).subscribe({
+      next: () => {
+        this._toastrService.success(
+          'Cliente atualizado com sucesso!',
+          'Sucesso'
+        );
+        this.router.navigate(['/adm/dashboard-administrativo/cliente']);
+        this.isLoadingButton = false;
+      },
+      error: (err) => {
+        this._toastrService.error(
+          err?.error?.message || 'Erro ao atualizar cliente.',
+          'Erro'
+        );
+        this.isLoadingButton = false;
+      },
     });
-
-    return changedFields;
   }
 
   getFormControl(controlName: string): FormControl {
