@@ -38,6 +38,7 @@ export class ContratosAdministrativoComponent {
   modalRef?: BsModalRef;
   selectedItem: any = null;
   licitacoes!: LicitacaoModel[];
+  isLoading: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -96,14 +97,21 @@ export class ContratosAdministrativoComponent {
     this._location.back();
   }
   onSubmit(): void {
+    this.isLoading = true;
+
     console.log(this.contratoForm.value);
     this._contratoService.createContrato(this.contratoForm.value).subscribe(
       (v) => {
         console.log(v);
+        this.goBack();
+        this.isLoading = false;
+
       },
       (err) => {
         console.log(err);
         this._toastrService.error(err.error.message);
+        this.isLoading = false;
+
       }
     );
   }

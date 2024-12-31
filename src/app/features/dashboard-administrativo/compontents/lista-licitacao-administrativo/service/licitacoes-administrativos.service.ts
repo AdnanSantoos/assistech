@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { catchError, Observable, tap, throwError } from 'rxjs';
 import { RequisicaoModel } from '../../../../../shared/models/shared.model';
-import { LicitacaoModel, LicitacaoDetalhesModel, LicitacaoItemModel, LicitacaoArquivos, LicitacaoResultados, LicitacaoAtaModel } from '../model/licitacoes-administrativo.model';
+import { LicitacaoModel, LicitacaoDetalhesModel, LicitacaoItemModel, LicitacaoArquivos, LicitacaoResultados, LicitacaoAtaModel, LicitacaoAtaExtendedResponse } from '../model/licitacoes-administrativo.model';
 import { LicitacoesRepository } from '../repository/licitacoes-administrativos.repository';
 import { OrgaoModel } from '../../orgao-administrativo/model/orgao-administrativo.model';
 import { HttpParams } from '@angular/common/http';
@@ -23,10 +23,10 @@ export class LicitacoesService {
         page: filters.page?.toString() || '1',
       },
     });
-  
+
     return this._repository.getLicitacoesWithFilters(params);
   }
-  
+
   getLicitacoes(page: number): Observable<RequisicaoModel<LicitacaoModel[]>> {
     return this._repository.getLicitacoes(page);
   }
@@ -43,7 +43,7 @@ export class LicitacoesService {
     return this._repository.getLicitacoesArquivos(tenant, procurementId, page);
   }
 
-  getLicitacaoAtas(licitacaoId: string, page: number): Observable<RequisicaoModel<LicitacaoAtaModel>> {
+  getLicitacaoAtas(licitacaoId: string, page: number): Observable<LicitacaoAtaExtendedResponse> {
     return this._repository.getLicitacaoAtas(licitacaoId, page);
   }
   getAtaArquivos(minutesId: string, page: number): Observable<RequisicaoModel<LicitacaoArquivos>> {
@@ -165,7 +165,7 @@ export class LicitacoesService {
       })
     );
   }
-  
+
   deleteLicitacao(procurementId: string, justification: string): Observable<void> {
     return this._repository.deleteLicitacao(procurementId, justification);
   }

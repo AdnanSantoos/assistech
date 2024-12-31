@@ -7,8 +7,7 @@ import { MatIcon, MatIconModule } from '@angular/material/icon';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ArquivoUploadMapper, AtaLicitacaoMapper } from './mapper/ata.mapper';
-import { LicitacaoDetalhesModel } from '../model/licitacoes-administrativo.model';
-
+import { LicitacaoAtaExtendedResponse, LicitacaoAtaModel, LicitacaoDetalhesModel, TransformedAta } from '../model/licitacoes-administrativo.model';
 
 @Component({
   selector: 'app-atas-licitacoes-administrativo',
@@ -37,7 +36,6 @@ export class AtasLicitacoesAdministrativoComponent implements OnInit {
   formAta!: FormGroup; // Formulário para criar nova ata
   formEditAta!: FormGroup;
 
-
   isEditMode = false; // Flag para controlar o modo de edição
   selectedAta: any = null; // Dados da ATA selecionada para edição
   modalTitle = 'Adicionar ATA'; // Título dinâmico do modal
@@ -55,9 +53,7 @@ export class AtasLicitacoesAdministrativoComponent implements OnInit {
     private _location: Location,
     private licitacoesService: LicitacoesService,
     private modalService: BsModalService,
-    private fb: FormBuilder,
-
-
+    private fb: FormBuilder
   ) {
     this.formAta = this.fb.group({
       price_registry_number: [null],
@@ -80,9 +76,9 @@ export class AtasLicitacoesAdministrativoComponent implements OnInit {
     });
 
     this.formArquivo = this.fb.group({
-      document_title: [''],         // Campo título do documento
-      document_type_id: [''],       // Campo tipo de documento
-      file: [null]                  // Campo arquivo
+      document_title: [''], // Campo título do documento
+      document_type_id: [''], // Campo tipo de documento
+      file: [null], // Campo arquivo
     });
 
     this.deleteForm = this.fb.group({
@@ -127,9 +123,16 @@ export class AtasLicitacoesAdministrativoComponent implements OnInit {
     this.isLoading = true;
 
     this.licitacoesService.getLicitacaoAtas(this.licitacaoId, page).subscribe({
-      next: (response: RequisicaoModel<any>) => {
-        // Mapeia os dados da resposta para os campos necessários na tabela
-        this.atas = response.data.map((ata: any) => ({
+      next: (response: LicitacaoAtaExtendedResponse) => {
+        if (!response.meta?.procurement) {
+          console.error('Meta procurement data missing');
+          this.isLoading = false;
+          return;
+        }
+
+        const procurementMeta = response.meta.procurement;
+
+        this.atas = response.data.map((ata: LicitacaoAtaModel): TransformedAta => ({
           id: ata.id,
           numero: ata.price_registry_number || 'N/A',
           ano: ata.year_of_registry || 'N/A',
@@ -138,10 +141,13 @@ export class AtasLicitacoesAdministrativoComponent implements OnInit {
           fim_vigencia: ata.end_date_of_validity || 'N/A',
           status: ata.date_canceled ? 'cancelada' : 'ativa',
           gateway_location: ata.gateway_location || '',
-          gateway_sequence: ata.gateway_sequence || null, // Certifique-se de mapear essa propriedade
+          gateway_sequence: ata.gateway_sequence || null,
+          agencyCountryRegister: procurementMeta.agency_country_register,
+          procurementYear: procurementMeta.year,
+          procurementSequence: procurementMeta.gateway_sequence
         }));
 
-        this.totalPages = response.meta?.pagination?.last_page || 1;
+        this.totalPages = response.meta.pagination.last_page;
         this.isLoading = false;
       },
       error: (err) => {
@@ -151,40 +157,23 @@ export class AtasLicitacoesAdministrativoComponent implements OnInit {
     });
   }
 
-
   irParaPncp(ata: any): void {
-    if (!ata.gateway_sequence) {
-      console.error('Propriedade gateway_sequence não encontrada no objeto ata:', ata);
+    if (
+      !ata.gateway_sequence ||
+      !ata.agencyCountryRegister ||
+      !ata.procurementYear ||
+      !ata.procurementSequence
+    ) {
+      console.error('Dados insuficientes para gerar o link da ATA:', ata);
       return;
     }
 
-    if (
-      this.licitacao &&
-      this.licitacao.agency?.country_register &&
-      this.licitacao.dispute_mode_id &&
-      this.licitacao.year // Obtendo o ano dos detalhes da licitação
-    ) {
-      const agencyCountryRegister = this.licitacao.agency.country_register;
-      const year = this.licitacao.year; // Ano da licitação, não da ata
-      const disputeModeId = this.licitacao.dispute_mode_id;
-      const sequence = ata.gateway_sequence;
-
-      const baseUrl = 'https://treina.pncp.gov.br/app/atas/';
-      const fullUrl = `${baseUrl}${agencyCountryRegister}/${year}/${disputeModeId}/${sequence}`;
-
-      window.open(fullUrl, '_blank');
-    } else {
-      console.error('Dados insuficientes para gerar o link da ATA.');
-    }
+    const baseUrl = 'https://treina.pncp.gov.br/app/atas/';
+    const fullUrl = `${baseUrl}${ata.agencyCountryRegister}/${ata.procurementYear}/${ata.procurementSequence}/${ata.gateway_sequence}`;
+    window.open(fullUrl, '_blank');
   }
 
-
-
-
-
-  deleteAta() {
-
-  }
+  deleteAta() {}
   goToPage(page: number): void {
     if (page > 0 && page <= this.totalPages) {
       this.currentPage = page;
@@ -195,14 +184,9 @@ export class AtasLicitacoesAdministrativoComponent implements OnInit {
     this._location.back();
   }
 
-  goToPreviousPage() {
+  goToPreviousPage() {}
 
-  }
-
-  goToNextPage() {
-
-  }
-
+  goToNextPage() {}
 
   openModal(template: TemplateRef<any>): void {
     this.modalRef = this.modalService.show(template, { class: 'modal-lg' });
@@ -219,26 +203,28 @@ export class AtasLicitacoesAdministrativoComponent implements OnInit {
       console.log('Iniciando o processo de salvar a ATA...');
 
       // Mapeia os dados do formulário e do arquivo
-      const ataFormData = AtaLicitacaoMapper.toSubmit(this.formAta.value, { file: [this.formAta.value.file] });
+      const ataFormData = AtaLicitacaoMapper.toSubmit(this.formAta.value, {
+        file: [this.formAta.value.file],
+      });
 
       // Chama o serviço para salvar a ATA
-      this.licitacoesService.createLicitacaoAta(this.licitacaoId, ataFormData).subscribe({
-        next: () => {
-          console.log('ATA criada com sucesso!');
-          this.loadAtas(this.currentPage); // Recarrega a lista de atas
-          this.closeModal(); // Fecha o modal
-          this.formAta.reset(); // Reseta o formulário
-        },
-        error: (err) => {
-          console.error('Erro ao salvar a ATA:', err);
-        },
-      });
+      this.licitacoesService
+        .createLicitacaoAta(this.licitacaoId, ataFormData)
+        .subscribe({
+          next: () => {
+            console.log('ATA criada com sucesso!');
+            this.loadAtas(this.currentPage); // Recarrega a lista de atas
+            this.closeModal(); // Fecha o modal
+            this.formAta.reset(); // Reseta o formulário
+          },
+          error: (err) => {
+            console.error('Erro ao salvar a ATA:', err);
+          },
+        });
     } else {
       console.error('Formulário inválido.');
     }
   }
-
-
 
   onFileSelected(event: any): void {
     const file = event.target.files[0];
@@ -249,7 +235,6 @@ export class AtasLicitacoesAdministrativoComponent implements OnInit {
       console.error('Nenhum arquivo selecionado.');
     }
   }
-
 
   openEditModal(template: TemplateRef<any>, ataToEdit: any): void {
     this.isEditMode = true;
@@ -267,7 +252,6 @@ export class AtasLicitacoesAdministrativoComponent implements OnInit {
 
     this.modalRef = this.modalService.show(template, { class: 'modal-lg' });
   }
-
 
   // Atualiza os dados da ATA
   updateAta(): void {
@@ -313,14 +297,13 @@ export class AtasLicitacoesAdministrativoComponent implements OnInit {
       id: ata.id,
       price_registry_number: ata.numero,
       year_of_registry: ata.ano,
-      signature_date: ata.data_assinatura
+      signature_date: ata.data_assinatura,
     };
 
     this.loadArquivos(); // Carrega os arquivos relacionados à ATA selecionada
 
     this.modalRef = this.modalService.show(template, { class: 'modal-lg' });
   }
-
 
   loadArquivos(): void {
     if (!this.selectedAta?.id) {
@@ -359,8 +342,6 @@ export class AtasLicitacoesAdministrativoComponent implements OnInit {
       },
     });
   }
-
-
 
   salvarArquivo(): void {
     if (this.formArquivo.valid) {
@@ -472,22 +453,23 @@ export class AtasLicitacoesAdministrativoComponent implements OnInit {
       date_canceled: this.formCancelamento.value.date_canceled,
     };
 
-    this.licitacoesService.cancelarAta(this.procurementId, minutesId, payload).subscribe({
-      next: () => {
-        console.log('ATA cancelada com sucesso!');
-        this.loadAtas(this.currentPage); // Recarrega a lista de atas
-        this.modalRef?.hide(); // Fecha o modal
-      },
-      error: (err) => {
-        console.error('Erro ao cancelar a ATA:', err);
-      },
-    });
+    this.licitacoesService
+      .cancelarAta(this.procurementId, minutesId, payload)
+      .subscribe({
+        next: () => {
+          console.log('ATA cancelada com sucesso!');
+          this.loadAtas(this.currentPage); // Recarrega a lista de atas
+          this.modalRef?.hide(); // Fecha o modal
+        },
+        error: (err) => {
+          console.error('Erro ao cancelar a ATA:', err);
+        },
+      });
   }
   openDeleteAtasArquivosModal(arquivo: any, template: TemplateRef<any>): void {
     this.selectedArquivo = arquivo; // Define o arquivo atual
     this.justification = '';
     this.modalRef = this.modalService.show(template, { class: 'modal-md' }); // Exibe o modal
-
   }
 
   confirmDeleteArquivo(): void {
@@ -496,19 +478,20 @@ export class AtasLicitacoesAdministrativoComponent implements OnInit {
       const minutesId = this.selectedAta.id; // ID da ATA
       const fileId = this.selectedArquivo.id; // ID do arquivo
 
-      this.licitacoesService.deleteAtasArquivo(minutesId, fileId, justification).subscribe({
-        next: () => {
-          this.loadArquivos(); // Recarrega a lista de arquivos
-          this.modalRef?.hide();
-          console.log('Arquivo excluído com sucesso.');
-        },
-        error: (err) => {
-          console.error('Erro ao excluir arquivo:', err);
-        },
-      });
+      this.licitacoesService
+        .deleteAtasArquivo(minutesId, fileId, justification)
+        .subscribe({
+          next: () => {
+            this.loadArquivos(); // Recarrega a lista de arquivos
+            this.modalRef?.hide();
+            console.log('Arquivo excluído com sucesso.');
+          },
+          error: (err) => {
+            console.error('Erro ao excluir arquivo:', err);
+          },
+        });
     } else {
       console.error('Formulário inválido ou arquivo não selecionado.');
     }
   }
-
 }

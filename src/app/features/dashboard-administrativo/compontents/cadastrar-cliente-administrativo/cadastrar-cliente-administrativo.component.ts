@@ -1,6 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { ClienteAdministrativoService } from '../cliente-administrativo/services/cliente-administrativo.service';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -23,7 +29,7 @@ export class CadastrarClienteAdministrativoComponent implements OnInit {
   slug: string | null = null;
   formularioOriginal!: ClienteData[];
   isLoadingButton = false;
-
+  originalCliente!: ClienteData;
 
   constructor(
     private fb: FormBuilder,
@@ -31,40 +37,39 @@ export class CadastrarClienteAdministrativoComponent implements OnInit {
     private _toastrService: ToastrService,
     private route: ActivatedRoute,
     private router: Router
-
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.clienteForm = this.fb.group({
-      agencies: [[]],
       city: this.fb.group({
         code: ['', Validators.required],
         label: ['', Validators.required],
-        state_code: [''],
-        uf: [''],
       }),
       government_body: ['', Validators.required],
       name: ['', Validators.required],
-      permissions: this.fb.group({
-        pncp: [false],
-        portal_transparencia: [false],
-        diario_oficial: [false],
-      }),
-      logo:[''],
-      beginning_official_gazette: ['', Validators.required],
+      pncp: [false],
+      portal_transparencia: [false],
+      diario_oficial: [false],
+      beginning_official_gazette: [0, Validators.required],
       slug: ['', Validators.required],
-      state_uf: [''],
+      is_active: [true],
       domain: [''],
       city_code: ['', Validators.required],
-      next_edition_number: ['', Validators.required],
+      next_edition_number: [0, Validators.required],
+      file_is_sent_signed: [false],
+      errors: [null],
     });
     this.route.paramMap.subscribe((params) => {
       this.slug = params.get('slug');
       if (this.slug) {
         this.isEditMode = true;
         this._clienteService.getClienteBySlug(this.slug).subscribe((v) => {
+          this.originalCliente = v.data;
           this.formularioOriginal = v.data;
           this.populaFormulario(v.data);
+
+          // Armazene o estado inicial do formulário
+          this.formularioOriginal = this.clienteForm.getRawValue();
         });
       }
     });
@@ -74,34 +79,30 @@ export class CadastrarClienteAdministrativoComponent implements OnInit {
 
   populaFormulario(clienteData: any): void {
     this.clienteForm.patchValue({
-      agencies: clienteData.agencies || [],
       city: {
         code: clienteData.city?.code || '',
         label: clienteData.city?.label || '',
-        state_code: clienteData.city?.state_code || '',
-        uf: clienteData.city?.uf || '',
       },
       government_body: clienteData.government_body || '',
-      city_name: clienteData.city_name || '',
       name: clienteData.name || '',
-      permissions: {
-        pncp: clienteData.pncp || false,
-        portal_transparencia: clienteData.portal_transparencia || false,
-        diario_oficial: clienteData.diario_oficial || false,
-        logo:clienteData.logo || '',
-      },
-      beginning_official_gazette: clienteData.year || '',
+      pncp: clienteData.pncp || false,
+      portal_transparencia: clienteData.portal_transparencia || false,
+      diario_oficial: clienteData.diario_oficial || false,
+      beginning_official_gazette: clienteData.beginning_official_gazette || 0,
       slug: clienteData.slug || '',
-      state_uf: clienteData.state_uf || '',
+      is_active: clienteData.is_active || true,
       domain: clienteData.domain || '',
       city_code: clienteData.city_code || '',
-      next_edition_number: clienteData.next_edition_number || '',
+      next_edition_number: clienteData.next_edition_number || 0,
+      file_is_sent_signed: clienteData.file_is_sent_signed || false,
+      errors: clienteData.errors || null,
     });
   }
 
   private setupCidadeAutoComplete(): void {
-    this.clienteForm.get('city.label')?.valueChanges
-      .pipe(
+    this.clienteForm
+      .get('city.label')
+      ?.valueChanges.pipe(
         debounceTime(300),
         switchMap((label: string) => {
           if (!label.trim()) return of([]);
@@ -161,9 +162,8 @@ export class CadastrarClienteAdministrativoComponent implements OnInit {
 
     const cityParts = normalizedCity.split(' ');
 
-    const mainPart = cityParts.length > 1
-      ? cityParts[cityParts.length - 1]
-      : normalizedCity;
+    const mainPart =
+      cityParts.length > 1 ? cityParts[cityParts.length - 1] : normalizedCity;
 
     return (mainPart + (stateCode || '')).toLowerCase();
   }
@@ -179,7 +179,10 @@ export class CadastrarClienteAdministrativoComponent implements OnInit {
         this.createCliente(clienteData);
       }
     } else {
-      this._toastrService.error('Preencha todos os campos obrigatórios.', 'Erro');
+      this._toastrService.error(
+        'Preencha todos os campos obrigatórios.',
+        'Erro'
+      );
     }
   }
 
@@ -196,18 +199,22 @@ export class CadastrarClienteAdministrativoComponent implements OnInit {
           'Erro'
         );
         this.isLoadingButton = false;
-
       },
     });
   }
 
-  private updateCliente(clienteData: any): void {
-    this._clienteService.updateCliente(clienteData.slug, clienteData).subscribe({
+  private updateCliente(formValue: any): void {
+    console.log('Dados do formulário:', formValue); // Adicionado para depuração
+
+    this.isLoadingButton = true;
+    this._clienteService.updateCliente(formValue.slug, formValue).subscribe({
       next: () => {
-        this._toastrService.success('Cliente atualizado com sucesso!', 'Sucesso');
+        this._toastrService.success(
+          'Cliente atualizado com sucesso!',
+          'Sucesso'
+        );
         this.router.navigate(['/adm/dashboard-administrativo/cliente']);
         this.isLoadingButton = false;
-
       },
       error: (err) => {
         this._toastrService.error(
@@ -215,7 +222,6 @@ export class CadastrarClienteAdministrativoComponent implements OnInit {
           'Erro'
         );
         this.isLoadingButton = false;
-
       },
     });
   }
@@ -223,6 +229,4 @@ export class CadastrarClienteAdministrativoComponent implements OnInit {
   getFormControl(controlName: string): FormControl {
     return this.clienteForm.get(controlName) as FormControl;
   }
-
-
 }

@@ -47,93 +47,112 @@
           <label>Status:</label>
           <div class="d-flex flex-wrap flex-column justify-content-start">
             <!-- Permissions -->
-            <div formGroupName="permissions">
-              <!-- PNCP -->
-              <div class="form-check form-switch">
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  formControlName="pncp"
-                  id="pncp"
-                />
-                <label class="form-check-label" for="pncp">
-                  PNCP:
-                  <span
-                    class="ms-1"
-                    [ngClass]="{
-                      'text-success':
-                        clienteForm.get('permissions.pncp')?.value,
-                      'text-danger': !clienteForm.get('permissions.pncp')?.value
-                    }"
-                  >
-                    {{
-                      clienteForm.get("permissions.pncp")?.value
-                        ? "Habilitado"
-                        : "Desabilitado"
-                    }}
-                  </span>
-                </label>
-              </div>
+            <!-- PNCP -->
+            <div class="form-check form-switch">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                formControlName="pncp"
+                id="pncp"
+              />
+              <label class="form-check-label" for="pncp">
+                PNCP:
+                <span
+                  class="ms-1"
+                  [ngClass]="{
+                    'text-success': clienteForm.get('pncp')?.value,
+                    'text-danger': !clienteForm.get('pncp')?.value
+                  }"
+                >
+                  {{
+                    clienteForm.get("pncp")?.value
+                      ? "Habilitado"
+                      : "Desabilitado"
+                  }}
+                </span>
+              </label>
+            </div>
 
-              <!-- Portal Transparência -->
-              <div class="form-check form-switch">
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  formControlName="portal_transparencia"
-                  id="portalTransparencia"
-                />
-                <label class="form-check-label" for="portalTransparencia">
-                  Portal da Transparência:
-                  <span
-                    class="ms-1"
-                    [ngClass]="{
-                      'text-success': clienteForm.get(
-                        'permissions.portal_transparencia'
-                      )?.value,
-                      'text-danger': !clienteForm.get(
-                        'permissions.portal_transparencia'
-                      )?.value
-                    }"
-                  >
-                    {{
-                      clienteForm.get("permissions.portal_transparencia")?.value
-                        ? "Habilitado"
-                        : "Desabilitado"
-                    }}
-                  </span>
-                </label>
-              </div>
+            <!-- Portal Transparência -->
+            <div class="form-check form-switch">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                formControlName="portal_transparencia"
+                id="portalTransparencia"
+              />
+              <label class="form-check-label" for="portalTransparencia">
+                Portal da Transparência:
+                <span
+                  class="ms-1"
+                  [ngClass]="{
+                    'text-success': clienteForm.get('portal_transparencia')
+                      ?.value,
+                    'text-danger': !clienteForm.get('portal_transparencia')
+                      ?.value
+                  }"
+                >
+                  {{
+                    clienteForm.get("portal_transparencia")?.value
+                      ? "Habilitado"
+                      : "Desabilitado"
+                  }}
+                </span>
+              </label>
+            </div>
 
-              <!-- Diário Oficial -->
-              <div class="form-check form-switch">
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  formControlName="diario_oficial"
-                  id="diarioOficial"
-                />
-                <label class="form-check-label" for="diarioOficial">
-                  Diário Oficial:
-                  <span
-                    class="ms-1"
-                    [ngClass]="{
-                      'text-success': clienteForm.get(
-                        'permissions.diario_oficial'
-                      )?.value,
-                      'text-danger': !clienteForm.get(
-                        'permissions.diario_oficial'
-                      )?.value
-                    }"
-                  >
-                    {{
-                      clienteForm.get("permissions.diario_oficial")?.value
-                        ? "Habilitado"
-                        : "Desabilitado"
-                    }}
-                  </span>
-                </label>
-              </div>
+            <!-- Diário Oficial -->
+            <div class="form-check form-switch">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                formControlName="diario_oficial"
+                id="diarioOficial"
+              />
+              <label class="form-check-label" for="diarioOficial">
+                Diário Oficial:
+                <span
+                  class="ms-1"
+                  [ngClass]="{
+                    'text-success': clienteForm.get('diario_oficial')?.value,
+                    'text-danger': !clienteForm.get('diario_oficial')?.value
+                  }"
+                >
+                  {{
+                    clienteForm.get("diario_oficial")?.value
+                      ? "Habilitado"
+                      : "Desabilitado"
+                  }}
+                </span>
+              </label>
+            </div>
+
+            <!-- Arquivo Assinado -->
+            <div class="form-check form-switch">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                formControlName="file_is_sent_signed"
+                id="fileIsSentSigned"
+              />
+              <label class="form-check-label" for="fileIsSentSigned">
+                Arquivo Enviado:
+                <span
+                  class="ms-1"
+                  [ngClass]="{
+                    'text-success': clienteForm.get('file_is_sent_signed')
+                      ?.value,
+                    'text-danger': !clienteForm.get('file_is_sent_signed')
+                      ?.value
+                  }"
+                >
+                  {{
+                    clienteForm.get("file_is_sent_signed")?.value
+                      ? "Com Assinatura (Não será assinado pela plataforma)"
+                      : "Sem Assinatura (Será assinado pela plataforma)"
+                  }}
+                </span>
+              </label>
             </div>
           </div>
         </div>
@@ -146,6 +165,7 @@
           <input
             id="beginning_official_gazette"
             class="form-control"
+            type="number"
             formControlName="beginning_official_gazette"
             placeholder="Ano inicial"
           />
@@ -159,6 +179,7 @@
             class="form-control"
             formControlName="next_edition_number"
             placeholder="Número da próxima edição"
+            type="number"
           />
         </div>
 
@@ -230,25 +251,17 @@
             placeholder="Domínio"
           />
         </div>
-     
+
         <!-- Submit Button -->
         @if(isEditMode){
 
-        <button
-          type="submit"
-          [disabled]="clienteForm.invalid || isLoadingButton"
-          class="btn btn-dark w-100"
-        >
+        <button type="submit" class="btn btn-dark w-100">
           @if(isLoadingButton){
           <div class="spinner-border text-light" role="status"></div>
           } @else { Editar }
         </button>
         } @else {
-        <button
-          type="submit"
-          [disabled]="clienteForm.invalid || isLoadingButton"
-          class="btn btn-dark w-100"
-        >
+        <button type="submit" class="btn btn-dark w-100">
           @if(isLoadingButton){
           <div class="spinner-border text-light" role="status"></div>
           } @else {Cadastrar}
