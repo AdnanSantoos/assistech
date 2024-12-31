@@ -146,6 +146,7 @@
           <input
             id="beginning_official_gazette"
             class="form-control"
+            type="number"
             formControlName="beginning_official_gazette"
             placeholder="Ano inicial"
           />
@@ -159,7 +160,33 @@
             class="form-control"
             formControlName="next_edition_number"
             placeholder="Número da próxima edição"
+            type="number"
           />
+        </div>
+        <!-- Arquivo Assinado -->
+        <div class="form-check form-switch">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            formControlName="file_is_sent_signed"
+            id="fileIsSentSigned"
+          />
+          <label class="form-check-label" for="fileIsSentSigned">
+            Arquivo Enviado:
+            <span
+              class="ms-1"
+              [ngClass]="{
+                'text-success': clienteForm.get('file_is_sent_signed')?.value,
+                'text-danger': !clienteForm.get('file_is_sent_signed')?.value
+              }"
+            >
+              {{
+                clienteForm.get("file_is_sent_signed")?.value
+                  ? "Com Assinatura (Não será assinado pela plataforma)"
+                  : "Sem Assinatura (Será assinado pela plataforma)"
+              }}
+            </span>
+          </label>
         </div>
 
         <!-- Subdomínio -->
@@ -230,25 +257,17 @@
             placeholder="Domínio"
           />
         </div>
-     
+
         <!-- Submit Button -->
         @if(isEditMode){
 
-        <button
-          type="submit"
-          [disabled]="clienteForm.invalid || isLoadingButton"
-          class="btn btn-dark w-100"
-        >
+        <button type="submit" class="btn btn-dark w-100">
           @if(isLoadingButton){
           <div class="spinner-border text-light" role="status"></div>
           } @else { Editar }
         </button>
         } @else {
-        <button
-          type="submit"
-          [disabled]="clienteForm.invalid || isLoadingButton"
-          class="btn btn-dark w-100"
-        >
+        <button type="submit" class="btn btn-dark w-100">
           @if(isLoadingButton){
           <div class="spinner-border text-light" role="status"></div>
           } @else {Cadastrar}

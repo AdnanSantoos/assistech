@@ -30,10 +30,10 @@ export class ClienteAdministrativoRepository {
     return this._http.get(`${environment.API_URL}/staff/tenants/${slug}`);
   }
 
-  updateCliente(slug: string, data: any): Observable<void> {
+  updateCliente(slug: string, data: Partial<Omit<ClienteData, 'slug'>>): Observable<void> {
     return this._http.put<void>(`${environment.API_URL}/staff/tenants/${slug}`, data);
   }
 
 
-  
+
 }
