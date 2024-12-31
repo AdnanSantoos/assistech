@@ -154,6 +154,36 @@
                 </span>
               </label>
             </div>
+            @if(isEditMode){
+            <!-- Arquivo Assinado -->
+            <div class="form-check form-switch">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                formControlName="is_active"
+                id="is_active"
+              />
+              <label class="form-check-label" for="is_active">
+                Usuário Ativo:
+                <span
+                  class="ms-1"
+                  [ngClass]="{
+                    'text-success': clienteForm.get('is_active')
+                      ?.value,
+                    'text-danger': !clienteForm.get('is_active')
+                      ?.value
+                  }"
+                >
+                  {{
+                    clienteForm.get("is_active")?.value
+                      ? "Ativado"
+                      : "Desativado"
+                  }}
+                </span>
+              </label>
+            </div>
+
+            }
           </div>
         </div>
 
@@ -241,6 +271,115 @@
           placeholder="Código da cidade"
           readonly
         />
+        <!-- Endereço -->
+        <div class="form-group mb-3">
+          <h4 class="mb-3">Endereço</h4>
+
+          <!-- Rua -->
+          <div class="mb-3">
+            <label for="street">Rua</label>
+            <input
+              id="street"
+              class="form-control"
+              formControlName="street"
+              placeholder="Nome da rua"
+              [formControl]="getFormControl('address.street')"
+            />
+            <div
+              *ngIf="
+                clienteForm.get('address.street')?.invalid &&
+                clienteForm.get('address.street')?.touched
+              "
+              class="text-danger"
+            >
+              Por favor, insira o nome da rua.
+            </div>
+          </div>
+
+          <!-- Número -->
+          <div class="mb-3">
+            <label for="number">Número</label>
+            <input
+              id="number"
+              type="string"
+              class="form-control"
+              formControlName="number"
+              placeholder="Número"
+              [formControl]="getFormControl('address.number')"
+            />
+            <div
+              *ngIf="
+                clienteForm.get('address.number')?.invalid &&
+                clienteForm.get('address.number')?.touched
+              "
+              class="text-danger"
+            >
+              Por favor, insira o número.
+            </div>
+          </div>
+
+          <!-- Complemento -->
+          <div class="mb-3">
+            <label for="complement">Complemento</label>
+            <input
+              id="complement"
+              class="form-control"
+              formControlName="complement"
+              placeholder="Complemento"
+              [formControl]="getFormControl('address.complement')"
+            />
+          </div>
+
+          <!-- Bairro -->
+          <div class="mb-3">
+            <label for="district">Bairro</label>
+            <input
+              id="district"
+              class="form-control"
+              formControlName="district"
+              placeholder="Bairro"
+              [formControl]="getFormControl('address.district')"
+            />
+            <div
+              *ngIf="
+                clienteForm.get('address.district')?.invalid &&
+                clienteForm.get('address.district')?.touched
+              "
+              class="text-danger"
+            >
+              Por favor, insira o bairro.
+            </div>
+          </div>
+
+          <!-- CEP -->
+          <div class="mb-3">
+            <label for="zip">CEP</label>
+            <input
+              id="zip"
+              type="text"
+              class="form-control"
+              formControlName="zip"
+              placeholder="CEP"
+              [formControl]="getFormControl('address.zip')"
+            />
+            <div
+              *ngIf="
+                clienteForm.get('address.zip')?.invalid &&
+                clienteForm.get('address.zip')?.touched
+              "
+              class="text-danger"
+            >
+              <div *ngIf="clienteForm.get('address.zip')?.errors?.['required']">
+                Por favor, insira o CEP.
+              </div>
+              <div
+                *ngIf="clienteForm.get('address.zip')?.errors?.['minlength'] || clienteForm.get('address.zip')?.errors?.['maxlength']"
+              >
+                O CEP deve ter 8 dígitos.
+              </div>
+            </div>
+          </div>
+        </div>
         <!-- Domínio -->
         <div class="form-group mb-3">
           <label for="domain">Domínio</label>
@@ -255,13 +394,13 @@
         <!-- Submit Button -->
         @if(isEditMode){
 
-        <button type="submit" class="btn btn-dark w-100">
+        <button type="submit" class="btn btn-dark w-100 hover-sucesso">
           @if(isLoadingButton){
           <div class="spinner-border text-light" role="status"></div>
           } @else { Editar }
         </button>
         } @else {
-        <button type="submit" class="btn btn-dark w-100">
+        <button type="submit" class="btn btn-dark w-100 hover-sucesso">
           @if(isLoadingButton){
           <div class="spinner-border text-light" role="status"></div>
           } @else {Cadastrar}

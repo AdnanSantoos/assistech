@@ -1,29 +1,44 @@
 <footer class="footer" id="footerLocation">
   <div class="container">
     <div class="row">
-     @if(!isAdmRoute){
+      @if(!isAdmRoute){
       <div class="col d-flex w-100 px-0 mx-0">
-        <div class="w-100
-        ">
+        <div class="w-100">
           <div class="title_footer">
             <ul>
+              @if(clienteName){
+              <li>{{ clienteName }}</li>
+
+              } @else{
               <li>Câmara Municipal de Itaberaba</li>
+
+              }
             </ul>
             <div class="borda-verde"></div>
           </div>
           <div class="contato-footer">
             <div class="row">
+              @if(clienteAddress){
+              <div class="col-12">
+                <p>Rua: {{ clienteAddress.street || "Não cadastrado" }}</p>
+                <p>Número: {{ clienteAddress.number || "Não cadastrado" }}</p>
+                <p>Complemento: {{ clienteAddress.complement || "N/A" }}</p>
+                <p>Bairro: {{ clienteAddress.district || "Não cadastrado" }}</p>
+                <p>CEP: {{ clienteAddress.zip || "Não cadastrado" }}</p>
+              </div>
+              } @else {
               <div class="col-12">
                 <p>E-mail: legislativo&#64;cmitaberaba.ba.gov.br</p>
                 <p>Tel.: (75) 3251-2395</p>
                 <p>CEP: 46880-000</p>
                 <p>Praça J.J. Seabra, 37</p>
               </div>
+              }
             </div>
           </div>
         </div>
       </div>
-     }
+      }
       <!-- <div class="col d-flex w-100 px-0 mx-0">
         <div class="margin-auto">
           <div class="title_footer">
@@ -60,7 +75,10 @@
             <div class="borda-verde"></div>
           </div>
           <div class="mt-3">
-            <img src="../../../../assets/logos/logo-white-pwr.svg" alt="PWR Logo" />
+            <img
+              src="../../../../assets/logos/logo-white-pwr.svg"
+              alt="PWR Logo"
+            />
           </div>
         </div>
       </div>
