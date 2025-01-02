@@ -20,7 +20,9 @@ export class ClienteAdministrativoRepository {
   createUser(clientData: ClienteData): Observable<ClienteData> {
     return this._http.post<ClienteData>(`${environment.API_URL}/staff/tenants`, clientData);
   }
-
+  updateCliente(slug: string, data: Partial<Omit<ClienteData, 'slug'>>): Observable<void> {
+    return this._http.put<void>(`${environment.API_URL}/staff/tenants/${slug}`, data);
+  }
   searchCities(label: string): Observable<any> {
     const params = new HttpParams().set('label', label);
     const url = `${environment.API_URL}/tenants/${this._tenantService.getTenant()}/cities`;
@@ -30,9 +32,7 @@ export class ClienteAdministrativoRepository {
     return this._http.get(`${environment.API_URL}/staff/tenants/${slug}`);
   }
 
-  updateCliente(slug: string, data: Partial<Omit<ClienteData, 'slug'>>): Observable<void> {
-    return this._http.put<void>(`${environment.API_URL}/staff/tenants/${slug}`, data);
-  }
+
 
 
 

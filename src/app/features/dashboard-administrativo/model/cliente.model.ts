@@ -19,9 +19,16 @@ export interface ClienteData {
   domain?: string;
   next_edition_number?: number;
   government_body: string;
-  is_active?:boolean;
-  file_is_sent_signed:boolean;
+  is_active?: boolean;
+  file_is_sent_signed: boolean;
   errors?: any;
-
+  address: ClientAddressModel[];
 }
 
+export interface ClientAddressModel {
+  street: string;
+  number: string;
+  complement?: string;
+  district: string;
+  zip: string;
+}

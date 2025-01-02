@@ -33,13 +33,13 @@ export class ClienteAdministrativoService {
     );
   }
 
+  updateCliente(slug: string, data: Partial<Omit<ClienteData, 'slug'>>): Observable<void> {
+    return this._repository.updateCliente(slug, data);
+  }
   searchCities(label: string): Observable<any> {
     return this._repository.searchCities(label);
   }
 
-  updateCliente(slug: string, data: Partial<Omit<ClienteData, 'slug'>>): Observable<void> {
-    return this._repository.updateCliente(slug, data);
-  }
 
   public getClienteBySlug(slug: string): Observable<any> {
     return this._repository.getClienteBySlug(slug);

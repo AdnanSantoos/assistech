@@ -58,6 +58,13 @@ export class CadastrarClienteAdministrativoComponent implements OnInit {
       next_edition_number: [0, Validators.required],
       file_is_sent_signed: [false],
       errors: [null],
+      address: this.fb.group({
+        street: [null],
+        number: [null],
+        complement: [null],
+        district: [null],
+        zip: [null],
+      }),
     });
     this.route.paramMap.subscribe((params) => {
       this.slug = params.get('slug');
@@ -96,6 +103,13 @@ export class CadastrarClienteAdministrativoComponent implements OnInit {
       next_edition_number: clienteData.next_edition_number || 0,
       file_is_sent_signed: clienteData.file_is_sent_signed || false,
       errors: clienteData.errors || null,
+      address: {
+        street: clienteData.address?.[0]?.street || '',
+        number: clienteData.address?.[0]?.number || null,
+        complement: clienteData.address?.[0]?.complement || '',
+        district: clienteData.address?.[0]?.district || '',
+        zip: clienteData.address?.[0]?.zip || null,
+      },
     });
   }
 
