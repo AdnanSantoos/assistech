@@ -44,7 +44,7 @@
           <td>{{ resultado.quantity || 0 }}</td>
           <td>{{ resultado.total_price | currency : "BRL" }}</td>
           <td class="text-center">
-            <div class="d-flex justify-content-center ">
+            <div class="d-flex justify-content-center">
               <button
                 class="btn-format btn-remove border-0 ps-0 pe-0 ms-0 me-0"
                 tooltip="Remover Item"
@@ -199,7 +199,8 @@
       <div class="row">
         <div class="col-md-6 mb-3">
           <label class="form-label strong_font"
-            >Ordem de classificação do fornecedor/arrematante na contratação *</label
+            >Ordem de classificação do fornecedor/arrematante na contratação
+            *</label
           >
           <input
             type="number"
@@ -208,7 +209,9 @@
           />
         </div>
         <div class="col-md-6 mb-3">
-          <label class="form-label strong_font">Porcentagem de desconto *</label>
+          <label class="form-label strong_font"
+            >Porcentagem de desconto *</label
+          >
           <input
             type="text"
             class="form-control"
@@ -255,12 +258,14 @@
           <label class="form-label strong_font"
             >País de Origem do Produto</label
           >
-          <select class="form-control" formControlName="product_origin_country">
-            <option value="" disabled selected>Selecione um país</option>
-            <option *ngFor="let pais of paisDeOrigem" [ngValue]="pais.id">
-              {{ pais.label }}
-            </option>
-          </select>
+          <ng-select
+            [items]="paisDeOrigem"
+            bindLabel="label"
+            bindValue="id"
+            formControlName="product_origin_country"
+            placeholder="Selecione um país"
+            [searchable]="true"
+          ></ng-select>
         </div>
       </div>
       <div class="row">
