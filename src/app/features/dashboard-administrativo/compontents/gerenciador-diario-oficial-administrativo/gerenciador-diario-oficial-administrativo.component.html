@@ -34,13 +34,11 @@
                 'tx-green': doc.status === 'published',
                 'text-danger': doc.status === 'error',
               }"
-              >{{
-                statusPublicacao(doc.status)
-              }}</strong
+              >{{ statusPublicacao(doc.status) }}</strong
             >
           </td>
           <td class="w-25">
-            <div class="d-flex justify-content-end align-items-center gap-2">
+            <div class="d-flex justify-content-center align-items-center gap-2">
               @if(doc.protocol && doc.protocol.length > 0){
               <a
                 [href]="doc.protocol"
@@ -66,6 +64,7 @@
                   alt="Original"
                 />
               </a>
+              @if(doc.file_published && doc.file_published.length > 0){
               <a
                 [href]="doc.file_published"
                 target="_blank"
@@ -73,7 +72,7 @@
                 [ngClass]="{
                   'bg-mustard': doc.status === 'scheduled',
                   'bg-green': doc.status === 'published',
-                  'bg-danger': doc.status==='error',
+                  'bg-danger': doc.status === 'error',
                   'bg-transparent': !doc.status
                 }"
                 tooltip="Publicado"
@@ -83,8 +82,7 @@
                   alt="Publicado"
                 />
               </a>
-
-              @if(isStaff){
+              } @if(isStaff){
               <button
                 class="btn btn-anexar"
                 (click)="openAnexarModal(anexarDocumentos, doc)"
