@@ -1,4 +1,6 @@
-<div class="top-content my-3 d-flex flex-column justify-content-center align-items-start">
+<div
+  class="top-content my-3 d-flex flex-column justify-content-center align-items-start"
+>
   <h3>Adicionar Unidades</h3>
   <div class="d-flex">
     <p>
@@ -18,20 +20,18 @@
     <form [formGroup]="formulario">
       <!-- Dropdown de Órgãos -->
       <div class="mb-3">
-        <label for="agency_country_register" class="form-label"
-          >Órgão (Registro Nacional)<span class="text-danger">*</span></label
-        >
+        <label for="agency_country_register" class="form-label">
+          Órgão (Registro Nacional)<span class="text-danger">*</span>
+        </label>
         <select
           id="agency_country_register"
           class="form-select"
           formControlName="agency_country_register"
           [disabled]="isLoading"
+          (change)="selecionarOrgao($event)"
         >
-          <option *ngIf="isLoading" disabled>Carregando órgãos...</option>
-          <option
-            *ngFor="let orgao of orgaos"
-            [value]="orgao.country_register"
-          >
+          <option value="" disabled selected>Selecione um órgão</option>
+          <option *ngFor="let orgao of orgaos" [value]="orgao.country_register">
             {{ orgao.name }}
           </option>
         </select>

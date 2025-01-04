@@ -22,6 +22,7 @@ import { CurrencyMaskDirective } from '../../../../../../shared/directives/curre
 import { NgModule, LOCALE_ID } from '@angular/core';
 import { registerLocaleData } from '@angular/common';
 import localePt from '@angular/common/locales/pt';
+import { NgSelectModule } from '@ng-select/ng-select';
 registerLocaleData(localePt);
 
 @Component({
@@ -33,6 +34,7 @@ registerLocaleData(localePt);
     NgxMaskDirective,
     CurrencyPipe,
     CurrencyMaskDirective,
+    NgSelectModule
   ],
   providers: [
     BsModalService,
@@ -52,6 +54,7 @@ export class ResultadoLicitacaoComponent implements OnInit {
   totalPages: number = 1;
   modalRef?: BsModalRef;
   novoResultadoForm!: FormGroup;
+
   naturezaJuridicaOptions = [
     { value: '0000', key: 'Natureza Jurídica não informada' },
     { value: '1015', key: 'Órgão Público do Poder Executivo Federal' },

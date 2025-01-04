@@ -675,14 +675,37 @@ export class DadosDaLicitacaoAdministrativoComponent {
               { value: 7, key: 'Não se aplica' },
             ];
             break;
-          case 9: // Inexigibilidade
+            case 9: // Inexigibilidade
             this.modoDisputaOpcoes = [{ value: 5, key: 'Não se aplica' }];
-            this.legalBasicOptions = [
-              { value: 80, key: 'Lei nº 14.133/2021, Art. 1º, § 2º' },
-            ];
+
+            if (this.filtroForm.get('call_instrument_id')?.value === 3) {
+              this.legalBasicOptions = [
+                { value: 6, key: 'Lei nº 14.133/2021, Art. 74, I' },
+                { value: 7, key: 'Lei nº 14.133/2021, Art. 74, II' },
+                { value: 8, key: 'Lei nº 14.133/2021, Art. 74, III, a' },
+                { value: 9, key: 'Lei nº 14.133/2021, Art. 74, III, b' },
+                { value: 10, key: 'Lei nº 14.133/2021, Art. 74, III, c' },
+                { value: 11, key: 'Lei nº 14.133/2021, Art. 74, III, d' },
+                { value: 12, key: 'Lei nº 14.133/2021, Art. 74, III, e' },
+                { value: 13, key: 'Lei nº 14.133/2021, Art. 74, III, f' },
+                { value: 14, key: 'Lei nº 14.133/2021, Art. 74, III, g' },
+                { value: 15, key: 'Lei nº 14.133/2021, Art. 74, III, h' },
+                { value: 16, key: 'Lei nº 14.133/2021, Art. 74, IV' },
+                { value: 17, key: 'Lei nº 14.133/2021, Art. 74, V' },
+                { value: 50, key: 'Lei nº 14.133/2021, Art. 74, caput' },
+                { value: 80, key: 'Lei nº 14.133/2021, Art. 1º, § 2º' },
+                { value: 102, key: 'Lei nº 13.303/2016, Art. 30, caput, Inexigibilidade' },
+                { value: 150, key: 'MP nº 1.221/2024, Art. 2º, II (Calamidade pública)' }
+              ];
+            } else {
+              this.legalBasicOptions = [
+                { value: 80, key: 'Lei nº 14.133/2021, Art. 1º, § 2º' }
+              ];
+            }
+
             this.itemCategoriaEnum = [{ value: 3, key: 'Não se aplica' }];
             this.criterioDeJulgamentoEnum = [
-              { value: 7, key: 'Não se aplica' },
+              { value: 7, key: 'Não se aplica' }
             ];
             break;
 

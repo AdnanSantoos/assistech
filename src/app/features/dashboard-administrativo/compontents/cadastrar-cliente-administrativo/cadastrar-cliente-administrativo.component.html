@@ -168,10 +168,8 @@
                 <span
                   class="ms-1"
                   [ngClass]="{
-                    'text-success': clienteForm.get('is_active')
-                      ?.value,
-                    'text-danger': !clienteForm.get('is_active')
-                      ?.value
+                    'text-success': clienteForm.get('is_active')?.value,
+                    'text-danger': !clienteForm.get('is_active')?.value
                   }"
                 >
                   {{
@@ -214,14 +212,15 @@
         </div>
 
         <!-- Subdomínio -->
-        <div class="form-group mb-3">
-          <label for="subdominio">Subdomínio/Slug</label>
+        <div class="form-group mb-3 d-flex text-center align-items-center">
+          <label for="subdominio">Subdomínio/Slug :</label>
           <input
             id="subdominio"
-            class="form-control"
+            class="text-slug m-0 p-0 border-0"
             formControlName="slug"
             placeholder="Subdomínio/slug"
-            readonly
+            contenteditable="true"
+            aria-readonly="true"
           />
         </div>
 

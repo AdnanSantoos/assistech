@@ -5,7 +5,7 @@ body {
   height: 100%;
 }
 
-.pointer{
+.pointer {
   cursor: pointer;
 }
 
@@ -133,6 +133,23 @@ body {
       height: 20px;
     }
   }
+}
+.text-slug {
+  font-size: 16px;
+  color: #18752e;
+  font-weight: 700;
+  margin-left: 10px;
+  pointer-events: none;
+  user-select: none; /* Evita a seleção do texto */
+  outline: none; /* Remove a borda de foco */
+  cursor: default; /* Muda o cursor para o padrão, sem interação */
+}
+
+.text-slug:focus,
+.text-slug:hover,
+.text-slug:active {
+  outline: none;
+  background-color: transparent; /* Garante que o fundo não mudará em hover/focus */
 }
 
 .btn-padrao__perfil-icon {
@@ -568,7 +585,6 @@ body {
   max-height: 500px;
   width: 100%;
   padding-right: 15px;
-
 }
 
 .form-itens-licitacao::-webkit-scrollbar {
