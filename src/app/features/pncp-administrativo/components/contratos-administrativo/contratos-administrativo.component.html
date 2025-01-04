@@ -120,7 +120,7 @@
                           />
                         </div>
                         <div class="form-group">
-                          <label>Número de parcelas  *</label>
+                          <label>Número de parcelas *</label>
                           <input
                             type="text"
                             class="form-control"
@@ -164,14 +164,7 @@
                             formControlName="cipi_url"
                           />
                         </div>
-                        <div class="form-group">
-                          <label>Data início da vigência *</label>
-                          <input
-                            type="date"
-                            class="form-control"
-                            formControlName="start_date"
-                          />
-                        </div>
+
                         <div class="form-group">
                           <label>Descrição do objetivo do contrato *</label>
                           <textarea
@@ -294,7 +287,14 @@
                             formControlName="cipi_identifier"
                           />
                         </div>
-
+                        <div class="form-group">
+                          <label>Data início da vigência *</label>
+                          <input
+                            type="date"
+                            class="form-control"
+                            formControlName="start_date"
+                          />
+                        </div>
                         <div class="form-group">
                           <label>Data de Assinatura do Contrato *</label>
                           <input
@@ -333,7 +333,9 @@
                         >
                       </button>
 
-                      <ng-template #enviandoTemplate> Adicionando... </ng-template>
+                      <ng-template #enviandoTemplate>
+                        Adicionando...
+                      </ng-template>
                     </div>
                   </div>
                 </form>

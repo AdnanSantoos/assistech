@@ -127,7 +127,7 @@ export class EditarContratoAdministrativoComponent {
       this._contratoService.updateContrato(this.contratoId, contratoData).subscribe({
         next: () => {
           console.log('Contrato atualizado com sucesso!');
-          this._toastrService.success('Contrato atualizado com sucesso!');
+          this.goBack();
         },
         error: (err) => {
           console.error('Erro ao atualizar contrato:', err);
