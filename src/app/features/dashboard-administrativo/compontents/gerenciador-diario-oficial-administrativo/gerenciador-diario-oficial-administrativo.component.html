@@ -51,8 +51,7 @@
                   alt="Protocolo"
                 />
               </a>
-              }
-
+              } @if(doc.file_upload && doc.file_upload.length > 0){
               <a
                 [href]="doc.file_upload"
                 target="_blank"
@@ -64,7 +63,7 @@
                   alt="Original"
                 />
               </a>
-              @if(doc.file_published && doc.file_published.length > 0){
+              } @if(doc.file_published && doc.file_published.length > 0){
               <a
                 [href]="doc.file_published"
                 target="_blank"
