@@ -17,11 +17,7 @@
     </div>
     <div class="col">
       <strong>VALOR TOTAL</strong>
-      <p>
-        {{
-          licitacao.estimated_unit_value | currency : "BRL" : "symbol" : "1.2-2"
-        }}
-      </p>
+      <p>{{ licitacao.total_value | currency : "BRL" }}</p>
     </div>
   </div>
 

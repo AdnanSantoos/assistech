@@ -7,7 +7,10 @@ import {
 } from '@angular/core';
 import { LicitacoesService } from '../../service/licitacoes-administrativos.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { LicitacaoResultados } from '../../model/licitacoes-administrativo.model';
+import {
+  LicitacaoItemModel,
+  LicitacaoResultados,
+} from '../../model/licitacoes-administrativo.model';
 import { CommonModule, CurrencyPipe } from '@angular/common';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import {
@@ -34,7 +37,7 @@ registerLocaleData(localePt);
     NgxMaskDirective,
     CurrencyPipe,
     CurrencyMaskDirective,
-    NgSelectModule
+    NgSelectModule,
   ],
   providers: [
     BsModalService,
@@ -47,7 +50,11 @@ registerLocaleData(localePt);
 export class ResultadoLicitacaoComponent implements OnInit {
   @ViewChild('addResultadoModal') addResultadoModal!: TemplateRef<any>;
   resultados: LicitacaoResultados[] = [];
-  licitacao: { quantity?: number; estimated_unit_value?: number } = {};
+  licitacao: {
+    quantity?: number;
+    estimated_unit_value?: number;
+    total_value?: number;
+  } = {};
   totalResults: number = 0;
   resultsPerPage: number = 10;
   currentPage: number = 1;
@@ -470,13 +477,13 @@ export class ResultadoLicitacaoComponent implements OnInit {
       supplier_name_or_social_reason: ['', [Validators.required]],
       supplier_size_id: [0, [Validators.required]],
       legal_nature_id: ['', [Validators.required]],
-      country_code: ['', [Validators.required]],
+      country_code: [''],
       subcontracting_indicator: [false],
       srp_classification_order: [0],
-      date: ['', [Validators.required]],
-      discount_percentage: ['0.0000', [Validators.required]],
-      gateway_sequence: [0, [Validators.required]],
-      status: [1, [Validators.required]],
+      date: [''],
+      discount_percentage: [''],
+      gateway_sequence: [0],
+      status: [1],
       preference_margin_applicability: [false],
       preference_margin_legal_basis: [null],
       product_origin_country: [null],
@@ -484,9 +491,9 @@ export class ResultadoLicitacaoComponent implements OnInit {
       tiebreaker_criterion_applicability: [false],
       tiebreaker_criterion_legal_basis: [null],
       foreign_currency_symbol: [null],
-      foreign_currency_exchange_date: ['', [Validators.required]],
+      foreign_currency_exchange_date: [''],
       foreign_currency_timezone_offset: [null],
-      foreign_currency_nominal_value: [0, [Validators.required]],
+      foreign_currency_nominal_value: [0],
     });
   }
 
@@ -502,15 +509,17 @@ export class ResultadoLicitacaoComponent implements OnInit {
   loadItemDetails(licitacaoId: string, itemId: string): void {
     this.licitacoesService.getLicitacoesItens(licitacaoId, 1).subscribe({
       next: (response) => {
-        const item = response.data.find((itm: any) => itm.id === itemId);
-        if (item) {
-          this.licitacao = {
-            quantity: item.quantity,
-            estimated_unit_value: item.estimated_unit_value,
-          };
-        } else {
-          console.error('Item não encontrado.');
-        }
+        const item = response.data.find((itm: any) => itm.id === itemId) ?? {
+          quantity: 0,
+          estimated_unit_value: 0,
+          total_value: 0,
+        };
+
+        this.licitacao = {
+          quantity: item.quantity,
+          estimated_unit_value: item.estimated_unit_value,
+          total_value: item.total_value,
+        };
       },
       error: (err) => {
         console.error('Erro ao carregar os detalhes do item:', err);
