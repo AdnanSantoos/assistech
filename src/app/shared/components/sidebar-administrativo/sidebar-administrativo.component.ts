@@ -153,6 +153,7 @@ export class SidebarAdministrativoComponent implements OnInit {
       'licitacao',
       'cadastrar-licitacao'
     ];
+
     // Palavras-chave do Cadastrar
     const cadastrarRoutes = ['cliente', 'usuarios', 'cadastrar-fotos-diario'];
 
