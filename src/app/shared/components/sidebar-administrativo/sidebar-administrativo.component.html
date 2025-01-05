@@ -7,13 +7,42 @@
           alt="Logo"
         />
       </div>
-      <div
-        routerLink="/adm/dashboard"
-        class="btn-padrao__hover button-acessos w-100 "
-      >
+      <div class="btn-padrao__hover button-acessos w-100" (click)="openModal()">
         <span class="btn-padrao__perfil-icon"></span>
         <span class="btn-padrao__text text-uppercase">Trocar Órgão</span>
       </div>
+
+      <!-- Modal -->
+      <ng-template #confirmationTemplate>
+        <div class="modal-header">
+          <h5 class="modal-title">Selecione o Órgão</h5>
+        </div>
+        <div class="modal-body">
+          <ul class="list-group">
+            <li
+              *ngFor="let tenant of tenants"
+              class="list-group-item d-flex justify-content-between align-items-center"
+            >
+              {{ tenant.name }}
+              <button
+                class="btn btn-primary btn-sm"
+                (click)="selectTenant(tenant.slug)"
+              >
+                Mudar
+              </button>
+            </li>
+          </ul>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            (click)="modalRef?.hide()"
+          >
+            Fechar
+          </button>
+        </div>
+      </ng-template>
     </div>
     <div
       routerLink="/adm/dashboard-administrativo/home"
@@ -24,7 +53,11 @@
     </div>
     <div class="buttons-sidebar">
       <ul class="menu-list">
-        <li *ngFor="let item of menuItems" [class.active]="item.expanded" [routerLink]="item.link ? item.link : null">
+        <li
+          *ngFor="let item of menuItems"
+          [class.active]="item.expanded"
+          [routerLink]="item.link ? item.link : null"
+        >
           <div class="menu-item" (click)="toggleSubMenu(item)">
             <mat-icon>person</mat-icon>
             <span class="menu-title">{{ item.title }}</span>
@@ -37,13 +70,11 @@
 
           <!-- Somente mostra o submenu se não tiver um link direto -->
           <ul class="submenu" *ngIf="item.expanded && item.subMenu.length > 0">
-            @for (subItem of item.subMenu; track $index) {
-              @if(subItem.visible){
-                <li class="d-flex align-items-center" [routerLink]="subItem.link">
-                  <span class="ms-2">{{ subItem.title }}</span>
-                </li>
-              }
-            }
+            @for (subItem of item.subMenu; track $index) { @if(subItem.visible){
+            <li class="d-flex align-items-center" [routerLink]="subItem.link">
+              <span class="ms-2">{{ subItem.title }}</span>
+            </li>
+            } }
           </ul>
         </li>
       </ul>
