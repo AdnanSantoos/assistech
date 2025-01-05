@@ -1,11 +1,28 @@
 // app.component.ts
-import { Component, Inject, OnDestroy, OnInit, Optional, PLATFORM_ID } from '@angular/core';
-import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
+import {
+  Component,
+  Inject,
+  OnDestroy,
+  OnInit,
+  Optional,
+  PLATFORM_ID,
+} from '@angular/core';
+import {
+  ActivatedRoute,
+  NavigationEnd,
+  Router,
+  RouterOutlet,
+} from '@angular/router';
 import { NavbarComponent } from './shared/components/navbar/navbar.component';
 import { FooterComponent } from './shared/components/footer/footer.component';
 import { MenuComponent } from './shared/components/menu/menu.component';
 import { LatestNewsComponent } from './shared/components/latest-news/latest-news.component';
-import { CommonModule, isPlatformServer, Location, PlatformLocation } from '@angular/common';
+import {
+  CommonModule,
+  isPlatformServer,
+  Location,
+  PlatformLocation,
+} from '@angular/common';
 import { TipoRota } from './shared/models/shared.model';
 import { TenantService } from './shared/services/tenant.service';
 import { switchMap } from 'rxjs';
@@ -24,10 +41,10 @@ import { NavigationService } from './shared/services/navigation.service';
     MenuComponent,
     LatestNewsComponent,
     CommonModule,
-    NgxLoadingModule
+    NgxLoadingModule,
   ],
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit, OnDestroy {
   title = 'assistech';
@@ -44,7 +61,8 @@ export class AppComponent implements OnInit, OnDestroy {
     private tenantService: TenantService,
     private platformLocation: PlatformLocation,
     private navigationService: NavigationService,
-    @Inject(PLATFORM_ID) private platformId: Object
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private route: ActivatedRoute
   ) {
     const currentUrl = this.location.path();
     if (currentUrl.includes('/adm/') || currentUrl.includes('/login')) {
@@ -54,17 +72,15 @@ export class AppComponent implements OnInit, OnDestroy {
     } else {
       this.tipoRota = null;
     }
+
+    this.route.paramMap.subscribe((params)=>{
+      let slug = params.keys;
+      console.log(slug)
+    })
+    console.log(this.router.url)
   }
 
   ngOnInit() {
-    const domain = this._domainService.getDomain();
-    console.log('Domínio atual:', domain);
-    if (domain) {
-      this.domain = domain;
-    } else {
-      this.domain = 'admin';
-    }
-
     // Observa mudanças na navegação
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
@@ -78,17 +94,16 @@ export class AppComponent implements OnInit, OnDestroy {
       }
     });
 
-    // Inicializa o navigation service após carregar o tenant
-    this.tenantService.getTenantData(this.domain).subscribe(data => {
-      localStorage.setItem('tenant', data.data.slug);
-      this.tenantService.updateState(data.data);
-      // Inicializa o navigation service com o slug
-      this.navigationService.initialize(data.data.slug);
-    });
+    // // Inicializa o navigation service após carregar o tenant
+    // this.tenantService.getTenantData(this.domain).subscribe((data) => {
+    //   localStorage.setItem('tenant', data.data.slug);
+    //   this.tenantService.updateState(data.data);
+    //   // Inicializa o navigation service com o slug
+    //   this.navigationService.initialize(data.data.slug);
+    // });
   }
 
-  ngOnDestroy(): void {
-  }
+  ngOnDestroy(): void {}
 
   setLoadingState(isLoading: boolean) {
     this.loading = isLoading;
