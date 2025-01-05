@@ -129,12 +129,13 @@ export class SidebarAdministrativoComponent implements OnInit {
 
   openModal(): void {
     this.loadTenants();
-    this.modalRef = this.modalService.show(this.confirmationTemplate,{ class: 'modal-lg' });
-
+    this.modalRef = this.modalService.show(this.confirmationTemplate, {
+      class: 'modal-lg',
+    });
   }
 
   selectTenant(tenantSlug: string): void {
-    this.router.navigate([`/adm/dashboard-administrativo/home/${tenantSlug}`]);
+    this.router.navigate([`${tenantSlug}/adm/dashboard-administrativo/home`]);
     this.modalRef?.hide();
   }
 
@@ -143,7 +144,15 @@ export class SidebarAdministrativoComponent implements OnInit {
     this.menuItems.forEach((item: any) => (item.expanded = false));
 
     // Palavras-chave do PNCP
-    const pncpRoutes = ['orgaos', 'unidades', 'licitacoes', 'contratos', 'pca'];
+    const pncpRoutes = [
+      'orgaos',
+      'unidades',
+      'licitacoes',
+      'contratos',
+      'pca',
+      'licitacao',
+      'cadastrar-licitacao'
+    ];
     // Palavras-chave do Cadastrar
     const cadastrarRoutes = ['cliente', 'usuarios', 'cadastrar-fotos-diario'];
 
