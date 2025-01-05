@@ -4,23 +4,23 @@
     <form [formGroup]="itemForm" (ngSubmit)="onFormSubmit()">
       <div class="row">
         <div class="col-md-6 mb-3 ps-1 pe-1">
-          <label for="orgao">Órgão*</label>
-          <input
-            id="orgao"
-            class="form-control"
-            formControlName="orgao"
-            placeholder="Informe o órgão"
-          />
+          <label for="agency">Órgão</label>
+          <select class="form-control" id="agency" formControlName="agency">
+            <option value="" disabled selected>Selecione um órgão</option>
+            <option *ngFor="let option of agencyOptions" [ngValue]="option">
+              {{ option.label }}
+            </option>
+          </select>
         </div>
 
         <div class="col-md-6 mb-3 ps-1 pe-1">
-          <label for="unidadeCompradora">Unidade Compradora*</label>
-          <input
-            id="unidadeCompradora"
-            class="form-control"
-            formControlName="unidadeCompradora"
-            placeholder="Informe a unidade compradora"
-          />
+          <label for="unit_id">Unidades Compradora</label>
+          <select id="unit_id" class="form-control" formControlName="unit_id">
+            <option value="" disabled selected>Selecione uma unidade</option>
+            <option *ngFor="let option of unitOptions" [ngValue]="option.value">
+              {{ option.key }}
+            </option>
+          </select>
         </div>
 
         <div class="col-md-6 mb-3 ps-1 pe-1">
@@ -56,25 +56,58 @@
         </div>
 
         <div class="col-md-6 mb-3 ps-1 pe-1">
-          <label for="categoriaItem">Categoria do Item*</label>
-          <input
-            id="categoriaItem"
+          <label for="">Categoria do Item</label>
+          <select
             class="form-control"
+            id="categoriaItem"
             formControlName="categoriaItem"
-            placeholder="Categoria do item"
-          />
+          >
+            <option value="" disabled selected>Selecione</option>
+            <option
+              *ngFor="let option of categoriaItem"
+              [ngValue]="option.value"
+            >
+              {{ option.key }}
+            </option>
+          </select>
         </div>
 
         <div class="col-md-6 mb-3 ps-1 pe-1">
           <label for="categoriaMaterialServico"
             >Categoria de Material/Serviço*</label
           >
-          <input
-            id="categoriaMaterialServico"
+          <select
+            id="categoriaItem"
             class="form-control"
-            formControlName="categoriaMaterialServico"
-            placeholder="Categoria de material/serviço"
-          />
+            formControlName="categoriaItem"
+          >
+            <option value="" disabled selected>Selecione</option>
+            <option
+              *ngFor="let option of categoriaMaterialServico"
+              [ngValue]="option.value"
+            >
+              {{ option.key }}
+            </option>
+          </select>
+        </div>
+
+        <div class="col-md-6 mb-3 ps-1 pe-1">
+          <label for="categoriaMaterialServico"
+            >Categoria de Material/Serviço*</label
+          >
+          <select
+            id="categoriaItem"
+            class="form-control"
+            formControlName="categoriaItem"
+          >
+            <option value="" disabled selected>Selecione</option>
+            <option
+              *ngFor="let option of MaterialOuServico"
+              [ngValue]="option.value"
+            >
+              {{ option.key }}
+            </option>
+          </select>
         </div>
 
         <div class="col-md-6 mb-3 ps-1 pe-1">
@@ -90,18 +123,6 @@
         </div>
 
         <div class="col-md-6 mb-3 ps-1 pe-1">
-          <label for="descricaoClasseMaterial"
-            >Descrição da Classe do Material ou Grupo do Serviço*</label
-          >
-          <textarea
-            id="descricaoClasseMaterial"
-            class="form-control"
-            formControlName="descricaoClasseMaterial"
-            placeholder="Descrição da classe"
-          ></textarea>
-        </div>
-
-        <div class="col-md-6 mb-3 ps-1 pe-1">
           <label for="codigoPDM"
             >Código PDM referente ao Material conforme CNIS</label
           >
@@ -112,7 +133,17 @@
             placeholder="Código PDM"
           />
         </div>
-
+        <div class="col-md-6 mb-3 ps-1 pe-1">
+          <label for="codigoMaterialServico"
+            >Código do Material ou Serviço conforme Catálogo Utilizado*</label
+          >
+          <input
+            id="codigoMaterialServico"
+            class="form-control"
+            formControlName="codigoMaterialServico"
+            placeholder="Código do material ou serviço"
+          />
+        </div>
         <div class="col-md-6 mb-3 ps-1 pe-1">
           <label for="descricaoPDM"
             >Descrição PDM referente ao Material conforme o CNBS</label
@@ -124,17 +155,16 @@
             placeholder="Descrição PDM"
           ></textarea>
         </div>
-
         <div class="col-md-6 mb-3 ps-1 pe-1">
-          <label for="codigoMaterialServico"
-            >Código do Material ou Serviço conforme Catálogo Utilizado*</label
+          <label for="descricaoClasseMaterial"
+            >Descrição da Classe do Material ou Grupo do Serviço*</label
           >
-          <input
-            id="codigoMaterialServico"
+          <textarea
+            id="descricaoClasseMaterial"
             class="form-control"
-            formControlName="codigoMaterialServico"
-            placeholder="Código do material ou serviço"
-          />
+            formControlName="descricaoClasseMaterial"
+            placeholder="Descrição da classe"
+          ></textarea>
         </div>
 
         <div class="col-md-6 mb-3 ps-1 pe-1">
@@ -249,8 +279,7 @@
         <div class="col-12">
           <button
             type="submit"
-            class="btn btn-dark w-100"
-            [disabled]="itemForm.invalid"
+            class="btn btn-dark w-100 hover-sucesso"
           >
             Cadastrar
           </button>

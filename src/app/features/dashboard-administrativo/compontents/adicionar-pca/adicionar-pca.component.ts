@@ -5,6 +5,12 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { LayoutFormsAdmComponent } from '../../../../shared/containers/layout-forms-adm/layout-forms-adm.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import {
+  OrgaoModel,
+  SelectedAgencies,
+} from '../orgao-administrativo/model/orgao-administrativo.model';
+import { selectModel } from '../../../../shared/models/shared.model';
+import { AdicionarLicitacaoService } from '../../../pncp-administrativo/components/dados-da-licitacao-administrativo/service/adicionar-licitacao.services';
 
 @Component({
   selector: 'app-adicionar-pca',
@@ -17,18 +23,47 @@ import { ReactiveFormsModule } from '@angular/forms';
     LayoutFormsAdmComponent,
   ],
   templateUrl: './adicionar-pca.component.html',
-  styleUrls: ['./adicionar-pca.component.scss']
+  styleUrls: ['./adicionar-pca.component.scss'],
 })
 export class AdicionarPcaComponent {
   itemForm: FormGroup;
+  agencyOptions: SelectedAgencies[] = [];
+  unitOptions: selectModel[] = [];
+  cnpjSelecionado!: string;
+  orgaos: OrgaoModel[] = [];
 
-  constructor(private fb: FormBuilder) {
+  categoriaItem = [
+    { value: 1, key: 'Material' },
+    { value: 2, key: 'Serviço' },
+    { value: 3, key: 'Obras' },
+    { value: 4, key: 'Serviços de Engenharia' },
+    { value: 5, key: 'Soluções de TIC' },
+    { value: 6, key: 'Locação de Imóveis' },
+    { value: 7, key: 'Alienação/Concessão/Permissão' },
+    { value: 8, key: 'Obras e Serviços de Engenharia' },
+  ];
+  categoriaMaterialServico = [
+    { value: 1, key: 'CNBS (Catálogo Nacional de Bens e Serviços)' },
+    { value: 2, key: 'Outros' },
+  ];
+  MaterialOuServico = [
+    { value: 1, key: 'Material' },
+    { value: 2, key: 'Serviço' },
+  ];
+  constructor(
+    private fb: FormBuilder,
+    private _adicionarLicitacaoService: AdicionarLicitacaoService
+  ) {
     // Criação do form group com todos os campos
     this.itemForm = this.fb.group({
-      orgao: ['', Validators.required],
-      unidadeCompradora: ['', Validators.required],
+      agency: ['', Validators.required],
+      unit_id: ['', Validators.required],
       ano: ['', Validators.required],
       renovacaoContrato: [''],
+      codigoClasseMaterial: [''],
+      descricaoClasseMaterial: [''],
+      codigoPDM: [''],
+      codigoMaterialServico: [''],
       numeroItem: ['', Validators.required],
       categoriaItem: ['', Validators.required],
       categoriaMaterialServico: ['', Validators.required],
@@ -47,7 +82,41 @@ export class AdicionarPcaComponent {
       dataDesejadaContratacao: ['', Validators.required],
       nomeUnidadeRequisitante: [''],
       codigoContratacaoFutura: [''],
-      nomeContratacaoFutura: ['']
+      nomeContratacaoFutura: [''],
+      valorOrcamentario: [''],
+      quantidadeItens: [''],
+      descricaoMaterialServico: [''],
+      dataContratacao:['']
+    });
+
+    this.itemForm
+      .get('agency')
+      ?.valueChanges.subscribe((selectedAgencies: SelectedAgencies) => {
+        this.cnpjSelecionado = selectedAgencies.value;
+        selectedAgencies.unit.forEach((unit) => {
+          this.unitOptions.push({
+            key: unit.name,
+            value: unit.id,
+          });
+        });
+      });
+    this.loadOrgaos();
+  }
+
+  loadOrgaos(): void {
+    this._adicionarLicitacaoService.getOrgaos().subscribe({
+      next: (response: any) => {
+        this.orgaos = response.data;
+        this.agencyOptions = this.orgaos.map((orgao: any) => ({
+          value: orgao.country_register,
+          label: orgao.name,
+          unit: orgao.units,
+        }));
+        this.unitOptions = [];
+      },
+      error: (err) => {
+        console.error('Erro ao carregar órgãos:', err);
+      },
     });
   }
 
