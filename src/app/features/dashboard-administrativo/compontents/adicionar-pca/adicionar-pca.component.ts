@@ -11,6 +11,7 @@ import {
 } from '../orgao-administrativo/model/orgao-administrativo.model';
 import { selectModel } from '../../../../shared/models/shared.model';
 import { AdicionarLicitacaoService } from '../../../pncp-administrativo/components/dados-da-licitacao-administrativo/service/adicionar-licitacao.services';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @Component({
   selector: 'app-adicionar-pca',
@@ -21,6 +22,7 @@ import { AdicionarLicitacaoService } from '../../../pncp-administrativo/componen
     MatIconModule,
     MatButtonModule,
     LayoutFormsAdmComponent,
+    NgSelectModule,
   ],
   templateUrl: './adicionar-pca.component.html',
   styleUrls: ['./adicionar-pca.component.scss'],
@@ -86,7 +88,7 @@ export class AdicionarPcaComponent {
       valorOrcamentario: [''],
       quantidadeItens: [''],
       descricaoMaterialServico: [''],
-      dataContratacao:['']
+      dataContratacao: [''],
     });
 
     this.itemForm

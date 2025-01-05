@@ -5,22 +5,26 @@
       <div class="row">
         <div class="col-md-6 mb-3 ps-1 pe-1">
           <label for="agency">Órgão</label>
-          <select class="form-control" id="agency" formControlName="agency">
-            <option value="" disabled selected>Selecione um órgão</option>
-            <option *ngFor="let option of agencyOptions" [ngValue]="option">
-              {{ option.label }}
-            </option>
-          </select>
+          <ng-select
+            [items]="agencyOptions"
+            bindLabel="label"
+            bindValue="value"
+            formControlName="agency"
+            placeholder="Selecione um órgão"
+            [searchable]="true"
+          ></ng-select>
         </div>
 
         <div class="col-md-6 mb-3 ps-1 pe-1">
           <label for="unit_id">Unidades Compradora</label>
-          <select id="unit_id" class="form-control" formControlName="unit_id">
-            <option value="" disabled selected>Selecione uma unidade</option>
-            <option *ngFor="let option of unitOptions" [ngValue]="option.value">
-              {{ option.key }}
-            </option>
-          </select>
+          <ng-select
+            [items]="unitOptions"
+            bindLabel="key"
+            bindValue="value"
+            formControlName="unit_id"
+            placeholder="Selecione uma unidade"
+            [searchable]="true"
+          ></ng-select>
         </div>
 
         <div class="col-md-6 mb-3 ps-1 pe-1">
@@ -56,58 +60,41 @@
         </div>
 
         <div class="col-md-6 mb-3 ps-1 pe-1">
-          <label for="">Categoria do Item</label>
-          <select
-            class="form-control"
-            id="categoriaItem"
+          <label for="categoriaItem">Categoria do Item</label>
+          <ng-select
+            [items]="categoriaItem"
+            bindLabel="key"
+            bindValue="value"
             formControlName="categoriaItem"
-          >
-            <option value="" disabled selected>Selecione</option>
-            <option
-              *ngFor="let option of categoriaItem"
-              [ngValue]="option.value"
-            >
-              {{ option.key }}
-            </option>
-          </select>
+            placeholder="Selecione"
+            [searchable]="true"
+          ></ng-select>
         </div>
 
         <div class="col-md-6 mb-3 ps-1 pe-1">
           <label for="categoriaMaterialServico"
             >Categoria de Material/Serviço*</label
           >
-          <select
-            id="categoriaItem"
-            class="form-control"
-            formControlName="categoriaItem"
-          >
-            <option value="" disabled selected>Selecione</option>
-            <option
-              *ngFor="let option of categoriaMaterialServico"
-              [ngValue]="option.value"
-            >
-              {{ option.key }}
-            </option>
-          </select>
+          <ng-select
+            [items]="categoriaMaterialServico"
+            bindLabel="key"
+            bindValue="value"
+            formControlName="categoriaMaterialServico"
+            placeholder="Selecione"
+            [searchable]="true"
+          ></ng-select>
         </div>
 
         <div class="col-md-6 mb-3 ps-1 pe-1">
-          <label for="categoriaMaterialServico"
-            >Categoria de Material/Serviço*</label
-          >
-          <select
-            id="categoriaItem"
-            class="form-control"
-            formControlName="categoriaItem"
-          >
-            <option value="" disabled selected>Selecione</option>
-            <option
-              *ngFor="let option of MaterialOuServico"
-              [ngValue]="option.value"
-            >
-              {{ option.key }}
-            </option>
-          </select>
+          <label for="MaterialOuServico">Material ou Serviço</label>
+          <ng-select
+            [items]="MaterialOuServico"
+            bindLabel="key"
+            bindValue="value"
+            formControlName="MaterialOuServico"
+            placeholder="Selecione"
+            [searchable]="true"
+          ></ng-select>
         </div>
 
         <div class="col-md-6 mb-3 ps-1 pe-1">
@@ -277,10 +264,7 @@
         </div>
 
         <div class="col-12">
-          <button
-            type="submit"
-            class="btn btn-dark w-100 hover-sucesso"
-          >
+          <button type="submit" class="btn btn-dark w-100 hover-sucesso">
             Cadastrar
           </button>
         </div>
