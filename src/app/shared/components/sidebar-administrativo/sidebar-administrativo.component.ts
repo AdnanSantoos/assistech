@@ -134,7 +134,7 @@ export class SidebarAdministrativoComponent implements OnInit {
   }
 
   selectTenant(tenantSlug: string): void {
-    this.router.navigate([`/${tenantSlug}`]);
+    this.router.navigate([`/adm/dashboard-administrativo/home/${tenantSlug}`]);
     this.modalRef?.hide();
   }
 
