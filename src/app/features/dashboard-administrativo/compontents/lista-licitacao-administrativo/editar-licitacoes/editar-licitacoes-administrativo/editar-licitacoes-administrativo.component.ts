@@ -824,7 +824,6 @@ export class EditarLicitacoesAdministrativoComponent implements OnInit {
       .updateLicitacao(this.licitacaoId, formData)
       .subscribe({
         next: () => {
-          this.toastr.success('Licitação atualizada com sucesso!', 'Sucesso');
           this.router.navigate(['/adm/licitacoes']);
           this.onVoltar();
         },
