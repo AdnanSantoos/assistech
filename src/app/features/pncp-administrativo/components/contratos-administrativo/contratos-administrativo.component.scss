@@ -165,10 +165,13 @@
     filter: invert(0);
   }
 }
-.btn-arquivo:hover{
+.btn-arquivo:hover {
   transition: all 0.6s;
   background-color: #21509c;
 }
-.h-160px{
+.h-160px {
   height: 18vh;
+}
+.padding-ajuste {
+  padding-top: 9.6vh;
 }

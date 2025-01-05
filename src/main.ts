@@ -7,13 +7,14 @@ import { routes } from './app/app.routes';
 import { provideToastr } from 'ngx-toastr';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { loadingInterceptor } from './app/shared/interceptors/loading.interceptor';
-
+import { NavigationService } from './app/shared/services/navigation.service';
 
 bootstrapApplication(AppComponent, {
   providers: [
-    provideHttpClient(withInterceptors([authInterceptor,loadingInterceptor])),
+    provideHttpClient(withInterceptors([authInterceptor, loadingInterceptor])),
     provideRouter(routes),
     provideToastr(),
-    provideAnimations()
+    provideAnimations(),
+    NavigationService,
   ],
 }).catch((err) => console.error(err));

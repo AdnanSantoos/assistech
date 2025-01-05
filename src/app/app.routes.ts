@@ -7,7 +7,7 @@ export const routes: Routes = [
     pathMatch: 'full',
   },
   {
-    path: 'adm',
+    path: ':tenantSlug/adm',
     children: [
       {
         path: 'diario-oficial-administrativo',
