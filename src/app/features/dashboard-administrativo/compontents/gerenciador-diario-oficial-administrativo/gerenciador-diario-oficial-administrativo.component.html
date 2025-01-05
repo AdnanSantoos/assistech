@@ -26,7 +26,7 @@
         <tr *ngFor="let doc of publicacoes">
           <td>{{ doc.date | date : "dd/MM/yyyy" }}</td>
           <td>{{ doc.year_label + "/" + doc.number }}</td>
-          <td>{{ doc.description }}</td>
+          <td>{{ doc.file_name }}</td>
           <td>
             <strong
               [ngClass]="{
@@ -39,7 +39,6 @@
           </td>
           <td class="w-25">
             <div class="d-flex justify-content-center align-items-center gap-2">
-              @if(doc.protocol && doc.protocol.length > 0){
               <a
                 [href]="doc.protocol"
                 target="_blank"
@@ -51,7 +50,6 @@
                   alt="Protocolo"
                 />
               </a>
-              } @if(doc.file_upload && doc.file_upload.length > 0){
               <a
                 [href]="doc.file_upload"
                 target="_blank"
@@ -63,7 +61,6 @@
                   alt="Original"
                 />
               </a>
-              } @if(doc.file_published && doc.file_published.length > 0){
               <a
                 [href]="doc.file_published"
                 target="_blank"
@@ -81,7 +78,7 @@
                   alt="Publicado"
                 />
               </a>
-              } @if(isStaff){
+               @if(isStaff){
               <button
                 class="btn btn-anexar"
                 (click)="openAnexarModal(anexarDocumentos, doc)"

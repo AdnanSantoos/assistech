@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { RouterLink, Router } from '@angular/router';
 import { MatIcon } from '@angular/material/icon';
 import { TenantService } from '../../services/tenant.service';
 
@@ -12,13 +12,16 @@ import { TenantService } from '../../services/tenant.service';
   styleUrls: ['./sidebar-administrativo.component.scss'],
 })
 export class SidebarAdministrativoComponent implements OnInit {
-
   public isStaff: boolean | null = null;
   public menuItems: any;
 
+  constructor(
+    public tenantService: TenantService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
-    this.isStaff = this.tenantService.getStaff()
+    this.isStaff = this.tenantService.getStaff();
     this.menuItems = [
       {
         title: 'Cadastrar',
@@ -32,7 +35,8 @@ export class SidebarAdministrativoComponent implements OnInit {
       {
         title: 'Diário Oficial',
         expanded: false,
-        subMenu: [{ title: 'Publicacoes', link: '/adm/dashboard-administrativo/gerenciar-diario-oficial', visible: true },
+        subMenu: [
+          { title: 'Publicacoes', link: '/adm/dashboard-administrativo/gerenciar-diario-oficial', visible: true },
         ],
       },
       {
@@ -52,13 +56,33 @@ export class SidebarAdministrativoComponent implements OnInit {
         expanded: false,
         subMenu: [],
       }
-
     ];
+
+    this.expandMenuBasedOnRoute(this.router.url);
   }
 
-  constructor(public tenantService: TenantService) {
-  }
+  private expandMenuBasedOnRoute(route: string) {
+    // Reset todos os menus
+    this.menuItems.forEach((item: any) => item.expanded = false);
 
+    // Palavras-chave do PNCP
+    const pncpRoutes = ['orgaos', 'unidades', 'licitacoes', 'contratos', 'pca'];
+    // Palavras-chave do Cadastrar
+    const cadastrarRoutes = ['cliente', 'usuarios', 'cadastrar-fotos-diario'];
+
+    if (pncpRoutes.some(keyword => route.includes(keyword))) {
+      const pncpMenu = this.menuItems.find((item: any) => item.title === 'PNCP');
+      if (pncpMenu) pncpMenu.expanded = true;
+    }
+    else if (route.includes('diario-oficial')) {
+      const diarioMenu = this.menuItems.find((item: any) => item.title === 'Diário Oficial');
+      if (diarioMenu) diarioMenu.expanded = true;
+    }
+    else if (cadastrarRoutes.some(keyword => route.includes(keyword))) {
+      const cadastrarMenu = this.menuItems.find((item: any) => item.title === 'Cadastrar');
+      if (cadastrarMenu) cadastrarMenu.expanded = true;
+    }
+  }
 
   toggleSubMenu(item: any) {
     if (!item.link) {
