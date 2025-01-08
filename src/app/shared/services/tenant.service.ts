@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, tap } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import {
   RequisicaoModel,
-  RequisicaoTenantFullModel,
   TenantFullModel,
 } from '../models/shared.model';
 
@@ -21,8 +20,12 @@ export class TenantService {
 
   constructor(private http: HttpClient) {
     const savedSlug = localStorage.getItem('slug');
-    console.log(savedSlug)
     this.slugSubject = new BehaviorSubject<string | null>(savedSlug);
+
+    this.slug$ = this.slugSubject.asObservable().pipe(
+      tap(slug => console.log('Slug$ mudou para:', slug))
+    );
+    
   }
 
   getTenantFull(): Observable<RequisicaoModel<TenantFullModel[]>> {
@@ -59,5 +62,7 @@ export class TenantService {
     this.slugSubject.next(slug);
     localStorage.setItem('slug', slug);
   }
+
+ 
 
 }

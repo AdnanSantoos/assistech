@@ -65,7 +65,6 @@ export class NavbarComponent implements OnInit {
 
   navigate() {
     const token = localStorage.getItem('authToken');
-    console.log(token)
     if (token) {
       this.router.navigate(['adm/dashboard-administrativo/home']);
     } else {

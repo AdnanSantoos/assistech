@@ -70,6 +70,7 @@ export class LoginService {
     this._repository.logout(tenant).subscribe({
       next: (response: LoginResponse) => {
         localStorage.clear()
+        this._tenantService.setSlug('')
         this._router.navigate([tenant+'/']);
       },
       error: (err: any) => {
