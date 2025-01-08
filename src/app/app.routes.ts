@@ -1,6 +1,18 @@
 import { Routes } from '@angular/router';
+import { NotFoundComponent } from './shared/components/not-found/not-found.component';
+import { SlugGuard } from './shared/guards/slug.guard';
 
 export const routes: Routes = [
+
+  {
+    path: '',
+    pathMatch: 'full',
+    redirectTo: 'error' // Redireciona se não houver slug
+  },
+  {
+    path: 'error',
+    component: NotFoundComponent // Crie um componente de erro
+  },
   {
     path: ':slug',
     children: [
@@ -460,4 +472,8 @@ export const routes: Routes = [
       },
     ],
   },
+  {
+    path: '**',
+    redirectTo: 'error'
+  }
 ];

@@ -19,16 +19,12 @@ import { MenuComponent } from './shared/components/menu/menu.component';
 import { LatestNewsComponent } from './shared/components/latest-news/latest-news.component';
 import {
   CommonModule,
-  isPlatformServer,
-  Location,
-  PlatformLocation,
+  Location
 } from '@angular/common';
 import { TipoRota } from './shared/models/shared.model';
 import { TenantService } from './shared/services/tenant.service';
-import { switchMap } from 'rxjs';
 import { NgxLoadingModule } from 'ngx-loading';
 import { LoadingService } from './shared/services/loading.service';
-import { DomainService } from './shared/services/domain.service';
 import { NavigationService } from './shared/services/navigation.service';
 
 @Component({
@@ -52,14 +48,13 @@ export class AppComponent implements OnInit, OnDestroy {
   domain: string = '';
   loading: boolean = false;
   loading$ = this._loadingService.loading$;
+  slug: string | null = null;
 
   constructor(
     private router: Router,
     private location: Location,
     private _loadingService: LoadingService,
-    private _domainService: DomainService,
     private tenantService: TenantService,
-    private platformLocation: PlatformLocation,
     private navigationService: NavigationService,
     @Inject(PLATFORM_ID) private platformId: Object,
     private route: ActivatedRoute
@@ -72,18 +67,18 @@ export class AppComponent implements OnInit, OnDestroy {
     } else {
       this.tipoRota = null;
     }
-
-    this.route.paramMap.subscribe((params)=>{
-      let slug = params.keys;
-      console.log(slug)
-    })
-    console.log(this.router.url)
   }
 
   ngOnInit() {
     // Observa mudanças na navegação
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
+        if (!this.slug) {
+          this.slug = this.getSlugFromRoute(this.route);
+          if (this.slug) {
+            this.getTenantData(this.slug)
+          }
+        }
         if (event.url.includes('/adm/') || event.url.includes('/login')) {
           this.tipoRota = 'adm';
         } else if (event.url.includes('/trn/')) {
@@ -93,17 +88,32 @@ export class AppComponent implements OnInit, OnDestroy {
         }
       }
     });
-
-    // // Inicializa o navigation service após carregar o tenant
-    // this.tenantService.getTenantData(this.domain).subscribe((data) => {
-    //   localStorage.setItem('tenant', data.data.slug);
-    //   this.tenantService.updateState(data.data);
-    //   // Inicializa o navigation service com o slug
-    //   this.navigationService.initialize(data.data.slug);
-    // });
   }
 
-  ngOnDestroy(): void {}
+  ngOnDestroy(): void { }
+
+
+  private getTenantData(slug: string) {
+    // Inicializa o navigation service após carregar o tenant
+    this.tenantService.getTenantData(this.slug!).subscribe((data) => {
+      this.tenantService.setSlug(data.data.slug)
+      this.tenantService.updateState(data.data);
+      // Inicializa o navigation service com o slug
+      this.navigationService.initialize(data.data.slug);
+    },
+      (error => {
+        this.router.navigate(['error']);
+      })
+    );
+  }
+
+
+  private getSlugFromRoute(route: ActivatedRoute): string | null {
+    while (route.firstChild) {
+      route = route.firstChild;
+    }
+    return route.snapshot.paramMap.get('slug');
+  }
 
   setLoadingState(isLoading: boolean) {
     this.loading = isLoading;

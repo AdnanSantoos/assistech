@@ -1,15 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { SliderComponent } from '../../shared/components/slider/slider.component';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, NavigationEnd, Router, RouterLink } from '@angular/router';
 import { GeneralNewsComponent } from '../../shared/components/general-news/general-news.component';
 import { HomeService } from './services/home-service.service';
+import { TenantService } from '../../shared/services/tenant.service';
+import { filter, Subscription, switchMap } from 'rxjs';
 
 interface AcessoRapido {
   routerLink?: string;
   texto: string;
   link?: string;
-  icon_img:string;
+  icon_img: string;
 }
 
 @Component({
@@ -19,8 +21,9 @@ interface AcessoRapido {
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
   acessos: AcessoRapido[] = [];
+  private subscription = new Subscription();
 
   images = [
     { url: '../../../../assets/imgs-home/1.png' },
@@ -35,14 +38,22 @@ export class HomeComponent implements OnInit {
     { img: '../../../../assets/imgs-home/7.png' },
   ];
 
-  constructor(private router: Router, private route: ActivatedRoute,private _homeService: HomeService) {}
+  constructor(private router: Router, private route: ActivatedRoute, private _homeService: HomeService, private _tenantService: TenantService) { }
+
 
   ngOnInit(): void {
-    this._homeService.getPhotos().subscribe(data=>{
-      if(data.length >= 4){
-        this.images = data;
-      }
-    })
+    const sub = this._tenantService.slug$
+      .pipe(
+        filter((slug) => !!slug),
+        switchMap(() => this._homeService.getPhotos())
+      )
+      .subscribe((data) => {
+        if (data.length >= 4) {
+          this.images = data;
+        }
+      });
+
+    this.subscription.add(sub);
 
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
@@ -55,12 +66,12 @@ export class HomeComponent implements OnInit {
   updateAcessos(url: string) {
     if (url.includes('/home')) {
       this.acessos = [
-        { routerLink: '/diario-oficial', texto: 'DIÁRIO OFICIAL',icon_img:'../../../assets/novos-icones/diario-oficial.svg' },
-        { routerLink: '/trn/portal-transparencia', texto: 'PORTAL DE TRANSPARÊNCIA',icon_img:'../../../assets/novos-icones/portal-transparencia.svg' },
-        { link: 'https://www.gov.br/pt-br', texto: '',icon_img:'https://www.gov.br/++theme++padrao_govbr/img/govbr-logo-large.png' },
-        { link: 'https://www.gov.br/pncp/pt-br', texto: 'PNCP',icon_img:'../../../assets/novos-icones/pncp.svg' },
-        { link: 'https://www.gov.br/compras/pt-br/nllc', texto: 'Lei das Licitações',icon_img:'../../../assets/novos-icones/lei131333.svg' },
-        { link: 'https://portal.tcu.gov.br/inicio', texto: 'NOTÍCIAS DO TCU',icon_img:'../../../assets/logos/Tcu.svg' },
+        { routerLink: '/diario-oficial', texto: 'DIÁRIO OFICIAL', icon_img: '../../../assets/novos-icones/diario-oficial.svg' },
+        { routerLink: '/trn/portal-transparencia', texto: 'PORTAL DE TRANSPARÊNCIA', icon_img: '../../../assets/novos-icones/portal-transparencia.svg' },
+        { link: 'https://www.gov.br/pt-br', texto: '', icon_img: 'https://www.gov.br/++theme++padrao_govbr/img/govbr-logo-large.png' },
+        { link: 'https://www.gov.br/pncp/pt-br', texto: 'PNCP', icon_img: '../../../assets/novos-icones/pncp.svg' },
+        { link: 'https://www.gov.br/compras/pt-br/nllc', texto: 'Lei das Licitações', icon_img: '../../../assets/novos-icones/lei131333.svg' },
+        { link: 'https://portal.tcu.gov.br/inicio', texto: 'NOTÍCIAS DO TCU', icon_img: '../../../assets/logos/Tcu.svg' },
       ];
     }
   }
@@ -69,5 +80,9 @@ export class HomeComponent implements OnInit {
     if (noticiasElement) {
       noticiasElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }

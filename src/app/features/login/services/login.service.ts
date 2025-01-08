@@ -50,17 +50,9 @@ export class LoginService {
             }
 
             // Armazena o slug do tenant no localStorage
-            const tenantSlug = v.data.slug || v.meta?.tenant?.slug;
-            if (tenantSlug) {
-              localStorage.setItem('tenantSlug', tenantSlug);
-
-              // Redireciona para a rota com o slug do tenant
-              this._router.navigate([
-                `${tenantSlug}/adm/dashboard-administrativo/home`,
-              ]);
-            } else {
-              this._toastr.error('Slug do tenant não encontrado.', 'Erro!');
-            }
+            this._router.navigate([
+              `/adm/dashboard-administrativo/home`,
+            ]);
           },
           error: (err) => {
             this._toastr.error('Erro ao buscar os dados do tenant.', 'Erro!');
@@ -77,10 +69,8 @@ export class LoginService {
   public logout(tenant: string) {
     this._repository.logout(tenant).subscribe({
       next: (response: LoginResponse) => {
-        localStorage.removeItem('authToken');
-        localStorage.removeItem('userEmail');
-        localStorage.removeItem('isStaff');
-        this._router.navigate(['/']);
+        localStorage.clear()
+        this._router.navigate([tenant+'/']);
       },
       error: (err: any) => {
         this._toastr.error(err.error.message, 'Ocorreu um erro!');

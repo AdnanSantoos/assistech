@@ -59,7 +59,7 @@ export class GerenciadorDiarioOficialAdministrativoComponent implements OnInit, 
     this._service.loadPublicacoes(this.currentPage);
 
     const token = localStorage.getItem('authToken')!;
-    const tenant = this._tenantService.getTenant();
+    const tenant = this._tenantService.getTenant()!;
 
     const echo = this.webSocketService.initializeWebSocket(token, tenant);
 

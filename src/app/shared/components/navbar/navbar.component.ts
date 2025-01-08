@@ -5,8 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NavigationEnd, Router, RouterLink } from '@angular/router';
-import { TenantFullModel, TipoRota } from '../../models/shared.model';
-import { LoginModel } from '../../../features/login/models/login.model';
+import { TipoRota } from '../../models/shared.model';
 import { TenantService } from '../../services/tenant.service';
 import { LoginService } from '../../../features/login/services/login.service';
 
@@ -48,15 +47,10 @@ export class NavbarComponent implements OnInit {
   isPortalTransparencia = false;
   loggedInUserEmail: string | null = null;
   logo: string | null = null;
-  constructor(private router: Router, private location: Location, private tenantService: TenantService, private _loginService: LoginService) {
+  constructor(private router: Router, private location: Location, private tenantService: TenantService, private _loginService: LoginService,
+  ) {
     const currentUrl = this.location.path();
     this.checkRoute(currentUrl);
-
-    this.tenantService.state$.subscribe(tenantData => {
-      this.logo = tenantData?.logo!;
-      this.logoText2 = tenantData?.name!;
-      this.tenant = tenantData?.slug!;
-    })
   }
 
   ngOnInit(): void {
@@ -66,7 +60,6 @@ export class NavbarComponent implements OnInit {
       }
     });
     this.getLoggedInUserEmail();
-
   }
 
 
@@ -81,7 +74,7 @@ export class NavbarComponent implements OnInit {
   }
 
   checkRoute(url: string) {
-    this.isAdmRoute = url.includes('/adm');
+    this.isAdmRoute = url.includes('/adm/');
     this.isPortalTransparencia = url.includes('/trn');
     this.isLoginRoute = url.includes('/adm/login');
     this.isDiarioRoute = url.includes('/diario-oficial');
@@ -99,7 +92,7 @@ export class NavbarComponent implements OnInit {
   }
 
   logout() {
-    this._loginService.logout(this.tenant);
+    this._loginService.logout(this.tenantService.getTenant()!);
   }
 
   getLoggedInUserEmail(): void {

@@ -31,6 +31,7 @@ export class SidebarAdministrativoComponent implements OnInit {
   tenants: TenantFullModel[] = [];
   @ViewChild('confirmationTemplate', { static: true })
   confirmationTemplate!: TemplateRef<any>;
+  slug!:string;
 
   constructor(
     public tenantService: TenantService,
@@ -38,81 +39,86 @@ export class SidebarAdministrativoComponent implements OnInit {
     private modalService: BsModalService,
     private _tenantService: TenantService,
     private _orgaoService: OrgaosService
-  ) {}
+  ) {
+    this._tenantService.slug$.subscribe(v=>{
+      this.slug = v!;
+      this.menuItems = [
+        {
+          title: 'Cadastrar',
+          expanded: false,
+          subMenu: [
+            {
+              title: 'Cliente',
+              link: `${this.slug}/adm/dashboard-administrativo/cliente`,
+              visible: this.isStaff,
+            },
+            {
+              title: 'Usuário',
+              link: this.slug +'/adm/dashboard-administrativo/usuarios',
+              visible: this.isStaff,
+            },
+            {
+              title: 'Imagens',
+              link:this.slug + '/adm/dashboard-administrativo/cadastrar-fotos-diario',
+              visible: true,
+            },
+          ],
+        },
+        {
+          title: 'Diário Oficial',
+          expanded: false,
+          subMenu: [
+            {
+              title: 'Publicacoes',
+              link: this.slug +'/adm/dashboard-administrativo/gerenciar-diario-oficial',
+              visible: true,
+            },
+          ],
+        },
+        {
+          title: 'PNCP',
+          expanded: false,
+          subMenu: [
+            {
+              title: 'Órgãos',
+              link: this.slug +'/adm/dashboard-administrativo/orgaos',
+              visible: true,
+            },
+            {
+              title: 'Unidades',
+              link: this.slug +'/adm/dashboard-administrativo/unidades',
+              visible: true,
+            },
+            {
+              title: 'Licitações',
+              link: this.slug +'/adm/dashboard-administrativo/licitacoes',
+              visible: true,
+            },
+            {
+              title: 'Contratos',
+              link: this.slug +'/adm/dashboard-administrativo/contratos',
+              visible: true,
+            },
+            {
+              title: 'PCA',
+              link: this.slug +'/adm/dashboard-administrativo/pca',
+              visible: true,
+            },
+          ],
+        },
+        {
+          title: 'Portal de Transparência',
+          link: this.slug +'/adm/dashboard-administrativo/outros',
+          expanded: false,
+          subMenu: [],
+        },
+      ];
+    })
+  }
 
   ngOnInit(): void {
     this.isStaff = this.tenantService.getStaff();
-    this.menuItems = [
-      {
-        title: 'Cadastrar',
-        expanded: false,
-        subMenu: [
-          {
-            title: 'Cliente',
-            link: '/adm/dashboard-administrativo/cliente',
-            visible: this.isStaff,
-          },
-          {
-            title: 'Usuário',
-            link: '/adm/dashboard-administrativo/usuarios',
-            visible: this.isStaff,
-          },
-          {
-            title: 'Imagens',
-            link: '/adm/dashboard-administrativo/cadastrar-fotos-diario',
-            visible: true,
-          },
-        ],
-      },
-      {
-        title: 'Diário Oficial',
-        expanded: false,
-        subMenu: [
-          {
-            title: 'Publicacoes',
-            link: '/adm/dashboard-administrativo/gerenciar-diario-oficial',
-            visible: true,
-          },
-        ],
-      },
-      {
-        title: 'PNCP',
-        expanded: false,
-        subMenu: [
-          {
-            title: 'Órgãos',
-            link: '/adm/dashboard-administrativo/orgaos',
-            visible: true,
-          },
-          {
-            title: 'Unidades',
-            link: '/adm/dashboard-administrativo/unidades',
-            visible: true,
-          },
-          {
-            title: 'Licitações',
-            link: '/adm/dashboard-administrativo/licitacoes',
-            visible: true,
-          },
-          {
-            title: 'Contratos',
-            link: '/adm/dashboard-administrativo/contratos',
-            visible: true,
-          },
-          {
-            title: 'PCA',
-            link: '/adm/dashboard-administrativo/pca',
-            visible: true,
-          },
-        ],
-      },
-      {
-        title: 'Portal de Transparência',
-        link: '/adm/dashboard-administrativo/outros',
-        expanded: false,
-        subMenu: [],
-      },
-    ];
+   
 
     this.expandMenuBasedOnRoute(this.router.url);
   }
@@ -135,8 +141,11 @@ export class SidebarAdministrativoComponent implements OnInit {
   }
 
   selectTenant(tenantSlug: string): void {
-    this.router.navigate([`${tenantSlug}/adm/dashboard-administrativo/home`]);
-    this.modalRef?.hide();
+    this._tenantService.getTenantData(tenantSlug).subscribe(v=>{
+      this._tenantService.setSlug(v.data.slug)
+      this.router.navigate([`${v.data.slug}/adm/dashboard-administrativo/home`]);
+      this.modalRef?.hide();
+    })
   }
 
   private expandMenuBasedOnRoute(route: string) {

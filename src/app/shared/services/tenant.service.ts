@@ -16,7 +16,14 @@ export class TenantService {
   private _tenantState = new BehaviorSubject<TenantFullModel | null>(null);
   public state$ = this._tenantState.asObservable();
 
-  constructor(private http: HttpClient) {}
+  private slugSubject = new BehaviorSubject<string | null>(null);
+  slug$ = this.slugSubject.asObservable();
+
+  constructor(private http: HttpClient) {
+    const savedSlug = localStorage.getItem('slug');
+    console.log(savedSlug)
+    this.slugSubject = new BehaviorSubject<string | null>(savedSlug);
+  }
 
   getTenantFull(): Observable<RequisicaoModel<TenantFullModel[]>> {
     return this.http.get<RequisicaoModel<TenantFullModel[]>>(
@@ -44,7 +51,13 @@ export class TenantService {
     return !!localStorage.getItem('isStaff');
   }
 
-  getTenant(): string {
-    return localStorage.getItem('tenant')!;
+  getTenant() {
+    return this.slugSubject.getValue();
   }
+
+  setSlug(slug: string) {
+    this.slugSubject.next(slug);
+    localStorage.setItem('slug', slug);
+  }
+
 }
