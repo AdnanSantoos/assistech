@@ -5,7 +5,8 @@
       <small>Lista de clientes cadastrados</small>
     </div>
     <button
-      routerLink="/adm/dashboard-administrativo/cadastrar-cliente"
+      [relativeTo]="route.parent"
+      routerLink="cadastrar-cliente"
       class="btn btn-adm-adicionar ms-2"
     >
       <mat-icon>person</mat-icon> Adicionar Cliente
@@ -47,8 +48,9 @@
                 <a
                   class="btn-edit btn-format cup mt-0 d-flex justify-content-center align-items-center"
                   matTooltip="Editar"
+                  [relativeTo]="route.parent"
                   [routerLink]="[
-                    '/adm/dashboard-administrativo/editar-cliente',
+                    'editar-cliente',
                     element.slug
                   ]"
                 >

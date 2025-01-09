@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { ClienteData } from '../../model/cliente.model';
-import { RouterModule } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { ClienteAdministrativoService } from './services/cliente-administrativo.service';
 import { RequisicaoModel } from '../../../../shared/models/shared.model';
 import { Location } from '@angular/common';
@@ -53,6 +53,7 @@ export class ClienteAdministrativoComponent implements OnInit {
   constructor(
     private _service: ClienteAdministrativoService,
     private _location: Location,
+    public route: ActivatedRoute
   ){}
 
   ngOnInit() {
