@@ -13,11 +13,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { catchError, debounceTime, of, switchMap } from 'rxjs';
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
 import { ClienteData } from '../../model/cliente.model';
+import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 
 @Component({
   selector: 'app-cadastrar-cliente-administrativo',
   templateUrl: './cadastrar-cliente-administrativo.component.html',
-  imports: [CommonModule, ReactiveFormsModule, TypeaheadModule],
+  imports: [CommonModule, ReactiveFormsModule, TypeaheadModule,NgxMaskDirective],
+  providers: [provideNgxMask()],
   standalone: true,
   styleUrls: ['./cadastrar-cliente-administrativo.component.scss'],
 })

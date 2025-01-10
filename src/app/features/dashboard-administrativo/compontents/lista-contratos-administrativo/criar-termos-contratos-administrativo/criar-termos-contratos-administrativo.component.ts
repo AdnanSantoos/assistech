@@ -15,7 +15,7 @@ import {
 import { TermosContratosModel } from '../../../../pncp-administrativo/components/contratos-administrativo/model/contratos-administrativo.model';
 import { ContratosService } from '../../../../pncp-administrativo/components/contratos-administrativo/service/contratos-administrativos.service';
 import { ActivatedRoute } from '@angular/router';
-import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
+import { provideNgxMask } from 'ngx-mask';
 import { defineLocale } from 'ngx-bootstrap/chronos';
 import { ptBrLocale } from 'ngx-bootstrap/locale';
 import { CurrencyMaskDirective } from '../../../../../shared/directives/currencyMask.directive';

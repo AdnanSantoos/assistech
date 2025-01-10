@@ -5,7 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NavigationEnd, Router, RouterLink } from '@angular/router';
-import { TipoRota } from '../../models/shared.model';
+import { TenantFullModel, TipoRota } from '../../models/shared.model';
 import { TenantService } from '../../services/tenant.service';
 import { LoginService } from '../../../features/login/services/login.service';
 
@@ -47,10 +47,20 @@ export class NavbarComponent implements OnInit {
   isPortalTransparencia = false;
   loggedInUserEmail: string | null = null;
   logo: string | null = null;
+  state!:TenantFullModel;
   constructor(private router: Router, private location: Location, private tenantService: TenantService, private _loginService: LoginService,
   ) {
     const currentUrl = this.location.path();
     this.checkRoute(currentUrl);
+    let name = localStorage.getItem('name');
+    this.logoText2 = name!;
+    this.tenantService.state$.subscribe(v=>{
+      if(v){
+        this.state = v;
+        this.logoText2 = this.state.name
+        this.logo = this.state.logo
+      }
+    })
   }
 
   ngOnInit(): void {

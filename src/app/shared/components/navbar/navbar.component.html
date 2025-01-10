@@ -1,5 +1,5 @@
 <div class="bkg-header geral">
-  <div class="container align">
+  <div class="align" [ngClass]="!isLoginRoute && isAdmRoute?'container-fluid':'container'">
     <div
       class="ps-0 row align-items-center pb-4"
       [ngClass]="{

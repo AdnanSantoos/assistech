@@ -90,9 +90,6 @@ export class AppComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnDestroy(): void { }
-
-
   private getTenantData(slug: string) {
     // Inicializa o navigation service após carregar o tenant
     this.tenantService.getTenantData(this.slug!).subscribe((data) => {
@@ -118,4 +115,6 @@ export class AppComponent implements OnInit, OnDestroy {
   setLoadingState(isLoading: boolean) {
     this.loading = isLoading;
   }
+
+  ngOnDestroy(): void { }
 }

@@ -11,7 +11,7 @@
         <div class="form-group mb-3">
           <label for="cidade">Cidade*</label>
           <input
-            id="cidade"
+            autocomplete="off"
             type="text"
             class="form-control"
             placeholder="Digite o nome da cidade"
@@ -271,7 +271,7 @@
           readonly
         />
         <!-- Endereço -->
-        <div class="form-group mb-3">
+        <div class="form-group mb-3" formGroupName="address">
           <h4 class="mb-3">Endereço</h4>
 
           <!-- Rua -->
@@ -359,6 +359,7 @@
               class="form-control"
               formControlName="zip"
               placeholder="CEP"
+              mask="00000-000"
               [formControl]="getFormControl('address.zip')"
             />
             <div

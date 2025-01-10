@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Location } from '@angular/common';
 import { MatIcon } from '@angular/material/icon';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
@@ -32,7 +32,6 @@ export class GerenciadorDiarioOficialAdministrativoComponent implements OnInit, 
   public selectedPages: number[] = []; // Páginas selecionadas para exclusão
   selectedFile: File | null = null; // Armazena o arquivo selecionado
   public publicacoes: DiarioOficialPublicacoes[] = [];
-  private webSocketSubscription: Subscription | null = null;
 
   constructor(
     private _location: Location,
@@ -41,7 +40,7 @@ export class GerenciadorDiarioOficialAdministrativoComponent implements OnInit, 
     public tenantService: TenantService,
     private modalService: BsModalService,
     private _tenantService:TenantService,
-    
+    public route:ActivatedRoute
   ) {
     this._service.publicacoes$.subscribe((data) => {
       this.publicacoes = data;

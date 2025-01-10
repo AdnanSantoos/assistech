@@ -21,11 +21,13 @@ export class TenantService {
   constructor(private http: HttpClient) {
     const savedSlug = localStorage.getItem('slug');
     this.slugSubject = new BehaviorSubject<string | null>(savedSlug);
-
     this.slug$ = this.slugSubject.asObservable().pipe(
       tap(slug => console.log('Slug$ mudou para:', slug))
     );
-    
+
+    this.state$ = this._tenantState.asObservable().pipe(
+      tap(slug => console.log('State$ mudou para:', slug))
+    );
   }
 
   getTenantFull(): Observable<RequisicaoModel<TenantFullModel[]>> {
@@ -48,6 +50,7 @@ export class TenantService {
 
   updateState(newState: TenantFullModel) {
     this._tenantState.next(newState);
+    localStorage.setItem('name', newState.name);
   }
 
   getStaff(): boolean {
@@ -63,6 +66,6 @@ export class TenantService {
     localStorage.setItem('slug', slug);
   }
 
- 
+
 
 }

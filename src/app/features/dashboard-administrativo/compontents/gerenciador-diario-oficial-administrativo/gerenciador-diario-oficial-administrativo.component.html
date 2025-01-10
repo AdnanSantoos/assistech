@@ -5,7 +5,8 @@
       <small>Lista de diários oficiais cadastrados</small>
     </div>
     <button
-      routerLink="/adm/diario-oficial-administrativo/publicar"
+      [relativeTo]="route.parent"
+      routerLink="publicar-diario-oficial"
       class="btn btn-adm-adicionar ms-2"
     >
       <mat-icon>person</mat-icon> Publicar Diário Oficial

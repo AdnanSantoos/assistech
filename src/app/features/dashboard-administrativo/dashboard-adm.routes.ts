@@ -29,6 +29,7 @@ import { TermosContratosAdministrativoComponent } from './compontents/lista-cont
 import { CriarTermosContratosAdministrativoComponent } from './compontents/lista-contratos-administrativo/criar-termos-contratos-administrativo/criar-termos-contratos-administrativo.component';
 import { AdicionarOrgaoAdministrativoComponent } from './compontents/adicionar-orgao-administrativo/adicionar-orgao-administrativo.component';
 import { AdicionarUnidadesAdministrativoComponent } from '../pncp-administrativo/components/adicionar-unidades-administrativo/adicionar-unidades-administrativo.component';
+import { PublicarDiarioOficialAdministrativoComponent } from '../diario-oficial-administrativo/components/publicar-diario-oficial-administrativo/publicar-diario-oficial-administrativo.component';
 
 const routes: Routes = [
   {
@@ -132,6 +133,10 @@ const routes: Routes = [
       {
         path: 'gerenciar-diario-oficial',
         component: GerenciadorDiarioOficialAdministrativoComponent,
+      },
+      {
+        path: 'publicar-diario-oficial',
+        component: PublicarDiarioOficialAdministrativoComponent,
       },
       {
         path: 'gerenciar-noticias',

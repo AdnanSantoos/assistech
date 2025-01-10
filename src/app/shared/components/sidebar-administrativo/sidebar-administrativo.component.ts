@@ -147,6 +147,7 @@ export class SidebarAdministrativoComponent implements OnInit {
         // Garante que a navegação só acontece após o slug ser atualizado
         switchMap(v => {
           this._tenantService.setSlug(v.data.slug);
+          this._tenantService.updateState(v.data);
           return of(v); // Continua o fluxo com o valor original
         })
       )
