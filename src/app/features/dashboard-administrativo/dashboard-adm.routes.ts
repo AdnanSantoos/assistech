@@ -30,6 +30,9 @@ import { CriarTermosContratosAdministrativoComponent } from './compontents/lista
 import { AdicionarOrgaoAdministrativoComponent } from './compontents/adicionar-orgao-administrativo/adicionar-orgao-administrativo.component';
 import { AdicionarUnidadesAdministrativoComponent } from '../pncp-administrativo/components/adicionar-unidades-administrativo/adicionar-unidades-administrativo.component';
 import { PublicarDiarioOficialAdministrativoComponent } from '../diario-oficial-administrativo/components/publicar-diario-oficial-administrativo/publicar-diario-oficial-administrativo.component';
+import { DadosDaLicitacaoAdministrativoComponent } from '../pncp-administrativo/components/dados-da-licitacao-administrativo/dados-da-licitacao-administrativo.component';
+import { ContratosAdministrativoComponent } from '../pncp-administrativo/components/contratos-administrativo/contratos-administrativo.component';
+import { EditarContratoAdministrativoComponent } from '../pncp-administrativo/components/contratos-administrativo/editar-contrato-administrativo/editar-contrato-administrativo.component';
 
 const routes: Routes = [
   {
@@ -83,6 +86,18 @@ const routes: Routes = [
         component: CadastrarNoticiasComponent,
       },
       {
+        path: 'cadastrar-licitacao',
+        component: DadosDaLicitacaoAdministrativoComponent,
+      },
+      {
+        path: 'adicionar-contratos',
+        component: ContratosAdministrativoComponent,
+      },
+      {
+        path: 'editar-contratos/:id',
+        component: EditarContratoAdministrativoComponent,
+      },
+      {
         path: 'usuarios',
         component: UsuariosAdministrativoComponent,
       },
@@ -97,7 +112,7 @@ const routes: Routes = [
       {
         path: 'editar-termos/:termoId',
         component: CriarTermosContratosAdministrativoComponent,
-      },        
+      },
       {
         path: 'editar-usuarios/:id',
         component: CadastrarUsuariosAdministrativoComponent,
@@ -170,4 +185,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class DashboardAdministrativoRoutingModule { }
+export class DashboardAdministrativoRoutingModule {}

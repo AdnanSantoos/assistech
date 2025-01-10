@@ -5,7 +5,8 @@
       <small>Lista de licitações cadastradas</small>
     </div>
     <button
-      routerLink="/adm/pncp-administrativo/cadastrar-licitacao"
+    [relativeTo]="route.parent"
+      routerLink="cadastrar-licitacao"
       class="btn btn-adm-adicionar ms-2"
       aria-label="Adicionar nova licitação"
     >
@@ -135,10 +136,8 @@
               <div class="d-flex flex-column align-items-center">
                 <a
                   class="btn-edit btn-format d-flex justify-content-center align-items-center"
-                  [routerLink]="[
-                    '/adm/dashboard-administrativo/editar-licitacoes',
-                    element.id
-                  ]"
+                  [relativeTo]="route.parent"
+                  [routerLink]="['editar-licitacoes', element.id]"
                 >
                   <img
                     src="../../../../../assets/icons/edit-icon-adm.svg"
@@ -150,10 +149,8 @@
 
               <div class="d-flex flex-column align-items-center">
                 <a
-                  [routerLink]="[
-                    '/adm/dashboard-administrativo/itens-licitacoes',
-                    element.id
-                  ]"
+                  [relativeTo]="route.parent"
+                  [routerLink]="['itens-licitacoes', element.id]"
                   class="btn-itens btn-format d-flex justify-content-center align-items-center"
                 >
                   <img
@@ -179,10 +176,8 @@
 
               <div class="d-flex flex-column align-items-center">
                 <a
-                  [routerLink]="[
-                    '/adm/dashboard-administrativo/atas-licitacoes',
-                    element.id
-                  ]"
+                  [relativeTo]="route.parent"
+                  [routerLink]="['atas-licitacoes', element.id]"
                   class="btn-atas btn-format d-flex justify-content-center align-items-center"
                 >
                   <img

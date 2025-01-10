@@ -54,7 +54,7 @@ export class TermosContratosAdministrativoComponent implements OnInit {
     { value: 16, key: 'Outros' },
   ];
   constructor(
-    private route: ActivatedRoute,
+    public route: ActivatedRoute,
     private _location: Location,
     private fb: FormBuilder,
 
@@ -286,7 +286,7 @@ export class TermosContratosAdministrativoComponent implements OnInit {
     this.deleteForm.reset(); // Reseta o formulário
     this.modalRef = this.modalService.show(template, { class: 'modal-md' });
   }
-  
+
 
   confirmDeleteArquivosTermos(): void {
   if (this.deleteForm.valid && this.selectedFileArquivo && this.selectedTerm?.id) {

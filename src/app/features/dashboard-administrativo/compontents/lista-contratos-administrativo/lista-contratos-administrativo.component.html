@@ -5,7 +5,8 @@
       <small>Lista de contratos cadastrados</small>
     </div>
     <button
-      routerLink="/adm/pncp-administrativo/adicionar-contratos"
+      [relativeTo]="route.parent"
+      routerLink="adicionar-contratos"
       class="btn btn-adm-adicionar ms-2"
     >
       <mat-icon>add_circle</mat-icon> Adicionar novo contrato
@@ -97,10 +98,8 @@
                 <a
                   class="btn-edit btn-format cup mt-0 d-flex justify-content-center align-items-center"
                   matTooltip="Editar"
-                  [routerLink]="[
-                    '/adm/pncp-administrativo/editar-contratos',
-                    element.id
-                  ]"
+                  [relativeTo]="route.parent"
+                  [routerLink]="['editar-contratos', element.id]"
                 >
                   <img
                     src="../../../../../assets/icons/edit-icon-adm.svg"
@@ -127,10 +126,8 @@
                 <a
                   class="btn-atas btn-format cup mt-0 d-flex justify-content-center align-items-center"
                   matTooltip="Termos"
-                  [routerLink]="[
-                    '/adm/dashboard-administrativo/termos-contratos',
-                    element.id
-                  ]"
+                  [relativeTo]="route.parent"
+                  [routerLink]="['termos-contratos', element.id]"
                 >
                   <img
                     src="../../../../../assets/icons/atas-adm-icon.svg"

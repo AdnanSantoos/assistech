@@ -32,23 +32,13 @@ const routes: Routes = [
         redirectTo: 'orgaos',
         pathMatch: 'full',
       },
-  
+
       {
         path: 'adicionar-licitacoes',
         component: LicitacoesAdministrativoComponent,
       },
-      {
-        path: 'adicionar-contratos',
-        component: ContratosAdministrativoComponent,
-      },
-      {
-        path: 'editar-contratos/:id',
-        component: EditarContratoAdministrativoComponent,
-      },
-      {
-        path: 'cadastrar-licitacao',
-        component: DadosDaLicitacaoAdministrativoComponent,
-      },
+
+
       {
         path: 'adicionar-agenda-do-presidente',
         component: AgendaDoPresidenteAdministrativoComponent,

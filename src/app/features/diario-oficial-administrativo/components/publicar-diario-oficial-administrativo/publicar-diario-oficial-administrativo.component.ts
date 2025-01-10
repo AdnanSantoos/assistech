@@ -1,97 +1,134 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { PublicarDiarioOficialService } from '../../services/publicar-diario-oficial.service';
 import { CommonModule, Location } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { LayoutFormsAdmComponent } from '../../../../shared/containers/layout-forms-adm/layout-forms-adm.component';
 import { LogPipe } from '../../../../shared/pipes/log.pipe';
 import { PublicarDiarioOficialMapper } from '../../mappers/publicar-diario-oficial-mapper';
-import { dynamicFields } from '../../../../shared/models/shared.model';
 import { BsModalRef, BsModalService, ModalModule } from 'ngx-bootstrap/modal';
-import { BsDatepickerConfig, BsDatepickerModule, BsLocaleService } from 'ngx-bootstrap/datepicker';
+import {
+  BsDatepickerConfig,
+  BsDatepickerModule,
+  BsLocaleService,
+} from 'ngx-bootstrap/datepicker';
 import { defineLocale } from 'ngx-bootstrap/chronos';
 import { ptBrLocale } from 'ngx-bootstrap/locale';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatTableModule } from '@angular/material/table';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MAT_DATE_LOCALE, provideNativeDateAdapter } from '@angular/material/core';
+
 defineLocale('pt-br', ptBrLocale);
 
 @Component({
   selector: 'app-publicar-diario-oficial-administrativo',
   standalone: true,
-  imports: [CommonModule,
+  imports: [
+    CommonModule,
     ReactiveFormsModule,
     ModalModule,
     MatIconModule,
     MatButtonModule,
     LogPipe,
     BsDatepickerModule,
-    LayoutFormsAdmComponent],
-  providers: [BsModalService],
+    MatCardModule,
+    MatFormFieldModule,
+    MatTableModule,
+    MatDialogModule,
+    MatDatepickerModule,
+    MatInputModule,
+    MatSelectModule,
+  ],
+  providers: [
+    BsModalService,
+    provideNativeDateAdapter(),
+    { provide: MAT_DATE_LOCALE, useValue: 'pt-BR' },
+  ],
   templateUrl: './publicar-diario-oficial-administrativo.component.html',
-  styleUrls: ['./publicar-diario-oficial-administrativo.component.scss']
+  styleUrls: ['./publicar-diario-oficial-administrativo.component.scss'],
 })
 export class PublicarDiarioOficialAdministrativoComponent implements OnInit {
-  filtroForm: FormGroup = this.fb.group({});
-  formAgendado: FormGroup = this.fb.group({
-    files: new FormControl(''),
-    date: new FormControl(''),
-    description: new FormControl(''),
-  });
+  filtroForm: FormGroup;
+  formAgendado: FormGroup;
   modalRef?: BsModalRef;
   nameFile: string | null = null;
   selectedFiles: File[] = [];
   selectedFilesMap: { [key: string]: File[] } = {};
-  minDate: Date = new Date()
-  bsConfig?: Partial<BsDatepickerConfig> = Object.assign({}, { containerClass: 'theme-default' });
-  dynamicFields: dynamicFields[] = [
-    { name: 'date', type: 'date', label: 'Data', required: true, value: new Date(), disabled: true },
-    { name: 'description', type: 'textarea', label: 'Descrição', required: true },
-    { name: 'files', type: 'file', fileType: 'complex', label: 'Arquivo', required: true }
-  ];
+  minDate: Date = new Date();
+  bsConfig?: Partial<BsDatepickerConfig> = Object.assign(
+    {},
+    { containerClass: 'theme-default' }
+  );
 
   constructor(
     private _localeService: BsLocaleService,
     private fb: FormBuilder,
     private _modalService: BsModalService,
-    private _publicarService: PublicarDiarioOficialService
+    private _publicarService: PublicarDiarioOficialService,
+    private _location: Location
   ) {
+    this._localeService.use('pt-br');
 
-    _localeService.use('pt-br');
+    // Inicialização do formulário principal
+    this.filtroForm = this.fb.group({
+      date: [{ value: new Date(), disabled: true }, Validators.required],
+      description: ['', Validators.required],
+      files: [null, Validators.required],
+    });
 
-    this.dynamicFields.forEach((field) => {
-      const validators = field.required ? [Validators.required] : [];
-      if (field.type === 'file') {
-        this.filtroForm.addControl(field.name, this.fb.control(null, validators));
-      } else if (field.type === 'checkbox') {
-        this.filtroForm.addControl(field.name, this.fb.control(false, validators));
-      } else if (field.type === 'date') {
-        this.filtroForm.addControl(field.name, this.fb.control({ value: new Date(), disabled: true }, validators));
-      }
-      else {
-        this.filtroForm.addControl(field.name, this.fb.control('teste', validators));
-      }
+    // Inicialização do formulário de agendamento
+    this.formAgendado = this.fb.group({
+      files: ['', Validators.required],
+      date: ['', Validators.required],
+      description: ['', Validators.required],
     });
   }
 
-
-  ngOnInit() { }
-
+  ngOnInit() {}
+  goBack(): void {
+    this._location.back();
+  }
   onFormSubmit(event: any) {
-    const formData = PublicarDiarioOficialMapper.toSubmit(event);
-    this._publicarService.publicarDiarioOficial(formData);
+    if (this.filtroForm.valid) {
+      const formValue = this.filtroForm.getRawValue();
+
+      // Formatando a data antes de enviar
+      const formattedValue = {
+        ...formValue,
+        date: formValue.date ? new Date(formValue.date).toISOString() : '',
+        files: this.selectedFiles, // Usando a lista de arquivos selecionados
+      };
+
+      const formData = PublicarDiarioOficialMapper.toSubmit(formattedValue);
+      this._publicarService.publicarDiarioOficial(formData);
+    }
   }
 
   onSubmitAgendado() {
     if (this.formAgendado.valid) {
       const formData = { ...this.formAgendado.getRawValue() };
 
-      // Convertendo a data para o formato ISO
       Object.keys(formData).forEach((key) => {
         if (this.formAgendado.get(key)?.value instanceof Date) {
           formData[key] = this.formAgendado.get(key)?.value.toISOString();
         }
       });
 
-      this._publicarService.publicarDiarioOficial(PublicarDiarioOficialMapper.toSubmit(formData));
+      this._publicarService.publicarDiarioOficial(
+        PublicarDiarioOficialMapper.toSubmit(formData)
+      );
+      this.closeModal();
     }
   }
 
@@ -99,49 +136,47 @@ export class PublicarDiarioOficialAdministrativoComponent implements OnInit {
     const files = event.target.files;
     const validFiles: File[] = [];
     const invalidFiles: string[] = [];
-  
-    // Inicializa a lista caso ainda não exista
+
     if (!this.selectedFilesMap) {
       this.selectedFilesMap = {};
     }
-    
+
     if (!this.selectedFilesMap[fieldName]) {
       this.selectedFilesMap[fieldName] = [];
     }
-  
+
     if (files && files.length > 0) {
       for (let i = 0; i < files.length; i++) {
         const file = files[i];
-        // Verifica se o arquivo é PDF e não está duplicado
         if (
           file.type === 'application/pdf' &&
-          !this.selectedFilesMap[fieldName].some(f => f.name === file.name)
+          !this.selectedFilesMap[fieldName].some((f) => f.name === file.name)
         ) {
           validFiles.push(file);
         } else if (file.type !== 'application/pdf') {
           invalidFiles.push(file.name);
         } else {
-          // Se o arquivo é PDF mas já está na lista, adiciona à lista de inválidos
           invalidFiles.push(file.name);
         }
       }
-  
-      // Adiciona arquivos válidos
+
       if (validFiles.length > 0) {
         this.selectedFilesMap[fieldName].push(...validFiles);
-        this.selectedFiles = this.selectedFilesMap[fieldName]; // Atualiza a lista de arquivos selecionados
-        this.nameFile = this.selectedFiles.map(file => file.name).join(', ');
+        this.selectedFiles = this.selectedFilesMap[fieldName];
+        this.nameFile = this.selectedFiles.map((file) => file.name).join(', ');
         this.formAgendado.controls['files'].setValue(this.selectedFiles);
         this.formAgendado.get(fieldName)?.updateValueAndValidity();
       }
-  
-      // Alerta para arquivos inválidos
+
       if (invalidFiles.length > 0) {
-        alert(`Os seguintes arquivos não são PDFs ou estão duplicados: ${invalidFiles.join(', ')}`);
+        alert(
+          `Os seguintes arquivos não são PDFs ou estão duplicados: ${invalidFiles.join(
+            ', '
+          )}`
+        );
       }
     }
   }
-
 
   viewFile(file: File) {
     const fileURL = URL.createObjectURL(file);
@@ -156,7 +191,6 @@ export class PublicarDiarioOficialAdministrativoComponent implements OnInit {
     }
   }
 
-
   removeFile(index: number) {
     this.selectedFiles.splice(index, 1);
     if (this.selectedFiles.length === 0) {
@@ -165,12 +199,16 @@ export class PublicarDiarioOficialAdministrativoComponent implements OnInit {
   }
 
   openModal(template: TemplateRef<void>) {
-    this.modalRef = this._modalService.show(template, Object.assign({}, { class: 'modal-lg' }));
+    this.modalRef = this._modalService.show(
+      template,
+      Object.assign({}, { class: 'modal-lg' })
+    );
   }
+
   closeModal(): void {
     if (this.modalRef) {
       this.modalRef.hide();
-      this.modalRef = undefined; // Limpa a referência do modal
+      this.modalRef = undefined;
     }
   }
 }

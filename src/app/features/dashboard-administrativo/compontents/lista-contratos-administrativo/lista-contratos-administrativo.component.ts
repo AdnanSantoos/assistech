@@ -3,7 +3,7 @@ import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { RouterModule } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import {
   ArquivoContratoModel,
   ContratoModel,
@@ -93,7 +93,8 @@ export class ListaContratosAdministrativoComponent implements OnInit {
     private contratosService: ContratosService,
     private fb: FormBuilder,
     private modalService: BsModalService,
-    private _location: Location
+    private _location: Location,
+    public route: ActivatedRoute
   ) {
     this.deleteForm = this.fb.group({
       justification: ['', [Validators.required]],

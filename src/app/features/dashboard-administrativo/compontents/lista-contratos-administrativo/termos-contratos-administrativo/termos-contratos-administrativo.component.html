@@ -5,10 +5,8 @@
   <div class="action-button text-end mb-3 justify-content-end d-flex">
     <button
       class="btn btn-dark d-flex justify-content-center align-items-center"
-      [routerLink]="[
-        '/adm/dashboard-administrativo/adicionar-termos',
-        contratoId
-      ]"
+      [relativeTo]="route.parent"
+      [routerLink]="['adicionar-termos', contratoId]"
     >
       <mat-icon>add</mat-icon> Adicionar Novo Item
     </button>
@@ -55,8 +53,9 @@
                 <a
                   class="btn-edit btn-format cup mt-0 d-flex justify-content-center align-items-center"
                   matTooltip="Editar"
+                  [relativeTo]="route.parent"
                   [routerLink]="[
-                    '/adm/dashboard-administrativo/editar-termos',
+                    'editar-termos',
                     item.id
                   ]"
                 >

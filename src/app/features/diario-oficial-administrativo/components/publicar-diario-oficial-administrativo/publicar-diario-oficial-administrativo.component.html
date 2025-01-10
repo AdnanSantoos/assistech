@@ -1,104 +1,279 @@
-<div class="bkg-administrativo">
-  <app-layout-forms-adm [titulo_pagina]="'Publicar no diário oficial'" (formSubmit)="onFormSubmit($event)"
-    [dynamicFields]="dynamicFields" [form]="filtroForm" app-formulario>
-  </app-layout-forms-adm>
-  <button class="btn btn-dark btn-agendar" (click)="openModal(template)"> Agendar publicação</button>
+<!-- Formulário Principal -->
+<div>
+  <h2 class="title-page">PUBLICAR NO DIÁRIO OFICIAL</h2>
+  <div class="d-flex">
+    <p class="text-left">
+      Antes de enviar, certifique-se de que todas as informações preenchidas<br />
+      nos campos abaixo estão corretas!
+    </p>
+    <div class="btn-voltar ms-2" (click)="goBack()">
+      <mat-icon>person</mat-icon><span>voltar</span>
+    </div>
+  </div>
+</div>
+<div class="form-publicar-diario">
+  <strong class="mb-4">CADASTRO DIÁRIO OFICIAL</strong>
+  <div class="d-flex justify-content-start align-items-center mt-4">
+    <form
+      class="form-sem-agenda"
+      [formGroup]="filtroForm"
+      (ngSubmit)="onFormSubmit($event)"
+    >
+      <!-- Campo Data -->
+      <div class="form-group w-100">
+        <label>DATA</label>
+        <input
+          type="text"
+          class="form-control mb-4"
+          [value]="filtroForm.get('date')?.value | date : 'dd/MM/yyyy'"
+          readonly
+        />
+      </div>
+      <!-- Campo Descrição -->
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>DESCRIÇÃO</mat-label>
+        <textarea
+          matInput
+          formControlName="description"
+          required
+          rows="6"
+        ></textarea>
+        <mat-error *ngIf="filtroForm.get('description')?.errors?.['required']">
+          Campo obrigatório
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Campo Arquivo -->
+      <div class="file-upload-section">
+        <label class="mat-label">ARQUIVO</label>
+        <div class="file-section mat-elevation-z0 d-flex">
+          <button
+            type="button"
+            (click)="fileInput.click()"
+            class="btn bg-dark text-white rounded-0"
+          >
+            ADICIONAR ARQUIVOS
+          </button>
+          <input
+            #fileInput
+            type="file"
+            class="file-input"
+            (change)="onFileChangeAgendado($event, 'files')"
+            accept=".pdf"
+            formControlName="files"
+            multiple
+            hidden
+          />
+          <div
+            class="file-info d-flex align-items-center flex-column justify-content-center bg-light px-4"
+          >
+            <p class="no-file mt-2 ms-2" *ngIf="!selectedFiles.length">
+              ARQUIVOS
+            </p>
+          </div>
+        </div>
+        <small><i>TIPOS DE ARQUIVO ACEITOS: .PDF</i></small>
+      </div>
+
+      <!-- Lista de Arquivos -->
+      <div class="upload-content" *ngIf="selectedFiles.length > 0">
+        <table class="table table-editada table-bordered table-sm mt-5">
+          <thead>
+            <tr>
+              <th>Arquivos Anexados</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let file of selectedFiles; let i = index">
+              <td class="p-3">{{ file.name }}</td>
+              <td>
+                <div class="row">
+                  <div class="col">
+                    <button
+                      mat-icon-button
+                      color="primary"
+                      (click)="viewFile(file)"
+                    >
+                      <mat-icon>visibility</mat-icon>
+                    </button>
+                  </div>
+                  <div class="col">
+                    <button
+                      mat-icon-button
+                      color="warn"
+                      (click)="removeFile(i)"
+                    >
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <button
+        type="submit"
+        class="btn bg-dark text-white w-25 mt-4"
+        [disabled]="!filtroForm.valid"
+      >
+        Enviar
+      </button>
+    </form>
+  </div>
+
+  <!-- Botão de Agendamento -->
+  <button
+    mat-stroked-button
+    color="primary"
+    class="btn bg-dark text-white mt-4"
+    (click)="openModal(template)"
+  >
+    Agendar publicação
+  </button>
 </div>
 
-
+<!-- Modal Template -->
 <ng-template #template>
   <div class="modal-header">
-    <h4 class="modal-title pull-left">Agendar Publicação</h4>
-    <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRef?.hide()">
-      <span aria-hidden="true" class="visually-hidden">&times;</span>
+    <h4 mat-dialog-title>Agendar Publicação</h4>
+    <button mat-icon-button (click)="modalRef?.hide()">
+      <mat-icon>close</mat-icon>
     </button>
   </div>
-  <div class="modal-body">
+
+  <mat-dialog-content class="modal-body">
     <form [formGroup]="formAgendado" (ngSubmit)="onSubmitAgendado()">
-      <!-- Campo Datepicker para data agendada -->
+      <!-- Campo Datepicker -->
       <div class="mb-3">
         <label for="dataAgendada">Data Agendada</label>
-        <input type="text"  [minDate]="minDate"  [bsConfig]="bsConfig" placeholder="Data" class="form-control" formControlName="date" bsDatepicker>
+        <input
+          type="text"
+          class="form-control"
+          [minDate]="minDate"
+          [bsConfig]="bsConfig"
+          placeholder="Data"
+          formControlName="date"
+          bsDatepicker
+          required
+        />
+        <div
+          *ngIf="formAgendado.get('date')?.errors?.['required'] && formAgendado.get('date')?.touched"
+          class="invalid-feedback"
+        >
+          Campo obrigatório
+        </div>
       </div>
 
-      <!-- Campo de upload de arquivo -->
-      <div class="mb-3">
-        <label for="fileUpload2">Arquivo</label>
-        <input type="file" id="fileUpload2" (change)="onFileChangeAgendado($event, 'file')" class="form-control"
-          accept=".pdf" formControlName="files" />
-        <p *ngIf="formAgendado.get('files')?.value">
-          {{ formAgendado.get("files")?.value.name }}
-        </p>
+      <!-- Campo Arquivo -->
+      <div class="file-upload-section">
+        <label class="mat-label">ARQUIVO</label>
+        <div class="file-section mat-elevation-z0 d-flex">
+          <input
+            #fileInput
+            type="file"
+            class="file-input"
+            (change)="onFileChangeAgendado($event, 'files')"
+            accept=".pdf"
+            formControlName="files"
+            multiple
+            hidden
+          />
+          <button
+            type="button"
+            (click)="fileInput.click()"
+            class="btn bg-dark text-white"
+          >
+            SELECIONAR ARQUIVO
+          </button>
+          <div
+            class="file-info d-flex align-items-center flex-column justify-content-center"
+          >
+            <p class="no-file mt-2 ms-2" *ngIf="!selectedFiles.length">
+              NENHUM ARQUIVO SELECIONADO
+            </p>
+          </div>
+        </div>
+        <small><i>TIPOS DE ARQUIVO ACEITOS: .PDF</i></small>
       </div>
 
-      <!-- Campo de textarea para descrição -->
-      <div class="mb-3">
-        <label for="description">Descrição</label>
-        <textarea id="description" class="form-control" formControlName="description" required></textarea>
+      <!-- Lista de Arquivos -->
+      <div class="upload-content" *ngIf="selectedFiles.length > 0">
+        <table class="table table-editada table-bordered table-sm mt-5">
+          <thead>
+            <tr>
+              <th>Arquivos Anexados</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let file of selectedFiles; let i = index">
+              <td class="p-3">{{ file.name }}</td>
+              <td>
+                <div class="row">
+                  <div class="col">
+                    <button
+                      mat-icon-button
+                      color="primary"
+                      (click)="viewFile(file)"
+                    >
+                      <mat-icon>visibility</mat-icon>
+                    </button>
+                  </div>
+                  <div class="col">
+                    <button
+                      mat-icon-button
+                      color="warn"
+                      (click)="removeFile(i)"
+                    >
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
 
-      <!-- Botão de envio do formulário agendado -->
-      <div class="d-flex justify-content-center align-items-center flex-column gap-2 w-100 mt-3">
-        <button type="submit" class="btn btn-lg btn-dark w-100" [disabled]="!formAgendado.valid"
-          data-bs-dismiss="modal">
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Descrição</mat-label>
+        <textarea
+          matInput
+          formControlName="description"
+          required
+          rows="4"
+        ></textarea>
+        <mat-error
+          *ngIf="formAgendado.get('description')?.errors?.['required']"
+        >
+          Campo obrigatório
+        </mat-error>
+      </mat-form-field>
+
+      <div
+        class="d-flex justify-content-center align-items-center flex-column gap-2 w-100 mt-3"
+      >
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          class="w-100 hover-sucesso"
+          [disabled]="!formAgendado.valid"
+        >
           Confirmar Agendamento
         </button>
-        <button (click)="closeModal()" type="button" class="btn btn-lg btn-outline-dark w-100" data-bs-dismiss="modal">
+        <button
+          mat-stroked-button
+          type="button"
+          class="w-100"
+          (click)="closeModal()"
+        >
           Cancelar
         </button>
       </div>
     </form>
-
-    <div
-          class="upload-content"
-          *ngIf="selectedFiles.length > 0"
-        >
-          <p class="file-upload-instructions">
-            {{ nameFile || "Nenhum arquivo selecionado" }} <br />
-            Tipos de arquivo aceitos: <strong>.PDF</strong>
-          </p>
-
-          <table *ngIf="selectedFiles.length > 0" class="table table-bordered table-sm mt-5">
-            <thead>
-              <tr>
-                <th>Arquivos Anexados</th>
-                <th>Ações</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let file of selectedFiles; let i = index">
-                <td class="p-3">{{ file.name }}</td>
-                <td>
-                  <div class="row">
-                    <div
-                      class="col"
-                    >
-                      <a
-                        mat-icon-button
-                        color="accent"
-                        (click)="viewFile(file)"
-                      >
-                        <mat-icon>visibility</mat-icon>
-                      </a>
-                    </div>
-                    <div
-                      class="col"
-                    >
-                      <button
-                        class="btn-format btn-format btn-remove mt-2"
-                        (click)="removeFile(i)"
-                      >
-                        <img
-                          src="../../../../../assets/icons/remove-icon.svg"
-                          alt="Remover"
-                        />
-                      </button>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-  </div>
+  </mat-dialog-content>
 </ng-template>

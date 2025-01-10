@@ -4,15 +4,22 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { ActivatedRoute, RouterModule } from '@angular/router';
-import { LicitacaoArquivos, LicitacaoModel } from './model/licitacoes-administrativo.model';
+import {
+  LicitacaoArquivos,
+  LicitacaoModel,
+} from './model/licitacoes-administrativo.model';
 import { LicitacoesService } from './service/licitacoes-administrativos.service';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ArquivosLicitacoesComponent } from './arquivos-licitacoes/arquivos-licitacoes/arquivos-licitacoes.component';
 import { MatDialog } from '@angular/material/dialog';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { OrgaoModel } from '../orgao-administrativo/model/orgao-administrativo.model';
-
 
 @Component({
   selector: 'app-lista-licitacao-administrativo',
@@ -24,7 +31,7 @@ import { OrgaoModel } from '../orgao-administrativo/model/orgao-administrativo.m
     MatTableModule,
     RouterModule,
     MatTooltipModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
   providers: [BsModalService],
   templateUrl: './lista-licitacao-administrativo.component.html',
@@ -67,19 +74,22 @@ export class ListaLicitacaoAdministrativoComponent implements OnInit {
     { value: 11, key: 'Pré-qualificação' },
     { value: 12, key: 'Credenciamento' },
     { value: 13, key: 'Leilão - Presencial' },
-    { value: 14, key: 'Inaplicabilidade da Licitação' }
+    { value: 14, key: 'Inaplicabilidade da Licitação' },
   ];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  constructor(private licitacoesService: LicitacoesService, private route: ActivatedRoute,
-    private dialog: MatDialog, private modalService: BsModalService, private fb: FormBuilder
-
-  ) { }
+  constructor(
+    private licitacoesService: LicitacoesService,
+    public route: ActivatedRoute,
+    private dialog: MatDialog,
+    private modalService: BsModalService,
+    private fb: FormBuilder
+  ) {}
 
   ngOnInit(): void {
     this.loadLicitacoes(this.currentPage);
-    this.loadOrgaos(this.currentPage)
+    this.loadOrgaos(this.currentPage);
 
     this.deleteForm = this.fb.group({
       justification: ['', [Validators.required, Validators.minLength(5)]],
@@ -94,25 +104,27 @@ export class ListaLicitacaoAdministrativoComponent implements OnInit {
   }
 
   loadLicitacoes(page: number, filters: any = {}): void {
-    this.licitacoesService.getLicitacoesWithFilters({ ...filters, page }).subscribe({
-      next: (response) => {
-        this.dataSource.data = response.data;
-        this.totalRecords = response.meta?.pagination.total || 0;
-        this.totalPages = Math.ceil(this.totalRecords / this.pageSize);
-        this.dataSource.paginator = this.paginator;
-      },
-      error: (err) => {
-        console.error('Erro ao carregar licitações:', err);
-      },
-    });
+    this.licitacoesService
+      .getLicitacoesWithFilters({ ...filters, page })
+      .subscribe({
+        next: (response) => {
+          this.dataSource.data = response.data;
+          this.totalRecords = response.meta?.pagination.total || 0;
+          this.totalPages = Math.ceil(this.totalRecords / this.pageSize);
+          this.dataSource.paginator = this.paginator;
+        },
+        error: (err) => {
+          console.error('Erro ao carregar licitações:', err);
+        },
+      });
   }
   applyFilters(): void {
     const filters = this.filtersForm.value;
-  
+
     if (!filters.agency_country_register) {
       delete filters.agency_country_register;
     }
-  
+
     this.loadLicitacoes(this.currentPage, filters);
   }
   loadOrgaos(page: number): void {
@@ -121,7 +133,7 @@ export class ListaLicitacaoAdministrativoComponent implements OnInit {
         if (response && response.data) {
           const uniqueOrgaos = new Map<string, OrgaoModel>(); // Usando um Map para garantir a unicidade
 
-          response.data.forEach(orgao => {
+          response.data.forEach((orgao) => {
             const countryRegister = orgao.country_register; // Acessando diretamente a propriedade
             if (countryRegister && !uniqueOrgaos.has(countryRegister)) {
               uniqueOrgaos.set(countryRegister, orgao); // Adiciona o órgão se não estiver presente
@@ -136,7 +148,7 @@ export class ListaLicitacaoAdministrativoComponent implements OnInit {
       },
       error: (error) => {
         console.error('Erro ao carregar órgãos:', error);
-      }
+      },
     });
   }
 
@@ -165,7 +177,6 @@ export class ListaLicitacaoAdministrativoComponent implements OnInit {
     });
   }
 
-
   openArquivosDialog(item: LicitacaoModel): void {
     if (item && item.id) {
       this.dialog.open(ArquivosLicitacoesComponent, {
@@ -181,11 +192,11 @@ export class ListaLicitacaoAdministrativoComponent implements OnInit {
         },
       });
     } else {
-      console.error('O item ou o ID da licitação está ausente. Não foi possível abrir o diálogo.');
+      console.error(
+        'O item ou o ID da licitação está ausente. Não foi possível abrir o diálogo.'
+      );
     }
   }
-
-
 
   goToPage(pageNumber: number): void {
     if (pageNumber >= 1 && pageNumber <= this.totalPages) {
@@ -208,31 +219,29 @@ export class ListaLicitacaoAdministrativoComponent implements OnInit {
     }
   }
 
-
   openDeleteModal(licitacao: LicitacaoModel, template: TemplateRef<any>): void {
     this.selectedLicitacao = licitacao;
     this.modalRef = this.modalService.show(template, { class: 'modal-md' });
     this.deleteForm.reset(); // Limpa o formulário ao abrir o modal
   }
 
-
   confirmDelete(): void {
     if (this.deleteForm.valid && this.selectedLicitacao) {
       const justification = this.deleteForm.value.justification;
 
-      this.licitacoesService.deleteLicitacao(this.selectedLicitacao.id, justification).subscribe({
-        next: () => {
-          console.log('Licitação excluída com sucesso');
-          this.modalRef?.hide();
-          this.loadLicitacoes(this.currentPage); // Atualiza a lista
-        },
-        error: (err) => {
-          console.error('Erro ao excluir licitação:', err);
-          this.modalRef?.hide();
-        },
-      });
+      this.licitacoesService
+        .deleteLicitacao(this.selectedLicitacao.id, justification)
+        .subscribe({
+          next: () => {
+            console.log('Licitação excluída com sucesso');
+            this.modalRef?.hide();
+            this.loadLicitacoes(this.currentPage); // Atualiza a lista
+          },
+          error: (err) => {
+            console.error('Erro ao excluir licitação:', err);
+            this.modalRef?.hide();
+          },
+        });
     }
   }
-
-
 }
