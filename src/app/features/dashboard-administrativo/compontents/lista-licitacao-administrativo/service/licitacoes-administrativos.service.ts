@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { catchError, Observable, tap, throwError } from 'rxjs';
+import { catchError, Observable, Subject, tap, throwError } from 'rxjs';
 import { RequisicaoModel } from '../../../../../shared/models/shared.model';
 import { LicitacaoModel, LicitacaoDetalhesModel, LicitacaoItemModel, LicitacaoArquivos, LicitacaoResultados, LicitacaoAtaModel, LicitacaoAtaExtendedResponse } from '../model/licitacoes-administrativo.model';
 import { LicitacoesRepository } from '../repository/licitacoes-administrativos.repository';
@@ -11,6 +11,8 @@ import { ToastrService } from 'ngx-toastr';
   providedIn: 'root',
 })
 export class LicitacoesService {
+  refreshLicitacaoItens$ = new Subject<boolean>();
+
   constructor(private _repository: LicitacoesRepository,
     private toastr: ToastrService
 

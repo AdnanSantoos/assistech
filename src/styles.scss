@@ -504,7 +504,7 @@ body {
   font-style: normal;
   font-weight: 600;
   line-height: 122.487%;
-  text-transform: uppercase;
+  text-trans: uppercase;
   margin-top: 2vh;
 }
 .strong_font {
@@ -558,6 +558,7 @@ body {
         border: none;
         text-align: center;
         padding: 13px 0px;
+        min-width: 20px;
       }
     }
   }
@@ -565,6 +566,8 @@ body {
   tbody {
     td {
       border: 1px solid #d4d3d3;
+      min-width: 20px;
+
       text-align: center;
     }
     tr {

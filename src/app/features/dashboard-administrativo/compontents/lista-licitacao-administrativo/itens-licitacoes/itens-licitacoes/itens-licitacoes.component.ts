@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { CommonModule, CurrencyPipe } from '@angular/common';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { LicitacoesService } from '../../service/licitacoes-administrativos.service';
@@ -23,6 +23,7 @@ import {
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { CurrencyMaskDirective } from '../../../../../../shared/directives/currencyMask.directive';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-itens-licitacoes',
@@ -32,16 +33,18 @@ import { CurrencyMaskDirective } from '../../../../../../shared/directives/curre
     MatDialogModule,
     RouterModule,
     ReactiveFormsModule,
-    CurrencyMaskDirective
+    CurrencyMaskDirective,
   ],
-  providers: [BsModalService,provideNgxMask()],
+  providers: [BsModalService, provideNgxMask()],
   templateUrl: './itens-licitacoes.component.html',
   styleUrls: ['./itens-licitacoes.component.scss'],
 })
-export class ItensLicitacoesComponent implements OnInit {
+export class ItensLicitacoesComponent implements OnInit, OnDestroy {
   @ViewChild('addItemModal') addItemModal: any;
   novoItemForm: FormGroup;
-
+  private subscription = new Subscription(); // Importar Subscription from 'rxjs'
+  procurementId: string = '';
+  currentPage: number = 1;
   licitacaoDetalhes: LicitacaoDetalhesModel | null = null;
   licitacaoItens: LicitacaoItemModel[] = [];
   pagination: PaginationModel | null = null;
@@ -148,6 +151,16 @@ export class ItensLicitacoesComponent implements OnInit {
         console.error('Licitacao ID not provided in route parameters.');
       }
     });
+
+    this.licitacoesService.refreshLicitacaoItens$.subscribe(() => {
+      this.loadLicitacaoItens(this.procurementId, this.currentPage);
+    });
+  }
+  ngOnDestroy() {
+    // Não esqueça de fazer unsubscribe
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
   contractItemStatuses: Record<number, string> = {
@@ -398,6 +411,7 @@ export class ItensLicitacoesComponent implements OnInit {
   closeModal(): void {
     if (this.modalRef) {
       this.modalRef.hide();
+
       this.modalRef = undefined; // Limpa a referência
     }
   }
@@ -445,6 +459,7 @@ export class ItensLicitacoesComponent implements OnInit {
         this.novoItemForm.reset();
         this.closeModal();
         this.loadLicitacaoItens(formData.procurement_id, 1);
+        this.licitacoesService.refreshLicitacaoItens$.next(true);
         this.isLoadingItens = false;
       },
       error: (err) => {
