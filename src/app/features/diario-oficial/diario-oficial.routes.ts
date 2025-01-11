@@ -6,7 +6,7 @@ import { DiarioOficialLayoutComponent } from './containers/diario-oficial-layout
 
 const routes: Routes = [
     {
-        path: 'diario-oficial',
+        path: '',
         component: DiarioOficialLayoutComponent,
     }
 ];
