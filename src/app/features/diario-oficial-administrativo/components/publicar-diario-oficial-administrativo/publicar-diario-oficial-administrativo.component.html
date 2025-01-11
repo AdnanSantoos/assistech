@@ -93,7 +93,7 @@
                     <button
                       mat-icon-button
                       color="primary"
-                      (click)="viewFile(file)"
+                      (click)="viewFile($event, file)"
                     >
                       <mat-icon>visibility</mat-icon>
                     </button>
@@ -116,7 +116,7 @@
 
       <button
         type="submit"
-        class="btn bg-dark text-white w-25 mt-4"
+        class="btn bg-dark text-white w-25 mt-4 hover-sucesso"
         [disabled]="!filtroForm.valid"
       >
         Enviar
@@ -217,7 +217,7 @@
                     <button
                       mat-icon-button
                       color="primary"
-                      (click)="viewFile(file)"
+                      (click)="viewFile($event, file)"
                     >
                       <mat-icon>visibility</mat-icon>
                     </button>

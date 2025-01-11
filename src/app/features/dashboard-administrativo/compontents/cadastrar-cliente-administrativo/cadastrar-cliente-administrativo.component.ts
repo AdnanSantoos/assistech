@@ -97,7 +97,7 @@ export class CadastrarClienteAdministrativoComponent implements OnInit {
       pncp: clienteData.pncp || false,
       portal_transparencia: clienteData.portal_transparencia || false,
       diario_oficial: clienteData.diario_oficial || false,
-      beginning_official_gazette: clienteData.beginning_official_gazette || 0,
+      beginning_official_gazette: clienteData.year || 0,
       slug: clienteData.slug || '',
       is_active: clienteData.is_active || true,
       domain: clienteData.domain || '',
