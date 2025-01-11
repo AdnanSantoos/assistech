@@ -8,6 +8,7 @@
             <a
               *ngIf="acesso.routerLink"
               class="acesso-rapido text-decoration-none"
+              [relativeTo]="route"
               [routerLink]="acesso.routerLink"
             >
               <div class="icone">
@@ -24,7 +25,7 @@
               [href]="acesso.link"
               target="_blank"
             >
-          
+
               @if(acesso.icon_img === "../../../assets/logos/Tcu.svg"){
                 <div class="icone">
                   <img width="50%" [src]="acesso.icon_img"/>

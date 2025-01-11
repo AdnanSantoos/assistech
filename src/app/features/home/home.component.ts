@@ -1,7 +1,12 @@
 import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { SliderComponent } from '../../shared/components/slider/slider.component';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, NavigationEnd, Router, RouterLink } from '@angular/router';
+import {
+  ActivatedRoute,
+  NavigationEnd,
+  Router,
+  RouterLink,
+} from '@angular/router';
 import { GeneralNewsComponent } from '../../shared/components/general-news/general-news.component';
 import { HomeService } from './services/home-service.service';
 import { TenantService } from '../../shared/services/tenant.service';
@@ -24,6 +29,7 @@ interface AcessoRapido {
 export class HomeComponent implements OnInit, OnDestroy {
   acessos: AcessoRapido[] = [];
   private subscription = new Subscription();
+  currentSlug: string = '';
 
   images = [
     { url: '../../../../assets/imgs-home/1.png' },
@@ -38,8 +44,12 @@ export class HomeComponent implements OnInit, OnDestroy {
     { img: '../../../../assets/imgs-home/7.png' },
   ];
 
-  constructor(private router: Router, private route: ActivatedRoute, private _homeService: HomeService, private _tenantService: TenantService) { }
-
+  constructor(
+    private router: Router,
+    public route: ActivatedRoute,
+    private _tenantService: TenantService,
+    private _homeService: HomeService,
+  ) {}
 
   ngOnInit(): void {
     const sub = this._tenantService.slug$
@@ -61,17 +71,53 @@ export class HomeComponent implements OnInit, OnDestroy {
       }
     });
     this.updateAcessos(this.router.url);
+
+    const slugSub = this._tenantService.slug$
+      .pipe(
+        filter((slug): slug is string => slug !== null)
+      )
+      .subscribe((slug) => {
+        this.currentSlug = slug;
+        this.updateAcessos(this.router.url);
+      });
+
+    this.subscription.add(slugSub);
   }
 
   updateAcessos(url: string) {
     if (url.includes('/home')) {
       this.acessos = [
-        { routerLink: '/diario-oficial', texto: 'DIÁRIO OFICIAL', icon_img: '../../../assets/novos-icones/diario-oficial.svg' },
-        { routerLink: '/trn/portal-transparencia', texto: 'PORTAL DE TRANSPARÊNCIA', icon_img: '../../../assets/novos-icones/portal-transparencia.svg' },
-        { link: 'https://www.gov.br/pt-br', texto: '', icon_img: 'https://www.gov.br/++theme++padrao_govbr/img/govbr-logo-large.png' },
-        { link: 'https://www.gov.br/pncp/pt-br', texto: 'PNCP', icon_img: '../../../assets/novos-icones/pncp.svg' },
-        { link: 'https://www.gov.br/compras/pt-br/nllc', texto: 'Lei das Licitações', icon_img: '../../../assets/novos-icones/lei131333.svg' },
-        { link: 'https://portal.tcu.gov.br/inicio', texto: 'NOTÍCIAS DO TCU', icon_img: '../../../assets/logos/Tcu.svg' },
+        {
+          routerLink: `/${this.currentSlug}/diario-oficial`,
+          texto: 'DIÁRIO OFICIAL',
+          icon_img: '../../../assets/novos-icones/diario-oficial.svg',
+        },
+        {
+          routerLink: `/${this.currentSlug}/trn/portal-transparencia`,
+          texto: 'PORTAL DE TRANSPARÊNCIA',
+          icon_img: '../../../assets/novos-icones/portal-transparencia.svg',
+        },
+        {
+          link: 'https://www.gov.br/pt-br',
+          texto: '',
+          icon_img:
+            'https://www.gov.br/++theme++padrao_govbr/img/govbr-logo-large.png',
+        },
+        {
+          link: 'https://www.gov.br/pncp/pt-br',
+          texto: 'PNCP',
+          icon_img: '../../../assets/novos-icones/pncp.svg',
+        },
+        {
+          link: 'https://www.gov.br/compras/pt-br/nllc',
+          texto: 'Lei das Licitações',
+          icon_img: '../../../assets/novos-icones/lei131333.svg',
+        },
+        {
+          link: 'https://portal.tcu.gov.br/inicio',
+          texto: 'NOTÍCIAS DO TCU',
+          icon_img: '../../../assets/logos/Tcu.svg',
+        },
       ];
     }
   }

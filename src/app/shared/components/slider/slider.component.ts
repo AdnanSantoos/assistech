@@ -3,34 +3,65 @@ import { NewsService } from '../general-news/general-news-detalhes/general-news-
 import { Post } from '../general-news/model/post.model';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { TenantService } from '../../services/tenant.service';
+import { filter, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-slider',
   standalone: true,
   imports: [CommonModule, RouterModule],
   templateUrl: './slider.component.html',
-  styleUrls: ['./slider.component.scss']
+  styleUrls: ['./slider.component.scss'],
 })
 export class SliderComponent implements OnInit {
   posts: Post[] = [];
   currentSlide = 0;
+  currentSlug: string = '';
 
-  constructor(private newsService: NewsService) {}
+  constructor(
+    private newsService: NewsService,
+    private _tenantService: TenantService
+  ) {}
 
   ngOnInit(): void {
-    this.newsService.getNews().subscribe(
-      (data: Post[]) => {
-        this.posts = data;  // Atribui os dados da API à variável posts
-      },
-      (error) => {
-        console.error('Erro ao carregar os dados:', error);
-      }
+    this._tenantService.slug$
+      .pipe(
+        filter((slug): slug is string => slug !== null),
+        switchMap((slug) => {
+          this.currentSlug = slug;
+          return this.newsService.getNews();
+        })
+      )
+      .subscribe(
+        (data: Post[]) => {
+          this.posts = data;
+        },
+        (error) => {
+          console.error('Erro ao carregar os dados:', error);
+        }
+      );
+  }
+
+  generateSlug(title: string): string {
+    if (!title) return '';
+
+    return (
+      title
+        .toLowerCase()
+        // Remove acentos e caracteres especiais
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        // Remove caracteres especiais e espaços, substituindo por hífen
+        .replace(/[^a-z0-9]+/g, '-')
+        // Remove hífens do início e fim
+        .replace(/^-+|-+$/g, '')
+        // Remove hífens duplicados
+        .replace(/-{2,}/g, '-')
     );
   }
 
-  // Função para gerar o slug a partir do título
-  generateSlug(title: string): string {
-    return title.toLowerCase().replace(/[\s\W-]+/g, '-').replace(/^-+|-+$/g, '');
+  getNoticiaRoute(title: string): string[] {
+    return ['/', this.currentSlug, 'noticia-detalhe', this.generateSlug(title)];
   }
 
   getRandomSlides(slidesArray: Post[], numSlides: number): Post[] {
