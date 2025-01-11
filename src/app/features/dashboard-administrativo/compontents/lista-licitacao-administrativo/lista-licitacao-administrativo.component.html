@@ -5,7 +5,7 @@
       <small>Lista de licitações cadastradas</small>
     </div>
     <button
-    [relativeTo]="route.parent"
+      [relativeTo]="route.parent"
       routerLink="cadastrar-licitacao"
       class="btn btn-adm-adicionar ms-2"
       aria-label="Adicionar nova licitação"
@@ -292,7 +292,9 @@
           </a>
         </li>
         <li class="page-item active">
-          <span class="page-link" aria-current="page">{{ currentPage }}</span>
+          <span class="page-link" aria-current="page">
+            {{ currentPage }} / {{ totalPages }}
+          </span>
         </li>
         <li class="page-item" [class.disabled]="currentPage === totalPages">
           <a

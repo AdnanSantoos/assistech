@@ -20,6 +20,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { OrgaoModel } from '../orgao-administrativo/model/orgao-administrativo.model';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-lista-licitacao-administrativo',
@@ -84,7 +85,8 @@ export class ListaLicitacaoAdministrativoComponent implements OnInit {
     public route: ActivatedRoute,
     private dialog: MatDialog,
     private modalService: BsModalService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -92,7 +94,7 @@ export class ListaLicitacaoAdministrativoComponent implements OnInit {
     this.loadOrgaos(this.currentPage);
 
     this.deleteForm = this.fb.group({
-      justification: ['', [Validators.required, Validators.minLength(5)]],
+      justification: ['', [Validators.required]],
     });
 
     this.filtersForm = this.fb.group({
@@ -234,11 +236,13 @@ export class ListaLicitacaoAdministrativoComponent implements OnInit {
         .subscribe({
           next: () => {
             console.log('Licitação excluída com sucesso');
+            this.toastr.success('Licitação excluída com sucesso!', 'Sucesso');
             this.modalRef?.hide();
             this.loadLicitacoes(this.currentPage); // Atualiza a lista
           },
           error: (err) => {
             console.error('Erro ao excluir licitação:', err);
+            this.toastr.error('Erro ao excluir licitação', 'Erro');
             this.modalRef?.hide();
           },
         });
