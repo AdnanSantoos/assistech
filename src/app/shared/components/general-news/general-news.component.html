@@ -20,7 +20,7 @@
             <p class="card-subtitle">{{ post.category || "Notícia" }}</p>
           </div>
           <p class="mt-3 card-text">{{ post.content.slice(0, 100) }}...</p>
-          <button
+          <div
             (click)="navigateToNoticia(post.slug); $event.stopPropagation()"
             class="btn-leiamais"
           >
@@ -31,7 +31,7 @@
               height="15px"
               alt=""
             />
-          </button>
+          </div>
         </div>
       </div>
     </div>
