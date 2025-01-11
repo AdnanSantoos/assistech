@@ -3,6 +3,9 @@
   background: #fff;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  button {
+    width: 300px !important;
+  }
 
   .form-sem-agenda {
     width: 70%;
@@ -227,5 +230,11 @@ small {
 ::ng-deep {
   .mat-mdc-form-field {
     width: 100% !important;
+  }
+}
+
+@media (max-width: 768px) {
+  button {
+    width: auto;
   }
 }

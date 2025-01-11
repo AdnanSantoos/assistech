@@ -137,11 +137,9 @@
 
 <!-- Modal Template -->
 <ng-template #template>
-  <div class="modal-header">
+  <div class="modal-header d-flex justify-content-between">
     <h4 mat-dialog-title>Agendar Publicação</h4>
-    <button mat-icon-button (click)="modalRef?.hide()">
-      <mat-icon>close</mat-icon>
-    </button>
+    <mat-icon class="cup" (click)="modalRef?.hide()">close</mat-icon>
   </div>
 
   <mat-dialog-content class="modal-body">
@@ -257,10 +255,8 @@
         class="d-flex justify-content-center align-items-center flex-column gap-2 w-100 mt-3"
       >
         <button
-          mat-raised-button
-          color="primary"
           type="submit"
-          class="w-100 hover-sucesso"
+          class="w-100 hover-sucesso btn bg-dark text-white"
           [disabled]="!formAgendado.valid"
         >
           Confirmar Agendamento
