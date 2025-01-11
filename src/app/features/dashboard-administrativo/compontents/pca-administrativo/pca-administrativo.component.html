@@ -5,7 +5,8 @@
       <small>Lista de planos de contratações cadastrados</small>
     </div>
     <button
-      routerLink="/adm/dashboard-administrativo/cadastrar-pca"
+    [relativeTo]="route.parent"
+      routerLink="cadastrar-pca"
       class="btn btn-adm-adicionar ms-2"
     >
       <mat-icon>person</mat-icon> Adicionar contratos

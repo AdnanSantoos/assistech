@@ -1,13 +1,12 @@
 import { CommonModule, Location } from '@angular/common';
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { OrgaoModel } from './model/orgao-administrativo.model';
 import { OrgaosService } from './service/orgao-administrativos.service';
 import { RequisicaoModel } from '../../../../shared/models/shared.model';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-
 
 @Component({
   selector: 'app-orgao-administrativo',
@@ -21,11 +20,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 export class OrgaoAdministrativoComponent implements OnInit {
   @ViewChild('deleteModal') deleteModal!: TemplateRef<any>;
 
-  displayedColumns: string[] = [
-    'nome',
-    'cnpj',
-    'acoes',
-  ];
+  displayedColumns: string[] = ['nome', 'cnpj', 'acoes'];
   dataSource = new MatTableDataSource<OrgaoModel>([]);
   pageSize = 10;
   currentPage = 1;
@@ -35,9 +30,11 @@ export class OrgaoAdministrativoComponent implements OnInit {
   modalRef?: BsModalRef;
 
   constructor(
-    private location: Location, private modalService: BsModalService,
-    private _orgaosService: OrgaosService
-  ) { }
+    private location: Location,
+    private modalService: BsModalService,
+    private _orgaosService: OrgaosService,
+    public route: ActivatedRoute
+  ) {}
 
   ngOnInit() {
     this.loadOrgaos(this.currentPage);
@@ -89,7 +86,6 @@ export class OrgaoAdministrativoComponent implements OnInit {
     this.modalRef = this.modalService.show(this.deleteModal);
   }
 
-
   confirmDelete(): void {
     if (this.selectedOrgao) {
       const countryRegister = this.selectedOrgao.country_register;
@@ -107,5 +103,4 @@ export class OrgaoAdministrativoComponent implements OnInit {
       );
     }
   }
-
 }

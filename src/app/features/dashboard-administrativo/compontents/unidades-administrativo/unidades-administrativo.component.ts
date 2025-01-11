@@ -1,6 +1,6 @@
 import { CommonModule, Location } from '@angular/common';
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { UnidadeModel } from './model/unidades-administrativo.model';
@@ -37,7 +37,8 @@ export class UnidadesAdministrativoComponent implements OnInit {
   constructor(
     private location: Location,
     private unidadesService: UnidadesService,
-    private modalService: BsModalService
+    private modalService: BsModalService,
+    public route: ActivatedRoute
   ) {}
 
   ngOnInit() {

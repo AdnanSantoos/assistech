@@ -5,7 +5,8 @@
       <small>Lista de Unidades cadastradas</small>
     </div>
     <button
-      routerLink="/adm/dashboard-administrativo/adicionar-unidades"
+      [relativeTo]="route.parent"
+      routerLink="adicionar-unidades"
       class="btn btn-adm-adicionar ms-2"
     >
       <mat-icon>add</mat-icon> Adicionar Unidade
@@ -91,8 +92,6 @@
   </div>
 </div>
 
-
-
 <ng-template #deleteModal>
   <div class="modal-header">
     <h5 class="modal-title text-danger">
@@ -107,7 +106,8 @@
   </div>
   <div class="modal-body">
     <p class="fw-bold">
-      Deseja realmente excluir a unidade <br> <strong class="text-danger">{{ selectedUnidade?.name }}</strong
+      Deseja realmente excluir a unidade <br />
+      <strong class="text-danger">{{ selectedUnidade?.name }}</strong
       >?
     </p>
   </div>

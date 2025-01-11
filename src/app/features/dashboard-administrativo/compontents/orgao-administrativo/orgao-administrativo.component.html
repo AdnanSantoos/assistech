@@ -5,7 +5,8 @@
       <small>Lista de Órgãos cadastrados</small>
     </div>
     <button
-      routerLink="/adm/dashboard-administrativo/adicionar-orgaos"
+      [relativeTo]="route.parent"
+      routerLink="adicionar-orgaos"
       class="btn btn-adm-adicionar ms-2"
     >
       <mat-icon>person</mat-icon> Adicionar Órgão
@@ -97,7 +98,8 @@
   </div>
   <div class="modal-body">
     <p class="fw-bold">
-      Deseja realmente excluir o órgão <br> <strong class="text-danger">{{ selectedOrgao?.name }}</strong
+      Deseja realmente excluir o órgão <br />
+      <strong class="text-danger">{{ selectedOrgao?.name }}</strong
       >?
     </p>
   </div>
