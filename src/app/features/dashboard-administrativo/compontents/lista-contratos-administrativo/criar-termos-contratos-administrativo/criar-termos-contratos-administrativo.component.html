@@ -4,312 +4,328 @@
   </h4>
 
   <form class="form-container" [formGroup]="termoForm" (ngSubmit)="onSubmit()">
-    <!-- Linha de Toggles -->
-
-    <div class="row">
+    <!-- Linha dos Toggles -->
+    <div class="row mb-4">
       <div class="col-6">
-        <div class="form-toggles mb-4">
-          <div class="form-toggle-group">
-            <div class="form-check form-switch">
-              <input
-                type="checkbox"
-                class="form-check-input"
-                id="validity_qualification"
-                formControlName="validity_qualification"
-              />
-              <label
-                class="form-check-label strong_font"
-                for="validity_qualification"
-                >Alterar vigência e número de parcelas?</label
-              >
-            </div>
-            <div class="form-check form-switch">
-              <input
-                type="checkbox"
-                class="form-check-input"
-                id="adjustment_qualification"
-                formControlName="adjustment_qualification"
-              />
-              <label
-                class="form-check-label strong_font"
-                for="adjustment_qualification"
-                >Alterar valor unitário?</label
-              >
-            </div>
+        <div class="form-toggle-group">
+          <div class="form-check form-switch">
+            <input
+              type="checkbox"
+              class="form-check-input"
+              id="validity_qualification"
+              formControlName="validity_qualification"
+            />
+            <label
+              class="form-check-label strong_font"
+              for="validity_qualification"
+            >
+              Alterar vigência e número de parcelas?
+            </label>
+          </div>
+          <div class="form-check form-switch">
+            <input
+              type="checkbox"
+              class="form-check-input"
+              id="adjustment_qualification"
+              formControlName="adjustment_qualification"
+            />
+            <label
+              class="form-check-label strong_font"
+              for="adjustment_qualification"
+            >
+              Alterar valor unitário?
+            </label>
           </div>
         </div>
       </div>
       <div class="col-6">
-        <div class="form-toggles mb-4">
-          <div class="form-toggle-group">
-            <div class="d-flex flex-column">
-              <div class="strong_font">Supressão / Acréscimo</div>
-              <div class="form-check form-switch strong_font">
-                <input
-                  type="checkbox"
-                  class="form-check-input"
-                  id="addition_suppression_qualification"
-                  [checked]="isChecked"
-                  (change)="onToggle($event)"
-                />
-                <label
-                  class="form-check-label strong_font"
-                  for="addition_suppression_qualification"
-                >
-                  {{ isChecked ? "Acréscimo" : "Supressão" }}
-                </label>
-              </div>
-            </div>
-            <div class="form-check form-switch">
+        <div class="form-toggle-group">
+          <div class="d-flex flex-column">
+            <div class="strong_font">Supressão / Acréscimo</div>
+            <div class="form-check form-switch strong_font">
               <input
                 type="checkbox"
                 class="form-check-input"
-                id="supplier_qualification"
-                formControlName="supplier_qualification"
-                [checked]="supplierQualification"
-                (change)="onSupplierToggle($event)"
+                id="addition_suppression_qualification"
+                [checked]="isChecked"
+                (change)="onToggle($event)"
               />
               <label
                 class="form-check-label strong_font"
-                for="supplier_qualification"
-                >Alterar fornecedor?</label
+                for="addition_suppression_qualification"
               >
-            </div>
-            <div class="form-check form-switch">
-              <input
-                type="checkbox"
-                class="form-check-input"
-                id="informative_qualification"
-                [checked]="informativeQualification"
-                (change)="onInformativeToggle($event)"
-              />
-              <label
-                class="form-check-label strong_font"
-                for="informative_qualification"
-              >
-                Tem alguma observação?
+                {{ isChecked ? "Acréscimo" : "Supressão" }}
               </label>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Formulário Flexbox -->
-    <div class="form-flex">
-      <!-- Coluna 1 -->
-      <div class="form-column">
-        <div class="mb-3">
-          <label for="contract_term_type_id" class="form-label strong_font"
-            >Tipo do Termo de Contrato *</label
-          >
-          <select
-            class="form-control"
-            formControlName="contract_term_type_id"
-            id="contract_term_type_id"
-          >
-            <option value="" disabled selected>Selecionar</option>
-            <option value="1">Termo de Rescisão</option>
-            <option value="2">Termo Aditivo</option>
-            <option value="3">Termo de Apostilamento</option>
-          </select>
-        </div>
-
-        <div class="mb-3">
-          <label for="added_value" class="form-label strong_font"
-            >Valor Suprimido *</label
-          >
-          <input
-            type="text"
-            class="form-control"
-            formControlName="added_value"
-            id="added_value"
-            currencyMask
-          />
-        </div>
-
-        <div class="mb-3">
-          <label for="installment_value" class="form-label strong_font"
-            >Valor da Parcela *</label
-          >
-          <input
-            type="text"
-            class="form-control"
-            formControlName="installment_value"
-            id="installment_value"
-            currencyMask
-          />
-        </div>
-
-        <div class="mb-3">
-          <label for="added_term_days" class="form-label strong_font"
-            >Prazo Aditado em Dias *</label
-          >
-          <input
-            type="number"
-            class="form-control"
-            formControlName="added_term_days"
-            id="added_term_days"
-          />
-        </div>
-        <div class="mb-3">
-          <label for="validity_start_date" class="form-label strong_font">
-            Data Início da Vigência *
-          </label>
-          <input
-            type="date"
-            class="form-control"
-            formControlName="validity_start_date"
-            id="validity_start_date"
-          />
-        </div>
-        <div *ngIf="supplierQualification" class="supplier-fields">
-          <div class="form-group">
-            <label>Nome ou Razão Social</label>
+          <div class="form-check form-switch">
             <input
-              type="text"
-              class="form-control"
-              formControlName="supplier_name"
+              type="checkbox"
+              class="form-check-input"
+              id="supplier_qualification"
+              formControlName="supplier_qualification"
+              [checked]="supplierQualification"
+              (change)="onSupplierToggle($event)"
             />
-          </div>
-          <div class="form-group">
-            <label>
-              Número do CNPJ/CPF do Fornecedor/Prestador subcontratado
-            </label>
-            <input
-              type="text"
-              mask="000.000.000-00||00.000.000/0000-00"
-              class="form-control"
-              formControlName="subcontracted_supplier_id"
-            />
-          </div>
-        </div>
-        <div class="mb-3">
-          <label for="goals" class="form-label strong_font">Objeto *</label>
-          <textarea
-            class="form-control"
-            formControlName="goals"
-            rows="4"
-          ></textarea>
-        </div>
-      </div>
-
-      <!-- Coluna 2 -->
-
-      <div class="form-column">
-        <div class="mb-3">
-          <label for="number" class="form-label strong_font"
-            >Número do termo de contrato *</label
-          >
-          <input
-            type="text"
-            class="form-control"
-            formControlName="number"
-            id="number"
-          />
-        </div>
-        <div class="mb-3">
-          <label for="number_of_installments" class="form-label strong_font"
-            >Número de Parcelas *</label
-          >
-          <input
-            type="number"
-            class="form-control"
-            formControlName="number_of_installments"
-            id="number_of_installments"
-          />
-        </div>
-        <div class="mb-3">
-          <label for="total_value" class="form-label strong_font"
-            >Valor Global *</label
-          >
-          <input
-            type="text"
-            class="form-control"
-            formControlName="total_value"
-            id="total_value"
-            currencyMask
-          />
-        </div>
-
-        <div class="mb-3">
-          <label for="signature_date" class="form-label strong_font">
-            Data de Assinatura *
-          </label>
-          <input
-            type="date"
-            class="form-control"
-            formControlName="signature_date"
-            id="signature_date"
-          />
-        </div>
-        <div class="mb-3">
-          <label for="validity_end_date" class="form-label strong_font">
-            Data Final da Vigência *
-          </label>
-          <input
-            type="date"
-            class="form-control"
-            formControlName="validity_end_date"
-            id="validity_end_date"
-          />
-        </div>
-        <div *ngIf="informativeQualification" class="mb-3">
-          <label for="informative_note" class="form-label strong_font">
-            Observação Informativa*
-          </label>
-          <textarea
-            class="form-control"
-            formControlName="informative_note"
-            id="informative_note"
-            rows="4"
-          ></textarea>
-        </div>
-        <div *ngIf="supplierQualification" class="supplier-fields">
-          <div class="form-group">
-            <label>Tipo Fornecedor Subcontratado</label>
-            <select
-              class="form-control"
-              formControlName="subcontracted_supplier_person_type"
+            <label
+              class="form-check-label strong_font"
+              for="supplier_qualification"
             >
-              <option value="PF">Pessoa Física</option>
-              <option value="PJ">Pessoa Jurídica</option>
-              <option value="PE">Pessoa Extrangeira</option>
-            </select>
+              Alterar fornecedor?
+            </label>
           </div>
-          <div class="form-group">
-            <label>Nome do fornecedor subcontratado</label>
+          <div class="form-check form-switch">
             <input
-              type="text"
-              class="form-control"
-              formControlName="subcontracted_supplier_name"
+              type="checkbox"
+              class="form-check-input"
+              id="informative_qualification"
+              [checked]="informativeQualification"
+              (change)="onInformativeToggle($event)"
             />
+            <label
+              class="form-check-label strong_font"
+              for="informative_qualification"
+            >
+              Tem alguma observação?
+            </label>
           </div>
-        </div>
-        <div class="mb-3">
-          <label for="legal_basis" class="form-label strong_font"
-            >Fundamento Legal *</label
-          >
-          <textarea
-            class="form-control"
-            formControlName="legal_basis"
-            rows="4"
-          ></textarea>
         </div>
       </div>
     </div>
-    @if(isEditMode){
-    <div class="mb-3">
-      <label for="goals" class="form-label strong_font"
-        >Justificativa da Edição *
-      </label>
-      <textarea
-        class="form-control"
-        formControlName="change_reason"
-        rows="4"
-      ></textarea>
+
+    <!-- Campos do formulário em linhas -->
+    <div class="row mb-3">
+      <div class="col-6">
+        <label for="contract_term_type_id" class="form-label strong_font"
+          >Tipo do Termo de Contrato *</label
+        >
+        <select
+          class="form-control"
+          formControlName="contract_term_type_id"
+          id="contract_term_type_id"
+        >
+          <option value="" disabled selected>Selecionar</option>
+          <option value="1">Termo de Rescisão</option>
+          <option value="2">Termo Aditivo</option>
+          <option value="3">Termo de Apostilamento</option>
+        </select>
+      </div>
+      <div class="col-6">
+        <label for="number" class="form-label strong_font"
+          >Número do termo de contrato *</label
+        >
+        <input
+          type="text"
+          class="form-control"
+          formControlName="number"
+          id="number"
+        />
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-6">
+        <label for="added_value" class="form-label strong_font"
+          >Valor Suprimido *</label
+        >
+        <input
+          type="text"
+          class="form-control"
+          formControlName="added_value"
+          id="added_value"
+          currencyMask
+        />
+      </div>
+      <div class="col-6">
+        <label for="number_of_installments" class="form-label strong_font"
+          >Número de Parcelas *</label
+        >
+        <input
+          type="number"
+          class="form-control"
+          formControlName="number_of_installments"
+          id="number_of_installments"
+        />
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-6">
+        <label for="installment_value" class="form-label strong_font"
+          >Valor da Parcela *</label
+        >
+        <input
+          type="text"
+          class="form-control"
+          formControlName="installment_value"
+          id="installment_value"
+          currencyMask
+        />
+      </div>
+      <div class="col-6">
+        <label for="total_value" class="form-label strong_font"
+          >Valor Global *</label
+        >
+        <input
+          type="text"
+          class="form-control"
+          formControlName="total_value"
+          id="total_value"
+          currencyMask
+        />
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-6">
+        <label for="added_term_days" class="form-label strong_font"
+          >Prazo Aditado em Dias *</label
+        >
+        <input
+          type="number"
+          class="form-control"
+          formControlName="added_term_days"
+          id="added_term_days"
+        />
+      </div>
+      <div class="col-6">
+        <label for="signature_date" class="form-label strong_font"
+          >Data de Assinatura *</label
+        >
+        <input
+          type="date"
+          class="form-control"
+          formControlName="signature_date"
+          id="signature_date"
+        />
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-6">
+        <label for="validity_start_date" class="form-label strong_font"
+          >Data Início da Vigência *</label
+        >
+        <input
+          type="date"
+          class="form-control"
+          formControlName="validity_start_date"
+          id="validity_start_date"
+        />
+      </div>
+      <div class="col-6">
+        <label for="validity_end_date" class="form-label strong_font"
+          >Data Final da Vigência *</label
+        >
+        <input
+          type="date"
+          class="form-control"
+          formControlName="validity_end_date"
+          id="validity_end_date"
+        />
+      </div>
+    </div>
+
+    @if(supplierQualification) {
+    <div class="row mb-3">
+      <div class="col-6">
+        <label class="form-label strong_font">Nome ou Razão Social</label>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="supplier_name"
+        />
+      </div>
+      <div class="col-6">
+        <label class="form-label strong_font"
+          >Tipo Fornecedor Subcontratado</label
+        >
+        <select
+          class="form-control"
+          formControlName="subcontracted_supplier_person_type"
+        >
+          <option value="PF">Pessoa Física</option>
+          <option value="PJ">Pessoa Jurídica</option>
+          <option value="PE">Pessoa Extrangeira</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-6">
+        <label class="form-label strong_font"
+          >Número do CNPJ/CPF do Fornecedor/Prestador subcontratado</label
+        >
+        <input
+          type="text"
+          mask="000.000.000-00||00.000.000/0000-00"
+          class="form-control"
+          formControlName="subcontracted_supplier_id"
+        />
+      </div>
+      <div class="col-6">
+        <label class="form-label strong_font"
+          >Nome do fornecedor subcontratado</label
+        >
+        <input
+          type="text"
+          class="form-control"
+          formControlName="subcontracted_supplier_name"
+        />
+      </div>
     </div>
     }
+
+    <div class="row mb-3">
+      <div class="col-6">
+        <label for="goals" class="form-label strong_font">Objeto *</label>
+        <textarea
+          class="form-control"
+          formControlName="goals"
+          rows="4"
+        ></textarea>
+      </div>
+      <div class="col-6">
+        <label for="legal_basis" class="form-label strong_font"
+          >Fundamento Legal *</label
+        >
+        <textarea
+          class="form-control"
+          formControlName="legal_basis"
+          rows="4"
+        ></textarea>
+      </div>
+    </div>
+
+    @if(informativeQualification) {
+    <div class="row mb-3">
+      <div class="col-12">
+        <label for="informative_note" class="form-label strong_font"
+          >Observação Informativa *</label
+        >
+        <textarea
+          class="form-control"
+          formControlName="informative_note"
+          id="informative_note"
+          rows="4"
+        ></textarea>
+      </div>
+    </div>
+    } @if(isEditMode) {
+    <div class="row mb-3">
+      <div class="col-12">
+        <label for="goals" class="form-label strong_font"
+          >Justificativa da Edição *</label
+        >
+        <textarea
+          class="form-control"
+          formControlName="change_reason"
+          rows="4"
+        ></textarea>
+      </div>
+    </div>
+    }
+
     <!-- Botão Salvar -->
     <div class="text-end mt-3">
       <button type="submit" class="btn btn-primary hover-sucesso">
