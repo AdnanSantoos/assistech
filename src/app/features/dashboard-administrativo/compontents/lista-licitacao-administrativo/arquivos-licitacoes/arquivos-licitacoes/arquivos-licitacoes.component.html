@@ -104,13 +104,12 @@
             Tipos de arquivos aceitos:
             <strong>.pdf, .txt, .rtf, .doc, .docx, .odt</strong>
           </p>
-          <button
-            type="submit"
-            class="btn btn-primary mt-4"
-            [disabled]="formGroup.invalid"
-          >
-            Enviar
-          </button>
+          <!-- Botão de Submissão -->
+          <div class="d-flex justify-content-end">
+            <button type="submit" class="btn bg-dark text-white hover-sucesso">
+              Enviar
+            </button>
+          </div>
         </form>
 
         <div class="custom-file-table mt-4" *ngIf="arquivos.length > 0">
