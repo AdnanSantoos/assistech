@@ -734,13 +734,29 @@ export class EditarLicitacoesAdministrativoComponent implements OnInit {
         const licitacao = response.data;
         this.agencyName = licitacao.agency.name;
         this.Unidade = licitacao.unit.name;
-        // Primeiro, atualize as opções baseadas nos valores recebidos
-        this.updateModalidadeOptions(licitacao.call_instrument_id);
-        this.updateModoDisputaAndLegalBasicOptions(
-          licitacao.contracting_modality_id
-        );
 
-        // Formate as datas
+        // 1. Primeiro, configura o tipo de instrumento convocatório, que afeta as modalidades
+        if (licitacao.call_instrument_id) {
+          this.ratificacaoForm
+            .get('call_instrument_id')
+            ?.setValue(licitacao.call_instrument_id, { emitEvent: true });
+        }
+
+        // 2. Depois configura a modalidade, que afeta modo de disputa e amparo legal
+        if (licitacao.contracting_modality_id) {
+          this.ratificacaoForm
+            .get('contracting_modality_id')
+            ?.setValue(licitacao.contracting_modality_id, { emitEvent: true });
+        }
+
+        // 3. Configura o modo de disputa, que pode afetar o amparo legal
+        if (licitacao.dispute_mode_id) {
+          this.ratificacaoForm
+            .get('dispute_mode_id')
+            ?.setValue(licitacao.dispute_mode_id, { emitEvent: true });
+        }
+
+        // 4. Formata as datas
         const formattedOpeningDate = formatDate(
           licitacao.opening_date_proposal,
           "yyyy-MM-dd'T'HH:mm",
@@ -752,14 +768,11 @@ export class EditarLicitacoesAdministrativoComponent implements OnInit {
           'en-US'
         );
 
-        // Então, atualize o formulário com todos os valores
+        // 5. Preenche o restante do formulário
         this.ratificacaoForm.patchValue(
           {
-            call_instrument_id: licitacao.call_instrument_id,
-            contracting_modality_id: licitacao.contracting_modality_id,
             contracting_situation_id: licitacao.contracting_situation_id,
             contracting_situation: licitacao.contracting_situation,
-            dispute_mode_id: licitacao.dispute_mode_id,
             legal_basic_id: licitacao.legal_basic_id,
             number: licitacao.number,
             year: licitacao.year,
@@ -771,7 +784,84 @@ export class EditarLicitacoesAdministrativoComponent implements OnInit {
             closing_date_proposal: formattedClosingDate,
           },
           { emitEvent: false }
-        ); // Importante: não dispare eventos ao patchValue
+        );
+
+        // 6. Verifica e garante que todos os selects têm suas opções correspondentes
+        // Tipo de Instrumento
+        if (
+          !this.callInstrumentOptions.some(
+            (option) => option.value === licitacao.call_instrument_id
+          )
+        ) {
+          const fullOption = this.callInstrumentOptions.find(
+            (opt) => opt.value === licitacao.call_instrument_id
+          );
+          if (fullOption) {
+            this.callInstrumentOptions = [
+              ...this.callInstrumentOptions,
+              fullOption,
+            ];
+          }
+        }
+
+        // Modalidade
+        if (
+          !this.modalidadeContratoOpcoes.some(
+            (option) => option.value === licitacao.contracting_modality_id
+          )
+        ) {
+          const fullOption = this.modalidadeContratoOpcoes.find(
+            (opt) => opt.value === licitacao.contracting_modality_id
+          );
+          if (fullOption) {
+            this.modalidadeContratoOpcoes = [
+              ...this.modalidadeContratoOpcoes,
+              fullOption,
+            ];
+          }
+        }
+
+        // Modo de Disputa
+        if (
+          !this.modoDisputaOpcoes.some(
+            (option) => option.value === licitacao.dispute_mode_id
+          )
+        ) {
+          const fullOption = this.modoDisputaOpcoes.find(
+            (opt) => opt.value === licitacao.dispute_mode_id
+          );
+          if (fullOption) {
+            this.modoDisputaOpcoes = [...this.modoDisputaOpcoes, fullOption];
+          }
+        }
+
+        // Amparo Legal
+        if (
+          !this.legalBasicOptions.some(
+            (option) => option.value === licitacao.legal_basic_id
+          )
+        ) {
+          const fullOption = this.legalBasicOptions.find(
+            (opt) => opt.value === licitacao.legal_basic_id
+          );
+          if (fullOption) {
+            this.legalBasicOptions = [...this.legalBasicOptions, fullOption];
+          }
+        }
+
+        // Situação da Compra
+        if (
+          !this.situacaoCompra.some(
+            (option) => option.value === licitacao.contracting_situation_id
+          )
+        ) {
+          const fullOption = this.situacaoCompra.find(
+            (opt) => opt.value === licitacao.contracting_situation_id
+          );
+          if (fullOption) {
+            this.situacaoCompra = [...this.situacaoCompra, fullOption];
+          }
+        }
       },
       error: (err) => {
         console.error('Erro ao carregar a licitação:', err);
@@ -779,37 +869,7 @@ export class EditarLicitacoesAdministrativoComponent implements OnInit {
       },
     });
   }
-  private updateModalidadeOptions(tipoInstrumentoId: number): void {
-    // Implemente a lógica de atualização das modalidades baseada no tipo de instrumento
-    switch (tipoInstrumentoId) {
-      case 4:
-        this.modalidadeContratoOpcoes = [
-          { key: 'Dispensa Licitação', value: 8 },
-          { key: 'Manifestação de Interesse', value: 10 },
-          // ... outras opções
-        ];
-        break;
-      default:
-        // Mantenha suas opções padrão
-        break;
-    }
-  }
 
-  private updateModoDisputaAndLegalBasicOptions(modalidadeId: number): void {
-    // Implemente a lógica de atualização do modo de disputa e amparo legal baseada na modalidade
-    switch (modalidadeId) {
-      case 8: // Dispensa - Licitação
-        this.modoDisputaOpcoes = [
-          { value: 4, key: 'Dispensa Com Disputa' },
-          { value: 5, key: 'Não se aplica' },
-        ];
-        this.legalBasicOptions = [
-          { value: 80, key: 'Lei nº 14.133/2021, Art. 1º, § 2º' },
-        ];
-        break;
-      // Adicione outros casos conforme necessário
-    }
-  }
   // Método para envio do formulário
   onSubmit(): void {
     if (this.ratificacaoForm.invalid) {
