@@ -61,6 +61,7 @@ export class ResultadoLicitacaoComponent implements OnInit {
   totalPages: number = 1;
   modalRef?: BsModalRef;
   novoResultadoForm!: FormGroup;
+  isEditing: boolean = false;
 
   naturezaJuridicaOptions = [
     { value: '0000', key: 'Natureza Jurídica não informada' },
@@ -555,6 +556,8 @@ export class ResultadoLicitacaoComponent implements OnInit {
   }
 
   openAddResultadoModal(): void {
+    this.isEditing = false;
+    this.novoResultadoForm.reset();
     this.modalRef = this.modalService.show(this.addResultadoModal, {
       class: 'modal-lg',
     });
@@ -565,28 +568,68 @@ export class ResultadoLicitacaoComponent implements OnInit {
       this.modalRef.hide();
     }
   }
-
+  editResultado(resultado: LicitacaoResultados): void {
+    this.isEditing = true;
+    this.novoResultadoForm.patchValue({
+      id: resultado.id,
+      procurement_item_id: resultado.procurement_item_id,
+      quantity: resultado.quantity,
+      unit_price: resultado.unit_price,
+      total_price: resultado.total_price,
+      person_type: resultado.person_type,
+      supplier_ni: resultado.supplier_ni,
+      supplier_name_or_social_reason: resultado.supplier_name_or_social_reason,
+      supplier_size_id: resultado.supplier_size_id,
+      legal_nature_id: resultado.legal_nature_id,
+      country_code: resultado.country_code,
+      subcontracting_indicator: resultado.subcontracting_indicator,
+      srp_classification_order: resultado.srp_classification_order,
+      date: resultado.date,
+      discount_percentage: resultado.discount_percentage,
+      gateway_sequence: resultado.gateway_sequence,
+      status: resultado.status,
+      preference_margin_applicability:
+        resultado.preference_margin_applicability,
+      preference_margin_legal_basis: resultado.preference_margin_legal_basis,
+      product_origin_country: resultado.product_origin_country,
+      benefit_me_epp_applicability: resultado.benefit_me_epp_applicability,
+      tiebreaker_criterion_applicability:
+        resultado.tiebreaker_criterion_applicability,
+      tiebreaker_criterion_legal_basis:
+        resultado.tiebreaker_criterion_legal_basis,
+      foreign_currency_symbol: resultado.foreign_currency_symbol,
+      foreign_currency_exchange_date: resultado.foreign_currency_exchange_date,
+      foreign_currency_timezone_offset:
+        resultado.foreign_currency_timezone_offset,
+      foreign_currency_nominal_value: resultado.foreign_currency_nominal_value,
+    });
+    this.modalRef = this.modalService.show(this.addResultadoModal, {
+      class: 'modal-lg',
+    });
+  }
   adicionarResultado(): void {
     if (this.novoResultadoForm.valid) {
-      const novoResultado = this.novoResultadoForm.value;
+      const formData = this.novoResultadoForm.value;
 
-      console.log('Novo resultado adicionado:', novoResultado);
-
-      this.resultados.push(novoResultado);
-
-      // Exibe o toastr de sucesso
-      this.toastr.success('Resultado adicionado com sucesso!', 'Sucesso');
+      if (this.isEditing) {
+        // Update existing resultado
+        const index = this.resultados.findIndex((r) => r.id === formData.id);
+        if (index !== -1) {
+          this.resultados[index] = { ...this.resultados[index], ...formData };
+          this.toastr.success('Resultado atualizado com sucesso!', 'Sucesso');
+        }
+      } else {
+        // Add new resultado
+        this.resultados.push(formData);
+        this.toastr.success('Resultado adicionado com sucesso!', 'Sucesso');
+      }
 
       this.closeModal();
     } else {
-      console.error('Formulário inválido');
-
-      // Exibe o toastr de erro
       this.toastr.error(
         'Por favor, preencha todos os campos obrigatórios.',
         'Erro'
       );
-
       this.novoResultadoForm.markAllAsTouched();
     }
   }

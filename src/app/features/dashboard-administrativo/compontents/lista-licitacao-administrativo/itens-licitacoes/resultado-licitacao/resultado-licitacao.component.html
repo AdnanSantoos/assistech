@@ -42,13 +42,14 @@
           <td class="text-center">
             <div class="d-flex justify-content-center">
               <button
-                class="btn-format btn-remove border-0 ps-0 pe-0 ms-0 me-0"
-                tooltip="Remover Item"
-                (click)="deleteResultado(resultado.id)"
+                class="btn-format btn-edit border-0 ps-0 pe-0 ms-0 me-0"
+                tooltip="Editar Item"
+                (click)="editResultado(resultado)"
               >
                 <img
-                  src="../../../../../assets/icons/remove-icon.svg"
-                  alt="Remover Publicação"
+                  src="../../../../../assets/icons/edit-icon.svg"
+                  F
+                  alt="Editar Resultado"
                 />
               </button>
             </div>
@@ -66,7 +67,7 @@
 
 <ng-template #addResultadoModal>
   <div class="modal-header bg-dark">
-    <h5 class="modal-title text-white">Adicionar Novo Resultado</h5>
+    <h4 class="text-white">{{ isEditing ? "Editar Resultado" : "Adicionar Novo Resultado" }}</h4>
     <button
       type="button"
       class="btn-close"
@@ -363,7 +364,7 @@
       class="btn bg-dark text-white hover-sucesso"
       (click)="adicionarResultado()"
     >
-      Salvar
+      {{ isEditing ? "Atualizar" : "Salvar" }}
     </button>
   </div>
 </ng-template>

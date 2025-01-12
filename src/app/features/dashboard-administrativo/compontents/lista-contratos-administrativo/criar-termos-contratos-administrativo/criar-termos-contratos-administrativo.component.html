@@ -153,16 +153,14 @@
           />
         </div>
         <div class="mb-3">
-          <label for="validity_start_date" class="form-label strong_font"
-            >Data Início da Vigência *</label
-          >
+          <label for="validity_start_date" class="form-label strong_font">
+            Data Início da Vigência *
+          </label>
           <input
-            type="text"
+            type="date"
             class="form-control"
-            bsDatepicker
             formControlName="validity_start_date"
             id="validity_start_date"
-            placeholder="dd/mm/yyyy"
           />
         </div>
         <div *ngIf="supplierQualification" class="supplier-fields">
@@ -235,29 +233,25 @@
         </div>
 
         <div class="mb-3">
-          <label for="signature_date" class="form-label strong_font"
-            >Data de Assinatura *</label
-          >
+          <label for="signature_date" class="form-label strong_font">
+            Data de Assinatura *
+          </label>
           <input
-            type="text"
+            type="date"
             class="form-control"
-            bsDatepicker
             formControlName="signature_date"
             id="signature_date"
-            placeholder="dd/mm/yyyy"
           />
         </div>
         <div class="mb-3">
-          <label for="validity_end_date" class="form-label strong_font"
-            >Data Final da Vigência *</label
-          >
+          <label for="validity_end_date" class="form-label strong_font">
+            Data Final da Vigência *
+          </label>
           <input
-            type="text"
+            type="date"
             class="form-control"
-            bsDatepicker
             formControlName="validity_end_date"
             id="validity_end_date"
-            placeholder="dd/mm/yyyy"
           />
         </div>
         <div *ngIf="informativeQualification" class="mb-3">
