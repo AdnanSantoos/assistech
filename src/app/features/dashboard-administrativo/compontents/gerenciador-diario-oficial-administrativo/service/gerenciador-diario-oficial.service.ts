@@ -1,30 +1,41 @@
-import { Injectable } from "@angular/core";
-import { BehaviorSubject, catchError, Observable, of, tap, throwError } from "rxjs";
-import { GerenciadorDiarioOficialRepository } from "../repository/gerenciador-diario-oficial.repository";
-import { ToastrService } from "ngx-toastr";
-import { DiarioOficialPublicacoes } from "../models/gerenciador-diario-oficial.model";
+import { Injectable } from '@angular/core';
+import {
+  BehaviorSubject,
+  catchError,
+  Observable,
+  of,
+  tap,
+  throwError,
+} from 'rxjs';
+import { GerenciadorDiarioOficialRepository } from '../repository/gerenciador-diario-oficial.repository';
+import { ToastrService } from 'ngx-toastr';
+import { DiarioOficialPublicacoes } from '../models/gerenciador-diario-oficial.model';
 
 @Injectable({
   providedIn: 'root',
 })
-
 export class GerenciadorDiarioOficialService {
-  private publicacoesSubject = new BehaviorSubject<DiarioOficialPublicacoes[]>([]);
-  publicacoes$: Observable<DiarioOficialPublicacoes[]> = this.publicacoesSubject.asObservable();
+  private publicacoesSubject = new BehaviorSubject<DiarioOficialPublicacoes[]>(
+    []
+  );
+  publicacoes$: Observable<DiarioOficialPublicacoes[]> =
+    this.publicacoesSubject.asObservable();
 
   constructor(
     private _repository: GerenciadorDiarioOficialRepository,
     private toastr: ToastrService
-  ) {
-  }
+  ) {}
   loadPublicacoes(page: number): void {
-    this._repository.getListaDiarioOficial(page).pipe(
-      tap((response) => this.publicacoesSubject.next(response.data || [])),
-      catchError((error) => {
-        console.error('Erro ao carregar publicações:', error);
-        return of([]); // Retorna um Observable vazio em caso de erro
-      })
-    ).subscribe();
+    this._repository
+      .getListaDiarioOficial(page)
+      .pipe(
+        tap((response) => this.publicacoesSubject.next(response.data || [])),
+        catchError((error) => {
+          console.error('Erro ao carregar publicações:', error);
+          return of([]); // Retorna um Observable vazio em caso de erro
+        })
+      )
+      .subscribe();
   }
   public getPublicacoes(): Observable<DiarioOficialPublicacoes[]> {
     return this.publicacoes$; // Exponha apenas o Observable
@@ -56,7 +67,9 @@ export class GerenciadorDiarioOficialService {
     );
   }
 
-  public getDocumentPages(id: string): Observable<{ data: { pages: number; file_upload: string } }> {
+  public getDocumentPages(
+    id: string
+  ): Observable<{ data: { pages: number; file_upload: string } }> {
     return this._repository.getDocumentPages(id).pipe(
       tap((response) => {
         console.log('Resposta do repositório (páginas):', response); // Log da resposta no serviço
@@ -68,8 +81,11 @@ export class GerenciadorDiarioOficialService {
     );
   }
 
-  attachDocument(id: string, file: File): Observable<{ data: { status: boolean } }> {
-    return this._repository.attachDocument(id, file).pipe(
+  attachDocument(
+    id: string,
+    formData: FormData
+  ): Observable<{ data: { status: boolean } }> {
+    return this._repository.attachDocument(id, formData).pipe(
       tap(() => {
         this.toastr.success('Documento anexado com sucesso!', 'Sucesso');
       }),

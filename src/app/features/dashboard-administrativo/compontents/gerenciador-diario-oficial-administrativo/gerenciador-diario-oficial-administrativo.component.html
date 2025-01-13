@@ -79,7 +79,7 @@
                   alt="Publicado"
                 />
               </a>
-               @if(isStaff){
+              @if(isStaff){
               <button
                 class="btn btn-anexar"
                 (click)="openAnexarModal(anexarDocumentos, doc)"
@@ -234,21 +234,42 @@
                   ></button>
                 </div>
                 <div class="modal-body">
-                  <div>
-                    <label for="fileInput" class="form-label"
-                      >Selecione um arquivo:</label
+                  <form [formGroup]="anexarForm">
+                    <div class="form-group mb-3">
+                      <label for="signature_date"
+                        >Data da Assinatura se for antes de *</label
+                      >
+                      <input
+                        type="date"
+                        id="signature_date"
+                        class="form-control"
+                        formControlName="signature_date"
+                      />
+                    </div>
+                    <div>
+                      <label for="fileInput" class="form-label"
+                        >Selecione um arquivo:</label
+                      >
+                      <input
+                        id="fileInput"
+                        type="file"
+                        class="form-control"
+                        accept=".pdf"
+                        (change)="onFileSelected($event)"
+                      />
+                      <small class="text-muted"
+                        >Tipos de arquivos aceitos: .pdf</small
+                      >
+                    </div>
+                    <button
+                      type="button"
+                      class="btn bg-dark text-white hover-sucesso"
+                      [disabled]="!selectedFile"
+                      (click)="attachDocument()"
                     >
-                    <input
-                      id="fileInput"
-                      type="file"
-                      class="form-control"
-                      accept=".pdf"
-                      (change)="onFileSelected($event)"
-                    />
-                    <small class="text-muted"
-                      >Tipos de arquivos aceitos: .pdf</small
-                    >
-                  </div>
+                      Enviar arquivos
+                    </button>
+                  </form>
                 </div>
                 <div class="modal-footer">
                   <button
@@ -257,14 +278,6 @@
                     (click)="modalRef?.hide()"
                   >
                     Cancelar
-                  </button>
-                  <button
-                    type="button"
-                    class="btn btn-primary"
-                    [disabled]="!selectedFile"
-                    (click)="attachDocument()"
-                  >
-                    Selecionar Arquivo
                   </button>
                 </div>
               </ng-template>

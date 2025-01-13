@@ -10,36 +10,54 @@ import { TenantService } from '../../../../../shared/services/tenant.service';
   providedIn: 'root',
 })
 export class GerenciadorDiarioOficialRepository {
-
-  constructor(private _http: HttpClient, private _tenantService: TenantService) { }
+  constructor(
+    private _http: HttpClient,
+    private _tenantService: TenantService
+  ) {}
 
   getListaDiarioOficial(page: number) {
     const params = new HttpParams().set('page', page.toString());
-    return this._http.get<RequisicaoModel<DiarioOficialPublicacoes[]>>(`${environment.API_URL}/tenants/${this._tenantService.getTenant()}/diario-oficial/official-gazettes`, { params });
+    return this._http.get<RequisicaoModel<DiarioOficialPublicacoes[]>>(
+      `${
+        environment.API_URL
+      }/tenants/${this._tenantService.getTenant()}/diario-oficial/official-gazettes`,
+      { params }
+    );
   }
 
   onDeleteItem(id: string): Observable<void> {
-    const url = `${environment.API_URL}/tenants/${this._tenantService.getTenant()}/diario-oficial/official-gazettes/${id}`;
+    const url = `${
+      environment.API_URL
+    }/tenants/${this._tenantService.getTenant()}/diario-oficial/official-gazettes/${id}`;
     return this._http.delete<void>(url);
   }
 
   onDeletePages(id: string, pages: number[]): Observable<void> {
-    const url = `${environment.API_URL}/tenants/${this._tenantService.getTenant()}/diario-oficial/official-gazettes/${id}/remove-pages`;
+    const url = `${
+      environment.API_URL
+    }/tenants/${this._tenantService.getTenant()}/diario-oficial/official-gazettes/${id}/remove-pages`;
     return this._http.put<void>(url, { pages });
   }
-  
-  getDocumentPages(id: string): Observable<{ data: { pages: number; file_upload: string } }> {
-    const url = `${environment.API_URL}/tenants/${this._tenantService.getTenant()}/diario-oficial/official-gazettes/${id}/pages`;
+
+  getDocumentPages(
+    id: string
+  ): Observable<{ data: { pages: number; file_upload: string } }> {
+    const url = `${
+      environment.API_URL
+    }/tenants/${this._tenantService.getTenant()}/diario-oficial/official-gazettes/${id}/pages`;
     console.log('URL da requisição de páginas:', url);
-    return this._http.get<{ data: { pages: number; file_upload: string } }>(url);
+    return this._http.get<{ data: { pages: number; file_upload: string } }>(
+      url
+    );
   }
-  
-  attachDocument(id: string, file: File): Observable<{ data: { status: boolean } }> {
-    const url = `${environment.API_URL}/tenants/${this._tenantService.getTenant()}/diario-oficial/official-gazettes/${id}/attach`;
 
-    const formData = new FormData();
-    formData.append('file', file);
-
+  attachDocument(
+    id: string,
+    formData: FormData
+  ): Observable<{ data: { status: boolean } }> {
+    const url = `${
+      environment.API_URL
+    }/tenants/${this._tenantService.getTenant()}/diario-oficial/official-gazettes/${id}/attach`;
     return this._http.post<{ data: { status: boolean } }>(url, formData);
   }
 }

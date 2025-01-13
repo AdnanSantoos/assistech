@@ -5,30 +5,50 @@ import { Location } from '@angular/common';
 import { MatIcon } from '@angular/material/icon';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { GerenciadorDiarioOficialService } from './service/gerenciador-diario-oficial.service';
-import { DiarioOficialPublicacoes, StatusPublicacao } from './models/gerenciador-diario-oficial.model';
+import {
+  DiarioOficialPublicacoes,
+  StatusPublicacao,
+} from './models/gerenciador-diario-oficial.model';
 import { TenantService } from '../../../../shared/services/tenant.service';
 import { BsModalRef, BsModalService, ModalModule } from 'ngx-bootstrap/modal';
 import { Observable, Subscription } from 'rxjs';
 import { WebSocketService } from '../../../../shared/services/web-socket.service';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { PublicarDiarioOficialMapper } from '../../../diario-oficial-administrativo/mappers/publicar-diario-oficial-mapper';
 
 @Component({
   selector: 'app-gerenciador-diario-oficial-administrativo',
   standalone: true,
-  imports: [CommonModule, RouterLink, MatIcon, TooltipModule, ModalModule],
+  imports: [
+    CommonModule,
+    RouterLink,
+    MatIcon,
+    TooltipModule,
+    ModalModule,
+    ReactiveFormsModule,
+  ],
   providers: [BsModalService],
   templateUrl: './gerenciador-diario-oficial-administrativo.component.html',
   styleUrls: ['./gerenciador-diario-oficial-administrativo.component.scss'],
 })
-export class GerenciadorDiarioOficialAdministrativoComponent implements OnInit, OnDestroy {
+export class GerenciadorDiarioOficialAdministrativoComponent
+  implements OnInit, OnDestroy
+{
   public documents: DiarioOficialPublicacoes[] = [];
   public selectedDocument: DiarioOficialPublicacoes | null = null;
   public modalRef?: BsModalRef;
+  anexarForm!: FormGroup;
 
   public currentPage = 1;
   public totalPages = 5;
   public isStaff: boolean | null = null;
 
-  public documentPages: number[] = []; // Lista de páginas do documento selecionado 
+  public documentPages: number[] = []; // Lista de páginas do documento selecionado
   public selectedPages: number[] = []; // Páginas selecionadas para exclusão
   selectedFile: File | null = null; // Armazena o arquivo selecionado
   public publicacoes: DiarioOficialPublicacoes[] = [];
@@ -39,11 +59,16 @@ export class GerenciadorDiarioOficialAdministrativoComponent implements OnInit, 
     private webSocketService: WebSocketService,
     public tenantService: TenantService,
     private modalService: BsModalService,
-    private _tenantService:TenantService,
-    public route:ActivatedRoute
+    private _tenantService: TenantService,
+    public route: ActivatedRoute,
+    private fb: FormBuilder
   ) {
     this._service.publicacoes$.subscribe((data) => {
       this.publicacoes = data;
+    });
+    this.anexarForm = this.fb.group({
+      file: ['', [Validators.required]],
+      signature_date: ['', [Validators.required]],
     });
   }
   ngOnDestroy(): void {
@@ -66,7 +91,8 @@ export class GerenciadorDiarioOficialAdministrativoComponent implements OnInit, 
     console.log({ channelName });
 
     // Escutando o evento do WebSocket
-    echo.private(channelName)
+    echo
+      .private(channelName)
       .listen('.OfficialGazetteProcessed', (event: any) => {
         console.log({ event });
         this.updatePublicationStatus(event); // Atualiza o status da publicação
@@ -76,15 +102,16 @@ export class GerenciadorDiarioOficialAdministrativoComponent implements OnInit, 
       });
   }
 
-
-   /**
+  /**
    * Atualiza o status da publicação com base no evento recebido.
    * @param event Dados do evento.
    */
-   private updatePublicationStatus(event: any): void {
+  private updatePublicationStatus(event: any): void {
     const { official_gazette_id, status } = event;
     // Procure a publicação na lista e atualize seu status
-    const publication = this.publicacoes.find(pub => pub.id === official_gazette_id);
+    const publication = this.publicacoes.find(
+      (pub) => pub.id === official_gazette_id
+    );
     if (publication) {
       publication.status = status;
     } else {
@@ -101,7 +128,7 @@ export class GerenciadorDiarioOficialAdministrativoComponent implements OnInit, 
       [StatusPublicacao.JOINING_FILES]: 'Unindo Arquivos',
       [StatusPublicacao.ERROR]: 'Erro',
       [StatusPublicacao.PUBLISHED]: 'Publicado',
-      [StatusPublicacao.SCHEDULED]: 'Agendado'
+      [StatusPublicacao.SCHEDULED]: 'Agendado',
     };
 
     return traducoes[status] || '-';
@@ -116,7 +143,7 @@ export class GerenciadorDiarioOficialAdministrativoComponent implements OnInit, 
       },
       error: (err) => {
         console.error('Erro ao carregar o Diário Oficial:', err);
-      }
+      },
     });
   }
 
@@ -141,11 +168,13 @@ export class GerenciadorDiarioOficialAdministrativoComponent implements OnInit, 
       this.getDiario(this.currentPage);
     }
   }
-  openConfirmationModal(template: any, document: DiarioOficialPublicacoes): void {
+  openConfirmationModal(
+    template: any,
+    document: DiarioOficialPublicacoes
+  ): void {
     this.selectedDocument = document;
     this.modalRef = this.modalService.show(template);
   }
-
 
   confirmDelete(): void {
     if (this.selectedDocument) {
@@ -163,7 +192,6 @@ export class GerenciadorDiarioOficialAdministrativoComponent implements OnInit, 
     }
   }
 
-
   openDeletePage(template: any, document: DiarioOficialPublicacoes): void {
     this.selectedDocument = document;
     this.selectedPages = [];
@@ -171,9 +199,11 @@ export class GerenciadorDiarioOficialAdministrativoComponent implements OnInit, 
     if (document.id) {
       this._service.getDocumentPages(document.id).subscribe({
         next: (response) => {
-
           if (response.data.pages) {
-            this.documentPages = Array.from({ length: response.data.pages }, (_, i) => i + 1);
+            this.documentPages = Array.from(
+              { length: response.data.pages },
+              (_, i) => i + 1
+            );
           } else {
             this.documentPages = [];
           }
@@ -199,20 +229,21 @@ export class GerenciadorDiarioOficialAdministrativoComponent implements OnInit, 
   confirmDeletePage(): void {
     if (this.selectedDocument && this.selectedPages.length > 0) {
       console.log('Excluindo páginas:', this.selectedPages);
-      this._service.onDeletePages(this.selectedDocument.id, this.selectedPages).subscribe({
-        next: () => {
-          console.log('Páginas excluídas com sucesso!');
-          this.modalRef?.hide();
-          this.selectedPages = [];
-          this.getDiario(this.currentPage);
-        },
-        error: (err) => {
-          console.error('Erro ao excluir páginas:', err);
-        },
-      });
+      this._service
+        .onDeletePages(this.selectedDocument.id, this.selectedPages)
+        .subscribe({
+          next: () => {
+            console.log('Páginas excluídas com sucesso!');
+            this.modalRef?.hide();
+            this.selectedPages = [];
+            this.getDiario(this.currentPage);
+          },
+          error: (err) => {
+            console.error('Erro ao excluir páginas:', err);
+          },
+        });
     }
   }
-
 
   getDocumentPages(document: DiarioOficialPublicacoes): number[] {
     // Simulação: cada documento tem 10 páginas por padrão
@@ -227,7 +258,11 @@ export class GerenciadorDiarioOficialAdministrativoComponent implements OnInit, 
 
   previewFile(): void {
     if (this.selectedDocument) {
-      window.open(this.selectedDocument.file_published || this.selectedDocument.file_upload, '_blank');
+      window.open(
+        this.selectedDocument.file_published ||
+          this.selectedDocument.file_upload,
+        '_blank'
+      );
     }
   }
 
@@ -236,31 +271,60 @@ export class GerenciadorDiarioOficialAdministrativoComponent implements OnInit, 
     this.modalRef = this.modalService.show(template); // Abre o modal
   }
 
-  onFileSelected(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    if (input.files?.length) {
-      this.selectedFile = input.files[0]; // Salva o arquivo selecionado
-      console.log('Arquivo selecionado:', this.selectedFile); // Log do arquivo selecionado
-    }
-  }
-
-  attachDocument(): void {
-    if (this.selectedDocument && this.selectedFile) {
-      console.log('Enviando arquivo:', this.selectedFile); // Log do envio
-      this._service.attachDocument(this.selectedDocument.id, this.selectedFile).subscribe({
-        next: (response) => {
-          if (response.data.status) {
-            console.log('Documento anexado com sucesso!');
-            this.modalRef?.hide(); // Fecha o modal
-            this.selectedFile = null; // Reseta o arquivo selecionado
-          }
-        },
-        error: (err) => {
-          console.error('Erro ao anexar o documento:', err);
-        },
+  onFileSelected(event: any): void {
+    const file = event.target.files[0];
+    if (file) {
+      this.selectedFile = file;
+      this.anexarForm.patchValue({
+        file: file,
       });
     } else {
-      console.warn('Nenhum arquivo selecionado ou documento inválido.');
+      this.selectedFile = null;
+      this.anexarForm.patchValue({
+        file: null,
+      });
+    }
+  }
+  attachDocument(): void {
+    if (
+      this.anexarForm.valid &&
+      this.selectedFile &&
+      this.selectedDocument?.id
+    ) {
+      const signatureDate = this.anexarForm.get('signature_date')?.value;
+
+      // Criar FormData aqui no componente
+      const formData = new FormData();
+      formData.append('file', this.selectedFile);
+      formData.append('signature_date', signatureDate);
+
+      this._service
+        .attachDocument(this.selectedDocument.id, formData)
+        .subscribe({
+          next: (response) => {
+            if (response.data.status) {
+              this.modalRef?.hide();
+              this.selectedFile = null;
+              this.anexarForm.reset();
+              this.getDiario(this.currentPage);
+            }
+          },
+          error: (err) => {
+            console.error('Erro ao anexar o documento:', err);
+          },
+        });
+    } else {
+      if (!this.selectedFile) {
+        console.warn('Nenhum arquivo selecionado.');
+      }
+      if (!this.anexarForm.valid) {
+        console.warn(
+          'Formulário inválido. Por favor, preencha todos os campos obrigatórios.'
+        );
+      }
+      if (!this.selectedDocument?.id) {
+        console.warn('Nenhum documento selecionado.');
+      }
     }
   }
 }
