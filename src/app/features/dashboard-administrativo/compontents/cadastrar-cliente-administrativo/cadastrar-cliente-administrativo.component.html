@@ -282,7 +282,6 @@
               class="form-control"
               formControlName="street"
               placeholder="Nome da rua"
-              [formControl]="getFormControl('address.street')"
             />
             <div
               *ngIf="
@@ -304,7 +303,6 @@
               class="form-control"
               formControlName="number"
               placeholder="Número"
-              [formControl]="getFormControl('address.number')"
             />
             <div
               *ngIf="
@@ -325,7 +323,6 @@
               class="form-control"
               formControlName="complement"
               placeholder="Complemento"
-              [formControl]="getFormControl('address.complement')"
             />
           </div>
 
@@ -337,7 +334,6 @@
               class="form-control"
               formControlName="district"
               placeholder="Bairro"
-              [formControl]="getFormControl('address.district')"
             />
             <div
               *ngIf="
@@ -360,7 +356,6 @@
               formControlName="zip"
               placeholder="CEP"
               mask="00000-000"
-              [formControl]="getFormControl('address.zip')"
             />
             <div
               *ngIf="
@@ -380,6 +375,53 @@
             </div>
           </div>
         </div>
+
+        <!-- Redes Sociais -->
+        <div class="form-group mb-3" formGroupName="networks">
+          <h4 class="mb-3">Redes Sociais</h4>
+
+          <!-- Yt -->
+          <div class="mb-3">
+            <label for="youtube">Youtube</label>
+            <input
+              id="youtube"
+              class="form-control"
+              formControlName="youtube"
+              placeholder="Digite o link do seu canal do Youtube"
+            />
+          </div>
+          <!-- Facebook -->
+          <div class="mb-3">
+            <label for="facebook">Facebook</label>
+            <input
+              id="facebook"
+              class="form-control"
+              formControlName="facebook"
+              placeholder="Digite o link do seu Facebook"
+            />
+          </div>
+          <!-- instagram -->
+          <div class="mb-3">
+            <label for="instagram">Instagram</label>
+            <input
+              id="instagram"
+              class="form-control"
+              formControlName="instagram"
+              placeholder="Digite o link do seu perfil instagram"
+            />
+          </div>
+          <!-- tiktok -->
+          <div class="mb-3">
+            <label for="tiktok">Tiktok</label>
+            <input
+              id="tiktok"
+              class="form-control"
+              formControlName="tiktok"
+              placeholder="Digite o link do seu canal do tiktok"
+            />
+          </div>
+        </div>
+
         <!-- Domínio -->
         <div class="form-group mb-3">
           <label for="domain">Domínio</label>

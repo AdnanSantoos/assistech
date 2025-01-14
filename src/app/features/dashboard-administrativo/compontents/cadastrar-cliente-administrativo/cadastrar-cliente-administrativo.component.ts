@@ -12,13 +12,18 @@ import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
 import { catchError, debounceTime, of, switchMap } from 'rxjs';
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
-import { ClienteData } from '../../model/cliente.model';
+import { ClienteData, ExibirClienteData } from '../../model/cliente.model';
 import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 
 @Component({
   selector: 'app-cadastrar-cliente-administrativo',
   templateUrl: './cadastrar-cliente-administrativo.component.html',
-  imports: [CommonModule, ReactiveFormsModule, TypeaheadModule,NgxMaskDirective],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    TypeaheadModule,
+    NgxMaskDirective,
+  ],
   providers: [provideNgxMask()],
   standalone: true,
   styleUrls: ['./cadastrar-cliente-administrativo.component.scss'],
@@ -67,18 +72,30 @@ export class CadastrarClienteAdministrativoComponent implements OnInit {
         district: [null],
         zip: [null],
       }),
+      networks: this.fb.group({
+        youtube: [null],
+        facebook: [null],
+        instagram: [null],
+        tiktok: [null],
+      }),
     });
     this.route.paramMap.subscribe((params) => {
       this.slug = params.get('slug');
       if (this.slug) {
         this.isEditMode = true;
-        this._clienteService.getClienteBySlug(this.slug).subscribe((v) => {
-          this.originalCliente = v.data;
-          this.formularioOriginal = v.data;
-          this.populaFormulario(v.data);
-
-          // Armazene o estado inicial do formulário
-          this.formularioOriginal = this.clienteForm.getRawValue();
+        this._clienteService.getClienteBySlug(this.slug).subscribe({
+          next: (v) => {
+            this.originalCliente = v.data;
+            this.formularioOriginal = v.data;
+            this.populaFormulario(v.data);
+          },
+          error: (error) => {
+            this._toastrService.error(
+              'Erro ao carregar dados do cliente',
+              'Erro'
+            );
+            console.error('Erro:', error);
+          },
         });
       }
     });
@@ -86,33 +103,45 @@ export class CadastrarClienteAdministrativoComponent implements OnInit {
     this.setupCidadeAutoComplete();
   }
 
-  populaFormulario(clienteData: any): void {
+  populaFormulario(clienteData: ExibirClienteData): void {
     this.clienteForm.patchValue({
       city: {
-        code: clienteData.city?.code || '',
-        label: clienteData.city?.label || '',
+        code: clienteData.city.code,
+        label: clienteData.city.label,
+        state_code: clienteData.city.state_code,
+        uf: clienteData.city.uf,
       },
-      government_body: clienteData.government_body || '',
-      name: clienteData.name || '',
-      pncp: clienteData.pncp || false,
-      portal_transparencia: clienteData.portal_transparencia || false,
-      diario_oficial: clienteData.diario_oficial || false,
-      beginning_official_gazette: clienteData.year || 0,
-      slug: clienteData.slug || '',
-      is_active: clienteData.is_active || true,
-      domain: clienteData.domain || '',
-      city_code: clienteData.city_code || '',
-      next_edition_number: clienteData.next_edition_number || 0,
-      file_is_sent_signed: clienteData.file_is_sent_signed || false,
-      errors: clienteData.errors || null,
+      city_name: clienteData.city_name,
+      name: clienteData.name,
+      pncp: clienteData.pncp,
+      portal_transparencia: clienteData.portal_transparencia,
+      diario_oficial: clienteData.diario_oficial,
+      beginning_official_gazette: clienteData.year,
+      slug: clienteData.slug,
+      state_uf: clienteData.state_uf,
+      year: clienteData.year,
+      domain: clienteData.domain,
+      next_edition_number: clienteData.next_edition_number,
+      government_body: clienteData.government_body,
+      is_active: clienteData.is_active,
+      file_is_sent_signed: clienteData.file_is_sent_signed,
+      errors: clienteData.errors,
       address: {
-        street: clienteData.address?.[0]?.street || '',
-        number: clienteData.address?.[0]?.number || null,
-        complement: clienteData.address?.[0]?.complement || '',
-        district: clienteData.address?.[0]?.district || '',
-        zip: clienteData.address?.[0]?.zip || null,
+        street: clienteData.address.street,
+        number: clienteData.address.number,
+        complement: clienteData.address.complement,
+        district: clienteData.address.district,
+        zip: clienteData.address.zip,
+      },
+      networks: {
+        youtube: clienteData.networks.youtube,
+        facebook: clienteData.networks.facebook,
+        instagram: clienteData.networks.instagram,
+        tiktok: clienteData.networks.tiktok,
       },
     });
+
+    console.log('Formulário populado:', this.clienteForm.value);
   }
 
   private setupCidadeAutoComplete(): void {
