@@ -117,7 +117,7 @@ export class HomeComponent implements OnInit, OnDestroy {
           link: 'https://www.gov.br/pt-br',
           texto: '',
           icon_img:
-            'https://www.gov.br/++theme++padrao_g ovbr/img/govbr-logo-large.png',
+            'https://www.gov.br/++theme++padrao_govbr/img/govbr-logo-large.png',
         },
         {
           link: 'https://www.gov.br/pncp/pt-br',

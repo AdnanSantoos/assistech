@@ -26,7 +26,6 @@ export class CadastrarFotosAdministrativoService {
       }),
       switchMap((response) => {
         this._toastrService.success('Foto cadastrada com sucesso!', 'Sucesso');
-        this.goBack();
         return of(response);
       })
     );
