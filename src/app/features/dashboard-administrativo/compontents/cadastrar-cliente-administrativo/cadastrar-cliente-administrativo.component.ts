@@ -119,6 +119,7 @@ export class CadastrarClienteAdministrativoComponent implements OnInit {
       beginning_official_gazette: clienteData.year,
       slug: clienteData.slug,
       state_uf: clienteData.state_uf,
+      city_code:clienteData.city.code,
       year: clienteData.year,
       domain: clienteData.domain,
       next_edition_number: clienteData.next_edition_number,
@@ -215,19 +216,12 @@ export class CadastrarClienteAdministrativoComponent implements OnInit {
 
   onSubmit(): void {
     this.isLoadingButton = true;
-    if (this.clienteForm.valid) {
-      const clienteData = this.clienteForm.value;
+    const clienteData = this.clienteForm.value;
 
-      if (this.isEditMode) {
-        this.updateCliente(clienteData);
-      } else {
-        this.createCliente(clienteData);
-      }
+    if (this.isEditMode) {
+      this.updateCliente(clienteData);
     } else {
-      this._toastrService.error(
-        'Preencha todos os campos obrigatórios.',
-        'Erro'
-      );
+      this.createCliente(clienteData);
     }
   }
 

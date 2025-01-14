@@ -5,27 +5,6 @@
   font-weight: 500;
   text-transform: uppercase;
   padding: 0px 10px;
-  .container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    text-align: left;
-  }
-
-  .row {
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-    width: 100%;
-    gap: 40%;
-  }
-
-  .col {
-    flex: 1;
-    margin: 20px;
-    min-width: 250px;
-  }
 
   .title_footer ul {
     list-style: none;
