@@ -8,9 +8,10 @@ import {
   RouterLink,
 } from '@angular/router';
 import { GeneralNewsComponent } from '../../shared/components/general-news/general-news.component';
-import { HomeService } from './services/home-service.service';
 import { TenantService } from '../../shared/services/tenant.service';
 import { filter, Subscription, switchMap } from 'rxjs';
+import { CadastrarFotosAdministrativoService } from '../dashboard-administrativo/compontents/cadastrar-fotos-diario-oficial/services/cadastrar-foto-administrativo.service';
+import { PhotoForm } from '../dashboard-administrativo/compontents/cadastrar-fotos-diario-oficial/model/cadastrar-foto.model';
 
 interface AcessoRapido {
   routerLink?: string;
@@ -31,7 +32,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
   currentSlug: string = '';
 
-  images = [
+  images: { url: string }[] = []; // Initialize as an empty array
+  defaultImages = [
     { url: '../../../../assets/imgs-home/1.png' },
     { url: '../../../../assets/imgs-home/2.png' },
     { url: '../../../../assets/imgs-home/3.png' },
@@ -48,18 +50,34 @@ export class HomeComponent implements OnInit, OnDestroy {
     private router: Router,
     public route: ActivatedRoute,
     private _tenantService: TenantService,
-    private _homeService: HomeService,
+    private _cadastrarFotosAdministrativoService: CadastrarFotosAdministrativoService
   ) {}
 
   ngOnInit(): void {
     const sub = this._tenantService.slug$
       .pipe(
-        filter((slug) => !!slug),
-        switchMap(() => this._homeService.getPhotos())
+        filter((slug): slug is string => !!slug), // Ensure slug is a string
+        switchMap((slug) =>
+          this._cadastrarFotosAdministrativoService.getRecentPhotos(slug)
+        )
       )
-      .subscribe((data) => {
-        if (data.length >= 4) {
-          this.images = data;
+      .subscribe((response: { data: PhotoForm[] }) => {
+        // Adjust the type to match the API response
+        const data = response.data; // Access the data property
+
+        // Check if data is an array and filter out photos with undefined URLs
+        if (Array.isArray(data)) {
+          const validPhotos = data.filter(
+            (photo): photo is PhotoForm => photo.url !== undefined
+          );
+
+          if (validPhotos.length > 0) {
+            this.images = validPhotos.map((photo) => ({ url: photo.url! })); // Use non-null assertion
+          } else {
+            this.images = this.defaultImages; // Use default images if no valid data
+          }
+        } else {
+          this.images = this.defaultImages; // Use default images if data is not an array
         }
       });
 
@@ -73,9 +91,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.updateAcessos(this.router.url);
 
     const slugSub = this._tenantService.slug$
-      .pipe(
-        filter((slug): slug is string => slug !== null)
-      )
+      .pipe(filter((slug): slug is string => slug !== null)) // Ensure slug is a string
       .subscribe((slug) => {
         this.currentSlug = slug;
         this.updateAcessos(this.router.url);
@@ -101,7 +117,7 @@ export class HomeComponent implements OnInit, OnDestroy {
           link: 'https://www.gov.br/pt-br',
           texto: '',
           icon_img:
-            'https://www.gov.br/++theme++padrao_govbr/img/govbr-logo-large.png',
+            'https://www.gov.br/++theme++padrao_g ovbr/img/govbr-logo-large.png',
         },
         {
           link: 'https://www.gov.br/pncp/pt-br',
@@ -121,6 +137,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       ];
     }
   }
+
   scrollToNoticias() {
     const noticiasElement = document.getElementById('noticias_gerais');
     if (noticiasElement) {

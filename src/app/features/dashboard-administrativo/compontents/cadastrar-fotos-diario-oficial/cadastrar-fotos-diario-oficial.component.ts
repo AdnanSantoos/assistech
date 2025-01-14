@@ -1,9 +1,15 @@
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { CadastrarFotosAdministrativoService } from './services/cadastrar-foto-administrativo.service';
 import { CommonModule } from '@angular/common';
+import { PhotoMapper } from './mapper/cadastrar-foto.mapper';
 
 @Component({
   selector: 'app-cadastrar-fotos-diario-oficial',
@@ -24,7 +30,7 @@ export class CadastrarFotosDiarioOficialComponent implements OnInit {
     private fb: FormBuilder,
     private _toastrService: ToastrService,
     private _cadastrarFotosAdministrativoService: CadastrarFotosAdministrativoService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.fotosForm = this.fb.group({
@@ -34,42 +40,6 @@ export class CadastrarFotosDiarioOficialComponent implements OnInit {
     this.logoForm = this.fb.group({
       logo: ['', Validators.required],
     });
-  }
-
-  onFileChange(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    if (!input.files) {
-      return;
-    }
-
-    const files: File[] = Array.from(input.files); 
-    const allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
-
-    this.selectedFiles = [];
-    this.selectedImages = [];
-
-    for (const file of files) {
-      if (!allowedTypes.includes(file.type)) {
-        this._toastrService.error(
-          'Apenas imagens nos formatos JPEG, PNG ou GIF são permitidas.',
-          'Erro'
-        );
-        continue;
-      }
-      this.selectedFiles.push(file);
-
-      const reader = new FileReader();
-      reader.onload = () => {
-        this.selectedImages.push(reader.result);
-      };
-      reader.readAsDataURL(file);
-    }
-
-    if (this.selectedFiles.length > 0) {
-      this.fotosForm.patchValue({ photo: 'Arquivos selecionados' });
-    } else {
-      this.fotosForm.patchValue({ photo: null });
-    }
   }
 
   onFileLogoChange(event: Event): void {
@@ -102,26 +72,59 @@ export class CadastrarFotosDiarioOficialComponent implements OnInit {
     this.logoForm.patchValue({ logo: 'Arquivos selecionados' });
   }
 
+  onFileChange(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (!input.files) {
+      return;
+    }
+
+    const files: File[] = Array.from(input.files);
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
+
+    this.selectedFiles = [];
+    this.selectedImages = [];
+
+    for (const file of files) {
+      if (!allowedTypes.includes(file.type)) {
+        this._toastrService.error(
+          'Apenas imagens nos formatos JPEG, PNG ou GIF são permitidas.',
+          'Erro'
+        );
+        continue;
+      }
+      this.selectedFiles.push(file);
+
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.selectedImages.push(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+
+    if (this.selectedFiles.length > 0) {
+      this.fotosForm.patchValue({ photo: this.selectedFiles[0] });
+    } else {
+      this.fotosForm.patchValue({ photo: null });
+    }
+  }
 
   onSubmit(): void {
     if (this.fotosForm.valid && this.selectedFiles.length > 0) {
-      const formData = new FormData();
-      this.selectedFiles.forEach((file) => {
-        formData.append('photos[]', file);
-      });
+      const file = this.selectedFiles[0];
+      const formData = PhotoMapper.toFormData(file);
 
-      this._cadastrarFotosAdministrativoService.CadastrarFoto(formData).subscribe({
-        next: (response) => {
-          this._toastrService.success('Fotos cadastradas com sucesso!', 'Sucesso');
-          console.log('Fotos cadastradas com sucesso:', response);
-        },
-        error: (err) => {
-          this._toastrService.error('Erro ao cadastrar as fotos!', 'Erro');
-          console.error('Erro ao cadastrar as fotos:', err);
-        },
-      });
+      this._cadastrarFotosAdministrativoService
+        .CadastrarFoto(formData)
+        .subscribe({
+          next: (response) => {
+            console.log('Foto cadastrada com sucesso:', response);
+          },
+          error: (err) => {
+            console.error('Erro ao cadastrar a foto:', err);
+          },
+        });
     } else {
-      this._toastrService.error('Formulário inválido ou arquivos não selecionados.', 'Erro');
+      console.error('Formulário inválido ou arquivo não selecionado.');
     }
   }
 
@@ -132,7 +135,10 @@ export class CadastrarFotosDiarioOficialComponent implements OnInit {
 
       this._cadastrarFotosAdministrativoService.uploadLogo(formData).subscribe({
         next: () => {
-          this._toastrService.success('Logotipo enviado com sucesso!', 'Sucesso');
+          this._toastrService.success(
+            'Logotipo enviado com sucesso!',
+            'Sucesso'
+          );
           console.log('Logotipo enviado com sucesso.');
         },
         error: (err) => {
@@ -141,7 +147,10 @@ export class CadastrarFotosDiarioOficialComponent implements OnInit {
         },
       });
     } else {
-      this._toastrService.error('Formulário inválido ou arquivo não selecionado.', 'Erro');
+      this._toastrService.error(
+        'Formulário inválido ou arquivo não selecionado.',
+        'Erro'
+      );
     }
   }
 }
