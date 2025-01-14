@@ -2,10 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, Subject, tap } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import {
-  RequisicaoModel,
-  TenantFullModel,
-} from '../models/shared.model';
+import { RequisicaoModel, TenantFullModel } from '../models/shared.model';
+import { ExibirClienteData } from '../../features/dashboard-administrativo/model/cliente.model';
 
 @Injectable({
   providedIn: 'root',
@@ -21,13 +19,13 @@ export class TenantService {
   constructor(private http: HttpClient) {
     const savedSlug = localStorage.getItem('slug');
     this.slugSubject = new BehaviorSubject<string | null>(savedSlug);
-    this.slug$ = this.slugSubject.asObservable().pipe(
-      tap(slug => console.log('Slug$ mudou para:', slug))
-    );
+    this.slug$ = this.slugSubject
+      .asObservable()
+      .pipe(tap((slug) => console.log('Slug$ mudou para:', slug)));
 
-    this.state$ = this._tenantState.asObservable().pipe(
-      tap(slug => console.log('State$ mudou para:', slug))
-    );
+    this.state$ = this._tenantState
+      .asObservable()
+      .pipe(tap((slug) => console.log('State$ mudou para:', slug)));
   }
 
   getTenantFull(): Observable<RequisicaoModel<TenantFullModel[]>> {
@@ -66,6 +64,17 @@ export class TenantService {
     localStorage.setItem('slug', slug);
   }
 
-
-
+  getTenantByStaff(
+    tenant: string
+  ): Observable<RequisicaoModel<ExibirClienteData>> {
+    return this.http
+      .get<RequisicaoModel<ExibirClienteData>>(
+        `${environment.API_URL}/staff/${tenant}`
+      )
+      .pipe(
+        tap((response) =>
+          console.log('Resposta do getTenantByStaff:', response)
+        )
+      );
+  }
 }
