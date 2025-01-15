@@ -17,18 +17,35 @@
     <form
       class="form-sem-agenda"
       [formGroup]="filtroForm"
-      (ngSubmit)="onFormSubmit($event)"
-    >
+      (ngSubmit)="onFormSubmit($event)">
       <!-- Campo Data -->
-      <div class="form-group w-100">
-        <label>DATA</label>
-        <input
-          type="text"
-          class="form-control mb-4"
-          [value]="filtroForm.get('date')?.value | date : 'dd/MM/yyyy'"
-          readonly
-        />
-      </div>
+       @if(!isStaff){
+        <div class="form-group w-100">
+          <label>DATA</label>
+          <input
+            type="text"
+            class="form-control mb-4"
+            [value]="filtroForm.get('date')?.value | date : 'dd/MM/yyyy'"
+            readonly
+            [disabled]="true"
+          />
+        </div>
+       }
+       @else {
+        <div class="form-group w-100">
+          <label>DATA</label>
+          <input
+            type="text"
+            class="form-control mb-4"
+            formControlName="date"
+            [disabled]="true"
+            [maxDate]="minDate"
+            [bsConfig]="bsConfig"
+            placeholder="Data"
+            bsDatepicker
+          />
+        </div>
+       }
       <!-- Campo Descrição -->
       <mat-form-field appearance="outline" class="form-field">
         <mat-label>DESCRIÇÃO</mat-label>

@@ -28,6 +28,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MAT_DATE_LOCALE, provideNativeDateAdapter } from '@angular/material/core';
+import { TenantService } from '../../../../shared/services/tenant.service';
 
 defineLocale('pt-br', ptBrLocale);
 
@@ -69,20 +70,22 @@ export class PublicarDiarioOficialAdministrativoComponent implements OnInit {
   bsConfig?: Partial<BsDatepickerConfig> = Object.assign(
     {},
     { containerClass: 'theme-default' }
-  );
+  ); 
+  isStaff!:boolean;
 
   constructor(
     private _localeService: BsLocaleService,
     private fb: FormBuilder,
     private _modalService: BsModalService,
     private _publicarService: PublicarDiarioOficialService,
-    private _location: Location
+    private _location: Location,
+    private _tenantService:TenantService
   ) {
     this._localeService.use('pt-br');
 
     // Inicialização do formulário principal
     this.filtroForm = this.fb.group({
-      date: [{ value: new Date(), disabled: true }, Validators.required],
+      date: [new Date(), Validators.required],
       description: ['', Validators.required],
       files: [null, Validators.required],
     });
@@ -93,6 +96,7 @@ export class PublicarDiarioOficialAdministrativoComponent implements OnInit {
       date: ['', Validators.required],
       description: ['', Validators.required],
     });
+    this.isStaff = this._tenantService.getStaff();
   }
 
   ngOnInit() {}
