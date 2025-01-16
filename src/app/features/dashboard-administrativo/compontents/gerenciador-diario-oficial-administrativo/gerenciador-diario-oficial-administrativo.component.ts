@@ -100,6 +100,17 @@ export class GerenciadorDiarioOficialAdministrativoComponent
       .error((error: any) => {
         console.error('Erro ao escutar o canal:', error);
       });
+
+    this._service.publicacoes$.subscribe((publicacoes) => {
+      this.publicacoes = publicacoes.map((doc) => {
+        // Manter o nome original ou usar o que está salvo no localStorage
+        const savedFileName = localStorage.getItem(`doc_${doc.id}_filename`);
+        if (savedFileName && !doc.file_name) {
+          return { ...doc, file_name: savedFileName };
+        }
+        return doc;
+      });
+    });
   }
 
   /**
@@ -270,7 +281,12 @@ export class GerenciadorDiarioOficialAdministrativoComponent
     this.selectedDocument = document; // Define o documento selecionado
     this.modalRef = this.modalService.show(template); // Abre o modal
   }
-
+  getFirstFileName(fileName: string): string {
+    if (!fileName) return '';
+    // Se o arquivo tiver múltiplos nomes separados por vírgula ou ponto e vírgula
+    const fileNames = fileName.split(/[,;]/).map((name) => name.trim());
+    return fileNames[0]?.split(' ')[0] || '';
+  }
   onFileSelected(event: any): void {
     const file = event.target.files[0];
     if (file) {
@@ -292,20 +308,35 @@ export class GerenciadorDiarioOficialAdministrativoComponent
       this.selectedDocument?.id
     ) {
       const signatureDate = this.anexarForm.get('signature_date')?.value;
-
-      // Criar FormData aqui no componente
       const formData = new FormData();
       formData.append('file', this.selectedFile);
       formData.append('signature_date', signatureDate);
+
+      const documentIndex = this.publicacoes.findIndex(
+        (doc) => doc.id === this.selectedDocument?.id
+      );
+
+      // Manter o nome do arquivo original (primeiro arquivo)
+      const originalFileName = this.publicacoes[documentIndex]?.file_name || '';
 
       this._service
         .attachDocument(this.selectedDocument.id, formData)
         .subscribe({
           next: (response) => {
             if (response.data.status) {
+              if (documentIndex !== -1) {
+                // Mantém o nome do arquivo original
+                this.publicacoes[documentIndex].file_name = originalFileName;
+                localStorage.setItem(
+                  `doc_${this.selectedDocument?.id}_filename`,
+                  originalFileName
+                );
+              }
+
               this.modalRef?.hide();
               this.selectedFile = null;
               this.anexarForm.reset();
+              this._service.updatePublicacoes(this.publicacoes);
               this.getDiario(this.currentPage);
             }
           },
@@ -313,18 +344,6 @@ export class GerenciadorDiarioOficialAdministrativoComponent
             console.error('Erro ao anexar o documento:', err);
           },
         });
-    } else {
-      if (!this.selectedFile) {
-        console.warn('Nenhum arquivo selecionado.');
-      }
-      if (!this.anexarForm.valid) {
-        console.warn(
-          'Formulário inválido. Por favor, preencha todos os campos obrigatórios.'
-        );
-      }
-      if (!this.selectedDocument?.id) {
-        console.warn('Nenhum documento selecionado.');
-      }
     }
   }
 }

@@ -27,7 +27,7 @@
         <tr *ngFor="let doc of publicacoes">
           <td>{{ doc.date | date : "dd/MM/yyyy" }}</td>
           <td>{{ doc.year_label + "/" + doc.number }}</td>
-          <td>{{ doc.file_name }}</td>
+          <td>{{ getFirstFileName(doc.file_name) }}</td>
           <td>
             <strong
               [ngClass]="{
@@ -240,7 +240,7 @@
                         >Data da Assinatura se for antes de 06/07/2024 *</label
                       >
                       <input
-                        type="date"
+                        type="datetime-local"
                         id="signature_date"
                         class="form-control"
                         formControlName="signature_date"

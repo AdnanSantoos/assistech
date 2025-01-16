@@ -55,6 +55,9 @@ export class GerenciadorDiarioOficialService {
       })
     );
   }
+  updatePublicacoes(publicacoes: DiarioOficialPublicacoes[]) {
+    this.publicacoesSubject.next(publicacoes);
+  }
   public onDeletePages(id: string, pages: number[]): Observable<void> {
     return this._repository.onDeletePages(id, pages).pipe(
       tap(() => {
