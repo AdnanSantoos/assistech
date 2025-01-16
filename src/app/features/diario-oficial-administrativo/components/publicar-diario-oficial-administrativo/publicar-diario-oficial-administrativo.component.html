@@ -17,35 +17,35 @@
     <form
       class="form-sem-agenda"
       [formGroup]="filtroForm"
-      (ngSubmit)="onFormSubmit($event)">
+      (ngSubmit)="onFormSubmit($event)"
+    >
       <!-- Campo Data -->
-       @if(!isStaff){
-        <div class="form-group w-100">
-          <label>DATA</label>
-          <input
-            type="text"
-            class="form-control mb-4"
-            [value]="filtroForm.get('date')?.value | date : 'dd/MM/yyyy'"
-            readonly
-            [disabled]="true"
-          />
-        </div>
-       }
-       @else {
-        <div class="form-group w-100">
-          <label>DATA</label>
-          <input
-            type="text"
-            class="form-control mb-4"
-            formControlName="date"
-            [disabled]="true"
-            [maxDate]="minDate"
-            [bsConfig]="bsConfig"
-            placeholder="Data"
-            bsDatepicker
-          />
-        </div>
-       }
+      @if(!isStaff){
+      <div class="form-group w-100">
+        <label>DATA</label>
+        <input
+          type="text"
+          class="form-control mb-4"
+          [value]="filtroForm.get('date')?.value | date : 'dd/MM/yyyy'"
+          readonly
+          [disabled]="true"
+        />
+      </div>
+      } @else {
+      <div class="form-group w-100">
+        <label>DATA</label>
+        <input
+          type="text"
+          class="form-control mb-4"
+          formControlName="date"
+          [disabled]="true"
+          [maxDate]="minDate"
+          [bsConfig]="bsConfig"
+          placeholder="Data"
+          bsDatepicker
+        />
+      </div>
+      }
       <!-- Campo Descrição -->
       <mat-form-field appearance="outline" class="form-field">
         <mat-label>DESCRIÇÃO</mat-label>
@@ -133,8 +133,12 @@
 
       <button
         type="submit"
-        class="btn bg-dark text-white w-25 mt-4 hover-sucesso"
+        class="btn bkg-dark text-white w-25 mt-4 hover-sucesso"
         [disabled]="!filtroForm.valid"
+        [ngStyle]="{
+          border: filtroForm.valid ? '1px solid #28a745' : '',
+          'background-color': filtroForm.valid ? '#18752e' : ''
+        }"
       >
         Enviar
       </button>

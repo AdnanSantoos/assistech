@@ -38,6 +38,7 @@ export class LoginService {
         const token = response.data.token;
         if (token) {
           localStorage.setItem('authToken', token);
+          localStorage.setItem('email', form.email);
         }
 
         // Busca os dados do tenant após o login

@@ -106,7 +106,7 @@ export class NavbarComponent implements OnInit {
 
   getLoggedInUserEmail(): void {
     // Busca diretamente a chave 'userEmail' no localStorage
-    const email = localStorage.getItem('userEmail');
+    const email = localStorage.getItem('email');
     this.loggedInUserEmail = email ? email : 'Usuário não logado';
   }
 }
