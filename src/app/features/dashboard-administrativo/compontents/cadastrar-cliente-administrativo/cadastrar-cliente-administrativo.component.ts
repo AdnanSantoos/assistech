@@ -44,8 +44,13 @@ export class CadastrarClienteAdministrativoComponent implements OnInit {
     private _toastrService: ToastrService,
     private route: ActivatedRoute,
     private router: Router
-  ) {}
+  ) {
 
+  }
+
+  private getCurrentYear(): number {
+    return new Date().getFullYear();
+  }
   ngOnInit(): void {
     this.clienteForm = this.fb.group({
       city: this.fb.group({
@@ -57,12 +62,12 @@ export class CadastrarClienteAdministrativoComponent implements OnInit {
       pncp: [false],
       portal_transparencia: [false],
       diario_oficial: [false],
-      beginning_official_gazette: [0, Validators.required],
+      beginning_official_gazette: [this.getCurrentYear(), Validators.required],
       slug: ['', Validators.required],
       is_active: [true],
       domain: [''],
       city_code: ['', Validators.required],
-      next_edition_number: [0, Validators.required],
+      next_edition_number: [1, Validators.required],
       file_is_sent_signed: [false],
       errors: [null],
       address: this.fb.group({
@@ -99,7 +104,13 @@ export class CadastrarClienteAdministrativoComponent implements OnInit {
         });
       }
     });
-
+    this.clienteForm.get('name')?.valueChanges.subscribe((newName) => {
+      const cidadeSelecionada = this.clienteForm.get('city')?.value;
+      if (cidadeSelecionada?.label) {
+        const slug = this.generateSlug(cidadeSelecionada.label, newName);
+        this.clienteForm.patchValue({ slug }, { emitEvent: false });
+      }
+    });
     this.setupCidadeAutoComplete();
   }
 
@@ -119,7 +130,7 @@ export class CadastrarClienteAdministrativoComponent implements OnInit {
       beginning_official_gazette: clienteData.year,
       slug: clienteData.slug,
       state_uf: clienteData.state_uf,
-      city_code:clienteData.city.code,
+      city_code: clienteData.city.code,
       year: clienteData.year,
       domain: clienteData.domain,
       next_edition_number: clienteData.next_edition_number,
@@ -182,7 +193,8 @@ export class CadastrarClienteAdministrativoComponent implements OnInit {
     }
 
     const cityName = cidadeSelecionada.label;
-    const slug = this.generateSlug(cityName);
+    const nameValue = this.clienteForm.get('name')?.value || '';
+    const slug = this.generateSlug(cityName, nameValue);
 
     this.clienteForm.patchValue({
       city: {
@@ -196,7 +208,8 @@ export class CadastrarClienteAdministrativoComponent implements OnInit {
     });
   }
 
-  private generateSlug(cityName: string): string {
+  private generateSlug(cityName: string, institutionName: string = ''): string {
+    // Processa o nome da cidade
     const [fullName, stateCode] = cityName.split(' - ');
 
     const normalizedCity = fullName
@@ -207,11 +220,30 @@ export class CadastrarClienteAdministrativoComponent implements OnInit {
       .trim();
 
     const cityParts = normalizedCity.split(' ');
-
     const mainPart =
       cityParts.length > 1 ? cityParts[cityParts.length - 1] : normalizedCity;
+    const citySuffix = (mainPart + (stateCode || '')).toLowerCase();
 
-    return (mainPart + (stateCode || '')).toLowerCase();
+    // Se não houver nome da instituição, retorna apenas o slug da cidade
+    if (!institutionName) {
+      return citySuffix;
+    }
+
+    // Lista de palavras a serem ignoradas
+    const wordsToIgnore = ['de', 'da', 'do', 'das', 'dos', 'e'];
+
+    // Processa o nome da instituição
+    const words = institutionName
+      .toLowerCase()
+      .trim()
+      .split(' ')
+      .filter((word) => word.length > 0 && !wordsToIgnore.includes(word));
+
+    // Pega a primeira letra de cada palavra
+    const prefix = words.map((word) => word.charAt(0)).join('');
+
+    // Retorna a combinação do prefixo com o slug da cidade
+    return prefix + citySuffix;
   }
 
   onSubmit(): void {
