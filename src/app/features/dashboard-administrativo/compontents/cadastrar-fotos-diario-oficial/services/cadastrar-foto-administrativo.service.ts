@@ -40,6 +40,15 @@ export class CadastrarFotosAdministrativoService {
     );
   }
 
+  uploadLogoDiario(logoData: FormData): Observable<void> {
+    return this._repository.uploadLogo(logoData).pipe(
+      catchError((error) => {
+        this._toastrService.error('Erro ao enviar o logotipo!', 'Erro');
+        throw error;
+      })
+    );
+  }
+
   getRecentPhotos(tenant: string): Observable<any> {
     return this._repository.getRecentPhotos(tenant).pipe(
       catchError((error) => {

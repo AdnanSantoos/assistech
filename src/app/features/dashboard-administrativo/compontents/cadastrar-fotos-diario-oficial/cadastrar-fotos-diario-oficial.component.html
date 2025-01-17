@@ -79,5 +79,43 @@
         </div>
       </div>
     </tab>
+    <tab heading="Cadastrar Logo do Diário Oficial">
+      <div class="w-100">
+        <div class="container mt-5 me-auto">
+          <div class="form-content">
+            <h3 class="mb-4">Cadastrar Logo Diário Oficial</h3>
+            <form [formGroup]="logoFormDiario">
+              <div class="form-group mb-3">
+                <label for="imagem">Logo do Cliente*</label>
+                <input
+                  id="imagem"
+                  type="file"
+                  class="form-control"
+                  (change)="onFileLogoDiarioChange($event)"
+                  required
+                />
+                <small class="form-text text-muted">
+                  Apenas imagens nos formatos JPEG, PNG ou GIF são permitidas.
+                </small>
+              </div>
+
+              <div *ngIf="selectedLogoDiario" class="my-3">
+                <h6>Pré-visualização:</h6>
+                <img
+                  [src]="selectedLogoDiario"
+                  alt="Pré-visualização da logo"
+                  class="img-thumbnail"
+                  width="200"
+                />
+              </div>
+
+              <button type="submit" (click)="onSubmitLogoDiario()" class="btn btn-dark w-100">
+                Cadastrar Logo
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </tab>
   </tabset>
 </div>
