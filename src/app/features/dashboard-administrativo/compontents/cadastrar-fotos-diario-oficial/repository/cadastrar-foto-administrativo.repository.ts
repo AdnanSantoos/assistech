@@ -26,6 +26,14 @@ export class CadastrarFotosAdministrativoRepository {
     }/staff/tenants/${this._tenantService.getTenant()}/logo`;
     return this._http.post<void>(url, logoData);
   }
+
+  uploadLogoDiario(logoData: FormData): Observable<void> {
+    const url = `${
+      environment.API_URL
+    }/staff/tenants/${this._tenantService.getTenant()}/second_logo`;
+    return this._http.post<void>(url, logoData);
+  }
+
   getRecentPhotos(tenant: string): Observable<any> {
     const url = `${environment.API_URL}/public/diario-oficial/${tenant}/photos/recent`;
     return this._http.get<any>(url);
