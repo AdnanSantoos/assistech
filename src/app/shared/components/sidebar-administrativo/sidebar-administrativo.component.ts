@@ -162,7 +162,6 @@ export class SidebarAdministrativoComponent implements OnInit {
           // Atualiza o estado do tenant
           this._tenantService.setSlug(tenantDataResponse.data.slug);
           this._tenantService.updateState(tenantDataResponse.data);
-          
           // Encadeia a chamada para getDados
           return this._tenantService.getDados(tenantSlug).pipe(
             tap(dadosResponse => {

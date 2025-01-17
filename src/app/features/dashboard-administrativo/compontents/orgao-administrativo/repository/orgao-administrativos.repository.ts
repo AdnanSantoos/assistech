@@ -10,12 +10,15 @@ import { TenantService } from '../../../../../shared/services/tenant.service';
   providedIn: 'root',
 })
 export class OrgaosRepository {
-  private readonly baseUrl = `${environment.API_URL}/tenants/${this._tenantService.getTenant()}/pncp/agencies`;
+  private get baseUrl() {
+    return `${environment.API_URL}/tenants/${this._tenantService.getTenant()}/pncp/agencies`;
+  }
 
   constructor(private _http: HttpClient, private _tenantService: TenantService ) { }
 
   getOrgaos(page: number): Observable<RequisicaoModel<OrgaoModel[]>> {
     const params = new HttpParams().set('page', page.toString());
+    console.log(this._tenantService.getTenant())
     return this._http.get<RequisicaoModel<OrgaoModel[]>>(this.baseUrl, { params });
   }
 

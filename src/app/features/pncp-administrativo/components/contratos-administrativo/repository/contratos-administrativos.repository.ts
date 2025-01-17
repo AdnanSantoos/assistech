@@ -15,9 +15,12 @@ import { TenantService } from '../../../../../shared/services/tenant.service';
   providedIn: 'root',
 })
 export class ContratosRepository {
-  private readonly baseUrl = `${
+
+  private get baseUrl() {
+    return `${
     environment.API_URL
   }/tenants/${this._tenantService.getTenant()}/pncp/contracts`;
+  }
 
   constructor(
     private _http: HttpClient,

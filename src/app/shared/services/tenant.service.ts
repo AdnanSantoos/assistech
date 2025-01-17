@@ -21,7 +21,10 @@ export class TenantService {
     this.slugSubject = new BehaviorSubject<string | null>(savedSlug);
     this.slug$ = this.slugSubject
       .asObservable()
-      .pipe(tap((slug) => console.log('Slug$ mudou para:', slug)));
+      .pipe(tap((slug) => {
+        console.log('Slug$ mudou para:', slug)
+        localStorage.setItem('slug', slug!);
+      }));
 
     this.state$ = this._tenantState
       .asObservable()

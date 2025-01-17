@@ -10,8 +10,10 @@ import { TenantService } from '../../../../../shared/services/tenant.service';
   providedIn: 'root',
 })
 export class UnidadesRepository {
-  private readonly baseUrl = `${environment.API_URL}/tenants/${this._tenantService.getTenant()}/pncp/units?agency_country_register=`;
-
+  private get baseUrl() {
+    return `${environment.API_URL}/tenants/${this._tenantService.getTenant()}/pncp/units?agency_country_register=`;
+  }
+  
   constructor(private _http: HttpClient, private _tenantService: TenantService) { }
 
   getUnidade(page: number): Observable<RequisicaoModel<UnidadeModel[]>> {
