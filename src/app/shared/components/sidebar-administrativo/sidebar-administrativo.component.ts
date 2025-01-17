@@ -26,7 +26,8 @@ import { map, of, switchMap, tap } from 'rxjs';
 })
 export class SidebarAdministrativoComponent implements OnInit {
   public isStaff: boolean | null = null;
-  public menuItems: any;
+  public menuItems: any = [];
+  public originalMenuItems: any;
   public modalRef?: BsModalRef;
   orgaos: OrgaoModel[] = [];
   tenants: TenantFullModel[] = [];
@@ -49,10 +50,11 @@ export class SidebarAdministrativoComponent implements OnInit {
 
   ngOnInit(): void {
     this.isStaff = this.tenantService.getStaff();
-    this.menuItems = [
+    this.originalMenuItems = [
       {
         title: 'Cadastrar',
         expanded: false,
+        alwaysShow: true,
         subMenu: [
           {
             title: 'Cliente',
@@ -124,6 +126,14 @@ export class SidebarAdministrativoComponent implements OnInit {
       },
     ];
 
+    this.menuItems = [...this.originalMenuItems];
+
+    const savedPermissions = localStorage.getItem('userPermissions');
+    if (savedPermissions) {
+      this.permissions = JSON.parse(savedPermissions);
+      this.updateMenuVisibility();
+    }
+
     this.expandMenuBasedOnRoute(this.router.url);
   }
   loadTenants(): void {
@@ -161,8 +171,9 @@ export class SidebarAdministrativoComponent implements OnInit {
                 localStorage.setItem('userEmail', dadosResponse.data.email);
                 localStorage.setItem('isStaff', dadosResponse.data.is_staff.toString());
               }
-              if(dadosResponse.meta?.permissions){
-                this.permissions = dadosResponse.meta.permissions;
+              if(dadosResponse.meta?.tenant?.permissions){
+                this.permissions = dadosResponse.meta?.tenant?.permissions;
+                localStorage.setItem('userPermissions', JSON.stringify(this.permissions));
                 this.updateMenuVisibility();
               }
             }),
@@ -217,10 +228,14 @@ export class SidebarAdministrativoComponent implements OnInit {
   }
 
   updateMenuVisibility() {
-    // Filtra apenas os itens que têm a permissão presente no objeto permissions
-    this.menuItems = this.menuItems.filter((item:any) => 
-      Object.hasOwn(this.permissions, item.permission)
-    );
+    // Adiciona uma verificação de segurança
+    console.log(this.permissions)
+    if (this.menuItems && this.permissions) {
+      this.menuItems = this.originalMenuItems.filter((item:any) => 
+        item.alwaysShow || 
+        (item.permission && Object.hasOwn(this.permissions, item.permission))
+      );
+    }
   }
 
   toggleSubMenu(item: any) {

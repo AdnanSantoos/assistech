@@ -59,6 +59,7 @@ export interface TenantFullModel {
   slug: string;
   state_uf: string;
   year: number;
+  permissions:any;
 }
 
 export interface dynamicFields {
