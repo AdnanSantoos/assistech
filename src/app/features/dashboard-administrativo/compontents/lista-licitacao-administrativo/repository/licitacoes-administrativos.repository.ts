@@ -195,6 +195,17 @@ export class LicitacoesRepository {
     return this._http.get<RequisicaoModel<LicitacaoResultados[]>>(url);
   }
 
+  adicionarResultados(
+    procurementId: string,
+    itemId: string,
+    data: any
+  ): Observable<any> {
+    const url = `${
+      environment.API_URL
+    }/tenants/${this._tenantService.getTenant()}/pncp/procurements/${procurementId}/items/${itemId}/results`;
+    return this._http.post<any>(url, data);
+  }
+
   deleteLicitacao(
     procurementId: string,
     justification: string

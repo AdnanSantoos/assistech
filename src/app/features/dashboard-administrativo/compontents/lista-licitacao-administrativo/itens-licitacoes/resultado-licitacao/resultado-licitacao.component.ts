@@ -458,6 +458,13 @@ export class ResultadoLicitacaoComponent implements OnInit {
     { id: 'ZMB', label: 'Zâmbia' },
     { id: 'ZWE', label: 'Zimbabwe' },
   ];
+
+  supplierSizes = [
+    { id: '', label: 'Não informado' },
+    { id: '1', label: 'Microempresa' },
+    { id: '2', label: 'Pequena empresa' },
+    { id: '3', label: 'Grande empresa' },
+  ];
   constructor(
     public dialogRef: MatDialogRef<ResultadoLicitacaoComponent>,
     @Inject(MAT_DIALOG_DATA)
@@ -476,9 +483,9 @@ export class ResultadoLicitacaoComponent implements OnInit {
       person_type: [''],
       supplier_ni: [''],
       supplier_name_or_social_reason: [''],
-      supplier_size_id: [0],
+      supplier_size_id: [''],
       legal_nature_id: [''],
-      country_code: [''],
+      country_code: ['BRA'],
       subcontracting_indicator: [false],
       srp_classification_order: [0],
       date: [''],
@@ -557,7 +564,6 @@ export class ResultadoLicitacaoComponent implements OnInit {
 
   openAddResultadoModal(): void {
     this.isEditing = false;
-    this.novoResultadoForm.reset();
     this.modalRef = this.modalService.show(this.addResultadoModal, {
       class: 'modal-lg',
     });
@@ -612,19 +618,29 @@ export class ResultadoLicitacaoComponent implements OnInit {
       const formData = this.novoResultadoForm.value;
 
       if (this.isEditing) {
-        // Update existing resultado
         const index = this.resultados.findIndex((r) => r.id === formData.id);
         if (index !== -1) {
           this.resultados[index] = { ...this.resultados[index], ...formData };
-          this.toastr.success('Resultado atualizado com sucesso!', 'Sucesso');
         }
+        this.closeModal();
       } else {
-        // Add new resultado
-        this.resultados.push(formData);
-        this.toastr.success('Resultado adicionado com sucesso!', 'Sucesso');
+        this.licitacoesService
+          .adicionarResultado(
+            this.data.licitacaoId,
+            this.data.itemId,
+            formData
+          )
+          .subscribe({
+            next: () => {
+              this.resultados.push(formData);
+              this.closeModal();
+              this.loadResultados();
+            },
+            error: (error) => {
+              console.error('Erro ao adicionar resultado:', error);
+            },
+          });
       }
-
-      this.closeModal();
     } else {
       this.toastr.error(
         'Por favor, preencha todos os campos obrigatórios.',

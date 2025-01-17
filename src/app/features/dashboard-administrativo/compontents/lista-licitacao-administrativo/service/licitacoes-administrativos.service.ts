@@ -1,7 +1,15 @@
 import { Injectable } from '@angular/core';
 import { catchError, Observable, Subject, tap, throwError } from 'rxjs';
 import { RequisicaoModel } from '../../../../../shared/models/shared.model';
-import { LicitacaoModel, LicitacaoDetalhesModel, LicitacaoItemModel, LicitacaoArquivos, LicitacaoResultados, LicitacaoAtaModel, LicitacaoAtaExtendedResponse } from '../model/licitacoes-administrativo.model';
+import {
+  LicitacaoModel,
+  LicitacaoDetalhesModel,
+  LicitacaoItemModel,
+  LicitacaoArquivos,
+  LicitacaoResultados,
+  LicitacaoAtaModel,
+  LicitacaoAtaExtendedResponse,
+} from '../model/licitacoes-administrativo.model';
 import { LicitacoesRepository } from '../repository/licitacoes-administrativos.repository';
 import { OrgaoModel } from '../../orgao-administrativo/model/orgao-administrativo.model';
 import { HttpParams } from '@angular/common/http';
@@ -13,12 +21,14 @@ import { ToastrService } from 'ngx-toastr';
 export class LicitacoesService {
   refreshLicitacaoItens$ = new Subject<boolean>();
 
-  constructor(private _repository: LicitacoesRepository,
+  constructor(
+    private _repository: LicitacoesRepository,
     private toastr: ToastrService
+  ) {}
 
-  ) { }
-
-  getLicitacoesWithFilters(filters: any): Observable<RequisicaoModel<LicitacaoModel[]>> {
+  getLicitacoesWithFilters(
+    filters: any
+  ): Observable<RequisicaoModel<LicitacaoModel[]>> {
     const params = new HttpParams({
       fromObject: {
         ...filters,
@@ -33,22 +43,38 @@ export class LicitacoesService {
     return this._repository.getLicitacoes(page);
   }
 
-  getLicitacoesDetalhes(licitacaoId: string, page: number): Observable<RequisicaoModel<LicitacaoDetalhesModel[]>> {
+  getLicitacoesDetalhes(
+    licitacaoId: string,
+    page: number
+  ): Observable<RequisicaoModel<LicitacaoDetalhesModel[]>> {
     return this._repository.getLicitacoesDetalhes(licitacaoId, page);
   }
 
-  getLicitacoesItens(licitacaoId: string, page: number): Observable<RequisicaoModel<LicitacaoItemModel[]>> {
+  getLicitacoesItens(
+    licitacaoId: string,
+    page: number
+  ): Observable<RequisicaoModel<LicitacaoItemModel[]>> {
     return this._repository.getLicitacoesItens(licitacaoId, page);
   }
 
-  getLicitacoesArquivos(tenant: string, procurementId: string, page: number): Observable<RequisicaoModel<LicitacaoArquivos[]>> {
+  getLicitacoesArquivos(
+    tenant: string,
+    procurementId: string,
+    page: number
+  ): Observable<RequisicaoModel<LicitacaoArquivos[]>> {
     return this._repository.getLicitacoesArquivos(tenant, procurementId, page);
   }
 
-  getLicitacaoAtas(licitacaoId: string, page: number): Observable<LicitacaoAtaExtendedResponse> {
+  getLicitacaoAtas(
+    licitacaoId: string,
+    page: number
+  ): Observable<LicitacaoAtaExtendedResponse> {
     return this._repository.getLicitacaoAtas(licitacaoId, page);
   }
-  getAtaArquivos(minutesId: string, page: number): Observable<RequisicaoModel<LicitacaoArquivos>> {
+  getAtaArquivos(
+    minutesId: string,
+    page: number
+  ): Observable<RequisicaoModel<LicitacaoArquivos>> {
     return this._repository.getAtaArquivos(minutesId, page);
   }
   getOrgaos(page: number): Observable<RequisicaoModel<OrgaoModel[]>> {
@@ -59,10 +85,15 @@ export class LicitacoesService {
     return this._repository.getOrgaosAtualizado(page);
   }
 
-  getLicitacaoById(id: string): Observable<RequisicaoModel<LicitacaoDetalhesModel>> {
+  getLicitacaoById(
+    id: string
+  ): Observable<RequisicaoModel<LicitacaoDetalhesModel>> {
     return this._repository.getLicitacaoById(id);
   }
-  uploadArquivo(minutesId: string, formData: FormData): Observable<LicitacaoArquivos> {
+  uploadArquivo(
+    minutesId: string,
+    formData: FormData
+  ): Observable<LicitacaoArquivos> {
     return new Observable<LicitacaoArquivos>((observer) => {
       this._repository.uploadArquivo(minutesId, formData).subscribe({
         next: (response) => {
@@ -72,13 +103,19 @@ export class LicitacoesService {
         },
         error: (err) => {
           console.error('Erro ao enviar o arquivo:', err);
-          this.toastr.error('Erro ao enviar o arquivo. Tente novamente.', 'Erro');
+          this.toastr.error(
+            'Erro ao enviar o arquivo. Tente novamente.',
+            'Erro'
+          );
           observer.error(err); // Emite o erro para o componente
         },
       });
     });
   }
-  createLicitacoes(data: { agency: string; agency_country_register: string }): Observable<void> {
+  createLicitacoes(data: {
+    agency: string;
+    agency_country_register: string;
+  }): Observable<void> {
     return this._repository.createLicitacoes(data).pipe(
       tap(() => this.toastr.success('Licitação criada com sucesso!')),
       catchError((error) => {
@@ -88,27 +125,41 @@ export class LicitacoesService {
     );
   }
 
-  createLicitacaoItem(data: { procurement: string; item: LicitacaoItemModel }): Observable<void> {
-    return this._repository.createLicitacaoItem(data.procurement, data.item).pipe(
-      tap(() => this.toastr.success('Item criado com sucesso!')),
-      catchError((error) => {
-        this.toastr.error('Erro ao criar o item.', 'Erro');
-        return throwError(() => error);
-      })
-    );
+  createLicitacaoItem(data: {
+    procurement: string;
+    item: LicitacaoItemModel;
+  }): Observable<void> {
+    return this._repository
+      .createLicitacaoItem(data.procurement, data.item)
+      .pipe(
+        tap(() => this.toastr.success('Item criado com sucesso!')),
+        catchError((error) => {
+          this.toastr.error('Erro ao criar o item.', 'Erro');
+          return throwError(() => error);
+        })
+      );
   }
 
-  createArquivoLicitacao(data: { tenant: string; procurement: string; file: FormData }): Observable<LicitacaoArquivos> {
-    return this._repository.createArquivoLicitacao(data.tenant, data.procurement, data.file).pipe(
-      tap(() => this.toastr.success('Arquivo enviado com sucesso!')),
-      catchError((error) => {
-        this.toastr.error('Erro ao enviar o arquivo.', 'Erro');
-        return throwError(() => error);
-      })
-    );
+  createArquivoLicitacao(data: {
+    tenant: string;
+    procurement: string;
+    file: FormData;
+  }): Observable<LicitacaoArquivos> {
+    return this._repository
+      .createArquivoLicitacao(data.tenant, data.procurement, data.file)
+      .pipe(
+        tap(() => this.toastr.success('Arquivo enviado com sucesso!')),
+        catchError((error) => {
+          this.toastr.error('Erro ao enviar o arquivo.', 'Erro');
+          return throwError(() => error);
+        })
+      );
   }
 
-  createLicitacaoAta(procurementId: string, ataData: FormData): Observable<void> {
+  createLicitacaoAta(
+    procurementId: string,
+    ataData: FormData
+  ): Observable<void> {
     return this._repository.createLicitacaoAta(procurementId, ataData).pipe(
       tap(() => this.toastr.success('ATA criada com sucesso!')),
       catchError((error) => {
@@ -118,14 +169,36 @@ export class LicitacoesService {
     );
   }
 
-  updateLicitacaoAta(procurementId: string, minutesId: string, ataData: FormData): Observable<void> {
-    return this._repository.updateLicitacaoAta(procurementId, minutesId, ataData).pipe(
-      tap(() => this.toastr.success('ATA atualizada com sucesso!')),
-      catchError((error) => {
-        this.toastr.error('Erro ao atualizar a ATA.', 'Erro');
-        return throwError(() => error);
-      })
-    );
+  adicionarResultado(
+    procurementId: string,
+    itemId: string,
+    resultadoData: any
+  ): Observable<void> {
+    return this._repository
+      .adicionarResultados(procurementId, itemId, resultadoData)
+      .pipe(
+        tap(() => this.toastr.success('Resultado adicionado com sucesso!')),
+        catchError((error) => {
+          this.toastr.error('Erro ao adicionar o resultado.', 'Erro');
+          return throwError(() => error);
+        })
+      );
+  }
+
+  updateLicitacaoAta(
+    procurementId: string,
+    minutesId: string,
+    ataData: FormData
+  ): Observable<void> {
+    return this._repository
+      .updateLicitacaoAta(procurementId, minutesId, ataData)
+      .pipe(
+        tap(() => this.toastr.success('ATA atualizada com sucesso!')),
+        catchError((error) => {
+          this.toastr.error('Erro ao atualizar a ATA.', 'Erro');
+          return throwError(() => error);
+        })
+      );
   }
 
   updateLicitacao(id: string, data: any): Observable<void> {
@@ -137,38 +210,57 @@ export class LicitacoesService {
       })
     );
   }
-  updateLicitacaoItem(procurementId: string, itemId: string, data: any): Observable<void> {
-    return this._repository.updateLicitacaoItem(procurementId, itemId, data).pipe(
-      tap(() => {
-        this.toastr.success('Item atualizado com sucesso!', 'Sucesso');
-      }),
-      catchError((error) => {
-        this.toastr.error('Erro ao atualizar o item. Tente novamente.', 'Erro');
-        throw error;
-      })
-    );
+  updateLicitacaoItem(
+    procurementId: string,
+    itemId: string,
+    data: any
+  ): Observable<void> {
+    return this._repository
+      .updateLicitacaoItem(procurementId, itemId, data)
+      .pipe(
+        tap(() => {
+          this.toastr.success('Item atualizado com sucesso!', 'Sucesso');
+        }),
+        catchError((error) => {
+          this.toastr.error(
+            'Erro ao atualizar o item. Tente novamente.',
+            'Erro'
+          );
+          throw error;
+        })
+      );
   }
-  getResultadosItem(procurementId: string, itemId: string): Observable<RequisicaoModel<LicitacaoResultados[]>> {
+  getResultadosItem(
+    procurementId: string,
+    itemId: string
+  ): Observable<RequisicaoModel<LicitacaoResultados[]>> {
     return this._repository.getResultadosItem(procurementId, itemId);
   }
 
+  deleteResultado() {}
 
-  deleteResultado() {
-
+  deleteAtasArquivo(
+    minutesId: string,
+    fileId: string,
+    justification: string
+  ): Observable<void> {
+    return this._repository
+      .deleteAtasArquivo(minutesId, fileId, justification)
+      .pipe(
+        tap(() => {
+          this.toastr.success('Arquivo excluído com sucesso!', 'Sucesso');
+        }),
+        catchError((error) => {
+          this.toastr.error('Erro ao excluir o arquivo.', 'Erro');
+          return throwError(() => error);
+        })
+      );
   }
-  deleteAtasArquivo(minutesId: string, fileId: string, justification: string): Observable<void> {
-    return this._repository.deleteAtasArquivo(minutesId, fileId, justification).pipe(
-      tap(() => {
-        this.toastr.success('Arquivo excluído com sucesso!', 'Sucesso');
-      }),
-      catchError((error) => {
-        this.toastr.error('Erro ao excluir o arquivo.', 'Erro');
-        return throwError(() => error);
-      })
-    );
-  }
 
-  deleteLicitacao(procurementId: string, justification: string): Observable<void> {
+  deleteLicitacao(
+    procurementId: string,
+    justification: string
+  ): Observable<void> {
     return this._repository.deleteLicitacao(procurementId, justification);
   }
 
@@ -188,7 +280,11 @@ export class LicitacoesService {
     });
   }
 
-  cancelarAta(procurementId: string, minutesId: string, payload: any): Observable<void> {
+  cancelarAta(
+    procurementId: string,
+    minutesId: string,
+    payload: any
+  ): Observable<void> {
     return this._repository.cancelarAta(procurementId, minutesId, payload).pipe(
       tap(() => {
         this.toastr.success('ATA cancelada com sucesso!', 'Sucesso');
@@ -199,16 +295,25 @@ export class LicitacoesService {
       })
     );
   }
-  deleteArquivos(tenant: string, minutesId: string, fileId: string, justification: string): Observable<void> {
-    return this._repository.deleteArquivos(tenant, minutesId, fileId, justification).pipe(
-      tap(() => {
-        this.toastr.success('Arquivo excluído com sucesso!', 'Sucesso');
-      }),
-      catchError((error) => {
-        this.toastr.error('Erro ao excluir o arquivo. Tente novamente.', 'Erro');
-        throw error; // Propaga o erro
-      })
-    );
+  deleteArquivos(
+    tenant: string,
+    minutesId: string,
+    fileId: string,
+    justification: string
+  ): Observable<void> {
+    return this._repository
+      .deleteArquivos(tenant, minutesId, fileId, justification)
+      .pipe(
+        tap(() => {
+          this.toastr.success('Arquivo excluído com sucesso!', 'Sucesso');
+        }),
+        catchError((error) => {
+          this.toastr.error(
+            'Erro ao excluir o arquivo. Tente novamente.',
+            'Erro'
+          );
+          throw error; // Propaga o erro
+        })
+      );
   }
-
 }
