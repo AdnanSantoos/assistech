@@ -47,7 +47,7 @@ import { CurrencyMaskDirective } from '../../../../shared/directives/currencyMas
     NgxMaskPipe,
     CurrencyPipe,
     BsDatepickerModule,
-    CurrencyMaskDirective
+    CurrencyMaskDirective,
   ],
   providers: [BsModalService, provideNgxMask()],
 
@@ -82,7 +82,16 @@ export class DadosDaLicitacaoAdministrativoComponent {
     { value: 8, key: 'Projeto Executivo' },
     { value: 9, key: 'Mapa de Riscos' },
     { value: 10, key: 'DFD' },
+    { value: 11, key: 'Ata de Registro de Preço' },
+    { value: 12, key: 'Contrato' },
+    { value: 13, key: 'Termo de Rescisão' },
+    { value: 14, key: 'Termo Aditivo' },
+    { value: 15, key: 'Termo de Apostilamento' },
     { value: 16, key: 'Outros' },
+    { value: 17, key: 'Nota de Empenho' },
+    { value: 18, key: 'Relatório Final de Contrato' },
+    { value: 19, key: 'Minuta de Ata de Registro de Preços' },
+    { value: 20, key: 'Ato que autoriza a Contratação Direta' },
   ];
   callInstrumentOptions = [
     { value: 1, key: 'Edital' },
@@ -675,7 +684,7 @@ export class DadosDaLicitacaoAdministrativoComponent {
               { value: 7, key: 'Não se aplica' },
             ];
             break;
-            case 9: // Inexigibilidade
+          case 9: // Inexigibilidade
             this.modoDisputaOpcoes = [{ value: 5, key: 'Não se aplica' }];
 
             if (this.filtroForm.get('call_instrument_id')?.value === 3) {
@@ -694,18 +703,24 @@ export class DadosDaLicitacaoAdministrativoComponent {
                 { value: 17, key: 'Lei nº 14.133/2021, Art. 74, V' },
                 { value: 50, key: 'Lei nº 14.133/2021, Art. 74, caput' },
                 { value: 80, key: 'Lei nº 14.133/2021, Art. 1º, § 2º' },
-                { value: 102, key: 'Lei nº 13.303/2016, Art. 30, caput, Inexigibilidade' },
-                { value: 150, key: 'MP nº 1.221/2024, Art. 2º, II (Calamidade pública)' }
+                {
+                  value: 102,
+                  key: 'Lei nº 13.303/2016, Art. 30, caput, Inexigibilidade',
+                },
+                {
+                  value: 150,
+                  key: 'MP nº 1.221/2024, Art. 2º, II (Calamidade pública)',
+                },
               ];
             } else {
               this.legalBasicOptions = [
-                { value: 80, key: 'Lei nº 14.133/2021, Art. 1º, § 2º' }
+                { value: 80, key: 'Lei nº 14.133/2021, Art. 1º, § 2º' },
               ];
             }
 
             this.itemCategoriaEnum = [{ value: 3, key: 'Não se aplica' }];
             this.criterioDeJulgamentoEnum = [
-              { value: 7, key: 'Não se aplica' }
+              { value: 7, key: 'Não se aplica' },
             ];
             break;
 
@@ -883,7 +898,6 @@ export class DadosDaLicitacaoAdministrativoComponent {
       },
     });
   }
-
 
   onFormSubmit(): void {
     this.isLoading = true;

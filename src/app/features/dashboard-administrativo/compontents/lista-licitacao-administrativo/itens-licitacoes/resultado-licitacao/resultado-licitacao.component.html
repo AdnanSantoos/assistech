@@ -67,7 +67,9 @@
 
 <ng-template #addResultadoModal>
   <div class="modal-header bg-dark">
-    <h4 class="text-white">{{ isEditing ? "Editar Resultado" : "Adicionar Novo Resultado" }}</h4>
+    <h4 class="text-white">
+      {{ isEditing ? "Editar Resultado" : "Adicionar Novo Resultado" }}
+    </h4>
     <button
       type="button"
       class="btn-close"
@@ -148,12 +150,15 @@
       <div class="row">
         <div class="col-md-6 mb-3">
           <label class="form-label strong_font">Porte do fornecedor *</label>
-          <select class="form-select" formControlName="supplier_size_id">
-            <option value="">Não informado</option>
-            <option value="1">Microempresa</option>
-            <option value="2">Pequena empresa</option>
-            <option value="3">Grande empresa</option>
-          </select>
+          <ng-select
+            [items]="supplierSizes"
+            bindLabel="label"
+            bindValue="id"
+            formControlName="supplier_size_id"
+            [clearable]="false"
+            [searchable]="true"
+            [loading]="false"
+          ></ng-select>
         </div>
         <div class="col-md-6 mb-3">
           <label class="form-label strong_font">Natureza Jurídica *</label>
@@ -175,8 +180,9 @@
             bindLabel="label"
             bindValue="id"
             formControlName="country_code"
-            placeholder="Selecione um país"
+            [clearable]="false"
             [searchable]="true"
+            [loading]="false"
           ></ng-select>
         </div>
         <div class="col-md-6 mb-3">

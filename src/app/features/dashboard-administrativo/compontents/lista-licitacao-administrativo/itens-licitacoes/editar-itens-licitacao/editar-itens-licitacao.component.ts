@@ -159,14 +159,13 @@ export class EditarItensLicitacaoComponent implements OnInit {
         ...this.editarItemForm.value,
       };
 
-      console.log('Payload enviado:', payload);
 
       this.licitacoesService
         .updateLicitacaoItem(this.data.licitacaoId, this.data.itemId, payload)
         .subscribe({
           next: () => {
-            console.log('Item atualizado com sucesso!');
             this.dialogRef.close(true);
+            window.location.reload()
           },
           error: (err) => {
             console.error('Erro ao atualizar item:', err);
