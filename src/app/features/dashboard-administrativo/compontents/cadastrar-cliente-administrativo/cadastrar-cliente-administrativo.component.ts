@@ -44,9 +44,7 @@ export class CadastrarClienteAdministrativoComponent implements OnInit {
     private _toastrService: ToastrService,
     private route: ActivatedRoute,
     private router: Router
-  ) {
-
-  }
+  ) {}
 
   private getCurrentYear(): number {
     return new Date().getFullYear();
@@ -209,20 +207,26 @@ export class CadastrarClienteAdministrativoComponent implements OnInit {
   }
 
   private generateSlug(cityName: string, institutionName: string = ''): string {
+    // Função auxiliar para normalizar texto
+    const normalizeText = (text: string): string => {
+      return text
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '') // Remove acentos
+        .replace(/ç/g, 'c')
+        .replace(/\s*-\s*/g, '') // Remove hífens e espaços ao redor
+        .replace(/[^a-zA-Z0-9\s]/g, '') // Remove outros caracteres especiais
+        .trim();
+    };
+
     // Processa o nome da cidade
-    const [fullName, stateCode] = cityName.split(' - ');
-
-    const normalizedCity = fullName
-      .normalize('NFD')
-      .replace(/[\u0300-\u036f]/g, '')
-      .replace(/ç/g, 'c')
-      .replace(/[^a-zA-Z0-9\s]/g, '')
-      .trim();
-
+    const normalizedCity = normalizeText(cityName);
     const cityParts = normalizedCity.split(' ');
     const mainPart =
       cityParts.length > 1 ? cityParts[cityParts.length - 1] : normalizedCity;
-    const citySuffix = (mainPart + (stateCode || '')).toLowerCase();
+
+    // Extrai o código do estado do nome da instituição
+    const hasBA = institutionName.toUpperCase().includes('BA');
+    const citySuffix = (mainPart + (hasBA ? 'ba' : '')).toLowerCase();
 
     // Se não houver nome da instituição, retorna apenas o slug da cidade
     if (!institutionName) {
@@ -233,13 +237,12 @@ export class CadastrarClienteAdministrativoComponent implements OnInit {
     const wordsToIgnore = ['de', 'da', 'do', 'das', 'dos', 'e'];
 
     // Processa o nome da instituição
-    const words = institutionName
+    const words = normalizeText(institutionName)
       .toLowerCase()
-      .trim()
       .split(' ')
       .filter((word) => word.length > 0 && !wordsToIgnore.includes(word));
 
-    // Pega a primeira letra de cada palavra
+    // Pega a primeira letra de cada palavra normalizada
     const prefix = words.map((word) => word.charAt(0)).join('');
 
     // Retorna a combinação do prefixo com o slug da cidade
