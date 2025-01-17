@@ -1,3 +1,4 @@
+import { TenantService } from './../../../../shared/services/tenant.service';
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
@@ -22,14 +23,18 @@ export class UsuariosAdministrativoComponent implements OnInit {
     'diarioOficial', 'portalTransparencia', 'acoes'
   ];
 
+
   dataSource = new MatTableDataSource<UsuarioData>();
   currentPage = 1;
   totalPages = 1;
+  slug!:string;
 
-  constructor(private usuariosService: UsuariosService, public router: Router) { }
+  constructor(private usuariosService: UsuariosService, public router: Router, public route: ActivatedRoute, private _tenantService:TenantService) { 
+  }
 
   ngOnInit(): void {
     this.loadUsuarios(this.currentPage);
+    this.slug = this._tenantService.getTenant()!;
   }
 
   loadUsuarios(page: number): void {

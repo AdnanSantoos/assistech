@@ -328,7 +328,7 @@
 
     <!-- Botão Salvar -->
     <div class="text-end mt-3">
-      <button type="submit" class="btn btn-primary hover-sucesso">
+      <button type="submit" class="btn btn-primary hover-sucesso" [disabled]="termoForm.invalid">
         {{ isEditMode ? "Salvar Alterações" : "Adicionar Termo Aditivo" }}
       </button>
     </div>

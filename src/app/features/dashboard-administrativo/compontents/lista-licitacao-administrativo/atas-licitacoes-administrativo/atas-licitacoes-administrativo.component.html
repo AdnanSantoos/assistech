@@ -251,7 +251,7 @@
       <!-- Tipo de Documento -->
       <div class="col-md-6">
         <label class="form-label">Tipo de documento *</label>
-        <select class="form-select" formControlName="document_type_id">
+        <select class="form-control" formControlName="document_type_id">
           <option value="" disabled selected>Selecionar</option>
           <option *ngFor="let tipo of tiposDocumentos" [ngValue]="tipo.value">
             {{ tipo.key }}
@@ -463,7 +463,7 @@
         >
         <select
           id="tipoDocumento"
-          class="form-select"
+          class="form-control"
           formControlName="document_type_id"
         >
           <option value="" disabled selected>Selecionar</option>

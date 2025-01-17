@@ -18,6 +18,14 @@ select {
   }
 }
 
+textarea,
+select,
+input {
+  &.ng-invalid.ng-touched {
+    border: 1px solid red;
+  }
+}
+
 select:disabled {
   background: #ededed;
 }

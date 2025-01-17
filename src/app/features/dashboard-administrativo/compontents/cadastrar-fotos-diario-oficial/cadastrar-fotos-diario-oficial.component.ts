@@ -192,7 +192,6 @@ export class CadastrarFotosDiarioOficialComponent implements OnInit {
   }
 
   onSubmitLogoDiario(): void {
-    console.log('aqui')
     if (this.logoFormDiario.valid && this.logoFileDiario) {
       const formData = new FormData();
       formData.append('logo', this.logoFileDiario);
