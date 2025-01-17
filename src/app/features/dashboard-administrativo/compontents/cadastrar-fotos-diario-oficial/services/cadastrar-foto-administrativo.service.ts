@@ -41,7 +41,7 @@ export class CadastrarFotosAdministrativoService {
   }
 
   uploadLogoDiario(logoData: FormData): Observable<void> {
-    return this._repository.uploadLogo(logoData).pipe(
+    return this._repository.uploadLogoDiario(logoData).pipe(
       catchError((error) => {
         this._toastrService.error('Erro ao enviar o logotipo!', 'Erro');
         throw error;
