@@ -14,7 +14,7 @@ import { OrgaosService } from '../../../features/dashboard-administrativo/compon
 import { RequisicaoModel, TenantFullModel } from '../../models/shared.model';
 import { OrgaoModel } from '../../../features/dashboard-administrativo/compontents/orgao-administrativo/model/orgao-administrativo.model';
 import { EventEmitter } from 'stream';
-import { of, switchMap, tap } from 'rxjs';
+import { map, of, switchMap, tap } from 'rxjs';
 
 @Component({
   selector: 'app-sidebar-administrativo',
@@ -33,6 +33,7 @@ export class SidebarAdministrativoComponent implements OnInit {
   @ViewChild('confirmationTemplate', { static: true })
   confirmationTemplate!: TemplateRef<any>;
   slug!:string;
+  permissions: any = {};
 
   constructor(
     public tenantService: TenantService,
@@ -73,6 +74,7 @@ export class SidebarAdministrativoComponent implements OnInit {
       {
         title: 'Diário Oficial',
         expanded: false,
+        permission: 'diario_oficial',
         subMenu: [
           {
             title: 'Publicacoes',
@@ -84,6 +86,7 @@ export class SidebarAdministrativoComponent implements OnInit {
       {
         title: 'PNCP',
         expanded: false,
+        permission: 'pncp',
         subMenu: [
           {
             title: 'Órgãos',
@@ -116,6 +119,7 @@ export class SidebarAdministrativoComponent implements OnInit {
         title: 'Portal de Transparência',
         link: '../dashboard-administrativo/outros',
         expanded: false,
+        permission: 'portal_transparencia',
         subMenu: [],
       },
     ];
@@ -143,16 +147,35 @@ export class SidebarAdministrativoComponent implements OnInit {
   selectTenant(tenantSlug: string): void {
     this._tenantService.getTenantData(tenantSlug)
       .pipe(
-        tap(v => console.log('getTenantData response:', v)), // para debug
-        // Garante que a navegação só acontece após o slug ser atualizado
-        switchMap(v => {
-          this._tenantService.setSlug(v.data.slug);
-          this._tenantService.updateState(v.data);
-          return of(v); // Continua o fluxo com o valor original
-        })
+        tap(v => console.log('getTenantData response:', v)),
+        switchMap(tenantDataResponse => {
+          // Atualiza o estado do tenant
+          this._tenantService.setSlug(tenantDataResponse.data.slug);
+          this._tenantService.updateState(tenantDataResponse.data);
+          
+          // Encadeia a chamada para getDados
+          return this._tenantService.getDados(tenantSlug).pipe(
+            tap(dadosResponse => {
+              // Armazena informações do usuário se for staff
+              if (dadosResponse.data.is_staff) {
+                localStorage.setItem('userEmail', dadosResponse.data.email);
+                localStorage.setItem('isStaff', dadosResponse.data.is_staff.toString());
+              }
+              if(dadosResponse.meta?.permissions){
+                this.permissions = dadosResponse.meta.permissions;
+                this.updateMenuVisibility();
+              }
+            }),
+            // Retorna ambas as respostas para usar na navegação
+            map(dadosResponse => ({
+              tenantData: tenantDataResponse,
+              dadosResponse
+            }))
+          );
+        }),
       )
-      .subscribe(v => {
-        this.router.navigate([`${v.data.slug}/adm/dashboard-administrativo/home`]);
+      .subscribe(({ tenantData }) => {
+        this.router.navigate([`${tenantData.data.slug}/adm/dashboard-administrativo/home`]);
         this.modalRef?.hide();
       });
   }
@@ -191,6 +214,13 @@ export class SidebarAdministrativoComponent implements OnInit {
       );
       if (cadastrarMenu) cadastrarMenu.expanded = true;
     }
+  }
+
+  updateMenuVisibility() {
+    // Filtra apenas os itens que têm a permissão presente no objeto permissions
+    this.menuItems = this.menuItems.filter((item:any) => 
+      Object.hasOwn(this.permissions, item.permission)
+    );
   }
 
   toggleSubMenu(item: any) {

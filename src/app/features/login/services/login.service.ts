@@ -26,6 +26,7 @@ export class LoginService {
   getLoading() {
     return this.loading;
   }
+  
   public login(form: LoginModel): void {
     this.loading = true;
 

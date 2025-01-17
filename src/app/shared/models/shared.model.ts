@@ -11,6 +11,7 @@ export interface RequisicaoModel<T> {
     tenant?: TenantFullModel; // Adicionado o campo tenant como opcional
     links: LinksModel;
     pagination: PaginationModel;
+    permissions?:any;
   };
 }
 

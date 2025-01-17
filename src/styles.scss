@@ -8,6 +8,9 @@ body {
 .pointer {
   cursor: pointer;
 }
+select {
+  -webkit-appearance: listbox !important;
+}
 
 @media print {
   #printContainer > div {
