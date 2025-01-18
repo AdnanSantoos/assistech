@@ -30,17 +30,20 @@
                   SELECIONE NA LISTA
                 </button>
               </div>
-              @if (selectedItem) {
-              <div class="contrato-selecionado mb-3">
-                <div><strong>Contratação:</strong></div>
-                <div>
-                  <strong>Ano: </strong> {{ selectedItem.year }} -
-                  <strong>Número Compra: </strong>
-                  {{ selectedItem.number }} - <strong>Processo: </strong
-                  >{{ selectedItem.process_number }}
+              <div class="contrato-selecionado">
+                @if (selectedItem) {
+                <div class="mb-3">
+                  <div><strong>Contratação:</strong></div>
+                  <div>
+                    <strong>Ano: </strong> {{ selectedItem.year }} -
+                    <strong>Número Compra: </strong>
+                    {{ selectedItem.number }} - <strong>Processo: </strong
+                    >{{ selectedItem.process_number }}
+                  </div>
                 </div>
+                }
               </div>
-              }
+
               <div class="form-group">
                 <label>Tipo do Contrato</label>
                 <select class="form-control" formControlName="contract_type_id">
