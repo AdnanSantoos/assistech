@@ -50,6 +50,7 @@ export interface ClienteData {
   portal_transparencia: boolean;
   diario_oficial: boolean;
   logo?: string;
+  second_logo?: string;
   slug: string;
   state_uf: string;
   year: number;

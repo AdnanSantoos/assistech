@@ -199,7 +199,7 @@ export class CadastrarFotosDiarioOficialComponent implements OnInit {
       this._cadastrarFotosAdministrativoService.uploadLogoDiario(formData).subscribe({
         next: () => {
           this._toastrService.success(
-            'Logotipo enviado com sucesso!',
+            'Logotipo Diário enviado com sucesso!',
             'Sucesso'
           );
         }

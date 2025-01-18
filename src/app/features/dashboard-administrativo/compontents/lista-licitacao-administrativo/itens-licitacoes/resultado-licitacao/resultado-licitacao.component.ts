@@ -460,10 +460,11 @@ export class ResultadoLicitacaoComponent implements OnInit {
   ];
 
   supplierSizes = [
-    { id: '', label: 'Não informado' },
+    { id: '5', label: 'Não informado' },
     { id: '1', label: 'Microempresa' },
     { id: '2', label: 'Pequena empresa' },
-    { id: '3', label: 'Grande empresa' },
+    { id: '3', label: 'Média empresa' },
+    { id: '4', label: 'Grande empresa' },
   ];
   constructor(
     public dialogRef: MatDialogRef<ResultadoLicitacaoComponent>,
@@ -483,7 +484,7 @@ export class ResultadoLicitacaoComponent implements OnInit {
       person_type: [''],
       supplier_ni: [''],
       supplier_name_or_social_reason: [''],
-      supplier_size_id: [''],
+      supplier_size_id: ['5'],
       legal_nature_id: [''],
       country_code: ['BRA'],
       subcontracting_indicator: [false],
@@ -625,11 +626,7 @@ export class ResultadoLicitacaoComponent implements OnInit {
         this.closeModal();
       } else {
         this.licitacoesService
-          .adicionarResultado(
-            this.data.licitacaoId,
-            this.data.itemId,
-            formData
-          )
+          .adicionarResultado(this.data.licitacaoId, this.data.itemId, formData)
           .subscribe({
             next: () => {
               this.resultados.push(formData);

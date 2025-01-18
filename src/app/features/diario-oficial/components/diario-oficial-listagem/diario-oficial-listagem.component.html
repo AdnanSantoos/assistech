@@ -3,9 +3,12 @@
     <div class="search-bar">
       <form [formGroup]="filterForm">
         <img
-          src="../../../../../assets/logos/logo-g-itaberaba.png"
+          [src]="secondLogoUrl"
           alt="Logo"
           class="logo"
+          (error)="
+            secondLogoUrl = '../../../../../assets/logos/logo-g-itaberaba.png'
+          "
         />
         <div class="input-container">
           <label class="label-ano">Ano</label>
@@ -153,6 +156,11 @@
     </button>
   </div>
   <div class="modal-body">
-    <ngx-extended-pdf-viewer filenameForDownload="document_assistech.pdf" [showUnverifiedSignatures]="true" [src]="documentUrl"> </ngx-extended-pdf-viewer>
+    <ngx-extended-pdf-viewer
+      filenameForDownload="document_assistech.pdf"
+      [showUnverifiedSignatures]="true"
+      [src]="documentUrl"
+    >
+    </ngx-extended-pdf-viewer>
   </div>
 </ng-template>

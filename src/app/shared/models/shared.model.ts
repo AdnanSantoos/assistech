@@ -60,6 +60,7 @@ export interface TenantFullModel {
   state_uf: string;
   year: number;
   permissions:any;
+  second_logo?: string;
 }
 
 export interface dynamicFields {

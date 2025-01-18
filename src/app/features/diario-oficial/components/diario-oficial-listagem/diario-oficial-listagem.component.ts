@@ -1,4 +1,13 @@
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, TemplateRef } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+  TemplateRef,
+} from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
@@ -7,22 +16,41 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { DiarioOficialLayoutComponent } from '../../containers/diario-oficial-layout/diario-oficial-layout.component';
 import { MatIcon } from '@angular/material/icon';
-import { DadosDiarioOficialPublico, DiarioOficalLista, DiarioOficialPesquisaData } from '../../models/diario-oficial.model';
-import { RequisicaoModel, selectModel } from '../../../../shared/models/shared.model';
+import {
+  DadosDiarioOficialPublico,
+  DiarioOficalLista,
+  DiarioOficialPesquisaData,
+} from '../../models/diario-oficial.model';
+import {
+  RequisicaoModel,
+  selectModel,
+  TenantFullModel,
+} from '../../../../shared/models/shared.model';
 import { DiarioOficialService } from '../../services/diario-oficial.service';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { BsModalRef, BsModalService, ModalModule } from 'ngx-bootstrap/modal';
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 import { DatePipe } from '@angular/common';
-import { MatDatepicker, MatDatepickerModule } from '@angular/material/datepicker';
+import {
+  MatDatepicker,
+  MatDatepickerModule,
+} from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatInputModule } from '@angular/material/input';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { DiarioOficialMapper } from '../../mappers/diario-oficial-mapper';
+import { TenantService } from '../../../../shared/services/tenant.service';
+import { NavigationService } from '../../../../shared/services/navigation.service';
+
+interface TenantResponse {
+  data: TenantFullModel;
+}
+
 @Component({
   selector: 'app-diario-oficial-listagem',
   standalone: true,
-  imports: [CommonModule,
+  imports: [
+    CommonModule,
     ReactiveFormsModule,
     MatFormFieldModule,
     MatSelectModule,
@@ -35,39 +63,50 @@ import { DiarioOficialMapper } from '../../mappers/diario-oficial-mapper';
     NgSelectModule,
     ModalModule,
     NgxExtendedPdfViewerModule,
-    BsDatepickerModule],
+    BsDatepickerModule,
+  ],
   templateUrl: './diario-oficial-listagem.component.html',
   styleUrl: './diario-oficial-listagem.component.scss',
-  providers: [BsModalService, DatePipe]
+  providers: [BsModalService, DatePipe],
 })
-export class DiarioOficialListagemComponent implements OnChanges {
+export class DiarioOficialListagemComponent implements OnChanges, OnInit {
   filterForm: FormGroup;
   resultados: RequisicaoModel<DiarioOficalLista[]>;
   anos: number[] = [2024];
   diarioData!: DadosDiarioOficialPublico;
   documentUrl!: string;
   documentTitulo!: string;
+  logoUrl: string = '';
+  secondLogoUrl: string = '';
+
   meses: selectModel[] = [
-    { key: "Janeiro", value: 1 },
-    { key: "Fevereiro", value: 2 },
-    { key: "Março", value: 3 },
-    { key: "Abril", value: 4 },
-    { key: "Maio", value: 5 },
-    { key: "Junho", value: 6 },
-    { key: "Julho", value: 7 },
-    { key: "Agosto", value: 8 },
-    { key: "Setembro", value: 9 },
-    { key: "Outubro", value: 10 },
-    { key: "Novembro", value: 11 },
-    { key: "Dezembro", value: 12 }
-  ]
+    { key: 'Janeiro', value: 1 },
+    { key: 'Fevereiro', value: 2 },
+    { key: 'Março', value: 3 },
+    { key: 'Abril', value: 4 },
+    { key: 'Maio', value: 5 },
+    { key: 'Junho', value: 6 },
+    { key: 'Julho', value: 7 },
+    { key: 'Agosto', value: 8 },
+    { key: 'Setembro', value: 9 },
+    { key: 'Outubro', value: 10 },
+    { key: 'Novembro', value: 11 },
+    { key: 'Dezembro', value: 12 },
+  ];
   modalRef?: BsModalRef;
   documentos: any;
 
   @Input() publicacoes!: RequisicaoModel<DadosDiarioOficialPublico> | null;
-  @Output() formEmiter = new EventEmitter<DiarioOficialPesquisaData>;
+  @Output() formEmiter = new EventEmitter<DiarioOficialPesquisaData>();
 
-  constructor(private modalService: BsModalService, private fb: FormBuilder, private router: Router, private diarioOficialService: DiarioOficialService) {
+  constructor(
+    private modalService: BsModalService,
+    private fb: FormBuilder,
+    private router: Router,
+    private diarioOficialService: DiarioOficialService,
+    private tenantService:TenantService,
+    private navigationService:NavigationService
+  ) {
     this.filterForm = this.fb.group({
       year: [null],
       month: [null],
@@ -79,9 +118,32 @@ export class DiarioOficialListagemComponent implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.documentos = this.publicacoes
+    this.documentos = this.publicacoes;
   }
+  ngOnInit() {
+    const currentSlug = this.router.url.split('/')[1] || 'default-slug';
+    this.getTenantData(currentSlug);
+  }
+  private getTenantData(slug: string) {
+    this.tenantService.getTenantData(slug).subscribe({
+      next: (response: TenantResponse) => {
+        const data = response.data;
+        this.tenantService.setSlug(data.slug);
+        this.tenantService.updateState(data);
+        this.navigationService.initialize(data.slug);
 
+        // Atualiza as URLs dos logos
+        this.logoUrl =
+          data.logo || '../../../../../assets/logos/logo-g-itaberaba.png';
+        this.secondLogoUrl =
+          data.second_logo ||
+          '../../../../../assets/logos/logo-g-itaberaba.png';
+      },
+      error: (error) => {
+        this.router.navigate(['error']);
+      },
+    });
+  }
   limparFormulario(): void {
     this.filterForm.reset();
   }
@@ -90,7 +152,10 @@ export class DiarioOficialListagemComponent implements OnChanges {
     return this.anos.includes(ano);
   };
 
-  selecionarAno = (anoNormalizado: Date, datepicker: MatDatepicker<Date>): void => {
+  selecionarAno = (
+    anoNormalizado: Date,
+    datepicker: MatDatepicker<Date>
+  ): void => {
     const ano = anoNormalizado.getFullYear();
     if (this.anos.includes(ano)) {
       this.filterForm.controls['year'].setValue(ano);
@@ -101,7 +166,9 @@ export class DiarioOficialListagemComponent implements OnChanges {
   };
 
   algumCampoClicado(): boolean {
-    return Object.values(this.filterForm.value).some(value => value !== null && value !== '');
+    return Object.values(this.filterForm.value).some(
+      (value) => value !== null && value !== ''
+    );
   }
 
   aoMudarAno = (evento: any): void => {
@@ -109,16 +176,18 @@ export class DiarioOficialListagemComponent implements OnChanges {
     this.filterForm.patchValue({ year: anoSelecionado });
   };
 
-
   visualizar(template: TemplateRef<void>, url: string, titulo: string) {
-    this.documentTitulo = titulo
+    this.documentTitulo = titulo;
     this.documentUrl = url;
-    this.modalRef = this.modalService.show(template, Object.assign({}, { class: 'modal-lg' }));
+    this.modalRef = this.modalService.show(
+      template,
+      Object.assign({}, { class: 'modal-lg' })
+    );
   }
 
   buscarDiario() {
-    let form = DiarioOficialMapper.toSearch(this.filterForm.value)
-    this.formEmiter.emit(form)
+    let form = DiarioOficialMapper.toSearch(this.filterForm.value);
+    this.formEmiter.emit(form);
   }
 
   initializeAnos(): void {
