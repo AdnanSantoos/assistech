@@ -208,6 +208,16 @@ export class LicitacoesRepository {
     return this._http.post<any>(url, data);
   }
 
+  updateResultado(
+    procurementId: string,
+    itemId: string,
+    resultId: string,
+    data: any
+  ): Observable<any> {
+    const url = `${environment.API_URL}/tenants/${this._tenantService.getTenant()}/pncp/procurements/${procurementId}/items/${itemId}/results/${resultId}`;
+    return this._http.put<any>(url, data);
+  }
+
   deleteLicitacao(
     procurementId: string,
     justification: string

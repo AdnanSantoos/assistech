@@ -1,4 +1,5 @@
 import {
+  ChangeDetectorRef,
   Component,
   Inject,
   OnInit,
@@ -11,7 +12,7 @@ import {
   LicitacaoItemModel,
   LicitacaoResultados,
 } from '../../model/licitacoes-administrativo.model';
-import { CommonModule, CurrencyPipe } from '@angular/common';
+import { CommonModule, CurrencyPipe, formatDate } from '@angular/common';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import {
   FormBuilder,
@@ -23,11 +24,10 @@ import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { ToastrService } from 'ngx-toastr';
 import { CurrencyMaskDirective } from '../../../../../../shared/directives/currencyMask.directive';
 import { NgModule, LOCALE_ID } from '@angular/core';
+import { NgSelectModule } from '@ng-select/ng-select';
 import { registerLocaleData } from '@angular/common';
 import localePt from '@angular/common/locales/pt';
-import { NgSelectModule } from '@ng-select/ng-select';
 registerLocaleData(localePt);
-
 @Component({
   selector: 'app-resultado-licitacao',
   standalone: true,
@@ -467,13 +467,15 @@ export class ResultadoLicitacaoComponent implements OnInit {
     { id: 4, label: 'Grande empresa' },
   ];
   constructor(
+    private changeDetectorRef: ChangeDetectorRef,
     public dialogRef: MatDialogRef<ResultadoLicitacaoComponent>,
     @Inject(MAT_DIALOG_DATA)
     public data: { itemId: string; licitacaoId: string },
     private licitacoesService: LicitacoesService,
     private modalService: BsModalService,
     private fb: FormBuilder,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    @Inject(LOCALE_ID) private locale: string
   ) {
     this.novoResultadoForm = this.fb.group({
       id: [''],
@@ -577,6 +579,8 @@ export class ResultadoLicitacaoComponent implements OnInit {
   }
   editResultado(resultado: LicitacaoResultados): void {
     this.isEditing = true;
+
+    // Primeiro configure o formulário com todos os valores
     this.novoResultadoForm.patchValue({
       id: resultado.id,
       procurement_item_id: resultado.procurement_item_id,
@@ -591,7 +595,7 @@ export class ResultadoLicitacaoComponent implements OnInit {
       country_code: resultado.country_code,
       subcontracting_indicator: resultado.subcontracting_indicator,
       srp_classification_order: resultado.srp_classification_order,
-      date: resultado.date,
+      date: resultado.date?.split(' ')[0],
       discount_percentage: resultado.discount_percentage,
       gateway_sequence: resultado.gateway_sequence,
       status: resultado.status,
@@ -610,27 +614,57 @@ export class ResultadoLicitacaoComponent implements OnInit {
         resultado.foreign_currency_timezone_offset,
       foreign_currency_nominal_value: resultado.foreign_currency_nominal_value,
     });
+
+    // Force a detecção de mudanças antes de abrir o modal
+    this.changeDetectorRef.detectChanges();
+
+    // Depois abra o modal
     this.modalRef = this.modalService.show(this.addResultadoModal, {
       class: 'modal-lg',
+      animated: false, // Desativa animações que podem interferir no carregamento
     });
+
+    // Force outra detecção de mudanças após o modal estar aberto
+    this.changeDetectorRef.detectChanges();
   }
+
   adicionarResultado(): void {
     if (this.novoResultadoForm.valid) {
       const formData = this.novoResultadoForm.value;
 
       if (this.isEditing) {
-        const index = this.resultados.findIndex((r) => r.id === formData.id);
-        if (index !== -1) {
-          this.resultados[index] = { ...this.resultados[index], ...formData };
-        }
-        this.closeModal();
+        this.licitacoesService
+          .updateResultado(
+            this.data.licitacaoId,
+            this.data.itemId,
+            formData.id, // ID do resultado sendo editado
+            formData
+          )
+          .subscribe({
+            next: () => {
+              const index = this.resultados.findIndex(
+                (r) => r.id === formData.id
+              );
+              if (index !== -1) {
+                this.resultados[index] = {
+                  ...this.resultados[index],
+                  ...formData,
+                };
+              }
+              this.dialogRef.close();
+              this.loadResultados();
+            },
+            error: (error) => {
+              console.error('Erro ao atualizar resultado:', error);
+            },
+          });
       } else {
         this.licitacoesService
           .adicionarResultado(this.data.licitacaoId, this.data.itemId, formData)
           .subscribe({
             next: () => {
               this.resultados.push(formData);
-              this.closeModal();
+              this.dialogRef.close();
               this.loadResultados();
             },
             error: (error) => {

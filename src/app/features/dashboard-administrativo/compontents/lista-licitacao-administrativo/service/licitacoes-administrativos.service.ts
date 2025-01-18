@@ -185,6 +185,24 @@ export class LicitacoesService {
       );
   }
 
+  updateResultado(
+    procurementId: string,
+    itemId: string,
+    resultId: string,
+    resultadoData: any
+  ): Observable<void> {
+    return this._repository
+      .updateResultado(procurementId, itemId, resultId, resultadoData)
+      .pipe(
+        tap(() => this.toastr.success('Resultado atualizado com sucesso!')),
+        catchError((error) => {
+          this.toastr.error('Erro ao atualizar o resultado.', 'Erro');
+          return throwError(() => error);
+        })
+      );
+  }
+
+
   updateLicitacaoAta(
     procurementId: string,
     minutesId: string,

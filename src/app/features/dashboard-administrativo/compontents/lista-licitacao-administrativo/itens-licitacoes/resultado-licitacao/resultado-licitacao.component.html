@@ -228,7 +228,12 @@
           <label class="form-label strong_font"
             >Data do resultado da homologação do item *</label
           >
-          <input type="date" class="form-control" formControlName="date" />
+          <input
+            type="date"
+            class="form-control"
+            formControlName="date"
+            [value]="novoResultadoForm.get('date')?.value"
+          />
         </div>
         <div class="col-md-6 mb-3">
           <label class="form-label strong_font"
@@ -362,8 +367,7 @@
       @if(isEditing){
       <div class="col-md-12 mb-3">
         <label class="form-label strong_font">Motivo da edição</label>
-        <textarea class="form-control" formControlName="change_reason">
-        </textarea>
+        <input class="form-control" formControlName="change_reason" />
       </div>
       }
     </form>
