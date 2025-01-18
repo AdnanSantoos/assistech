@@ -460,11 +460,11 @@ export class ResultadoLicitacaoComponent implements OnInit {
   ];
 
   supplierSizes = [
-    { id: '5', label: 'Não informado' },
-    { id: '1', label: 'Microempresa' },
-    { id: '2', label: 'Pequena empresa' },
-    { id: '3', label: 'Média empresa' },
-    { id: '4', label: 'Grande empresa' },
+    { id: 5, label: 'Não informado' },
+    { id: 1, label: 'Microempresa' },
+    { id: 2, label: 'Pequena empresa' },
+    { id: 3, label: 'Média empresa' },
+    { id: 4, label: 'Grande empresa' },
   ];
   constructor(
     public dialogRef: MatDialogRef<ResultadoLicitacaoComponent>,
@@ -484,7 +484,7 @@ export class ResultadoLicitacaoComponent implements OnInit {
       person_type: [''],
       supplier_ni: [''],
       supplier_name_or_social_reason: [''],
-      supplier_size_id: ['5'],
+      supplier_size_id: [5],
       legal_nature_id: [''],
       country_code: ['BRA'],
       subcontracting_indicator: [false],
