@@ -505,6 +505,7 @@ export class ResultadoLicitacaoComponent implements OnInit {
       foreign_currency_exchange_date: [''],
       foreign_currency_timezone_offset: [null],
       foreign_currency_nominal_value: [0],
+      change_reason: [null],
     });
   }
 
