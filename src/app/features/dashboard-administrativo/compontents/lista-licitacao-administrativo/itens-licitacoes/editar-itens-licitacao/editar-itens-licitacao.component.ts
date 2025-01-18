@@ -23,7 +23,13 @@ import { CurrencyMaskDirective } from '../../../../../../shared/directives/curre
 })
 export class EditarItensLicitacaoComponent implements OnInit {
   editarItemForm!: FormGroup;
+  licitacaoItens: LicitacaoItemModel[] = [];
   isLoading = true;
+  itemCategoriaEnum = [
+    { value: 1, key: 'Bens imóveis' },
+    { value: 2, key: 'Bens móveis' },
+    { value: 3, key: 'Não se aplica' },
+  ];
   materialOuServicoEnum = [
     { value: 'M', key: 'Material' },
     { value: 'S', key: 'Serviço' },
@@ -51,6 +57,31 @@ export class EditarItensLicitacaoComponent implements OnInit {
     { value: 'Saco', key: 'Saco' },
     { value: 'Serviço', key: 'Serviço' }
   ];
+  beneficiosEnum = [
+    { value: 1, key: 'Participação exclusiva para ME/EPP' },
+    { value: 2, key: 'Subcontratação para ME/EPP' },
+    { value: 3, key: 'Cota reservada para ME/EPP' },
+    { value: 4, key: 'Sem benefício' },
+    { value: 5, key: 'Não se aplica' },
+  ];
+  situacaoItem = [
+    { value: 1, key: 'Em Andamento' },
+    { value: 2, key: 'Homologado' },
+    { value: 3, key: 'Anulado/Revogado/Cancelado' },
+    { value: 4, key: 'Deserto' },
+    { value: 5, key: 'Fracassado' }
+  ];
+  criterioDeJulgamentoEnum = [
+    { value: 1, key: 'Menor Preço' },
+    { value: 2, key: 'Maior Desconto' },
+    { value: 3, key: 'Melhor técnica ou conteúdo artístico' },
+    { value: 4, key: 'Técnica e preço' },
+    { value: 5, key: 'Maior Lance' },
+    { value: 6, key: 'Maior retorno econômico' },
+    { value: 7, key: 'Não se aplica' },
+    { value: 8, key: 'Melhor técnica' },
+    { value: 9, key: 'Conteúdo artístico' },
+  ];
   constructor(
     private fb: FormBuilder,
     private licitacoesService: LicitacoesService,
@@ -68,7 +99,9 @@ export class EditarItensLicitacaoComponent implements OnInit {
       this.isLoading = false;
     }
   }
-
+  trackByFn(index: number, item: any): any {
+    return item.id; // or any unique identifier
+  }
   initializeForm(): void {
     this.editarItemForm = this.fb.group({
       number: [1],

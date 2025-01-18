@@ -1,6 +1,6 @@
 <div class="container bg-dark text-white h-auto">
   <h2 class="title">Edição de item da licitação</h2>
-  <p class="text-white">servidor de dados (LINUX)</p>
+  <p class="text-white">{{ editarItemForm.get("description")?.value }}</p>
 </div>
 <div class="container">
   <form [formGroup]="editarItemForm" (ngSubmit)="salvar()">
@@ -32,6 +32,18 @@
 
       <div class="form-row">
         <div class="form-group">
+          <label for="item_category_id">Categoria do Item *</label>
+          <select id="item_category_id" formControlName="item_category_id">
+            <option></option>
+            <option
+              *ngFor="let option of itemCategoriaEnum"
+              [ngValue]="option.value"
+            >
+              {{ option.key }}
+            </option>
+          </select>
+        </div>
+        <div class="form-group">
           <label for="item_type">Material ou Serviço? *</label>
           <select id="item_type" formControlName="item_type">
             <option></option>
@@ -43,7 +55,40 @@
             </option>
           </select>
         </div>
+      </div>
 
+      <div class="form-row">
+        <div class="form-group">
+          <label for="item_type">Tipo de Benefício *</label>
+          <select id="item_type" formControlName="benefit_type_id">
+            <option></option>
+
+            <option
+              *ngFor="let option of beneficiosEnum"
+              [ngValue]="option.value"
+            >
+              {{ option.key }}
+            </option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="judging_criteria_id">Critério de Julgamento *</label>
+          <select
+            id="judging_criteria_id"
+            formControlName="judging_criteria_id"
+          >
+            <option></option>
+
+            <option
+              *ngFor="let option of criterioDeJulgamentoEnum"
+              [ngValue]="option.value"
+            >
+              {{ option.key }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
         <div class="form-group">
           <label for="description">Descrição do item *</label>
           <textarea
@@ -54,7 +99,6 @@
           ></textarea>
         </div>
       </div>
-
       <div class="form-row">
         <div class="form-group">
           <label for="quantity">Quantidade *</label>
@@ -98,18 +142,98 @@
           />
         </div>
       </div>
-
       <div class="form-row">
         <div class="form-group">
-          <label for="contract_item_situation_id">Situação do item *</label>
+          <label for="assets">Patrimônio</label>
           <input
-            id="contract_item_situation_id"
+            id="assets"
             type="text"
-            formControlName="contract_item_situation_id"
+            formControlName="assets"
+            placeholder="Patrimônio"
+          />
+        </div>
+        <div class="form-group">
+          <label for="real_estate_registry_code"
+            >Código Registro Imobiliário</label
+          >
+          <input
+            id="real_estate_registry_code"
+            type="text"
+            formControlName="real_estate_registry_code"
+            placeholder="Código Registro Imobiliário"
           />
         </div>
       </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="contract_item_situation_id">Situação do item *</label>
+          <select
+            id="contract_item_situation_id"
+            formControlName="contract_item_situation_id"
+          >
+            <option [ngValue]="null">Selecione uma situação</option>
+            <option
+              *ngFor="let option of situacaoItem"
+              [ngValue]="option.value"
+            >
+              {{ option.key }}
+            </option>
+          </select>
+        </div>
+      </div>
 
+      <div class="form-row">
+        <div>
+          <label>Aplicabilidade da Margem de Preferência Normal</label>
+          <div class="switch-wrapper">
+            <label class="switch">
+              <input
+                id="applicability_normal_preference_margin"
+                type="checkbox"
+                formControlName="applicability_normal_preference_margin"
+              />
+              <span></span>
+            </label>
+          </div>
+        </div>
+        <div>
+          <label>Aplicabilidade da Margem de Preferência Adicional</label>
+          <div class="switch-wrapper">
+            <label class="switch">
+              <input
+                id="applicability_additional_preference_margin"
+                type="checkbox"
+                formControlName="applicability_additional_preference_margin"
+              />
+              <span></span>
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="normal_preference_margin_percentage">
+            Percentual da Margem de Preferência Normal (%)
+          </label>
+          <input
+            id="normal_preference_margin_percentage"
+            type="number"
+            formControlName="normal_preference_margin_percentage"
+            placeholder="Percentual da Margem"
+          />
+        </div>
+        <div class="form-group">
+          <label for="additional_preference_margin_percentage">
+            Percentual da Margem de Preferência Adicional (%)
+          </label>
+          <input
+            id="additional_preference_margin_percentage"
+            type="number"
+            formControlName="additional_preference_margin_percentage"
+            placeholder="Percentual da Margem"
+          />
+        </div>
+      </div>
       <div class="form-row">
         <div class="form-group">
           <label for="ncm_nbs_code">Código NCM/NBS</label>
@@ -138,6 +262,8 @@
       </div>
     </fieldset>
 
-    <button type="submit" class="btn bg-dark text-white hover-sucesso">Salvar</button>
+    <button type="submit" class="btn bg-dark text-white hover-sucesso">
+      Salvar
+    </button>
   </form>
 </div>

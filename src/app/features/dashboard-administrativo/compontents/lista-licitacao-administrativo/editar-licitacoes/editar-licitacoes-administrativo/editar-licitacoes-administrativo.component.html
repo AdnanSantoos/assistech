@@ -45,7 +45,7 @@
         >
           <option
             *ngFor="let option of callInstrumentOptions"
-            [value]="option.value"
+            [ngValue]="option.value"
           >
             {{ option.key }}
           </option>
@@ -61,7 +61,7 @@
         >
           <option
             *ngFor="let option of modalidadeContratoOpcoes"
-            [value]="option.value"
+            [ngValue]="option.value"
           >
             {{ option.key }}
           </option>
@@ -79,7 +79,7 @@
         >
           <option
             *ngFor="let option of modoDisputaOpcoes"
-            [value]="option.value"
+            [ngValue]="option.value"
           >
             {{ option.key }}
           </option>
@@ -95,7 +95,7 @@
         >
           <option
             *ngFor="let option of legalBasicOptions"
-            [value]="option.value"
+            [ngValue]="option.value"
           >
             {{ option.key }}
           </option>
@@ -176,7 +176,7 @@
         >
           <option
             *ngFor="let option of situacaoCompra"
-            [value]="option.value"
+            [ngValue]="option.value"
           >
             {{ option.key }}
           </option>
