@@ -62,7 +62,7 @@ export class ArquivosLicitacoesComponent implements OnInit {
 
   ) {
     this.deleteForm = this.fb.group({
-      justification: [null, [Validators.required, Validators.minLength(5)]],
+      justification: [null, [Validators.required]],
     });
   }
 
@@ -157,6 +157,8 @@ export class ArquivosLicitacoesComponent implements OnInit {
         console.log('Arquivo salvo com sucesso!');
         this.loadArquivos(tenant, procurementId, 1);
         this.resetForm();
+        this.dialogRef.close();
+
       },
       error: (err) => {
         console.error('Erro ao salvar o arquivo:', err);
