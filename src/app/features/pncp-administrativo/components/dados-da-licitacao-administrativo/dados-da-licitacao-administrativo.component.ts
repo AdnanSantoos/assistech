@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import {
   FormArray,
   FormBuilder,
@@ -11,27 +11,21 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { AdicionarLicitacaoService } from './service/adicionar-licitacao.services';
 import {
-  RequisicaoModel,
   selectModel,
 } from '../../../../shared/models/shared.model';
 import { AdicionarLicitacaoMapper } from './mapper/adicionar-licitacao.mapper';
 import {
   OrgaoModel,
-  OrgaoUnitModel,
-  RequisicaoOrgaoModel,
   SelectedAgencies,
 } from '../../../dashboard-administrativo/compontents/orgao-administrativo/model/orgao-administrativo.model';
 import { SidebarAdministrativoComponent } from '../../../../shared/components/sidebar-administrativo/sidebar-administrativo.component';
 import { NavbarComponent } from '../../../../shared/components/navbar/navbar.component';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import {
-  ProcurementItem,
-  ProcurementModel,
-} from './model/adicionar-licitacao.model';
 import { ToastrService } from 'ngx-toastr';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { CurrencyMaskDirective } from '../../../../shared/directives/currencyMask.directive';
+import { FormErrorService } from '../../../../shared/services/form-error.service';
 
 @Component({
   selector: 'app-dados-da-licitacao-administrativo',
@@ -331,9 +325,9 @@ export class DadosDaLicitacaoAdministrativoComponent {
   constructor(
     private fb: FormBuilder,
     private _adicionarLicitacaoService: AdicionarLicitacaoService,
-    private modalService: BsModalService,
     private _location: Location,
-    private toastService: ToastrService
+    private toastService: ToastrService,
+    private _errorService:FormErrorService
   ) {
     this.filtroForm = this.fb.group({
       agency: [null],
@@ -914,9 +908,10 @@ export class DadosDaLicitacaoAdministrativoComponent {
         this.isLoading = false;
         this._location.back();
       },
-      error: (err) => {
-        console.error('Erro ao criar licitação:', err);
-        this.toastService.error('Erro ao criar a licitação. Tente novamente.');
+      error: (error) => {
+        if (error.error?.errors) {
+          this._errorService.handleApiErrors(this.filtroForm, error);
+        }
         this.isLoading = false;
       },
     });

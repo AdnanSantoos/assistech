@@ -9,9 +9,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { CommonModule, formatDate, Location } from '@angular/common';
 import { LicitacoesService } from '../../service/licitacoes-administrativos.service';
-import { LicitacaoDetalhesModel } from '../../model/licitacoes-administrativo.model';
 import { MatIcon } from '@angular/material/icon';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { FormErrorService } from '../../../../../../shared/services/form-error.service';
 
 @Component({
   selector: 'app-editar-licitacoes-administrativo',
@@ -241,7 +241,8 @@ export class EditarLicitacoesAdministrativoComponent implements OnInit {
     private router: Router,
     private toastr: ToastrService,
     private licitacoesService: LicitacoesService,
-    private _location: Location
+    private _location: Location,
+    private _errorService:FormErrorService
   ) {
     // Inicializar formulário reativo
     this.ratificacaoForm = this.fb.group({
@@ -887,15 +888,13 @@ export class EditarLicitacoesAdministrativoComponent implements OnInit {
           this.router.navigate(['/adm/licitacoes']);
           this.onVoltar();
         },
-        error: () => {
-          this.toastr.error(
-            'Erro ao atualizar a licitação. Tente novamente.',
-            'Erro'
-          );
+        error: (error) => {
+          if (error.error?.errors) {
+            this._errorService.handleApiErrors(this.ratificacaoForm, error);
+          }
         },
       });
   }
-
   // Método para voltar
   onVoltar(): void {
     this._location.back();

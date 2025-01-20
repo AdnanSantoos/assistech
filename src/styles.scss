@@ -1,5 +1,6 @@
 @import "ngx-toastr/toastr";
 @import "ngx-bootstrap/datepicker/bs-datepicker.css";
+
 html,
 body {
   height: 100%;
@@ -8,12 +9,13 @@ body {
 .pointer {
   cursor: pointer;
 }
+
 select {
   -webkit-appearance: listbox !important;
 }
 
 @media print {
-  #printContainer > div {
+  #printContainer>div {
     display: inline;
   }
 }
@@ -22,7 +24,17 @@ textarea,
 select,
 input {
   &.ng-invalid.ng-touched {
-    border: 1px solid red;
+    border: 1px solid red !important;
+  }
+}
+
+.ng-submitted {
+  textarea,
+  select,
+  input {
+    &.ng-invalid.ng-touched {
+      border: 1px solid red !important;
+    }
   }
 }
 
@@ -37,6 +49,7 @@ select:disabled {
 .toast-container {
   position: fixed !important;
 }
+
 .custom-dialog-container {
   max-height: 90vh;
   overflow-y: auto;
@@ -57,16 +70,20 @@ select:disabled {
 .ng-select {
   width: 100%;
 }
+
 div.w-esq-side {
   width: 178px;
 }
+
 div.w-dir-main {
   width: calc(100% - 178px);
 }
+
 @media (max-width: 768px) {
   div.w-esq-side {
     width: 100%;
   }
+
   div.w-dir-main {
     width: 100%;
   }
@@ -145,22 +162,27 @@ body {
     }
   }
 }
+
 .text-slug {
   font-size: 16px;
   color: #18752e;
   font-weight: 700;
   margin-left: 10px;
   pointer-events: none;
-  user-select: none; /* Evita a seleção do texto */
-  outline: none; /* Remove a borda de foco */
-  cursor: default; /* Muda o cursor para o padrão, sem interação */
+  user-select: none;
+  /* Evita a seleção do texto */
+  outline: none;
+  /* Remove a borda de foco */
+  cursor: default;
+  /* Muda o cursor para o padrão, sem interação */
 }
 
 .text-slug:focus,
 .text-slug:hover,
 .text-slug:active {
   outline: none;
-  background-color: transparent; /* Garante que o fundo não mudará em hover/focus */
+  background-color: transparent;
+  /* Garante que o fundo não mudará em hover/focus */
 }
 
 .btn-padrao__perfil-icon {
@@ -210,9 +232,11 @@ body {
 .mt-10 {
   margin-top: 10px;
 }
+
 .bkg-bottom {
   margin-bottom: 30px;
 }
+
 .bkg-login {
   background-image: url("../src/assets/bkg/bkg-login.png");
   background-repeat: no-repeat;
@@ -271,21 +295,25 @@ body {
   footer.footer {
     background-color: #272727;
   }
+
   div {
     &.latest-news_header {
       display: none;
     }
   }
+
   nav {
     &.menu-header {
       display: none;
     }
   }
 }
+
 .margin-auto {
   margin-left: auto;
   margin-right: auto;
 }
+
 .home-class {
   div {
     &.bkg-header {
@@ -308,23 +336,29 @@ body {
   line-height: 12.25px;
   color: #db4646;
 }
+
 .btn-auth {
   background: #328b1c;
+
   img {
     filter: none !important;
   }
 }
+
 .btn-enviar {
   width: calc(100vw / 4.5) !important;
 }
+
 .btn-enviar:hover {
   background-color: #328b1c !important;
 }
+
 @media (max-width: 768px) {
   .btn-enviar {
     width: 100%;
   }
 }
+
 .btn-format {
   display: flex;
   justify-content: center;
@@ -340,59 +374,76 @@ body {
     height: 20px;
     filter: invert(1);
   }
+
   svg {
     filter: invert(1);
     width: 20px;
     height: 20px;
   }
 }
+
 .legenda-icons {
   font-size: 12px;
   text-align: center;
 }
+
 .btn-visualizar {
   background-color: #4338ca;
 }
+
 .btn-edit {
   background-color: #2dd4bf;
 }
+
 .btn-resultados {
   background-color: #16cc47;
+
   img {
     filter: none !important;
   }
 }
+
 .btn-atas {
   background-color: #374151;
 }
+
 .btn-itens {
   background-color: #fbbf24;
 }
+
 .btn-arquivo {
   background-color: #3b82f6;
 }
+
 .btn-remove {
   background-color: #ef4444 !important;
+
   img {
     filter: brightness(2);
   }
 }
+
 .btn-cancelar {
   background-color: #ef4444 !important;
+
   svg {
     filter: invert(1);
   }
 }
+
 .btn-remove-page {
   background-color: #ef4444 !important;
+
   img {
     min-width: 35px;
     min-height: 35px;
   }
 }
+
 .mat-edit {
   width: 31px;
   height: 31px;
+
   mat-icon {
     margin-top: 1vh;
     font-size: 15px;
@@ -417,14 +468,17 @@ body {
   .mat-mdc-form-field-input-control {
     height: 80px !important;
   }
+
   .mdc-line-ripple::before {
     border-bottom-width: 0px !important;
   }
+
   .mdc-text-field__input {
     font-size: 25px !important;
     padding-left: 25px !important;
   }
 }
+
 .cup {
   cursor: pointer;
 }
@@ -469,19 +523,22 @@ body {
     min-height: 86.5vh;
   }
 }
+
 @media (min-width: 769px) and (max-width: 1660px) {
   .altura {
     min-height: 83.6vh;
   }
 }
+
 @media (max-width: 768px) {
   .altura {
     height: 100%;
   }
 }
+
 ::ng-deep {
-  .mdc-text-field--no-label:not(.mdc-text-field--textarea)
-    .mat-mdc-form-field-input-control.mdc-text-field__input,
+
+  .mdc-text-field--no-label:not(.mdc-text-field--textarea) .mat-mdc-form-field-input-control.mdc-text-field__input,
   .mat-mdc-text-field-wrapper .mat-mdc-form-field-input-control {
     color: #000 !important;
   }
@@ -518,6 +575,7 @@ body {
   text-trans: uppercase;
   margin-top: 2vh;
 }
+
 .strong_font {
   font-weight: 700;
   color: #000;
@@ -533,6 +591,7 @@ body {
   text-transform: capitalize;
   display: inline-block;
 }
+
 .tx-red {
   background: #efe0e0;
   color: #a72828;
@@ -542,6 +601,7 @@ body {
   text-transform: capitalize;
   display: inline-block;
 }
+
 .tx-mustard {
   background: #efece0;
   color: #a79a28;
@@ -554,9 +614,11 @@ body {
 
 .table-editada {
   width: 100% !important;
+
   thead {
     background-color: #ebebeb;
     border: 1px solid #d4d3d3;
+
     tr {
       th {
         color: #000;
@@ -581,6 +643,7 @@ body {
 
       text-align: center;
     }
+
     tr {
       &:nth-child(even) {
         background-color: #ebeaea !important;
@@ -602,17 +665,22 @@ body {
 }
 
 .form-itens-licitacao::-webkit-scrollbar {
-  width: 8px; /* Largura da barra de rolagem */
+  width: 8px;
+  /* Largura da barra de rolagem */
 }
 
 .form-itens-licitacao::-webkit-scrollbar-thumb {
-  background-color: #ccc; /* Cor do indicador da barra */
-  border-radius: 4px; /* Deixe o indicador com cantos arredondados */
+  background-color: #ccc;
+  /* Cor do indicador da barra */
+  border-radius: 4px;
+  /* Deixe o indicador com cantos arredondados */
 }
 
 .form-itens-licitacao::-webkit-scrollbar-track {
-  background-color: #f5f5f5; /* Cor do fundo do trilho */
+  background-color: #f5f5f5;
+  /* Cor do fundo do trilho */
 }
+
 .btn-close {
   filter: invert(1);
 }
@@ -622,6 +690,7 @@ body {
   border: 1px solid #28a745 !important;
   background-color: #18752e !important;
 }
+
 .btn-voltar {
   display: flex;
   width: 106px;
@@ -636,12 +705,14 @@ body {
   background: #ebebeb;
   box-shadow: 0px 2px 3.3px rgba(0, 0, 0, 0.22);
   cursor: pointer;
+
   mat-icon {
     width: 22.263px;
     height: 22.053px;
     margin: 0;
     padding: 0;
   }
+
   span {
     border: none;
     color: #1f1f1f;

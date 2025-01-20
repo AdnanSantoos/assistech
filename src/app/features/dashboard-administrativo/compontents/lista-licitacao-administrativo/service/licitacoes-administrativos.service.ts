@@ -223,7 +223,6 @@ export class LicitacoesService {
     return this._repository.updateLicitacao(id, data).pipe(
       tap(() => this.toastr.success('Licitação atualizada com sucesso!')),
       catchError((error) => {
-        this.toastr.error('Erro ao atualizar a licitação.', 'Erro');
         return throwError(() => error);
       })
     );
