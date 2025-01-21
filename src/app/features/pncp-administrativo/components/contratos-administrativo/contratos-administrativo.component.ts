@@ -133,7 +133,6 @@ export class ContratosAdministrativoComponent {
   onSelecionarItem(item: any): void {
     this.selectedItem = item;
     this.contratoForm.controls['procurement_id'].setValue(item.id);
-    console.log('Item selecionado:', this.selectedItem);
     this.modalRef?.hide();
   }
 }

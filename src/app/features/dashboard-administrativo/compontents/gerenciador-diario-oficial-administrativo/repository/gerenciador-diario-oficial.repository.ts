@@ -32,6 +32,13 @@ export class GerenciadorDiarioOficialRepository {
     return this._http.delete<void>(url);
   }
 
+  onEditItem(id:string,form: any): Observable<void> {
+    const url = `${
+      environment.API_URL
+    }/tenants/${this._tenantService.getTenant()}/diario-oficial/official-gazettes/${id}`;
+    return this._http.put<void>(url,form);
+  }
+
   onDeletePages(id: string, pages: number[]): Observable<void> {
     const url = `${
       environment.API_URL

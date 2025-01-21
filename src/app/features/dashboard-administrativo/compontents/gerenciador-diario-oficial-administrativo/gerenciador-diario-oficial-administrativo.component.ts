@@ -11,7 +11,6 @@ import {
 } from './models/gerenciador-diario-oficial.model';
 import { TenantService } from '../../../../shared/services/tenant.service';
 import { BsModalRef, BsModalService, ModalModule } from 'ngx-bootstrap/modal';
-import { Observable, Subscription } from 'rxjs';
 import { WebSocketService } from '../../../../shared/services/web-socket.service';
 import {
   FormBuilder,
@@ -19,7 +18,6 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { PublicarDiarioOficialMapper } from '../../../diario-oficial-administrativo/mappers/publicar-diario-oficial-mapper';
 
 @Component({
   selector: 'app-gerenciador-diario-oficial-administrativo',
@@ -43,6 +41,7 @@ export class GerenciadorDiarioOficialAdministrativoComponent
   public selectedDocument: DiarioOficialPublicacoes | null = null;
   public modalRef?: BsModalRef;
   anexarForm!: FormGroup;
+  editarForm!: FormGroup;
 
   public currentPage = 1;
   public totalPages = 5;
@@ -52,6 +51,8 @@ export class GerenciadorDiarioOficialAdministrativoComponent
   public selectedPages: number[] = []; // Páginas selecionadas para exclusão
   selectedFile: File | null = null; // Armazena o arquivo selecionado
   public publicacoes: DiarioOficialPublicacoes[] = [];
+  descriptionLength: number = 0;
+  maxLength: number = 30;
 
   constructor(
     private _location: Location,
@@ -69,6 +70,15 @@ export class GerenciadorDiarioOficialAdministrativoComponent
     this.anexarForm = this.fb.group({
       file: ['', [Validators.required]],
       signature_date: ['', [Validators.required]],
+    });
+
+    this.editarForm = this.fb.group({
+      description: ['', [Validators.required,Validators.minLength(30)]],
+      reprocess: ['no', [Validators.required]],
+    });
+
+    this.editarForm.get('description')?.valueChanges.subscribe((value: string) => {
+      this.descriptionLength = value.length;
     });
   }
   ngOnDestroy(): void {
@@ -185,18 +195,31 @@ export class GerenciadorDiarioOficialAdministrativoComponent
   ): void {
     this.selectedDocument = document;
     this.modalRef = this.modalService.show(template);
+    this.editarForm.controls['description'].setValue(this.selectedDocument.description)
   }
 
   confirmDelete(): void {
     if (this.selectedDocument) {
       this._service.onDeleteItem(this.selectedDocument.id).subscribe({
         next: () => {
-          console.log('Documento excluído com sucesso!');
           this.getDiario(this.currentPage);
           this.modalService.hide();
         },
         error: (err) => {
-          console.error('Erro ao excluir documento:', err);
+          this.modalService.hide();
+        },
+      });
+    }
+  }
+
+  editar(): void {
+    if (this.selectedDocument) {
+      this._service.edit(this.selectedDocument.id,this.editarForm.value).subscribe({
+        next: () => {
+          this.getDiario(this.currentPage);
+          this.modalService.hide();
+        },
+        error: (err) => {
           this.modalService.hide();
         },
       });

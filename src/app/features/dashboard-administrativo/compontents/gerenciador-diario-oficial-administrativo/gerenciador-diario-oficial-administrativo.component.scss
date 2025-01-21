@@ -15,6 +15,11 @@
     margin-right: 12px;
   }
 }
+.invert{
+  img{
+    filter: invert(1);
+  }
+}
 button:active {
   background-color: transparent;
   border: initial;

@@ -55,6 +55,17 @@ export class GerenciadorDiarioOficialService {
       })
     );
   }
+
+  edit(id:string,form:any): Observable<void> {
+    return this._repository.onEditItem(id,form).pipe(
+      tap(() => {
+        this.toastr.success('Documento excluído com sucesso!', 'Sucesso');
+      }),
+      catchError((error) => {
+        throw error;
+      })
+    );
+  }
   updatePublicacoes(publicacoes: DiarioOficialPublicacoes[]) {
     this.publicacoesSubject.next(publicacoes);
   }

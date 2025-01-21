@@ -7,10 +7,7 @@
         <br />
         preenchidas nos campos abaixo estão corretas!
       </p>
-      <div
-        class="button-voltar ms-3 d-flex justify-content-center align-items-center"
-        (click)="goBack()"
-      >
+      <div class="button-voltar ms-3 d-flex justify-content-center align-items-center" (click)="goBack()">
         <mat-icon>person</mat-icon> Voltar
       </div>
     </div>
@@ -25,11 +22,7 @@
                   <div class="col-6">
                     <div class="form-group">
                       <label class="d-block">SELECIONE CONTRATO</label>
-                      <button
-                        class="btn btn-dark"
-                        type="button"
-                        (click)="openModal(template)"
-                      >
+                      <button class="btn btn-dark" type="button" (click)="openModal(template)">
                         SELECIONE NA LISTA
                       </button>
                     </div>
@@ -40,8 +33,7 @@
                         <strong>Ano: </strong>
                         {{ selectedItem.year }} -
                         <strong>Número Compra: </strong>
-                        {{ selectedItem.number }} - <strong>Processo: </strong
-                        >{{ selectedItem.process_number }}
+                        {{ selectedItem.number }} - <strong>Processo: </strong>{{ selectedItem.process_number }}
                       </div>
                     </div>
                     }
@@ -51,17 +43,12 @@
                       <div class="form-group mb-1">
                         <label>Despesa/Receita?</label>
                         <div class="form-check form-switch">
-                          <input
-                            type="checkbox"
-                            class="form-check-input"
-                            formControlName="revenue"
-                            id="revenue"
-                          />
+                          <input type="checkbox" class="form-check-input" formControlName="revenue" id="revenue" />
                           <label class="form-check-label" for="revenue">
                             {{
-                              contratoForm.get("revenue")?.value
-                                ? "Receita"
-                                : "Despesa"
+                            contratoForm.get("revenue")?.value
+                            ? "Receita"
+                            : "Despesa"
                             }}
                           </label>
                         </div>
@@ -74,10 +61,7 @@
                 <div class="col-6">
                   <div class="form-group">
                     <label>Tipo do Contrato *</label>
-                    <select
-                      class="form-control"
-                      formControlName="contract_type_id"
-                    >
+                    <select class="form-control" formControlName="contract_type_id">
                       <option value="" selected>Selecione</option>
                       <option value="1">Contrato (termo inicial)</option>
                       <option value="2">Comodato</option>
@@ -103,21 +87,13 @@
                     <div class="col-6">
                       <div class="form-group">
                         <label>Número do contrato ou empenho *</label>
-                        <input
-                          type="text"
-                          class="form-control"
-                          formControlName="number"
-                        />
+                        <input type="text" class="form-control" formControlName="number" />
                       </div>
                     </div>
                     <div class="col-6">
                       <div class="form-group">
                         <label>Ano do contrato *</label>
-                        <input
-                          type="text"
-                          class="form-control"
-                          formControlName="year"
-                        />
+                        <input type="text" class="form-control" formControlName="year" />
                       </div>
                     </div>
                   </div>
@@ -127,10 +103,7 @@
                 <div class="col-6">
                   <div class="form-group">
                     <label>Categoria do Processo *</label>
-                    <select
-                      class="form-control"
-                      formControlName="process_category_id"
-                    >
+                    <select class="form-control" formControlName="process_category_id">
                       <option value="" selected>Selecione</option>
 
                       <option value="1">Cessão</option>
@@ -152,11 +125,7 @@
                 <div class="col-6">
                   <div class="form-group">
                     <label>Número do processo *</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      formControlName="process"
-                    />
+                    <input type="text" class="form-control" formControlName="process" />
                   </div>
                 </div>
               </div>
@@ -165,10 +134,7 @@
                 <div class="col-6">
                   <div class="form-group">
                     <label>Tipo da Pessoa *</label>
-                    <select
-                      class="form-control"
-                      formControlName="supplier_person_type"
-                    >
+                    <select class="form-control" formControlName="supplier_person_type">
                       <option value="" selected>Selecione</option>
 
                       <option value="PF">Pessoa Física</option>
@@ -179,12 +145,8 @@
                 <div class="col-6">
                   <div class="form-group">
                     <label>Número do CNPJ/CPF do Fornecedor/Prestador *</label>
-                    <input
-                      type="text"
-                      mask="000.000.000-00||00.000.000/0000-00"
-                      class="form-control"
-                      formControlName="supplier_id"
-                    />
+                    <input type="text" mask="000.000.000-00||00.000.000/0000-00" class="form-control"
+                      formControlName="supplier_id" />
                   </div>
                 </div>
               </div>
@@ -198,22 +160,13 @@
                 <div class="col-6">
                   <div class="form-group">
                     <label>Nome ou Razão Social *</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      formControlName="supplier_name"
-                    />
+                    <input type="text" class="form-control" formControlName="supplier_name" />
                   </div>
                 </div>
                 <div class="col-6">
                   <div class="form-group">
                     <label>Valor Inicial do Contrato *</label>
-                    <input
-                      type="text"
-                      currencyMask
-                      class="form-control"
-                      formControlName="initial_value"
-                    />
+                    <input type="text" currencyMask class="form-control" formControlName="initial_value" />
                   </div>
                 </div>
               </div>
@@ -222,22 +175,13 @@
                 <div class="col-6">
                   <div class="form-group">
                     <label>Número de parcelas *</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      formControlName="number_of_installments"
-                    />
+                    <input type="text" class="form-control" formControlName="number_of_installments" />
                   </div>
                 </div>
                 <div class="col-6">
                   <div class="form-group">
                     <label>Valor da Parcela</label>
-                    <input
-                      type="text"
-                      currencyMask
-                      class="form-control"
-                      formControlName="installment_value"
-                    />
+                    <input type="text" currencyMask class="form-control" formControlName="installment_value" />
                   </div>
                 </div>
               </div>
@@ -246,23 +190,13 @@
                 <div class="col-6">
                   <div class="form-group">
                     <label>Valor Global do Contrato *</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      currencyMask
-                      formControlName="global_value"
-                    />
+                    <input type="text" class="form-control" currencyMask formControlName="global_value" />
                   </div>
                 </div>
                 <div class="col-6">
                   <div class="form-group">
                     <label>Valor Acumulado do Contrato *</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      currencyMask
-                      formControlName="accumulated_value"
-                    />
+                    <input type="text" class="form-control" currencyMask formControlName="accumulated_value" />
                   </div>
                 </div>
               </div>
@@ -271,10 +205,7 @@
                 <div class="col-6">
                   <div class="form-group">
                     <label>Tipo Fornecedor Subcontratado</label>
-                    <select
-                      class="form-control"
-                      formControlName="subcontracted_supplier_person_type"
-                    >
+                    <select class="form-control" formControlName="subcontracted_supplier_person_type">
                       <option value="" selected>Selecione</option>
 
                       <option value="PF">Pessoa Física</option>
@@ -285,16 +216,10 @@
                 </div>
                 <div class="col-6">
                   <div class="form-group">
-                    <label
-                      >Número do CNPJ/CPF do Fornecedor/Prestador
-                      subcontratado</label
-                    >
-                    <input
-                      type="text"
-                      mask="000.000.000-00||00.000.000/0000-00"
-                      class="form-control"
-                      formControlName="subcontracted_supplier_id"
-                    />
+                    <label>Número do CNPJ/CPF do Fornecedor/Prestador
+                      subcontratado</label>
+                    <input type="text" mask="000.000.000-00||00.000.000/0000-00" class="form-control"
+                      formControlName="subcontracted_supplier_id" />
                   </div>
                 </div>
               </div>
@@ -302,21 +227,13 @@
                 <div class="col-6">
                   <div class="form-group">
                     <label>Nome do fornecedor subcontratado</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      formControlName="subcontracted_supplier_name"
-                    />
+                    <input type="text" class="form-control" formControlName="subcontracted_supplier_name" />
                   </div>
                 </div>
                 <div class="col-6">
                   <div class="form-group">
                     <label>Identificador do contrato</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      formControlName="cipi_identifier"
-                    />
+                    <input type="text" class="form-control" formControlName="cipi_identifier" />
                   </div>
                 </div>
               </div>
@@ -325,21 +242,13 @@
                 <div class="col-6">
                   <div class="form-group">
                     <label>Url com informações do contrato</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      formControlName="cipi_url"
-                    />
+                    <input type="text" class="form-control" formControlName="cipi_url" />
                   </div>
                 </div>
                 <div class="col-6">
                   <div class="form-group">
                     <label>Data de Assinatura do Contrato *</label>
-                    <input
-                      type="date"
-                      class="form-control"
-                      formControlName="signature_date"
-                    />
+                    <input type="date" class="form-control" formControlName="signature_date" />
                   </div>
                 </div>
               </div>
@@ -348,21 +257,13 @@
                 <div class="col-6">
                   <div class="form-group">
                     <label>Data início da vigência *</label>
-                    <input
-                      type="date"
-                      class="form-control"
-                      formControlName="start_date"
-                    />
+                    <input type="date" class="form-control" formControlName="start_date" />
                   </div>
                 </div>
                 <div class="col-6">
                   <div class="form-group">
                     <label>Data Final da Vigência *</label>
-                    <input
-                      type="date"
-                      class="form-control"
-                      formControlName="end_date"
-                    />
+                    <input type="date" class="form-control" formControlName="end_date" />
                   </div>
                 </div>
               </div>
@@ -371,23 +272,14 @@
                 <div class="col-6">
                   <div class="form-group">
                     <label>Descrição do objetivo do contrato *</label>
-                    <textarea
-                      type="text"
-                      class="form-control"
-                      rows="4"
-                      formControlName="goals"
-                    ></textarea>
+                    <textarea type="text" class="form-control" rows="4" formControlName="goals"></textarea>
                   </div>
                 </div>
                 <div class="col-6">
                   <div class="form-group">
                     <label>Informação complementar</label>
-                    <textarea
-                      type="text"
-                      class="form-control"
-                      rows="4"
-                      formControlName="additional_information"
-                    ></textarea>
+                    <textarea type="text" class="form-control" rows="4"
+                      formControlName="additional_information"></textarea>
                   </div>
                 </div>
               </div>
@@ -395,14 +287,8 @@
           </div>
 
           <div class="d-flex flex-start mt-4">
-            <button
-              type="submit"
-              class="btn btn-dark hover-sucesso hover-sucesso"
-              [disabled]="isLoading"
-            >
-              <ng-container *ngIf="!isLoading; else enviandoTemplate"
-                >Adicionar Contrato</ng-container
-              >
+            <button type="submit" class="btn btn-dark hover-sucesso hover-sucesso" [disabled]="isLoading">
+              <ng-container *ngIf="!isLoading; else enviandoTemplate">Adicionar Contrato</ng-container>
             </button>
 
             <ng-template #enviandoTemplate> Adicionando... </ng-template>
@@ -416,12 +302,7 @@
 <ng-template #template>
   <div class="modal-header">
     <h4 class="modal-title pull-left">Selecionar Contratação</h4>
-    <button
-      type="button"
-      class="btn-close close pull-right"
-      aria-label="Close"
-      (click)="modalRef?.hide()"
-    >
+    <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRef?.hide()">
       <span aria-hidden="true" class="visually-hidden">&times;</span>
     </button>
   </div>
@@ -453,16 +334,9 @@
             <td>{{ item.created_at | date : "dd/MM/yy, HH:mm" }}</td>
             <td>
               <div class="d-flex flex-column align-items-center">
-                <button
-                  class="btn-arquivo btn-format"
-                  [ngClass]="{ selected: selectedItem === item }"
-                  (click)="onSelecionarItem(item)"
-                >
-                  <img
-                    src="../../../../../assets/icons/check-adm-icon.svg"
-                    alt="Selecionar"
-                    class="icon"
-                  />
+                <button class="btn-arquivo btn-format" [ngClass]="{ selected: selectedItem === item }"
+                  (click)="onSelecionarItem(item)">
+                  <img src="../../../../../assets/icons/check-adm-icon.svg" alt="Selecionar" class="icon" />
                 </button>
               </div>
             </td>
