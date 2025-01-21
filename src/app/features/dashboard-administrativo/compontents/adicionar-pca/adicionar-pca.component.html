@@ -1,15 +1,16 @@
 <div class="container mt-5">
   <div class="form-content">
     <h3 class="mb-4">dados do PLANO DE CONTRATAÇÃO</h3>
-    <form [formGroup]="itemForm" (ngSubmit)="onFormSubmit()">
+    <form [formGroup]="pcaForm" (ngSubmit)="onFormSubmit()">
       <div class="row">
+        <!-- Dados principais do plano -->
         <div class="col-md-6 mb-3 ps-1 pe-1">
-          <label for="agency">Órgão</label>
+          <label for="agency_country_register">Órgão</label>
           <ng-select
             [items]="agencyOptions"
             bindLabel="label"
             bindValue="value"
-            formControlName="agency"
+            formControlName="agency_country_register"
             placeholder="Selecione um órgão"
             [searchable]="true"
           ></ng-select>
@@ -28,239 +29,230 @@
         </div>
 
         <div class="col-md-6 mb-3 ps-1 pe-1">
-          <label for="ano">Ano*</label>
+          <label for="year">Ano*</label>
           <input
-            id="ano"
+            id="year"
+            type="number"
             class="form-control"
-            formControlName="ano"
+            formControlName="year"
             placeholder="Ano do contrato"
           />
         </div>
+
+        <!-- Dados do item -->
         <div class="row">
           <h4 class="mb-4">ITENS DO PLANO DE CONTRATAÇÃO ANUAL</h4>
         </div>
-        <div class="col-md-6 mb-3 ps-1 pe-1">
-          <label for="renovacaoContrato">Renovação do Contrato</label>
-          <input
-            id="renovacaoContrato"
-            class="form-control"
-            formControlName="renovacaoContrato"
-            placeholder="Renovação do contrato (se aplicável)"
-          />
-        </div>
 
-        <div class="col-md-6 mb-3 ps-1 pe-1">
-          <label for="numeroItem">Número do Item*</label>
-          <input
-            id="numeroItem"
-            class="form-control"
-            formControlName="numeroItem"
-            placeholder="Número do item"
-          />
-        </div>
+        <div formGroupName="items">
+          <div class="row">
+            <div class="col-md-6 mb-3 ps-1 pe-1">
+              <label for="contract_renewal">Renovação do Contrato</label>
+              <input
+                id="contract_renewal"
+                type="checkbox"
+                class="form-check-input ms-2"
+                formControlName="contract_renewal"
+              />
+            </div>
 
-        <div class="col-md-6 mb-3 ps-1 pe-1">
-          <label for="categoriaItem">Categoria do Item</label>
-          <ng-select
-            [items]="categoriaItem"
-            bindLabel="key"
-            bindValue="value"
-            formControlName="categoriaItem"
-            placeholder="Selecione"
-            [searchable]="true"
-          ></ng-select>
-        </div>
+            <div class="col-md-6 mb-3 ps-1 pe-1">
+              <label for="item_number">Número do Item*</label>
+              <input
+                id="item_number"
+                type="number"
+                class="form-control"
+                formControlName="item_number"
+                placeholder="Número do item"
+              />
+            </div>
 
-        <div class="col-md-6 mb-3 ps-1 pe-1">
-          <label for="categoriaMaterialServico"
-            >Categoria de Material/Serviço*</label
-          >
-          <ng-select
-            [items]="categoriaMaterialServico"
-            bindLabel="key"
-            bindValue="value"
-            formControlName="categoriaMaterialServico"
-            placeholder="Selecione"
-            [searchable]="true"
-          ></ng-select>
-        </div>
+            <div class="col-md-6 mb-3 ps-1 pe-1">
+              <label for="item_category_id">Categoria do Item</label>
+              <ng-select
+                [items]="categoriaItem"
+                bindLabel="key"
+                bindValue="value"
+                formControlName="item_category_id"
+                placeholder="Selecione"
+                [searchable]="true"
+              ></ng-select>
+            </div>
 
-        <div class="col-md-6 mb-3 ps-1 pe-1">
-          <label for="MaterialOuServico">Material ou Serviço</label>
-          <ng-select
-            [items]="MaterialOuServico"
-            bindLabel="key"
-            bindValue="value"
-            formControlName="MaterialOuServico"
-            placeholder="Selecione"
-            [searchable]="true"
-          ></ng-select>
-        </div>
+            <div class="col-md-6 mb-3 ps-1 pe-1">
+              <label for="catalog">Catálogo*</label>
+              <input
+                id="catalog"
+                class="form-control"
+                formControlName="catalog"
+                placeholder="Catálogo"
+              />
+            </div>
 
-        <div class="col-md-6 mb-3 ps-1 pe-1">
-          <label for="codigoClasseMaterial"
-            >Código da Classe do Material ou Grupo do Serviço*</label
-          >
-          <input
-            id="codigoClasseMaterial"
-            class="form-control"
-            formControlName="codigoClasseMaterial"
-            placeholder="Código da classe"
-          />
-        </div>
+            <div class="col-md-6 mb-3 ps-1 pe-1">
+              <label for="catalog_classification">Classificação do Catálogo*</label>
+              <input
+                id="catalog_classification"
+                class="form-control"
+                formControlName="catalog_classification"
+                placeholder="Classificação do catálogo"
+              />
+            </div>
 
-        <div class="col-md-6 mb-3 ps-1 pe-1">
-          <label for="codigoPDM"
-            >Código PDM referente ao Material conforme CNIS</label
-          >
-          <input
-            id="codigoPDM"
-            class="form-control"
-            formControlName="codigoPDM"
-            placeholder="Código PDM"
-          />
-        </div>
-        <div class="col-md-6 mb-3 ps-1 pe-1">
-          <label for="codigoMaterialServico"
-            >Código do Material ou Serviço conforme Catálogo Utilizado*</label
-          >
-          <input
-            id="codigoMaterialServico"
-            class="form-control"
-            formControlName="codigoMaterialServico"
-            placeholder="Código do material ou serviço"
-          />
-        </div>
-        <div class="col-md-6 mb-3 ps-1 pe-1">
-          <label for="descricaoPDM"
-            >Descrição PDM referente ao Material conforme o CNBS</label
-          >
-          <textarea
-            id="descricaoPDM"
-            class="form-control"
-            formControlName="descricaoPDM"
-            placeholder="Descrição PDM"
-          ></textarea>
-        </div>
-        <div class="col-md-6 mb-3 ps-1 pe-1">
-          <label for="descricaoClasseMaterial"
-            >Descrição da Classe do Material ou Grupo do Serviço*</label
-          >
-          <textarea
-            id="descricaoClasseMaterial"
-            class="form-control"
-            formControlName="descricaoClasseMaterial"
-            placeholder="Descrição da classe"
-          ></textarea>
-        </div>
+            <div class="col-md-6 mb-3 ps-1 pe-1">
+              <label for="superior_classification_code">Código da Classe do Material ou Grupo do Serviço*</label>
+              <input
+                id="superior_classification_code"
+                class="form-control"
+                formControlName="superior_classification_code"
+                placeholder="Código da classe"
+              />
+            </div>
 
-        <div class="col-md-6 mb-3 ps-1 pe-1">
-          <label for="descricaoMaterialServico"
-            >Descrição do Material ou Serviço conforme Catálogo
-            Utilizado*</label
-          >
-          <textarea
-            id="descricaoMaterialServico"
-            class="form-control"
-            formControlName="descricaoMaterialServico"
-            placeholder="Descrição do material ou serviço"
-          ></textarea>
-        </div>
+            <div class="col-md-6 mb-3 ps-1 pe-1">
+              <label for="pdm_code">Código PDM referente ao Material conforme CNIS</label>
+              <input
+                id="pdm_code"
+                class="form-control"
+                formControlName="pdm_code"
+                placeholder="Código PDM"
+              />
+            </div>
 
-        <div class="col-md-6 mb-3 ps-1 pe-1">
-          <label for="identificadorUnidadeFornecimento"
-            >Identificador do Unidade de Fornecimento</label
-          >
-          <input
-            id="identificadorUnidadeFornecimento"
-            class="form-control"
-            formControlName="identificadorUnidadeFornecimento"
-            placeholder="Identificador da unidade de fornecimento"
-          />
-        </div>
+            <div class="col-md-6 mb-3 ps-1 pe-1">
+              <label for="item_code">Código do Material ou Serviço conforme Catálogo Utilizado*</label>
+              <input
+                id="item_code"
+                class="form-control"
+                formControlName="item_code"
+                placeholder="Código do material ou serviço"
+              />
+            </div>
 
-        <div class="col-md-6 mb-3 ps-1 pe-1">
-          <label for="quantidadeItens">Quantidade de Itens do Plano*</label>
-          <input
-            id="quantidadeItens"
-            class="form-control"
-            formControlName="quantidadeItens"
-            placeholder="Quantidade de itens"
-          />
-        </div>
+            <div class="col-md-6 mb-3 ps-1 pe-1">
+              <label for="pdm_description">Descrição PDM referente ao Material conforme o CNBS</label>
+              <textarea
+                id="pdm_description"
+                class="form-control"
+                formControlName="pdm_description"
+                placeholder="Descrição PDM"
+              ></textarea>
+            </div>
 
-        <div class="col-md-6 mb-3 ps-1 pe-1">
-          <label for="valorUnitarioItem">Valor Unitário do Item*</label>
-          <input
-            id="valorUnitarioItem"
-            class="form-control"
-            formControlName="valorUnitarioItem"
-            placeholder="Valor unitário"
-          />
-        </div>
+            <div class="col-md-6 mb-3 ps-1 pe-1">
+              <label for="superior_classification_name">Descrição da Classe do Material ou Grupo do Serviço*</label>
+              <textarea
+                id="superior_classification_name"
+                class="form-control"
+                formControlName="superior_classification_name"
+                placeholder="Descrição da classe"
+              ></textarea>
+            </div>
 
-        <div class="col-md-6 mb-3 ps-1 pe-1">
-          <label for="valorTotalItem">Valor Total do Item*</label>
-          <input
-            id="valorTotalItem"
-            class="form-control"
-            formControlName="valorTotalItem"
-            placeholder="Valor total"
-          />
-        </div>
+            <div class="col-md-6 mb-3 ps-1 pe-1">
+              <label for="description">Descrição do Material ou Serviço conforme Catálogo Utilizado*</label>
+              <textarea
+                id="description"
+                class="form-control"
+                formControlName="description"
+                placeholder="Descrição do material ou serviço"
+              ></textarea>
+            </div>
 
-        <div class="col-md-6 mb-3 ps-1 pe-1">
-          <label for="valorOrcamentario"
-            >Valor Orçamentário Estimado para o Exercício*</label
-          >
-          <input
-            id="valorOrcamentario"
-            class="form-control"
-            formControlName="valorOrcamentario"
-            placeholder="Valor orçamentário estimado"
-          />
-        </div>
+            <div class="col-md-6 mb-3 ps-1 pe-1">
+              <label for="supply_unit">Unidade de Fornecimento*</label>
+              <input
+                id="supply_unit"
+                class="form-control"
+                formControlName="supply_unit"
+                placeholder="Unidade de fornecimento"
+              />
+            </div>
 
-        <div class="col-md-6 mb-3 ps-1 pe-1">
-          <label for="dataContratacao">Data Desejada para Contratação*</label>
-          <input
-            type="date"
-            id="dataContratacao"
-            class="form-control"
-            formControlName="dataContratacao"
-          />
-        </div>
+            <div class="col-md-6 mb-3 ps-1 pe-1">
+              <label for="quantity">Quantidade de Itens do Plano*</label>
+              <input
+                id="quantity"
+                type="number"
+                class="form-control"
+                formControlName="quantity"
+                placeholder="Quantidade de itens"
+              />
+            </div>
 
-        <div class="col-md-6 mb-3 ps-1 pe-1">
-          <label for="nomeUnidadeRequisitante">Nome Unidade Requisitante</label>
-          <input
-            id="nomeUnidadeRequisitante"
-            class="form-control"
-            formControlName="nomeUnidadeRequisitante"
-            placeholder="Nome da unidade requisitante"
-          />
-        </div>
+            <div class="col-md-6 mb-3 ps-1 pe-1">
+              <label for="unit_value">Valor Unitário do Item*</label>
+              <input
+                id="unit_value"
+                type="number"
+                class="form-control"
+                formControlName="unit_value"
+                placeholder="Valor unitário"
+              />
+            </div>
 
-        <div class="col-md-6 mb-3 ps-1 pe-1">
-          <label for="codigoContratacaoFutura"
-            >Código da Contratação Futura</label
-          >
-          <input
-            id="codigoContratacaoFutura"
-            class="form-control"
-            formControlName="codigoContratacaoFutura"
-            placeholder="Código da contratação futura"
-          />
-        </div>
+            <div class="col-md-6 mb-3 ps-1 pe-1">
+              <label for="total_value">Valor Total do Item*</label>
+              <input
+                id="total_value"
+                type="number"
+                class="form-control"
+                formControlName="total_value"
+                placeholder="Valor total"
+              />
+            </div>
 
-        <div class="col-md-6 mb-3 ps-1 pe-1">
-          <label for="nomeContratacaoFutura">Nome da Contratação Futura</label>
-          <input
-            id="nomeContratacaoFutura"
-            class="form-control"
-            formControlName="nomeContratacaoFutura"
-            placeholder="Nome da contratação futura"
-          />
+            <div class="col-md-6 mb-3 ps-1 pe-1">
+              <label for="budget_value_for_year">Valor Orçamentário Estimado para o Exercício*</label>
+              <input
+                id="budget_value_for_year"
+                type="number"
+                class="form-control"
+                formControlName="budget_value_for_year"
+                placeholder="Valor orçamentário estimado"
+              />
+            </div>
+
+            <div class="col-md-6 mb-3 ps-1 pe-1">
+              <label for="desired_date">Data Desejada para Contratação*</label>
+              <input
+                type="datetime-local"
+                id="desired_date"
+                class="form-control"
+                formControlName="desired_date"
+              />
+            </div>
+
+            <div class="col-md-6 mb-3 ps-1 pe-1">
+              <label for="requesting_unit">Nome Unidade Requisitante</label>
+              <input
+                id="requesting_unit"
+                class="form-control"
+                formControlName="requesting_unit"
+                placeholder="Nome da unidade requisitante"
+              />
+            </div>
+
+            <div class="col-md-6 mb-3 ps-1 pe-1">
+              <label for="contracting_group_code">Código da Contratação Futura</label>
+              <input
+                id="contracting_group_code"
+                class="form-control"
+                formControlName="contracting_group_code"
+                placeholder="Código da contratação futura"
+              />
+            </div>
+
+            <div class="col-md-6 mb-3 ps-1 pe-1">
+              <label for="contracting_group_name">Nome da Contratação Futura</label>
+              <input
+                id="contracting_group_name"
+                class="form-control"
+                formControlName="contracting_group_name"
+                placeholder="Nome da contratação futura"
+              />
+            </div>
+          </div>
         </div>
 
         <div class="col-12">
