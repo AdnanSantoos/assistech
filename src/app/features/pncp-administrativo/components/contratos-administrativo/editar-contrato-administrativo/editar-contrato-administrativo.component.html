@@ -32,8 +32,21 @@
                       SELECIONE NA LISTA
                     </button>
                   </div>
+                  <div class="contrato-selecionado">
+                    @if (selectedItem) {
+                    <div class="mb-3">
+                      <div><strong>Contratação:</strong></div>
+                      <div>
+                        <strong>Ano: </strong> {{ selectedItem.year }} -
+                        <strong>Número Compra: </strong>
+                        {{ selectedItem.number }} - <strong>Processo: </strong
+                        >{{ selectedItem.process_number }}
+                      </div>
+                    </div>
+                    }
+                  </div>
                 </div>
-                <div class="col-6">
+                <div class="col-6 d-flex align-items-end">
                   <div class="form-group mb-3">
                     <label>Despesa/Receita?</label>
                     <div class="form-check form-switch">
@@ -50,47 +63,6 @@
                             : "Despesa"
                         }}
                       </label>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-6">
-                  <div class="contrato-selecionado">
-                    @if (selectedItem) {
-                    <div class="mb-3">
-                      <div><strong>Contratação:</strong></div>
-                      <div>
-                        <strong>Ano: </strong> {{ selectedItem.year }} -
-                        <strong>Número Compra: </strong>
-                        {{ selectedItem.number }} - <strong>Processo: </strong
-                        >{{ selectedItem.process_number }}
-                      </div>
-                    </div>
-                    }
-                  </div>
-                </div>
-                <div class="col-6">
-                  <div class="row">
-                    <div class="col">
-                      <div class="form-group">
-                        <label>Número do contrato ou empenho</label>
-                        <input
-                          type="text"
-                          class="form-control"
-                          formControlName="number"
-                        />
-                      </div>
-                    </div>
-                    <div class="col">
-                      <div class="form-group">
-                        <label>Ano do contrato</label>
-                        <input
-                          type="text"
-                          class="form-control"
-                          formControlName="year"
-                        />
-                      </div>
                     </div>
                   </div>
                 </div>
@@ -123,13 +95,27 @@
                   </div>
                 </div>
                 <div class="col-6">
-                  <div class="form-group">
-                    <label>Número do processo</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      formControlName="process"
-                    />
+                  <div class="row">
+                    <div class="col">
+                      <div class="form-group">
+                        <label>Número do contrato ou empenho</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          formControlName="number"
+                        />
+                      </div>
+                    </div>
+                    <div class="col">
+                      <div class="form-group">
+                        <label>Ano do contrato</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          formControlName="year"
+                        />
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -159,12 +145,11 @@
                 </div>
                 <div class="col-6">
                   <div class="form-group">
-                    <label>Número do CNPJ/CPF do Fornecedor/Prestador </label>
+                    <label>Número do processo</label>
                     <input
                       type="text"
-                      mask="000.000.000-00||00.000.000/0000-00"
                       class="form-control"
-                      formControlName="supplier_id"
+                      formControlName="process"
                     />
                   </div>
                 </div>
@@ -184,6 +169,29 @@
                 </div>
                 <div class="col-6">
                   <div class="form-group">
+                    <label>Número do CNPJ/CPF do Fornecedor/Prestador </label>
+                    <input
+                      type="text"
+                      mask="000.000.000-00||00.000.000/0000-00"
+                      class="form-control"
+                      formControlName="supplier_id"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-6">
+                  <div class="form-group">
+                    <label>Nome ou Razão Social</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      formControlName="supplier_name"
+                    />
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-group">
                     <label>Valor Inicial do Contrato</label>
                     <input
                       type="text"
@@ -197,11 +205,11 @@
               <div class="row">
                 <div class="col-6">
                   <div class="form-group">
-                    <label>Nome ou Razão Social</label>
+                    <label>Número de parcelas </label>
                     <input
                       type="text"
                       class="form-control"
-                      formControlName="supplier_name"
+                      formControlName="number_of_installments"
                     />
                   </div>
                 </div>
@@ -220,32 +228,6 @@
               <div class="row">
                 <div class="col-6">
                   <div class="form-group">
-                    <label>Número de parcelas </label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      formControlName="number_of_installments"
-                    />
-                  </div>
-                </div>
-                <div class="col-6">
-                  <div class="form-group">
-                    <label
-                      >Número do CNPJ/CPF do Fornecedor/Prestador
-                      subcontratado</label
-                    >
-                    <input
-                      type="text"
-                      mask="000.000.000-00||00.000.000/0000-00"
-                      class="form-control"
-                      formControlName="subcontracted_supplier_id"
-                    />
-                  </div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-6">
-                  <div class="form-group">
                     <label>Valor Global do Contrato</label>
                     <input
                       type="text"
@@ -257,11 +239,12 @@
                 </div>
                 <div class="col-6">
                   <div class="form-group">
-                    <label>Identificador do contrato</label>
+                    <label>Valor Acumulado do Contrato *</label>
                     <input
                       type="text"
                       class="form-control"
-                      formControlName="cipi_identifier"
+                      currencyMask
+                      formControlName="accumulated_value"
                     />
                   </div>
                 </div>
@@ -282,6 +265,55 @@
                 </div>
                 <div class="col-6">
                   <div class="form-group">
+                    <label
+                      >Número do CNPJ/CPF do Fornecedor/Prestador
+                      subcontratado</label
+                    >
+                    <input
+                      type="text"
+                      mask="000.000.000-00||00.000.000/0000-00"
+                      class="form-control"
+                      formControlName="subcontracted_supplier_id"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-6">
+                  <div class="form-group">
+                    <label>Nome do fornecedor subcontratado</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      formControlName="subcontracted_supplier_name"
+                    />
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-group">
+                    <label>Identificador do contrato</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      formControlName="cipi_identifier"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-6">
+                  <div class="form-group">
+                    <label>Url com informações do contrato</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      formControlName="cipi_url"
+                    />
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-group">
                     <label>Data de Assinatura do Contrato</label>
                     <input
                       type="date"
@@ -291,15 +323,14 @@
                   </div>
                 </div>
               </div>
-
               <div class="row">
                 <div class="col-6">
                   <div class="form-group">
-                    <label>Nome do fornecedor subcontratado</label>
+                    <label>Data início da vigência</label>
                     <input
-                      type="text"
+                      type="date"
                       class="form-control"
-                      formControlName="subcontracted_supplier_name"
+                      formControlName="start_date"
                     />
                   </div>
                 </div>
@@ -317,20 +348,13 @@
               <div class="row">
                 <div class="col-6">
                   <div class="form-group">
-                    <label>Url com informações do contrato</label>
-                    <input
+                    <label>Descrição do objetivo do contrato</label>
+                    <textarea
                       type="text"
                       class="form-control"
-                      formControlName="cipi_url"
-                    />
-                  </div>
-                  <div class="form-group">
-                    <label>Data início da vigência</label>
-                    <input
-                      type="date"
-                      class="form-control"
-                      formControlName="start_date"
-                    />
+                      rows="4"
+                      formControlName="goals"
+                    ></textarea>
                   </div>
                 </div>
                 <div class="col-6">
@@ -346,18 +370,7 @@
                 </div>
               </div>
               <div class="row">
-                <div class="col-6">
-                  <div class="form-group">
-                    <label>Descrição do objetivo do contrato</label>
-                    <textarea
-                      type="text"
-                      class="form-control"
-                      rows="4"
-                      formControlName="goals"
-                    ></textarea>
-                  </div>
-                </div>
-                <div class="col-6">
+                <div class="col-12">
                   <div class="form-group">
                     <label>Justificativa da Edição</label>
                     <textarea
