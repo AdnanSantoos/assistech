@@ -1,37 +1,15 @@
 import { CommonModule } from '@angular/common';
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { ActivatedRoute, RouterModule } from '@angular/router';
-import { PCAData } from '../../model/pca.model';
-
-const PCA_DATA: PCAData[] = [
-  {
-    numSeq: 1,
-    orgao: 'Prefeitura de Cidade A',
-    unidade: 'Secretaria de Obras',
-    ano: 2024,
-    criadoEm: '2021-05-10',
-    acoes: 'Em andamento',
-  },
-  {
-    numSeq: 2,
-    orgao: 'Câmara de Cidade B',
-    unidade: 'Departamento de Finanças',
-    ano: 2023,
-    criadoEm: '2023-02-15',
-    acoes: 'Finalizado',
-  },
-  {
-    numSeq: 3,
-    orgao: 'Prefeitura de Cidade C',
-    unidade: 'Secretaria de Educação',
-    ano: 2022,
-    criadoEm: '2024-01-20',
-    acoes: 'Aguardando início',
-  },
-];
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { catchError, finalize } from 'rxjs/operators';
+import { ToastrService } from 'ngx-toastr';
+import { ContractPlanModel } from './model/pca.model';
+import { ContractPlanService } from './service/pca.service';
+import { RequisicaoModel } from '../../../../shared/models/shared.model';
 
 @Component({
   selector: 'app-pca-administrativo',
@@ -42,53 +20,116 @@ const PCA_DATA: PCAData[] = [
     MatPaginator,
     MatTableModule,
     RouterModule,
+    ReactiveFormsModule,
   ],
   templateUrl: './pca-administrativo.component.html',
   styleUrl: './pca-administrativo.component.scss',
 })
-export class PcaAdministrativoComponent {
+export class PcaAdministrativoComponent implements OnInit {
   displayedColumns: string[] = [
     'numSeq',
-    'contratoPNCP',
-    'numProcesso',
     'orgao',
     'unidade',
+    'ano',
     'criadoEm',
     'acoes',
   ];
-  dataSource = new MatTableDataSource<PCAData>(PCA_DATA);
+
+  dataSource = new MatTableDataSource<ContractPlanModel>([]);
+  filterForm: FormGroup;
   pageSize = 10;
   currentPage = 1;
-  totalPages = Math.ceil(this.dataSource.data.length / this.pageSize);
+  totalPages = 1;
+  isLoading = false;
+
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  constructor(public route: ActivatedRoute) {}
+  constructor(
+    public route: ActivatedRoute,
+    private contractPlanService: ContractPlanService,
+    private formBuilder: FormBuilder,
+    private toastr: ToastrService
+  ) {
+    this.filterForm = this.formBuilder.group({
+      processo: [''],
+      ano: [''],
+      modalidade: [''],
+      orgao: [''],
+    });
+  }
 
   ngOnInit() {
-    this.dataSource.paginator = this.paginator; // Conectando o paginador aos dados da tabela
+    this.loadContractPlans();
+
+    this.filterForm.valueChanges.subscribe(() => {
+      this.currentPage = 1;
+      this.loadContractPlans();
+    });
   }
+
+  loadContractPlans() {
+    this.isLoading = true;
+
+    this.contractPlanService
+      .getContractPlans()
+      .pipe(
+        catchError((error) => {
+          this.toastr.error('Erro ao carregar planos de contrato', 'Erro');
+          throw error;
+        }),
+        finalize(() => (this.isLoading = false))
+      )
+      .subscribe((response: RequisicaoModel<ContractPlanModel[]>) => {
+        if (response.data) {
+          this.dataSource.data = response.data;
+        }
+      });
+  }
+
   goToPage(pageNumber: number) {
-    this.currentPage = pageNumber;
-    this.updateTableData();
+    if (pageNumber >= 1 && pageNumber <= this.totalPages) {
+      this.currentPage = pageNumber;
+      this.loadContractPlans();
+    }
   }
 
   goToPreviousPage() {
     if (this.currentPage > 1) {
       this.currentPage--;
-      this.updateTableData();
+      this.loadContractPlans();
     }
   }
 
   goToNextPage() {
     if (this.currentPage < this.totalPages) {
       this.currentPage++;
-      this.updateTableData();
+      this.loadContractPlans();
     }
   }
 
-  updateTableData() {
-    const startIndex = (this.currentPage - 1) * this.pageSize;
-    const endIndex = this.currentPage * this.pageSize;
-    this.dataSource.data = PCA_DATA.slice(startIndex, endIndex);
+  editContractPlan(contractPlanId: string) {
+    // Navigate to edit page
+    // Implementation depends on your routing setup
+  }
+
+  deleteContractPlan(contractPlanId: string) {
+    if (confirm('Tem certeza que deseja excluir este plano de contrato?')) {
+      this.contractPlanService
+        .deleteContractPlan(contractPlanId, 'Exclusão solicitada pelo usuário')
+        .subscribe({
+          next: () => {
+            this.loadContractPlans();
+          },
+          error: () => {
+            this.toastr.error('Erro ao excluir plano de contrato', 'Erro');
+          },
+        });
+    }
+  }
+
+  applyFilter() {
+    const filterValue = this.filterForm.value;
+    // Implement filter logic here using the form values
+    this.loadContractPlans();
   }
 }
