@@ -13,6 +13,7 @@ import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 import { ContratosService } from './service/contratos-administrativos.service';
 import { ToastrService } from 'ngx-toastr';
 import { CurrencyMaskDirective } from '../../../../shared/directives/currencyMask.directive';
+import { FormErrorService } from '../../../../shared/services/form-error.service';
 
 @Component({
   selector: 'app-contratos-administrativo',
@@ -46,7 +47,8 @@ export class ContratosAdministrativoComponent {
     private _toastrService: ToastrService,
     private modalService: BsModalService,
     private _licitacaoService: LicitacoesService,
-    private _contratoService: ContratosService
+    private _contratoService: ContratosService,
+    private _errorService:FormErrorService
   ) {
     this.filtroForm = this.fb.group({
       ataDaSessao: [''],
@@ -98,20 +100,17 @@ export class ContratosAdministrativoComponent {
   }
   onSubmit(): void {
     this.isLoading = true;
-
-    console.log(this.contratoForm.value);
     this._contratoService.createContrato(this.contratoForm.value).subscribe(
       (v) => {
-        console.log(v);
         this.goBack();
         this.isLoading = false;
 
       },
       (err) => {
-        console.log(err);
-        this._toastrService.error(err.error.message);
+        if (err.error?.errors) {
+          this._errorService.handleApiErrors(this.contratoForm, err);
+        }
         this.isLoading = false;
-
       }
     );
   }

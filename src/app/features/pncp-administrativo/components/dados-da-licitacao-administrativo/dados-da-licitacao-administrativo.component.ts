@@ -333,9 +333,9 @@ export class DadosDaLicitacaoAdministrativoComponent {
       agency: [null],
       unit_id: [null],
       document_title: [null],
-      document_type_id: [{ value: null, disabled: false }],
+      document_type_id: [{ value: null, disabled: false },Validators.required],
       call_instrument_id: [{ value: null, disabled: true }],
-      contracting_modality_id: [{ value: null, disabled: true }],
+      contracting_modality_id: [{ value: null, disabled: true },Validators.required],
       dispute_mode_id: [{ value: null, disabled: true }],
       legal_basic_id: [{ value: null, disabled: true }],
       agency_country_register: [null],
@@ -839,9 +839,9 @@ export class DadosDaLicitacaoAdministrativoComponent {
 
   createItem(): FormGroup {
     return this.fb.group({
-      tenant_slug: [null],
-      created_by_id: [null],
-      procurement_id: [null],
+      tenant_slug: [null,Validators.required],
+      created_by_id: [null,Validators.required],
+      procurement_id: [null,Validators.required],
       item_type: [null],
       benefit_type_id: [null],
       basic_productive_incentive: [false],

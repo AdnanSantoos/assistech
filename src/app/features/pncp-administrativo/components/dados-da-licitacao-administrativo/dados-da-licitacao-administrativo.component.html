@@ -6,10 +6,7 @@
         Antes de enviar, certifique-se de que todas as informações<br />
         preenchidas nos campos abaixo estão corretas!
       </p>
-      <div
-        class="button-voltar ms-3 d-flex justify-content-center align-items-center"
-        (click)="onVoltar()"
-      >
+      <div class="button-voltar ms-3 d-flex justify-content-center align-items-center" (click)="onVoltar()">
         <mat-icon>arrow_back</mat-icon> Voltar
       </div>
     </div>
@@ -22,8 +19,8 @@
         <div class="form-section">
           <div class="form-row">
             <div>
-              <label for="agency">Órgão da Licitação</label>
-              <select id="agency" formControlName="agency">
+              <label for="agency">Órgão da Licitação *</label>
+              <select required id="agency" formControlName="agency">
                 <option value="" disabled selected>Selecione um órgão</option>
                 <option *ngFor="let option of agencyOptions" [ngValue]="option">
                   {{ option.label }}
@@ -32,15 +29,12 @@
             </div>
 
             <div>
-              <label for="unit_id">Unidades Compradoraa</label>
+              <label for="unit_id">Unidades Compradora *</label>
               <select id="unit_id" formControlName="unit_id">
                 <option value="" disabled selected>
                   Selecione uma unidade
                 </option>
-                <option
-                  *ngFor="let option of unitOptions"
-                  [ngValue]="option.value"
-                >
+                <option *ngFor="let option of unitOptions" [ngValue]="option.value">
                   {{ option.key }}
                 </option>
               </select>
@@ -49,22 +43,15 @@
 
           <div class="form-row">
             <div>
-              <label for="document_title">Título do Documento</label>
-              <input
-                id="document_title"
-                type="text"
-                formControlName="document_title"
-              />
+              <label for="document_title">Título do Documento *</label>
+              <input required id="document_title" type="text" formControlName="document_title" />
             </div>
             <div>
-              <label for="document_type_id">Tipo de Documento</label>
+              <label for="document_type_id">Tipo de Documento *</label>
               <select id="document_type_id" formControlName="document_type_id">
                 <option></option>
 
-                <option
-                  *ngFor="let option of documentTypeOptions"
-                  [ngValue]="option.value"
-                >
+                <option *ngFor="let option of documentTypeOptions" [ngValue]="option.value">
                   {{ option.key }}
                 </option>
               </select>
@@ -73,36 +60,20 @@
 
           <div class="form-row">
             <div>
-              <label for="call_instrument_id"
-                >Tipo de Instrumento Convocatório</label
-              >
-              <select
-                id="call_instrument_id"
-                formControlName="call_instrument_id"
-              >
+              <label for="call_instrument_id">Tipo de Instrumento Convocatório</label>
+              <select id="call_instrument_id" formControlName="call_instrument_id">
                 <option></option>
 
-                <option
-                  *ngFor="let option of callInstrumentOptions"
-                  [ngValue]="option.value"
-                >
+                <option *ngFor="let option of callInstrumentOptions" [ngValue]="option.value">
                   {{ option.key }}
                 </option>
               </select>
             </div>
             <div>
-              <label for="contracting_modality_id"
-                >Modalidade de Contratação</label
-              >
-              <select
-                id="contracting_modality_id"
-                formControlName="contracting_modality_id"
-              >
+              <label for="contracting_modality_id">Modalidade de Contratação</label>
+              <select id="contracting_modality_id" formControlName="contracting_modality_id">
                 <option></option>
-                <option
-                  *ngFor="let option of modalidadeContratoOpcoes"
-                  [ngValue]="option.value"
-                >
+                <option *ngFor="let option of modalidadeContratoOpcoes" [ngValue]="option.value">
                   {{ option.key }}
                 </option>
               </select>
@@ -115,10 +86,7 @@
               <select id="dispute_mode_id" formControlName="dispute_mode_id">
                 <option></option>
 
-                <option
-                  *ngFor="let option of modoDisputaOpcoes"
-                  [ngValue]="option.value"
-                >
+                <option *ngFor="let option of modoDisputaOpcoes" [ngValue]="option.value">
                   {{ option.key }}
                 </option>
               </select>
@@ -128,10 +96,7 @@
               <select id="legal_basic_id" formControlName="legal_basic_id">
                 <option></option>
 
-                <option
-                  *ngFor="let option of legalBasicOptions"
-                  [ngValue]="option.value"
-                >
+                <option *ngFor="let option of legalBasicOptions" [ngValue]="option.value">
                   {{ option.key }}
                 </option>
               </select>
@@ -146,12 +111,7 @@
                   <span *ngIf="!selectedFiles">Selecionar Arquivo</span>
                   <span *ngIf="selectedFiles">{{ selectedFiles }}</span>
                 </label>
-                <input
-                  id="file"
-                  type="file"
-                  formControlName="file"
-                  (change)="onFileSelected($event, 'file')"
-                />
+                <input id="file" type="file" formControlName="file" (change)="onFileSelected($event, 'file')" />
               </div>
               <p class="file-instructions">
                 Tipos permitidos:
@@ -159,12 +119,8 @@
               </p>
             </div>
             <div>
-              <input
-                id="agency_country_register"
-                type="hidden"
-                formControlName="agency_country_register"
-                [disabled]="true"
-              />
+              <input id="agency_country_register" type="hidden" formControlName="agency_country_register"
+                [disabled]="true" />
             </div>
           </div>
 
@@ -182,11 +138,7 @@
           <div class="form-row">
             <div>
               <label for="process_number">Número do Processo</label>
-              <input
-                id="process_number"
-                type="text"
-                formControlName="process_number"
-              />
+              <input id="process_number" type="text" formControlName="process_number" />
             </div>
 
             <div class="switch-wrapper">
@@ -199,25 +151,12 @@
           </div>
           <div class="form-row">
             <div>
-              <label for="opening_date_proposal"
-                >Data da Abertura da Proposta</label
-              >
-              <input
-                id="opening_date_proposal"
-                type="datetime-local"
-                formControlName="opening_date_proposal"
-                
-              />
+              <label for="opening_date_proposal">Data da Abertura da Proposta</label>
+              <input id="opening_date_proposal" type="datetime-local" formControlName="opening_date_proposal" />
             </div>
             <div>
-              <label for="closing_date_proposal"
-                >Data do Encerramento da Proposta</label
-              >
-              <input
-                id="closing_date_proposal"
-                type="datetime-local"
-                formControlName="closing_date_proposal"
-              />
+              <label for="closing_date_proposal">Data do Encerramento da Proposta</label>
+              <input id="closing_date_proposal" type="datetime-local" formControlName="closing_date_proposal" />
             </div>
           </div>
 
@@ -227,48 +166,27 @@
               <textarea id="goals" formControlName="goals"></textarea>
             </div>
             <div>
-              <label for="additional_information"
-                >Informação Complementar</label
-              >
-              <textarea
-                id="additional_information"
-                formControlName="additional_information"
-              ></textarea>
+              <label for="additional_information">Informação Complementar</label>
+              <textarea id="additional_information" formControlName="additional_information"></textarea>
             </div>
           </div>
         </div>
         <!-- Itens da Licitação -->
         <div class="form-section">
           <div class="content" formArrayName="items">
-            <div
-              *ngFor="let item of items.controls; let i = index"
-              [formGroupName]="i"
-              class="item-form"
-            >
+            <div *ngFor="let item of items.controls; let i = index" [formGroupName]="i" class="item-form">
               <h2 class="d-flex justify-content-start align-items-center">
                 Itens da Licitação
-                <span
-                  class="ms-4 toggle-icon"
-                  [class.open]="showItems"
-                  (click)="addItem()"
-                  >+</span
-                >
-                <span class="ms-4 toggle-icon open" (click)="removeItem(i)"
-                  >+</span
-                >
+                <span class="ms-4 toggle-icon" [class.open]="showItems" (click)="addItem()">+</span>
+                <span class="ms-4 toggle-icon open" (click)="removeItem(i)">+</span>
               </h2>
               <div class="form-row">
                 <div>
-                  <label
-                    >Incentivo fiscal PPB (Processo Produtivo Básico)</label
-                  >
+                  <label>Incentivo fiscal PPB (Processo Produtivo Básico)</label>
                   <div class="switch-wrapper">
                     <label class="switch">
-                      <input
-                        id="applicability_normal_preference_margin"
-                        type="checkbox"
-                        formControlName="basic_productive_incentive"
-                      />
+                      <input id="applicability_normal_preference_margin" type="checkbox"
+                        formControlName="basic_productive_incentive" />
                       <span></span>
                     </label>
                   </div>
@@ -277,11 +195,7 @@
                   <label for="confidential_budget">Orçamento Sigiloso?*</label>
                   <div class="switch-wrapper">
                     <label class="switch">
-                      <input
-                        id="confidential_budget"
-                        type="checkbox"
-                        formControlName="confidential_budget"
-                      />
+                      <input id="confidential_budget" type="checkbox" formControlName="confidential_budget" />
                       <span></span>
                     </label>
                   </div>
@@ -291,16 +205,10 @@
               <div class="form-row">
                 <div>
                   <label for="item_category_id">Categoria do Item *</label>
-                  <select
-                    id="item_category_id"
-                    formControlName="item_category_id"
-                  >
+                  <select id="item_category_id" formControlName="item_category_id">
                     <option></option>
 
-                    <option
-                      *ngFor="let option of itemCategoriaEnum"
-                      [ngValue]="option.value"
-                    >
+                    <option *ngFor="let option of itemCategoriaEnum" [ngValue]="option.value">
                       {{ option.key }}
                     </option>
                   </select>
@@ -313,28 +221,17 @@
                   <select id="item_type" formControlName="benefit_type_id">
                     <option></option>
 
-                    <option
-                      *ngFor="let option of beneficiosEnum"
-                      [ngValue]="option.value"
-                    >
+                    <option *ngFor="let option of beneficiosEnum" [ngValue]="option.value">
                       {{ option.key }}
                     </option>
                   </select>
                 </div>
                 <div>
-                  <label for="judging_criteria_id"
-                    >Critério de Julgamento *</label
-                  >
-                  <select
-                    id="judging_criteria_id"
-                    formControlName="judging_criteria_id"
-                  >
+                  <label for="judging_criteria_id">Critério de Julgamento *</label>
+                  <select id="judging_criteria_id" formControlName="judging_criteria_id">
                     <option></option>
 
-                    <option
-                      *ngFor="let option of criterioDeJulgamentoEnum"
-                      [ngValue]="option.value"
-                    >
+                    <option *ngFor="let option of criterioDeJulgamentoEnum" [ngValue]="option.value">
                       {{ option.key }}
                     </option>
                   </select>
@@ -344,12 +241,8 @@
               <div class="form-row">
                 <div>
                   <label for="description">Descrição do Item *</label>
-                  <textarea
-                    id="description"
-                    formControlName="description"
-                    maxlength="2048"
-                    placeholder="Descrição do item"
-                  ></textarea>
+                  <textarea id="description" formControlName="description" maxlength="2048"
+                    placeholder="Descrição do item"></textarea>
                 </div>
               </div>
               <!-- <div class="form-row">
@@ -370,37 +263,23 @@
               <div class="form-row">
                 <div>
                   <label for="quantity">Quantidade</label>
-                  <input
-                    id="quantity"
-                    type="number"
-                    formControlName="quantity"
-                    placeholder="Quantidade"
-                  />
+                  <input id="quantity" type="number" formControlName="quantity" placeholder="Quantidade" />
                 </div>
                 <div>
                   <label for="item_type">Material ou Serviço? *</label>
                   <select id="item_type" formControlName="item_type">
                     <option></option>
-                    <option
-                      *ngFor="let option of materialOuServicoEnum"
-                      [ngValue]="option.value"
-                    >
+                    <option *ngFor="let option of materialOuServicoEnum" [ngValue]="option.value">
                       {{ option.key }}
                     </option>
                   </select>
                 </div>
                 <div>
                   <label for="unit_of_measurement">Unidade de Medida *</label>
-                  <select
-                    id="unit_of_measurement"
-                    formControlName="unit_of_measurement"
-                  >
+                  <select id="unit_of_measurement" formControlName="unit_of_measurement">
                     <option></option>
 
-                    <option
-                      *ngFor="let option of unidadeDeMedidaEnum"
-                      [ngValue]="option.value"
-                    >
+                    <option *ngFor="let option of unidadeDeMedidaEnum" [ngValue]="option.value">
                       {{ option.key }}
                     </option>
                   </select>
@@ -409,26 +288,14 @@
               <!-- Quinta linha -->
               <div class="form-row">
                 <div>
-                  <label for="estimated_unit_value"
-                    >Valor Unitário Estimado *</label
-                  >
-                  <input
-                    id="estimated_unit_value"
-                    type="text"
-                    formControlName="estimated_unit_value"
-                    placeholder="R$ 0,00"
-                    currencyMask
-                  />
+                  <label for="estimated_unit_value">Valor Unitário Estimado *</label>
+                  <input id="estimated_unit_value" type="text" formControlName="estimated_unit_value"
+                    placeholder="R$ 0,00" currencyMask />
                 </div>
                 <div>
                   <label for="total_value">Valor Total *</label>
-                  <input
-                    id="total_value"
-                    type="text"
-                    formControlName="total_value"
-                    placeholder="R$ 0,00"
-                    currencyMask
-                  />
+                  <input id="total_value" type="text" formControlName="total_value" placeholder="R$ 0,00"
+                    currencyMask />
                 </div>
               </div>
 
@@ -436,23 +303,12 @@
               <div class="form-row">
                 <div>
                   <label for="assets">Patrimônio</label>
-                  <input
-                    id="assets"
-                    type="text"
-                    formControlName="assets"
-                    placeholder="Patrimônio"
-                  />
+                  <input id="assets" type="text" formControlName="assets" placeholder="Patrimônio" />
                 </div>
                 <div>
-                  <label for="real_estate_registry_code"
-                    >Código Registro Imobiliário</label
-                  >
-                  <input
-                    id="real_estate_registry_code"
-                    type="text"
-                    formControlName="real_estate_registry_code"
-                    placeholder="Código Registro Imobiliário"
-                  />
+                  <label for="real_estate_registry_code">Código Registro Imobiliário</label>
+                  <input id="real_estate_registry_code" type="text" formControlName="real_estate_registry_code"
+                    placeholder="Código Registro Imobiliário" />
                 </div>
               </div>
               <div class="form-row">
@@ -460,26 +316,18 @@
                   <label>Aplicabilidade da Margem de Preferência Normal</label>
                   <div class="switch-wrapper">
                     <label class="switch">
-                      <input
-                        id="applicability_normal_preference_margin"
-                        type="checkbox"
-                        formControlName="applicability_normal_preference_margin"
-                      />
+                      <input id="applicability_normal_preference_margin" type="checkbox"
+                        formControlName="applicability_normal_preference_margin" />
                       <span></span>
                     </label>
                   </div>
                 </div>
                 <div>
-                  <label
-                    >Aplicabilidade da Margem de Preferência Adicional</label
-                  >
+                  <label>Aplicabilidade da Margem de Preferência Adicional</label>
                   <div class="switch-wrapper">
                     <label class="switch">
-                      <input
-                        id="applicability_additional_preference_margin"
-                        type="checkbox"
-                        formControlName="applicability_additional_preference_margin"
-                      />
+                      <input id="applicability_additional_preference_margin" type="checkbox"
+                        formControlName="applicability_additional_preference_margin" />
                       <span></span>
                     </label>
                   </div>
@@ -491,68 +339,40 @@
                   <label for="normal_preference_margin_percentage">
                     Percentual da Margem de Preferência Normal (%)
                   </label>
-                  <input
-                    id="normal_preference_margin_percentage"
-                    type="number"
-                    formControlName="normal_preference_margin_percentage"
-                    placeholder="Percentual da Margem"
-                  />
+                  <input id="normal_preference_margin_percentage" type="number"
+                    formControlName="normal_preference_margin_percentage" placeholder="Percentual da Margem" />
                 </div>
                 <div>
                   <label for="additional_preference_margin_percentage">
                     Percentual da Margem de Preferência Adicional (%)
                   </label>
-                  <input
-                    id="additional_preference_margin_percentage"
-                    type="number"
-                    formControlName="additional_preference_margin_percentage"
-                    placeholder="Percentual da Margem"
-                  />
+                  <input id="additional_preference_margin_percentage" type="number"
+                    formControlName="additional_preference_margin_percentage" placeholder="Percentual da Margem" />
                 </div>
               </div>
               <!-- Oitava linha -->
               <div class="form-row">
                 <div>
                   <label for="ncm_nbs_code">Código NCM/NBS</label>
-                  <input
-                    id="ncm_nbs_code"
-                    type="text"
-                    formControlName="ncm_nbs_code"
-                    placeholder="Código NCM/NBS"
-                  />
+                  <input id="ncm_nbs_code" type="text" formControlName="ncm_nbs_code" placeholder="Código NCM/NBS" />
                 </div>
                 <div>
                   <label for="ncm_nbs_description">Descrição NCM/NBS</label>
-                  <textarea
-                    id="ncm_nbs_description"
-                    formControlName="ncm_nbs_description"
-                    maxlength="2048"
-                    placeholder="Descrição NCM/NBS"
-                  ></textarea>
+                  <textarea id="ncm_nbs_description" formControlName="ncm_nbs_description" maxlength="2048"
+                    placeholder="Descrição NCM/NBS"></textarea>
                 </div>
               </div>
             </div>
           </div>
           <h2 class="d-flex justify-content-start align-items-center">
             Itens da Licitação
-            <span
-              class="ms-4 toggle-icon"
-              [class.open]="showItems"
-              (click)="addItem()"
-              >+</span
-            >
+            <span class="ms-4 toggle-icon" [class.open]="showItems" (click)="addItem()">+</span>
           </h2>
         </div>
 
         <!-- Botão de Envio -->
-        <button
-          type="submit"
-          class="btn-salvar bg-dark text-white hover-sucesso"
-          [disabled]="isLoading"
-        >
-          <ng-container *ngIf="!isLoading; else enviandoTemplate"
-            >Salvar</ng-container
-          >
+        <button type="submit" class="btn-salvar bg-dark text-white hover-sucesso" [disabled]="isLoading">
+          <ng-container *ngIf="!isLoading; else enviandoTemplate">Salvar</ng-container>
         </button>
 
         <ng-template #enviandoTemplate> Enviando... </ng-template>

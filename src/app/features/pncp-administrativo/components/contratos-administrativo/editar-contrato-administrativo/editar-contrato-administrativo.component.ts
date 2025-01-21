@@ -18,6 +18,7 @@ import { LicitacoesService } from '../../../../dashboard-administrativo/componte
 import { ContratosService } from '../service/contratos-administrativos.service';
 import { ActivatedRoute } from '@angular/router';
 import { CurrencyMaskDirective } from '../../../../../shared/directives/currencyMask.directive';
+import { FormErrorService } from '../../../../../shared/services/form-error.service';
 
 @Component({
   selector: 'app-editar-contrato-administrativo',
@@ -52,7 +53,8 @@ export class EditarContratoAdministrativoComponent {
     private modalService: BsModalService,
     private _licitacaoService: LicitacoesService,
     private _contratoService: ContratosService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private _errorService:FormErrorService
   ) {
     this.filtroForm = this.fb.group({
       ataDaSessao: [''],
@@ -186,8 +188,9 @@ export class EditarContratoAdministrativoComponent {
             this.goBack();
           },
           error: (err) => {
-            console.error('Erro ao atualizar contrato:', err);
-            this._toastrService.error('Erro ao atualizar contrato.');
+            if (err.error?.errors) {
+              this._errorService.handleApiErrors(this.contratoForm, err);
+            }
           },
         });
     } else if (!this.contratoId) {
