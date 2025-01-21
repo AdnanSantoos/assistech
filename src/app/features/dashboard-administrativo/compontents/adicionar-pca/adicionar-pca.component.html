@@ -83,6 +83,7 @@
               <label for="catalog">Catálogo*</label>
               <input
                 id="catalog"
+                type="number"
                 class="form-control"
                 formControlName="catalog"
                 placeholder="Catálogo"
@@ -90,17 +91,21 @@
             </div>
 
             <div class="col-md-6 mb-3 ps-1 pe-1">
-              <label for="catalog_classification">Classificação do Catálogo*</label>
+              <label for="catalog_classification"
+                >Classificação do Catálogo*</label
+              >
               <input
                 id="catalog_classification"
-                class="form-control"
+                  class="form-control"
                 formControlName="catalog_classification"
                 placeholder="Classificação do catálogo"
               />
             </div>
 
             <div class="col-md-6 mb-3 ps-1 pe-1">
-              <label for="superior_classification_code">Código da Classe do Material ou Grupo do Serviço*</label>
+              <label for="superior_classification_code"
+                >Código da Classe do Material ou Grupo do Serviço*</label
+              >
               <input
                 id="superior_classification_code"
                 class="form-control"
@@ -110,7 +115,9 @@
             </div>
 
             <div class="col-md-6 mb-3 ps-1 pe-1">
-              <label for="pdm_code">Código PDM referente ao Material conforme CNIS</label>
+              <label for="pdm_code"
+                >Código PDM referente ao Material conforme CNIS</label
+              >
               <input
                 id="pdm_code"
                 class="form-control"
@@ -120,7 +127,10 @@
             </div>
 
             <div class="col-md-6 mb-3 ps-1 pe-1">
-              <label for="item_code">Código do Material ou Serviço conforme Catálogo Utilizado*</label>
+              <label for="item_code"
+                >Código do Material ou Serviço conforme Catálogo
+                Utilizado*</label
+              >
               <input
                 id="item_code"
                 class="form-control"
@@ -130,7 +140,9 @@
             </div>
 
             <div class="col-md-6 mb-3 ps-1 pe-1">
-              <label for="pdm_description">Descrição PDM referente ao Material conforme o CNBS</label>
+              <label for="pdm_description"
+                >Descrição PDM referente ao Material conforme o CNBS</label
+              >
               <textarea
                 id="pdm_description"
                 class="form-control"
@@ -140,7 +152,9 @@
             </div>
 
             <div class="col-md-6 mb-3 ps-1 pe-1">
-              <label for="superior_classification_name">Descrição da Classe do Material ou Grupo do Serviço*</label>
+              <label for="superior_classification_name"
+                >Descrição da Classe do Material ou Grupo do Serviço*</label
+              >
               <textarea
                 id="superior_classification_name"
                 class="form-control"
@@ -150,7 +164,10 @@
             </div>
 
             <div class="col-md-6 mb-3 ps-1 pe-1">
-              <label for="description">Descrição do Material ou Serviço conforme Catálogo Utilizado*</label>
+              <label for="description"
+                >Descrição do Material ou Serviço conforme Catálogo
+                Utilizado*</label
+              >
               <textarea
                 id="description"
                 class="form-control"
@@ -184,10 +201,11 @@
               <label for="unit_value">Valor Unitário do Item*</label>
               <input
                 id="unit_value"
-                type="number"
+                type="text"
                 class="form-control"
                 formControlName="unit_value"
                 placeholder="Valor unitário"
+                currencyMask
               />
             </div>
 
@@ -195,21 +213,25 @@
               <label for="total_value">Valor Total do Item*</label>
               <input
                 id="total_value"
-                type="number"
+                type="text"
                 class="form-control"
                 formControlName="total_value"
                 placeholder="Valor total"
+                currencyMask
               />
             </div>
 
             <div class="col-md-6 mb-3 ps-1 pe-1">
-              <label for="budget_value_for_year">Valor Orçamentário Estimado para o Exercício*</label>
+              <label for="budget_value_for_year"
+                >Valor Orçamentário Estimado para o Exercício*</label
+              >
               <input
                 id="budget_value_for_year"
-                type="number"
+                type="text"
                 class="form-control"
                 formControlName="budget_value_for_year"
                 placeholder="Valor orçamentário estimado"
+                currencyMask
               />
             </div>
 
@@ -234,7 +256,9 @@
             </div>
 
             <div class="col-md-6 mb-3 ps-1 pe-1">
-              <label for="contracting_group_code">Código da Contratação Futura</label>
+              <label for="contracting_group_code"
+                >Código da Contratação Futura</label
+              >
               <input
                 id="contracting_group_code"
                 class="form-control"
@@ -244,7 +268,9 @@
             </div>
 
             <div class="col-md-6 mb-3 ps-1 pe-1">
-              <label for="contracting_group_name">Nome da Contratação Futura</label>
+              <label for="contracting_group_name"
+                >Nome da Contratação Futura</label
+              >
               <input
                 id="contracting_group_name"
                 class="form-control"

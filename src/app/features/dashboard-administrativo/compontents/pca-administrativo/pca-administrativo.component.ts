@@ -3,7 +3,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { catchError, finalize } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
@@ -46,6 +46,7 @@ export class PcaAdministrativoComponent implements OnInit {
 
   constructor(
     public route: ActivatedRoute,
+    private router: Router,
     private contractPlanService: ContractPlanService,
     private formBuilder: FormBuilder,
     private toastr: ToastrService
@@ -108,8 +109,9 @@ export class PcaAdministrativoComponent implements OnInit {
   }
 
   editContractPlan(contractPlanId: string) {
-    // Navigate to edit page
-    // Implementation depends on your routing setup
+    this.router.navigate(['editar-pca', contractPlanId], {
+      relativeTo: this.route.parent,
+    });
   }
 
   deleteContractPlan(contractPlanId: string) {

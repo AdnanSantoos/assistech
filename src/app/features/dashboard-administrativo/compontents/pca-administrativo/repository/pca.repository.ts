@@ -12,7 +12,7 @@ import { ContractPlanItemModel, ContractPlanModel } from '../model/pca.model';
 })
 export class ContractPlansRepository {
   private get baseUrl() {
-    return `${environment.API_URL}/tenants/${this._tenantService.getTenant()}/pncp/contract-plans`;
+    return `${environment.API_URL}/tenants/${this._tenantService.getTenant()}/pncp/contract_plans`;
   }
 
   constructor(

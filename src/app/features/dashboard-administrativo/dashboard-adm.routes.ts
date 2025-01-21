@@ -82,6 +82,10 @@ const routes: Routes = [
         component: AdicionarPcaComponent,
       },
       {
+        path: 'editar-pca/:id',
+        component: AdicionarPcaComponent,
+      },
+      {
         path: 'cadastrar-noticia',
         component: CadastrarNoticiasComponent,
       },

@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
@@ -15,7 +16,9 @@ import { selectModel } from '../../../../shared/models/shared.model';
 import { AdicionarLicitacaoService } from '../../../pncp-administrativo/components/dados-da-licitacao-administrativo/service/adicionar-licitacao.services';
 import { TenantService } from '../../../../shared/services/tenant.service';
 import { ContractPlanService } from '../pca-administrativo/service/pca.service';
-import { ContractPlanModel } from '../pca-administrativo/model/pca.model';
+import { ContractPlanItemModel, ContractPlanModel } from '../pca-administrativo/model/pca.model';
+import { CurrencyMaskDirective } from '../../../../shared/directives/currencyMask.directive';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-adicionar-pca',
@@ -27,16 +30,21 @@ import { ContractPlanModel } from '../pca-administrativo/model/pca.model';
     MatButtonModule,
     LayoutFormsAdmComponent,
     NgSelectModule,
+    CurrencyMaskDirective,
   ],
   templateUrl: './adicionar-pca.component.html',
   styleUrls: ['./adicionar-pca.component.scss'],
 })
-export class AdicionarPcaComponent {
+export class AdicionarPcaComponent implements OnInit {
   pcaForm!: FormGroup;
   agencyOptions: SelectedAgencies[] = [];
   unitOptions: selectModel[] = [];
   cnpjSelecionado!: string;
   orgaos: OrgaoModel[] = [];
+  isEditMode = false;
+  contractPlanId: string | null = null;
+  isLoading = false;
+  loadedItemId: string | null = null;
 
   categoriaItem = [
     { value: 1, key: 'Material' },
@@ -49,27 +57,31 @@ export class AdicionarPcaComponent {
     { value: 8, key: 'Obras e Serviços de Engenharia' },
   ];
 
-  categoriaMaterialServico = [
-    { value: 1, key: 'CNBS (Catálogo Nacional de Bens e Serviços)' },
-    { value: 2, key: 'Outros' },
-  ];
-
-  MaterialOuServico = [
-    { value: 1, key: 'Material' },
-    { value: 2, key: 'Serviço' },
-  ];
-
   constructor(
     private fb: FormBuilder,
     private _adicionarLicitacaoService: AdicionarLicitacaoService,
     private _contractPlanService: ContractPlanService,
     private _toastr: ToastrService,
-    private _tenantService: TenantService
+    private _tenantService: TenantService,
+    private _route: ActivatedRoute
   ) {
     this.initForm();
+  }
+
+  ngOnInit(): void {
     this.loadCurrentUser();
     this.setupTenantSubscription();
     this.loadOrgaos();
+
+    // Check if we're in edit mode
+    this._route.paramMap.subscribe((params) => {
+      this.contractPlanId = params.get('id');
+
+      if (this.contractPlanId) {
+        this.isEditMode = true;
+        this.loadContractPlanDetails();
+      }
+    });
   }
 
   private initForm(): void {
@@ -122,6 +134,72 @@ export class AdicionarPcaComponent {
 
         this.pcaForm.get('unit_id')?.setValue('');
       });
+  }
+
+  private loadContractPlanDetails(): void {
+    if (!this.contractPlanId) return;
+
+    this.isLoading = true;
+    this._contractPlanService
+      .getContractPlanById(this.contractPlanId)
+      .pipe(finalize(() => (this.isLoading = false)))
+      .subscribe({
+        next: (response) => {
+          if (response.data) {
+            this.populateFormWithExistingData(response.data);
+          }
+        },
+        error: () => {
+          this._toastr.error(
+            'Erro ao carregar detalhes do plano de contrato',
+            'Erro'
+          );
+        },
+      });
+  }
+
+  private populateFormWithExistingData(contractPlan: ContractPlanModel): void {
+    // Populate main form fields
+    this.pcaForm.patchValue({
+      agency_country_register: contractPlan.agency_country_register,
+      unit_id: contractPlan.unit_id,
+      year: contractPlan.year,
+      created_by_id: contractPlan.created_by_id,
+    });
+
+    // Populate items form (assuming the first item, adjust if multiple items are possible)
+    if (contractPlan.items && contractPlan.items.length > 0) {
+      const firstItem = contractPlan.items[0];
+      this.pcaForm.get('items')?.patchValue({
+        item_number: firstItem.item_number || 1,
+        item_category_id: firstItem.item_category_id,
+        catalog: firstItem.catalog,
+        catalog_classification: firstItem.catalog_classification,
+        superior_classification_code: firstItem.superior_classification_code,
+        superior_classification_name: firstItem.superior_classification_name,
+        pdm_code: firstItem.pdm_code || '',
+        pdm_description: firstItem.pdm_description || '',
+        item_code: firstItem.item_code,
+        description: firstItem.description,
+        supply_unit: firstItem.supply_unit,
+        quantity: firstItem.quantity,
+        unit_value: firstItem.unit_value,
+        total_value: firstItem.total_value,
+        budget_value_for_year: firstItem.budget_value_for_year,
+        desired_date: firstItem.desired_date,
+        requesting_unit: firstItem.requesting_unit || '',
+        contracting_group_code: firstItem.contracting_group_code || '',
+        contracting_group_name: firstItem.contracting_group_name || '',
+        contract_renewal: firstItem.contract_renewal || false,
+      });
+    }
+
+    // Trigger unit options population
+    if (contractPlan.agency_country_register) {
+      this.pcaForm
+        .get('agency_country_register')
+        ?.setValue(contractPlan.agency_country_register);
+    }
   }
 
   private loadCurrentUser(): void {
@@ -187,13 +265,49 @@ export class AdicionarPcaComponent {
         created_by_id: formValue.created_by_id,
         items: [formValue.items],
       };
+      if (this.isEditMode && this.contractPlanId) {
+        // Extract the items from contractPlanData
+        const itemData: ContractPlanItemModel = contractPlanData.items[0];
 
-      this._contractPlanService.createContractPlan(contractPlanData).subscribe({
-        next: () => {},
-        error: (error) => {
-          console.error('Erro:', error);
-        },
-      });
+        this._contractPlanService
+          .updateContractPlanItem(
+            this.contractPlanId,
+            // You need to provide an itemId
+            // This might come from the previously loaded contract plan
+            this.loadedItemId || '',
+            itemData
+          )
+          .subscribe({
+            next: () => {
+              this._toastr.success(
+                'Plano de contrato atualizado com sucesso!',
+                'Sucesso'
+              );
+              this._contractPlanService.goBack();
+            },
+            error: (error) => {
+              console.error('Erro ao atualizar plano de contrato:', error);
+              this._toastr.error('Erro ao atualizar plano de contrato', 'Erro');
+            },
+          });
+      } else {
+        // Create new contract plan
+        this._contractPlanService
+          .createContractPlan(contractPlanData)
+          .subscribe({
+            next: () => {
+              this._toastr.success(
+                'Plano de contrato criado com sucesso!',
+                'Sucesso'
+              );
+              this._contractPlanService.goBack();
+            },
+            error: (error) => {
+              console.error('Erro:', error);
+              this._toastr.error('Erro ao criar plano de contrato', 'Erro');
+            },
+          });
+      }
     } else {
       this.markFormGroupTouched(this.pcaForm);
     }
