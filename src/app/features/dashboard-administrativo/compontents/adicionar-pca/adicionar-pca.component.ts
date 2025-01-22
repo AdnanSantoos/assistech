@@ -63,7 +63,7 @@ export class AdicionarPcaComponent implements OnInit {
     { value: 8, key: 'Obras e Serviços de Engenharia' },
   ];
   modeloCatalogo: SelectOption[] = [
-    { value: 1, key: 'CNBS' },
+    { value: 1, key: 'CNBS (Catálogo Nacional de Bens e Serviços)' },
     { value: 2, key: 'Outros' },
   ];
   catalogoClassificacao: SelectOption[]  = [
