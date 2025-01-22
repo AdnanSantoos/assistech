@@ -81,25 +81,28 @@
 
             <div class="col-md-6 mb-3 ps-1 pe-1">
               <label for="catalog">Catálogo*</label>
-              <input
-                id="catalog"
-                type="number"
-                class="form-control"
+              <ng-select
+                [items]="modeloCatalogo"
+                bindLabel="key"
+                bindValue="value"
                 formControlName="catalog"
-                placeholder="Catálogo"
-              />
+                placeholder="Selecione"
+                [searchable]="true"
+              ></ng-select>
             </div>
 
             <div class="col-md-6 mb-3 ps-1 pe-1">
               <label for="catalog_classification"
                 >Classificação do Catálogo*</label
               >
-              <input
-                id="catalog_classification"
-                  class="form-control"
+              <ng-select
+                [items]="catalogoClassificacao"
+                bindLabel="key"
+                bindValue="value"
                 formControlName="catalog_classification"
-                placeholder="Classificação do catálogo"
-              />
+                placeholder="Selecione"
+                [searchable]="true"
+              ></ng-select>
             </div>
 
             <div class="col-md-6 mb-3 ps-1 pe-1">

@@ -94,8 +94,8 @@
       <tbody>
         <tr *ngFor="let element of dataSource.data; let i = index">
           <td>{{ i + 1 }}</td>
-          <td>{{ element.agency_country_register }}</td>
-          <td>{{ element.unit_id }}</td>
+          <td>{{ element.unit?.agency?.name || "N/A" }}</td>
+          <td>{{ element.unit?.name || "N/A" }}</td>
           <td>{{ element.year }}</td>
           <td>
             {{

@@ -21,14 +21,31 @@ export interface ContractPlanItemModel {
   contract_renewal: boolean;
 }
 
+interface UnitAgency {
+  name: string;
+  country_register: string;
+}
+
+interface Unit {
+  id: string;
+  name: string;
+  code: string;
+  city_code: number;
+  agency_country_register: string;
+  agency: UnitAgency;
+}
+
 export interface ContractPlanModel {
-  id?: string;  // Response field
+  id?: string;
   tenant_slug: string;
   agency_country_register: string;
   unit_id: string;
   year: number;
   created_by_id: string;
   items: ContractPlanItemModel[];
-  created_at?: string;  // Response field
-  updated_at?: string;  // Response field
+  created_at?: string;
+  updated_at?: string;
+  gateway_location?: string;
+  gateway_sequence?: number;
+  unit?: Unit;
 }

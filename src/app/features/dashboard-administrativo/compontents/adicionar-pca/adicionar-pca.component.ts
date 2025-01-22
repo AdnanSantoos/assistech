@@ -16,10 +16,16 @@ import { selectModel } from '../../../../shared/models/shared.model';
 import { AdicionarLicitacaoService } from '../../../pncp-administrativo/components/dados-da-licitacao-administrativo/service/adicionar-licitacao.services';
 import { TenantService } from '../../../../shared/services/tenant.service';
 import { ContractPlanService } from '../pca-administrativo/service/pca.service';
-import { ContractPlanItemModel, ContractPlanModel } from '../pca-administrativo/model/pca.model';
+import {
+  ContractPlanItemModel,
+  ContractPlanModel,
+} from '../pca-administrativo/model/pca.model';
 import { CurrencyMaskDirective } from '../../../../shared/directives/currencyMask.directive';
 import { finalize } from 'rxjs/operators';
-
+interface SelectOption {
+  value: number;
+  key: string;
+}
 @Component({
   selector: 'app-adicionar-pca',
   standalone: true,
@@ -46,7 +52,7 @@ export class AdicionarPcaComponent implements OnInit {
   isLoading = false;
   loadedItemId: string | null = null;
 
-  categoriaItem = [
+  categoriaItem: SelectOption[] = [
     { value: 1, key: 'Material' },
     { value: 2, key: 'Serviço' },
     { value: 3, key: 'Obras' },
@@ -56,7 +62,19 @@ export class AdicionarPcaComponent implements OnInit {
     { value: 7, key: 'Alienação/Concessão/Permissão' },
     { value: 8, key: 'Obras e Serviços de Engenharia' },
   ];
-
+  modeloCatalogo: SelectOption[] = [
+    { value: 1, key: 'CNBS' },
+    { value: 2, key: 'Outros' },
+  ];
+  catalogoClassificacao: SelectOption[]  = [
+    { value: 1, key: 'Material' },
+    { value: 2, key: 'Serviço' },
+  ];
+  bensCategoria: SelectOption[] = [
+    { value: 1, key: 'Bens imóveis' },
+    { value: 2, key: 'Bens móveis' },
+    { value: 3, key: 'Não se aplica' },
+  ];
   constructor(
     private fb: FormBuilder,
     private _adicionarLicitacaoService: AdicionarLicitacaoService,
