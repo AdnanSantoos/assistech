@@ -67,7 +67,21 @@ export class PcaAdministrativoComponent implements OnInit {
       this.loadContractPlans();
     });
   }
+  visualizarPCA(element: ContractPlanModel): void {
+    if (element?.unit?.agency?.country_register) {
+      const baseUrl = 'https://treina.pncp.gov.br/app/pca/';
+      const countryRegister = element.unit.agency.country_register;
+      const { year } = element;
 
+      const fullUrl = `${baseUrl}${countryRegister}/${year}`;
+
+      window.open(fullUrl, '_blank');
+    } else {
+      console.error(
+        'Invalid contract plan data or missing agency information.'
+      );
+    }
+  }
   loadContractPlans() {
     this.isLoading = true;
 

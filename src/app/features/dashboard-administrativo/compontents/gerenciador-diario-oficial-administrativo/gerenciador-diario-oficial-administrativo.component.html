@@ -39,7 +39,9 @@
             >
           </td>
           <td class="w-25">
-            <div class="d-flex justify-content-center align-items-center gap-2 p-1">
+            <div
+              class="d-flex justify-content-center align-items-center gap-2 p-1"
+            >
               <a
                 [href]="doc.protocol"
                 target="_blank"
@@ -87,16 +89,6 @@
                 Anexar
               </button>
               <button
-                class="btn-format btn-remove-page border-0 ps-0 pe-0 ms-0 me-0"
-                tooltip="Remover Página"
-                (click)="openDeletePage(deletePage, doc)"
-              >
-                <img
-                  src="../../../../../assets/icons/remover-pagina-icon.svg"
-                  alt="Remover Página"
-                />
-              </button>
-              <button
                 class="btn-format btn-edit border-0 ps-0 pe-0 ms-0 me-0 invert"
                 tooltip="Editar Publicação"
                 (click)="openConfirmationModal(editarTemplate, doc)"
@@ -104,6 +96,16 @@
                 <img
                   src="../../../../../assets/icons/edit-icon-adm.svg"
                   alt="Editar Publicação"
+                />
+              </button>
+              <button
+                class="btn-format btn-remove-page border-0 ps-0 pe-0 ms-0 me-0"
+                tooltip="Remover Página"
+                (click)="openDeletePage(deletePage, doc)"
+              >
+                <img
+                  src="../../../../../assets/icons/remover-pagina-icon.svg"
+                  alt="Remover Página"
                 />
               </button>
 
@@ -207,13 +209,20 @@
                 <div class="modal-body">
                   <div>
                     <form [formGroup]="editarForm">
-                      <label for="">
-                        Descrição
-                      </label>
-                      <input type="text" formControlName="description"  class="form-control">
-                      <div class="d-flex justify-content-between ">
-                        <div class="form-text"> A descrição deve ter no mínimo {{ maxLength }} caracteres.</div>
-                        <div class="form-text">{{ descriptionLength }}/{{ maxLength }}</div>
+                      <label for=""> Descrição </label>
+                      <input
+                        type="text"
+                        formControlName="description"
+                        class="form-control"
+                      />
+                      <div class="d-flex justify-content-between">
+                        <div class="form-text">
+                          A descrição deve ter no mínimo
+                          {{ maxLength }} caracteres.
+                        </div>
+                        <div class="form-text">
+                          {{ descriptionLength }}/{{ maxLength }}
+                        </div>
                       </div>
                     </form>
                   </div>
