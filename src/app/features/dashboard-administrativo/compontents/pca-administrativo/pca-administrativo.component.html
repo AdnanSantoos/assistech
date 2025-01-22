@@ -108,7 +108,7 @@
             <div class="d-flex justify-content-center">
               <div class="d-flex flex-column align-items-center">
                 <a
-                (click)="visualizarPCA(element)"
+                  (click)="visualizarPCA(element)"
                   class="me-2 btn-visualizar btn-format d-flex justify-content-center align-items-center"
                 >
                   <img
@@ -145,7 +145,7 @@
               <div class="d-flex flex-column align-items-center">
                 <button
                   class="btn btn-sm btn-format btn-remove"
-                  (click)="deleteContractPlan(element.id || '')"
+                  (click)="openDeleteModal(element, deleteModal)"
                 >
                   <img
                     src="../../../../../assets/icons/remove-icon.svg"
@@ -154,6 +154,64 @@
                 </button>
                 <span class="mt-1 legenda-icons">Remover</span>
               </div>
+              <ng-template #deleteModal>
+                <div class="modal-header">
+                  <h5 class="modal-title text-danger">
+                    <mat-icon>warning</mat-icon> Atenção!
+                  </h5>
+                  <button
+                    type="button"
+                    class="btn-close"
+                    aria-label="Close"
+                    (click)="modalRef?.hide()"
+                  ></button>
+                </div>
+                <div class="modal-body">
+                  <p class="fw-bold">
+                    Deseja realmente excluir o Plano de Contratação Anual de  {{
+                      element?.year
+                    }}?
+                  </p>
+                  <form [formGroup]="deleteForm">
+                    <label for="justification" class="form-label fw-bold">
+                      Informe o motivo da exclusão dO Plano de Contratação Anual:
+                      {{ element?.year }}:
+                    </label>
+                    <textarea
+                      id="justification"
+                      class="form-control"
+                      formControlName="justification"
+                      placeholder="Motivo da exclusão da licitação"
+                    ></textarea>
+                    <div
+                      *ngIf="
+                        deleteForm.controls['justification'].invalid &&
+                        deleteForm.controls['justification'].touched
+                      "
+                      class="text-danger mt-1"
+                    >
+                      O motivo da exclusão é obrigatório.
+                    </div>
+                  </form>
+                </div>
+                <div class="modal-footer d-flex justify-content-between">
+                  <button
+                    type="button"
+                    class="btn btn-danger"
+                    [disabled]="deleteForm.invalid"
+                    (click)="deleteContractPlan(element.id || '')"
+                  >
+                    Excluir
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    (click)="modalRef?.hide()"
+                  >
+                    Fechar
+                  </button>
+                </div>
+              </ng-template>
             </div>
           </td>
         </tr>

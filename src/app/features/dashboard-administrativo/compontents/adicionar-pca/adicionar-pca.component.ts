@@ -22,10 +22,12 @@ import {
 } from '../pca-administrativo/model/pca.model';
 import { CurrencyMaskDirective } from '../../../../shared/directives/currencyMask.directive';
 import { finalize } from 'rxjs/operators';
+
 interface SelectOption {
   value: number;
   key: string;
 }
+
 @Component({
   selector: 'app-adicionar-pca',
   standalone: true,
@@ -62,19 +64,23 @@ export class AdicionarPcaComponent implements OnInit {
     { value: 7, key: 'Alienação/Concessão/Permissão' },
     { value: 8, key: 'Obras e Serviços de Engenharia' },
   ];
+
   modeloCatalogo: SelectOption[] = [
     { value: 1, key: 'CNBS (Catálogo Nacional de Bens e Serviços)' },
     { value: 2, key: 'Outros' },
   ];
-  catalogoClassificacao: SelectOption[]  = [
+
+  catalogoClassificacao: SelectOption[] = [
     { value: 1, key: 'Material' },
     { value: 2, key: 'Serviço' },
   ];
+
   bensCategoria: SelectOption[] = [
     { value: 1, key: 'Bens imóveis' },
     { value: 2, key: 'Bens móveis' },
     { value: 3, key: 'Não se aplica' },
   ];
+
   constructor(
     private fb: FormBuilder,
     private _adicionarLicitacaoService: AdicionarLicitacaoService,
@@ -91,7 +97,6 @@ export class AdicionarPcaComponent implements OnInit {
     this.setupTenantSubscription();
     this.loadOrgaos();
 
-    // Check if we're in edit mode
     this._route.paramMap.subscribe((params) => {
       this.contractPlanId = params.get('id');
 
@@ -105,9 +110,9 @@ export class AdicionarPcaComponent implements OnInit {
   private initForm(): void {
     this.pcaForm = this.fb.group({
       tenant_slug: [this._tenantService.getTenant()],
-      agency_country_register: ['', Validators.required],
-      unit_id: ['', Validators.required],
-      year: ['', Validators.required],
+      agency_country_register: [{ value: '', disabled: false }, Validators.required],
+      unit_id: [{ value: '', disabled: false }, Validators.required],
+      year: [{ value: '', disabled: false }, Validators.required],
       created_by_id: [''],
       items: this.fb.group({
         item_number: [1, Validators.required],
@@ -133,10 +138,11 @@ export class AdicionarPcaComponent implements OnInit {
       }),
     });
 
-    // Setup agency selection listener
     this.pcaForm
       .get('agency_country_register')
       ?.valueChanges.subscribe((selectedAgencyId: string) => {
+        if (!selectedAgencyId) return;
+
         const selectedAgency = this.orgaos.find(
           (org) => org.country_register === selectedAgencyId
         );
@@ -146,11 +152,14 @@ export class AdicionarPcaComponent implements OnInit {
             key: unit.name,
             value: unit.id,
           }));
+
+          if (!this.isEditMode || !this.pcaForm.get('unit_id')?.value) {
+            this.pcaForm.get('unit_id')?.setValue('');
+          }
         } else {
           this.unitOptions = [];
+          this.pcaForm.get('unit_id')?.setValue('');
         }
-
-        this.pcaForm.get('unit_id')?.setValue('');
       });
   }
 
@@ -164,6 +173,9 @@ export class AdicionarPcaComponent implements OnInit {
       .subscribe({
         next: (response) => {
           if (response.data) {
+            if (response.data.items?.[0]?.id) {
+              this.loadedItemId = response.data.items[0].id;
+            }
             this.populateFormWithExistingData(response.data);
           }
         },
@@ -177,47 +189,50 @@ export class AdicionarPcaComponent implements OnInit {
   }
 
   private populateFormWithExistingData(contractPlan: ContractPlanModel): void {
-    // Populate main form fields
-    this.pcaForm.patchValue({
-      agency_country_register: contractPlan.agency_country_register,
-      unit_id: contractPlan.unit_id,
-      year: contractPlan.year,
-      created_by_id: contractPlan.created_by_id,
-    });
-
-    // Populate items form (assuming the first item, adjust if multiple items are possible)
-    if (contractPlan.items && contractPlan.items.length > 0) {
-      const firstItem = contractPlan.items[0];
-      this.pcaForm.get('items')?.patchValue({
-        item_number: firstItem.item_number || 1,
-        item_category_id: firstItem.item_category_id,
-        catalog: firstItem.catalog,
-        catalog_classification: firstItem.catalog_classification,
-        superior_classification_code: firstItem.superior_classification_code,
-        superior_classification_name: firstItem.superior_classification_name,
-        pdm_code: firstItem.pdm_code || '',
-        pdm_description: firstItem.pdm_description || '',
-        item_code: firstItem.item_code,
-        description: firstItem.description,
-        supply_unit: firstItem.supply_unit,
-        quantity: firstItem.quantity,
-        unit_value: firstItem.unit_value,
-        total_value: firstItem.total_value,
-        budget_value_for_year: firstItem.budget_value_for_year,
-        desired_date: firstItem.desired_date,
-        requesting_unit: firstItem.requesting_unit || '',
-        contracting_group_code: firstItem.contracting_group_code || '',
-        contracting_group_name: firstItem.contracting_group_name || '',
-        contract_renewal: firstItem.contract_renewal || false,
-      });
-    }
-
-    // Trigger unit options population
     if (contractPlan.agency_country_register) {
-      this.pcaForm
-        .get('agency_country_register')
-        ?.setValue(contractPlan.agency_country_register);
+      this.pcaForm.get('agency_country_register')?.setValue(contractPlan.agency_country_register);
     }
+
+    setTimeout(() => {
+      this.pcaForm.patchValue({
+        agency_country_register: contractPlan.agency_country_register,
+        unit_id: contractPlan.unit_id,
+        year: contractPlan.year,
+        created_by_id: contractPlan.created_by_id,
+      });
+
+      if (contractPlan.items && contractPlan.items.length > 0) {
+        const firstItem = contractPlan.items[0];
+        this.pcaForm.get('items')?.patchValue({
+          item_number: firstItem.item_number || 1,
+          item_category_id: firstItem.item_category_id,
+          catalog: firstItem.catalog,
+          catalog_classification: firstItem.catalog_classification,
+          superior_classification_code: firstItem.superior_classification_code,
+          superior_classification_name: firstItem.superior_classification_name,
+          pdm_code: firstItem.pdm_code || '',
+          pdm_description: firstItem.pdm_description || '',
+          item_code: firstItem.item_code,
+          description: firstItem.description,
+          supply_unit: firstItem.supply_unit,
+          quantity: firstItem.quantity,
+          unit_value: firstItem.unit_value,
+          total_value: firstItem.total_value,
+          budget_value_for_year: firstItem.budget_value_for_year,
+          desired_date: firstItem.desired_date,
+          requesting_unit: firstItem.requesting_unit || '',
+          contracting_group_code: firstItem.contracting_group_code || '',
+          contracting_group_name: firstItem.contracting_group_name || '',
+          contract_renewal: firstItem.contract_renewal || false,
+        });
+      }
+
+      if (this.isEditMode) {
+        this.pcaForm.get('agency_country_register')?.disable();
+        this.pcaForm.get('unit_id')?.disable();
+        this.pcaForm.get('year')?.disable();
+      }
+    });
   }
 
   private loadCurrentUser(): void {
@@ -266,15 +281,13 @@ export class AdicionarPcaComponent implements OnInit {
 
   onFormSubmit(): void {
     if (this.pcaForm.valid) {
-      const formValue = this.pcaForm.value;
+      const formValue = this.pcaForm.getRawValue(); // Use getRawValue() to get disabled fields
       const currentSlug = this._tenantService.getTenant();
 
-      // Verifica se temos um tenant_slug válido
       if (!currentSlug) {
         return;
       }
 
-      // Montando o objeto com a tipagem correta
       const contractPlanData: ContractPlanModel = {
         tenant_slug: currentSlug,
         agency_country_register: formValue.agency_country_register,
@@ -283,15 +296,13 @@ export class AdicionarPcaComponent implements OnInit {
         created_by_id: formValue.created_by_id,
         items: [formValue.items],
       };
+
       if (this.isEditMode && this.contractPlanId) {
-        // Extract the items from contractPlanData
         const itemData: ContractPlanItemModel = contractPlanData.items[0];
 
         this._contractPlanService
           .updateContractPlanItem(
             this.contractPlanId,
-            // You need to provide an itemId
-            // This might come from the previously loaded contract plan
             this.loadedItemId || '',
             itemData
           )
@@ -309,7 +320,6 @@ export class AdicionarPcaComponent implements OnInit {
             },
           });
       } else {
-        // Create new contract plan
         this._contractPlanService
           .createContractPlan(contractPlanData)
           .subscribe({
@@ -341,7 +351,6 @@ export class AdicionarPcaComponent implements OnInit {
     });
   }
 
-  // Métodos auxiliares para validação de campos
   isFieldInvalid(controlName: string): boolean {
     const control = this.pcaForm.get(controlName);
     return control
@@ -354,7 +363,6 @@ export class AdicionarPcaComponent implements OnInit {
     if (control?.errors) {
       if (control.errors['required']) return 'Campo obrigatório';
       if (control.errors['min']) return 'Valor deve ser maior que zero';
-      // Adicione mais mensagens de erro conforme necessário
     }
     return '';
   }

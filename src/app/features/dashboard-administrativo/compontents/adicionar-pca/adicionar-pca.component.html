@@ -1,6 +1,12 @@
 <div class="container mt-5">
   <div class="form-content">
-    <h3 class="mb-4">dados do PLANO DE CONTRATAÇÃO</h3>
+    <h3 class="mb-4">
+      {{
+        isEditMode
+          ? "Editar Item do Plano Contratação"
+          : "Dados do Plano de Contratação"
+      }}
+    </h3>
     <form [formGroup]="pcaForm" (ngSubmit)="onFormSubmit()">
       <div class="row">
         <!-- Dados principais do plano -->
@@ -13,6 +19,7 @@
             formControlName="agency_country_register"
             placeholder="Selecione um órgão"
             [searchable]="true"
+            [disabled]="isEditMode"
           ></ng-select>
         </div>
 
@@ -25,6 +32,7 @@
             formControlName="unit_id"
             placeholder="Selecione uma unidade"
             [searchable]="true"
+            [disabled]="isEditMode"
           ></ng-select>
         </div>
 
@@ -36,6 +44,7 @@
             class="form-control"
             formControlName="year"
             placeholder="Ano do contrato"
+            [readonly]="isEditMode"
           />
         </div>
 
@@ -286,7 +295,12 @@
 
         <div class="col-12">
           <button type="submit" class="btn btn-dark w-100 hover-sucesso">
-            Cadastrar
+
+            {{
+              isEditMode
+                ? "Editar"
+                : "Cadastrar"
+            }}
           </button>
         </div>
       </div>

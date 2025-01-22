@@ -136,6 +136,7 @@ export class ContractPlanService {
         }),
         switchMap((response) => {
           this._toastrService.success('Item excluído com sucesso!', 'Sucesso');
+          this.goBack();
           return of(response);
         })
       );

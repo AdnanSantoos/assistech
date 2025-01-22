@@ -1,4 +1,5 @@
 export interface ContractPlanItemModel {
+  id?: string;
   item_number: number;
   item_category_id: string;
   catalog: string;
