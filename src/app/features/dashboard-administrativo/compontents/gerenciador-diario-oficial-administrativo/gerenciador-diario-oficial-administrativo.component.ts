@@ -122,13 +122,14 @@ export class GerenciadorDiarioOficialAdministrativoComponent
    * @param event Dados do evento.
    */
   private updatePublicationStatus(event: any): void {
-    const { official_gazette_id, status } = event;
+    const { official_gazette_id, status ,file_published} = event;
     // Procure a publicação na lista e atualize seu status
     const publication = this.publicacoes.find(
       (pub) => pub.id === official_gazette_id
     );
     if (publication) {
       publication.status = status;
+      publication.file_published = file_published ;
     } else {
       console.warn('Publicação não encontrada', event);
     }
