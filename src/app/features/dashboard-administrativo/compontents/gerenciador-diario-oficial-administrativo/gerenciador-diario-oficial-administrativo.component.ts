@@ -67,7 +67,7 @@ export class GerenciadorDiarioOficialAdministrativoComponent
     });
     this.anexarForm = this.fb.group({
       file: ['', [Validators.required]],
-      signature_date: ['', [Validators.required]],
+      signature_date: [null],
     });
 
     this.editarForm = this.fb.group({
@@ -122,14 +122,14 @@ export class GerenciadorDiarioOficialAdministrativoComponent
    * @param event Dados do evento.
    */
   private updatePublicationStatus(event: any): void {
-    const { official_gazette_id, status ,file_published} = event;
+    const { official_gazette_id, status, file_published } = event;
     // Procure a publicação na lista e atualize seu status
     const publication = this.publicacoes.find(
       (pub) => pub.id === official_gazette_id
     );
     if (publication) {
       publication.status = status;
-      publication.file_published = file_published ;
+      publication.file_published = file_published;
     } else {
       console.warn('Publicação não encontrada', event);
     }
@@ -190,7 +190,9 @@ export class GerenciadorDiarioOficialAdministrativoComponent
   ): void {
     this.selectedDocument = document;
     this.modalRef = this.modalService.show(template);
-    this.editarForm.controls['description'].setValue(this.selectedDocument.description)
+    this.editarForm.controls['description'].setValue(
+      this.selectedDocument.description
+    );
   }
 
   confirmDelete(): void {
@@ -209,15 +211,17 @@ export class GerenciadorDiarioOficialAdministrativoComponent
 
   editar(): void {
     if (this.selectedDocument) {
-      this._service.edit(this.selectedDocument.id,this.editarForm.value).subscribe({
-        next: () => {
-          this.getDiario(this.currentPage);
-          this.modalService.hide();
-        },
-        error: (err) => {
-          this.modalService.hide();
-        },
-      });
+      this._service
+        .edit(this.selectedDocument.id, this.editarForm.value)
+        .subscribe({
+          next: () => {
+            this.getDiario(this.currentPage);
+            this.modalService.hide();
+          },
+          error: (err) => {
+            this.modalService.hide();
+          },
+        });
     }
   }
 
@@ -328,7 +332,10 @@ export class GerenciadorDiarioOficialAdministrativoComponent
       const signatureDate = this.anexarForm.get('signature_date')?.value;
       const formData = new FormData();
       formData.append('file', this.selectedFile);
-      formData.append('signature_date', signatureDate);
+
+      if (signatureDate) {
+        formData.append('signature_date', signatureDate);
+      }
 
       const documentIndex = this.publicacoes.findIndex(
         (doc) => doc.id === this.selectedDocument?.id
