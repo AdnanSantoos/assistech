@@ -27,7 +27,10 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { MAT_DATE_LOCALE, provideNativeDateAdapter } from '@angular/material/core';
+import {
+  MAT_DATE_LOCALE,
+  provideNativeDateAdapter,
+} from '@angular/material/core';
 import { TenantService } from '../../../../shared/services/tenant.service';
 
 defineLocale('pt-br', ptBrLocale);
@@ -70,8 +73,8 @@ export class PublicarDiarioOficialAdministrativoComponent implements OnInit {
   bsConfig?: Partial<BsDatepickerConfig> = Object.assign(
     {},
     { containerClass: 'theme-default' }
-  ); 
-  isStaff!:boolean;
+  );
+  isStaff!: boolean;
 
   constructor(
     private _localeService: BsLocaleService,
@@ -79,7 +82,7 @@ export class PublicarDiarioOficialAdministrativoComponent implements OnInit {
     private _modalService: BsModalService,
     private _publicarService: PublicarDiarioOficialService,
     private _location: Location,
-    private _tenantService:TenantService
+    private _tenantService: TenantService
   ) {
     this._localeService.use('pt-br');
 
@@ -182,7 +185,7 @@ export class PublicarDiarioOficialAdministrativoComponent implements OnInit {
     }
   }
 
- viewFile(event: Event, file: File) {
+  viewFile(event: Event, file: File) {
     event.preventDefault(); // Impede o submit do formulário
     const fileURL = URL.createObjectURL(file);
     const newWindow = window.open(fileURL, '_blank');
@@ -200,6 +203,8 @@ export class PublicarDiarioOficialAdministrativoComponent implements OnInit {
     this.selectedFiles.splice(index, 1);
     if (this.selectedFiles.length === 0) {
       this.nameFile = null;
+      this.filtroForm.controls['files'].reset();
+      this.formAgendado.controls['files'].reset();
     }
   }
 
