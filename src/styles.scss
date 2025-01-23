@@ -15,8 +15,13 @@ select {
 }
 
 @media print {
-  #printContainer>div {
+  #printContainer > div {
     display: inline;
+  }
+}
+ng-select.ng-invalid.ng-touched {
+  .ng-select-container {
+    border: 1px solid red !important;
   }
 }
 
@@ -537,8 +542,8 @@ body {
 }
 
 ::ng-deep {
-
-  .mdc-text-field--no-label:not(.mdc-text-field--textarea) .mat-mdc-form-field-input-control.mdc-text-field__input,
+  .mdc-text-field--no-label:not(.mdc-text-field--textarea)
+    .mat-mdc-form-field-input-control.mdc-text-field__input,
   .mat-mdc-text-field-wrapper .mat-mdc-form-field-input-control {
     color: #000 !important;
   }

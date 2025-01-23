@@ -399,6 +399,17 @@
                   placeholder="Nome da contratação futura"
                 />
               </div>
+              @if(isEditMode){
+              <div class="col-md-12 mb-3 ps-1 pe-1">
+                <label>Justificativa da Edição</label>
+                <textarea
+                  type="text"
+                  class="form-control"
+                  rows="4"
+                  formControlName="change_reason"
+                ></textarea>
+              </div>
+              }
             </div>
           </div>
         </div>

@@ -22,6 +22,7 @@ import {
 } from '../pca-administrativo/model/pca.model';
 import { CurrencyMaskDirective } from '../../../../shared/directives/currencyMask.directive';
 import { finalize } from 'rxjs/operators';
+import { FormErrorService } from '../../../../shared/services/form-error.service';
 
 interface SelectOption {
   value: number;
@@ -91,7 +92,8 @@ export class AdicionarPcaComponent implements OnInit {
     private _contractPlanService: ContractPlanService,
     private _toastr: ToastrService,
     private _tenantService: TenantService,
-    private _route: ActivatedRoute
+    private _route: ActivatedRoute,
+    private _errorService: FormErrorService
   ) {
     this.initForm();
   }
@@ -134,6 +136,7 @@ export class AdicionarPcaComponent implements OnInit {
       contracting_group_code: [''],
       contracting_group_name: [''],
       contract_renewal: [false],
+      change_reason: [''],
     });
   }
 
@@ -297,82 +300,63 @@ export class AdicionarPcaComponent implements OnInit {
   }
 
   onFormSubmit(): void {
-    if (this.pcaForm.valid) {
-      const formValue = this.pcaForm.getRawValue();
-      const currentSlug = this._tenantService.getTenant();
+    const formValue = this.pcaForm.getRawValue();
+    const currentSlug = this._tenantService.getTenant();
 
-      if (!currentSlug) return;
+    if (!currentSlug) return;
 
-      const contractPlanData: ContractPlanModel = {
-        tenant_slug: currentSlug,
-        agency_country_register: formValue.agency_country_register,
-        unit_id: formValue.unit_id,
-        year: Number(formValue.year),
-        created_by_id: formValue.created_by_id,
-        items: formValue.items,
-      };
+    const contractPlanData: ContractPlanModel = {
+      tenant_slug: currentSlug,
+      agency_country_register: formValue.agency_country_register,
+      unit_id: formValue.unit_id,
+      year: Number(formValue.year),
+      created_by_id: formValue.created_by_id,
+      items: formValue.items,
+    };
 
-      if (this.isEditMode && this.contractPlanId) {
-        // No modo de edição, atualizamos cada item individualmente
-        const updatePromises = formValue.items.map(
-          (item: ContractPlanItemModel) => {
-            if (item.id) {
-              // Atualiza item existente
-              return this._contractPlanService
-                .updateContractPlanItem(this.contractPlanId!, item.id, item)
-                .toPromise();
-            } else {
-              // Cria novo item
-              return this._contractPlanService
-                .createContractPlanItem(this.contractPlanId!, item)
-                .toPromise();
-            }
+    if (this.isEditMode && this.contractPlanId) {
+      const updatePromises = formValue.items.map(
+        (item: ContractPlanItemModel) => {
+          if (item.id) {
+            // Atualiza item existente
+            return this._contractPlanService
+              .updateContractPlanItem(this.contractPlanId!, item.id, item)
+              .toPromise();
+          } else {
+            // Cria novo item
+            return this._contractPlanService
+              .createContractPlanItem(this.contractPlanId!, item)
+              .toPromise();
           }
-        );
+        }
+      );
 
-        Promise.all(updatePromises)
-          .then(() => {
-            this._toastr.success(
-              'Plano de contrato atualizado com sucesso!',
-              'Sucesso'
-            );
-            this._contractPlanService.goBack();
-          })
-          .catch((error) => {
-            console.error('Erro ao atualizar plano de contrato:', error);
-            this._toastr.error('Erro ao atualizar plano de contrato', 'Erro');
-          });
-      } else {
-        // No modo de criação, enviamos todos os itens de uma vez
-        this._contractPlanService
-          .createContractPlan(contractPlanData)
-          .subscribe({
-            next: () => {
-              this._toastr.success(
-                'Plano de contrato criado com sucesso!',
-                'Sucesso'
-              );
-              this._contractPlanService.goBack();
-            },
-            error: (error) => {
-              console.error('Erro:', error);
-              this._toastr.error('Erro ao criar plano de contrato', 'Erro');
-            },
-          });
-      }
+      Promise.all(updatePromises)
+        .then(() => {
+          this._toastr.success(
+            'Plano de contrato atualizado com sucesso!',
+            'Sucesso'
+          );
+        })
+        .catch((error) => {
+          if (error.error?.errors) {
+            this._errorService.handleApiErrors(this.pcaForm, error);
+          }
+          this.isLoading = false;
+        });
     } else {
-      this.markFormGroupTouched(this.pcaForm);
+      this._contractPlanService.createContractPlan(contractPlanData).subscribe({
+        next: () => {
+
+        },
+        error: (error) => {
+          if (error.error?.errors) {
+            this._errorService.handleApiErrors(this.pcaForm, error);
+          }
+          this.isLoading = false;
+        },
+      });
     }
-  }
-
-  private markFormGroupTouched(formGroup: FormGroup): void {
-    Object.values(formGroup.controls).forEach((control) => {
-      control.markAsTouched();
-
-      if (control instanceof FormGroup) {
-        this.markFormGroupTouched(control);
-      }
-    });
   }
 
   isFieldInvalid(controlName: string): boolean {

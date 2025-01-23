@@ -96,6 +96,7 @@ export class ContractPlanService {
             'Item adicionado com sucesso!',
             'Sucesso'
           );
+          this.goBack();
           return of(response);
         })
       );
@@ -118,6 +119,7 @@ export class ContractPlanService {
             'Item atualizado com sucesso!',
             'Sucesso'
           );
+          this.goBack();
           return of(response);
         })
       );

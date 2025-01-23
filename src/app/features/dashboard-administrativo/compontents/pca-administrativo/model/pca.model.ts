@@ -20,6 +20,7 @@ export interface ContractPlanItemModel {
   contracting_group_code: string;
   contracting_group_name: string;
   contract_renewal: boolean;
+  change_reason?:string;
 }
 
 interface UnitAgency {

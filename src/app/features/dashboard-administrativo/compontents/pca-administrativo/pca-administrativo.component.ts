@@ -16,6 +16,7 @@ import { ContractPlanFilters, ContractPlanModel } from './model/pca.model';
 import { ContractPlanService } from './service/pca.service';
 import { RequisicaoModel } from '../../../../shared/models/shared.model';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { FormErrorService } from '../../../../shared/services/form-error.service';
 
 interface AgencyOption {
   value: string;
@@ -67,11 +68,12 @@ export class PcaAdministrativoComponent implements OnInit {
     private modalService: BsModalService,
     private formBuilder: FormBuilder,
     private toastr: ToastrService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private _errorService: FormErrorService
   ) {
     this.filterForm = this.formBuilder.group({
       year: [''],
-      agency_country_register: ['']
+      agency_country_register: [''],
     });
 
     this.deleteForm = this.fb.group({
@@ -94,18 +96,23 @@ export class PcaAdministrativoComponent implements OnInit {
     const uniqueAgencies = new Set<string>();
     const agencies: AgencyOption[] = [];
 
-    data.forEach(item => {
-      if (item.unit?.agency && !uniqueAgencies.has(item.unit.agency.country_register)) {
+    data.forEach((item) => {
+      if (
+        item.unit?.agency &&
+        !uniqueAgencies.has(item.unit.agency.country_register)
+      ) {
         uniqueAgencies.add(item.unit.agency.country_register);
         agencies.push({
           value: item.unit.agency.country_register,
-          label: item.unit.agency.name
+          label: item.unit.agency.name,
         });
       }
     });
 
     // Ordena as agências por nome
-    this.agencyOptions = agencies.sort((a, b) => a.label.localeCompare(b.label));
+    this.agencyOptions = agencies.sort((a, b) =>
+      a.label.localeCompare(b.label)
+    );
   }
 
   visualizarPCA(element: ContractPlanModel): void {
@@ -117,7 +124,9 @@ export class PcaAdministrativoComponent implements OnInit {
       const fullUrl = `${baseUrl}${countryRegister}/${year}`;
       window.open(fullUrl, '_blank');
     } else {
-      console.error('Invalid contract plan data or missing agency information.');
+      console.error(
+        'Invalid contract plan data or missing agency information.'
+      );
     }
   }
 
@@ -138,7 +147,6 @@ export class PcaAdministrativoComponent implements OnInit {
       .getContractPlans(filters)
       .pipe(
         catchError((error) => {
-          this.toastr.error('Erro ao carregar planos de contrato', 'Erro');
           throw error;
         }),
         finalize(() => (this.isLoading = false))
@@ -163,7 +171,7 @@ export class PcaAdministrativoComponent implements OnInit {
   private prepareFilters(): ContractPlanFilters {
     const filters: ContractPlanFilters = {
       page: this.currentPage,
-      per_page: this.pageSize
+      per_page: this.pageSize,
     };
 
     const formValues = this.filterForm.value;
@@ -219,11 +227,13 @@ export class PcaAdministrativoComponent implements OnInit {
       .subscribe({
         next: () => {
           this.modalRef?.hide();
-          this.toastr.success('Plano de contrato anual removido com sucesso');
           this.loadContractPlans();
         },
-        error: () => {
-          this.toastr.error('Erro ao excluir plano de contrato', 'Erro');
+        error: (error) => {
+          if (error.error?.errors) {
+            this._errorService.handleApiErrors(this.deleteForm, error);
+          }
+          this.isLoading = false;
         },
       });
   }
