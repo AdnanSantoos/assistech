@@ -4,13 +4,14 @@
       <h3 class="mb-4">
         {{ isEditavel ? "Editar Usuário" : " Cadastrar Novo usuário" }}
       </h3>
-      <form [formGroup]="usuarioForm" (ngSubmit)="onSubmit()">
+      <form [formGroup]="usuarioForm"  autocomplete="off" (ngSubmit)="onSubmit()">
         <div class="form-group mb-3">
           <label for="client">Cliente*</label>
           <input
             id="autoComplete"
             type="text"
             class="form-control"
+            autocomplete="off"
             formControlName="tenant_slug"
             [typeahead]="searchResults"
             (typeaheadOnSelect)="onSelect($event)"
@@ -29,23 +30,25 @@
         </div>
 
         <div class="form-group mb-3">
-          <label for="email">Email*</label>
+          <label for="aaa">Email*</label>
           <input
-            id="email"
+            id="aaa"
             class="form-control"
             formControlName="email"
             placeholder="Email"
             type="email"
+            autocomplete="off"
           />
         </div>
 
         <div class="form-group mb-3">
-          <label for="username">Usuário*</label>
+          <label for="teste">Usuário*</label>
           <input
-            id="username"
+            id="teste"
             class="form-control"
             formControlName="username"
             placeholder="Usuário"
+            autocomplete="off"
           />
         </div>
 
@@ -70,13 +73,14 @@
         </div>
 
         <div class="form-group mb-3">
-          <label for="password">Senha*</label>
+          <label for="121212">Senha*</label>
           <input
-            id="password"
+            id="121212"
             type="password"
             class="form-control"
             formControlName="password"
             placeholder="Senha"
+            autocomplete="off"
           />
         </div>
 
