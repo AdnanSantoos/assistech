@@ -248,13 +248,7 @@
             <option value="company">Empresa</option>
             <option value="other">Outros</option>
           </select>
-          <div
-            *ngIf="
-              clienteForm.get('government_body')?.invalid &&
-              clienteForm.get('government_body')?.touched
-            "
-            class="text-danger"
-          >
+          <div *ngIf="clienteForm.get('government_body')?.invalid &&clienteForm.get('government_body')?.touched" class="text-danger">
             Por favor, selecione um tipo de cliente.
           </div>
         </div>

@@ -34,10 +34,10 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   images: { url: string }[] = []; // Initialize as an empty array
   defaultImages = [
-    { url: '../../../../assets/imgs-home/1.png' },
-    { url: '../../../../assets/imgs-home/2.png' },
+    { url: '../../../../assets/imgs-home/1.jpg' },
+    { url: '../../../../assets/imgs-home/2.jpg' },
     { url: '../../../../assets/imgs-home/3.png' },
-    { url: '../../../../assets/imgs-home/4.png' },
+    { url: '../../../../assets/imgs-home/4.jpg' },
   ];
 
   images2 = [

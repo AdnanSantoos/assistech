@@ -137,7 +137,7 @@ export class DiarioOficialListagemComponent implements OnChanges, OnInit {
           data.logo || '../../../../../assets/logos/logo-g-itaberaba.png';
         this.secondLogoUrl =
           data.second_logo ||
-          '../../../../../assets/logos/logo-g-itaberaba.png';
+          '../../../../../assets/logos/admin.second.jpg';
       },
       error: (error) => {
         this.router.navigate(['error']);
