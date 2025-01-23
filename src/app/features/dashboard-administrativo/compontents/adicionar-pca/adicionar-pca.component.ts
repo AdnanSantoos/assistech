@@ -188,15 +188,15 @@ export class AdicionarPcaComponent implements OnInit {
   }
 
   removeItem(index: number): void {
-    if (this.itemsFormArray.length > 1) {
-      this.itemsFormArray.removeAt(index);
-      // Reajusta os números dos itens
+    this.itemsFormArray.removeAt(index);
+
+    // Reajusta os números dos itens após a remoção, caso ainda existam itens
+    if (this.itemsFormArray.length > 0) {
       this.itemsFormArray.controls.forEach((control, idx) => {
         control.patchValue({ item_number: idx + 1 });
       });
     }
   }
-
   private loadContractPlanDetails(): void {
     if (!this.contractPlanId) return;
 
@@ -405,8 +405,7 @@ export class AdicionarPcaComponent implements OnInit {
       if (control.errors['min']) return 'Valor deve ser maior que zero';
     }
     return '';
- 
- }
+  }
 
   calculateTotalValue(itemIndex: number): void {
     const itemFormGroup = this.itemsFormArray.at(itemIndex);

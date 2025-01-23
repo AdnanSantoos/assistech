@@ -5,7 +5,7 @@
 
   .form-content {
     max-width: 100%;
-    background-color: #fff;
+    background-color: #f9f9f9;
     border-radius: 10px;
     padding: 30px;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
@@ -102,4 +102,39 @@ form {
       background-color: #333;
     }
   }
+}
+
+.btn-form {
+  width: 35px;
+  height: 35px;
+  ::ng-deep {
+    .mat-icon {
+      color: #fff !important;
+    }
+  }
+}
+
+.toggle-icon {
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  background-color: #027e38;
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 25px;
+  font-weight: bold;
+  &.open {
+    transform: rotate(45deg);
+    background-color: red;
+  }
+  &.open:hover {
+    background-color: rgb(107, 3, 3);
+  }
+}
+.toggle-icon:hover {
+  background-color: #025827;
 }

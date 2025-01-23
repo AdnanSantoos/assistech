@@ -50,24 +50,17 @@
 
         <!-- Cabeçalho dos itens com botões -->
         <div class="col-12">
-          <div class="d-flex justify-content-between align-items-center mb-4">
+          <div class="d-flex justify-content-start align-items-center mb-4">
             <h4 class="mb-0">ITENS DO PLANO DE CONTRATAÇÃO ANUAL</h4>
-            <div>
-              <button
-                type="button"
-                class="btn btn-sm btn-success me-2"
-                (click)="addItem()"
-              >
-                <mat-icon>add</mat-icon>
-              </button>
-              <button
-                type="button"
-                class="btn btn-sm btn-danger"
+            <div class="ms-4 d-flex">
+              <span class="toggle-icon add me-2" (click)="addItem()">+</span>
+              <span
+                *ngIf="itemsFormArray.length > 0"
+                class="toggle-icon bg-danger"
                 (click)="removeItem(itemsFormArray.length - 1)"
-                [disabled]="itemsFormArray.length <= 1"
               >
-                <mat-icon>remove</mat-icon>
-              </button>
+                -
+              </span>
             </div>
           </div>
         </div>
