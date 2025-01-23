@@ -51,8 +51,6 @@ export class GerenciadorDiarioOficialAdministrativoComponent
   public selectedPages: number[] = []; // Páginas selecionadas para exclusão
   selectedFile: File | null = null; // Armazena o arquivo selecionado
   public publicacoes: DiarioOficialPublicacoes[] = [];
-  descriptionLength: number = 0;
-  maxLength: number = 30;
 
   constructor(
     private _location: Location,
@@ -73,12 +71,8 @@ export class GerenciadorDiarioOficialAdministrativoComponent
     });
 
     this.editarForm = this.fb.group({
-      description: ['', [Validators.required,Validators.minLength(30)]],
+      description: ['', [Validators.required]],
       reprocess: ['no', [Validators.required]],
-    });
-
-    this.editarForm.get('description')?.valueChanges.subscribe((value: string) => {
-      this.descriptionLength = value.length;
     });
   }
   ngOnDestroy(): void {
