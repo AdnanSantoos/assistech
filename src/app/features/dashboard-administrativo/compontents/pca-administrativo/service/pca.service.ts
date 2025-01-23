@@ -116,7 +116,7 @@ export class ContractPlanService {
         }),
         switchMap((response) => {
           this._toastrService.success(
-            'Item atualizado com sucesso!',
+            'Item em plano de contrato atualizado com sucesso!',
             'Sucesso'
           );
           this.goBack();

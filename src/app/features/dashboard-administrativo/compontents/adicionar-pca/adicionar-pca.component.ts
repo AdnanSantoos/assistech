@@ -333,10 +333,6 @@ export class AdicionarPcaComponent implements OnInit {
 
       Promise.all(updatePromises)
         .then(() => {
-          this._toastr.success(
-            'Plano de contrato atualizado com sucesso!',
-            'Sucesso'
-          );
         })
         .catch((error) => {
           if (error.error?.errors) {
