@@ -1,20 +1,32 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { UsuarioData } from '../../model/usuarios.model';
 import { UsuariosService } from '../usuarios-administrativo/service/usuarios-administrativos.service';
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
-import { debounceTime, distinctUntilChanged, Observable, of, switchMap } from 'rxjs';
+import {
+  debounceTime,
+  distinctUntilChanged,
+  Observable,
+  of,
+  switchMap,
+} from 'rxjs';
 import { CadastrarUsuariosMapper } from './mapper/cadastrar-usuarios-administrativos.mapper';
 import { ToastrService } from 'ngx-toastr';
 import { CommonModule, Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
+import { FormErrorService } from '../../../../shared/services/form-error.service';
 
 @Component({
   selector: 'app-cadastrar-usuarios-administrativo',
   templateUrl: './cadastrar-usuarios-administrativo.component.html',
   standalone: true,
   imports: [ReactiveFormsModule, TypeaheadModule, CommonModule],
-  styleUrls: ['./cadastrar-usuarios-administrativo.component.scss']
+  styleUrls: ['./cadastrar-usuarios-administrativo.component.scss'],
 })
 export class CadastrarUsuariosAdministrativoComponent implements OnInit {
   searchResults: string[] = [];
@@ -23,8 +35,14 @@ export class CadastrarUsuariosAdministrativoComponent implements OnInit {
   usuarioForm!: FormGroup;
   formularioOriginal!: UsuarioData[];
   tenantSlugSelecionado!: string;
-  constructor(private fb: FormBuilder, private _usuariosService: UsuariosService, private _toastrService: ToastrService, private route: ActivatedRoute, private _location: Location,
-  ) { }
+  constructor(
+    private fb: FormBuilder,
+    private _usuariosService: UsuariosService,
+    private _toastrService: ToastrService,
+    private route: ActivatedRoute,
+    private _location: Location,
+    private _errorService: FormErrorService
+  ) {}
 
   ngOnInit(): void {
     this.usuarioForm = this.fb.group({
@@ -39,33 +57,36 @@ export class CadastrarUsuariosAdministrativoComponent implements OnInit {
       role: ['', Validators.required],
       permissions: this.fb.group({
         diario_oficial: this.fb.group({
-          add: [false]
+          add: [false],
         }),
         pncp: this.fb.group({
           add: [false],
           edit_own: [false],
-          edit_others: [false]
+          edit_others: [false],
         }),
         transparencia: this.fb.group({
           add: [false],
           edit_own: [false],
-          edit_others: [false]
-        })
+          edit_others: [false],
+        }),
       }),
       tenant: this.fb.group({
         slug: [''],
-        name: ['']
+        name: [''],
       }),
-      tenant_slug: ['']
+      tenant_slug: [''],
     });
 
-    this.usuarioForm.get('tenant_slug')?.valueChanges.pipe(
-      debounceTime(300),
-      distinctUntilChanged(),
-      switchMap((termo) => this.autoCompleteResultados(termo))
-    ).subscribe((results: any) => {
-      this.searchResults = results.data;
-    });
+    this.usuarioForm
+      .get('tenant_slug')
+      ?.valueChanges.pipe(
+        debounceTime(300),
+        distinctUntilChanged(),
+        switchMap((termo) => this.autoCompleteResultados(termo))
+      )
+      .subscribe((results: any) => {
+        this.searchResults = results.data;
+      });
 
     this.route.paramMap.subscribe((params) => {
       this.userId = params.get('id');
@@ -74,10 +95,9 @@ export class CadastrarUsuariosAdministrativoComponent implements OnInit {
         this._usuariosService.getUsuariosPorID(this.userId).subscribe((v) => {
           this.formularioOriginal = v.data;
           this.populaFormulario(v);
-        })
+        });
       }
     });
-
   }
   populaFormulario(value: any) {
     this.usuarioForm.patchValue({
@@ -90,24 +110,24 @@ export class CadastrarUsuariosAdministrativoComponent implements OnInit {
       role: value.data.role,
       permissions: {
         diario_oficial: {
-          add: value.data.permissions.diario_oficial.add
+          add: value.data.permissions.diario_oficial.add,
         },
         pncp: {
           add: value.data.permissions.pncp.add,
           edit_own: value.data.permissions.pncp.edit_own,
-          edit_others: value.data.permissions.pncp.edit_others
+          edit_others: value.data.permissions.pncp.edit_others,
         },
         transparencia: {
           add: value.data.permissions.transparencia.add,
           edit_own: value.data.permissions.transparencia.edit_own,
-          edit_others: value.data.permissions.transparencia.edit_others
-        }
+          edit_others: value.data.permissions.transparencia.edit_others,
+        },
       },
       tenant: {
         slug: value.data.tenant.slug,
-        name: value.data.tenant.name
+        name: value.data.tenant.name,
       },
-      tenant_slug: value.data.tenant_slug
+      tenant_slug: value.data.tenant_slug,
     });
     this.usuarioForm.get('password_confirmation')?.clearValidators();
     this.usuarioForm.get('password_confirmation')?.updateValueAndValidity();
@@ -133,45 +153,71 @@ export class CadastrarUsuariosAdministrativoComponent implements OnInit {
       this.usuarioForm.get('permissions.pncp.edit_own')?.setValue(true);
       this.usuarioForm.get('permissions.pncp.edit_others')?.setValue(true);
       this.usuarioForm.get('permissions.transparencia.add')?.setValue(true);
-      this.usuarioForm.get('permissions.transparencia.edit_own')?.setValue(true);
-      this.usuarioForm.get('permissions.transparencia.edit_others')?.setValue(true);
+      this.usuarioForm
+        .get('permissions.transparencia.edit_own')
+        ?.setValue(true);
+      this.usuarioForm
+        .get('permissions.transparencia.edit_others')
+        ?.setValue(true);
     } else if (role === 'secretary') {
       this.usuarioForm.get('permissions.diario_oficial.add')?.setValue(false);
       this.usuarioForm.get('permissions.pncp.add')?.setValue(false);
       this.usuarioForm.get('permissions.pncp.edit_own')?.setValue(false);
       this.usuarioForm.get('permissions.pncp.edit_others')?.setValue(false);
       this.usuarioForm.get('permissions.transparencia.add')?.setValue(false);
-      this.usuarioForm.get('permissions.transparencia.edit_own')?.setValue(false);
-      this.usuarioForm.get('permissions.transparencia.edit_others')?.setValue(false);
+      this.usuarioForm
+        .get('permissions.transparencia.edit_own')
+        ?.setValue(false);
+      this.usuarioForm
+        .get('permissions.transparencia.edit_others')
+        ?.setValue(false);
     }
   }
   onSubmit() {
     if (this.isEditavel) {
       if (this.usuarioForm.valid) {
         const usuarioData: UsuarioData = this.usuarioForm.value;
-        this._usuariosService.editarUsuario(CadastrarUsuariosMapper.toEdit(usuarioData, this.formularioOriginal), this.userId!).subscribe(
-          response => {
-            this._toastrService.success('Usuário editado com sucesso');
-            this.goBack();
-          },
-          error => {
-            this._toastrService.error('Erro ao editar usuário:');
-          }
-        );
+        this._usuariosService
+          .editarUsuario(
+            CadastrarUsuariosMapper.toEdit(
+              usuarioData,
+              this.formularioOriginal
+            ),
+            this.userId!
+          )
+          .subscribe(
+            (response) => {
+              this._toastrService.success('Usuário editado com sucesso');
+              this.goBack();
+            },
+            (error) => {
+              if (error.error?.errors) {
+                this._errorService.handleApiErrors(this.usuarioForm, error);
+              }
+            }
+          );
       }
-    }
-    else {
+    } else {
       if (this.usuarioForm.valid) {
         const usuarioData: UsuarioData = this.usuarioForm.value;
-        this._usuariosService.createUser(CadastrarUsuariosMapper.toSubmit(usuarioData, this.tenantSlugSelecionado)).subscribe(
-          response => {
-            this._toastrService.success('Usuário criado com sucesso');
-            this.usuarioForm.reset();
-          },
-          error => {
-            this._toastrService.error('Erro ao criar usuário:');
-          }
-        );
+        this._usuariosService
+          .createUser(
+            CadastrarUsuariosMapper.toSubmit(
+              usuarioData,
+              this.tenantSlugSelecionado
+            )
+          )
+          .subscribe(
+            (response) => {
+              this._toastrService.success('Usuário criado com sucesso');
+              this.usuarioForm.reset();
+            },
+            (error) => {
+              if (error.error?.errors) {
+                this._errorService.handleApiErrors(this.usuarioForm, error);
+              }
+            }
+          );
       }
     }
   }
