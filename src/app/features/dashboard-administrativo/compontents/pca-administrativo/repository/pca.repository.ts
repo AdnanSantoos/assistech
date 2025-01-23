@@ -4,15 +4,20 @@ import { Observable } from 'rxjs';
 import { RequisicaoModel } from '../../../../../shared/models/shared.model';
 import { environment } from '../../../../../../environments/environment';
 import { TenantService } from '../../../../../shared/services/tenant.service';
-import { ContractPlanItemModel, ContractPlanModel } from '../model/pca.model';
-
+import {
+  ContractPlanFilters,
+  ContractPlanItemModel,
+  ContractPlanModel,
+} from '../model/pca.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ContractPlansRepository {
   private get baseUrl() {
-    return `${environment.API_URL}/tenants/${this._tenantService.getTenant()}/pncp/contract_plans`;
+    return `${
+      environment.API_URL
+    }/tenants/${this._tenantService.getTenant()}/pncp/contract_plans`;
   }
 
   constructor(
@@ -21,8 +26,35 @@ export class ContractPlansRepository {
   ) {}
 
   // GET /v1/tenants/{tenant}/pncp/contract-plans
-  getContractPlans(): Observable<RequisicaoModel<ContractPlanModel[]>> {
-    return this._http.get<RequisicaoModel<ContractPlanModel[]>>(this.baseUrl);
+  getContractPlans(
+    filters?: ContractPlanFilters
+  ): Observable<RequisicaoModel<ContractPlanModel[]>> {
+    let params = new HttpParams();
+
+    if (filters) {
+      if (filters.page) {
+        params = params.append('page', filters.page.toString());
+      }
+
+      if (filters.per_page) {
+        params = params.append('per_page', filters.per_page.toString());
+      }
+
+      if (filters.year) {
+        params = params.append('year', filters.year.toString());
+      }
+
+      if (filters.agency_country_register) {
+        params = params.append(
+          'agency_country_register',
+          filters.agency_country_register
+        );
+      }
+    }
+
+    return this._http.get<RequisicaoModel<ContractPlanModel[]>>(this.baseUrl, {
+      params,
+    });
   }
   // getContractPlans(page: number): Observable<RequisicaoModel<ContractPlanModel[]>> {
   //   const params = new HttpParams().set('page', page.toString());
@@ -38,19 +70,23 @@ export class ContractPlansRepository {
   }
 
   // GET /v1/tenants/{tenant}/pncp/contract-plans/{contract_plan}
-  getContractPlanById(contractPlanId: string): Observable<RequisicaoModel<ContractPlanModel>> {
+  getContractPlanById(
+    contractPlanId: string
+  ): Observable<RequisicaoModel<ContractPlanModel>> {
     return this._http.get<RequisicaoModel<ContractPlanModel>>(
       `${this.baseUrl}/${contractPlanId}`
     );
   }
 
   // DELETE /v1/tenants/{tenant}/pncp/contract-plans/{contract_plan}
-  deleteContractPlan(contractPlanId: string, justification: string): Observable<void> {
+  deleteContractPlan(
+    contractPlanId: string,
+    justification: string
+  ): Observable<void> {
     const params = new HttpParams().set('justification', justification);
-    return this._http.delete<void>(
-      `${this.baseUrl}/${contractPlanId}`,
-      { params }
-    );
+    return this._http.delete<void>(`${this.baseUrl}/${contractPlanId}`, {
+      params,
+    });
   }
 
   // POST /v1/tenants/{tenant}/pncp/contract-plans/{contract_plan}/items

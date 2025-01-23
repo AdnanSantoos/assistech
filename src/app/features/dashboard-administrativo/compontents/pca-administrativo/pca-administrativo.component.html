@@ -13,56 +13,35 @@
     </button>
   </div>
 
-  <div class="container-fluid">
+  <!-- <div class="container-fluid">
     <div class="filtro-row mb-4">
       <form
         [formGroup]="filterForm"
         (ngSubmit)="applyFilter()"
         class="d-flex flex-wrap align-items-end gap-3"
       >
-        <div class="flex-grow-1">
-          <label for="processo" class="form-label"
-            >N° da compra ou PROCESSO</label
-          >
-          <input
-            id="processo"
-            type="text"
-            class="form-control"
-            formControlName="processo"
-          />
-        </div>
-
         <div class="flex-grow-1" style="max-width: 120px">
-          <label for="ano" class="form-label">Ano</label>
+          <label for="year" class="form-label">Ano</label>
           <input
-            id="ano"
-            type="text"
+            id="year"
+            type="number"
             class="form-control"
-            formControlName="ano"
+            formControlName="year"
+            placeholder="Ano"
           />
         </div>
 
         <div class="flex-grow-1">
-          <label for="modalidade" class="form-label">Modalidade</label>
+          <label for="agency_country_register" class="form-label">Órgão</label>
           <select
-            id="modalidade"
+            id="agency_country_register"
             class="form-control"
-            formControlName="modalidade"
+            formControlName="agency_country_register"
           >
-            <option value="" disabled selected>Selecione a modalidade</option>
-            <option value="modalidade1">Modalidade 1</option>
-            <option value="modalidade2">Modalidade 2</option>
-            <option value="modalidade3">Modalidade 3</option>
-          </select>
-        </div>
-
-        <div class="flex-grow-1">
-          <label for="orgao" class="form-label">Órgão</label>
-          <select id="orgao" class="form-control" formControlName="orgao">
             <option value="" disabled selected>Selecione o órgão</option>
-            <option value="orgao1">Órgão 1</option>
-            <option value="orgao2">Órgão 2</option>
-            <option value="orgao3">Órgão 3</option>
+            <ng-container *ngFor="let agency of agencyOptions">
+              <option [value]="agency.value">{{ agency.label }}</option>
+            </ng-container>
           </select>
         </div>
 
@@ -71,7 +50,7 @@
         </div>
       </form>
     </div>
-  </div>
+  </div> -->
 
   <div *ngIf="isLoading" class="text-center my-4">
     <div class="spinner-border" role="status">
@@ -168,13 +147,13 @@
                 </div>
                 <div class="modal-body">
                   <p class="fw-bold">
-                    Deseja realmente excluir o Plano de Contratação Anual de  {{
-                      element?.year
-                    }}?
+                    Deseja realmente excluir o Plano de Contratação Anual de
+                    {{ element?.year }}?
                   </p>
                   <form [formGroup]="deleteForm">
                     <label for="justification" class="form-label fw-bold">
-                      Informe o motivo da exclusão dO Plano de Contratação Anual:
+                      Informe o motivo da exclusão dO Plano de Contratação
+                      Anual:
                       {{ element?.year }}:
                     </label>
                     <textarea

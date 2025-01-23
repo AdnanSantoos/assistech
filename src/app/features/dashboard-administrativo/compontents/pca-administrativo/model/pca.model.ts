@@ -50,3 +50,11 @@ export interface ContractPlanModel {
   gateway_sequence?: number;
   unit?: Unit;
 }
+
+
+export interface ContractPlanFilters {
+  page?: number;
+  per_page?: number;
+  year?: number;
+  agency_country_register?: string;
+}

@@ -4,7 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Location } from '@angular/common';
 import { RequisicaoModel } from '../../../../../shared/models/shared.model';
 import { ContractPlansRepository } from '../repository/pca.repository';
-import { ContractPlanItemModel, ContractPlanModel } from '../model/pca.model';
+import { ContractPlanFilters, ContractPlanItemModel, ContractPlanModel } from '../model/pca.model';
 
 @Injectable({
   providedIn: 'root',
@@ -19,9 +19,10 @@ export class ContractPlanService {
   // public getContractPlans(page: number): Observable<RequisicaoModel<ContractPlanModel[]>> {
   //   return this._repository.getContractPlans(page);
   // }
-  public getContractPlans(): Observable<RequisicaoModel<ContractPlanModel[]>> {
-    return this._repository.getContractPlans();
+  public getContractPlans(filters?: ContractPlanFilters): Observable<RequisicaoModel<ContractPlanModel[]>> {
+    return this._repository.getContractPlans(filters);
   }
+
   goBack(): void {
     this._location.back();
   }
