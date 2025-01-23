@@ -124,9 +124,11 @@ export class NavbarComponent implements OnInit, OnDestroy {
   }
 
   logout() {
-    this._loginService.logout(this.tenantService.getTenant()!);
+    const tenant = this.tenantService.getTenant();
+    if (tenant) {
+      this._loginService.logout(tenant);
+    }
   }
-
   getLoggedInUserEmail(): void {
     // Busca diretamente a chave 'userEmail' no localStorage
     const email = localStorage.getItem('email');

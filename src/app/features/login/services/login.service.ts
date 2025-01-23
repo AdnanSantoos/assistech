@@ -26,7 +26,7 @@ export class LoginService {
   getLoading() {
     return this.loading;
   }
-  
+
   public login(form: LoginModel): void {
     this.loading = true;
 
@@ -52,9 +52,7 @@ export class LoginService {
             }
 
             // Armazena o slug do tenant no localStorage
-            this._router.navigate([
-              `/adm/dashboard-administrativo/home`,
-            ]);
+            this._router.navigate([`/adm/dashboard-administrativo/home`]);
           },
           error: (err) => {
             this._toastr.error('Erro ao buscar os dados do tenant.', 'Erro!');
@@ -68,15 +66,14 @@ export class LoginService {
     });
   }
 
-  public logout(tenant: string) {
+  logout(tenant: string): void {
     this._repository.logout(tenant).subscribe({
-      next: (response: LoginResponse) => {
-        localStorage.clear()
-        this._tenantService.setSlug('')
-        this._router.navigate([tenant+'/']);
+      next: () => {
+        localStorage.clear();
+        this._router.navigate([`${tenant}/home`]);
       },
-      error: (err: any) => {
-        this._toastr.error(err.error.message, 'Ocorreu um erro!');
+      error: (err) => {
+        this._toastr.error(err.error.message);
       },
     });
   }
