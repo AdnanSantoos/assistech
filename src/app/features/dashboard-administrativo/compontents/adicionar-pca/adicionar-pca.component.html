@@ -48,259 +48,371 @@
           />
         </div>
 
-        <!-- Dados do item -->
-        <div class="row">
-          <h4 class="mb-4">ITENS DO PLANO DE CONTRATAÇÃO ANUAL</h4>
+        <!-- Cabeçalho dos itens com botões -->
+        <div class="col-12">
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <h4 class="mb-0">ITENS DO PLANO DE CONTRATAÇÃO ANUAL</h4>
+            <div>
+              <button
+                type="button"
+                class="btn btn-sm btn-success me-2"
+                (click)="addItem()"
+              >
+                <mat-icon>add</mat-icon>
+              </button>
+              <button
+                type="button"
+                class="btn btn-sm btn-danger"
+                (click)="removeItem(itemsFormArray.length - 1)"
+                [disabled]="itemsFormArray.length <= 1"
+              >
+                <mat-icon>remove</mat-icon>
+              </button>
+            </div>
+          </div>
         </div>
 
-        <div formGroupName="items">
-          <div class="row">
-            <div class="col-md-6 mb-3 ps-1 pe-1">
-              <label for="contract_renewal">Renovação do Contrato</label>
-              <input
-                id="contract_renewal"
-                type="checkbox"
-                class="form-check-input ms-2"
-                formControlName="contract_renewal"
-              />
-            </div>
-
-            <div class="col-md-6 mb-3 ps-1 pe-1">
-              <label for="item_number">Número do Item*</label>
-              <input
-                id="item_number"
-                type="number"
-                class="form-control"
-                formControlName="item_number"
-                placeholder="Número do item"
-              />
-            </div>
-
-            <div class="col-md-6 mb-3 ps-1 pe-1">
-              <label for="item_category_id">Categoria do Item</label>
-              <ng-select
-                [items]="categoriaItem"
-                bindLabel="key"
-                bindValue="value"
-                formControlName="item_category_id"
-                placeholder="Selecione"
-                [searchable]="true"
-              ></ng-select>
-            </div>
-
-            <div class="col-md-6 mb-3 ps-1 pe-1">
-              <label for="catalog">Catálogo*</label>
-              <ng-select
-                [items]="modeloCatalogo"
-                bindLabel="key"
-                bindValue="value"
-                formControlName="catalog"
-                placeholder="Selecione"
-                [searchable]="true"
-              ></ng-select>
-            </div>
-
-            <div class="col-md-6 mb-3 ps-1 pe-1">
-              <label for="catalog_classification"
-                >Classificação do Catálogo*</label
+        <!-- Lista de itens -->
+        <div class="col-12" formArrayName="items">
+          <div
+            *ngFor="let item of itemsFormArray.controls; let i = index"
+            [formGroupName]="i"
+            class="border rounded p-3 mb-3"
+          >
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <h5 class="mb-0">Item {{ i + 1 }}</h5>
+              <button
+                type="button"
+                class="btn btn-sm btn-danger"
+                (click)="removeItem(i)"
+                *ngIf="itemsFormArray.length > 1"
               >
-              <ng-select
-                [items]="catalogoClassificacao"
-                bindLabel="key"
-                bindValue="value"
-                formControlName="catalog_classification"
-                placeholder="Selecione"
-                [searchable]="true"
-              ></ng-select>
+                <mat-icon>delete</mat-icon>
+              </button>
             </div>
 
-            <div class="col-md-6 mb-3 ps-1 pe-1">
-              <label for="superior_classification_code"
-                >Código da Classe do Material ou Grupo do Serviço*</label
-              >
-              <input
-                id="superior_classification_code"
-                class="form-control"
-                formControlName="superior_classification_code"
-                placeholder="Código da classe"
-              />
-            </div>
+            <div class="row">
+              <div class="col-md-6 mb-3 ps-1 pe-1">
+                <label [for]="'contract_renewal_' + i"
+                  >Renovação do Contrato</label
+                >
+                <input
+                  [id]="'contract_renewal_' + i"
+                  type="checkbox"
+                  class="form-check-input ms-2"
+                  formControlName="contract_renewal"
+                />
+              </div>
 
-            <div class="col-md-6 mb-3 ps-1 pe-1">
-              <label for="pdm_code"
-                >Código PDM referente ao Material conforme CNIS</label
-              >
-              <input
-                id="pdm_code"
-                class="form-control"
-                formControlName="pdm_code"
-                placeholder="Código PDM"
-              />
-            </div>
+              <div class="col-md-6 mb-3 ps-1 pe-1">
+                <label [for]="'item_number_' + i">Número do Item*</label>
+                <input
+                  [id]="'item_number_' + i"
+                  type="number"
+                  class="form-control"
+                  formControlName="item_number"
+                  placeholder="Número do item"
+                  readonly
+                />
+              </div>
 
-            <div class="col-md-6 mb-3 ps-1 pe-1">
-              <label for="item_code"
-                >Código do Material ou Serviço conforme Catálogo
-                Utilizado*</label
-              >
-              <input
-                id="item_code"
-                class="form-control"
-                formControlName="item_code"
-                placeholder="Código do material ou serviço"
-              />
-            </div>
+              <div class="col-md-6 mb-3 ps-1 pe-1">
+                <label [for]="'item_category_id_' + i"
+                  >Categoria do Item*</label
+                >
+                <ng-select
+                  [id]="'item_category_id_' + i"
+                  [items]="categoriaItem"
+                  bindLabel="key"
+                  bindValue="value"
+                  formControlName="item_category_id"
+                  placeholder="Selecione"
+                  [searchable]="true"
+                ></ng-select>
+                <small
+                  class="text-danger"
+                  *ngIf="isItemFieldInvalid(i, 'item_category_id')"
+                >
+                  {{ getItemFieldError(i, "item_category_id") }}
+                </small>
+              </div>
 
-            <div class="col-md-6 mb-3 ps-1 pe-1">
-              <label for="pdm_description"
-                >Descrição PDM referente ao Material conforme o CNBS</label
-              >
-              <textarea
-                id="pdm_description"
-                class="form-control"
-                formControlName="pdm_description"
-                placeholder="Descrição PDM"
-              ></textarea>
-            </div>
+              <div class="col-md-6 mb-3 ps-1 pe-1">
+                <label [for]="'catalog_' + i">Catálogo*</label>
+                <ng-select
+                  [id]="'catalog_' + i"
+                  [items]="modeloCatalogo"
+                  bindLabel="key"
+                  bindValue="value"
+                  formControlName="catalog"
+                  placeholder="Selecione"
+                  [searchable]="true"
+                ></ng-select>
+                <small
+                  class="text-danger"
+                  *ngIf="isItemFieldInvalid(i, 'catalog')"
+                >
+                  {{ getItemFieldError(i, "catalog") }}
+                </small>
+              </div>
 
-            <div class="col-md-6 mb-3 ps-1 pe-1">
-              <label for="superior_classification_name"
-                >Descrição da Classe do Material ou Grupo do Serviço*</label
-              >
-              <textarea
-                id="superior_classification_name"
-                class="form-control"
-                formControlName="superior_classification_name"
-                placeholder="Descrição da classe"
-              ></textarea>
-            </div>
+              <div class="col-md-6 mb-3 ps-1 pe-1">
+                <label [for]="'catalog_classification_' + i"
+                  >Classificação do Catálogo*</label
+                >
+                <ng-select
+                  [id]="'catalog_classification_' + i"
+                  [items]="catalogoClassificacao"
+                  bindLabel="key"
+                  bindValue="value"
+                  formControlName="catalog_classification"
+                  placeholder="Selecione"
+                  [searchable]="true"
+                ></ng-select>
+                <small
+                  class="text-danger"
+                  *ngIf="isItemFieldInvalid(i, 'catalog_classification')"
+                >
+                  {{ getItemFieldError(i, "catalog_classification") }}
+                </small>
+              </div>
 
-            <div class="col-md-6 mb-3 ps-1 pe-1">
-              <label for="description"
-                >Descrição do Material ou Serviço conforme Catálogo
-                Utilizado*</label
-              >
-              <textarea
-                id="description"
-                class="form-control"
-                formControlName="description"
-                placeholder="Descrição do material ou serviço"
-              ></textarea>
-            </div>
+              <div class="col-md-6 mb-3 ps-1 pe-1">
+                <label [for]="'superior_classification_code_' + i"
+                  >Código da Classe do Material ou Grupo do Serviço*</label
+                >
+                <input
+                  [id]="'superior_classification_code_' + i"
+                  class="form-control"
+                  formControlName="superior_classification_code"
+                  placeholder="Código da classe"
+                />
+                <small
+                  class="text-danger"
+                  *ngIf="isItemFieldInvalid(i, 'superior_classification_code')"
+                >
+                  {{ getItemFieldError(i, "superior_classification_code") }}
+                </small>
+              </div>
 
-            <div class="col-md-6 mb-3 ps-1 pe-1">
-              <label for="supply_unit">Unidade de Fornecimento*</label>
-              <input
-                id="supply_unit"
-                class="form-control"
-                formControlName="supply_unit"
-                placeholder="Unidade de fornecimento"
-              />
-            </div>
+              <div class="col-md-6 mb-3 ps-1 pe-1">
+                <label [for]="'pdm_code_' + i"
+                  >Código PDM referente ao Material conforme CNIS</label
+                >
+                <input
+                  [id]="'pdm_code_' + i"
+                  class="form-control"
+                  formControlName="pdm_code"
+                  placeholder="Código PDM"
+                />
+              </div>
 
-            <div class="col-md-6 mb-3 ps-1 pe-1">
-              <label for="quantity">Quantidade de Itens do Plano*</label>
-              <input
-                id="quantity"
-                type="number"
-                class="form-control"
-                formControlName="quantity"
-                placeholder="Quantidade de itens"
-              />
-            </div>
+              <div class="col-md-6 mb-3 ps-1 pe-1">
+                <label [for]="'item_code_' + i"
+                  >Código do Material ou Serviço*</label
+                >
+                <input
+                  [id]="'item_code_' + i"
+                  class="form-control"
+                  formControlName="item_code"
+                  placeholder="Código do material ou serviço"
+                />
+                <small
+                  class="text-danger"
+                  *ngIf="isItemFieldInvalid(i, 'item_code')"
+                >
+                  {{ getItemFieldError(i, "item_code") }}
+                </small>
+              </div>
 
-            <div class="col-md-6 mb-3 ps-1 pe-1">
-              <label for="unit_value">Valor Unitário do Item*</label>
-              <input
-                id="unit_value"
-                type="text"
-                class="form-control"
-                formControlName="unit_value"
-                placeholder="Valor unitário"
-                currencyMask
-              />
-            </div>
+              <div class="col-md-6 mb-3 ps-1 pe-1">
+                <label [for]="'pdm_description_' + i"
+                  >Descrição PDM referente ao Material</label
+                >
+                <textarea
+                  [id]="'pdm_description_' + i"
+                  class="form-control"
+                  formControlName="pdm_description"
+                  placeholder="Descrição PDM"
+                ></textarea>
+              </div>
 
-            <div class="col-md-6 mb-3 ps-1 pe-1">
-              <label for="total_value">Valor Total do Item*</label>
-              <input
-                id="total_value"
-                type="text"
-                class="form-control"
-                formControlName="total_value"
-                placeholder="Valor total"
-                currencyMask
-              />
-            </div>
+              <div class="col-md-6 mb-3 ps-1 pe-1">
+                <label [for]="'superior_classification_name_' + i"
+                  >Descrição da Classe do Material*</label
+                >
+                <textarea
+                  [id]="'superior_classification_name_' + i"
+                  class="form-control"
+                  formControlName="superior_classification_name"
+                  placeholder="Descrição da classe"
+                ></textarea>
+                <small
+                  class="text-danger"
+                  *ngIf="isItemFieldInvalid(i, 'superior_classification_name')"
+                >
+                  {{ getItemFieldError(i, "superior_classification_name") }}
+                </small>
+              </div>
 
-            <div class="col-md-6 mb-3 ps-1 pe-1">
-              <label for="budget_value_for_year"
-                >Valor Orçamentário Estimado para o Exercício*</label
-              >
-              <input
-                id="budget_value_for_year"
-                type="text"
-                class="form-control"
-                formControlName="budget_value_for_year"
-                placeholder="Valor orçamentário estimado"
-                currencyMask
-              />
-            </div>
+              <div class="col-md-6 mb-3 ps-1 pe-1">
+                <label [for]="'description_' + i"
+                  >Descrição do Material ou Serviço*</label
+                >
+                <textarea
+                  [id]="'description_' + i"
+                  class="form-control"
+                  formControlName="description"
+                  placeholder="Descrição do material ou serviço"
+                ></textarea>
+                <small
+                  class="text-danger"
+                  *ngIf="isItemFieldInvalid(i, 'description')"
+                >
+                  {{ getItemFieldError(i, "description") }}
+                </small>
+              </div>
 
-            <div class="col-md-6 mb-3 ps-1 pe-1">
-              <label for="desired_date">Data Desejada para Contratação*</label>
-              <input
-                type="datetime-local"
-                id="desired_date"
-                class="form-control"
-                formControlName="desired_date"
-              />
-            </div>
+              <div class="col-md-6 mb-3 ps-1 pe-1">
+                <label [for]="'supply_unit_' + i"
+                  >Unidade de Fornecimento*</label
+                >
+                <input
+                  [id]="'supply_unit_' + i"
+                  class="form-control"
+                  formControlName="supply_unit"
+                  placeholder="Unidade de fornecimento"
+                />
+                <small
+                  class="text-danger"
+                  *ngIf="isItemFieldInvalid(i, 'supply_unit')"
+                >
+                  {{ getItemFieldError(i, "supply_unit") }}
+                </small>
+              </div>
 
-            <div class="col-md-6 mb-3 ps-1 pe-1">
-              <label for="requesting_unit">Nome Unidade Requisitante</label>
-              <input
-                id="requesting_unit"
-                class="form-control"
-                formControlName="requesting_unit"
-                placeholder="Nome da unidade requisitante"
-              />
-            </div>
+              <div class="col-md-6 mb-3 ps-1 pe-1">
+                <label [for]="'quantity_' + i">Quantidade de Itens*</label>
+                <input
+                  [id]="'quantity_' + i"
+                  type="number"
+                  class="form-control"
+                  formControlName="quantity"
+                  placeholder="Quantidade de itens"
+                  (input)="calculateTotalValue(i)"
+                />
+                <small
+                  class="text-danger"
+                  *ngIf="isItemFieldInvalid(i, 'quantity')"
+                >
+                  {{ getItemFieldError(i, "quantity") }}
+                </small>
+              </div>
 
-            <div class="col-md-6 mb-3 ps-1 pe-1">
-              <label for="contracting_group_code"
-                >Código da Contratação Futura</label
-              >
-              <input
-                id="contracting_group_code"
-                class="form-control"
-                formControlName="contracting_group_code"
-                placeholder="Código da contratação futura"
-              />
-            </div>
+              <div class="col-md-6 mb-3 ps-1 pe-1">
+                <label [for]="'unit_value_' + i">Valor Unitário*</label>
+                <input
+                  [id]="'unit_value_' + i"
+                  type="text"
+                  class="form-control"
+                  formControlName="unit_value"
+                  placeholder="Valor unitário"
+                  currencyMask
+                  (input)="calculateTotalValue(i)"
+                />
+                <small
+                  class="text-danger"
+                  *ngIf="isItemFieldInvalid(i, 'unit_value')"
+                >
+                  {{ getItemFieldError(i, "unit_value") }}
+                </small>
+              </div>
 
-            <div class="col-md-6 mb-3 ps-1 pe-1">
-              <label for="contracting_group_name"
-                >Nome da Contratação Futura</label
-              >
-              <input
-                id="contracting_group_name"
-                class="form-control"
-                formControlName="contracting_group_name"
-                placeholder="Nome da contratação futura"
-              />
+              <div class="col-md-6 mb-3 ps-1 pe-1">
+                <label [for]="'total_value_' + i">Valor Total*</label>
+                <input
+                  [id]="'total_value_' + i"
+                  type="text"
+                  class="form-control"
+                  formControlName="total_value"
+                  placeholder="Valor total"
+                  currencyMask
+                  readonly
+                />
+                <small
+                  class="text-danger"
+                  *ngIf="isItemFieldInvalid(i, 'total_value')"
+                >
+                  {{ getItemFieldError(i, "total_value") }}
+                </small>
+              </div>
+
+              <div class="col-md-6 mb-3 ps-1 pe-1">
+                <label [for]="'budget_value_for_year_' + i"
+                  >Valor Orçamentário Estimado*</label
+                >
+                <input
+                  [id]="'budget_value_for_year_' + i"
+                  type="text"
+                  class="form-control"
+                  formControlName="budget_value_for_year"
+                  placeholder="Valor orçamentário estimado"
+                  currencyMask
+                />
+                <small
+                  class="text-danger"
+                  *ngIf="isItemFieldInvalid(i, 'budget_value_for_year')"
+                >
+                  {{ getItemFieldError(i, "budget_value_for_year") }}
+                </small>
+              </div>
+
+              <div class="col-md-6 mb-3 ps-1 pe-1">
+                <label [for]="'desired_date_' + i">Data Desejada*</label>
+                <input
+                  [id]="'desired_date_' + i"
+                  type="datetime-local"
+                  class="form-control"
+                  formControlName="desired_date"
+                />
+                <small
+                  class="text-danger"
+                  *ngIf="isItemFieldInvalid(i, 'desired_date')"
+                >
+                  {{ getItemFieldError(i, "desired_date") }}
+                </small>
+              </div>
+
+              <div class="col-md-6 mb-3 ps-1 pe-1">
+                <label [for]="'requesting_unit_' + i"
+                  >Nome Unidade Requisitante</label
+                >
+                <input
+                  [id]="'requesting_unit_' + i"
+                  class="form-control"
+                  formControlName="requesting_unit"
+                  placeholder="Nome da unidade requisitante"
+                />
+              </div>
+
+              <div class="col-md-6 mb-3 ps-1 pe-1">
+                <label [for]="'contracting_group_name_' + i"
+                  >Nome da Contratação Futura</label
+                >
+                <input
+                  [id]="'contracting_group_name_' + i"
+                  class="form-control"
+                  formControlName="contracting_group_name"
+                  placeholder="Nome da contratação futura"
+                />
+              </div>
             </div>
           </div>
         </div>
 
         <div class="col-12">
           <button type="submit" class="btn btn-dark w-100 hover-sucesso">
-
-            {{
-              isEditMode
-                ? "Editar"
-                : "Cadastrar"
-            }}
+            {{ isEditMode ? "Editar" : "Cadastrar" }}
           </button>
         </div>
       </div>
