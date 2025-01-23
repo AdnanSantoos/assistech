@@ -25,7 +25,7 @@ export class DashboardHomeComponent implements OnInit {
     this.isStaff = this.tenantService.getStaff();
     this.categoryMapping = {
       'Documentos': { key: 'files', link: '/documentos', show: true },
-      'Usuários': { key: 'users', link: '/adm/dashboard-administrativo/usuarios', show: this.isStaff },
+      'Usuários': { key: 'users', link: '/adm/dashboard-administrativo/usuarios', show: true },
       'Publicações': { key: 'official_gazettes', link: '/adm/dashboard-administrativo/gerenciar-diario-oficial', show: true },
       'Órgãos': { key: 'agencies', link: '/adm/dashboard-administrativo/orgaos', show: true },
       'Contratos': { key: 'contracts', link: '/adm/dashboard-administrativo/contratos', show: true },
