@@ -120,7 +120,7 @@ export class PublicarDiarioOficialAdministrativoComponent implements OnInit {
       // Formatando a data antes de enviar
       const formattedValue = {
         ...formValue,
-        date: formValue.date ? new Date(formValue.date).toISOString() : '',
+        date: formValue.date ? new Date(new Date(formValue.date).getTime() - new Date().getTimezoneOffset() * 60000).toISOString() : '',
         files: this.selectedFiles, // Usando a lista de arquivos selecionados
       };
 
