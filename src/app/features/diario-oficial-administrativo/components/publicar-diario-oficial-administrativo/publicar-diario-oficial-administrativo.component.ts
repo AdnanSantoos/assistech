@@ -100,6 +100,13 @@ export class PublicarDiarioOficialAdministrativoComponent implements OnInit {
       description: ['', Validators.required],
     });
     this.isStaff = this._tenantService.getStaff();
+
+    this.bsConfig = {
+      containerClass: 'theme-default',
+      dateInputFormat: 'DD/MM/YYYY',
+      adaptivePosition: true,
+      showWeekNumbers: false,
+    };
   }
 
   ngOnInit() {}
@@ -128,7 +135,9 @@ export class PublicarDiarioOficialAdministrativoComponent implements OnInit {
 
       Object.keys(formData).forEach((key) => {
         if (this.formAgendado.get(key)?.value instanceof Date) {
-          formData[key] = this.formAgendado.get(key)?.value.toISOString();
+          formData[key] = this.formatDateToISOString(
+            this.formAgendado.get(key)?.value
+          );
         }
       });
 
@@ -138,7 +147,21 @@ export class PublicarDiarioOficialAdministrativoComponent implements OnInit {
       this.closeModal();
     }
   }
+  private formatDateToISOString(date: Date): string {
+    if (!date) return '';
 
+    // Cria uma nova data para evitar modificações no objeto original
+    const safeDate = new Date(date);
+
+    // Ajusta para o fuso horário local sem alterar a data
+    return new Date(
+      safeDate.getFullYear(),
+      safeDate.getMonth(),
+      safeDate.getDate()
+    )
+      .toISOString()
+      .split('T')[0];
+  }
   onFileChangeAgendado(event: any, fieldName: string) {
     const files = event.target.files;
     const validFiles: File[] = [];

@@ -104,7 +104,13 @@
         <tr *ngFor="let doc of documentos?.data">
           <td>{{ doc.number }}</td>
           <td>{{ doc.date | date : "dd/MM/yyyy" }}</td>
-          <td>{{ doc.description }}</td>
+          <td
+            [ngStyle]="{
+              'text-align': doc.description.length <= 50 ? 'center' : 'justify'
+            }"
+          >
+            {{ doc.description }}
+          </td>
           <td>
             <a
               (click)="
@@ -144,23 +150,30 @@
 </div>
 
 <ng-template #template>
-  <div class="modal-header">
-    <h4 class="modal-title pull-left">{{ documentTitulo }}</h4>
-    <button
-      type="button"
-      class="btn-close close pull-right"
-      aria-label="Close"
-      (click)="modalRef?.hide()"
-    >
-      <span aria-hidden="true" class="visually-hidden">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    <ngx-extended-pdf-viewer
-      filenameForDownload="document_assistech.pdf"
-      [showUnverifiedSignatures]="true"
-      [src]="documentUrl"
-    >
-    </ngx-extended-pdf-viewer>
+  <button
+    type="button"
+    class="btn-format bg-danger m-2 ms-auto"
+    aria-label="Close"
+    (click)="modalRef?.hide()"
+  >
+    <span aria-hidden="true" class="text-white font-descricao-modal">&times;</span>
+  </button>
+  <div clas="d-flex flex-row">
+    <div class="row altura-modal">
+      <div class="col-4 bg-light">
+        <h4>Descrição:</h4>
+        <p class="font-descricao-modal ms-1"  [ngStyle]="{
+          'text-align': documentTitulo.length <= 50 ? 'center' : 'justify'
+        }">{{ documentTitulo }}</p>
+      </div>
+      <div class="col-8">
+        <ngx-extended-pdf-viewer
+          filenameForDownload="document_assistech.pdf"
+          [showUnverifiedSignatures]="true"
+          [src]="documentUrl"
+        >
+        </ngx-extended-pdf-viewer>
+      </div>
+    </div>
   </div>
 </ng-template>
