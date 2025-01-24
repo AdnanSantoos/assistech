@@ -104,7 +104,13 @@
         <tr *ngFor="let doc of documentos?.data">
           <td>{{ doc.number }}</td>
           <td>{{ doc.date | date : "dd/MM/yyyy" }}</td>
-          <td>{{ doc.description }}</td>
+          <td
+            [ngStyle]="{
+              'text-align': doc.description.length <= 50 ? 'center' : 'justify'
+            }"
+          >
+            {{ doc.description }}
+          </td>
           <td>
             <a
               (click)="
