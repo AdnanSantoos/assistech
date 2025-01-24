@@ -160,13 +160,13 @@
   </button>
   <div clas="d-flex flex-row">
     <div class="row altura-modal">
-      <div class="col-6 bg-light">
+      <div class="col-4 bg-light">
         <h4>Descrição:</h4>
         <p class="font-descricao-modal ms-1"  [ngStyle]="{
           'text-align': documentTitulo.length <= 50 ? 'center' : 'justify'
         }">{{ documentTitulo }}</p>
       </div>
-      <div class="col-6">
+      <div class="col-8">
         <ngx-extended-pdf-viewer
           filenameForDownload="document_assistech.pdf"
           [showUnverifiedSignatures]="true"
