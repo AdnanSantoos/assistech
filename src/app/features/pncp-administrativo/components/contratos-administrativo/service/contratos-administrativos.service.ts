@@ -39,11 +39,7 @@ export class ContratosService {
 
   createTermo(data: Partial<TermosContratosModel>): Observable<void> {
     return this._repository.createTermoContrato(data).pipe(
-      tap(() => this.toastr.success('Termo criado com sucesso!')),
-      catchError((error) => {
-        this.toastr.error('Erro ao criar termo.');
-        throw error;
-      })
+      tap(() => this.toastr.success('Termo criado com sucesso!'))
     );
   }
 
@@ -136,11 +132,7 @@ export class ContratosService {
 
   createTermosContratos(termId: string, data: FormData): Observable<void> {
     return this._repository.createTermosContratos(termId, data).pipe(
-      tap(() => this.toastr.success('Termos do contrato criados com sucesso!')),
-      catchError((error) => {
-        this.toastr.error('Erro ao criar termos do contrato.');
-        throw error;
-      })
+      tap(() => this.toastr.success('Termos do contrato criados com sucesso!'))
     );
   }
   createArquivoContrato(contractId: string, data: FormData): Observable<void> {

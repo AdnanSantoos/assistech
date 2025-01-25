@@ -145,11 +145,6 @@ export class CriarTermosContratosAdministrativoComponent implements OnInit {
 
   // Submeter o formulário para criar ou editar
   onSubmit(): void {
-    if (this.termoForm.invalid) {
-      console.error('Formulário inválido.');
-      return;
-    }
-
     const termoData = this.termoForm.value;
 
     if (this.isEditMode && this.termoId) {
