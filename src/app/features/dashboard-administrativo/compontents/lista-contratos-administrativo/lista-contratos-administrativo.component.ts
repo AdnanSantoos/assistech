@@ -18,6 +18,7 @@ import {
 } from '@angular/forms';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { ArquivosContratoMapper } from './mapper/arquivos-contratos.mapper';
+import { FormErrorService } from '../../../../shared/services/form-error.service';
 
 @Component({
   selector: 'app-lista-contratos-administrativo',
@@ -94,7 +95,8 @@ export class ListaContratosAdministrativoComponent implements OnInit {
     private fb: FormBuilder,
     private modalService: BsModalService,
     private _location: Location,
-    public route: ActivatedRoute
+    public route: ActivatedRoute,
+    private _errorService: FormErrorService
   ) {
     this.deleteForm = this.fb.group({
       justification: ['', [Validators.required]],
@@ -299,7 +301,9 @@ export class ListaContratosAdministrativoComponent implements OnInit {
               this.modalRef?.hide(); // Fecha o modal após a exclusão
             },
             error: (err) => {
-              console.error('Erro ao enviar arquivo:', err);
+              if (err.error?.errors) {
+                this._errorService.handleApiErrors(this.fileForm, err);
+              }
             },
           });
       } else {

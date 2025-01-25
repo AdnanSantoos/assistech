@@ -19,6 +19,7 @@ import { provideNgxMask } from 'ngx-mask';
 import { defineLocale } from 'ngx-bootstrap/chronos';
 import { ptBrLocale } from 'ngx-bootstrap/locale';
 import { CurrencyMaskDirective } from '../../../../../shared/directives/currencyMask.directive';
+import { FormErrorService } from '../../../../../shared/services/form-error.service';
 defineLocale('pt-br', ptBrLocale);
 
 @Component({
@@ -51,7 +52,8 @@ export class CriarTermosContratosAdministrativoComponent implements OnInit {
     private _contratoService: ContratosService,
     private route: ActivatedRoute,
     private _location: Location,
-    private _localeService: BsLocaleService
+    private _localeService: BsLocaleService,
+    private _errorService: FormErrorService
   ) {
     _localeService.use('pt-br');
 
@@ -158,7 +160,9 @@ export class CriarTermosContratosAdministrativoComponent implements OnInit {
           this.goBack();
         },
         error: (err) => {
-          console.error('Erro ao atualizar termo:', err);
+          if (err.error?.errors) {
+            this._errorService.handleApiErrors(this.termoForm, err);
+          }
         },
       });
     } else {
@@ -169,7 +173,9 @@ export class CriarTermosContratosAdministrativoComponent implements OnInit {
           this.goBack();
         },
         error: (err) => {
-          console.error('Erro ao criar termo:', err);
+          if (err.error?.errors) {
+            this._errorService.handleApiErrors(this.termoForm, err);
+          }
         },
       });
     }
