@@ -115,9 +115,8 @@ export class HomeComponent implements OnInit, OnDestroy {
         // },
         {
           link: 'https://atricon.org.br/',
-          texto: '',
-          icon_img:
-            '../../../assets/novos-icones/atricon_logo.jpg',
+          texto: 'ATRICON',
+          icon_img: '../../../assets/novos-icones/atricon-logo.svg',
         },
         {
           link: 'https://www.gov.br/pt-br',
@@ -128,7 +127,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         {
           link: 'https://www.gov.br/pncp/pt-br',
           texto: 'PNCP',
-          icon_img: '../../../assets/novos-icones/pncp.svg',
+          icon_img: '../../../assets/novos-icones/novo-pncp.svg',
         },
         {
           link: 'https://www.gov.br/compras/pt-br/nllc',
