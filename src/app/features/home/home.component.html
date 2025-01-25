@@ -12,7 +12,7 @@
               [routerLink]="acesso.routerLink"
             >
               <div class="icone">
-                <img [src]="acesso.icon_img"/>
+                <img [src]="acesso.icon_img" />
               </div>
               <div class="texto">
                 {{ acesso.texto }}
@@ -25,16 +25,27 @@
               [href]="acesso.link"
               target="_blank"
             >
-
               @if(acesso.icon_img === "../../../assets/logos/Tcu.svg"){
-                <div class="icone">
-                  <img width="50%" [src]="acesso.icon_img"/>
-                </div>
+              <div class="icone">
+                <img width="50%" [src]="acesso.icon_img" />
+              </div>
+              }
+              @else if(acesso.icon_img ===
+              "../../../assets/novos-icones/atricon-logo.svg"){
+              <div class="icone">
+                <img width="60px" [src]="acesso.icon_img" />
+              </div>
+              }
+              @else if(acesso.icon_img ===
+              "../../../assets/novos-icones/novo-pncp.svg"){
+              <div class="icone">
+                <img width="50px" [src]="acesso.icon_img" />
+              </div>
               }
               @else{
-                <div class="icone">
-                  <img [src]="acesso.icon_img"/>
-                </div>
+              <div class="icone">
+                <img [src]="acesso.icon_img" />
+              </div>
               }
               <div class="texto">
                 {{ acesso.texto }}
@@ -52,14 +63,12 @@
       <button (click)="scrollToNoticias()" class="btn btn-banner" type="button">
         ACESSAR PÁGINA DE NOTÍCIAS
       </button>
-
     </div>
   </div>
 </div>
 
 <div class="noticias-gerais" id="noticias_gerais">
-
- <!--4 imagens-->
+  <!--4 imagens-->
   <div class="d-flex">
     <div class="img-row w-100 max-height-img" *ngFor="let content of images">
       <img class="img-fluid w-100" [src]="content.url" alt="" />
