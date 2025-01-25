@@ -4,7 +4,7 @@
   <div class="info-header d-flex justify-content-between mb-3">
     <div>
       <strong>LICITAÇÃO Nº:</strong>
-      <span>{{ licitacao.number }}/{{ licitacao.year }}</span>
+      <span>{{ licitacao?.number }}/{{ licitacao?.year }}</span>
     </div>
     <div>
       <strong>NÚMERO DA COMPRA:</strong>
@@ -297,18 +297,18 @@
     </form>
   </div>
 
-  <div class="modal-footer">
-    <button type="button" class="btn btn-secondary" (click)="closeModal()">
-      Fechar
-    </button>
-    <button
-      type="button"
-      class="btn btn-primary hover-sucesso"
-      (click)="saveAta()"
-    >
-      Salvar
-    </button>
-  </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="closeModal()">
+        Fechar
+      </button>
+      <button
+        type="submit"
+        (click)="saveAta()"
+        class="btn btn-primary hover-sucesso"
+      >
+        Salvar
+      </button>
+    </div>
 </ng-template>
 
 <!-- Modal de Edição -->
@@ -396,7 +396,6 @@
       type="button"
       class="btn btn-primary"
       (click)="updateAta()"
-      [disabled]="!formEditAta.valid"
     >
       Salvar Alterações
     </button>

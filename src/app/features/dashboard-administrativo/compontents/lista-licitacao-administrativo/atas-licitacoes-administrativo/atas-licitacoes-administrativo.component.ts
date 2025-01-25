@@ -279,7 +279,6 @@ export class AtasLicitacoesAdministrativoComponent implements OnInit {
         console.error('IDs necessários não encontrados.');
         return;
       }
-
       // Chama o serviço para atualizar a ata
       this.licitacoesService
         .updateLicitacaoAta(procurementId, minutesId, formData)
@@ -291,7 +290,7 @@ export class AtasLicitacoesAdministrativoComponent implements OnInit {
           },
           error: (error) => {
             if (error.error?.errors) {
-              this._errorService.handleApiErrors(this.formAta, error);
+              this._errorService.handleApiErrors(this.formEditAta, error);
             }
           },
         });

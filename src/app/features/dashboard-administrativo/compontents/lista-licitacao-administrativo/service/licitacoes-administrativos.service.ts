@@ -211,11 +211,7 @@ export class LicitacoesService {
     return this._repository
       .updateLicitacaoAta(procurementId, minutesId, ataData)
       .pipe(
-        tap(() => this.toastr.success('ATA atualizada com sucesso!')),
-        catchError((error) => {
-          this.toastr.error('Erro ao atualizar a ATA.', 'Erro');
-          return throwError(() => error);
-        })
+        tap(() => this.toastr.success('ATA atualizada com sucesso!'))
       );
   }
 
