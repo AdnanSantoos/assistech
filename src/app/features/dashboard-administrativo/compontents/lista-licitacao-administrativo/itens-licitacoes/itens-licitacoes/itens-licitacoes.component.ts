@@ -24,6 +24,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { CurrencyMaskDirective } from '../../../../../../shared/directives/currencyMask.directive';
 import { Subscription } from 'rxjs';
+import { FormErrorService } from '../../../../../../shared/services/form-error.service';
 
 @Component({
   selector: 'app-itens-licitacoes',
@@ -110,7 +111,8 @@ export class ItensLicitacoesComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private dialog: MatDialog,
     private fb: FormBuilder,
-    private modalService: BsModalService
+    private modalService: BsModalService,
+    private _errorService: FormErrorService
   ) {
     this.novoItemForm = this.fb.group({
       procurement_id: [null],
@@ -463,7 +465,9 @@ export class ItensLicitacoesComponent implements OnInit, OnDestroy {
         this.isLoadingItens = false;
       },
       error: (err) => {
-        console.error('Erro ao criar item de licitação:', err);
+        if (err.error?.errors) {
+          this._errorService.handleApiErrors(this.novoItemForm, err);
+        }
         this.isLoadingItens = false;
       },
     });

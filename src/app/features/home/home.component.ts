@@ -108,10 +108,16 @@ export class HomeComponent implements OnInit, OnDestroy {
           texto: 'DIÁRIO OFICIAL',
           icon_img: '../../../assets/novos-icones/diario-oficial.svg',
         },
+        // {
+        //   routerLink: `/${this.currentSlug}/trn/portal-transparencia`,
+        //   texto: 'PORTAL DE TRANSPARÊNCIA',
+        //   icon_img: '../../../assets/novos-icones/portal-transparencia.svg',
+        // },
         {
-          routerLink: `/${this.currentSlug}/trn/portal-transparencia`,
-          texto: 'PORTAL DE TRANSPARÊNCIA',
-          icon_img: '../../../assets/novos-icones/portal-transparencia.svg',
+          link: 'https://atricon.org.br/',
+          texto: '',
+          icon_img:
+            '../../../assets/novos-icones/atricon_logo.jpg',
         },
         {
           link: 'https://www.gov.br/pt-br',
