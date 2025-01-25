@@ -4,11 +4,11 @@
   <div class="info-header d-flex justify-content-between mb-3">
     <div>
       <strong>LICITAÇÃO Nº:</strong>
-      <span>{{ licitacao?.number }}/{{ licitacao?.year }}</span>
+      <span>{{ licitacao.number }}/{{ licitacao.year }}</span>
     </div>
     <div>
       <strong>NÚMERO DA COMPRA:</strong>
-      <span>{{ licitacao?.process_number }}</span>
+      <span>{{ licitacao.process_number }}</span>
     </div>
   </div>
 
@@ -305,7 +305,6 @@
       type="button"
       class="btn btn-primary hover-sucesso"
       (click)="saveAta()"
-      [disabled]="!formAta.valid"
     >
       Salvar
     </button>

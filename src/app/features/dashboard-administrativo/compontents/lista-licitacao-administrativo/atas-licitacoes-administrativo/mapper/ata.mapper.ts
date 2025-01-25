@@ -1,46 +1,37 @@
 export class AtaLicitacaoMapper {
   public static toSubmit(form: any, selectedFiles: any): FormData {
     const formData = new FormData();
-    const value = { ...form }; // Clona os dados do formulário
+    const value = form || {};
 
-    // Itera sobre as chaves do formulário
     Object.keys(value).forEach((key) => {
       const valueForm = value[key];
 
-      // Ignora a chave 'file' pois trataremos isso separadamente
-      if (key === 'file') {
-        return;
-      }
+      if (!valueForm || key === 'file') return;
 
       if (Array.isArray(valueForm)) {
-        // Caso seja um array de objetos, serializa corretamente
         valueForm.forEach((item, index) => {
+          if (!item) return;
           Object.keys(item).forEach((subKey) => {
-            formData.append(`${key}[${index}][${subKey}]`, item[subKey] ?? '');
+            if (item[subKey] !== null && item[subKey] !== undefined) {
+              formData.append(`${key}[${index}][${subKey}]`, item[subKey]);
+            }
           });
         });
-      } else if (typeof valueForm === 'object') {
-        // Serializa objetos individuais para JSON
+      } else if (valueForm && typeof valueForm === 'object') {
         formData.append(key, JSON.stringify(valueForm));
       } else {
-        // Adiciona valores simples
-        formData.append(key, valueForm ?? '');
+        formData.append(key, String(valueForm));
       }
     });
 
-    // Adiciona arquivos ao FormData
-    if (selectedFiles && selectedFiles.file && selectedFiles.file.length > 0) {
-      selectedFiles.file.forEach((file: File) => {
-        formData.append('file', file, file.name);
-      });
-    } else {
-      console.warn('Nenhum arquivo selecionado para upload.');
+    if (selectedFiles?.file?.length > 0 && selectedFiles.file[0]) {
+      const file = selectedFiles.file[0];
+      formData.append('file', file, file.name);
     }
 
     return formData;
   }
 }
-
 
 export class ArquivoUploadMapper {
   public static toSubmit(form: any, file: File): FormData {
@@ -63,4 +54,3 @@ export class ArquivoUploadMapper {
     return formData;
   }
 }
-

@@ -7,7 +7,13 @@ import { MatIcon, MatIconModule } from '@angular/material/icon';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ArquivoUploadMapper, AtaLicitacaoMapper } from './mapper/ata.mapper';
-import { LicitacaoAtaExtendedResponse, LicitacaoAtaModel, LicitacaoDetalhesModel, TransformedAta } from '../model/licitacoes-administrativo.model';
+import {
+  LicitacaoAtaExtendedResponse,
+  LicitacaoAtaModel,
+  LicitacaoDetalhesModel,
+  TransformedAta,
+} from '../model/licitacoes-administrativo.model';
+import { FormErrorService } from '../../../../../shared/services/form-error.service';
 
 @Component({
   selector: 'app-atas-licitacoes-administrativo',
@@ -53,6 +59,7 @@ export class AtasLicitacoesAdministrativoComponent implements OnInit {
     private _location: Location,
     private licitacoesService: LicitacoesService,
     private modalService: BsModalService,
+    private _errorService: FormErrorService,
     private fb: FormBuilder
   ) {
     this.formAta = this.fb.group({
@@ -132,20 +139,22 @@ export class AtasLicitacoesAdministrativoComponent implements OnInit {
 
         const procurementMeta = response.meta.procurement;
 
-        this.atas = response.data.map((ata: LicitacaoAtaModel): TransformedAta => ({
-          id: ata.id,
-          numero: ata.price_registry_number || 'N/A',
-          ano: ata.year_of_registry || 'N/A',
-          data_assinatura: ata.signature_date || 'N/A',
-          inicio_vigencia: ata.start_date_of_validity || 'N/A',
-          fim_vigencia: ata.end_date_of_validity || 'N/A',
-          status: ata.date_canceled ? 'cancelada' : 'ativa',
-          gateway_location: ata.gateway_location || '',
-          gateway_sequence: ata.gateway_sequence || null,
-          agencyCountryRegister: procurementMeta.agency_country_register,
-          procurementYear: procurementMeta.year,
-          procurementSequence: procurementMeta.gateway_sequence
-        }));
+        this.atas = response.data.map(
+          (ata: LicitacaoAtaModel): TransformedAta => ({
+            id: ata.id,
+            numero: ata.price_registry_number || 'N/A',
+            ano: ata.year_of_registry || 'N/A',
+            data_assinatura: ata.signature_date || 'N/A',
+            inicio_vigencia: ata.start_date_of_validity || 'N/A',
+            fim_vigencia: ata.end_date_of_validity || 'N/A',
+            status: ata.date_canceled ? 'cancelada' : 'ativa',
+            gateway_location: ata.gateway_location || '',
+            gateway_sequence: ata.gateway_sequence || null,
+            agencyCountryRegister: procurementMeta.agency_country_register,
+            procurementYear: procurementMeta.year,
+            procurementSequence: procurementMeta.gateway_sequence,
+          })
+        );
 
         this.totalPages = response.meta.pagination.last_page;
         this.isLoading = false;
@@ -199,31 +208,27 @@ export class AtasLicitacoesAdministrativoComponent implements OnInit {
   }
 
   saveAta(): void {
-    if (this.formAta.valid) {
-      console.log('Iniciando o processo de salvar a ATA...');
+    console.log('Iniciando o processo de salvar a ATA...');
 
-      // Mapeia os dados do formulário e do arquivo
-      const ataFormData = AtaLicitacaoMapper.toSubmit(this.formAta.value, {
-        file: [this.formAta.value.file],
+    const ataFormData = AtaLicitacaoMapper.toSubmit(this.formAta.value, {
+      file: [this.formAta.value.file],
+    });
+
+    this.licitacoesService
+      .createLicitacaoAta(this.licitacaoId, ataFormData)
+      .subscribe({
+        next: () => {
+          console.log('ATA criada com sucesso!');
+          this.loadAtas(this.currentPage);
+          this.closeModal();
+          this.formAta.reset();
+        },
+        error: (error) => {
+          if (error.error?.errors) {
+            this._errorService.handleApiErrors(this.formAta, error);
+          }
+        },
       });
-
-      // Chama o serviço para salvar a ATA
-      this.licitacoesService
-        .createLicitacaoAta(this.licitacaoId, ataFormData)
-        .subscribe({
-          next: () => {
-            console.log('ATA criada com sucesso!');
-            this.loadAtas(this.currentPage); // Recarrega a lista de atas
-            this.closeModal(); // Fecha o modal
-            this.formAta.reset(); // Reseta o formulário
-          },
-          error: (err) => {
-            console.error('Erro ao salvar a ATA:', err);
-          },
-        });
-    } else {
-      console.error('Formulário inválido.');
-    }
   }
 
   onFileSelected(event: any): void {
@@ -284,8 +289,10 @@ export class AtasLicitacoesAdministrativoComponent implements OnInit {
             this.loadAtas(this.currentPage); // Recarrega a lista de atas
             this.closeModal(); // Fecha o modal
           },
-          error: (err) => {
-            console.error('Erro ao atualizar a ATA:', err);
+          error: (error) => {
+            if (error.error?.errors) {
+              this._errorService.handleApiErrors(this.formAta, error);
+            }
           },
         });
     } else {

@@ -127,7 +127,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         {
           link: 'https://www.gov.br/pncp/pt-br',
           texto: 'PNCP',
-          icon_img: '../../../assets/novos-icones/novo-pncp.svg',
+          icon_img: '../../../assets/novos-icones/nova_pncp.svg',
         },
         {
           link: 'https://www.gov.br/compras/pt-br/nllc',
