@@ -20,7 +20,7 @@ import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-sidebar-administrativo',
   standalone: true,
-  imports: [CommonModule, RouterLink, MatIcon, ModalModule,FormsModule],
+  imports: [CommonModule, RouterLink, MatIcon, ModalModule, FormsModule],
   providers: [BsModalService],
   templateUrl: './sidebar-administrativo.component.html',
   styleUrls: ['./sidebar-administrativo.component.scss'],
@@ -51,12 +51,9 @@ export class SidebarAdministrativoComponent implements OnInit {
     });
   }
 
-  filterTenants() {
-    this.filteredTenants = this.tenants.filter((tenant) =>
-      tenant.name.toLowerCase().includes(this.searchTerm.toLowerCase())
-    );
-  }
   ngOnInit(): void {
+    this.filteredTenants = this.tenants;
+    this.filterTenants();
     this.isStaff = this.tenantService.getStaff();
     this.originalMenuItems = [
       {
@@ -133,7 +130,6 @@ export class SidebarAdministrativoComponent implements OnInit {
         subMenu: [],
       },
     ];
-    this.filteredTenants = this.tenants;
 
     this.menuItems = [...this.originalMenuItems];
 
@@ -145,10 +141,12 @@ export class SidebarAdministrativoComponent implements OnInit {
 
     this.expandMenuBasedOnRoute(this.router.url);
   }
+
   loadTenants(): void {
     this.tenantService.getTenantFull().subscribe({
       next: (response: RequisicaoModel<TenantFullModel[]>) => {
         this.tenants = response.data;
+        this.filteredTenants = response.data; // Initialize filtered list here
       },
       error: (err) => {
         console.error('Erro ao carregar tenants:', err);
@@ -156,6 +154,17 @@ export class SidebarAdministrativoComponent implements OnInit {
     });
   }
 
+  filterTenants() {
+    if (!this.searchTerm?.trim()) {
+      this.filteredTenants = [...this.tenants];
+    } else {
+      this.filteredTenants = this.tenants.filter((tenant) =>
+        tenant.name
+          ?.toLowerCase()
+          .includes(this.searchTerm.toLowerCase().trim())
+      );
+    }
+  }
   openModal(): void {
     this.loadTenants();
     this.modalRef = this.modalService.show(this.confirmationTemplate, {
