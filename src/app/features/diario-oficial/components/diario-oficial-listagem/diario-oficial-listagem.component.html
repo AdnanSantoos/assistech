@@ -28,15 +28,15 @@
 
         <div class="input-container">
           <label>Mês</label>
-          <ng-select
-            [items]="meses"
+          <input
+            type="text"
             formControlName="month"
-            placeholder="Selecione o mês"
-            bindLabel="key"
-            bindValue="value"
-            [clearable]="false"
-            [searchable]="false"
-          ></ng-select>
+            class="form-control"
+            bsDatepicker
+            [bsConfig]="bsConfig"
+            [placeholder]="'Selecione o mês'"
+            (bsValueChange)="onMonthSelect($event)"
+          />
         </div>
         <div class="input-container">
           <label>Palavra-Chave</label>
@@ -156,15 +156,22 @@
     aria-label="Close"
     (click)="modalRef?.hide()"
   >
-    <span aria-hidden="true" class="text-white font-descricao-modal">&times;</span>
+    <span aria-hidden="true" class="text-white font-descricao-modal"
+      >&times;</span
+    >
   </button>
   <div clas="d-flex flex-row">
     <div class="row altura-modal">
       <div class="col-4 bg-light">
         <h4>Descrição:</h4>
-        <p class="font-descricao-modal ms-1"  [ngStyle]="{
-          'text-align': documentTitulo.length <= 50 ? 'center' : 'justify'
-        }">{{ documentTitulo }}</p>
+        <p
+          class="font-descricao-modal ms-1"
+          [ngStyle]="{
+            'text-align': documentTitulo.length <= 50 ? 'center' : 'justify'
+          }"
+        >
+          {{ documentTitulo }}
+        </p>
       </div>
       <div class="col-8">
         <ngx-extended-pdf-viewer

@@ -37,10 +37,18 @@ import {
 } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatInputModule } from '@angular/material/input';
-import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import {
+  BsDatepickerModule,
+  BsDatepickerViewMode,
+  BsLocaleService,
+} from 'ngx-bootstrap/datepicker';
 import { DiarioOficialMapper } from '../../mappers/diario-oficial-mapper';
 import { TenantService } from '../../../../shared/services/tenant.service';
 import { NavigationService } from '../../../../shared/services/navigation.service';
+import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
+import { defineLocale } from 'ngx-bootstrap/chronos';
+import { ptBrLocale } from 'ngx-bootstrap/locale';
+defineLocale('pt-br', ptBrLocale);
 
 interface TenantResponse {
   data: TenantFullModel;
@@ -70,6 +78,12 @@ interface TenantResponse {
   providers: [BsModalService, DatePipe],
 })
 export class DiarioOficialListagemComponent implements OnChanges, OnInit {
+  bsConfig = {
+    isAnimated: true,
+    minMode: 'month' as BsDatepickerViewMode,
+    dateInputFormat: 'MMMM',
+    locale: 'pt-br',
+  };
   filterForm: FormGroup;
   resultados: RequisicaoModel<DiarioOficalLista[]>;
   anos: number[] = [2024];
@@ -104,9 +118,14 @@ export class DiarioOficialListagemComponent implements OnChanges, OnInit {
     private fb: FormBuilder,
     private router: Router,
     private diarioOficialService: DiarioOficialService,
-    private tenantService:TenantService,
-    private navigationService:NavigationService
+    private tenantService: TenantService,
+    private navigationService: NavigationService,
+    private localeService: BsLocaleService
+
   ) {
+    defineLocale('pt-br', ptBrLocale);
+    this.localeService.use('pt-br');
+
     this.filterForm = this.fb.group({
       year: [null],
       month: [null],
@@ -115,6 +134,7 @@ export class DiarioOficialListagemComponent implements OnChanges, OnInit {
     });
     const navigation = this.router.getCurrentNavigation();
     this.resultados = navigation?.extras?.state?.['resultados'] || [];
+
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -123,6 +143,12 @@ export class DiarioOficialListagemComponent implements OnChanges, OnInit {
   ngOnInit() {
     const currentSlug = this.router.url.split('/')[1] || 'default-slug';
     this.getTenantData(currentSlug);
+  }
+  onMonthSelect(value: Date): void {
+    if (value) {
+      const monthValue = value.getMonth() + 1; // Adding 1 since getMonth() returns 0-11
+      this.filterForm.get('month')?.setValue(monthValue);
+    }
   }
   private getTenantData(slug: string) {
     this.tenantService.getTenantData(slug).subscribe({
@@ -136,8 +162,7 @@ export class DiarioOficialListagemComponent implements OnChanges, OnInit {
         this.logoUrl =
           data.logo || '../../../../../assets/logos/logo-g-itaberaba.png';
         this.secondLogoUrl =
-          data.second_logo ||
-          '../../../../../assets/logos/admin.second.jpg';
+          data.second_logo || '../../../../../assets/logos/admin.second.jpg';
       },
       error: (error) => {
         this.router.navigate(['error']);
