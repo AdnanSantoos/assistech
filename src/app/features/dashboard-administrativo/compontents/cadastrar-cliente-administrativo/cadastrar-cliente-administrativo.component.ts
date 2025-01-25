@@ -14,6 +14,7 @@ import { catchError, debounceTime, of, switchMap } from 'rxjs';
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
 import { ClienteData, ExibirClienteData } from '../../model/cliente.model';
 import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
+import { FormErrorService } from '../../../../shared/services/form-error.service';
 
 @Component({
   selector: 'app-cadastrar-cliente-administrativo',
@@ -43,7 +44,8 @@ export class CadastrarClienteAdministrativoComponent implements OnInit {
     private _clienteService: ClienteAdministrativoService,
     private _toastrService: ToastrService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private _errorService:FormErrorService,
   ) {}
 
   private getCurrentYear(): number {
@@ -150,8 +152,6 @@ export class CadastrarClienteAdministrativoComponent implements OnInit {
         tiktok: clienteData.networks.tiktok,
       },
     });
-
-    console.log('Formulário populado:', this.clienteForm.value);
   }
 
   private setupCidadeAutoComplete(): void {
@@ -268,10 +268,7 @@ export class CadastrarClienteAdministrativoComponent implements OnInit {
         this.isLoadingButton = false;
       },
       error: (err) => {
-        this._toastrService.error(
-          err?.error?.message || 'Erro ao criar cliente.',
-          'Erro'
-        );
+        this._errorService.handleApiErrors(this.clienteForm, err);
         this.isLoadingButton = false;
       },
     });
@@ -291,10 +288,7 @@ export class CadastrarClienteAdministrativoComponent implements OnInit {
         this.isLoadingButton = false;
       },
       error: (err) => {
-        this._toastrService.error(
-          err?.error?.message || 'Erro ao atualizar cliente.',
-          'Erro'
-        );
+        this._errorService.handleApiErrors(this.clienteForm, err);
         this.isLoadingButton = false;
       },
     });
