@@ -6,14 +6,11 @@
     Carregando detalhes...
   </div>
 
-  <div
-    *ngIf="licitacaoDetalhes && !isLoadingDetails"
-    class="licitacao-info-row"
-  >
+  <div *ngIf="licitacaoDetalhes && !isLoadingDetails" class="licitacao-info-row">
     <div class="licitacao-info">
       <div class="d-flex flex-column">
         <strong>LICITAÇÃO N:</strong> {{ licitacaoDetalhes.number }}/{{
-          licitacaoDetalhes.year
+        licitacaoDetalhes.year
         }}
       </div>
       <div class="d-flex flex-column">
@@ -31,10 +28,7 @@
   <div *ngIf="isLoadingItens" class="loading-indicator">
     Carregando itens...
   </div>
-  <div
-    *ngIf="licitacaoItens.length > 0 && !isLoadingItens"
-    class="table-responsive"
-  >
+  <div *ngIf="licitacaoItens.length > 0 && !isLoadingItens" class="table-responsive">
     <table class="table-editada">
       <thead>
         <tr>
@@ -52,41 +46,25 @@
           <td>
             <div class="d-flex align-items-center justify-content-center gap-3">
               <div class="d-flex flex-column align-items-center">
-                <a
-                  (click)="irParaPncp(1)"
-                  class="btn-visualizar btn-format d-flex justify-content-center align-items-center"
-                >
-                  <img
-                    src="../../../../../assets/icons/visualizar-adm-icon.svg"
-                    alt="Visualizar"
-                  />
+                <a (click)="irParaPncp(1)"
+                  class="btn-visualizar btn-format d-flex justify-content-center align-items-center">
+                  <img src="../../../../../assets/icons/visualizar-adm-icon.svg" alt="Visualizar" />
                 </a>
                 <span class="mt-1 legenda-icons">Visualizar</span>
               </div>
 
               <div class="d-flex flex-column align-items-center">
-                <a
-                  class="btn-edit btn-format d-flex justify-content-center align-items-center"
-                  (click)="openEditDialog(item)"
-                >
-                  <img
-                    src="../../../../../assets/icons/edit-icon-adm.svg"
-                    alt="Editar"
-                  />
+                <a class="btn-edit btn-format d-flex justify-content-center align-items-center"
+                  (click)="openEditDialog(item)">
+                  <img src="../../../../../assets/icons/edit-icon-adm.svg" alt="Editar" />
                 </a>
                 <span class="mt-1 legenda-icons">Editar</span>
               </div>
 
               <div class="d-flex flex-column align-items-center">
-                <button
-                  class="btn-resultados btn-format d-flex justify-content-center align-items-center"
-                  (click)="openResultadoDialog(item)"
-                >
-                  <img
-                    src="../../../../../assets/icons/check-adm-icon.svg"
-                    alt="Resultados"
-                    class="icon"
-                  />
+                <button class="btn-resultados btn-format d-flex justify-content-center align-items-center"
+                  (click)="openResultadoDialog(item)">
+                  <img src="../../../../../assets/icons/check-adm-icon.svg" alt="Resultados" class="icon" />
                 </button>
                 <span class="mt-1 legenda-icons">Resultados</span>
               </div>
@@ -98,31 +76,20 @@
   </div>
 
   <!-- Pagination -->
-  <div
-    class="bkg-bottom d-flex justify-content-end align-items-center mt-3 flex-wrap"
-    *ngIf="pagination"
-  >
+  <div class="bkg-bottom d-flex justify-content-end align-items-center mt-3 flex-wrap" *ngIf="pagination">
     <span class="resultado me-3">{{ pagination.total }} resultados</span>
     <nav aria-label="Page navigation">
       <ul class="pagination">
         <!-- Primeira Página -->
         <li class="page-item" [class.disabled]="pagination.current_page === 1">
-          <a
-            class="page-link bg-white"
-            (click)="goToPage(1)"
-            aria-label="Primeira"
-          >
+          <a class="page-link bg-white" (click)="goToPage(1)" aria-label="Primeira">
             <span aria-hidden="true">&laquo;&laquo;</span>
           </a>
         </li>
 
         <!-- Página Anterior -->
         <li class="page-item" [class.disabled]="pagination.current_page === 1">
-          <a
-            class="page-link bg-white"
-            (click)="previousPage()"
-            aria-label="Anterior"
-          >
+          <a class="page-link bg-white" (click)="previousPage()" aria-label="Anterior">
             <span aria-hidden="true">&laquo;</span>
           </a>
         </li>
@@ -131,33 +98,19 @@
         <li class="page-item active">
           <span class="page-link bg-dark border-0">{{
             pagination.current_page
-          }}</span>
+            }}</span>
         </li>
 
         <!-- Próxima Página -->
-        <li
-          class="page-item"
-          [class.disabled]="pagination.current_page === pagination.last_page"
-        >
-          <a
-            class="page-link bg-white"
-            (click)="nextPage()"
-            aria-label="Próxima"
-          >
+        <li class="page-item" [class.disabled]="pagination.current_page === pagination.last_page">
+          <a class="page-link bg-white" (click)="nextPage()" aria-label="Próxima">
             <span aria-hidden="true">&raquo;</span>
           </a>
         </li>
 
         <!-- Última Página -->
-        <li
-          class="page-item"
-          [class.disabled]="pagination.current_page === pagination.last_page"
-        >
-          <a
-            class="page-link bg-white"
-            (click)="goToPage(pagination.last_page)"
-            aria-label="Última"
-          >
+        <li class="page-item" [class.disabled]="pagination.current_page === pagination.last_page">
+          <a class="page-link bg-white" (click)="goToPage(pagination.last_page)" aria-label="Última">
             <span aria-hidden="true">&raquo;&raquo;</span>
           </a>
         </li>
@@ -169,38 +122,23 @@
 <ng-template #addItemModal>
   <div class="modal-header bg-dark">
     <h5 class="modal-title text-white">Adicionar Item à Licitação</h5>
-    <button
-      type="button"
-      class="btn-close"
-      aria-label="Close"
-      (click)="closeModal()"
-    ></button>
+    <button type="button" class="btn-close" aria-label="Close" (click)="closeModal()"></button>
   </div>
   <div class="modal-body">
     <form class="form-itens-licitacao" [formGroup]="novoItemForm">
       <h5 class="mb-3 strong_font">Itens da Licitação</h5>
       <div class="row">
         <div class="col-md-6 mb-3">
-          <label class="form-label strong_font"
-            >Incentivo fiscal PPB (Processo Produtivo Básico)</label
-          >
+          <label class="form-label strong_font">Incentivo fiscal PPB (Processo Produtivo Básico)</label>
           <div class="form-check form-switch">
-            <input
-              type="checkbox"
-              class="form-check-input"
-              formControlName="basic_productive_incentive"
-            />
+            <input type="checkbox" class="form-check-input" formControlName="basic_productive_incentive" />
             <label class="form-check-label strong_font">Sim</label>
           </div>
         </div>
         <div class="col-md-6 mb-3">
           <label class="form-label strong_font">Orçamento sigiloso?</label>
           <div class="form-check form-switch">
-            <input
-              type="checkbox"
-              class="form-check-input"
-              formControlName="confidential_budget"
-            />
+            <input type="checkbox" class="form-check-input" formControlName="confidential_budget" />
             <label class="form-check-label strong_font">Sim</label>
           </div>
         </div>
@@ -208,33 +146,19 @@
       <div class="row">
         <div class="col-md-6 mb-3">
           <label class="form-label strong_font">Categoria do Item *</label>
-          <select
-            id="item_category_id"
-            formControlName="item_category_id"
-            class="form-control"
-          >
+          <select id="item_category_id" formControlName="item_category_id" class="form-control">
             <option></option>
 
-            <option
-              *ngFor="let option of itemCategoriaEnum"
-              [ngValue]="option.value"
-            >
+            <option *ngFor="let option of itemCategoriaEnum" [ngValue]="option.value">
               {{ option.key }}
             </option>
           </select>
         </div>
         <div class="col-md-6 mb-3">
           <label class="form-label strong_font">Material ou Serviço? *</label>
-          <select
-            id="item_type"
-            formControlName="item_type"
-            class="form-control"
-          >
+          <select id="item_type" formControlName="item_type" class="form-control">
             <option></option>
-            <option
-              *ngFor="let option of materialOuServicoEnum"
-              [ngValue]="option.value"
-            >
+            <option *ngFor="let option of materialOuServicoEnum" [ngValue]="option.value">
               {{ option.key }}
             </option>
           </select>
@@ -243,34 +167,20 @@
       <div class="row">
         <div class="col-md-6 mb-3">
           <label class="form-label strong_font">Tipo de benefício *</label>
-          <select
-            id="item_type"
-            formControlName="benefit_type_id"
-            class="form-control"
-          >
+          <select id="item_type" formControlName="benefit_type_id" class="form-control">
             <option></option>
 
-            <option
-              *ngFor="let option of beneficiosEnum"
-              [ngValue]="option.value"
-            >
+            <option *ngFor="let option of beneficiosEnum" [ngValue]="option.value">
               {{ option.key }}
             </option>
           </select>
         </div>
         <div class="col-md-6 mb-3">
           <label class="form-label strong_font">Critério de julgamento *</label>
-          <select
-            id="judging_criteria_id"
-            formControlName="judging_criteria_id"
-            class="form-control"
-          >
+          <select id="judging_criteria_id" formControlName="judging_criteria_id" class="form-control">
             <option></option>
 
-            <option
-              *ngFor="let option of criterioDeJulgamentoEnum"
-              [ngValue]="option.value"
-            >
+            <option *ngFor="let option of criterioDeJulgamentoEnum" [ngValue]="option.value">
               {{ option.key }}
             </option>
           </select>
@@ -278,35 +188,19 @@
       </div>
       <div class="mb-3">
         <label class="form-label strong_font">Descrição do item *</label>
-        <textarea
-          class="form-control"
-          formControlName="description"
-          rows="3"
-          maxlength="2048"
-        ></textarea>
+        <textarea class="form-control" formControlName="description" rows="3" maxlength="2048"></textarea>
       </div>
       <div class="row">
         <div class="col-md-6 mb-3">
           <label class="form-label strong_font">Quantidade *</label>
-          <input
-            type="number"
-            class="form-control"
-            formControlName="quantity"
-          />
+          <input type="number" class="form-control" formControlName="quantity" />
         </div>
         <div class="col-md-6 mb-3">
           <label class="form-label strong_font">Unidade de medida *</label>
-          <select
-            id="unit_of_measurement"
-            formControlName="unit_of_measurement"
-            class="form-control"
-          >
+          <select id="unit_of_measurement" formControlName="unit_of_measurement" class="form-control">
             <option></option>
 
-            <option
-              *ngFor="let option of unidadeDeMedidaEnum"
-              [ngValue]="option.value"
-            >
+            <option *ngFor="let option of unidadeDeMedidaEnum" [ngValue]="option.value">
               {{ option.key }}
             </option>
           </select>
@@ -314,24 +208,12 @@
       </div>
       <div class="row">
         <div class="col-md-6 mb-3">
-          <label class="form-label strong_font"
-            >Valor unitário estimado *</label
-          >
-          <input
-            type="text"
-            class="form-control"
-            formControlName="estimated_unit_value"
-            currencyMask
-          />
+          <label class="form-label strong_font">Valor unitário estimado *</label>
+          <input type="text" class="form-control" formControlName="estimated_unit_value" currencyMask />
         </div>
         <div class="col-md-6 mb-3">
           <label class="form-label strong_font">Valor total *</label>
-          <input
-            type="text"
-            class="form-control"
-            formControlName="total_value"
-            currencyMask
-          />
+          <input type="text" class="form-control" formControlName="total_value" currencyMask />
         </div>
       </div>
       <div class="row">
@@ -340,40 +222,23 @@
           <input type="text" class="form-control" formControlName="assets" />
         </div>
         <div class="col-md-6 mb-3">
-          <label class="form-label strong_font"
-            >Código Registro Imobiliário</label
-          >
-          <input
-            type="text"
-            class="form-control"
-            formControlName="real_estate_registry_code"
-          />
+          <label class="form-label strong_font">Código Registro Imobiliário</label>
+          <input type="text" class="form-control" formControlName="real_estate_registry_code" />
         </div>
       </div>
       <div class="row">
         <div class="col-md-6 mb-3">
-          <label class="form-label strong_font"
-            >Aplicabilidade da Margem de Preferência Normal</label
-          >
+          <label class="form-label strong_font">Aplicabilidade da Margem de Preferência Normal</label>
           <div class="form-check form-switch">
-            <input
-              type="checkbox"
-              class="form-check-input"
-              formControlName="applicability_normal_preference_margin"
-            />
+            <input type="checkbox" class="form-check-input" formControlName="applicability_normal_preference_margin" />
             <label class="form-check-label">Sim</label>
           </div>
         </div>
         <div class="col-md-6 mb-3">
-          <label class="form-label strong_font"
-            >Aplicabilidade da Margem de Preferência Adicional</label
-          >
+          <label class="form-label strong_font">Aplicabilidade da Margem de Preferência Adicional</label>
           <div class="form-check form-switch">
-            <input
-              type="checkbox"
-              class="form-check-input"
-              formControlName="applicability_additional_preference_margin"
-            />
+            <input type="checkbox" class="form-check-input"
+              formControlName="applicability_additional_preference_margin" />
             <label class="form-check-label">Sim</label>
           </div>
         </div>
@@ -381,20 +246,11 @@
       <div class="row">
         <div class="col-md-6 mb-3">
           <label class="form-label strong_font">Código NCM/NBS</label>
-          <input
-            type="text"
-            class="form-control"
-            formControlName="ncm_nbs_code"
-          />
+          <input type="text" class="form-control" formControlName="ncm_nbs_code" />
         </div>
         <div class="col-md-6 mb-3">
           <label class="form-label strong_font">Descrição NCM/NBS</label>
-          <textarea
-            class="form-control"
-            formControlName="ncm_nbs_description"
-            rows="2"
-            maxlength="2048"
-          ></textarea>
+          <textarea class="form-control" formControlName="ncm_nbs_description" rows="2" maxlength="2048"></textarea>
         </div>
       </div>
     </form>
@@ -403,12 +259,7 @@
     <button type="button" class="btn btn-danger" (click)="closeModal()">
       Cancelar
     </button>
-    <button
-      type="button"
-      class="btn bg-dark text-white"
-      [disabled]="novoItemForm.invalid"
-      (click)="adicionarItem()"
-    >
+    <button type="button" class="btn bg-dark text-white" [disabled]="novoItemForm.invalid" (click)="adicionarItem()">
       Salvar
     </button>
   </div>

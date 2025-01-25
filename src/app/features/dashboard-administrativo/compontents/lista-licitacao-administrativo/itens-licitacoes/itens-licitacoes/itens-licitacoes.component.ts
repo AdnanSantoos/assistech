@@ -425,7 +425,6 @@ export class ItensLicitacoesComponent implements OnInit, OnDestroy {
     }
 
     this.isLoadingItens = true;
-    console.log('teste')
 
     const formData = this.novoItemForm.value;
 
