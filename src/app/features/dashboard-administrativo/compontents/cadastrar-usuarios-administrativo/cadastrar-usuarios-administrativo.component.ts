@@ -175,29 +175,28 @@ export class CadastrarUsuariosAdministrativoComponent implements OnInit {
   }
   onSubmit() {
     if (this.isEditavel) {
-      if (this.usuarioForm.valid) {
-        const usuarioData: UsuarioData = this.usuarioForm.value;
-        this._usuariosService
-          .editarUsuario(
-            CadastrarUsuariosMapper.toEdit(
-              usuarioData,
-              this.formularioOriginal
-            ),
-            this.userId!
-          )
-          .subscribe(
-            (response) => {
-              this._toastrService.success('Usuário editado com sucesso');
-              this.goBack();
-            },
-            (error) => {
-              if (error.error?.errors) {
-                this._errorService.handleApiErrors(this.usuarioForm, error);
-              }
+      const usuarioData: UsuarioData = this.usuarioForm.value;
+      this._usuariosService
+        .editarUsuario(
+          CadastrarUsuariosMapper.toEdit(
+            usuarioData,
+            this.formularioOriginal
+          ),
+          this.userId!
+        )
+        .subscribe(
+          (response) => {
+            this._toastrService.success('Usuário editado com sucesso');
+            this.goBack();
+          },
+          (error) => {
+            if (error.error?.errors) {
+              this._errorService.handleApiErrors(this.usuarioForm, error);
             }
-          );
-      }
-    } else {
+          }
+        );
+    }
+    else{
       if (this.usuarioForm.valid) {
         const usuarioData: UsuarioData = this.usuarioForm.value;
         this._usuariosService
@@ -220,5 +219,6 @@ export class CadastrarUsuariosAdministrativoComponent implements OnInit {
           );
       }
     }
+    
   }
 }
