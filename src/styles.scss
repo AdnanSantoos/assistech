@@ -25,6 +25,14 @@ ng-select.ng-invalid.ng-touched {
   }
 }
 
+textarea,
+select,
+input {
+  &.ng-invalid.ng-touched {
+    border: 1px solid red !important;
+  }
+}
+
 .ng-submitted {
   textarea,
   select,
