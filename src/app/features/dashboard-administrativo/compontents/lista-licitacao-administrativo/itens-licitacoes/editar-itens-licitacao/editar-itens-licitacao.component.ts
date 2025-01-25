@@ -11,6 +11,7 @@ import { LicitacoesService } from '../../service/licitacoes-administrativos.serv
 import { LicitacaoItemModel } from '../../model/licitacoes-administrativo.model';
 import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 import { CurrencyMaskDirective } from '../../../../../../shared/directives/currencyMask.directive';
+import { FormErrorService } from '../../../../../../shared/services/form-error.service';
 
 @Component({
   selector: 'app-editar-itens-licitacao',
@@ -85,6 +86,7 @@ export class EditarItensLicitacaoComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private licitacoesService: LicitacoesService,
+    private _errorService:FormErrorService,
     @Inject(MAT_DIALOG_DATA)
     public data: { itemId: string; licitacaoId: string },
     private dialogRef: MatDialogRef<EditarItensLicitacaoComponent>
@@ -200,8 +202,10 @@ export class EditarItensLicitacaoComponent implements OnInit {
             this.dialogRef.close(true);
             window.location.reload()
           },
-          error: (err) => {
-            console.error('Erro ao atualizar item:', err);
+          error: (error) => {
+            if (error.error?.errors) {
+              this._errorService.handleApiErrors(this.editarItemForm, error);
+            }
           },
         });
     } else {
