@@ -15,11 +15,12 @@ import { RequisicaoModel, TenantFullModel } from '../../models/shared.model';
 import { OrgaoModel } from '../../../features/dashboard-administrativo/compontents/orgao-administrativo/model/orgao-administrativo.model';
 import { EventEmitter } from 'stream';
 import { map, of, switchMap, tap } from 'rxjs';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-sidebar-administrativo',
   standalone: true,
-  imports: [CommonModule, RouterLink, MatIcon, ModalModule],
+  imports: [CommonModule, RouterLink, MatIcon, ModalModule,FormsModule],
   providers: [BsModalService],
   templateUrl: './sidebar-administrativo.component.html',
   styleUrls: ['./sidebar-administrativo.component.scss'],
@@ -33,8 +34,10 @@ export class SidebarAdministrativoComponent implements OnInit {
   tenants: TenantFullModel[] = [];
   @ViewChild('confirmationTemplate', { static: true })
   confirmationTemplate!: TemplateRef<any>;
-  slug!:string;
+  slug!: string;
   permissions: any = {};
+  searchTerm: string = '';
+  filteredTenants: any[] = [];
 
   constructor(
     public tenantService: TenantService,
@@ -43,11 +46,16 @@ export class SidebarAdministrativoComponent implements OnInit {
     private _tenantService: TenantService,
     private _orgaoService: OrgaosService
   ) {
-    this._tenantService.slug$.subscribe(v=>{
+    this._tenantService.slug$.subscribe((v) => {
       this.slug = v!;
-    })
+    });
   }
 
+  filterTenants() {
+    this.filteredTenants = this.tenants.filter((tenant) =>
+      tenant.name.toLowerCase().includes(this.searchTerm.toLowerCase())
+    );
+  }
   ngOnInit(): void {
     this.isStaff = this.tenantService.getStaff();
     this.originalMenuItems = [
@@ -68,7 +76,7 @@ export class SidebarAdministrativoComponent implements OnInit {
           },
           {
             title: 'Imagens',
-            link:'../dashboard-administrativo/cadastrar-fotos-diario',
+            link: '../dashboard-administrativo/cadastrar-fotos-diario',
             visible: true,
           },
         ],
@@ -80,7 +88,7 @@ export class SidebarAdministrativoComponent implements OnInit {
         subMenu: [
           {
             title: 'Publicacoes',
-            link:'../dashboard-administrativo/gerenciar-diario-oficial',
+            link: '../dashboard-administrativo/gerenciar-diario-oficial',
             visible: true,
           },
         ],
@@ -125,6 +133,7 @@ export class SidebarAdministrativoComponent implements OnInit {
         subMenu: [],
       },
     ];
+    this.filteredTenants = this.tenants;
 
     this.menuItems = [...this.originalMenuItems];
 
@@ -155,37 +164,46 @@ export class SidebarAdministrativoComponent implements OnInit {
   }
 
   selectTenant(tenantSlug: string): void {
-    this._tenantService.getTenantData(tenantSlug)
+    this._tenantService
+      .getTenantData(tenantSlug)
       .pipe(
-        tap(v => console.log('getTenantData response:', v)),
-        switchMap(tenantDataResponse => {
+        tap((v) => console.log('getTenantData response:', v)),
+        switchMap((tenantDataResponse) => {
           // Atualiza o estado do tenant
           this._tenantService.setSlug(tenantDataResponse.data.slug);
           this._tenantService.updateState(tenantDataResponse.data);
           // Encadeia a chamada para getDados
           return this._tenantService.getDados(tenantSlug).pipe(
-            tap(dadosResponse => {
+            tap((dadosResponse) => {
               // Armazena informações do usuário se for staff
               if (dadosResponse.data.is_staff) {
                 localStorage.setItem('userEmail', dadosResponse.data.email);
-                localStorage.setItem('isStaff', dadosResponse.data.is_staff.toString());
+                localStorage.setItem(
+                  'isStaff',
+                  dadosResponse.data.is_staff.toString()
+                );
               }
-              if(dadosResponse.meta?.tenant?.permissions){
+              if (dadosResponse.meta?.tenant?.permissions) {
                 this.permissions = dadosResponse.meta?.tenant?.permissions;
-                localStorage.setItem('userPermissions', JSON.stringify(this.permissions));
+                localStorage.setItem(
+                  'userPermissions',
+                  JSON.stringify(this.permissions)
+                );
                 this.updateMenuVisibility();
               }
             }),
             // Retorna ambas as respostas para usar na navegação
-            map(dadosResponse => ({
+            map((dadosResponse) => ({
               tenantData: tenantDataResponse,
-              dadosResponse
+              dadosResponse,
             }))
           );
-        }),
+        })
       )
       .subscribe(({ tenantData }) => {
-        this.router.navigate([`${tenantData.data.slug}/adm/dashboard-administrativo/home`]);
+        this.router.navigate([
+          `${tenantData.data.slug}/adm/dashboard-administrativo/home`,
+        ]);
         this.modalRef?.hide();
       });
   }
@@ -202,7 +220,7 @@ export class SidebarAdministrativoComponent implements OnInit {
       'contratos',
       'pca',
       'licitacao',
-      'cadastrar-licitacao'
+      'cadastrar-licitacao',
     ];
 
     // Palavras-chave do Cadastrar
@@ -228,11 +246,12 @@ export class SidebarAdministrativoComponent implements OnInit {
 
   updateMenuVisibility() {
     // Adiciona uma verificação de segurança
-    console.log(this.permissions)
+    console.log(this.permissions);
     if (this.menuItems && this.permissions) {
-      this.menuItems = this.originalMenuItems.filter((item:any) => 
-        item.alwaysShow || 
-        (item.permission && Object.hasOwn(this.permissions, item.permission))
+      this.menuItems = this.originalMenuItems.filter(
+        (item: any) =>
+          item.alwaysShow ||
+          (item.permission && Object.hasOwn(this.permissions, item.permission))
       );
     }
   }

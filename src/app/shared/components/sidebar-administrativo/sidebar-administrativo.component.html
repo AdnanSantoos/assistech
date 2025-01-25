@@ -2,10 +2,7 @@
   <div class="side-container__list">
     <div class="d-flex dashboard ps-4 pe-4">
       <div class="logo">
-        <img
-          src="../../../../assets/logos/logo-white-pwr.svg"
-          alt="Logo"
-        />
+        <img src="../../../../assets/logos/logo-white-pwr.svg" alt="Logo" />
       </div>
       <div class="btn-padrao__hover button-acessos w-100" (click)="openModal()">
         <span class="btn-padrao__perfil-icon"></span>
@@ -18,20 +15,31 @@
           <h5 class="modal-title">Selecione o Órgão</h5>
         </div>
         <div class="modal-body">
-          <ul class="list-group">
-            <li
-              *ngFor="let tenant of tenants"
-              class="list-group-item d-flex justify-content-between align-items-center"
-            >
-              {{ tenant.name }}
-              <button
-                class="btn btn-primary btn-sm"
-                (click)="selectTenant(tenant.slug)"
+          <div class="mb-3">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Pesquisar órgão..."
+              [(ngModel)]="searchTerm"
+              (ngModelChange)="filterTenants()"
+            />
+          </div>
+          <div style="max-height: 300px; overflow-y: auto">
+            <ul class="list-group">
+              <li
+                *ngFor="let tenant of filteredTenants"
+                class="list-group-item d-flex justify-content-between align-items-center"
               >
-                Mudar
-              </button>
-            </li>
-          </ul>
+                {{ tenant.name }}
+                <button
+                  class="btn btn-primary btn-sm"
+                  (click)="selectTenant(tenant.slug)"
+                >
+                  Mudar
+                </button>
+              </li>
+            </ul>
+          </div>
         </div>
         <div class="modal-footer">
           <button
