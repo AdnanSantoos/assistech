@@ -382,6 +382,7 @@
     <button
       type="button"
       class="btn bg-dark text-white hover-sucesso"
+      [disabled]="novoResultadoForm.invalid"
       (click)="adicionarResultado()"
     >
       {{ isEditing ? "Atualizar" : "Salvar" }}

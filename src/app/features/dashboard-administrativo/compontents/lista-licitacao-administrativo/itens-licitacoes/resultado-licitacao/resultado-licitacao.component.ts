@@ -27,6 +27,7 @@ import { NgModule, LOCALE_ID } from '@angular/core';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { registerLocaleData } from '@angular/common';
 import localePt from '@angular/common/locales/pt';
+import { FormErrorService } from '../../../../../../shared/services/form-error.service';
 registerLocaleData(localePt);
 @Component({
   selector: 'app-resultado-licitacao',
@@ -475,6 +476,7 @@ export class ResultadoLicitacaoComponent implements OnInit {
     private modalService: BsModalService,
     private fb: FormBuilder,
     private toastr: ToastrService,
+    private _errorService: FormErrorService,
     @Inject(LOCALE_ID) private locale: string
   ) {
     this.novoResultadoForm = this.fb.group({
@@ -656,7 +658,12 @@ export class ResultadoLicitacaoComponent implements OnInit {
               this.loadResultados();
             },
             error: (error) => {
-              console.error('Erro ao atualizar resultado:', error);
+              if (error.error?.errors) {
+                this._errorService.handleApiErrors(
+                  this.novoResultadoForm,
+                  error
+                );
+              }
             },
           });
       } else {
@@ -669,7 +676,12 @@ export class ResultadoLicitacaoComponent implements OnInit {
               this.loadResultados();
             },
             error: (error) => {
-              console.error('Erro ao adicionar resultado:', error);
+              if (error.error?.errors) {
+                this._errorService.handleApiErrors(
+                  this.novoResultadoForm,
+                  error
+                );
+              }
             },
           });
       }
