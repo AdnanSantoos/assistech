@@ -116,17 +116,17 @@ export class ItensLicitacoesComponent implements OnInit, OnDestroy {
   ) {
     this.novoItemForm = this.fb.group({
       procurement_id: [null],
-      item_type: [null],
-      benefit_type_id: [null],
+      item_type: [null,Validators.required],
+      benefit_type_id: [null,Validators.required],
       basic_productive_incentive: [false],
-      description: [null],
-      quantity: [null],
-      unit_of_measurement: [null],
-      estimated_unit_value: [null],
-      total_value: [null],
-      judging_criteria_id: [null],
+      description: [null,Validators.required],
+      quantity: [null,Validators.required],
+      unit_of_measurement: [null,Validators.required],
+      estimated_unit_value: [null,Validators.required],
+      total_value: [null,Validators.required],
+      judging_criteria_id: [null,Validators.required],
       confidential_budget: [false],
-      item_category_id: [null],
+      item_category_id: [null,Validators.required],
       assets: [null],
       real_estate_registry_code: [null],
       // contract_item_situation_id: [null], // Situação do contrato - NÃO ESTÁ NA REQUISIÇÃO
@@ -425,6 +425,7 @@ export class ItensLicitacoesComponent implements OnInit, OnDestroy {
     }
 
     this.isLoadingItens = true;
+    console.log('teste')
 
     const formData = this.novoItemForm.value;
 
