@@ -4,11 +4,13 @@
       <div class="logo">
         <img src="../../../../assets/logos/logo-white-pwr.svg" alt="Logo" />
       </div>
+      @if(isStaff){
       <div class="btn-padrao__hover button-acessos w-100" (click)="openModal()">
         <span class="btn-padrao__perfil-icon"></span>
         <span class="btn-padrao__text text-uppercase">Trocar Órgão</span>
       </div>
 
+      }
       <!-- Modal -->
       <ng-template #confirmationTemplate>
         <div class="modal-header">
