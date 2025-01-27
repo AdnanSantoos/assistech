@@ -14,7 +14,7 @@ import { OrgaosService } from '../../../features/dashboard-administrativo/compon
 import { RequisicaoModel, TenantFullModel } from '../../models/shared.model';
 import { OrgaoModel } from '../../../features/dashboard-administrativo/compontents/orgao-administrativo/model/orgao-administrativo.model';
 import { EventEmitter } from 'stream';
-import { map, of, switchMap, tap } from 'rxjs';
+import { forkJoin, map, of, switchMap, tap } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -38,6 +38,11 @@ export class SidebarAdministrativoComponent implements OnInit {
   permissions: any = {};
   searchTerm: string = '';
   filteredTenants: any[] = [];
+  // Pagination
+  currentPage = 1;
+  itemsPerPage = 10;
+  totalItems = 0;
+  totalPages = 1;
 
   constructor(
     public tenantService: TenantService,
@@ -143,28 +148,84 @@ export class SidebarAdministrativoComponent implements OnInit {
   }
 
   loadTenants(): void {
-    this.tenantService.getTenantFull().subscribe({
-      next: (response: RequisicaoModel<TenantFullModel[]>) => {
-        this.tenants = response.data;
-        this.filteredTenants = response.data; // Initialize filtered list here
+    this.loadAllTenantPages().subscribe({
+      next: (allTenants: TenantFullModel[]) => {
+        this.tenants = allTenants;
+        this.filteredTenants = allTenants;
+        this.updatePagination(allTenants.length);
       },
-      error: (err) => {
-        console.error('Erro ao carregar tenants:', err);
-      },
+      error: (err) => console.error('Erro ao carregar tenants:', err),
     });
   }
 
+  private loadAllTenantPages() {
+    return this.tenantService.getTenantFull().pipe(
+      switchMap((firstResponse: RequisicaoModel<TenantFullModel[]>) => {
+        const totalPages = firstResponse.meta?.pagination.last_page || 1;
+        const pageRequests = [];
+
+        for (let page = 1; page <= totalPages; page++) {
+          pageRequests.push(this.tenantService.getTenantFull());
+        }
+
+        return forkJoin(pageRequests).pipe(
+          map((responses: RequisicaoModel<TenantFullModel[]>[]) =>
+            responses.reduce(
+              (acc, curr) => [...acc, ...curr.data],
+              [] as TenantFullModel[]
+            )
+          )
+        );
+      })
+    );
+  }
+
   filterTenants() {
-    if (!this.searchTerm?.trim()) {
-      this.filteredTenants = [...this.tenants];
-    } else {
-      this.filteredTenants = this.tenants.filter((tenant) =>
-        tenant.name
-          ?.toLowerCase()
-          .includes(this.searchTerm.toLowerCase().trim())
-      );
+    const searchTermTrimmed = this.searchTerm?.trim().toLowerCase();
+    this.filteredTenants = !searchTermTrimmed
+      ? [...this.tenants]
+      : this.tenants.filter((tenant) =>
+          tenant.name?.toLowerCase().includes(searchTermTrimmed)
+        );
+    this.updatePagination(this.filteredTenants.length);
+    this.currentPage = 1;
+  }
+
+  private updatePagination(total: number) {
+    this.totalItems = total;
+    this.totalPages = Math.ceil(total / this.itemsPerPage);
+  }
+
+  get pagedTenants(): TenantFullModel[] {
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    return this.filteredTenants.slice(
+      startIndex,
+      startIndex + this.itemsPerPage
+    );
+  }
+
+  pageChanged(event: any): void {
+    this.currentPage = event.page;
+  }
+
+  goToPage(pageNumber: number) {
+    if (pageNumber >= 1 && pageNumber <= this.totalPages) {
+      this.currentPage = pageNumber;
     }
   }
+
+  goToPreviousPage() {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+    }
+  }
+
+  goToNextPage() {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+    }
+  }
+
   openModal(): void {
     this.loadTenants();
     this.modalRef = this.modalService.show(this.confirmationTemplate, {
