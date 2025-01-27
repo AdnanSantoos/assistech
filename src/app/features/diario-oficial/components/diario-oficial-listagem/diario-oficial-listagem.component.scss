@@ -13,15 +13,15 @@
       color: #225ec9;
     }
     .search-bar {
+      display: flex;
       form {
         display: flex;
         gap: 8px;
         align-items: center;
-
         .logo {
           max-height: 100%;
           width: 90px;
-          margin-right: 100px;
+          margin-right: 4vw;
         }
         .btn-buscar {
           background: #225ec9;
@@ -360,5 +360,26 @@
 ::ng-deep {
   .modal-lg {
     --bs-modal-width: 1366px !important;
+  }
+}
+
+.btn-diario-anterior {
+  font-size: 13px;
+  text-align: justify;
+  text-decoration: none;
+  color: #fff;
+  margin-left: 2vw;
+  background: #225ec9;
+  border: 1.33px solid #225ec9;
+  height: 35px;
+  border-radius: 8px;
+  padding: 5px;
+  margin-top: auto;
+  margin-bottom: 1.7vh;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  svg{
+    width: 30px;
+    height: 30px;
+    filter: invert(1);
   }
 }

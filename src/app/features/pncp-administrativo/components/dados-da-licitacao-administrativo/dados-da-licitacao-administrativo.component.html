@@ -60,7 +60,7 @@
 
           <div class="form-row">
             <div>
-              <label for="call_instrument_id">Tipo de Instrumento Convocatório</label>
+              <label for="call_instrument_id">Tipo de Instrumento Convocatório *</label>
               <select id="call_instrument_id" formControlName="call_instrument_id">
                 <option></option>
 
@@ -70,7 +70,7 @@
               </select>
             </div>
             <div>
-              <label for="contracting_modality_id">Modalidade de Contratação</label>
+              <label for="contracting_modality_id">Modalidade de Contratação *</label>
               <select id="contracting_modality_id" formControlName="contracting_modality_id">
                 <option></option>
                 <option *ngFor="let option of modalidadeContratoOpcoes" [ngValue]="option.value">
@@ -82,7 +82,7 @@
 
           <div class="form-row">
             <div>
-              <label for="dispute_mode_id">Modo de Disputa</label>
+              <label for="dispute_mode_id">Modo de Disputa *</label>
               <select id="dispute_mode_id" formControlName="dispute_mode_id">
                 <option></option>
 
@@ -92,7 +92,7 @@
               </select>
             </div>
             <div>
-              <label for="legal_basic_id">Âmparo Legal</label>
+              <label for="legal_basic_id">Âmparo Legal *</label>
               <select id="legal_basic_id" formControlName="legal_basic_id">
                 <option></option>
 
@@ -126,18 +126,18 @@
 
           <div class="form-row">
             <div>
-              <label for="number">Número da Compra</label>
+              <label for="number">Número da Compra *</label>
               <input id="number" type="text" formControlName="number" />
             </div>
             <div>
-              <label for="year">Ano da Compra</label>
+              <label for="year">Ano da Compra *</label>
               <input id="year" type="number" formControlName="year" />
             </div>
           </div>
 
           <div class="form-row">
             <div>
-              <label for="process_number">Número do Processo</label>
+              <label for="process_number">Número do Processo *</label>
               <input id="process_number" type="text" formControlName="process_number" />
             </div>
 
@@ -151,18 +151,18 @@
           </div>
           <div class="form-row">
             <div>
-              <label for="opening_date_proposal">Data da Abertura da Proposta</label>
+              <label for="opening_date_proposal">Data da Abertura da Proposta *</label>
               <input id="opening_date_proposal" type="datetime-local" formControlName="opening_date_proposal" />
             </div>
             <div>
-              <label for="closing_date_proposal">Data do Encerramento da Proposta</label>
+              <label for="closing_date_proposal">Data do Encerramento da Proposta *</label>
               <input id="closing_date_proposal" type="datetime-local" formControlName="closing_date_proposal" />
             </div>
           </div>
 
           <div class="form-row">
             <div>
-              <label for="goals">Objeto da Compra</label>
+              <label for="goals">Objeto da Compra *</label>
               <textarea id="goals" formControlName="goals"></textarea>
             </div>
             <div>

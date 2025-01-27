@@ -10,9 +10,7 @@ import { CommonModule, CurrencyPipe, Location } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { AdicionarLicitacaoService } from './service/adicionar-licitacao.services';
-import {
-  selectModel,
-} from '../../../../shared/models/shared.model';
+import { selectModel } from '../../../../shared/models/shared.model';
 import { AdicionarLicitacaoMapper } from './mapper/adicionar-licitacao.mapper';
 import {
   OrgaoModel,
@@ -327,28 +325,34 @@ export class DadosDaLicitacaoAdministrativoComponent {
     private _adicionarLicitacaoService: AdicionarLicitacaoService,
     private _location: Location,
     private toastService: ToastrService,
-    private _errorService:FormErrorService
+    private _errorService: FormErrorService
   ) {
     this.filtroForm = this.fb.group({
-      agency: [null],
-      unit_id: [null],
-      document_title: [null],
-      document_type_id: [{ value: null, disabled: false },Validators.required],
-      call_instrument_id: [{ value: null, disabled: true }],
-      contracting_modality_id: [{ value: null, disabled: true },Validators.required],
-      dispute_mode_id: [{ value: null, disabled: true }],
-      legal_basic_id: [{ value: null, disabled: true }],
-      agency_country_register: [null],
-      file: [null],
-      number: [null],
-      year: [null],
-      process_number: [null],
-      goals: [null],
+      agency: [null, Validators.required],
+      unit_id: [null, Validators.required],
+      document_title: [null, Validators.required],
+      document_type_id: [{ value: null, disabled: false }, Validators.required],
+      call_instrument_id: [
+        { value: null, disabled: true },
+        Validators.required,
+      ],
+      contracting_modality_id: [
+        { value: null, disabled: true },
+        Validators.required,
+      ],
+      dispute_mode_id: [{ value: null, disabled: true }, Validators.required],
+      legal_basic_id: [{ value: null, disabled: true }, Validators.required],
+      agency_country_register: [null, Validators.required],
+      file: [null, Validators.required],
+      number: [null, Validators.required],
+      year: [null, Validators.required],
+      process_number: [null, Validators.required],
+      goals: [null, Validators.required],
       srp: [false],
       items: this.fb.array([]),
       additional_information: [null],
-      opening_date_proposal: [null],
-      closing_date_proposal: [null],
+      opening_date_proposal: [null, Validators.required],
+      closing_date_proposal: [null, Validators.required],
       contracting_situation_id: [{ value: 1, disabled: true }],
     });
     this.addItem();
@@ -839,9 +843,9 @@ export class DadosDaLicitacaoAdministrativoComponent {
 
   createItem(): FormGroup {
     return this.fb.group({
-      tenant_slug: [null,Validators.required],
-      created_by_id: [null,Validators.required],
-      procurement_id: [null,Validators.required],
+      tenant_slug: [null, Validators.required],
+      created_by_id: [null, Validators.required],
+      procurement_id: [null, Validators.required],
       item_type: [null],
       benefit_type_id: [null],
       basic_productive_incentive: [false],
