@@ -238,7 +238,7 @@
           </a>
         </li>
         <li class="page-item active">
-          <span class="page-link">{{ currentPage }}</span>
+          <span class="page-link">{{ currentPage }} / {{totalPages}}</span>
         </li>
         <li class="page-item" [class.disabled]="currentPage === totalPages">
           <a class="page-link" (click)="goToNextPage()" aria-label="Próxima">
