@@ -85,7 +85,9 @@
         </button>
         }
       </form>
+      @if (previous_official_gazette_link?.length) {
       <a
+        [href]="previous_official_gazette_link"
         class="btn-diario-anterior d-flex align-items-center justify-content-center cup"
         ><svg
           class="btn-format btn-success"
@@ -118,6 +120,7 @@
         </svg>
         <span class="ms-1">Diário Oficial Anterior</span>
       </a>
+      }
     </div>
   </div>
   <div class="table-container">

@@ -66,6 +66,7 @@ export class DadosDaLicitacaoAdministrativoComponent {
   documentTypeOptions = [
     { value: 1, key: 'Aviso de Contratação Direta' },
     { value: 2, key: 'Edital' },
+    { value: 20, key: 'Ato que autoriza a Contratação Direta' },
     { value: 3, key: 'Minuta do Contrato' },
     { value: 4, key: 'Termo de Referência' },
     { value: 5, key: 'Anteprojeto' },
@@ -83,7 +84,6 @@ export class DadosDaLicitacaoAdministrativoComponent {
     { value: 17, key: 'Nota de Empenho' },
     { value: 18, key: 'Relatório Final de Contrato' },
     { value: 19, key: 'Minuta de Ata de Registro de Preços' },
-    { value: 20, key: 'Ato que autoriza a Contratação Direta' },
   ];
   callInstrumentOptions = [
     { value: 1, key: 'Edital' },

@@ -92,6 +92,7 @@ export class DiarioOficialListagemComponent implements OnChanges, OnInit {
   documentTitulo!: string;
   logoUrl: string = '';
   secondLogoUrl: string = '';
+  previous_official_gazette_link: string | null = null;
 
   meses: selectModel[] = [
     { key: 'Janeiro', value: 1 },
@@ -143,6 +144,8 @@ export class DiarioOficialListagemComponent implements OnChanges, OnInit {
   ngOnInit() {
     const currentSlug = this.router.url.split('/')[1] || 'default-slug';
     this.getTenantData(currentSlug);
+    this.previous_official_gazette_link = this.publicacoes?.data.previous_official_gazette_link ?? null;
+
   }
   onMonthSelect(value: Date): void {
     if (value) {
@@ -157,6 +160,7 @@ export class DiarioOficialListagemComponent implements OnChanges, OnInit {
         this.tenantService.setSlug(data.slug);
         this.tenantService.updateState(data);
         this.navigationService.initialize(data.slug);
+        this.previous_official_gazette_link = data.previous_official_gazette_link || null;
 
         // Atualiza as URLs dos logos
         this.logoUrl =

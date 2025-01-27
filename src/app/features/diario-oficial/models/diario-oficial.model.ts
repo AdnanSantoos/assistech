@@ -23,6 +23,7 @@ export interface DadosDiarioOficialPublico {
     city_name: string;
     state_uf: string;
     first_publication: string;
+    previous_official_gazette_link?:string;
 }
 
 

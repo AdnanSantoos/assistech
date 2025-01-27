@@ -61,6 +61,8 @@ export interface TenantFullModel {
   year: number;
   permissions:any;
   second_logo?: string;
+  previous_official_gazette_link?:string;
+
 }
 
 export interface dynamicFields {
