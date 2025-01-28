@@ -11,6 +11,7 @@ export class NavigationService {
   private initialized = new BehaviorSubject<boolean>(false);
   private slug: string | null = null;
   private defaultSlug = 'admin';
+  private readonly appPrefix = '/app'; // Novo prefixo
 
   constructor() {
     this.router.events.pipe(
@@ -28,13 +29,16 @@ export class NavigationService {
   }
 
   private extractSlugFromUrl(url: string): string | null {
+    // Remove o prefixo 'app' se existir
+    const urlWithoutApp = url.replace(this.appPrefix, '');
+    
     // Verifica se a URL começa com /adm
-    if (!url.startsWith('/adm')) {
+    if (!urlWithoutApp.startsWith('/adm')) {
       return null;
     }
 
     // Divide a URL em partes
-    const parts = url.split('/').filter(part => part);
+    const parts = urlWithoutApp.split('/').filter(part => part);
 
     // Se tiver partes suficientes e a primeira não for 'adm',
     // significa que já tem um slug
@@ -47,9 +51,12 @@ export class NavigationService {
 
   private handleNavigation(url: string): void {
     // Se não estiver em uma rota administrativa, ignora
-    if (!url.startsWith('/adm')) {
+    if (!url.includes('/adm')) {
       return;
     }
+
+    // Remove o prefixo 'app' se existir para fazer a verificação
+    const urlWithoutApp = url.replace(this.appPrefix, '');
 
     // Verifica se já existe um slug na URL
     const existingSlug = this.extractSlugFromUrl(url);
@@ -59,7 +66,9 @@ export class NavigationService {
 
     // Se não tem slug na URL, usa o slug atual ou o padrão
     const effectiveSlug = this.slug || this.defaultSlug;
-    const newUrl = `/${effectiveSlug}${url}`;
+    
+    // Adiciona o prefixo 'app' na nova URL
+    const newUrl = `${this.appPrefix}/${effectiveSlug}${urlWithoutApp}`;
 
     // Evita redirecionamento se a URL já estiver correta
     if (url !== newUrl) {
