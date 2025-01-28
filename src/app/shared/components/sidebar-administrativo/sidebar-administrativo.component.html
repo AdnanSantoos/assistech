@@ -16,20 +16,27 @@
         <div class="modal-header">
           <h5 class="modal-title">Selecione o Órgão</h5>
         </div>
+
         <div class="modal-body">
+          <!-- Search input -->
           <div class="mb-3">
             <input
               type="text"
               class="form-control"
               placeholder="Pesquisar órgão..."
-              [(ngModel)]="searchTerm"
-              (ngModelChange)="filterTenants()"
+              [ngModel]="searchTerm"
+              (ngModelChange)="onSearch($event)"
             />
           </div>
+
+          <!-- Results list -->
           <div style="max-height: 300px; overflow-y: auto">
+            <div *ngIf="filteredTenants.length === 0" class="text-center p-3">
+              Nenhum resultado encontrado
+            </div>
             <ul class="list-group">
               <li
-                *ngFor="let tenant of pagedTenants"
+                *ngFor="let tenant of filteredTenants"
                 class="list-group-item d-flex justify-content-between align-items-center"
               >
                 {{ tenant.name }}
@@ -42,55 +49,61 @@
               </li>
             </ul>
           </div>
+
+          <!-- Pagination -->
           <div class="d-flex justify-content-between align-items-center mt-3">
-            <span class="resultado"
-              >{{ filteredTenants.length }} resultados</span
-            >
+            <span class="resultado">{{ totalItems }} resultados</span>
+
             <nav aria-label="Page navigation">
               <ul class="pagination mb-0">
+                <!-- First page -->
                 <li class="page-item" [class.disabled]="currentPage === 1">
                   <a
                     class="page-link"
                     (click)="goToPage(1)"
-                    aria-label="Primeira"
+                    [class.disabled]="currentPage === 1"
+                    style="cursor: pointer;"
                   >
                     <span aria-hidden="true">&laquo;&laquo;</span>
                   </a>
                 </li>
+
+                <!-- Previous page -->
                 <li class="page-item" [class.disabled]="currentPage === 1">
                   <a
                     class="page-link"
                     (click)="goToPreviousPage()"
-                    aria-label="Anterior"
+                    [class.disabled]="currentPage === 1"
+                    style="cursor: pointer;"
                   >
                     <span aria-hidden="true">&laquo;</span>
                   </a>
                 </li>
+
+                <!-- Current page indicator -->
                 <li class="page-item active">
-                  <span class="page-link"
-                    >{{ currentPage }} / {{ totalPages }}</span
-                  >
+                  <span class="page-link">{{ currentPage }} / {{ totalPages }}</span>
                 </li>
-                <li
-                  class="page-item"
-                  [class.disabled]="currentPage === totalPages"
-                >
+
+                <!-- Next page -->
+                <li class="page-item" [class.disabled]="currentPage === totalPages">
                   <a
                     class="page-link"
                     (click)="goToNextPage()"
-                    aria-label="Próxima"
+                    [class.disabled]="currentPage === totalPages"
+                    style="cursor: pointer;"
                   >
                     <span aria-hidden="true">&raquo;</span>
                   </a>
                 </li>
-                <li
-                  class="page-item"
-                  [class.disabled]="currentPage === totalPages"
-                >
+
+                <!-- Last page -->
+                <li class="page-item" [class.disabled]="currentPage === totalPages">
                   <a
                     class="page-link"
                     (click)="goToPage(totalPages)"
-                    aria-label="Última"
+                    [class.disabled]="currentPage === totalPages"
+                    style="cursor: pointer;"
                   >
                     <span aria-hidden="true">&raquo;&raquo;</span>
                   </a>
@@ -99,6 +112,8 @@
             </nav>
           </div>
         </div>
+
+        <!-- Modal footer -->
         <div class="modal-footer">
           <button
             type="button"
@@ -108,7 +123,7 @@
             Fechar
           </button>
         </div>
-      </ng-template>
+       </ng-template>
     </div>
     <div
       routerLink="/adm/dashboard-administrativo/home"

@@ -14,7 +14,17 @@ import { OrgaosService } from '../../../features/dashboard-administrativo/compon
 import { RequisicaoModel, TenantFullModel } from '../../models/shared.model';
 import { OrgaoModel } from '../../../features/dashboard-administrativo/compontents/orgao-administrativo/model/orgao-administrativo.model';
 import { EventEmitter } from 'stream';
-import { forkJoin, map, of, switchMap, tap } from 'rxjs';
+import {
+  debounceTime,
+  distinctUntilChanged,
+  forkJoin,
+  map,
+  Observable,
+  of,
+  Subject,
+  switchMap,
+  tap,
+} from 'rxjs';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -37,7 +47,9 @@ export class SidebarAdministrativoComponent implements OnInit {
   slug!: string;
   permissions: any = {};
   searchTerm: string = '';
-  filteredTenants: any[] = [];
+  filteredTenants: TenantFullModel[] = [];
+  private searchSubject = new Subject<string>();
+
   // Pagination
   currentPage = 1;
   itemsPerPage = 10;
@@ -54,6 +66,12 @@ export class SidebarAdministrativoComponent implements OnInit {
     this._tenantService.slug$.subscribe((v) => {
       this.slug = v!;
     });
+    this.searchSubject
+      .pipe(debounceTime(300), distinctUntilChanged())
+      .subscribe((term) => {
+        this.searchTerm = term;
+        this.filterTenants();
+      });
   }
 
   ngOnInit(): void {
@@ -148,52 +166,117 @@ export class SidebarAdministrativoComponent implements OnInit {
   }
 
   loadTenants(): void {
-    this.loadAllTenantPages().subscribe({
-      next: (allTenants: TenantFullModel[]) => {
-        this.tenants = allTenants;
-        this.filteredTenants = allTenants;
-        this.updatePagination(allTenants.length);
+    if (this.searchTerm.trim()) {
+      // Se tiver termo de busca, carrega todas as páginas
+      this.loadTenantsForSearch();
+    } else {
+      // Se não tiver busca, carrega paginação normal
+      this._tenantService.getTenantFilter(this.currentPage).subscribe({
+        next: (response: RequisicaoModel<TenantFullModel[]>) => {
+          this.tenants = response.data;
+          this.filteredTenants = response.data;
+          this.totalPages = response.meta?.pagination.last_page || 1;
+          this.totalItems = response.meta?.pagination.total || 0;
+        },
+        error: (err) => console.error('Erro ao carregar tenants:', err),
+      });
+    }
+  }
+
+  loadTenantsForSearch(): void {
+    // Primeira chamada para obter o total de páginas
+    this._tenantService.getTenantFilter(1).subscribe({
+      next: (response: RequisicaoModel<TenantFullModel[]>) => {
+        const totalPages = response.meta?.pagination.last_page || 1;
+        const requests = [];
+
+        // Cria um array de requisições para todas as páginas
+        for (let page = 1; page <= totalPages; page++) {
+          requests.push(this._tenantService.getTenantFilter(page));
+        }
+
+        // Executa todas as requisições em paralelo
+        forkJoin(requests).subscribe({
+          next: (responses) => {
+            // Combina todos os resultados em um único array
+            this.tenants = responses.reduce((acc, response) => {
+              return [...acc, ...response.data];
+            }, [] as TenantFullModel[]);
+
+            // Aplica o filtro nos dados completos
+            const search = this.searchTerm.toLowerCase().trim();
+            this.filteredTenants = this.tenants.filter((tenant) =>
+              tenant.name.toLowerCase().includes(search)
+            );
+
+            // Atualiza a paginação
+            this.totalItems = this.filteredTenants.length;
+            this.totalPages = Math.ceil(this.totalItems / this.itemsPerPage);
+            this.currentPage = 1;
+          },
+          error: (err) =>
+            console.error('Erro ao carregar todas as páginas:', err),
+        });
       },
-      error: (err) => console.error('Erro ao carregar tenants:', err),
+      error: (err) =>
+        console.error('Erro ao carregar informações de paginação:', err),
     });
   }
 
-  private loadAllTenantPages() {
-    return this.tenantService.getTenantFull().pipe(
-      switchMap((firstResponse: RequisicaoModel<TenantFullModel[]>) => {
-        const totalPages = firstResponse.meta?.pagination.last_page || 1;
-        const pageRequests = [];
+  loadAllPages(): void {
+    const requests: Observable<RequisicaoModel<TenantFullModel[]>>[] = [];
 
-        for (let page = 1; page <= totalPages; page++) {
-          pageRequests.push(this.tenantService.getTenantFull());
-        }
+    // Gera um array de requisições para todas as páginas
+    for (let page = 1; page <= this.totalPages; page++) {
+      requests.push(this._tenantService.getTenantFilter(page));
+    }
 
-        return forkJoin(pageRequests).pipe(
-          map((responses: RequisicaoModel<TenantFullModel[]>[]) =>
-            responses.reduce(
-              (acc, curr) => [...acc, ...curr.data],
-              [] as TenantFullModel[]
-            )
-          )
-        );
-      })
-    );
+    // Faz todas as requisições em paralelo
+    forkJoin(requests).subscribe({
+      next: (responses) => {
+        // Combina os resultados de todas as páginas
+        this.tenants = responses.reduce((acc, response) => {
+          return [...acc, ...response.data];
+        }, [] as TenantFullModel[]);
+
+        // Aplica o filtro nos resultados combinados
+        this.filterTenants();
+      },
+      error: (err) => console.error('Erro ao carregar todas as páginas:', err),
+    });
   }
 
-  filterTenants() {
-    const searchTermTrimmed = this.searchTerm?.trim().toLowerCase();
-    this.filteredTenants = !searchTermTrimmed
-      ? [...this.tenants]
-      : this.tenants.filter((tenant) =>
-          tenant.name?.toLowerCase().includes(searchTermTrimmed)
-        );
-    this.updatePagination(this.filteredTenants.length);
-    this.currentPage = 1;
+  onSearch(term: string): void {
+    this.searchSubject.next(term);
   }
 
-  private updatePagination(total: number) {
-    this.totalItems = total;
-    this.totalPages = Math.ceil(total / this.itemsPerPage);
+  filterTenants(): void {
+    if (!this.searchTerm.trim()) {
+      this.loadTenants();
+      return;
+    }
+    this.loadTenantsForSearch();
+  }
+
+  goToPage(page: number): void {
+    if (page >= 1 && page <= this.totalPages) {
+      this.currentPage = page;
+      this.loadTenants(); // Carrega a nova página do backend
+    }
+  }
+
+  goToPreviousPage(): void {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.loadTenants();
+    }
+  }
+
+  goToNextPage(): void {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+      this.loadTenants();
+    }
   }
 
   get pagedTenants(): TenantFullModel[] {
@@ -206,24 +289,6 @@ export class SidebarAdministrativoComponent implements OnInit {
 
   pageChanged(event: any): void {
     this.currentPage = event.page;
-  }
-
-  goToPage(pageNumber: number) {
-    if (pageNumber >= 1 && pageNumber <= this.totalPages) {
-      this.currentPage = pageNumber;
-    }
-  }
-
-  goToPreviousPage() {
-    if (this.currentPage > 1) {
-      this.currentPage--;
-    }
-  }
-
-  goToNextPage() {
-    if (this.currentPage < this.totalPages) {
-      this.currentPage++;
-    }
   }
 
   openModal(): void {
@@ -316,7 +381,6 @@ export class SidebarAdministrativoComponent implements OnInit {
 
   updateMenuVisibility() {
     // Adiciona uma verificação de segurança
-    console.log(this.permissions);
     if (this.menuItems && this.permissions) {
       this.menuItems = this.originalMenuItems.filter(
         (item: any) =>

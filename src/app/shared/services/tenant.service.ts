@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable, Subject, tap } from 'rxjs';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { BehaviorSubject, catchError, Observable, Subject, tap } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { RequisicaoModel, TenantFullModel } from '../models/shared.model';
 import { ExibirClienteData } from '../../features/dashboard-administrativo/model/cliente.model';
@@ -37,6 +37,30 @@ export class TenantService {
     );
   }
 
+  getTenantFilter(page?: number, searchTerm?: string): Observable<RequisicaoModel<TenantFullModel[]>> {
+    // Usando HttpParams para garantir que os parâmetros sejam construídos corretamente
+    let params = new HttpParams();
+
+    // Sempre incluir a página
+    params = params.set('page', page?.toString() || '1');
+
+    // Só incluir o termo de busca se não for vazio ou undefined
+    if (searchTerm?.trim()) {
+      params = params.set('search', searchTerm.trim());
+    }
+
+    return this.http.get<RequisicaoModel<TenantFullModel[]>>(
+      `${environment.API_URL}/staff/tenants`,
+      { params }
+    ).pipe(
+      tap(response => console.log('Resposta do filtro:', {
+        searchTerm,
+        page,
+        totalResults: response.data?.length,
+        params: params.toString()
+      }))
+    );
+  }
   getTenantData(tenant: string): Observable<RequisicaoModel<TenantFullModel>> {
     return this.http.get<RequisicaoModel<TenantFullModel>>(
       `${this._baseUrl}/${tenant}`
