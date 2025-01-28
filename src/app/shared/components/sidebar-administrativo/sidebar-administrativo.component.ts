@@ -340,7 +340,6 @@ export class SidebarAdministrativoComponent implements OnInit {
   }
 
   onSearch(term: string): void {
-    console.log('onSearch chamado com termo:', term);
     this.searchSubject.next(term);
   }
 }

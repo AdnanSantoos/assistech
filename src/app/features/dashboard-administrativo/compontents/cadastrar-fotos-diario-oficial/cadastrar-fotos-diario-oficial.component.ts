@@ -79,7 +79,6 @@ export class CadastrarFotosDiarioOficialComponent implements OnInit {
     this.logoForm.patchValue({ logo: 'Arquivos selecionados' });
   }
 
-
   onFileLogoDiarioChange(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (!input.files) {
@@ -166,7 +165,8 @@ export class CadastrarFotosDiarioOficialComponent implements OnInit {
   }
 
   onSubmitLogo(): void {
-    if (this.logoFormDiario.valid && this.logoFile) {
+    if (this.logoForm.valid && this.logoFile) {
+      // Corrigido para logoForm
       const formData = new FormData();
       formData.append('logo', this.logoFile);
 
@@ -176,7 +176,10 @@ export class CadastrarFotosDiarioOficialComponent implements OnInit {
             'Logotipo enviado com sucesso!',
             'Sucesso'
           );
-          console.log('Logotipo enviado com sucesso.');
+          // Limpar o form após sucesso
+          this.logoFile = null;
+          this.selectedLogo = null;
+          this.logoForm.reset();
         },
         error: (err) => {
           this._toastrService.error('Erro ao enviar o logotipo!', 'Erro');
@@ -196,14 +199,16 @@ export class CadastrarFotosDiarioOficialComponent implements OnInit {
       const formData = new FormData();
       formData.append('logo', this.logoFileDiario);
 
-      this._cadastrarFotosAdministrativoService.uploadLogoDiario(formData).subscribe({
-        next: () => {
-          this._toastrService.success(
-            'Logotipo Diário enviado com sucesso!',
-            'Sucesso'
-          );
-        }
-      });
+      this._cadastrarFotosAdministrativoService
+        .uploadLogoDiario(formData)
+        .subscribe({
+          next: () => {
+            this._toastrService.success(
+              'Logotipo Diário enviado com sucesso!',
+              'Sucesso'
+            );
+          },
+        });
     } else {
       this._toastrService.error(
         'Formulário inválido ou arquivo não selecionado.',
