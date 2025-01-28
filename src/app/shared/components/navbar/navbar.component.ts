@@ -2,9 +2,20 @@ import { CommonModule, Location } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { trigger, state, style, animate, transition } from '@angular/animations';
+import {
+  trigger,
+  state,
+  style,
+  animate,
+  transition,
+} from '@angular/animations';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NavigationEnd, Router, RouterLink } from '@angular/router';
+import {
+  ActivatedRoute,
+  NavigationEnd,
+  Router,
+  RouterLink,
+} from '@angular/router';
 import { TenantFullModel, TipoRota } from '../../models/shared.model';
 import { TenantService } from '../../services/tenant.service';
 import { LoginService } from '../../../features/login/services/login.service';
@@ -18,24 +29,26 @@ import { NgxLoadingModule } from 'ngx-loading';
   providers: [BrowserAnimationsModule],
   animations: [
     trigger('toggleMenu', [
-      state('inactive', style({
-        opacity: 0,
-        transform: 'translateX(-100%)'
-      })),
-      state('active', style({
-        opacity: 1,
-        transform: 'translateX(0)'
-      })),
-      transition('inactive => active', [
-        animate('300ms ease-in')
-      ]),
-      transition('active => inactive', [
-        animate('300ms ease-out')
-      ])
-    ])
+      state(
+        'inactive',
+        style({
+          opacity: 0,
+          transform: 'translateX(-100%)',
+        })
+      ),
+      state(
+        'active',
+        style({
+          opacity: 1,
+          transform: 'translateX(0)',
+        })
+      ),
+      transition('inactive => active', [animate('300ms ease-in')]),
+      transition('active => inactive', [animate('300ms ease-out')]),
+    ]),
   ],
   templateUrl: './navbar.component.html',
-  styleUrl: './navbar.component.scss'
+  styleUrl: './navbar.component.scss',
 })
 export class NavbarComponent implements OnInit, OnDestroy {
   mobile = false;
@@ -49,31 +62,40 @@ export class NavbarComponent implements OnInit, OnDestroy {
   isPortalTransparencia = false;
   loggedInUserEmail: string | null = null;
   logo: string | null = null;
-  state!:TenantFullModel;
+  state!: TenantFullModel;
   loading = true;
   defaultLogo = '../../../../assets/logos/admin.png';
   private destroy$ = new Subject<void>();
-
-  constructor(private router: Router, private location: Location, private tenantService: TenantService, private _loginService: LoginService,
+  slug: string | null = null;
+  constructor(
+    private router: Router,
+    private location: Location,
+    private tenantService: TenantService,
+    private _loginService: LoginService,
+    public route: ActivatedRoute
   ) {
     const currentUrl = this.location.path();
     this.checkRoute(currentUrl);
     let name = localStorage.getItem('name');
     this.logoText2 = name!;
     this.tenantService.state$
-    .pipe(
-      takeUntil(this.destroy$),
-      finalize(() => this.loading = false)
-    )
-    .subscribe(v => {
-      if (v) {
-        this.state = v;
-        this.logoText2 = this.state.name;
-        this.logo = this.state.logo;
-        if(!this.logo){
-          this.logo = this.defaultLogo
+      .pipe(
+        takeUntil(this.destroy$),
+        finalize(() => (this.loading = false))
+      )
+      .subscribe((v) => {
+        if (v) {
+          this.state = v;
+          this.logoText2 = this.state.name;
+          this.logo = this.state.logo;
+          if (!this.logo) {
+            this.logo = this.defaultLogo;
+          }
         }
-      }
+      });
+    this.tenantService.slug$.subscribe((slug) => {
+      this.slug = slug;
+      console.log('Slug obtido:', this.slug); // Verifique no console
     });
   }
 
@@ -90,8 +112,15 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.destroy$.next();
     this.destroy$.complete();
   }
-
-
+  navigateToHome() {
+    const slug = this.tenantService.getTenant(); // Use o método getTenant() para obter o slug atual
+    if (slug) {
+      this.router.navigate([`${slug}/home`]);
+    } else {
+      console.error('Slug não encontrado!'); // Adicione um fallback ou redirecione para uma rota de erro
+      this.router.navigate(['/error']);
+    }
+  }
   onImageError() {
     this.logo = this.defaultLogo;
   }

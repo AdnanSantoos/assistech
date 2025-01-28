@@ -1,18 +1,33 @@
 <div class="bkg-header geral">
-  <div class="align" [ngClass]="!isLoginRoute && isAdmRoute?'container-fluid':'container'">
-    <div class="ps-0 row align-items-center pb-4" [ngClass]="{
+  <div
+    class="align"
+    [ngClass]="!isLoginRoute && isAdmRoute ? 'container-fluid' : 'container'"
+  >
+    <div
+      class="ps-0 row align-items-center pb-4"
+      [ngClass]="{
         'justify-content-center': isLoginRoute,
         'justify-content-between': !isLoginRoute
-      }">
-      <div class="ps-0 col-8 d-flex col-md-4 logo-mobile align-items-center w-auto ml-auto mr-auto">
+      }"
+    >
+      <div
+        class="ps-0 col-8 d-flex col-md-4 logo-mobile align-items-center w-auto ml-auto mr-auto"
+      >
         @if(logo){
-          <div class="logo-container" routerLink="/home">
-            <div class="logo">
-              <img [src]="logo" alt="{{ logoText2 }}" />
-            </div>
+        <div
+          class="logo-container"
+          [relativeTo]="route.parent"
+          [routerLink]="[slug, 'home']"
+        >
+          <div class="logo">
+            <img [src]="logo" alt="{{ logoText2 }}" />
           </div>
-          }
-        <div class="d-lg-flex d-none flex-column ms-4 mt-3 text-light logado" *ngIf="!isLoginRoute && isAdmRoute">
+        </div>
+        }
+        <div
+          class="d-lg-flex d-none flex-column ms-4 mt-3 text-light logado"
+          *ngIf="!isLoginRoute && isAdmRoute"
+        >
           <h6 class="m-0 text-uppercase">Seja Bem Vindo,</h6>
           <h2 class="m-0 bold">{{ logoText2 }}</h2>
         </div>
@@ -20,15 +35,25 @@
 
       <div class="col col-md-8 campos-direita">
         <div class="buttons-header">
-          <a *ngIf="isPortalTransparencia" href="https://esic.cge.ro.gov.br/" target="_blank"
-            class="btn-padrao button-ecac">
+          <a
+            *ngIf="isPortalTransparencia"
+            href="https://esic.cge.ro.gov.br/"
+            target="_blank"
+            class="btn-padrao button-ecac"
+          >
             <img src="../../../../assets/logos/ecac.webp" alt="Logo Ecac" />
             <p>eSIC</p>
           </a>
-          <a *ngIf="isPortalTransparencia"
-            href="https://radardatransparencia.atricon.org.br/radar-da-transparencia-publica.html" target="_blank"
-            class="btn-padrao button-radar">
-            <img src="../../../../assets/logos/radar-transparencia.webp" alt="Logo Radar" />
+          <a
+            *ngIf="isPortalTransparencia"
+            href="https://radardatransparencia.atricon.org.br/radar-da-transparencia-publica.html"
+            target="_blank"
+            class="btn-padrao button-radar"
+          >
+            <img
+              src="../../../../assets/logos/radar-transparencia.webp"
+              alt="Logo Radar"
+            />
           </a>
 
           <ng-container *ngIf="!isLoginRoute">
@@ -40,7 +65,9 @@
             </ng-container>
 
             <ng-template #deslogarTemplate>
-              <div class="button-login text-align-center d-flex justify-content-center text-white me-4">
+              <div
+                class="button-login text-align-center d-flex justify-content-center text-white me-4"
+              >
                 <div class="d-flex">
                   <mat-icon>person</mat-icon>
                   <div class="d-flex flex-column">
@@ -52,8 +79,15 @@
                 </div>
               </div>
               <div class="deslogar me-4">
-                <div class="btn-padrao__hover d-flex flex-row button-login" (click)="logout()">
-                  <img class="btn-padrao__icon" src="../../../../assets/icons/deslogar.svg" alt="" />
+                <div
+                  class="btn-padrao__hover d-flex flex-row button-login"
+                  (click)="logout()"
+                >
+                  <img
+                    class="btn-padrao__icon"
+                    src="../../../../assets/icons/deslogar.svg"
+                    alt=""
+                  />
                   <div class="btn-padrao__text">Sair</div>
                 </div>
               </div>
@@ -62,7 +96,12 @@
         </div>
       </div>
       <div class="col col-md-4 menu" *ngIf="!isLoginRoute">
-        <button class="menu-branco" (click)="toggleMenu()" mat-icon-button aria-label="menu">
+        <button
+          class="menu-branco"
+          (click)="toggleMenu()"
+          mat-icon-button
+          aria-label="menu"
+        >
           <mat-icon>menu</mat-icon>
         </button>
       </div>
@@ -75,8 +114,11 @@
   </button>
   <div class="menu-content">
     <a href="https://esic.cge.ro.gov.br/" class="item">eSIC</a>
-    <a class="item" href="https://radardatransparencia.atricon.org.br/radar-da-transparencia-publica.html">Radar de
-      transparencia pública</a>
+    <a
+      class="item"
+      href="https://radardatransparencia.atricon.org.br/radar-da-transparencia-publica.html"
+      >Radar de transparencia pública</a
+    >
     <div class="item" routerLink="/adm/login">Login</div>
   </div>
 </div>
