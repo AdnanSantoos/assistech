@@ -92,7 +92,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   showCurrentPassword = false;
   showNewPassword = false;
   showConfirmPassword = false;
-
+  loggedInUserName: string | null = null;
   constructor(
     private router: Router,
     private location: Location,
@@ -234,8 +234,20 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
   }
   getLoggedInUserEmail(): void {
-    const email = localStorage.getItem('email');
-    this.loggedInUserEmail = email ? email : 'Usuário não logado';
+    const tenant = this.tenantService.getTenant();
+    if (tenant) {
+      this.tenantService.getDados(tenant).subscribe({
+        next: (response) => {
+          this.loggedInUserName = response.data.name;
+          this.loggedInUserEmail = response.data.email;
+        },
+        error: (error) => {
+          console.error('Error fetching user data:', error);
+          this.loggedInUserName = 'Usuário não logado';
+          this.loggedInUserEmail = 'Usuário não logado';
+        },
+      });
+    }
   }
 
   openProfileModal(template: TemplateRef<any>) {
@@ -284,6 +296,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
             console.log('Profile updated successfully:', response);
             // Você pode adicionar uma notificação de sucesso aqui
             this.closeModal();
+            window.location.reload()
           },
           error: (error) => {
             console.error('Error updating profile:', error);
