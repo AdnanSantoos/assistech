@@ -138,68 +138,121 @@
                       </button>
                     </div>
 
+                    <!-- Senha Atual -->
                     <div class="mb-3">
-                      <label for="current_password" class="form-label"
+                      <label
+                        for="current_password"
+                        class="form-label fw-semibold"
                         >Senha Atual</label
                       >
-                      <input
-                        type="password"
-                        class="form-control w-100"
-                        id="current_password"
-                        formControlName="current_password"
-                        [class.is-invalid]="
-                          profileForm.get('current_password')?.invalid &&
-                          profileForm.get('current_password')?.touched
-                        "
-                      />
-                      <div
-                        class="invalid-feedback"
-                        *ngIf="profileForm.get('current_password')?.errors?.['required']"
-                      >
-                        Campo obrigatório
+                      <div class="input-group">
+                        <input
+                          [type]="showCurrentPassword ? 'text' : 'password'"
+                          class="form-control"
+                          id="current_password"
+                          formControlName="current_password"
+                          [class.is-invalid]="
+                            profileForm.get('current_password')?.invalid &&
+                            profileForm.get('current_password')?.touched
+                          "
+                        />
+                        <button
+                          class="btn btn-outline-secondary"
+                          type="button"
+                          (click)="showCurrentPassword = !showCurrentPassword"
+                        >
+                          <mat-icon>{{
+                            showCurrentPassword
+                              ? "visibility_off"
+                              : "visibility"
+                          }}</mat-icon>
+                        </button>
+                        <div
+                          class="invalid-feedback"
+                          *ngIf="profileForm.get('current_password')?.errors?.['required']"
+                        >
+                          Campo obrigatório
+                        </div>
                       </div>
                     </div>
 
+                    <!-- Nova Senha -->
                     <div class="mb-3">
-                      <label for="password" class="form-label"
+                      <label for="password" class="form-label fw-semibold"
                         >Nova Senha</label
                       >
-                      <input
-                        type="password"
-                        class="form-control w-100"
-                        id="password"
-                        formControlName="password"
-                        [class.is-invalid]="
-                          profileForm.get('password')?.invalid &&
-                          profileForm.get('password')?.touched
-                        "
-                      />
-                      <div
-                        class="invalid-feedback"
-                        *ngIf="profileForm.get('password')?.errors?.['required']"
-                      >
-                        Campo obrigatório
+                      <div class="input-group">
+                        <input
+                          [type]="showNewPassword ? 'text' : 'password'"
+                          class="form-control"
+                          id="password"
+                          formControlName="password"
+                          [class.is-invalid]="
+                            profileForm.get('password')?.invalid &&
+                            profileForm.get('password')?.touched
+                          "
+                        />
+                        <button
+                          class="btn btn-outline-secondary"
+                          type="button"
+                          (click)="showNewPassword = !showNewPassword"
+                        >
+                          <mat-icon>{{
+                            showNewPassword ? "visibility_off" : "visibility"
+                          }}</mat-icon>
+                        </button>
+                        <div
+                          class="invalid-feedback"
+                          *ngIf="profileForm.get('password')?.errors?.['required']"
+                        >
+                          Campo obrigatório
+                        </div>
                       </div>
                     </div>
+
+                    <!-- Confirmar Nova Senha -->
                     <div class="mb-3">
-                      <label for="password_confirmation" class="form-label"
+                      <label
+                        for="password_confirmation"
+                        class="form-label fw-semibold"
                         >Confirmar Nova Senha</label
                       >
-                      <input
-                        type="password"
-                        class="form-control w-100"
-                        id="password_confirmation"
-                        formControlName="password_confirmation"
-                        [class.is-invalid]="
-                          profileForm.get('password_confirmation')?.invalid &&
-                          profileForm.get('password_confirmation')?.touched
-                        "
-                      />
-                      <div
-                        class="invalid-feedback"
-                        *ngIf="profileForm.get('password_confirmation')?.errors?.['required']"
-                      >
-                        Campo obrigatório
+                      <div class="input-group">
+                        <input
+                          [type]="showConfirmPassword ? 'text' : 'password'"
+                          class="form-control"
+                          id="password_confirmation"
+                          formControlName="password_confirmation"
+                          [class.is-invalid]="
+                (profileForm.get('password_confirmation')?.errors?.['required'] &&
+                 profileForm.get('password_confirmation')?.touched) ||
+                profileForm.get('password_confirmation')?.errors?.['mismatch']
+              "
+                        />
+                        <button
+                          class="btn btn-outline-secondary"
+                          type="button"
+                          (click)="showConfirmPassword = !showConfirmPassword"
+                        >
+                          <mat-icon>{{
+                            showConfirmPassword
+                              ? "visibility_off"
+                              : "visibility"
+                          }}</mat-icon>
+                        </button>
+                        <div class="invalid-feedback">
+                          <span
+                            *ngIf="profileForm.get('password_confirmation')?.errors?.['required'] &&
+                         profileForm.get('password_confirmation')?.touched"
+                          >
+                            Campo obrigatório
+                          </span>
+                          <span
+                            *ngIf="profileForm.get('password_confirmation')?.errors?.['mismatch'] && !profileForm.get('password_confirmation')?.errors?.['required']"
+                          >
+                            As senhas novas não coincidem
+                          </span>
+                        </div>
                       </div>
                     </div>
 

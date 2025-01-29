@@ -23,9 +23,12 @@ import { LoginService } from '../../../features/login/services/login.service';
 import { finalize, Subject, takeUntil } from 'rxjs';
 import { NgxLoadingModule } from 'ngx-loading';
 import {
+  AbstractControl,
   FormBuilder,
   FormGroup,
   ReactiveFormsModule,
+  ValidationErrors,
+  ValidatorFn,
   Validators,
 } from '@angular/forms';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
@@ -86,6 +89,11 @@ export class NavbarComponent implements OnInit, OnDestroy {
   modalRef?: BsModalRef;
   isOpen = false;
 
+
+  showCurrentPassword = false;
+  showNewPassword = false;
+  showConfirmPassword = false;
+
   constructor(
     private router: Router,
     private location: Location,
@@ -126,14 +134,33 @@ export class NavbarComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.profileForm = this.fb.group({
-      name: ['', Validators.required],
-      current_password: ['', Validators.required],
-      password: ['', Validators.required],
-      password_confirmation: ['', Validators.required],
-    });
-  }
+    this.profileForm = this.fb.group(
+      {
+        name: ['', Validators.required],
+        current_password: ['', Validators.required],
+        password: ['', Validators.required],
+        password_confirmation: ['', Validators.required],
+      },
+      { validator: this.passwordMatchValidator }
+    );
 
+    this.profileForm.get('password')?.valueChanges.subscribe(() => {
+      this.profileForm.get('password_confirmation')?.updateValueAndValidity();
+    });
+
+    this.profileForm
+      .get('password_confirmation')
+      ?.setValidators([
+        Validators.required,
+        this.matchValidator(this.profileForm.get('password')!),
+      ]);
+  }
+  matchValidator(controlToMatch: AbstractControl): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      if (control.value === null || control.value === '') return null;
+      return controlToMatch.value === control.value ? null : { mismatch: true };
+    };
+  }
   ngOnInit(): void {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
@@ -141,6 +168,17 @@ export class NavbarComponent implements OnInit, OnDestroy {
       }
     });
     this.getLoggedInUserEmail();
+  }
+  passwordMatchValidator(g: FormGroup) {
+    const password = g.get('password')?.value;
+    const passwordConfirmation = g.get('password_confirmation')?.value;
+
+    if (password && passwordConfirmation) {
+      return password === passwordConfirmation
+        ? null
+        : { passwordMismatch: true };
+    }
+    return null;
   }
 
   ngOnDestroy() {
@@ -264,7 +302,10 @@ export class NavbarComponent implements OnInit, OnDestroy {
       (control) => this.profileForm.get(control)?.valid
     );
 
-    if (passwordsValid) {
+    if (
+      passwordsValid &&
+      !this.profileForm.get('password_confirmation')?.errors?.['mismatch']
+    ) {
       const tenant = this.tenantService.getTenant();
       if (tenant) {
         const data = {
@@ -274,17 +315,9 @@ export class NavbarComponent implements OnInit, OnDestroy {
             ?.value,
         };
 
-        this.tenantService.updatePassword(tenant, data).subscribe({
-          next: (response) => {
-            console.log('Password updated successfully:', response);
-            // Você pode adicionar uma notificação de sucesso aqui
-            this.closeModal();
-          },
-          error: (error) => {
-            console.error('Error updating password:', error);
-            // Você pode adicionar uma notificação de erro aqui
-          },
-        });
+        this.tenantService
+          .updatePassword(tenant, data)
+          .subscribe(() => this.closeModal());
       }
     }
   }
