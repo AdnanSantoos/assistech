@@ -51,134 +51,167 @@ const routes: Routes = [
       },
       {
         path: 'cliente',
+        canActivate: [AuthGuard],
         component: ClienteAdministrativoComponent,
       },
       {
         path: 'unidades',
+        canActivate: [AuthGuard],
         component: UnidadesAdministrativoComponent,
       },
       {
         path: 'orgaos',
+        canActivate: [AuthGuard],
         component: OrgaoAdministrativoComponent,
       },
       {
         path: 'licitacoes',
+        canActivate: [AuthGuard],
         component: ListaLicitacaoAdministrativoComponent,
       },
       {
         path: 'contratos',
+        canActivate: [AuthGuard],
         component: ListaContratosAdministrativoComponent,
       },
       {
         path: 'cadastrar-cliente',
+        canActivate: [AuthGuard],
         component: CadastrarClienteAdministrativoComponent,
       },
       {
         path: 'editar-cliente/:slug',
+        canActivate: [AuthGuard],
         component: CadastrarClienteAdministrativoComponent,
       },
       {
         path: 'cadastrar-pca',
+        canActivate: [AuthGuard],
         component: AdicionarPcaComponent,
       },
       {
         path: 'editar-pca/:id',
+        canActivate: [AuthGuard],
         component: AdicionarPcaComponent,
       },
       {
         path: 'cadastrar-noticia',
+        canActivate: [AuthGuard],
         component: CadastrarNoticiasComponent,
       },
       {
         path: 'cadastrar-licitacao',
+        canActivate: [AuthGuard],
         component: DadosDaLicitacaoAdministrativoComponent,
       },
       {
         path: 'adicionar-contratos',
+        canActivate: [AuthGuard],
         component: ContratosAdministrativoComponent,
       },
       {
         path: 'editar-contratos/:id',
+        canActivate: [AuthGuard],
         component: EditarContratoAdministrativoComponent,
       },
       {
         path: 'usuarios',
+        canActivate: [AuthGuard],
         component: UsuariosAdministrativoComponent,
       },
       {
         path: 'cadastrar-usuarios',
+        canActivate: [AuthGuard],
         component: CadastrarUsuariosAdministrativoComponent,
       },
       {
         path: 'adicionar-termos/:id',
+        canActivate: [AuthGuard],
         component: CriarTermosContratosAdministrativoComponent,
       },
       {
         path: 'editar-termos/:termoId',
+        canActivate: [AuthGuard],
         component: CriarTermosContratosAdministrativoComponent,
       },
       {
         path: 'editar-usuarios/:id',
+        canActivate: [AuthGuard],
         component: CadastrarUsuariosAdministrativoComponent,
       },
       {
         path: 'editar-licitacoes/:id',
+        canActivate: [AuthGuard],
         component: EditarLicitacoesAdministrativoComponent,
       },
       {
         path: 'resultados-licitacoes/:id',
+        canActivate: [AuthGuard],
         component: ResultadoLicitacaoComponent,
       },
       {
         path: 'atas-licitacoes/:id',
+        canActivate: [AuthGuard],
         component: AtasLicitacoesAdministrativoComponent,
       },
       {
         path: 'termos-contratos/:id',
+        canActivate: [AuthGuard],
         component: TermosContratosAdministrativoComponent,
       },
       {
         path: 'itens-licitacoes/:id',
+        canActivate: [AuthGuard],
         component: ItensLicitacoesComponent,
       },
       {
         path: 'arquivos-licitacoes/:id',
+        canActivate: [AuthGuard],
         component: ArquivosLicitacoesComponent,
       },
       {
         path: 'cadastrar-fotos-diario',
+        canActivate: [AuthGuard],
         component: CadastrarFotosDiarioOficialComponent,
       },
       {
         path: 'gerenciar-diario-oficial',
+        canActivate: [AuthGuard],
         component: GerenciadorDiarioOficialAdministrativoComponent,
       },
       {
         path: 'publicar-diario-oficial',
+        canActivate: [AuthGuard],
         component: PublicarDiarioOficialAdministrativoComponent,
       },
       {
         path: 'gerenciar-noticias',
+        canActivate: [AuthGuard],
         component: GerenciadorNoticiaOficialComponent,
       },
       {
         path: 'pca',
+        canActivate: [AuthGuard],
         component: PcaAdministrativoComponent,
       },
       {
         path: 'adicionar-orgaos',
+        canActivate: [AuthGuard],
         component: AdicionarOrgaoAdministrativoComponent,
       },
       {
         path: 'ppa-loa-ldo',
+        canActivate: [AuthGuard],
         component: PpaLoaLdoAdministrativoComponent,
       },
       {
         path: 'outros',
+        canActivate: [AuthGuard],
         component: AcessoInformacaoAdministrativoComponent,
       },
       {
         path: 'adicionar-unidades',
+        canActivate: [AuthGuard],
         component: AdicionarUnidadesAdministrativoComponent,
       },
     ],

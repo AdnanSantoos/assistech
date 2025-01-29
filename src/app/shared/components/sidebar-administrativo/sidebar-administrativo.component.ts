@@ -76,7 +76,6 @@ export class SidebarAdministrativoComponent implements OnInit {
 
   ngOnInit(): void {
     this.filteredTenants = this.tenants;
-    this.filterTenants();
     this.isStaff = this.tenantService.getStaff();
     this.originalMenuItems = [
       {
