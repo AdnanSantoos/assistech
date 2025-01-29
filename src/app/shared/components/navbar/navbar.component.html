@@ -69,15 +69,169 @@
                 class="button-login text-align-center d-flex justify-content-center text-white me-4"
               >
                 <div class="d-flex">
-                  <mat-icon>person</mat-icon>
-                  <div class="d-flex flex-column">
-                    <p class="text-dark">Usuário logado :</p>
-                    <p class="text-dark" *ngIf="loggedInUserEmail">
-                      {{ loggedInUserEmail }}
-                    </p>
+                  <div class="d-flex dropdown">
+                    <mat-icon>person</mat-icon>
+                    <div class="dropdown-toggle" (click)="isOpen = !isOpen">
+                      <div class="d-flex flex-column">
+                        <p class="text-dark mb-0">Usuário logado:</p>
+                        <p class="text-dark mb-0" *ngIf="loggedInUserEmail">
+                          {{ loggedInUserEmail }}
+                        </p>
+                      </div>
+                    </div>
+                    <div class="dropdown-menu" [class.show]="isOpen">
+                      <a
+                        class="dropdown-item"
+                        (click)="openProfileModal(profileTemplate)"
+                      >
+                        <i class="fas fa-cog"></i>
+                        Perfil
+                      </a>
+                    </div>
                   </div>
                 </div>
               </div>
+              <!-- Profile Modal Template -->
+              <ng-template #profileTemplate>
+                <div class="modal-header">
+                  <h4 class="modal-title">Editar Perfil</h4>
+                  <button
+                    type="button"
+                    class="btn-close"
+                    (click)="modalRef?.hide()"
+                  ></button>
+                </div>
+
+                <div class="modal-body">
+                  <form
+                    [formGroup]="profileForm"
+                    (ngSubmit)="onProfileSubmit()"
+                  >
+                    <div class="mb-3">
+                      <label for="name" class="form-label">Nome</label>
+                      <input
+                        type="text"
+                        class="form-control w-100"
+                        id="name"
+                        formControlName="name"
+                        [class.is-invalid]="
+                          profileForm.get('name')?.invalid &&
+                          profileForm.get('name')?.touched
+                        "
+                      />
+                      <div
+                        class="invalid-feedback"
+                        *ngIf="profileForm.get('name')?.errors?.['required']"
+                      >
+                        Campo obrigatório
+                      </div>
+                    </div>
+                    <div>
+                      <!-- Botão para atualizar apenas o nome -->
+                      <button
+                        type="button"
+                        class="mb-3 hover-sucesso btn bg-dark text-white"
+                        [disabled]="!profileForm.get('name')?.valid"
+                        (click)="onUpdateProfile()"
+                      >
+                        Atualizar Nome
+                      </button>
+                    </div>
+
+                    <div class="mb-3">
+                      <label for="current_password" class="form-label"
+                        >Senha Atual</label
+                      >
+                      <input
+                        type="password"
+                        class="form-control w-100"
+                        id="current_password"
+                        formControlName="current_password"
+                        [class.is-invalid]="
+                          profileForm.get('current_password')?.invalid &&
+                          profileForm.get('current_password')?.touched
+                        "
+                      />
+                      <div
+                        class="invalid-feedback"
+                        *ngIf="profileForm.get('current_password')?.errors?.['required']"
+                      >
+                        Campo obrigatório
+                      </div>
+                    </div>
+
+                    <div class="mb-3">
+                      <label for="password" class="form-label"
+                        >Nova Senha</label
+                      >
+                      <input
+                        type="password"
+                        class="form-control w-100"
+                        id="password"
+                        formControlName="password"
+                        [class.is-invalid]="
+                          profileForm.get('password')?.invalid &&
+                          profileForm.get('password')?.touched
+                        "
+                      />
+                      <div
+                        class="invalid-feedback"
+                        *ngIf="profileForm.get('password')?.errors?.['required']"
+                      >
+                        Campo obrigatório
+                      </div>
+                    </div>
+                    <div class="mb-3">
+                      <label for="password_confirmation" class="form-label"
+                        >Confirmar Nova Senha</label
+                      >
+                      <input
+                        type="password"
+                        class="form-control w-100"
+                        id="password_confirmation"
+                        formControlName="password_confirmation"
+                        [class.is-invalid]="
+                          profileForm.get('password_confirmation')?.invalid &&
+                          profileForm.get('password_confirmation')?.touched
+                        "
+                      />
+                      <div
+                        class="invalid-feedback"
+                        *ngIf="profileForm.get('password_confirmation')?.errors?.['required']"
+                      >
+                        Campo obrigatório
+                      </div>
+                    </div>
+
+                    <div
+                      class="d-flex justify-content-between align-items-center flex-row-reverse gap-2 w-auto mt-3"
+                    >
+                      <!-- Botão para atualizar apenas as senhas -->
+                      <button
+                        type="button"
+                        class="w-auto hover-sucesso btn bg-dark text-white"
+                        [disabled]="
+                          !profileForm.get('current_password')?.valid ||
+                          !profileForm.get('password')?.valid ||
+                          !profileForm.get('password_confirmation')?.valid
+                        "
+                        (click)="onUpdatePassword()"
+                      >
+                        Atualizar Senha
+                      </button>
+
+                      <button
+                        type="button"
+                        class="w-auto btn btn-outline-secondary w-100"
+                        (click)="closeModal()"
+                      >
+                        Cancelar
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </ng-template>
+
               <div class="deslogar me-4">
                 <div
                   class="btn-padrao__hover d-flex flex-row button-login"

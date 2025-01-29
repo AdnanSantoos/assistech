@@ -1,5 +1,5 @@
 import { CommonModule, Location } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, TemplateRef } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import {
@@ -22,12 +22,25 @@ import { TenantService } from '../../services/tenant.service';
 import { LoginService } from '../../../features/login/services/login.service';
 import { finalize, Subject, takeUntil } from 'rxjs';
 import { NgxLoadingModule } from 'ngx-loading';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [MatButtonModule, MatIconModule, CommonModule, RouterLink],
-  providers: [BrowserAnimationsModule],
+  imports: [
+    MatButtonModule,
+    MatIconModule,
+    CommonModule,
+    RouterLink,
+    ReactiveFormsModule,
+  ],
+  providers: [BrowserAnimationsModule, BsModalService],
   animations: [
     trigger('toggleMenu', [
       state(
@@ -68,9 +81,16 @@ export class NavbarComponent implements OnInit, OnDestroy {
   defaultLogo = '../../../../assets/logos/admin.png';
   private destroy$ = new Subject<void>();
   slug: string | null = null;
+
+  profileForm!: FormGroup;
+  modalRef?: BsModalRef;
+  isOpen = false;
+
   constructor(
     private router: Router,
     private location: Location,
+    private fb: FormBuilder,
+    private modalService: BsModalService,
     private tenantService: TenantService,
     private _loginService: LoginService,
     public route: ActivatedRoute
@@ -94,14 +114,23 @@ export class NavbarComponent implements OnInit, OnDestroy {
           }
         }
       });
-    this.tenantService.slug$.pipe(takeUntil(this.destroy$)).subscribe((slug) => {
-      this.slug = slug;
-    });
+    this.tenantService.slug$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((slug) => {
+        this.slug = slug;
+      });
 
-    router.events.subscribe(event => {
+    router.events.subscribe((event) => {
       if (event instanceof NavigationError) {
         console.log('Erro de navegação:', event.error);
       }
+    });
+
+    this.profileForm = this.fb.group({
+      name: ['', Validators.required],
+      current_password: ['', Validators.required],
+      password: ['', Validators.required],
+      password_confirmation: ['', Validators.required],
     });
   }
 
@@ -125,14 +154,17 @@ export class NavbarComponent implements OnInit, OnDestroy {
   navigate() {
     const token = localStorage.getItem('authToken');
     if (token) {
-      this.router.navigate(['app', this.slug, 'adm', 'dashboard-administrativo', 'home'], {
-        skipLocationChange: false,
-        replaceUrl: false
-      });
+      this.router.navigate(
+        ['app', this.slug, 'adm', 'dashboard-administrativo', 'home'],
+        {
+          skipLocationChange: false,
+          replaceUrl: false,
+        }
+      );
     } else {
       this.router.navigate(['app', this.slug, 'adm', 'login'], {
         skipLocationChange: false,
-        replaceUrl: false
+        replaceUrl: false,
       });
     }
   }
@@ -164,5 +196,96 @@ export class NavbarComponent implements OnInit, OnDestroy {
   getLoggedInUserEmail(): void {
     const email = localStorage.getItem('email');
     this.loggedInUserEmail = email ? email : 'Usuário não logado';
+  }
+
+  openProfileModal(template: TemplateRef<any>) {
+    const tenant = this.tenantService.getTenant();
+    if (tenant) {
+      this.tenantService.getDados(tenant).subscribe({
+        next: (response) => {
+          this.profileForm.patchValue({
+            name: response.data.name,
+          });
+          this.modalRef = this.modalService.show(template, {
+            class: 'modal-md',
+          });
+          this.isOpen = false; // Close dropdown when modal opens
+        },
+        error: (error) => {
+          console.error('Error fetching user data:', error);
+        },
+      });
+    }
+  }
+
+  onProfileSubmit() {
+    if (this.profileForm.valid) {
+      console.log('Profile form submitted:', this.profileForm.value);
+      this.closeModal();
+    }
+  }
+
+  closeModal() {
+    if (this.modalRef) {
+      this.modalRef.hide();
+    }
+  }
+
+  onUpdateProfile() {
+    if (this.profileForm.get('name')?.valid) {
+      const tenant = this.tenantService.getTenant();
+      if (tenant) {
+        const data = {
+          name: this.profileForm.get('name')?.value,
+        };
+
+        this.tenantService.updateProfile(tenant, data).subscribe({
+          next: (response) => {
+            console.log('Profile updated successfully:', response);
+            // Você pode adicionar uma notificação de sucesso aqui
+            this.closeModal();
+          },
+          error: (error) => {
+            console.error('Error updating profile:', error);
+            // Você pode adicionar uma notificação de erro aqui
+          },
+        });
+      }
+    }
+  }
+
+  onUpdatePassword() {
+    const passwordControls = [
+      'current_password',
+      'password',
+      'password_confirmation',
+    ];
+    const passwordsValid = passwordControls.every(
+      (control) => this.profileForm.get(control)?.valid
+    );
+
+    if (passwordsValid) {
+      const tenant = this.tenantService.getTenant();
+      if (tenant) {
+        const data = {
+          current_password: this.profileForm.get('current_password')?.value,
+          password: this.profileForm.get('password')?.value,
+          password_confirmation: this.profileForm.get('password_confirmation')
+            ?.value,
+        };
+
+        this.tenantService.updatePassword(tenant, data).subscribe({
+          next: (response) => {
+            console.log('Password updated successfully:', response);
+            // Você pode adicionar uma notificação de sucesso aqui
+            this.closeModal();
+          },
+          error: (error) => {
+            console.error('Error updating password:', error);
+            // Você pode adicionar uma notificação de erro aqui
+          },
+        });
+      }
+    }
   }
 }
