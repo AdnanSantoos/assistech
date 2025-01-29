@@ -1,3 +1,4 @@
+import { TenantService } from './../../../../shared/services/tenant.service';
 import {
   Component,
   EventEmitter,
@@ -14,7 +15,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
-import { DiarioOficialLayoutComponent } from '../../containers/diario-oficial-layout/diario-oficial-layout.component';
+
 import { MatIcon } from '@angular/material/icon';
 import {
   DadosDiarioOficialPublico,
@@ -43,9 +44,7 @@ import {
   BsLocaleService,
 } from 'ngx-bootstrap/datepicker';
 import { DiarioOficialMapper } from '../../mappers/diario-oficial-mapper';
-import { TenantService } from '../../../../shared/services/tenant.service';
 import { NavigationService } from '../../../../shared/services/navigation.service';
-import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { defineLocale } from 'ngx-bootstrap/chronos';
 import { ptBrLocale } from 'ngx-bootstrap/locale';
 defineLocale('pt-br', ptBrLocale);
@@ -110,6 +109,7 @@ export class DiarioOficialListagemComponent implements OnChanges, OnInit {
   ];
   modalRef?: BsModalRef;
   documentos: any;
+  slug!:string;
 
   @Input() publicacoes!: RequisicaoModel<DadosDiarioOficialPublico> | null;
   @Output() formEmiter = new EventEmitter<DiarioOficialPesquisaData>();
@@ -121,7 +121,7 @@ export class DiarioOficialListagemComponent implements OnChanges, OnInit {
     private diarioOficialService: DiarioOficialService,
     private tenantService: TenantService,
     private navigationService: NavigationService,
-    private localeService: BsLocaleService
+    private localeService: BsLocaleService,
 
   ) {
     defineLocale('pt-br', ptBrLocale);
@@ -136,14 +136,17 @@ export class DiarioOficialListagemComponent implements OnChanges, OnInit {
     const navigation = this.router.getCurrentNavigation();
     this.resultados = navigation?.extras?.state?.['resultados'] || [];
 
+    this.tenantService.slug$.subscribe((slug) => {
+      this.slug = slug!;
+    });
+
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     this.documentos = this.publicacoes;
   }
   ngOnInit() {
-    const currentSlug = this.router.url.split('/')[1] || 'default-slug';
-    this.getTenantData(currentSlug);
+    this.getTenantData(this.slug);
     this.previous_official_gazette_link = this.publicacoes?.data.previous_official_gazette_link ?? null;
 
   }

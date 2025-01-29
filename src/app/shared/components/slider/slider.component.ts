@@ -61,7 +61,7 @@ export class SliderComponent implements OnInit {
   }
 
   getNoticiaRoute(title: string): string[] {
-    return ['/', this.currentSlug, 'noticia-detalhe', this.generateSlug(title)];
+    return ['/app', this.currentSlug, 'noticia-detalhe', this.generateSlug(title)];
   }
 
   getRandomSlides(slidesArray: Post[], numSlides: number): Post[] {

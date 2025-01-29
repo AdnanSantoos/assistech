@@ -13,6 +13,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
   ActivatedRoute,
   NavigationEnd,
+  NavigationError,
   Router,
   RouterLink,
 } from '@angular/router';
@@ -93,9 +94,14 @@ export class NavbarComponent implements OnInit, OnDestroy {
           }
         }
       });
-    this.tenantService.slug$.subscribe((slug) => {
+    this.tenantService.slug$.pipe(takeUntil(this.destroy$)).subscribe((slug) => {
       this.slug = slug;
-      console.log('Slug obtido:', this.slug); // Verifique no console
+    });
+
+    router.events.subscribe(event => {
+      if (event instanceof NavigationError) {
+        console.log('Erro de navegação:', event.error);
+      }
     });
   }
 
@@ -112,15 +118,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.destroy$.next();
     this.destroy$.complete();
   }
-  navigateToHome() {
-    const slug = this.tenantService.getTenant(); // Use o método getTenant() para obter o slug atual
-    if (slug) {
-      this.router.navigate([`${slug}/home`]);
-    } else {
-      console.error('Slug não encontrado!'); // Adicione um fallback ou redirecione para uma rota de erro
-      this.router.navigate(['/error']);
-    }
-  }
   onImageError() {
     this.logo = this.defaultLogo;
   }
@@ -128,9 +125,15 @@ export class NavbarComponent implements OnInit, OnDestroy {
   navigate() {
     const token = localStorage.getItem('authToken');
     if (token) {
-      this.router.navigate(['adm/dashboard-administrativo/home']);
+      this.router.navigate(['app', this.slug, 'adm', 'dashboard-administrativo', 'home'], {
+        skipLocationChange: false,
+        replaceUrl: false
+      });
     } else {
-      this.router.navigate(['/adm/login']);
+      this.router.navigate(['app', this.slug, 'adm', 'login'], {
+        skipLocationChange: false,
+        replaceUrl: false
+      });
     }
   }
 
@@ -159,7 +162,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
   }
   getLoggedInUserEmail(): void {
-    // Busca diretamente a chave 'userEmail' no localStorage
     const email = localStorage.getItem('email');
     this.loggedInUserEmail = email ? email : 'Usuário não logado';
   }

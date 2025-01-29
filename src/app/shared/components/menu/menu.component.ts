@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { TenantService } from '../../services/tenant.service';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-menu',
@@ -9,10 +11,16 @@ import { Router, RouterLink } from '@angular/router';
   templateUrl: './menu.component.html',
   styleUrl: './menu.component.scss'
 })
-export class MenuComponent implements OnInit {
+export class MenuComponent implements OnInit, OnDestroy {
   showCamaraMenu: boolean = false;
+  slug: string | null = null;
+  private destroy$ = new Subject<void>();
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, public route: ActivatedRoute, private tenantService: TenantService) {
+    this.tenantService.slug$.pipe(takeUntil(this.destroy$)).subscribe((slug) => {
+      this.slug = slug;
+    });
+  }
 
   ngOnInit() {
     this.router.events.subscribe(() => {
@@ -20,8 +28,13 @@ export class MenuComponent implements OnInit {
     });
     this.checkRoute();
   }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
   checkRoute() {
-    this.showCamaraMenu = this.router.url === '/portal-transparencia' || this.router.url === '/acesso-informacao-transparencia' ;
+    this.showCamaraMenu = this.router.url === '/portal-transparencia' || this.router.url === '/acesso-informacao-transparencia';
   }
 
   scrollToFooter() {

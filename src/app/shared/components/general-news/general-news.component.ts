@@ -44,7 +44,6 @@ export class GeneralNewsComponent implements OnInit {
 
   navigateToNoticia(postSlug: string | undefined) {
     if (!postSlug) return;
-    console.log('Navegando para:', [this.currentSlug, 'noticia-detalhe', postSlug]);
-    this.router.navigate([this.currentSlug, 'noticia-detalhe', postSlug]);
+    this.router.navigate(['/app',this.currentSlug, 'noticia-detalhe', postSlug]);
   }
 }

@@ -104,7 +104,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     if (url.includes('/home')) {
       this.acessos = [
         {
-          routerLink: `/${this.currentSlug}/diario-oficial`,
+          routerLink: `/app/${this.currentSlug}/diario-oficial`,
           texto: 'DIÁRIO OFICIAL',
           icon_img: '../../../assets/novos-icones/diario-oficial.svg',
         },

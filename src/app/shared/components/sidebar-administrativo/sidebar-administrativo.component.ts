@@ -6,7 +6,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink, Router } from '@angular/router';
+import { RouterLink, Router, ActivatedRoute } from '@angular/router';
 import { MatIcon } from '@angular/material/icon';
 import { TenantService } from '../../services/tenant.service';
 import { BsModalRef, BsModalService, ModalModule } from 'ngx-bootstrap/modal';
@@ -61,7 +61,7 @@ export class SidebarAdministrativoComponent implements OnInit {
     private router: Router,
     private modalService: BsModalService,
     private _tenantService: TenantService,
-    private _orgaoService: OrgaosService
+    public route: ActivatedRoute
   ) {
     this._tenantService.slug$.subscribe((v) => {
       this.slug = v!;
@@ -336,9 +336,7 @@ export class SidebarAdministrativoComponent implements OnInit {
         })
       )
       .subscribe(({ tenantData }) => {
-        this.router.navigate([
-          `/app/${tenantData.data.slug}/adm/dashboard-administrativo/home`,
-        ]);
+        this.router.navigateByUrl(`/app/${tenantData.data.slug}/adm/dashboard-administrativo/home`);
         this.modalRef?.hide();
       });
   }
