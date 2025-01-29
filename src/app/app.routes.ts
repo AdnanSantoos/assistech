@@ -9,6 +9,10 @@ export const routes: Routes = [
     redirectTo: 'app'
   },
   {
+    path: '**',
+    redirectTo: 'error'
+  },
+  {
     path:'app',
     children:[
       {
