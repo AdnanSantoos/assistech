@@ -89,7 +89,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
   modalRef?: BsModalRef;
   isOpen = false;
 
-
   showCurrentPassword = false;
   showNewPassword = false;
   showConfirmPassword = false;
@@ -138,8 +137,11 @@ export class NavbarComponent implements OnInit, OnDestroy {
       {
         name: ['', Validators.required],
         current_password: ['', Validators.required],
-        password: ['', Validators.required],
-        password_confirmation: ['', Validators.required],
+        password: ['', [Validators.required, Validators.minLength(8)]],
+        password_confirmation: [
+          '',
+          [Validators.required, Validators.minLength(8)],
+        ],
       },
       { validator: this.passwordMatchValidator }
     );
