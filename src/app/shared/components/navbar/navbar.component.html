@@ -201,11 +201,17 @@
                             showNewPassword ? "visibility_off" : "visibility"
                           }}</mat-icon>
                         </button>
-                        <div
-                          class="invalid-feedback"
-                          *ngIf="profileForm.get('password')?.errors?.['required']"
-                        >
-                          Campo obrigatório
+                        <div class="invalid-feedback">
+                          <span
+                            *ngIf="profileForm.get('password')?.errors?.['required']"
+                          >
+                            Campo obrigatório
+                          </span>
+                          <span
+                            *ngIf="profileForm.get('password')?.errors?.['minlength']"
+                          >
+                            A senha deve ter no mínimo 8 caracteres
+                          </span>
                         </div>
                       </div>
                     </div>
@@ -215,8 +221,9 @@
                       <label
                         for="password_confirmation"
                         class="form-label fw-semibold"
-                        >Confirmar Nova Senha</label
                       >
+                        Confirmar Nova Senha
+                      </label>
                       <div class="input-group">
                         <input
                           [type]="showConfirmPassword ? 'text' : 'password'"
@@ -224,10 +231,10 @@
                           id="password_confirmation"
                           formControlName="password_confirmation"
                           [class.is-invalid]="
-                (profileForm.get('password_confirmation')?.errors?.['required'] &&
-                 profileForm.get('password_confirmation')?.touched) ||
-                profileForm.get('password_confirmation')?.errors?.['mismatch']
-              "
+        (profileForm.get('password_confirmation')?.errors?.['required'] &&
+         profileForm.get('password_confirmation')?.touched) ||
+        profileForm.get('password_confirmation')?.errors?.['mismatch']
+      "
                         />
                         <button
                           class="btn btn-outline-success d-flex btn-radius"
@@ -242,13 +249,18 @@
                         </button>
                         <div class="invalid-feedback">
                           <span
-                            *ngIf="profileForm.get('password_confirmation')?.errors?.['required'] &&
-                         profileForm.get('password_confirmation')?.touched"
+                            *ngIf="
+        profileForm.get('password_confirmation')?.errors?.['required'] &&
+        profileForm.get('password_confirmation')?.touched
+      "
                           >
                             Campo obrigatório
                           </span>
                           <span
-                            *ngIf="profileForm.get('password_confirmation')?.errors?.['mismatch'] && !profileForm.get('password_confirmation')?.errors?.['required']"
+                            *ngIf="
+        profileForm.get('password_confirmation')?.errors?.['mismatch'] &&
+        !profileForm.get('password_confirmation')?.errors?.['required']
+      "
                           >
                             As senhas novas não coincidem
                           </span>
