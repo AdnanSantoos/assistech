@@ -11,7 +11,6 @@ export class WebSocketService {
   private echo: Echo<any> | null = null;
 
   constructor(private http: HttpClient) {
-    // Configuração global para Pusher
     (window as any).Pusher = Pusher;
   }
 
@@ -20,17 +19,21 @@ export class WebSocketService {
       return this.echo;
     }
 
-    const authorizeUrl = `${environment.AUTHORIZE_URL}/api/${tenant}/broadcasting/auth`;
+    const authorizeUrl = `${environment.AUTHORIZE_URL}/api/tenants/${tenant}/broadcasting/auth`;
 
     const params = {
-      broadcaster: 'pusher',
+      broadcaster: 'reverb',
       key: environment.PUSHER_KEY,
       wsHost: environment.PUSHER_HOST,
       wsPort: environment.PUSHER_PORT,
       wssPort: environment.PUSHER_PORT,
       cluster: environment.PUSHER_CLUSTER,
       forceTLS: environment.PUSHER_FORCE_TLS,
-      // Define o authorizer para autenticação personalizada
+      auth: {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
       authorizer: (channel: any, options: any) => {
         return {
           authorize: (socketId: string, callback: Function) => {
@@ -43,25 +46,28 @@ export class WebSocketService {
                 },
                 {
                   headers: {
-                    Authorization: `Bearer ${token}`, // Passa o token no header
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    Authorization: `Bearer ${token}`,
                   },
                 }
               )
-              .subscribe(
-                (response: any) => {
-                  callback(false, response); // Autorização bem-sucedida
+              .subscribe({
+                next: (response: any) => {
+                  console.log('logou no websocket');
+                  callback(false, response);
                 },
-                (error) => {
+                error: (error) => {
                   console.error('Erro na autorização do WebSocket:', error);
-                  callback(true, error); // Erro na autorização
+                  callback(true, error);
                 }
-              );
+              });
           },
         };
       },
     };
 
-    // Inicializa o Echo com os parâmetros configurados
+    console.log({ params });
     this.echo = new Echo<any>(params);
     return this.echo;
   }

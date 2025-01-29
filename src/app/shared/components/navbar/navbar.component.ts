@@ -235,7 +235,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
   }
   getLoggedInUserEmail(): void {
     const tenant = this.tenantService.getTenant();
-    if (tenant) {
+    const token = localStorage.getItem('authToken');
+    if (tenant && token) {
       this.tenantService.getDados(tenant).subscribe({
         next: (response) => {
           this.loggedInUserName = response.data.name;
