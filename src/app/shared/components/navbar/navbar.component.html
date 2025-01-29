@@ -93,8 +93,8 @@
               </div>
               <!-- Profile Modal Template -->
               <ng-template #profileTemplate>
-                <div class="modal-header">
-                  <h4 class="modal-title">Editar Perfil</h4>
+                <div class="modal-header bg-dark">
+                  <h4 class="modal-title text-white">Editar Perfil</h4>
                   <button
                     type="button"
                     class="btn-close"
@@ -130,7 +130,7 @@
                       <!-- Botão para atualizar apenas o nome -->
                       <button
                         type="button"
-                        class="mb-3 hover-sucesso btn bg-dark text-white"
+                        class="mb-3 hover-sucesso btn bg-success text-white"
                         [disabled]="!profileForm.get('name')?.valid"
                         (click)="onUpdateProfile()"
                       >
@@ -157,7 +157,7 @@
                           "
                         />
                         <button
-                          class="btn btn-outline-secondary d-flex btn-radius"
+                          class="btn btn-outline-success d-flex btn-radius"
                           type="button"
                           (click)="showCurrentPassword = !showCurrentPassword"
                         >
@@ -193,7 +193,7 @@
                           "
                         />
                         <button
-                          class="btn btn-outline-secondary d-flex btn-radius"
+                          class="btn btn-outline-success d-flex btn-radius"
                           type="button"
                           (click)="showNewPassword = !showNewPassword"
                         >
@@ -230,7 +230,7 @@
               "
                         />
                         <button
-                          class="btn btn-outline-secondary d-flex btn-radius"
+                          class="btn btn-outline-success d-flex btn-radius"
                           type="button"
                           (click)="showConfirmPassword = !showConfirmPassword"
                         >
@@ -262,7 +262,7 @@
                       <!-- Botão para atualizar apenas as senhas -->
                       <button
                         type="button"
-                        class="w-auto hover-sucesso btn bg-dark text-white"
+                        class="w-auto hover-sucesso btn bg-success text-white"
                         [disabled]="
                           !profileForm.get('current_password')?.valid ||
                           !profileForm.get('password')?.valid ||
@@ -275,7 +275,7 @@
 
                       <button
                         type="button"
-                        class="w-auto btn btn-outline-secondary w-100"
+                        class="w-auto btn btn-outline-danger w-100"
                         (click)="closeModal()"
                       >
                         Cancelar
