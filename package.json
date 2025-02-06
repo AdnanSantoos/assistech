@@ -5,7 +5,7 @@
     "build-env": "node set-env.js",
     "ng": "ng",
     "start": "npm run build-env && ng serve -o",
-    "build": "ng build --configuration=production",
+    "build": "ng build --configuration=production --base-href=/app/",
     "watch": "ng build --watch --configuration development ",
     "test": "ng test",
     "serve:ssr:assistech": "node dist/assistech/server/server.mjs"
