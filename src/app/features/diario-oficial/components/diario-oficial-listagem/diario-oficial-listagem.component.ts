@@ -171,9 +171,9 @@ export class DiarioOficialListagemComponent implements OnChanges, OnInit {
 
         // Atualiza as URLs dos logos
         this.logoUrl =
-          data.logo || '../../../../../assets/logos/logo-g-itaberaba.png';
+          data.logo || '/app/assets/logos/logo-g-itaberaba.png';
         this.secondLogoUrl =
-          data.second_logo || '../../../../../assets/logos/admin.second.jpg';
+          data.second_logo || '/app/assets/logos/admin.second.jpg';
       },
       error: (error) => {
         this.router.navigate(['error']);

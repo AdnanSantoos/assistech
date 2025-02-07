@@ -23,20 +23,20 @@ export class HomeTransparenciaComponent implements OnInit {
   acessos: AcessoRapido[] = [];
 
   images = [
-    { img: '../../../../assets/imgs-home/1.png' },
-    { img: '../../../../assets/imgs-home/2.png' },
-    { img: '../../../../assets/imgs-home/3.png' },
-    { img: '../../../../assets/imgs-home/4.png' },
+    { img: '/app/assets/imgs-home/1.png' },
+    { img: '/app/assets/imgs-home/2.png' },
+    { img: '/app/assets/imgs-home/3.png' },
+    { img: '/app/assets/imgs-home/4.png' },
   ]
 
   mainNews = [
     {
-      img: '../../../../assets/temporarias/guamaense.png',
+      img: '/app/assets/temporarias/guamaense.png',
       title: 'Entrega de Título Cidadão Guamaense',
       description: 'O Presidente da Câmara Municipal de São Miguel do Guamá...'
     },
     {
-      img: '../../../../assets/temporarias/ordem-de-servico.png',
+      img: '/app/assets/temporarias/ordem-de-servico.png',
       title: 'Ordem de serviço para a reforma completa e ampliação da Escola Benedito Valente, comunidade do Cristo Rei',
       description: 'Em mais uma significativa conquista para a nossa educação...'
     }
@@ -87,15 +87,15 @@ export class HomeTransparenciaComponent implements OnInit {
 
   vereadores = [
     {
-      img: '../../../../assets/temporarias/ana.png',
+      img: '/app/assets/temporarias/ana.png',
       name: 'Ana Domingas Pontes de Almeida'
     },
     {
-      img: '../../../../assets/temporarias/claudio.png',
+      img: '/app/assets/temporarias/claudio.png',
       name: 'Cláudio Castelo Branco de Sousa Junior'
     },
     {
-      img: '../../../../assets/temporarias/jose.png',
+      img: '/app/assets/temporarias/jose.png',
       name: 'José Gleison da Silva Conceição'
     }
   ];

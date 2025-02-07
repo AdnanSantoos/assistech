@@ -17,7 +17,7 @@
         <div
           class="logo-container"
           [relativeTo]="route.parent"
-          [routerLink]="['/app', slug, 'home']"
+          [routerLink]="[slug, 'home']"
         >
           <div class="logo">
             <img [src]="logo" alt="{{ logoText2 }}" />
@@ -41,7 +41,7 @@
             target="_blank"
             class="btn-padrao button-ecac"
           >
-            <img src="../../../../assets/logos/ecac.webp" alt="Logo Ecac" />
+            <img src="/app/assets/logos/ecac.webp" alt="Logo Ecac" />
             <p>eSIC</p>
           </a>
           <a
@@ -51,7 +51,7 @@
             class="btn-padrao button-radar"
           >
             <img
-              src="../../../../assets/logos/radar-transparencia.webp"
+              src="/app/assets/logos/radar-transparencia.webp"
               alt="Logo Radar"
             />
           </a>
@@ -304,7 +304,7 @@
                 >
                   <img
                     class="btn-padrao__icon"
-                    src="../../../../assets/icons/deslogar.svg"
+                    src="/app/assets/icons/deslogar.svg"
                     alt=""
                   />
                   <div class="btn-padrao__text">Sair</div>

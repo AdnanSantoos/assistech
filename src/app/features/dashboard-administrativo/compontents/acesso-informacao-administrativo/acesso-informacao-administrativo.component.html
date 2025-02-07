@@ -10,7 +10,7 @@
             <a *ngIf="content.link; else externalLink" [routerLink]="[content.link]"
                 class="btn-padrao__hover button-acessos">
                 <!-- Renderiza o ícone ou o div padrão -->
-                <img *ngIf="content.icon; else defaultIcon" [src]="'assets/icons/' + content.icon" alt="{{content.name}} icon">
+                <img *ngIf="content.icon; else defaultIcon" [src]="content.icon" alt="{{content.name}} icon">
                 <ng-template #defaultIcon>
                     <div class="btn-padrao__perfil-icon"></div>
                 </ng-template>
@@ -20,7 +20,7 @@
                 <a target="_blank" [href]="content.externo"
                     class="btn-padrao__hover button-acessos">
                     <!-- Renderiza o ícone ou o div padrão -->
-                    <img *ngIf="content.icon; else defaultIcon" [src]="'assets/icons/' + content.icon" alt="{{content.name}} icon">
+                    <img *ngIf="content.icon; else defaultIcon" [src]="content.icon" alt="{{content.name}} icon">
                     <ng-template #defaultIcon>
                         <div class="btn-padrao__perfil-icon"></div>
                     </ng-template>

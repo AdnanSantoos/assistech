@@ -70,7 +70,7 @@ export class LoginService {
     this._repository.logout(tenant).subscribe({
       next: () => {
         localStorage.clear();
-        this._router.navigate(['/app', tenant, 'home']);
+        this._router.navigate([tenant, 'home']);
       },
       error: (err) => {
         this._toastr.error(err.error.message);

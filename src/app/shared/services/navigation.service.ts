@@ -4,24 +4,22 @@ import { filter } from 'rxjs/operators';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class NavigationService {
   private router = inject(Router);
   private initialized = new BehaviorSubject<boolean>(false);
   private slug: string | null = null;
   private defaultSlug = 'admin';
-  private readonly appPrefix = '/app'; // Novo prefixo
-
 
   constructor() {
-    this.router.events.pipe(
-      filter(event => event instanceof NavigationStart)
-    ).subscribe((event) => {
-      if (event instanceof NavigationStart && this.initialized.value) {
-        this.handleNavigation(event.url);
-      }
-    });
+    this.router.events
+      .pipe(filter((event) => event instanceof NavigationStart))
+      .subscribe((event) => {
+        if (event instanceof NavigationStart && this.initialized.value) {
+          this.handleNavigation(event.url);
+        }
+      });
   }
 
   initialize(slug: string | null) {
@@ -31,9 +29,9 @@ export class NavigationService {
 
   private handleNavigation(url: string): void {
     console.log('URL sendo processada:', url);
-    
-    // Se já contém /app/slug/, não manipular a URL
-    if (url.match(/^\/app\/[^\/]+\//)) {
+
+    // Se a URL já contém o slug, não manipular
+    if (url.startsWith(`/${this.slug}/`) || url === `/${this.slug}`) {
       return;
     }
 
@@ -43,7 +41,7 @@ export class NavigationService {
     }
 
     const effectiveSlug = this.slug || this.defaultSlug;
-    const newUrl = `${this.appPrefix}/${effectiveSlug}${url}`;
+    const newUrl = `/${effectiveSlug}${url}`;
 
     console.log('Nova URL gerada:', newUrl);
 

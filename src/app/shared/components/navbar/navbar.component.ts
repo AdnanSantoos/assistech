@@ -81,7 +81,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   logo: string | null = null;
   state!: TenantFullModel;
   loading = true;
-  defaultLogo = '../../../../assets/logos/admin.png';
+  defaultLogo = '/app/assets/logos/admin.png';
   private destroy$ = new Subject<void>();
   slug: string | null = null;
 
@@ -195,14 +195,14 @@ export class NavbarComponent implements OnInit, OnDestroy {
     const token = localStorage.getItem('authToken');
     if (token) {
       this.router.navigate(
-        ['app', this.slug, 'adm', 'dashboard-administrativo', 'home'],
+        [this.slug, 'adm', 'dashboard-administrativo', 'home'],
         {
           skipLocationChange: false,
           replaceUrl: false,
         }
       );
     } else {
-      this.router.navigate(['app', this.slug, 'adm', 'login'], {
+      this.router.navigate([this.slug, 'adm', 'login'], {
         skipLocationChange: false,
         replaceUrl: false,
       });
