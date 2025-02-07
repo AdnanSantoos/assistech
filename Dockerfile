@@ -16,10 +16,10 @@ RUN if [ "$APP_ENV" = "dev" ] && [ -f "/app/.env.staging.local" ]; then \
     cp /app/.env.staging.local /app/.env; \
     fi
 
-    RUN ENV_COMMANDS=$(cat .env | sed 's/ / \&\& export /g' | sed 's/^/export /') && \
+RUN ENV_COMMANDS=$(cat .env | sed 's/ / \&\& export /g' | sed 's/^/export /') && \
     eval ${ENV_COMMANDS}
 
-  RUN export $(grep -v '^#' .env | xargs) || echo "Falha ao carregar o .env"
+RUN export $(grep -v '^#' .env | xargs) || echo "Falha ao carregar o .env"
 
 RUN npm install
 
