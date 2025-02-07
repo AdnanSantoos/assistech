@@ -335,6 +335,7 @@ export class SidebarAdministrativoComponent implements OnInit {
         })
       )
       .subscribe(({ tenantData }) => {
+        console.log('rota')
         this.router.navigateByUrl(`${tenantData.data.slug}/adm/dashboard-administrativo/home`);
         this.modalRef?.hide();
       });
