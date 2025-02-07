@@ -24,6 +24,7 @@ export interface DadosDiarioOficialPublico {
     state_uf: string;
     first_publication: string;
     previous_official_gazette_link?:string;
+    previous_official_gazette_date?:string;
 }
 
 

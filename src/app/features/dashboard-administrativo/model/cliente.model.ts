@@ -18,6 +18,7 @@ export interface ExibirClienteData {
   beginning_official_gazette?: number;
   domain?: string;
   previous_official_gazette_link?:string;
+  previous_official_gazette_date?:string;
   next_edition_number?: number;
   government_body: string;
   is_active?: boolean;

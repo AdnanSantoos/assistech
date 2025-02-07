@@ -62,7 +62,7 @@ export interface TenantFullModel {
   permissions:any;
   second_logo?: string;
   previous_official_gazette_link?:string;
-
+  previous_official_gazette_date?:string;
 }
 
 export interface dynamicFields {

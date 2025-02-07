@@ -92,7 +92,7 @@ export class DiarioOficialListagemComponent implements OnChanges, OnInit {
   logoUrl: string = '';
   secondLogoUrl: string = '';
   previous_official_gazette_link: string | null = null;
-
+  previous_official_gazette_date: string | null = null;
   meses: selectModel[] = [
     { key: 'Janeiro', value: 1 },
     { key: 'Fevereiro', value: 2 },
@@ -109,7 +109,7 @@ export class DiarioOficialListagemComponent implements OnChanges, OnInit {
   ];
   modalRef?: BsModalRef;
   documentos: any;
-  slug!:string;
+  slug!: string;
 
   @Input() publicacoes!: RequisicaoModel<DadosDiarioOficialPublico> | null;
   @Output() formEmiter = new EventEmitter<DiarioOficialPesquisaData>();
@@ -121,8 +121,7 @@ export class DiarioOficialListagemComponent implements OnChanges, OnInit {
     private diarioOficialService: DiarioOficialService,
     private tenantService: TenantService,
     private navigationService: NavigationService,
-    private localeService: BsLocaleService,
-
+    private localeService: BsLocaleService
   ) {
     defineLocale('pt-br', ptBrLocale);
     this.localeService.use('pt-br');
@@ -139,7 +138,6 @@ export class DiarioOficialListagemComponent implements OnChanges, OnInit {
     this.tenantService.slug$.subscribe((slug) => {
       this.slug = slug!;
     });
-
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -147,8 +145,10 @@ export class DiarioOficialListagemComponent implements OnChanges, OnInit {
   }
   ngOnInit() {
     this.getTenantData(this.slug);
-    this.previous_official_gazette_link = this.publicacoes?.data.previous_official_gazette_link ?? null;
-
+    this.previous_official_gazette_link =
+      this.publicacoes?.data.previous_official_gazette_link ?? null;
+    this.previous_official_gazette_date =
+      this.publicacoes?.data.previous_official_gazette_date ?? null;
   }
   onMonthSelect(value: Date): void {
     if (value) {
@@ -163,7 +163,11 @@ export class DiarioOficialListagemComponent implements OnChanges, OnInit {
         this.tenantService.setSlug(data.slug);
         this.tenantService.updateState(data);
         this.navigationService.initialize(data.slug);
-        this.previous_official_gazette_link = data.previous_official_gazette_link || null;
+        this.previous_official_gazette_link =
+          data.previous_official_gazette_link || null;
+
+        this.previous_official_gazette_date =
+          data.previous_official_gazette_date || null;
 
         // Atualiza as URLs dos logos
         this.logoUrl =

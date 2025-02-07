@@ -249,7 +249,13 @@
             <option value="company">Empresa</option>
             <option value="other">Outros</option>
           </select>
-          <div *ngIf="clienteForm.get('government_body')?.invalid &&clienteForm.get('government_body')?.touched" class="text-danger">
+          <div
+            *ngIf="
+              clienteForm.get('government_body')?.invalid &&
+              clienteForm.get('government_body')?.touched
+            "
+            class="text-danger"
+          >
             Por favor, selecione um tipo de cliente.
           </div>
         </div>
@@ -427,11 +433,25 @@
         </div>
 
         <div class="form-group mb-3">
-          <label for="previous_official_gazette_link">Diário Oficial Anterior</label>
+          <label for="previous_official_gazette_link"
+            >Diário Oficial Anterior</label
+          >
           <input
             id="previous_official_gazette_link"
             class="form-control"
             formControlName="previous_official_gazette_link"
+            placeholder="Link do diário oficial anterior"
+          />
+        </div>
+        <div class="form-group mb-3">
+          <label for="previous_official_gazette_date"
+            >Data do Diário Oficial Anterior</label
+          >
+          <input
+            type="date"
+            id="previous_official_gazette_date"
+            class="form-control"
+            formControlName="previous_official_gazette_date"
             placeholder="Link do diário oficial anterior"
           />
         </div>
