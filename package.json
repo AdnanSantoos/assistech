@@ -5,6 +5,7 @@
     "build-env": "node set-env.js",
     "ng": "ng",
     "start": "npm run build-env && ng serve -o",
+    "docker": "ng serve --host 0.0.0.0 --port 4200",
     "build": "ng build --configuration=production",
     "watch": "ng build --watch --configuration development ",
     "test": "ng test",
