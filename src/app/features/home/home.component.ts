@@ -14,7 +14,7 @@ import { CadastrarFotosAdministrativoService } from '../dashboard-administrativo
 import { PhotoForm } from '../dashboard-administrativo/compontents/cadastrar-fotos-diario-oficial/model/cadastrar-foto.model';
 
 interface AcessoRapido {
-  routerLink?: string;
+  routerLink?: string[];
   texto: string;
   link?: string;
   icon_img: string;
@@ -91,20 +91,26 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.updateAcessos(this.router.url);
 
     const slugSub = this._tenantService.slug$
-      .pipe(filter((slug): slug is string => slug !== null)) // Ensure slug is a string
+      .pipe(filter((slug): slug is string => slug !== null))
       .subscribe((slug) => {
+        console.log('==== HomeComponent Slug ====');
+        console.log('Valor do slug recebido:', slug);
         this.currentSlug = slug;
+        console.log('currentSlug atualizado para:', this.currentSlug);
+        console.log('Router URL atual:', this.router.url);
         this.updateAcessos(this.router.url);
       });
-
     this.subscription.add(slugSub);
   }
 
   updateAcessos(url: string) {
+    console.log('==== updateAcessos ====');
+    console.log('URL recebida:', url);
+    console.log('currentSlug atual:', this.currentSlug);
     if (url.includes('/home')) {
       this.acessos = [
         {
-          routerLink: `/${this.currentSlug}/diario-oficial`,
+          routerLink: ['/', this.currentSlug, 'diario-oficial'],
           texto: 'DIÁRIO OFICIAL',
           icon_img: '../../../assets/novos-icones/diario-oficial.svg',
         },

@@ -2,11 +2,10 @@ import { Routes } from '@angular/router';
 import { NotFoundComponent } from './shared/components/not-found/not-found.component';
 
 export const routes: Routes = [
-
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: ':slug/home'
+    redirectTo: ':slug/home',
   },
   {
     path: ':slug',
@@ -277,6 +276,13 @@ export const routes: Routes = [
           import('./features/home/home.component').then((c) => c.HomeComponent),
       },
       {
+        path: 'diario-oficial',
+        loadChildren: () =>
+          import('./features/diario-oficial/diario-oficial.routes').then(
+            (m) => m.DiarioOficialRoutingModule
+          ),
+      },
+      {
         path: 'noticia-detalhe/:title',
         loadComponent: () =>
           import(
@@ -356,14 +362,6 @@ export const routes: Routes = [
           import(
             './features/legislacao-municipal/legislacao-municipal.component'
           ).then((c) => c.LegislacaoMunicipalComponent),
-      },
-
-      {
-        path: 'diario-oficial',
-        loadChildren: () =>
-          import('./features/diario-oficial/diario-oficial.routes').then(
-            (m) => m.DiarioOficialRoutingModule
-          ),
       },
       {
         path: 'diaria',
@@ -469,8 +467,9 @@ export const routes: Routes = [
   },
   {
     path: '**',
-    loadComponent:() => import ('./shared/components/not-found/not-found.component').then(
-      (c) => c.NotFoundComponent
-    )
-  }
+    loadComponent: () =>
+      import('./shared/components/not-found/not-found.component').then(
+        (c) => c.NotFoundComponent
+      ),
+  },
 ];

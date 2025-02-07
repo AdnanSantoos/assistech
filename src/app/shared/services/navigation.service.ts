@@ -4,7 +4,7 @@ import { filter } from 'rxjs/operators';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class NavigationService {
   private router = inject(Router);
@@ -13,15 +13,14 @@ export class NavigationService {
   private defaultSlug = 'admin';
   private readonly appPrefix = '/app'; // Novo prefixo
 
-
   constructor() {
-    this.router.events.pipe(
-      filter(event => event instanceof NavigationStart)
-    ).subscribe((event) => {
-      if (event instanceof NavigationStart && this.initialized.value) {
-        this.handleNavigation(event.url);
-      }
-    });
+    this.router.events
+      .pipe(filter((event) => event instanceof NavigationStart))
+      .subscribe((event) => {
+        if (event instanceof NavigationStart && this.initialized.value) {
+          this.handleNavigation(event.url);
+        }
+      });
   }
 
   initialize(slug: string | null) {
@@ -30,24 +29,27 @@ export class NavigationService {
   }
 
   private handleNavigation(url: string): void {
-    console.log('URL sendo processada:', url);
-    
-    // Se já contém /app/slug/, não manipular a URL
-    if (url.match(/^\/app\/[^\/]+\//)) {
-      return;
-    }
+    console.log('==== NavigationService ====');
+    console.log('URL inicial:', url);
 
-    // Se não estiver em uma rota administrativa ou for rota de login, ignora
-    if (!url.includes('/adm') || url.includes('/login')) {
+    // Nova verificação para evitar processamento duplicado
+    if (url.includes('/app/')) {
+      console.log('URL já contém /app/, ignorando');
       return;
     }
 
     const effectiveSlug = this.slug || this.defaultSlug;
-    const newUrl = `${this.appPrefix}/${effectiveSlug}${url}`;
+    console.log('Slug efetivo:', effectiveSlug);
 
+    // Limpa URL de possíveis duplicações
+    const cleanUrl = url.replace(/^\/admin\//, '/').replace(/\/admin\//, '/');
+    const newUrl = `${this.appPrefix}/${effectiveSlug}${cleanUrl}`;
+
+    console.log('URL limpa:', cleanUrl);
     console.log('Nova URL gerada:', newUrl);
 
     if (url !== newUrl) {
+      console.log('Navegando para nova URL');
       this.router.navigateByUrl(newUrl, { replaceUrl: true });
     }
   }
