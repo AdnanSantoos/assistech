@@ -10,6 +10,7 @@ import {
 import {
   ActivatedRoute,
   NavigationEnd,
+  NavigationError,
   Router,
   RouterOutlet,
 } from '@angular/router';
@@ -17,10 +18,7 @@ import { NavbarComponent } from './shared/components/navbar/navbar.component';
 import { FooterComponent } from './shared/components/footer/footer.component';
 import { MenuComponent } from './shared/components/menu/menu.component';
 import { LatestNewsComponent } from './shared/components/latest-news/latest-news.component';
-import {
-  CommonModule,
-  Location
-} from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { TipoRota } from './shared/models/shared.model';
 import { TenantService } from './shared/services/tenant.service';
 import { NgxLoadingModule } from 'ngx-loading';
@@ -70,21 +68,27 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    // Observa mudanças na navegação
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
-        if (!this.slug) {
-          this.slug = this.getSlugFromRoute(this.route);
-          if (this.slug) {
-            this.getTenantData(this.slug)
+        // Verifica se a URL é válida antes de processar
+        if (event.url && !event.url.includes('null')) {
+          if (!this.slug) {
+            this.slug = this.getSlugFromRoute(this.route);
+            if (this.slug) {
+              this.getTenantData(this.slug);
+            }
           }
-        }
-        if (event.url.includes('/adm/') || event.url.includes('/login')) {
-          this.tipoRota = 'adm';
-        } else if (event.url.includes('/trn/')) {
-          this.tipoRota = 'trn';
-        } else {
-          this.tipoRota = null;
+
+          if (event.url.includes('/adm/')) {
+            this.tipoRota = 'adm';
+          } else if (event.url.includes('/trn/')) {
+            this.tipoRota = 'trn';
+          } else {
+            this.tipoRota = null;
+          }
+        } else if (event.url) {
+          console.log('event url', event.url)
+          // this.getTenantData(this.slug);
         }
       }
     });
@@ -92,18 +96,18 @@ export class AppComponent implements OnInit, OnDestroy {
 
   private getTenantData(slug: string) {
     // Inicializa o navigation service após carregar o tenant
-    this.tenantService.getTenantData(this.slug!).subscribe((data) => {
-      this.tenantService.setSlug(data.data.slug)
-      this.tenantService.updateState(data.data);
-      // Inicializa o navigation service com o slug
-      this.navigationService.initialize(data.data.slug);
-    },
-      (error => {
+    this.tenantService.getTenantData(this.slug!).subscribe(
+      (data) => {
+        this.tenantService.setSlug(data.data.slug);
+        this.tenantService.updateState(data.data);
+        // Inicializa o navigation service com o slug
+        this.navigationService.initialize(data.data.slug);
+      },
+      (error) => {
         this.router.navigate(['error']);
-      })
+      }
     );
   }
-
 
   private getSlugFromRoute(route: ActivatedRoute): string | null {
     while (route.firstChild) {
@@ -116,5 +120,5 @@ export class AppComponent implements OnInit, OnDestroy {
     this.loading = isLoading;
   }
 
-  ngOnDestroy(): void { }
+  ngOnDestroy(): void {}
 }
