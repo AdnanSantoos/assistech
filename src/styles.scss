@@ -243,42 +243,42 @@ body {
 }
 
 .bkg-login {
-  background-image: url("../src/assets/bkg/bkg-login.png");
+  background-image: url("/app/assets/bkg/bkg-login.png");
   background-repeat: no-repeat;
   background-size: cover;
   height: 100vh;
 }
 
 .bkg-diario {
-  background-image: url("../src/assets/bkg/bkg-ata-das-sessoes.png");
+  background-image: url("/app/assets/bkg/bkg-ata-das-sessoes.png");
   background-repeat: no-repeat;
   background-size: cover;
   height: auto;
 }
 
 .bkg-diario-novo {
-  background-image: url("../src/assets/bkg/diario-oficial-bkg-novo.png");
+  background-image: url("/app/assets/bkg/diario-oficial-bkg-novo.png");
   background-repeat: no-repeat;
   background-size: cover;
   height: auto;
 }
 
 .bkg-administrativo {
-  background-image: url("../src/assets/bkg/bkg-administrativo.png");
+  background-image: url("/app/assets/bkg/bkg-administrativo.png");
   background-repeat: no-repeat;
   background-size: cover;
   height: auto;
 }
 
 .bkg-dashboard {
-  background-image: url("../src/assets/bkg/bkg-dashboard.png");
+  background-image: url("/app/assets/bkg/bkg-dashboard.png");
   background-repeat: no-repeat;
   background-size: cover;
   height: auto;
 }
 
 .adm-class div.bkg-header {
-  background-image: url("../src/assets/bkg/bkg-header-login.png");
+  background-image: url("/app/assets/bkg/bkg-header-login.png");
   background-size: cover;
 
   .buttons-header {
@@ -322,7 +322,7 @@ body {
 .home-class {
   div {
     &.bkg-header {
-      background-image: url("../src/assets/bkg/bkg-header-azul.png");
+      background-image: url("/app/assets/bkg/bkg-header-azul.png");
       background-size: cover;
     }
   }

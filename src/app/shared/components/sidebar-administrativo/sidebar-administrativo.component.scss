@@ -39,7 +39,7 @@
           height: 14.458px;
           margin-right: 10px;
           background-size: cover;
-          background-image: url("../../../../assets/icons/perfil-icon-branco.svg") !important;
+          background-image: url("/app/assets/icons/perfil-icon-branco.svg") !important;
         }
 
         .btn-padrao__text {
@@ -181,7 +181,7 @@
   border-radius: 0;
   margin-bottom: 15%;
   .btn-padrao__perfil-icon {
-    background-image: url("../../../../assets/icons/perfil-icon-preto.svg") !important;
+    background-image: url("/app/assets/icons/perfil-icon-preto.svg") !important;
     width: 14.003px;
     height: 16.458px;
     background-size: contain;

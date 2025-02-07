@@ -34,16 +34,16 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   images: { url: string }[] = []; // Initialize as an empty array
   defaultImages = [
-    { url: '../../../../assets/imgs-home/1.jpg' },
-    { url: '../../../../assets/imgs-home/2.jpg' },
-    { url: '../../../../assets/imgs-home/3.png' },
-    { url: '../../../../assets/imgs-home/4.jpg' },
+    { url: '/app/assets/imgs-home/1.jpg' },
+    { url: '/app/assets/imgs-home/2.jpg' },
+    { url: '/app/assets/imgs-home/3.png' },
+    { url: '/app/assets/imgs-home/4.jpg' },
   ];
 
   images2 = [
-    { img: '../../../../assets/imgs-home/5.png' },
-    { img: '../../../../assets/imgs-home/6.png' },
-    { img: '../../../../assets/imgs-home/7.png' },
+    { img: '/app/assets/imgs-home/5.png' },
+    { img: '/app/assets/imgs-home/6.png' },
+    { img: '/app/assets/imgs-home/7.png' },
   ];
 
   constructor(
@@ -112,17 +112,17 @@ export class HomeComponent implements OnInit, OnDestroy {
         {
           routerLink: ['/', this.currentSlug, 'diario-oficial'],
           texto: 'DIÁRIO OFICIAL',
-          icon_img: '../../../assets/novos-icones/diario-oficial.svg',
+          icon_img: '/app/assets/novos-icones/diario-oficial.svg',
         },
         // {
         //   routerLink: `/${this.currentSlug}/trn/portal-transparencia`,
         //   texto: 'PORTAL DE TRANSPARÊNCIA',
-        //   icon_img: '../../../assets/novos-icones/portal-transparencia.svg',
+        //   icon_img: '/app/assets/novos-icones/portal-transparencia.svg',
         // },
         {
           link: 'https://atricon.org.br/',
           texto: 'ATRICON',
-          icon_img: '../../../assets/novos-icones/atricon-logo.svg',
+          icon_img: '/app/assets/novos-icones/atricon-logo.svg',
         },
         {
           link: 'https://www.gov.br/pt-br',
@@ -133,17 +133,17 @@ export class HomeComponent implements OnInit, OnDestroy {
         {
           link: 'https://www.gov.br/pncp/pt-br',
           texto: 'PNCP',
-          icon_img: '../../../assets/novos-icones/nova_pncp.svg',
+          icon_img: '/app/assets/novos-icones/nova_pncp.svg',
         },
         {
           link: 'https://www.gov.br/compras/pt-br/nllc',
           texto: 'Lei das Licitações',
-          icon_img: '../../../assets/novos-icones/lei131333.svg',
+          icon_img: '/app/assets/novos-icones/lei131333.svg',
         },
         {
           link: 'https://portal.tcu.gov.br/inicio',
           texto: 'NOTÍCIAS DO TCU',
-          icon_img: '../../../assets/logos/Tcu.svg',
+          icon_img: '/app/assets/logos/Tcu.svg',
         },
       ];
     }

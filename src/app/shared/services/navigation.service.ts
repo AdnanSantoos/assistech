@@ -11,7 +11,6 @@ export class NavigationService {
   private initialized = new BehaviorSubject<boolean>(false);
   private slug: string | null = null;
   private defaultSlug = 'admin';
-  private readonly appPrefix = '/app'; // Novo prefixo
 
   constructor() {
     this.router.events
@@ -29,27 +28,24 @@ export class NavigationService {
   }
 
   private handleNavigation(url: string): void {
-    console.log('==== NavigationService ====');
-    console.log('URL inicial:', url);
+    console.log('URL sendo processada:', url);
 
-    // Nova verificação para evitar processamento duplicado
-    if (url.includes('/app/')) {
-      console.log('URL já contém /app/, ignorando');
+    // Se a URL já contém o slug, não manipular
+    if (url.startsWith(`/${this.slug}/`) || url === `/${this.slug}`) {
+      return;
+    }
+
+    // Se não estiver em uma rota administrativa ou for rota de login, ignora
+    if (!url.includes('/adm') || url.includes('/login')) {
       return;
     }
 
     const effectiveSlug = this.slug || this.defaultSlug;
-    console.log('Slug efetivo:', effectiveSlug);
+    const newUrl = `/${effectiveSlug}${url}`;
 
-    // Limpa URL de possíveis duplicações
-    const cleanUrl = url.replace(/^\/admin\//, '/').replace(/\/admin\//, '/');
-    const newUrl = `${this.appPrefix}/${effectiveSlug}${cleanUrl}`;
-
-    console.log('URL limpa:', cleanUrl);
     console.log('Nova URL gerada:', newUrl);
 
     if (url !== newUrl) {
-      console.log('Navegando para nova URL');
       this.router.navigateByUrl(newUrl, { replaceUrl: true });
     }
   }

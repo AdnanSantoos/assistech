@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NewsService } from '../general-news/general-news-detalhes/general-news-detalhes-service/general-news-detalhes-service.service';
 import { Post } from '../general-news/model/post.model';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { TenantService } from '../../services/tenant.service';
 import { filter, switchMap } from 'rxjs';
 
@@ -20,7 +20,8 @@ export class SliderComponent implements OnInit {
 
   constructor(
     private newsService: NewsService,
-    private _tenantService: TenantService
+    private _tenantService: TenantService,
+    public route : ActivatedRoute,
   ) {}
 
   ngOnInit(): void {
@@ -61,7 +62,7 @@ export class SliderComponent implements OnInit {
   }
 
   getNoticiaRoute(title: string): string[] {
-    return ['/app', this.currentSlug, 'noticia-detalhe', this.generateSlug(title)];
+    return ['noticia-detalhe', this.generateSlug(title)];
   }
 
   getRandomSlides(slidesArray: Post[], numSlides: number): Post[] {

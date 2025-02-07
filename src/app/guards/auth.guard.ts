@@ -31,7 +31,7 @@ export class AuthGuard implements CanActivate, OnDestroy {
 
     if (!token) {
       if (slug) {
-        this.router.navigate(['/app', slug, 'adm', 'login']);
+        this.router.navigate([slug, 'adm', 'login']);
       } else {
         console.error('Não foi possível obter o slug da rota');
         this.router.navigate(['/error']);

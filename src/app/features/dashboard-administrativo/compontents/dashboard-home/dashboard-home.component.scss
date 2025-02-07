@@ -146,7 +146,7 @@
             width: 18px;
             height: 21px;
             background-size: cover;
-            background-image: url("../../../../../assets/icons/perfil-icon-branco.svg");
+            background-image: url("/app/assets/icons/perfil-icon-branco.svg");
           }
         }
         @media (max-width: 768px) {
@@ -226,7 +226,7 @@
         width: 30px;
         height: 30px;
         background-size: cover;
-        background-image: url("../../../../../assets/icons/perfil-icon-preto.svg") !important;
+        background-image: url("/app/assets/icons/perfil-icon-preto.svg") !important;
       }
     }
     .btn-ver-lista {

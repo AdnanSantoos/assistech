@@ -17,259 +17,259 @@ export class AcessoInformacaoAdministrativoComponent {
       name: 'Ata das sessões',
       externo: '',
       link: '/adm/portal-de-transparencia-administrativo/ata-das-sessoes',
-      icon: '../../../../../assets/novos-icones/ata-das-sessoes.svg'
+      icon: '/assets/assets/novos-icones/ata-das-sessoes.svg'
     },
     {
       name: 'atos admissionais',
       externo: '',
       link: '/adm/portal-de-transparencia-administrativo/atos-admissionais',
-      icon: '../../../../../assets/novos-icones/atos-admissionais-e-boletim-de-votacao.svg'
+      icon: '/app/assets/novos-icones/atos-admissionais-e-boletim-de-votacao.svg'
     },
     {
       name: 'agenda do presidente',
       externo: '',
       link: '/adm/pncp-administrativo/adicionar-agenda-do-presidente',
-      icon: '../../../../../assets/novos-icones/agenda-presidente.svg'
+      icon: '/app/assets/novos-icones/agenda-presidente.svg'
     },
     {
       name: 'carta de serviços',
       externo: '',
       link: '/adm/pncp-administrativo/adicionar-carta-servicos',
-      icon: '../../../../../assets/novos-icones/carta-servico-usuario.svg'
+      icon: '/app/assets/novos-icones/carta-servico-usuario.svg'
     },
     {
       name: 'comissões',
       externo: '',
       link: '/adm/pncp-administrativo/adicionar-comissoes',
-      icon: '../../../../../assets/novos-icones/comissoes.svg'
+      icon: '/app/assets/novos-icones/comissoes.svg'
     },
     {
       name: 'cotas para serviço parlamentar',
       externo: '',
       link: '/adm/pncp-administrativo/adicionar-cotas-para-servico-parlamentar',
-      icon: '../../../../../assets/novos-icones/cotas-para-exercicio-atividade-parlamentar.svg'
+      icon: '/app/assets/novos-icones/cotas-para-exercicio-atividade-parlamentar.svg'
     },
     {
       name: 'dados abertos',
       externo: '',
       link: '/adm/pncp-administrativo/adicionar-dados-abertos',
-      icon: '../../../../../assets/novos-icones/dados-abertos.svg'
+      icon: '/app/assets/novos-icones/dados-abertos.svg'
     },
     {
       name: 'Informações sigilosas',
       externo: '',
       link: '/adm/pncp-administrativo/adicionar-informacoes-sigilosas',
-      icon: '../../../../../assets/novos-icones/documentos-informacoes-sigilosas.svg'
+      icon: '/app/assets/novos-icones/documentos-informacoes-sigilosas.svg'
     },
     {
       name: 'Julgamento de contas',
       externo: '',
       link: '/adm/pncp-administrativo/adicionar-julgamentos-contas',
-      icon: '../../../../../assets/novos-icones/julgamento-contas-prefeitura.svg'
+      icon: '/app/assets/novos-icones/julgamento-contas-prefeitura.svg'
     },
     {
       name: 'Cadastrar LDO',
       externo: '',
       link: '/adm/pncp-administrativo/adicionar-ldo',
-      icon: '../../../../../assets/novos-icones/ppa-loa-ldo.svg'
+      icon: '/app/assets/novos-icones/ppa-loa-ldo.svg'
     },
     {
       name: 'Cadastrar LOA',
       externo: '',
       link: '/adm/pncp-administrativo/adicionar-loa',
-      icon: '../../../../../assets/novos-icones/ppa-loa-ldo.svg'
+      icon: '/app/assets/novos-icones/ppa-loa-ldo.svg'
     },
     {
       name: 'Cadastrar Lei Organica',
       externo: '',
       link: '/adm/pncp-administrativo/adicionar-lei-organica',
-      icon: '../../../../../assets/novos-icones/lei-organica-municipal.svg'
+      icon: '/app/assets/novos-icones/lei-organica-municipal.svg'
     },
     {
       name: 'Cadastrar Legislação',
       externo: '',
       link: '/adm/pncp-administrativo/adicionar-legislacao',
-      icon: '../../../../../assets/novos-icones/legislacao-pessoal-municipio.svg'
+      icon: '/app/assets/novos-icones/legislacao-pessoal-municipio.svg'
     }, 
     {
       name: 'Ordem Cronológica dos pagamentos',
       externo: '',
       link: '/adm/pncp-administrativo/adicionar-ordem-cronologica-pagamentos',
-      icon: '../../../../../assets/novos-icones/ordem-cronologica-pagamentos.svg'
+      icon: '/app/assets/novos-icones/ordem-cronologica-pagamentos.svg'
     },
     {
       name: 'Ouvidoria',
       externo: '',
       link: '/adm/pncp-administrativo/adicionar-ouvidoria',
-      icon: '../../../../../assets/novos-icones/ouvidoria.svg'
+      icon: '/app/assets/novos-icones/ouvidoria.svg'
     },
     {
       name: 'Lista de Preposições e presença',
       externo: '',
       link: '/adm/pncp-administrativo/adicionar-lista-preposicao-presenca',
-      icon: '../../../../../assets/novos-icones/lista-preposicoes-presenca.svg'
+      icon: '/app/assets/novos-icones/lista-preposicoes-presenca.svg'
     },
     {
       name: 'lgpd',
       externo: '',
       link: '/adm/pncp-administrativo/adicionar-lgpd',
-      icon: '../../../../../assets/novos-icones/lgpd.svg'
+      icon: '/app/assets/novos-icones/lgpd.svg'
     },
     {
       name: 'Documentos administrativos',
       externo: '',
       link: '/adm/pncp-administrativo/adicionar-documentos-administrativos',
-      icon: '../../../../../assets/novos-icones/documentos-administrativos.svg'
+      icon: '/app/assets/novos-icones/documentos-administrativos.svg'
     },
     {
       name: 'audiência pública',
       externo: '',
       link: '/adm/portal-de-transparencia-administrativo/audiencia-publica',
-      icon: '../../../../../assets/novos-icones/audiencia-publica.svg'
+      icon: '/app/assets/novos-icones/audiencia-publica.svg'
     },
     {
       name: 'balancete',
       externo: '',
       link: '/adm/portal-de-transparencia-administrativo/balancete',
-      icon: '../../../../../assets/novos-icones/balancete.svg'
+      icon: '/app/assets/novos-icones/balancete.svg'
     },
     {
       name: 'Balanço Anual',
       externo: '',
       link: '/adm/balanco-anual-administrativo',
-      icon: '../../../../../assets/novos-icones/balanco-anual.svg'
+      icon: '/app/assets/novos-icones/balanco-anual.svg'
     },
     {
       name: 'boletim de votação',
       externo: '',
       link: '/adm/boletim-votacao-administrativo',
-      icon: '../../../../../assets/novos-icones/atos-admissionais-e-boletim-de-votacao.svg'
+      icon: '/app/assets/novos-icones/atos-admissionais-e-boletim-de-votacao.svg'
     },
     {
       name: 'decretos e leis',
       externo: '',
       link: '/adm/legislacao-municipal-administrativo',
-      icon: '../../../../../assets/novos-icones/decreto-e-leis.svg'
+      icon: '/app/assets/novos-icones/decreto-e-leis.svg'
     },
     {
       name: 'contratação direta',
       externo: '',
       link: '/adm/contratacao-direta-administrativo',
-      icon: '../../../../../assets/novos-icones/contratacao-direta.svg'
+      icon: '/app/assets/novos-icones/contratacao-direta.svg'
     },
     {
       name: 'contratos',
       externo: '',
       link: '/adm/contratos-administrativo',
-      icon: '../../../../../assets/novos-icones/contratos.svg'
+      icon: '/app/assets/novos-icones/contratos.svg'
     },
     {
       name: 'convênios',
       externo: '',
       link: '/adm/convenios-administrativo',
-      icon: '../../../../../assets/novos-icones/convenios.svg'
+      icon: '/app/assets/novos-icones/convenios.svg'
     },
     {
       name: 'dados da frota',
       externo: '',
       link: '/adm/dados-da-frota-administrativo',
-      icon: '../../../../../assets/novos-icones/dados-da-frota.svg'
+      icon: '/app/assets/novos-icones/dados-da-frota.svg'
     },
     {
       name: 'editais',
       externo: '',
       link: '/adm/',
-      icon: '../../../../../assets/novos-icones/editais.svg'
+      icon: '/app/assets/novos-icones/editais.svg'
     },
     {
       name: 'folha de pagamento',
       externo: '',
       link: 'https://www.google.com.br/',
-      icon: '../../../../../assets/novos-icones/folha-de-pagamento.svg'
+      icon: '/app/assets/novos-icones/folha-de-pagamento.svg'
     },
     {
       name: 'indicação e requerimento',
       externo: '',
       link: '/adm/indicacoes-requerimento-administrativo',
-      icon: '../../../../../assets/novos-icones/indicacao-e-requerimento.svg'
+      icon: '/app/assets/novos-icones/indicacao-e-requerimento.svg'
     },
     {
       name: 'indicação e deliberação',
       externo: '',
       link: '/adm/indicacoes-deliberacoes-administrativo',
-      icon: '../../../../../assets/novos-icones/indicacao-deliberacao.svg'
+      icon: '/app/assets/novos-icones/indicacao-deliberacao.svg'
     },
     {
       name: 'instrumento de planejamento',
       externo: '',
       link: 'https://www.google.com.br/',
-      icon: '../../../../../assets/novos-icones/instrumento-de-planejamento.svg'
+      icon: '/app/assets/novos-icones/instrumento-de-planejamento.svg'
     },
     {
       name: 'Licitações',
       externo: '',
       link: '/adm/pncp-administrativo/adicionar-licitacoes',
-      icon: '../../../../../assets/novos-icones/licitacoes.svg'
+      icon: '/app/assets/novos-icones/licitacoes.svg'
     },
     {
       name: 'Lista de presença',
       externo: '',
       link: '/adm/lista-presenca-administrativo',
-      icon: '../../../../../assets/novos-icones/lista-de-presenca.svg'
+      icon: '/app/assets/novos-icones/lista-de-presenca.svg'
     },
     {
       name: 'Moções',
       externo: '',
       link: '/adm/mocoes-administrativo',
-      icon: '../../../../../assets/novos-icones/mocoes.svg'
+      icon: '/app/assets/novos-icones/mocoes.svg'
     },
     {
       name: 'Ofício',
       externo: '',
       link: '/adm/oficio-administrativo',
-      icon: '../../../../../assets/novos-icones/oficio.svg'
+      icon: '/app/assets/novos-icones/oficio.svg'
     },
     {
       name: 'patrimônios públicos',
       externo: '',
       link: '/adm/patrimonios-publicos-administrativo',
-      icon: '../../../../../assets/novos-icones/patrimonios-publico.svg'
+      icon: '/app/assets/novos-icones/patrimonios-publico.svg'
     },
     {
       name: 'pedidos de providência',
       externo: '',
       link: '/adm/pedidos-providencia-administrativo',
-      icon: '../../../../../assets/novos-icones/pedidos-de-providencia.svg'
+      icon: '/app/assets/novos-icones/pedidos-de-providencia.svg'
     },
     {
       name: 'PPA, LOA E LDO',
       externo: '',
       link: '/adm/dashboard-administrativo/ppa-loa-ldo',
-      icon: '../../../../../assets/novos-icones/ppa-loa-ldo.svg'
+      icon: '/app/assets/novos-icones/ppa-loa-ldo.svg'
     },
     {
       name: 'RREO E RGF',
       externo: '',
       link: '/adm/rreo-rgf-administrativo',
-      icon: '../../../../../assets/novos-icones/rreo-rgf.svg'
+      icon: '/app/assets/novos-icones/rreo-rgf.svg'
     },
     {
       name: 'SIST. DE Registro de preço',
       externo: '',
       link: '/adm/registro-preco-administrativo',
-      icon: '../../../../../assets/novos-icones/registro-preco.svg'
+      icon: '/app/assets/novos-icones/registro-preco.svg'
     },
     {
       name: 'transferência de recursos',
       externo: '',
       link: '/adm/transferencia-recursos-administrativo',
-      icon: '../../../../../assets/novos-icones/transferencia-recursos.svg'
+      icon: '/app/assets/novos-icones/transferencia-recursos.svg'
     },
     {
       name: 'Notícias',
       externo: '',
       link: '/adm/noticias-administrativo',
-      icon: '../../../../../assets/novos-icones/noticias.svg'
+      icon: '/app/assets/novos-icones/noticias.svg'
     }
   ];
 
@@ -278,19 +278,19 @@ export class AcessoInformacaoAdministrativoComponent {
       name: 'Portal de Transparência',
       externo: '',
       link: '/adm/acesso-informacao-administrativo',
-      icon: '../../../../../assets/novos-icones/portal-transparencia.svg'
+      icon: '/app/assets/novos-icones/portal-transparencia.svg'
     },
     {
       name: 'pncp',
       externo: '',
       link: '/adm/pncp-administrativo',
-      icon: '../../../../../assets/novos-icones/pncp.svg'
+      icon: '/app/assets/novos-icones/pncp.svg'
     },
     {
       name: 'Diário Oficial',
       externo: '',
       link: '/adm/diario-oficial-administrativo',
-      icon: '../../../../../assets/novos-icones/diario-oficial.svg'
+      icon: '/app/assets/novos-icones/diario-oficial.svg'
     }
   ];
 }
