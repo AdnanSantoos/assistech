@@ -1,38 +1,71 @@
 <div class="bkg-login">
-    <div class="container">
-        <div class="login-container">
-            <div class="login-content">
-                <div class="logo-container">
-                    <img src="../../../assets/logos/logo-login.png" alt="Logo" class="logo">
-                </div>
-                <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="mt-10">
-                    <div class="form-group">
-                        <label for="login">Login</label>
-                        <input type="text" id="login" class="form-control" formControlName="email" placeholder="Digite seu login">
-                    </div>
-                    <div class="form-group mt-10">
-                        <label for="senha">Senha</label>
-                        <input type="password" id="senha" class="form-control mt-10" formControlName="password" placeholder="Digite sua senha">
-                    </div>
-                    <div class="d-flex justify-content-between mt-10">
-                        <div class="form-group form-check">
-                            <input type="checkbox" class="form-check-input mt-10" id="manterConectado" formControlName="manterConectado">
-                            <p class="form-check-label" for="manterConectado">Manter conectado</p>
-                        </div>
-                        <div class="form-group">
-                            <a href="#" class="esqueceu-senha">Esqueceu a senha?</a>
-                        </div>
-                    </div>
-                    <button type="submit" class="btn btn-primary" [disabled]="loginForm.invalid">
-                        Acessar
-                        @if (getLoading()) {
-                            <div class="spinner-border text-light" role="status">
-                                <span class="visually-hidden">Loading...</span>
-                            </div>
-                        }
-                    </button>
-                </form>
-            </div>
+  <div class="container">
+    <div class="login-container">
+      <div class="login-content">
+        <div class="logo-container">
+          <img src="../../../assets/logos/logo-login.png" alt="Logo" class="logo">
         </div>
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="mt-10">
+          <div class="form-group">
+            <label for="login">LOGIN</label>
+            <input
+              type="text"
+              id="login"
+              class="form-control"
+              formControlName="email"
+              placeholder="Digite seu login"
+            >
+          </div>
+          <div class="form-group mt-10">
+            <label for="senha">SENHA</label>
+            <div class="password-container">
+              <input
+                [type]="showPassword ? 'text' : 'password'"
+                id="senha"
+                class="form-control"
+                formControlName="password"
+                placeholder="Digite sua senha"
+                [class.is-invalid]="loginForm.get('password')?.errors?.['minlength'] && loginForm.get('password')?.touched"
+              >
+              <button
+                class="toggle-password"
+                type="button"
+                (click)="togglePasswordVisibility()"
+              >
+                <mat-icon>
+                  {{showPassword ? 'visibility_off' : 'visibility'}}
+                </mat-icon>
+              </button>
+            </div>
+            <div class="invalid-feedback" *ngIf="loginForm.get('password')?.errors?.['minlength'] && loginForm.get('password')?.touched">
+              A senha deve ter no mínimo 7 caracteres
+            </div>
+          </div>
+          <div class="options-container">
+            <div class="checkbox-container">
+              <input
+                type="checkbox"
+                id="manterConectado"
+                formControlName="manterConectado"
+              >
+              <label for="manterConectado">Manter conectado</label>
+            </div>
+            <a href="#" class="forgot-password">Esqueceu a senha?</a>
+          </div>
+          <button
+            type="submit"
+            class="submit-button"
+            [disabled]="loginForm.invalid"
+          >
+            Acessar
+            @if (getLoading()) {
+              <div class="spinner-border text-light" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+            }
+          </button>
+        </form>
+      </div>
     </div>
+  </div>
 </div>
