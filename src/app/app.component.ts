@@ -70,6 +70,7 @@ export class AppComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
+        console.log(event)
         // Verifica se a URL é válida antes de processar
         if (event.url && !event.url.includes('null')) {
           if (!this.slug) {
