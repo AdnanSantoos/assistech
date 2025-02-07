@@ -3,12 +3,12 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Post } from '../../model/post.model';
-
+import { environment } from '../../../../../../environments/environment';
 @Injectable({
   providedIn: 'root'
 })
 export class NewsService {
-  private apiUrl = 'https://api-staging.assistechpublicacoes.com.br/v1/public/news';
+  private apiUrl = `${environment.API_URL}/public/news`;
 
   constructor(private http: HttpClient) {}
 
