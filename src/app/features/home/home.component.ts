@@ -1,15 +1,10 @@
 import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { SliderComponent } from '../../shared/components/slider/slider.component';
 import { CommonModule } from '@angular/common';
-import {
-  ActivatedRoute,
-  NavigationEnd,
-  Router,
-  RouterLink,
-} from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router, RouterLink } from '@angular/router';
 import { GeneralNewsComponent } from '../../shared/components/general-news/general-news.component';
 import { TenantService } from '../../shared/services/tenant.service';
-import { filter, Subscription, switchMap } from 'rxjs';
+import { filter, Subscription, switchMap, tap } from 'rxjs';
 import { CadastrarFotosAdministrativoService } from '../dashboard-administrativo/compontents/cadastrar-fotos-diario-oficial/services/cadastrar-foto-administrativo.service';
 import { PhotoForm } from '../dashboard-administrativo/compontents/cadastrar-fotos-diario-oficial/model/cadastrar-foto.model';
 
@@ -31,8 +26,9 @@ export class HomeComponent implements OnInit, OnDestroy {
   acessos: AcessoRapido[] = [];
   private subscription = new Subscription();
   currentSlug: string = '';
+  tenantData: any = null;
 
-  images: { url: string }[] = []; // Initialize as an empty array
+  images: { url: string }[] = [];
   defaultImages = [
     { url: '/app/assets/imgs-home/1.jpg' },
     { url: '/app/assets/imgs-home/2.jpg' },
@@ -54,99 +50,110 @@ export class HomeComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    const sub = this._tenantService.slug$
+    // Subscribe to slug changes and fetch tenant data
+    const slugSub = this._tenantService.slug$
       .pipe(
-        filter((slug): slug is string => !!slug), // Ensure slug is a string
-        switchMap((slug) =>
-          this._cadastrarFotosAdministrativoService.getRecentPhotos(slug)
+        filter((slug): slug is string => slug !== null),
+        tap(slug => {
+          console.log('Slug received:', slug);
+          this.currentSlug = slug;
+        }),
+        switchMap(slug =>
+          this._tenantService.getTenantData(slug).pipe(
+            tap(response => {
+              console.log('Tenant data received:', response);
+              this.tenantData = response.data;
+            }),
+            switchMap(() => this._cadastrarFotosAdministrativoService.getRecentPhotos(slug))
+          )
         )
       )
-      .subscribe((response: { data: PhotoForm[] }) => {
-        // Adjust the type to match the API response
-        const data = response.data; // Access the data property
-
-        // Check if data is an array and filter out photos with undefined URLs
-        if (Array.isArray(data)) {
-          const validPhotos = data.filter(
-            (photo): photo is PhotoForm => photo.url !== undefined
-          );
-
-          if (validPhotos.length > 0) {
-            this.images = validPhotos.map((photo) => ({ url: photo.url! })); // Use non-null assertion
+      .subscribe({
+        next: (response: { data: PhotoForm[] }) => {
+          const data = response.data;
+          if (Array.isArray(data)) {
+            const validPhotos = data.filter(
+              (photo): photo is PhotoForm => photo.url !== undefined
+            );
+            this.images = validPhotos.length > 0
+              ? validPhotos.map(photo => ({ url: photo.url! }))
+              : this.defaultImages;
           } else {
-            this.images = this.defaultImages; // Use default images if no valid data
+            this.images = this.defaultImages;
           }
-        } else {
-          this.images = this.defaultImages; // Use default images if data is not an array
+          this.updateAcessos(this.router.url);
+        },
+        error: (error) => {
+          console.error('Error fetching data:', error);
+          this.images = this.defaultImages;
         }
       });
 
-    this.subscription.add(sub);
-
-    this.router.events.subscribe((event) => {
-      if (event instanceof NavigationEnd) {
-        this.updateAcessos(event.urlAfterRedirects);
-      }
-    });
-    this.updateAcessos(this.router.url);
-
-    const slugSub = this._tenantService.slug$
-      .pipe(filter((slug): slug is string => slug !== null))
-      .subscribe((slug) => {
-        console.log('==== HomeComponent Slug ====');
-        console.log('Valor do slug recebido:', slug);
-        this.currentSlug = slug;
-        console.log('currentSlug atualizado para:', this.currentSlug);
-        console.log('Router URL atual:', this.router.url);
-        this.updateAcessos(this.router.url);
-      });
     this.subscription.add(slugSub);
+
+    // Subscribe to router events
+    const routerSub = this.router.events
+      .pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe((event) => {
+        if (event instanceof NavigationEnd) {
+          this.updateAcessos(event.urlAfterRedirects);
+        }
+      });
+
+    this.subscription.add(routerSub);
   }
 
   updateAcessos(url: string) {
-    console.log('==== updateAcessos ====');
-    console.log('URL recebida:', url);
-    console.log('currentSlug atual:', this.currentSlug);
-    if (url.includes('/home')) {
-      this.acessos = [
-        {
-          routerLink: ['/', this.currentSlug, 'diario-oficial'],
-          texto: 'DIÁRIO OFICIAL',
-          icon_img: '/app/assets/novos-icones/diario-oficial.svg',
-        },
-        // {
-        //   routerLink: `/${this.currentSlug}/trn/portal-transparencia`,
-        //   texto: 'PORTAL DE TRANSPARÊNCIA',
-        //   icon_img: '/app/assets/novos-icones/portal-transparencia.svg',
-        // },
-        {
-          link: 'https://atricon.org.br/',
-          texto: 'ATRICON',
-          icon_img: '/app/assets/novos-icones/atricon-logo.svg',
-        },
-        {
-          link: 'https://www.gov.br/pt-br',
-          texto: '',
-          icon_img:
-            'https://www.gov.br/++theme++padrao_govbr/img/govbr-logo-large.png',
-        },
-        {
-          link: 'https://www.gov.br/pncp/pt-br',
-          texto: 'PNCP',
-          icon_img: '/app/assets/novos-icones/nova_pncp.svg',
-        },
-        {
-          link: 'https://www.gov.br/compras/pt-br/nllc',
-          texto: 'Lei das Licitações',
-          icon_img: '/app/assets/novos-icones/lei131333.svg',
-        },
-        {
-          link: 'https://portal.tcu.gov.br/inicio',
-          texto: 'NOTÍCIAS DO TCU',
-          icon_img: '/app/assets/logos/Tcu.svg',
-        },
-      ];
+    if (!url.includes('/home')) return;
+
+    const baseAcessos: AcessoRapido[] = [
+      {
+        routerLink: ['/', this.currentSlug, 'diario-oficial'],
+        texto: 'DIÁRIO OFICIAL',
+        icon_img: '/app/assets/novos-icones/diario-oficial.svg',
+      }
+    ];
+
+    // Add either Portal de Transparência or ATRICON based on previous_transparent_link
+    if (this.tenantData?.previous_transparent_link) {
+      baseAcessos.push({
+        routerLink: [`/${this.currentSlug}/trn/portal-transparencia`],
+        texto: 'PORTAL DE TRANSPARÊNCIA',
+        icon_img: '/app/assets/novos-icones/portal-transparencia.svg',
+      });
+    } else {
+      baseAcessos.push({
+        link: 'https://atricon.org.br/',
+        texto: 'ATRICON',
+        icon_img: '/app/assets/novos-icones/atricon-logo.svg',
+      });
     }
+
+    // Add remaining static links
+    baseAcessos.push(
+      {
+        link: 'https://www.gov.br/pt-br',
+        texto: '',
+        icon_img: 'https://www.gov.br/++theme++padrao_govbr/img/govbr-logo-large.png',
+      },
+      {
+        link: 'https://www.gov.br/pncp/pt-br',
+        texto: 'PNCP',
+        icon_img: '/app/assets/novos-icones/nova_pncp.svg',
+      },
+      {
+        link: 'https://www.gov.br/compras/pt-br/nllc',
+        texto: 'Lei das Licitações',
+        icon_img: '/app/assets/novos-icones/lei131333.svg',
+      },
+      {
+        link: 'https://portal.tcu.gov.br/inicio',
+        texto: 'NOTÍCIAS DO TCU',
+        icon_img: '/app/assets/logos/Tcu.svg',
+      }
+    );
+
+    this.acessos = baseAcessos;
   }
 
   scrollToNoticias() {
