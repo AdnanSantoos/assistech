@@ -6,9 +6,7 @@
           [src]="secondLogoUrl"
           alt="Logo"
           class="logo"
-          (error)="
-            secondLogoUrl = '/app/assets/logos/admin.second.jpg'
-          "
+          (error)="secondLogoUrl = '/app/assets/logos/admin.second.jpg'"
         />
         <div class="input-container">
           <label class="label-ano">Ano</label>
@@ -90,7 +88,8 @@
         [href]="previous_official_gazette_link"
         target="_blank"
         class="btn-diario-anterior d-flex align-items-center justify-content-center cup"
-        ><svg
+      >
+        <svg
           class="btn-format btn-success"
           fill="#000000"
           version="1.1"
@@ -119,8 +118,10 @@
             </g>
           </g>
         </svg>
-        <span class="ms-1">Diário Oficial Anterior</span>
-        <p>{{previous_official_gazette_date}}</p>
+        <div class="d-flex flex-column">
+          <span class="ms-1 text-center">Diário Oficial Anterior</span>
+          <p>{{ previous_official_gazette_date | date : "dd/MM/yyyy" }}</p>
+        </div>
       </a>
       }
     </div>

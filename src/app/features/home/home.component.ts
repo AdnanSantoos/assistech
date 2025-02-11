@@ -117,7 +117,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     // Add either Portal de Transparência or ATRICON based on previous_transparent_link
     if (this.tenantData?.previous_transparent_link) {
       baseAcessos.push({
-        routerLink: [`/${this.currentSlug}/trn/portal-transparencia`],
+        link: this.tenantData.previous_transparent_link, // Usa o link externo
         texto: 'PORTAL DE TRANSPARÊNCIA',
         icon_img: '/app/assets/novos-icones/portal-transparencia.svg',
       });
