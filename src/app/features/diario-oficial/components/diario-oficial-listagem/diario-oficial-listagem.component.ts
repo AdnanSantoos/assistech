@@ -3,6 +3,7 @@ import {
   Component,
   EventEmitter,
   Input,
+  LOCALE_ID,
   OnChanges,
   OnInit,
   Output,
@@ -74,7 +75,11 @@ interface TenantResponse {
   ],
   templateUrl: './diario-oficial-listagem.component.html',
   styleUrl: './diario-oficial-listagem.component.scss',
-  providers: [BsModalService, DatePipe],
+  providers: [
+    BsModalService,
+    DatePipe,
+    { provide: LOCALE_ID, useValue: 'pt-BR' },
+  ],
 })
 export class DiarioOficialListagemComponent implements OnChanges, OnInit {
   bsConfig = {
@@ -92,6 +97,7 @@ export class DiarioOficialListagemComponent implements OnChanges, OnInit {
   logoUrl: string = '';
   secondLogoUrl: string = '';
   previous_official_gazette_link: string | null = null;
+  previous_transparent_link: string | null = null;
   previous_official_gazette_date: string | null = null;
   meses: selectModel[] = [
     { key: 'Janeiro', value: 1 },
@@ -147,6 +153,8 @@ export class DiarioOficialListagemComponent implements OnChanges, OnInit {
     this.getTenantData(this.slug);
     this.previous_official_gazette_link =
       this.publicacoes?.data.previous_official_gazette_link ?? null;
+    this.previous_transparent_link =
+      this.publicacoes?.data.previous_transparent_link ?? null;
     this.previous_official_gazette_date =
       this.publicacoes?.data.previous_official_gazette_date ?? null;
   }
@@ -165,13 +173,12 @@ export class DiarioOficialListagemComponent implements OnChanges, OnInit {
         this.navigationService.initialize(data.slug);
         this.previous_official_gazette_link =
           data.previous_official_gazette_link || null;
-
+        this.previous_transparent_link = data.previous_transparent_link || null;
         this.previous_official_gazette_date =
           data.previous_official_gazette_date || null;
 
         // Atualiza as URLs dos logos
-        this.logoUrl =
-          data.logo || '/app/assets/logos/logo-g-itaberaba.png';
+        this.logoUrl = data.logo || '/app/assets/logos/logo-g-itaberaba.png';
         this.secondLogoUrl =
           data.second_logo || '/app/assets/logos/admin.second.jpg';
       },
