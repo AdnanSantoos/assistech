@@ -96,7 +96,7 @@ export class SidebarAdministrativoComponent implements OnInit {
           {
             title: 'Imagens',
             link: '../dashboard-administrativo/cadastrar-fotos-diario',
-            visible: true,
+            visible: this.isStaff,
           },
         ],
       },
