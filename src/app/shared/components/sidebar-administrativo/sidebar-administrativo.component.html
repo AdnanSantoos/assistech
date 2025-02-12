@@ -18,15 +18,32 @@
         </div>
 
         <div class="modal-body">
-          <!-- Search input -->
-          <div class="mb-3">
-            <input
-              type="text"
-              class="form-control"
-              placeholder="Pesquisar órgão..."
-              [ngModel]="searchTerm"
-              (ngModelChange)="onSearch($event)"
-            />
+          <!-- Search and Filter Row -->
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Pesquisar órgão..."
+                [ngModel]="searchTerm"
+                (ngModelChange)="onSearch($event)"
+              />
+            </div>
+            <div class="col-md-6">
+              <ng-select
+                [items]="[
+                  { value: null, label: 'Todos os Status' },
+                  { value: true, label: 'Ativos' },
+                  { value: false, label: 'Inativos' }
+                ]"
+                bindLabel="label"
+                bindValue="value"
+                placeholder="Filtrar por Status"
+                [(ngModel)]="activeFilter"
+                (change)="filterTenants()"
+              >
+              </ng-select>
+            </div>
           </div>
 
           <!-- Results list -->
@@ -39,10 +56,19 @@
                 *ngFor="let tenant of filteredTenants"
                 class="list-group-item d-flex justify-content-between align-items-center"
               >
-                {{ tenant.name }}
+                <div>
+                  {{ tenant.name }}
+                  <span
+                    class="badge ms-2"
+                    [ngClass]="tenant.is_active ? 'bg-success' : 'bg-danger'"
+                  >
+                    {{ tenant.is_active ? "Ativo" : "Inativo" }}
+                  </span>
+                </div>
                 <button
                   class="btn btn-primary btn-sm"
                   (click)="selectTenant(tenant.slug)"
+                  [disabled]="!tenant.is_active"
                 >
                   Mudar
                 </button>
@@ -62,7 +88,7 @@
                     class="page-link"
                     (click)="goToPage(1)"
                     [class.disabled]="currentPage === 1"
-                    style="cursor: pointer;"
+                    style="cursor: pointer"
                   >
                     <span aria-hidden="true">&laquo;&laquo;</span>
                   </a>
@@ -74,7 +100,7 @@
                     class="page-link"
                     (click)="goToPreviousPage()"
                     [class.disabled]="currentPage === 1"
-                    style="cursor: pointer;"
+                    style="cursor: pointer"
                   >
                     <span aria-hidden="true">&laquo;</span>
                   </a>
@@ -82,28 +108,36 @@
 
                 <!-- Current page indicator -->
                 <li class="page-item active">
-                  <span class="page-link">{{ currentPage }} / {{ totalPages }}</span>
+                  <span class="page-link"
+                    >{{ currentPage }} / {{ totalPages }}</span
+                  >
                 </li>
 
                 <!-- Next page -->
-                <li class="page-item" [class.disabled]="currentPage === totalPages">
+                <li
+                  class="page-item"
+                  [class.disabled]="currentPage === totalPages"
+                >
                   <a
                     class="page-link"
                     (click)="goToNextPage()"
                     [class.disabled]="currentPage === totalPages"
-                    style="cursor: pointer;"
+                    style="cursor: pointer"
                   >
                     <span aria-hidden="true">&raquo;</span>
                   </a>
                 </li>
 
                 <!-- Last page -->
-                <li class="page-item" [class.disabled]="currentPage === totalPages">
+                <li
+                  class="page-item"
+                  [class.disabled]="currentPage === totalPages"
+                >
                   <a
                     class="page-link"
                     (click)="goToPage(totalPages)"
                     [class.disabled]="currentPage === totalPages"
-                    style="cursor: pointer;"
+                    style="cursor: pointer"
                   >
                     <span aria-hidden="true">&raquo;&raquo;</span>
                   </a>
@@ -123,7 +157,7 @@
             Fechar
           </button>
         </div>
-       </ng-template>
+      </ng-template>
     </div>
     <div
       routerLink="/adm/dashboard-administrativo/home"

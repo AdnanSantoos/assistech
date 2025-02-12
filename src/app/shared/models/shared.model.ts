@@ -64,6 +64,7 @@ export interface TenantFullModel {
   previous_official_gazette_link?:string;
 previous_transparent_link?:string;
   previous_official_gazette_date?:string;
+  is_active?:boolean;
 }
 
 export interface dynamicFields {
