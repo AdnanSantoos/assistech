@@ -312,14 +312,19 @@ export class SidebarAdministrativoComponent implements OnInit {
   }
 
   selectTenant(tenantSlug: string): void {
+    // Clear any existing slug or permissions
+    localStorage.removeItem('slug');
+    localStorage.removeItem('userPermissions');
+
     this._tenantService
       .getTenantData(tenantSlug)
       .pipe(
         tap((v) => console.log('getTenantData response:', v)),
         switchMap((tenantDataResponse) => {
-          // Atualiza o estado do tenant
+          // Explicitly set the new slug
           this._tenantService.setSlug(tenantDataResponse.data.slug);
           this._tenantService.updateState(tenantDataResponse.data);
+
           // Encadeia a chamada para getDados
           return this._tenantService.getDados(tenantSlug).pipe(
             tap((dadosResponse) => {
@@ -349,10 +354,14 @@ export class SidebarAdministrativoComponent implements OnInit {
         })
       )
       .subscribe(({ tenantData }) => {
-        console.log('rota');
-        this.router.navigateByUrl(
-          `${tenantData.data.slug}/adm/dashboard-administrativo/home`
-        );
+        // Use the new slug directly
+        const navigationPath = `${tenantData.data.slug}/adm/dashboard-administrativo/home`;
+
+        console.log('Navigating to:', navigationPath);
+
+        // Use replaceUrl to replace the current history entry
+        this.router.navigateByUrl(navigationPath, { replaceUrl: true });
+
         this.modalRef?.hide();
       });
   }
