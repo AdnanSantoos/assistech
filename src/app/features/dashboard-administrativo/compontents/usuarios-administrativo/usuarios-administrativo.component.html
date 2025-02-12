@@ -13,6 +13,105 @@
     </button>
   </div>
 
+  <!-- Seção de Filtros -->
+  <div class="card mb-4">
+    <div class="card-body">
+      <form [formGroup]="filterForm" class="row">
+        <div class="row gap-3">
+          <div class="col">
+            <label class="form-label">Cliente</label>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="tenant"
+              placeholder="Filtrar por cliente"
+            />
+          </div>
+
+          <div class="col">
+            <label class="form-label">Nome</label>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="name"
+              placeholder="Filtrar por nome"
+            />
+          </div>
+
+          <div class="col">
+            <label class="form-label">E-mail</label>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="email"
+              placeholder="Filtrar por e-mail"
+            />
+          </div>
+
+          <div class="col">
+            <label class="form-label">Usuário</label>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="username"
+              placeholder="Filtrar por usuário"
+            />
+          </div>
+        </div>
+
+        <div class="row gap-3">
+          <div class="col">
+            <label class="form-label">CPF</label>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="cpf"
+              placeholder="Filtrar por CPF"
+            />
+          </div>
+
+          <div class="col">
+            <label class="form-label">Telefone</label>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="phone"
+              placeholder="Filtrar por telefone"
+            />
+          </div>
+
+          <div class="col">
+            <label class="form-label">Status</label>
+            <ng-select formControlName="status">
+              <ng-option [value]="'all'">Todos</ng-option>
+              <ng-option [value]="'active'">Ativo</ng-option>
+              <ng-option [value]="'inactive'">Inativo</ng-option>
+            </ng-select>
+          </div>
+          <div class="col">
+            <label class="form-label">Permissões</label>
+            <ng-select formControlName="permissions">
+              <ng-option [value]="'all'">Todas</ng-option>
+              <ng-option [value]="'diario'">Diário Oficial</ng-option>
+              <ng-option [value]="'pncp'">PNCP</ng-option>
+              <ng-option [value]="'transparencia'">Transparência</ng-option>
+            </ng-select>
+          </div>
+        </div>
+
+        <div class="mt-2">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            (click)="clearFilters()"
+          >
+            Limpar Filtros
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <div class="table-responsive">
     <table class="table table-striped table-bordered mb-0">
       <thead>
@@ -53,10 +152,7 @@
                     element.id
                   ]"
                 >
-                  <img
-                    src="/app/assets/icons/edit-icon-adm.svg"
-                    alt=""
-                  />
+                  <img src="/app/assets/icons/edit-icon-adm.svg" alt="" />
                 </a>
                 <span class="mt-1 legenda-icons">Editar</span>
               </div>
@@ -67,10 +163,7 @@
                   class="btn-auth btn-format d-flex align-items-center"
                   matTooltip="Autenticar"
                 >
-                  <img
-                    src="/app/assets/icons/autenticar-adm-icon.svg"
-                    alt=""
-                  />
+                  <img src="/app/assets/icons/autenticar-adm-icon.svg" alt="" />
                 </a>
                 <span class="mt-1 legenda-icons">Autenticar</span>
               </div>

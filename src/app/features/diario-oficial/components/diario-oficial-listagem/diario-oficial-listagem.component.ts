@@ -14,7 +14,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
-import { CommonModule } from '@angular/common';
+import { CommonModule, registerLocaleData } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 
 import { MatIcon } from '@angular/material/icon';
@@ -48,7 +48,10 @@ import { DiarioOficialMapper } from '../../mappers/diario-oficial-mapper';
 import { NavigationService } from '../../../../shared/services/navigation.service';
 import { defineLocale } from 'ngx-bootstrap/chronos';
 import { ptBrLocale } from 'ngx-bootstrap/locale';
+import localePtBr from '@angular/common/locales/pt';
+
 defineLocale('pt-br', ptBrLocale);
+registerLocaleData(localePtBr, 'pt-BR');
 
 interface TenantResponse {
   data: TenantFullModel;
@@ -116,6 +119,7 @@ export class DiarioOficialListagemComponent implements OnChanges, OnInit {
   modalRef?: BsModalRef;
   documentos: any;
   slug!: string;
+  formattedPreviousDate!: string;
 
   @Input() publicacoes!: RequisicaoModel<DadosDiarioOficialPublico> | null;
   @Output() formEmiter = new EventEmitter<DiarioOficialPesquisaData>();
@@ -127,7 +131,9 @@ export class DiarioOficialListagemComponent implements OnChanges, OnInit {
     private diarioOficialService: DiarioOficialService,
     private tenantService: TenantService,
     private navigationService: NavigationService,
-    private localeService: BsLocaleService
+    private localeService: BsLocaleService,
+    private datePipe: DatePipe,
+
   ) {
     defineLocale('pt-br', ptBrLocale);
     this.localeService.use('pt-br');
@@ -157,6 +163,15 @@ export class DiarioOficialListagemComponent implements OnChanges, OnInit {
       this.publicacoes?.data.previous_transparent_link ?? null;
     this.previous_official_gazette_date =
       this.publicacoes?.data.previous_official_gazette_date ?? null;
+    if (this.previous_official_gazette_date) {
+      this.formattedPreviousDate = new Date(
+        this.previous_official_gazette_date
+      ).toLocaleDateString('pt-BR', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+      });
+    }
   }
   onMonthSelect(value: Date): void {
     if (value) {
@@ -194,7 +209,11 @@ export class DiarioOficialListagemComponent implements OnChanges, OnInit {
     const ano = data.getFullYear();
     return this.anos.includes(ano);
   };
-
+  get formattedPreviousOfficialGazetteDate(): string {
+    return this.previous_official_gazette_date
+      ? this.datePipe.transform(this.previous_official_gazette_date, 'dd/MM/yyyy', 'pt-BR') || ''
+      : '';
+  }
   selecionarAno = (
     anoNormalizado: Date,
     datepicker: MatDatepicker<Date>

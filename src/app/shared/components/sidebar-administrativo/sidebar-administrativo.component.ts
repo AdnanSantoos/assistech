@@ -26,11 +26,19 @@ import {
   tap,
 } from 'rxjs';
 import { FormsModule } from '@angular/forms';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @Component({
   selector: 'app-sidebar-administrativo',
   standalone: true,
-  imports: [CommonModule, RouterLink, MatIcon, ModalModule, FormsModule],
+  imports: [
+    CommonModule,
+    RouterLink,
+    MatIcon,
+    ModalModule,
+    FormsModule,
+    NgSelectModule,
+  ],
   providers: [BsModalService],
   templateUrl: './sidebar-administrativo.component.html',
   styleUrls: ['./sidebar-administrativo.component.scss'],
@@ -49,6 +57,7 @@ export class SidebarAdministrativoComponent implements OnInit {
   searchTerm: string = '';
   filteredTenants: TenantFullModel[] = [];
   private searchSubject = new Subject<string>();
+  activeFilter: boolean | null = null;
 
   // Pagination
   currentPage = 1;
@@ -96,7 +105,7 @@ export class SidebarAdministrativoComponent implements OnInit {
           {
             title: 'Imagens',
             link: '../dashboard-administrativo/cadastrar-fotos-diario',
-            visible: true,
+            visible: this.isStaff,
           },
         ],
       },
@@ -183,32 +192,37 @@ export class SidebarAdministrativoComponent implements OnInit {
   }
 
   loadTenantsForSearch(): void {
-    // Primeira chamada para obter o total de páginas
+    // First call to get total pages
     this._tenantService.getTenantFilter(1).subscribe({
       next: (response: RequisicaoModel<TenantFullModel[]>) => {
         const totalPages = response.meta?.pagination.last_page || 1;
         const requests = [];
 
-        // Cria um array de requisições para todas as páginas
+        // Create requests for all pages
         for (let page = 1; page <= totalPages; page++) {
           requests.push(this._tenantService.getTenantFilter(page));
         }
 
-        // Executa todas as requisições em paralelo
+        // Execute all requests in parallel
         forkJoin(requests).subscribe({
           next: (responses) => {
-            // Combina todos os resultados em um único array
+            // Combine all results into a single array
             this.tenants = responses.reduce((acc, response) => {
               return [...acc, ...response.data];
             }, [] as TenantFullModel[]);
 
-            // Aplica o filtro nos dados completos
+            // Apply filters
             const search = this.searchTerm.toLowerCase().trim();
-            this.filteredTenants = this.tenants.filter((tenant) =>
-              tenant.name.toLowerCase().includes(search)
-            );
+            this.filteredTenants = this.tenants.filter((tenant) => {
+              const matchesSearch =
+                !search || tenant.name.toLowerCase().includes(search);
+              const matchesActiveFilter =
+                this.activeFilter === null ||
+                tenant.is_active === this.activeFilter;
+              return matchesSearch && matchesActiveFilter;
+            });
 
-            // Atualiza a paginação
+            // Update pagination
             this.totalItems = this.filteredTenants.length;
             this.totalPages = Math.ceil(this.totalItems / this.itemsPerPage);
             this.currentPage = 1;
@@ -250,7 +264,7 @@ export class SidebarAdministrativoComponent implements OnInit {
   }
 
   filterTenants(): void {
-    if (!this.searchTerm.trim()) {
+    if (!this.searchTerm.trim() && this.activeFilter === null) {
       this.loadTenants();
       return;
     }
@@ -298,14 +312,19 @@ export class SidebarAdministrativoComponent implements OnInit {
   }
 
   selectTenant(tenantSlug: string): void {
+    // Clear any existing slug or permissions
+    localStorage.removeItem('slug');
+    localStorage.removeItem('userPermissions');
+
     this._tenantService
       .getTenantData(tenantSlug)
       .pipe(
         tap((v) => console.log('getTenantData response:', v)),
         switchMap((tenantDataResponse) => {
-          // Atualiza o estado do tenant
+          // Explicitly set the new slug
           this._tenantService.setSlug(tenantDataResponse.data.slug);
           this._tenantService.updateState(tenantDataResponse.data);
+
           // Encadeia a chamada para getDados
           return this._tenantService.getDados(tenantSlug).pipe(
             tap((dadosResponse) => {
@@ -335,8 +354,14 @@ export class SidebarAdministrativoComponent implements OnInit {
         })
       )
       .subscribe(({ tenantData }) => {
-        console.log('rota')
-        this.router.navigateByUrl(`${tenantData.data.slug}/adm/dashboard-administrativo/home`);
+        // Use the new slug directly
+        const navigationPath = `${tenantData.data.slug}/adm/dashboard-administrativo/home`;
+
+        console.log('Navigating to:', navigationPath);
+
+        // Use replaceUrl to replace the current history entry
+        this.router.navigateByUrl(navigationPath, { replaceUrl: true });
+
         this.modalRef?.hide();
       });
   }
