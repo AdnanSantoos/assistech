@@ -354,12 +354,10 @@ export class SidebarAdministrativoComponent implements OnInit {
         })
       )
       .subscribe(({ tenantData }) => {
-        // Use the new slug directly
         const navigationPath = `${tenantData.data.slug}/adm/dashboard-administrativo/home`;
 
         console.log('Navigating to:', navigationPath);
 
-        // Use replaceUrl to replace the current history entry
         this.router.navigateByUrl(navigationPath, { replaceUrl: true });
 
         this.modalRef?.hide();
