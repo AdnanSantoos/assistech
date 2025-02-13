@@ -1,6 +1,4 @@
-import { NoticiaService } from './../../../features/dashboard-administrativo/compontents/cadastrar-noticias/services/cadastrar-noticias.service';
 import { Component, OnInit } from '@angular/core';
-import { GeneralNewsService } from './services/general-news.service';
 import { Post } from './model/post.model';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterModule, Router } from '@angular/router';
