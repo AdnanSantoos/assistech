@@ -4,3 +4,5 @@ services:
     restart: always
     ports:
       - "${DOCKER_FRONTEND_HTTP_PORT:-6999}:4000"
+    environment:
+      - APP_ENV=dev
