@@ -85,6 +85,10 @@ export class SidebarAdministrativoComponent implements OnInit {
 
   ngOnInit(): void {
     this.filteredTenants = this.tenants;
+    this._tenantService.slug$.subscribe((slug) => {
+      this.slug = slug!; // Atualiza o slug local com o valor do TenantService
+      console.log('Slug atual:', this.slug); // Para depuração
+    });
     this.isStaff = this.tenantService.getStaff();
     this.originalMenuItems = [
       {
@@ -312,7 +316,7 @@ export class SidebarAdministrativoComponent implements OnInit {
   }
 
   selectTenant(tenantSlug: string): void {
-    // Clear any existing slug or permissions
+    // Limpar o slug antigo e as permissões
     localStorage.removeItem('slug');
     localStorage.removeItem('userPermissions');
 
@@ -321,7 +325,7 @@ export class SidebarAdministrativoComponent implements OnInit {
       .pipe(
         tap((v) => console.log('getTenantData response:', v)),
         switchMap((tenantDataResponse) => {
-          // Explicitly set the new slug
+          // Definir o novo slug
           this._tenantService.setSlug(tenantDataResponse.data.slug);
           this._tenantService.updateState(tenantDataResponse.data);
 
@@ -354,13 +358,15 @@ export class SidebarAdministrativoComponent implements OnInit {
         })
       )
       .subscribe(({ tenantData }) => {
-        // Corrigindo o caminho de navegação para usar apenas um slug
+        // Corrigindo o caminho de navegação para usar apenas o novo slug
         const navigationPath = `/${tenantData.data.slug}/adm/dashboard-administrativo/home`;
 
         console.log('Navigating to:', navigationPath);
 
+        // Navega para a nova URL
         this.router.navigateByUrl(navigationPath, { replaceUrl: true });
 
+        // Fecha o modal
         this.modalRef?.hide();
       });
   }
