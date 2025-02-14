@@ -1,3 +1,4 @@
+import { NavigationService } from './../../services/navigation.service';
 import {
   Component,
   OnInit,
@@ -70,7 +71,8 @@ export class SidebarAdministrativoComponent implements OnInit {
     private router: Router,
     private modalService: BsModalService,
     private _tenantService: TenantService,
-    public route: ActivatedRoute
+    public route: ActivatedRoute,
+    public navigationService:NavigationService
   ) {
     this._tenantService.slug$.subscribe((v) => {
       this.slug = v!;
@@ -328,6 +330,7 @@ export class SidebarAdministrativoComponent implements OnInit {
           // Definir o novo slug
           this._tenantService.setSlug(tenantDataResponse.data.slug);
           this._tenantService.updateState(tenantDataResponse.data);
+          this.navigationService.initialize(tenantDataResponse.data.slug);
 
           // Encadeia a chamada para getDados
           return this._tenantService.getDados(tenantSlug).pipe(

@@ -16,6 +16,7 @@ export class NavigationService {
     this.router.events
       .pipe(filter((event) => event instanceof NavigationStart))
       .subscribe((event) => {
+        console.log(event)
         if (event instanceof NavigationStart && this.initialized.value) {
           this.handleNavigation(event.url);
         }
@@ -29,6 +30,7 @@ export class NavigationService {
 
   private handleNavigation(url: string): void {
     console.log('URL sendo processada:', url);
+    console.log('SLUG:', this.slug);
 
     // Se a URL já contém o slug, não manipular
     if (url.startsWith(`/${this.slug}/`) || url === `/${this.slug}`) {
