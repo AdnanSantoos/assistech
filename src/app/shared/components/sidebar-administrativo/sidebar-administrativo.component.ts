@@ -354,7 +354,8 @@ export class SidebarAdministrativoComponent implements OnInit {
         })
       )
       .subscribe(({ tenantData }) => {
-        const navigationPath = `${tenantData.data.slug}/adm/dashboard-administrativo/home`;
+        // Corrigindo o caminho de navegação para usar apenas um slug
+        const navigationPath = `/${tenantData.data.slug}/adm/dashboard-administrativo/home`;
 
         console.log('Navigating to:', navigationPath);
 
