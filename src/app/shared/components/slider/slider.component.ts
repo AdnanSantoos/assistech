@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { NewsService } from '../general-news/general-news-detalhes/general-news-detalhes-service/general-news-detalhes-service.service';
 import { Post } from '../general-news/model/post.model';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { TenantService } from '../../services/tenant.service';
 import { filter, switchMap } from 'rxjs';
+import { NoticiasService } from '../../services/noticias.service';
 
 @Component({
   selector: 'app-slider',
@@ -19,7 +19,7 @@ export class SliderComponent implements OnInit {
   currentSlug: string = '';
 
   constructor(
-    private newsService: NewsService,
+    private newsService: NoticiasService,
     private _tenantService: TenantService,
     public route : ActivatedRoute,
   ) {}
@@ -30,12 +30,12 @@ export class SliderComponent implements OnInit {
         filter((slug): slug is string => slug !== null),
         switchMap((slug) => {
           this.currentSlug = slug;
-          return this.newsService.getNews();
+          return this.newsService.getLatestNews();
         })
       )
       .subscribe(
-        (data: Post[]) => {
-          this.posts = data;
+        (data: any) => {
+          this.posts = data.data;
         },
         (error) => {
           console.error('Erro ao carregar os dados:', error);

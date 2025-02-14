@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { GeneralNewsService } from './services/general-news.service';
 import { Post } from './model/post.model';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterModule, Router } from '@angular/router';
 import { TenantService } from '../../services/tenant.service';
-import { filter, switchMap, tap } from 'rxjs';
+import { filter, map, switchMap, tap } from 'rxjs';
+import { NoticiasService } from '../../services/noticias.service';
 
 @Component({
   selector: 'app-general-news',
@@ -18,7 +18,7 @@ export class GeneralNewsComponent implements OnInit {
   currentSlug: string = '';
 
   constructor(
-    private newsService: GeneralNewsService,
+    private newsService: NoticiasService,
     private router: Router,
     public route: ActivatedRoute,
     private _tenantService: TenantService
@@ -31,12 +31,15 @@ export class GeneralNewsComponent implements OnInit {
         tap(slug => console.log('Slug recebido:', slug)),
         switchMap(slug => {
           this.currentSlug = slug;
-          return this.newsService.getPosts();
-        })
+          return this.newsService.getLatestNews();
+        }),
       )
       .subscribe(
         (data) => {
-          this.posts = data;
+          this.posts = data.data.map((post:any) => ({
+            ...post,
+            formattedDate: new Date(post.date).toLocaleDateString('pt-BR')
+          }));
         },
         (error) => console.error('Erro ao carregar os dados:', error)
       );
