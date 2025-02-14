@@ -3,6 +3,7 @@ import { Router, RouterModule } from '@angular/router';
 import { NewsService } from '../general-news/general-news-detalhes/general-news-detalhes-service/general-news-detalhes-service.service';
 import { Post } from '../general-news/model/post.model';
 import { CommonModule } from '@angular/common';
+import { NoticiasService } from '../../services/noticias.service';
 
 @Component({
   selector: 'app-latest-news',
@@ -16,12 +17,12 @@ export class LatestNewsComponent implements OnInit {
   marqueeText: string = '';
   currentIndex: number = 0;
 
-  constructor(private newsService: NewsService, private router: Router) {}
+  constructor(private router: Router,private noticiasService: NoticiasService) {}
 
   ngOnInit(): void {
-    this.newsService.getLatestNews().subscribe(
-      (data: Post[]) => {
-        this.posts = data;
+    this.noticiasService.getLatestNews().subscribe(
+      (data: any) => {
+        this.posts = data.data;
         this.updateMarqueeText();
       },
       (error) => {
