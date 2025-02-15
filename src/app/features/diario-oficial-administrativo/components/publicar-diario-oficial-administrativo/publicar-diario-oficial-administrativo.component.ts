@@ -75,6 +75,7 @@ export class PublicarDiarioOficialAdministrativoComponent implements OnInit {
     { containerClass: 'theme-default' }
   );
   isStaff!: boolean;
+  isDragging = false;
 
   constructor(
     private _localeService: BsLocaleService,
@@ -120,7 +121,12 @@ export class PublicarDiarioOficialAdministrativoComponent implements OnInit {
       // Formatando a data antes de enviar
       const formattedValue = {
         ...formValue,
-        date: formValue.date ? new Date(new Date(formValue.date).getTime() - new Date().getTimezoneOffset() * 60000).toISOString() : '',
+        date: formValue.date
+          ? new Date(
+              new Date(formValue.date).getTime() -
+                new Date().getTimezoneOffset() * 60000
+            ).toISOString()
+          : '',
         files: this.selectedFiles, // Usando a lista de arquivos selecionados
       };
 
@@ -128,7 +134,33 @@ export class PublicarDiarioOficialAdministrativoComponent implements OnInit {
       this._publicarService.publicarDiarioOficial(formData);
     }
   }
+  onDragOver(event: DragEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+    this.isDragging = true;
+  }
 
+  onDragLeave(event: DragEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+    this.isDragging = false;
+  }
+
+  onDrop(event: DragEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+    this.isDragging = false;
+
+    const files = event.dataTransfer?.files;
+    if (files) {
+      const fileChangeEvent = {
+        target: {
+          files: files,
+        },
+      };
+      this.onFileChangeAgendado(fileChangeEvent, 'files');
+    }
+  }
   onSubmitAgendado() {
     if (this.formAgendado.valid) {
       const formData = { ...this.formAgendado.getRawValue() };

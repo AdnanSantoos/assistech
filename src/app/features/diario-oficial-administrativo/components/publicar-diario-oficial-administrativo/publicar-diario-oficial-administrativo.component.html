@@ -61,32 +61,37 @@
       </mat-form-field>
 
       <!-- Campo Arquivo -->
-      <div class="file-upload-section">
+      <div
+        class="file-upload-section"
+        (dragover)="onDragOver($event)"
+        (dragleave)="onDragLeave($event)"
+        (drop)="onDrop($event)"
+      >
         <label class="mat-label">ARQUIVO</label>
-        <div class="file-section mat-elevation-z0 d-flex">
-          <button
-            type="button"
-            (click)="fileInput.click()"
-            class="btn bg-dark text-white rounded-0"
-          >
-            ADICIONAR ARQUIVOS
-          </button>
-          <input
-            #fileInput
-            type="file"
-            class="file-input"
-            (change)="onFileChangeAgendado($event, 'files')"
-            accept=".pdf"
-            formControlName="files"
-            multiple
-            hidden
-          />
+        <div
+          class="file-section mat-elevation-z0"
+          [class.drag-active]="isDragging"
+        >
           <div
-            class="file-info d-flex align-items-center flex-column justify-content-center bg-light px-4"
+            class="upload-area d-flex align-items-start justify-content-start"
           >
-            <p class="no-file mt-2 ms-2" *ngIf="!selectedFiles.length">
-              ARQUIVOS
-            </p>
+            <button
+              type="button"
+              (click)="fileInput.click()"
+              class="btn bg-dark text-white rounded-0"
+            >
+              ADICIONAR ARQUIVOS
+            </button>
+            <input
+              #fileInput
+              type="file"
+              class="file-input"
+              (change)="onFileChangeAgendado($event, 'files')"
+              accept=".pdf"
+              formControlName="files"
+              multiple
+              hidden
+            />
           </div>
         </div>
         <small><i>TIPOS DE ARQUIVO ACEITOS: .PDF</i></small>
@@ -187,9 +192,17 @@
       </div>
 
       <!-- Campo Arquivo -->
-      <div class="file-upload-section">
+      <div
+        class="file-upload-section"
+        (dragover)="onDragOver($event)"
+        (dragleave)="onDragLeave($event)"
+        (drop)="onDrop($event)"
+      >
         <label class="mat-label">ARQUIVO</label>
-        <div class="file-section mat-elevation-z0 d-flex">
+        <div
+          class="file-section mat-elevation-z0 d-flex"
+          [class.drag-active]="isDragging"
+        >
           <input
             #fileInput
             type="file"
@@ -209,9 +222,14 @@
           </button>
           <div
             class="file-info d-flex align-items-center flex-column justify-content-center"
+            [class.drag-over]="isDragging"
           >
             <p class="no-file mt-2 ms-2" *ngIf="!selectedFiles.length">
-              NENHUM ARQUIVO SELECIONADO
+              {{
+                isDragging
+                  ? "SOLTE OS ARQUIVOS AQUI"
+                  : "NENHUM ARQUIVO SELECIONADO"
+              }}
             </p>
           </div>
         </div>
