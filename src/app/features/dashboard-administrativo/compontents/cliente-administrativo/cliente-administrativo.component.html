@@ -12,6 +12,107 @@
       <mat-icon>person</mat-icon> Adicionar Cliente
     </button>
   </div>
+  <div class="card mb-4">
+    <div class="card-body">
+      <form [formGroup]="filterForm" class="row">
+        <div class="row gap-3">
+          <div class="col">
+            <label class="form-label">Nome</label>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="name"
+              placeholder="Filtrar por nome"
+            />
+          </div>
+
+          <div class="col">
+            <label class="form-label">Cidade</label>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="city"
+              placeholder="Filtrar por cidade"
+            />
+          </div>
+
+          <div class="col">
+            <label class="form-label">Domínio</label>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="domain"
+              placeholder="Filtrar por domínio"
+            />
+          </div>
+
+          <div class="col">
+            <label class="form-label">Tipo</label>
+            <ng-select formControlName="governmentBody">
+              <ng-option [value]="'all'">Todos</ng-option>
+              <ng-option
+                *ngFor="let type of getGovernmentBodyLabel | keyvalue"
+                [value]="type.key"
+              >
+                {{ type.value }}
+              </ng-option>
+            </ng-select>
+          </div>
+        </div>
+
+        <div class="row gap-3 mt-3">
+          <div class="col">
+            <label class="form-label">Status</label>
+            <ng-select formControlName="status">
+              <ng-option [value]="'all'">Todos</ng-option>
+              <ng-option [value]="'active'">Habilitado</ng-option>
+              <ng-option [value]="'inactive'">Desabilitado</ng-option>
+            </ng-select>
+          </div>
+
+          <div class="col">
+            <label class="form-label">Serviços</label>
+            <ng-select formControlName="services">
+              <ng-option [value]="'all'">Todos</ng-option>
+              <ng-option [value]="'diario'">Diário Oficial</ng-option>
+              <ng-option [value]="'pncp'">PNCP</ng-option>
+              <ng-option [value]="'transparencia'"
+                >Portal de Transparência</ng-option
+              >
+            </ng-select>
+          </div>
+        </div>
+
+        <div class="mt-3">
+          <button
+            type="button"
+            class="btn btn-primary me-2"
+            (click)="applyFilters()"
+            [disabled]="isLoading"
+          >
+            <span *ngIf="!isLoading">Filtrar</span>
+            <span *ngIf="isLoading">Carregando...</span>
+          </button>
+          <button
+            type="button"
+            class="btn btn-secondary"
+            (click)="clearFilters()"
+            [disabled]="isLoading"
+          >
+            Limpar Filtros
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Loading indicator -->
+  <div *ngIf="isLoading" class="text-center my-4">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Carregando...</span>
+    </div>
+    <p class="mt-2">Carregando todos os clientes...</p>
+  </div>
   <div class="table-responsive">
     @if(clientes.length >0){
     <table class="table table-striped table-bordered mb-0">
@@ -49,15 +150,9 @@
                   class="btn-edit btn-format cup mt-0 d-flex justify-content-center align-items-center"
                   matTooltip="Editar"
                   [relativeTo]="route.parent"
-                  [routerLink]="[
-                    'editar-cliente',
-                    element.slug
-                  ]"
+                  [routerLink]="['editar-cliente', element.slug]"
                 >
-                  <img
-                    src="/app/assets/icons/edit-icon-adm.svg"
-                    alt=""
-                  />
+                  <img src="/app/assets/icons/edit-icon-adm.svg" alt="" />
                 </a>
                 <span class="mt-1 legenda-icons">Editar</span>
               </div>

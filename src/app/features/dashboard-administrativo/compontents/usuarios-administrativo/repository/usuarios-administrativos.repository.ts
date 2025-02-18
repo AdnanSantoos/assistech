@@ -10,27 +10,59 @@ import { ClienteData } from '../../../model/cliente.model';
   providedIn: 'root',
 })
 export class UsuariosRepository {
-  constructor(private _http: HttpClient) { }
+  constructor(private _http: HttpClient) {}
 
   getUsuarios(page: number): Observable<RequisicaoModel<UsuarioData[]>> {
     const params = new HttpParams().set('page', page.toString());
-    return this._http.get<RequisicaoModel<UsuarioData[]>>(`${environment.API_URL}/staff/users`, { params });
+    return this._http.get<RequisicaoModel<UsuarioData[]>>(
+      `${environment.API_URL}/staff/users`,
+      { params }
+    );
   }
 
   createUser(userData: UsuarioData): Observable<UsuarioData> {
-    return this._http.post<UsuarioData>(`${environment.API_URL}/staff/users`, userData);
+    return this._http.post<UsuarioData>(
+      `${environment.API_URL}/staff/users`,
+      userData
+    );
   }
 
   getClientes(name: string) {
     const params = new HttpParams().set('name', name);
-    return this._http.get<RequisicaoModel<ClienteData[]>>(`${environment.API_URL}/staff/tenants`, { params });
+    return this._http.get<RequisicaoModel<ClienteData[]>>(
+      `${environment.API_URL}/staff/tenants`,
+      { params }
+    );
   }
 
   getUsuariosPorID(id: string) {
-    return this._http.get<RequisicaoModel<UsuarioData[]>>(`${environment.API_URL}/staff/users/${id}`);
+    return this._http.get<RequisicaoModel<UsuarioData[]>>(
+      `${environment.API_URL}/staff/users/${id}`
+    );
   }
 
   editarUsuario(userData: UsuarioData, id: string): Observable<UsuarioData> {
-    return this._http.put<UsuarioData>(`${environment.API_URL}/staff/users/${id}`, userData);
+    return this._http.put<UsuarioData>(
+      `${environment.API_URL}/staff/users/${id}`,
+      userData
+    );
+  }
+  getUsuariosWithFilters(
+    page: number,
+    filters: any
+  ): Observable<RequisicaoModel<UsuarioData[]>> {
+    let params = new HttpParams().set('page', page.toString());
+
+    // Adiciona os filtros aos parâmetros se existirem
+    Object.keys(filters).forEach((key) => {
+      if (filters[key]) {
+        params = params.set(key, filters[key]);
+      }
+    });
+
+    return this._http.get<RequisicaoModel<UsuarioData[]>>(
+      `${environment.API_URL}/staff/users`,
+      { params }
+    );
   }
 }

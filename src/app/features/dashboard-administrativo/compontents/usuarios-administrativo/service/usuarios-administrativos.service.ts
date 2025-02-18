@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { RequisicaoModel } from '../../../../../shared/models/shared.model';
 import { UsuarioData } from '../../../model/usuarios.model';
 import { UsuariosRepository } from '../repository/usuarios-administrativos.repository';
+import { HttpParams } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
@@ -28,6 +29,10 @@ export class UsuariosService {
 
   public getClientes(name: string): Observable<any> {
     return this._repository.getClientes(name);
+  }
+
+  getUsuariosWithFilters(page: number, filters: any): Observable<RequisicaoModel<UsuarioData[]>> {
+    return this._repository.getUsuariosWithFilters(page, filters);
   }
 
 }

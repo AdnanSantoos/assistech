@@ -21,7 +21,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
     RouterModule,
     MatTooltipModule,
     ReactiveFormsModule,
-    NgSelectModule
+    NgSelectModule,
   ],
   templateUrl: './usuarios-administrativo.component.html',
   styleUrls: ['./usuarios-administrativo.component.scss'],
@@ -33,11 +33,11 @@ export class UsuariosAdministrativoComponent implements OnInit {
     'diarioOficial', 'portalTransparencia', 'acoes'
   ];
 
-  originalData: UsuarioData[] = [];
   dataSource = new MatTableDataSource<UsuarioData>();
   currentPage = 1;
   totalPages = 1;
   slug!: string;
+  isLoading = false;
 
   filterForm = new FormGroup({
     tenant: new FormControl(''),
@@ -58,84 +58,93 @@ export class UsuariosAdministrativoComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.loadUsuarios(this.currentPage);
+    this.loadAllPages();
     this.slug = this._tenantService.getTenant()!;
-
-    // Observar mudanças no formulário
-    this.filterForm.valueChanges.subscribe(() => {
-      this.filterData();
-    });
   }
 
-  loadUsuarios(page: number): void {
-    this.usuariosService.getUsuarios(page).subscribe({
-      next: (res) => {
-        this.originalData = res.data; // Guardar dados originais
-        this.dataSource.data = res.data;
-        this.currentPage = res.meta?.pagination.current_page || 1;
-        this.totalPages = res.meta?.pagination.last_page || 1;
-      },
-      error: (err) => {
-        console.error('Erro ao carregar usuários:', err);
+  async loadAllPages(): Promise<void> {
+    this.isLoading = true;
+    try {
+      // Carrega a primeira página para obter o total de páginas
+      const firstPage = await this.usuariosService.getUsuarios(1).toPromise();
+      if (!firstPage) return;
+
+      let allData: UsuarioData[] = [...firstPage.data];
+      this.totalPages = firstPage.meta?.pagination.last_page || 1;
+
+      // Carrega as páginas restantes
+      if (this.totalPages > 1) {
+        const remainingPages = Array.from(
+          { length: this.totalPages - 1 },
+          (_, i) => i + 2
+        );
+
+        const promises = remainingPages.map(page =>
+          this.usuariosService.getUsuarios(page).toPromise()
+        );
+
+        const results = await Promise.all(promises);
+        results.forEach(result => {
+          if (result?.data) {
+            allData = [...allData, ...result.data];
+          }
+        });
       }
-    });
+
+      this.dataSource.data = allData;
+    } catch (error) {
+      console.error('Erro ao carregar usuários:', error);
+    } finally {
+      this.isLoading = false;
+    }
   }
 
-  filterData(): void {
+  applyFilters(): void {
     const formValues = this.filterForm.value;
+    let filteredData = [...this.dataSource.data];
 
-    let filteredData = this.originalData;
-
-    // Filtrar por tenant (cliente)
     if (formValues.tenant) {
       filteredData = filteredData.filter(item =>
         item.tenant?.name?.toLowerCase().includes(formValues.tenant?.toLowerCase() || '')
       );
     }
 
-    // Filtrar por nome
     if (formValues.name) {
       filteredData = filteredData.filter(item =>
         item.name?.toLowerCase().includes(formValues.name?.toLowerCase() || '')
       );
     }
 
-    // Filtrar por email
     if (formValues.email) {
       filteredData = filteredData.filter(item =>
         item.email?.toLowerCase().includes(formValues.email?.toLowerCase() || '')
       );
     }
 
-    // Filtrar por username
     if (formValues.username) {
       filteredData = filteredData.filter(item =>
         item.username?.toLowerCase().includes(formValues.username?.toLowerCase() || '')
       );
     }
 
-    // Filtrar por CPF
     if (formValues.cpf) {
       filteredData = filteredData.filter(item =>
         item.country_register?.includes(formValues.cpf || '')
       );
     }
 
-    // Filtrar por telefone
     if (formValues.phone) {
       filteredData = filteredData.filter(item =>
         item.phone?.includes(formValues.phone || '')
       );
     }
 
-    // Filtrar por status
     if (formValues.status && formValues.status !== 'all') {
       filteredData = filteredData.filter(item =>
         formValues.status === 'active' ? item.is_active : !item.is_active
       );
     }
 
-    // Filtrar por permissões
     if (formValues.permissions && formValues.permissions !== 'all') {
       filteredData = filteredData.filter(item => {
         switch (formValues.permissions) {
@@ -151,7 +160,6 @@ export class UsuariosAdministrativoComponent implements OnInit {
       });
     }
 
-    // Atualizar o dataSource com os dados filtrados
     this.dataSource.data = filteredData;
   }
 
@@ -166,24 +174,24 @@ export class UsuariosAdministrativoComponent implements OnInit {
       status: 'all',
       permissions: 'all'
     });
-    this.dataSource.data = this.originalData;
+    this.loadAllPages();
   }
 
   goToPage(page: number): void {
     if (page >= 1 && page <= this.totalPages) {
-      this.loadUsuarios(page);
+      this.currentPage = page;
     }
   }
 
   goToPreviousPage(): void {
     if (this.currentPage > 1) {
-      this.loadUsuarios(--this.currentPage);
+      this.currentPage--;
     }
   }
 
   goToNextPage(): void {
     if (this.currentPage < this.totalPages) {
-      this.loadUsuarios(++this.currentPage);
+      this.currentPage++;
     }
   }
 }
