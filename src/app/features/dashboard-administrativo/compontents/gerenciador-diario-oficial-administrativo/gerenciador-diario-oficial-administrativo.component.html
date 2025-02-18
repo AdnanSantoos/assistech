@@ -158,44 +158,6 @@
                 </div>
               </ng-template>
 
-              <ng-template #confirmationTemplate>
-                <div class="modal-header">
-                  <h5 class="text-capitalize">Excluir Diário Oficial</h5>
-                  <button
-                    type="button"
-                    class="btn-close"
-                    aria-label="Close"
-                    (click)="modalRef?.hide()"
-                  ></button>
-                </div>
-                <div class="modal-body">
-                  <div>
-                    <p class="mb-2">Você realmente deseja excluir?</p>
-                    <strong
-                      ><span class="text-danger">{{
-                        selectedDocument?.file_name
-                      }}</span></strong
-                    >
-                  </div>
-                </div>
-                <div class="modal-footer">
-                  <button
-                    type="button"
-                    class="btn btn-secondary"
-                    (click)="modalRef?.hide()"
-                  >
-                    Cancelar
-                  </button>
-                  <button
-                    type="button"
-                    class="btn btn-danger"
-                    (click)="confirmDelete()"
-                  >
-                    Excluir
-                  </button>
-                </div>
-              </ng-template>
-
               <ng-template #editarTemplate>
                 <div class="modal-header">
                   <h5 class="text-capitalize">Editar Diário Oficial</h5>
@@ -370,6 +332,57 @@
                     (click)="modalRef?.hide()"
                   >
                     Cancelar
+                  </button>
+                </div>
+              </ng-template>
+
+              }
+              @else if(!isStaff && doc.status === 'scheduled' ) {
+                <button
+                class="btn-format btn-remove border-0 ps-0 pe-0 ms-0 me-0"
+                tooltip="Remover Publicação"
+                (click)="openConfirmationModal(confirmationTemplate, doc)"
+              >
+                <img
+                  src="/app/assets/icons/remove-icon.svg"
+                  alt="Remover Publicação"
+                />
+              </button>
+
+              <ng-template #confirmationTemplate>
+                <div class="modal-header">
+                  <h5 class="text-capitalize">Excluir Diário Oficial</h5>
+                  <button
+                    type="button"
+                    class="btn-close"
+                    aria-label="Close"
+                    (click)="modalRef?.hide()"
+                  ></button>
+                </div>
+                <div class="modal-body">
+                  <div>
+                    <p class="mb-2">Você realmente deseja excluir?</p>
+                    <strong
+                      ><span class="text-danger">{{
+                        selectedDocument?.file_name
+                      }}</span></strong
+                    >
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    (click)="modalRef?.hide()"
+                  >
+                    Cancelar
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-danger"
+                    (click)="confirmDelete()"
+                  >
+                    Excluir
                   </button>
                 </div>
               </ng-template>

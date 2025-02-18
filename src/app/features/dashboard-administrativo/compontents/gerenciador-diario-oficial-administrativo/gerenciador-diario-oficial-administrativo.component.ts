@@ -46,7 +46,6 @@ export class GerenciadorDiarioOficialAdministrativoComponent
   public currentPage = 1;
   public totalPages = 5;
   public isStaff: boolean | null = null;
-
   public documentPages: number[] = []; // Lista de páginas do documento selecionado
   public selectedPages: number[] = []; // Páginas selecionadas para exclusão
   selectedFile: File | null = null; // Armazena o arquivo selecionado

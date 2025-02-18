@@ -4,7 +4,11 @@
       <h3 class="mb-4">
         {{ isEditavel ? "Editar Usuário" : " Cadastrar Novo usuário" }}
       </h3>
-      <form [formGroup]="usuarioForm"  autocomplete="off" (ngSubmit)="onSubmit()">
+      <form
+        [formGroup]="usuarioForm"
+        autocomplete="off"
+        (ngSubmit)="onSubmit()"
+      >
         <div class="form-group mb-3">
           <label for="client">Cliente*</label>
           <input
@@ -15,7 +19,7 @@
             formControlName="tenant_slug"
             [typeahead]="searchResults"
             (typeaheadOnSelect)="onSelect($event)"
-            typeaheadOptionField="name"
+            [typeaheadOptionField]="'name'"
             placeholder="Digite para buscar..."
           />
         </div>
@@ -326,12 +330,8 @@
         </div>
         }
 
-        <button
-          type="submit"
-          class="btn btn-dark w-100 mt-2"
-        >
+        <button type="submit" class="btn btn-dark w-100 mt-2">
           {{ isEditavel ? "Editar" : " Cadastrar" }}
-
         </button>
       </form>
     </div>
