@@ -133,8 +133,7 @@
           <th>EDIÇÃO</th>
           <th>DATA DA PUBLICAÇÃO</th>
           <th>DESCRIÇÃO</th>
-          <th>ÁUDIO</th>
-          <th>VISUALIZAR</th>
+          <th>AÇÕES</th>
         </tr>
       </thead>
       @if (publicacoes?.data) { @if(documentos?.data && documentos?.data.length
@@ -156,8 +155,6 @@
               <span *ngIf="playingUrl !== doc.audio_url">▶️ Play</span>
               <span *ngIf="playingUrl === doc.audio_url">⏸️ Parar</span>
             </button>
-          </td>
-          <td>
             <a
               (click)="
                 visualizar(template, doc.file_published, doc.description)
