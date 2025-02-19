@@ -87,18 +87,22 @@ export class PublicarDiarioOficialAdministrativoComponent implements OnInit {
   ) {
     this._localeService.use('pt-br');
 
-    // Inicialização do formulário principal
+    // Inicialização do formulário principal com filesValidator customizado
+    // Usamos um campo oculto "hasFiles" para rastrear se temos arquivos
     this.filtroForm = this.fb.group({
       date: [new Date(), Validators.required],
       description: ['', Validators.required],
-      files: [null, Validators.required],
+      hasFiles: [false, Validators.requiredTrue],
+      // Mantemos o campo files no formulário mas sem validator
+      files: [null]
     });
 
     // Inicialização do formulário de agendamento
     this.formAgendado = this.fb.group({
-      files: ['', Validators.required],
       date: ['', Validators.required],
       description: ['', Validators.required],
+      hasFiles: [false, Validators.requiredTrue],
+      files: ['']
     });
     this.isStaff = this._tenantService.getStaff();
 
@@ -108,13 +112,19 @@ export class PublicarDiarioOficialAdministrativoComponent implements OnInit {
       adaptivePosition: true,
       showWeekNumbers: false,
     };
+
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+  }
+
   goBack(): void {
     this._location.back();
   }
+
   onFormSubmit(event: any) {
+
+
     if (this.filtroForm.valid) {
       const formValue = this.filtroForm.getRawValue();
 
@@ -130,10 +140,20 @@ export class PublicarDiarioOficialAdministrativoComponent implements OnInit {
         files: this.selectedFiles, // Usando a lista de arquivos selecionados
       };
 
+      // Remover o campo hasFiles que é apenas para validação
+      delete formattedValue.hasFiles;
+
+
       const formData = PublicarDiarioOficialMapper.toSubmit(formattedValue);
       this._publicarService.publicarDiarioOficial(formData);
+    } else {
+      Object.keys(this.filtroForm.controls).forEach(key => {
+        const control = this.filtroForm.get(key);
+
+      });
     }
   }
+
   onDragOver(event: DragEvent) {
     event.preventDefault();
     event.stopPropagation();
@@ -152,18 +172,68 @@ export class PublicarDiarioOficialAdministrativoComponent implements OnInit {
     this.isDragging = false;
 
     const files = event.dataTransfer?.files;
-    if (files) {
-      const fileChangeEvent = {
-        target: {
-          files: files,
-        },
-      };
-      this.onFileChangeAgendado(fileChangeEvent, 'files');
+    if (files && files.length > 0) {
+      // Processar os arquivos diretamente
+      this.processFiles(files);
     }
   }
+
+  // Função para processar arquivos
+  processFiles(files: FileList) {
+    const validFiles: File[] = [];
+    const invalidFiles: string[] = [];
+
+    // Verificar cada arquivo
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+
+      // Verificar se é PDF e não está duplicado
+      if (file.type === 'application/pdf' &&
+          !this.selectedFiles.some(f => f.name === file.name)) {
+        validFiles.push(file);
+      } else {
+        invalidFiles.push(file.name);
+      }
+    }
+
+    // Se tiver arquivos válidos, atualizamos a coleção
+    if (validFiles.length > 0) {
+
+      // Adicionar os novos arquivos à seleção existente
+      this.selectedFiles = [...this.selectedFiles, ...validFiles];
+
+      // Atualizar o nome dos arquivos para exibição
+      this.nameFile = this.selectedFiles.map(file => file.name).join(', ');
+
+      // Atualizar campo de validação (hasFiles) em ambos formulários
+      this.filtroForm.get('hasFiles')?.setValue(true);
+      this.formAgendado.get('hasFiles')?.setValue(true);
+
+    }
+
+    // Exibir alerta para arquivos inválidos
+    if (invalidFiles.length > 0) {
+      alert(`Os seguintes arquivos não são PDFs ou estão duplicados: ${invalidFiles.join(', ')}`);
+    }
+  }
+
+  onFileChangeAgendado(event: any, fieldName: string) {
+    const files = event.target.files;
+    if (files && files.length > 0) {
+      this.processFiles(files);
+    } else {
+      console.warn('onFileChangeAgendado: Nenhum arquivo recebido');
+    }
+  }
+
   onSubmitAgendado() {
+
     if (this.formAgendado.valid) {
       const formData = { ...this.formAgendado.getRawValue() };
+      // Adicionar os arquivos manualmente ao objeto de dados
+      formData.files = this.selectedFiles;
+      // Remover campo de validação
+      delete formData.hasFiles;
 
       Object.keys(formData).forEach((key) => {
         if (this.formAgendado.get(key)?.value instanceof Date) {
@@ -177,8 +247,16 @@ export class PublicarDiarioOficialAdministrativoComponent implements OnInit {
         PublicarDiarioOficialMapper.toSubmit(formData)
       );
       this.closeModal();
+    } else {
+      console.warn('Formulário de agendamento inválido:', {
+        formAgendadoValid: this.formAgendado.valid,
+        hasFilesValid: this.formAgendado.get('hasFiles')?.valid,
+        dateValid: this.formAgendado.get('date')?.valid,
+        descriptionValid: this.formAgendado.get('description')?.valid
+      });
     }
   }
+
   private formatDateToISOString(date: Date): string {
     if (!date) return '';
 
@@ -194,54 +272,10 @@ export class PublicarDiarioOficialAdministrativoComponent implements OnInit {
       .toISOString()
       .split('T')[0];
   }
-  onFileChangeAgendado(event: any, fieldName: string) {
-    const files = event.target.files;
-    const validFiles: File[] = [];
-    const invalidFiles: string[] = [];
-
-    if (!this.selectedFilesMap) {
-      this.selectedFilesMap = {};
-    }
-
-    if (!this.selectedFilesMap[fieldName]) {
-      this.selectedFilesMap[fieldName] = [];
-    }
-
-    if (files && files.length > 0) {
-      for (let i = 0; i < files.length; i++) {
-        const file = files[i];
-        if (
-          file.type === 'application/pdf' &&
-          !this.selectedFilesMap[fieldName].some((f) => f.name === file.name)
-        ) {
-          validFiles.push(file);
-        } else if (file.type !== 'application/pdf') {
-          invalidFiles.push(file.name);
-        } else {
-          invalidFiles.push(file.name);
-        }
-      }
-
-      if (validFiles.length > 0) {
-        this.selectedFilesMap[fieldName].push(...validFiles);
-        this.selectedFiles = this.selectedFilesMap[fieldName];
-        this.nameFile = this.selectedFiles.map((file) => file.name).join(', ');
-        this.formAgendado.controls['files'].setValue(this.selectedFiles);
-        this.formAgendado.get(fieldName)?.updateValueAndValidity();
-      }
-
-      if (invalidFiles.length > 0) {
-        alert(
-          `Os seguintes arquivos não são PDFs ou estão duplicados: ${invalidFiles.join(
-            ', '
-          )}`
-        );
-      }
-    }
-  }
 
   viewFile(event: Event, file: File) {
     event.preventDefault(); // Impede o submit do formulário
+    event.stopPropagation(); // Impede propagação do evento
     const fileURL = URL.createObjectURL(file);
     const newWindow = window.open(fileURL, '_blank');
 
@@ -256,10 +290,13 @@ export class PublicarDiarioOficialAdministrativoComponent implements OnInit {
 
   removeFile(index: number) {
     this.selectedFiles.splice(index, 1);
+
     if (this.selectedFiles.length === 0) {
       this.nameFile = null;
-      this.filtroForm.controls['files'].reset();
-      this.formAgendado.controls['files'].reset();
+      this.filtroForm.get('hasFiles')?.setValue(false);
+      this.formAgendado.get('hasFiles')?.setValue(false);
+    } else {
+      this.nameFile = this.selectedFiles.map(file => file.name).join(', ');
     }
   }
 
