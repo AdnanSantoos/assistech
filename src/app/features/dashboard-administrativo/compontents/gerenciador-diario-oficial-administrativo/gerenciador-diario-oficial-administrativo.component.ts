@@ -88,13 +88,14 @@ export class GerenciadorDiarioOficialAdministrativoComponent
     const token = localStorage.getItem('authToken')!;
     const tenant = this._tenantService.getTenant()!;
 
-    const echo = this.webSocketService.initializeWebSocket(token, tenant);
 
     const channelName = `official_gazette.${tenant}`; // Canal privado
     console.log({ channelName });
 
-    // Escutando o evento do WebSocket
-    echo
+    if(token){
+      const echo = this.webSocketService.initializeWebSocket(token, tenant);
+      // Escutando o evento do WebSocket
+      echo
       .private(channelName)
       .listen('.OfficialGazetteProcessed', (event: any) => {
         console.log({ event });
@@ -102,8 +103,9 @@ export class GerenciadorDiarioOficialAdministrativoComponent
       })
       .error((error: any) => {
         console.error('Erro ao escutar o canal:', error);
-      });
-
+      })
+    }
+  
     this._service.publicacoes$.subscribe((publicacoes) => {
       this.publicacoes = publicacoes.map((doc) => {
         // Manter o nome original ou usar o que está salvo no localStorage
