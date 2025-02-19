@@ -266,7 +266,7 @@ export class ItensLicitacoesComponent implements OnInit, OnDestroy {
           const { year, gateway_sequence, agency } = licitacao;
 
           if (agency && agency.country_register) {
-            const baseUrl = 'https://treina.pncp.gov.br/app/editais/';
+            const baseUrl = 'https://pncp.gov.br/app/editais/';
             const fullUrl = `${baseUrl}${agency.country_register}/${year}/${gateway_sequence}`;
 
             window.open(fullUrl, '_blank');

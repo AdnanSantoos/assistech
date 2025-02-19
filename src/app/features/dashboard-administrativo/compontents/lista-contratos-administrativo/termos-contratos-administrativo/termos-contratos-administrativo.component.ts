@@ -226,7 +226,7 @@ export class TermosContratosAdministrativoComponent implements OnInit {
     }
 
     // Construir a URL do contrato
-    const baseUrl = 'https://treina.pncp.gov.br/app/contratos/';
+    const baseUrl = 'https://pncp.gov.br/app/contratos/';
     const fullUrl = `${baseUrl}${country_register}/${year}/${gateway_sequence}`;
 
     // Exibir ou abrir o link

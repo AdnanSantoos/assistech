@@ -117,7 +117,7 @@ export class PcaAdministrativoComponent implements OnInit {
 
   visualizarPCA(element: ContractPlanModel): void {
     if (element?.unit?.agency?.country_register) {
-      const baseUrl = 'https://treina.pncp.gov.br/app/pca/';
+      const baseUrl = 'https://pncp.gov.br/app/pca/';
       const countryRegister = element.unit.agency.country_register;
       const { year } = element;
 

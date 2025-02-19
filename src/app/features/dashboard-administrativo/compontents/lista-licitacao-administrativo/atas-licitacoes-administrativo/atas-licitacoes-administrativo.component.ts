@@ -177,7 +177,7 @@ export class AtasLicitacoesAdministrativoComponent implements OnInit {
       return;
     }
 
-    const baseUrl = 'https://treina.pncp.gov.br/app/atas/';
+    const baseUrl = 'https://pncp.gov.br/app/atas/';
     const fullUrl = `${baseUrl}${ata.agencyCountryRegister}/${ata.procurementYear}/${ata.procurementSequence}/${ata.gateway_sequence}`;
     window.open(fullUrl, '_blank');
   }
