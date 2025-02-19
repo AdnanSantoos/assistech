@@ -139,7 +139,16 @@ export class CadastrarUsuariosAdministrativoComponent implements OnInit {
   }
 
   onSelect(event: any): void {
-    this.tenantSlugSelecionado = event.item.slug;
+    const selectedItem = event.item;
+    this.tenantSlugSelecionado = selectedItem.slug; // Captura o slug
+
+    this.usuarioForm.patchValue({
+      tenant_slug: selectedItem.slug, // Salva o slug no form
+      tenant: {
+        slug: selectedItem.slug,
+        name: selectedItem.name,
+      },
+    });
   }
   goBack(): void {
     this._location.back();
@@ -178,10 +187,7 @@ export class CadastrarUsuariosAdministrativoComponent implements OnInit {
       const usuarioData: UsuarioData = this.usuarioForm.value;
       this._usuariosService
         .editarUsuario(
-          CadastrarUsuariosMapper.toEdit(
-            usuarioData,
-            this.formularioOriginal
-          ),
+          CadastrarUsuariosMapper.toEdit(usuarioData, this.formularioOriginal),
           this.userId!
         )
         .subscribe(
@@ -195,8 +201,7 @@ export class CadastrarUsuariosAdministrativoComponent implements OnInit {
             }
           }
         );
-    }
-    else{
+    } else {
       if (this.usuarioForm.valid) {
         const usuarioData: UsuarioData = this.usuarioForm.value;
         this._usuariosService
@@ -219,6 +224,5 @@ export class CadastrarUsuariosAdministrativoComponent implements OnInit {
           );
       }
     }
-    
   }
 }
