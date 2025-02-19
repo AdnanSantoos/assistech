@@ -218,31 +218,32 @@ export class DiarioOficialListagemComponent implements OnChanges, OnInit {
   }
 
   togglePlay(audioUrl: string) {
-    // Se o mesmo áudio está tocando, então pausa
+    // Se já há um áudio tocando e é o mesmo, apenas pausa
     if (this.currentAudio && this.playingUrl === audioUrl) {
       this.currentAudio.pause();
       this.currentAudio = null;
       this.playingUrl = null;
       return;
     }
-
-    // Pausa qualquer outro áudio antes de iniciar um novo
+  
+    // Pausa qualquer outro áudio antes de tocar o novo
     if (this.currentAudio) {
       this.currentAudio.pause();
     }
-
-    // Cria um novo elemento de áudio e toca
+  
+    // Criar novo áudio e tocar
     this.currentAudio = new Audio(audioUrl);
     this.currentAudio.play();
     this.playingUrl = audioUrl;
-
-    // Quando o áudio termina, reseta as variáveis
+  
     this.currentAudio.onended = () => {
       this.currentAudio = null;
       this.playingUrl = null;
     };
+  
+    // Forçar a atualização no Angular
+    setTimeout(() => {}, 0);
   }
-
   selecionarAno = (
     anoNormalizado: Date,
     datepicker: MatDatepicker<Date>

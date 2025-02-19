@@ -151,10 +151,11 @@
             {{ doc.description }}
           </td>
           <td>
-            <button class="btn" (click)="togglePlay(doc.audio_url)">
-              <span *ngIf="playingUrl !== doc.audio_url">▶️ Play</span>
-              <span *ngIf="playingUrl === doc.audio_url">⏸️ Parar</span>
-            </button>
+            @if(doc.audio_url){
+              <button class="btn" (click)="togglePlay(doc.audio_url)">
+                {{ playingUrl === doc.audio_url ? '⏹️ Parar' : '▶️ Play' }}
+              </button>
+            }
             <a
               (click)="
                 visualizar(template, doc.file_published, doc.description)
