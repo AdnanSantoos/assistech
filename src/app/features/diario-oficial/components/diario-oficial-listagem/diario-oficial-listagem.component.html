@@ -133,6 +133,7 @@
           <th>EDIÇÃO</th>
           <th>DATA DA PUBLICAÇÃO</th>
           <th>DESCRIÇÃO</th>
+          <th>ÁUDIO</th>
           <th>VISUALIZAR</th>
         </tr>
       </thead>
@@ -149,6 +150,12 @@
             }"
           >
             {{ doc.description }}
+          </td>
+          <td>
+            <button class="btn" (click)="togglePlay(doc.audio_url)">
+              <span *ngIf="playingUrl !== doc.audio_url">▶️ Play</span>
+              <span *ngIf="playingUrl === doc.audio_url">⏸️ Parar</span>
+            </button>
           </td>
           <td>
             <a

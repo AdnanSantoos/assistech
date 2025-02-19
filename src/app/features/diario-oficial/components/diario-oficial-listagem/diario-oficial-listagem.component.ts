@@ -120,6 +120,8 @@ export class DiarioOficialListagemComponent implements OnChanges, OnInit {
   documentos: any;
   slug!: string;
   formattedPreviousDate!: string;
+  currentAudio: HTMLAudioElement | null = null;
+  playingUrl: string | null = null;
 
   @Input() publicacoes!: RequisicaoModel<DadosDiarioOficialPublico> | null;
   @Output() formEmiter = new EventEmitter<DiarioOficialPesquisaData>();
@@ -214,6 +216,33 @@ export class DiarioOficialListagemComponent implements OnChanges, OnInit {
       ? this.datePipe.transform(this.previous_official_gazette_date, 'dd/MM/yyyy', 'pt-BR') || ''
       : '';
   }
+
+  togglePlay(audioUrl: string) {
+    // Se o mesmo áudio está tocando, então pausa
+    if (this.currentAudio && this.playingUrl === audioUrl) {
+      this.currentAudio.pause();
+      this.currentAudio = null;
+      this.playingUrl = null;
+      return;
+    }
+
+    // Pausa qualquer outro áudio antes de iniciar um novo
+    if (this.currentAudio) {
+      this.currentAudio.pause();
+    }
+
+    // Cria um novo elemento de áudio e toca
+    this.currentAudio = new Audio(audioUrl);
+    this.currentAudio.play();
+    this.playingUrl = audioUrl;
+
+    // Quando o áudio termina, reseta as variáveis
+    this.currentAudio.onended = () => {
+      this.currentAudio = null;
+      this.playingUrl = null;
+    };
+  }
+
   selecionarAno = (
     anoNormalizado: Date,
     datepicker: MatDatepicker<Date>

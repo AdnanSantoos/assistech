@@ -40,6 +40,7 @@ export class DiarioOficialLayoutComponent implements OnInit {
   diarioData: DadosDiarioOficialPublico | undefined;
   exibirFormulario: boolean = false;
 
+
   get publicacoesDiario$(): Observable<RequisicaoModel<DadosDiarioOficialPublico> | null>{
     return this._service.publicacoesDiario$
   }
