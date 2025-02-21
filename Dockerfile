@@ -26,7 +26,7 @@ RUN npm install
 RUN npm run build-env
 RUN npm run build
 
-FROM node:20 as production-stage
+FROM node:18-alpine as production-stage
 WORKDIR /app
 COPY --from=build-stage /app /app
 
