@@ -7,4 +7,6 @@
     <app-footer/>
 </div>
 
-<ngx-loading [show]="(loading$ | async) ?? false"></ngx-loading>
+<ng-container *ngIf="loading$ | async as loading">
+    <ngx-loading [show]="loading"></ngx-loading>
+  </ng-container>

@@ -1,5 +1,6 @@
 // app.component.ts
 import {
+  ChangeDetectorRef,
   Component,
   Inject,
   OnDestroy,
@@ -41,7 +42,6 @@ import { NavigationService } from './shared/services/navigation.service';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit, OnDestroy {
-  title = 'assistech';
   tipoRota: TipoRota = null;
   domain: string = '';
   loading: boolean = false;
@@ -55,6 +55,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private tenantService: TenantService,
     private navigationService: NavigationService,
     @Inject(PLATFORM_ID) private platformId: Object,
+    private cdr: ChangeDetectorRef,
     private route: ActivatedRoute
   ) {
     const currentUrl = this.location.path();
@@ -68,9 +69,12 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.loading$.subscribe(() => {
+      this.cdr.detectChanges(); // 🔥 Força o Angular a reavaliar o template
+    });
+
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
-        console.log(event)
         // Verifica se a URL é válida antes de processar
         if (event.url && !event.url.includes('null')) {
           if (!this.slug) {
