@@ -160,7 +160,7 @@
       </ng-template>
     </div>
     <div
-      routerLink="/adm/dashboard-administrativo/home"
+      [routerLink]="['/', slug, 'adm', 'dashboard-administrativo', 'home']"
       class="dashboard-button btn-padrao__hover button-acessos w-100 d-flex justify-content-start"
     >
       <span class="btn-padrao__perfil-icon"></span>

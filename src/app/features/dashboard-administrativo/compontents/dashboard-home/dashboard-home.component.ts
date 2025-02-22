@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { DashboardHomeService } from './service/dashboard-home.service';
 import { TenantService } from '../../../../shared/services/tenant.service';
-import { switchMap } from 'rxjs';
+import { switchMap, tap } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard-home',
@@ -16,37 +16,54 @@ export class DashboardHomeComponent implements OnInit {
   public categorias: { nome: string; quantidade: number; link: string, show: boolean | null }[] = [];
   public isStaff: boolean | null = null;
   private categoryMapping!: { [key: string]: { key: string; link: string, show: boolean | null, } };
+  private currentSlug: string | null = null;
 
   constructor(public tenantService: TenantService, private _service: DashboardHomeService) {
-
   }
 
   ngOnInit() {
     this.isStaff = this.tenantService.getStaff();
-    this.categoryMapping = {
-      'Documentos': { key: 'files', link: '/documentos', show: true },
-      'Usuários': { key: 'users', link: '/adm/dashboard-administrativo/usuarios', show: true },
-      'Publicações': { key: 'official_gazettes', link: '/adm/dashboard-administrativo/gerenciar-diario-oficial', show: true },
-      'Órgãos': { key: 'agencies', link: '/adm/dashboard-administrativo/orgaos', show: true },
-      'Contratos': { key: 'contracts', link: '/adm/dashboard-administrativo/contratos', show: true },
-      'Licitações': { key: 'procurements', link: '/adm/dashboard-administrativo/licitacoes', show: true },
-      'Unidades': { key: 'units', link: '/adm/dashboard-administrativo/unidades', show: true },
-      'Planos de Contratação': { key: 'contract_plans', link: '/planos-contratacao', show: true },
-      'Termos': { key: 'terms', link: '/termos', show: true }
-    };
+    this.currentSlug = this.tenantService.getTenant();
+
+    this.updateCategoryMapping();
+
     this.tenantService.slug$
       .pipe(
+        tap(slug => {
+          this.currentSlug = slug;
+          this.updateCategoryMapping(); // Update mapping when slug changes
+        }),
         switchMap(tenant => this._service.getDashboard())
       )
       .subscribe(res => {
         const data = res.data;
-        this.categorias = Object.entries(this.categoryMapping).map(([nome, { key, link, show }]) => ({
-          nome,
-          quantidade: data[key] || 0,
-          link,
-          show
-        }));
+
+        // Filter categories based on permissions
+        this.categorias = Object.entries(this.categoryMapping)
+          .filter(([_, { show }]) => show) // Only include items with show=true
+          .map(([nome, { key, link, show }]) => ({
+            nome,
+            quantidade: data[key] || 0,
+            link,
+            show
+          }));
       });
+  }
+
+  private updateCategoryMapping(): void {
+    const baseAdminPath = this.currentSlug ? `/${this.currentSlug}/adm` : '/adm';
+
+    this.categoryMapping = {
+      'Documentos': { key: 'files', link: this.currentSlug ? `/${this.currentSlug}/documentos` : '/documentos', show: true },
+      'Usuários': { key: 'users', link: `${baseAdminPath}/dashboard-administrativo/usuarios`, show: this.isStaff },
+      'Publicações': { key: 'official_gazettes', link: `${baseAdminPath}/dashboard-administrativo/gerenciar-diario-oficial`, show: true },
+      'Órgãos': { key: 'agencies', link: `${baseAdminPath}/dashboard-administrativo/orgaos`, show: true },
+      'Contratos': { key: 'contracts', link: `${baseAdminPath}/dashboard-administrativo/contratos`, show: true },
+      'Licitações': { key: 'procurements', link: `${baseAdminPath}/dashboard-administrativo/licitacoes`, show: true },
+      'Unidades': { key: 'units', link: `${baseAdminPath}/dashboard-administrativo/unidades`, show: true },
+      'Planos de Contratação': { key: 'contract_plans', link: `${baseAdminPath}/dashboard-administrativo/pca`, show: true },
+      'Termos': { key: 'terms', link: this.currentSlug ? `/${this.currentSlug}/termos` : '/termos', show: true }
+    };
   }
 
   isLastTwo(index: number): boolean {

@@ -3,32 +3,34 @@
   <p>Selecione uma dentre as opções abaixo:</p>
 </div>
 <div class="card-container">
-  @for (categoria of categorias;let i = $index; track i;) {
-    @if(categoria.show){
-      <div [ngClass]="{ 'last-two': isLastTwo(i) }" class="card" >
-        <div class="card-content">
-          <div class="esq-card">
-            <a class="btn-padrao__hover">
-              <div class="btn-padrao__perfil-icon"></div>
-            </a>
-          </div>
-          <div class="dir-card">
-            <p>{{ categoria.nome }}</p>
-            <h2>{{ categoria.quantidade }}</h2>
-          </div>
-        </div>
-        <button [routerLink]="categoria.link" [disabled]="categoria.nome =='Documentos'" class="btn-ver-lista">
-          <img
-            src="/app/assets/icons/burguer-menu.svg"
-            width="21px"
-            height="21px"
-            alt=""
-          />
-          Ver lista completa
-        </button>
+  @for (categoria of categorias;let i = $index; track i;) { @if(categoria.show){
+  <div [ngClass]="{ 'last-two': isLastTwo(i) }" class="card">
+    <div class="card-content">
+      <div class="esq-card">
+        <a class="btn-padrao__hover">
+          <div class="btn-padrao__perfil-icon"></div>
+        </a>
       </div>
-    }
-    
-  }
- 
+      <div class="dir-card">
+        <p>{{ categoria.nome }}</p>
+        <h2>{{ categoria.quantidade }}</h2>
+      </div>
+    </div>
+    <button
+      [routerLink]="categoria.link"
+      [disabled]="
+        categoria.nome === 'Documentos' || categoria.nome === 'Termos'
+      "
+      class="btn-ver-lista"
+    >
+      <img
+        src="/app/assets/icons/burguer-menu.svg"
+        width="21px"
+        height="21px"
+        alt=""
+      />
+      Ver lista completa
+    </button>
+  </div>
+  } }
 </div>
