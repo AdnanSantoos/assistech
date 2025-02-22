@@ -21,9 +21,6 @@ export class WebSocketService {
 
     const authorizeUrl = `${environment.AUTHORIZE_URL}/api/tenants/${tenant}/broadcasting/auth`;
 
-    const isLocalDevelopment = window.location.hostname === 'localhost' ||
-    window.location.hostname === '127.0.0.1';
-
     const params = {
       broadcaster: 'reverb',
       key: environment.PUSHER_KEY,
@@ -31,8 +28,7 @@ export class WebSocketService {
       wsPort: environment.PUSHER_PORT,
       wssPort: environment.PUSHER_PORT,
       cluster: environment.PUSHER_CLUSTER,
-      forceTLS: isLocalDevelopment ? false : environment.PUSHER_FORCE_TLS,
-      enabledTransports: ['ws', 'wss'],
+      forceTLS: environment.PUSHER_FORCE_TLS,
       auth: {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -51,7 +47,7 @@ export class WebSocketService {
                 {
                   headers: {
                     'Content-Type': 'application/json',
-                    Accept: 'application/json',
+                    'Accept': 'application/json',
                     Authorization: `Bearer ${token}`,
                   },
                 }
@@ -64,7 +60,7 @@ export class WebSocketService {
                 error: (error) => {
                   console.error('Erro na autorização do WebSocket:', error);
                   callback(true, error);
-                },
+                }
               });
           },
         };
