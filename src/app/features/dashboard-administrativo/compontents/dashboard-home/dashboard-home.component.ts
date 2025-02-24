@@ -54,7 +54,7 @@ export class DashboardHomeComponent implements OnInit {
     const baseAdminPath = this.currentSlug ? `/${this.currentSlug}/adm` : '/adm';
 
     this.categoryMapping = {
-      'Documentos': { key: 'files', link: this.currentSlug ? `/${this.currentSlug}/documentos` : '/documentos', show: true },
+      'Documentos': { key: 'files', link: `${baseAdminPath}/dashboard-administrativo/gerenciar-diario-oficial`, show: true },
       'Usuários': { key: 'users', link: `${baseAdminPath}/dashboard-administrativo/usuarios`, show: this.isStaff },
       'Publicações': { key: 'official_gazettes', link: `${baseAdminPath}/dashboard-administrativo/gerenciar-diario-oficial`, show: true },
       'Órgãos': { key: 'agencies', link: `${baseAdminPath}/dashboard-administrativo/orgaos`, show: true },
