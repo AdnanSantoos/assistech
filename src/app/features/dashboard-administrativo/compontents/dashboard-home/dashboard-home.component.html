@@ -17,10 +17,9 @@
       </div>
     </div>
     <button
+      *ngIf="categoria.nome !== 'Termos'"
       [routerLink]="categoria.link"
-      [disabled]="
-        categoria.nome === 'Documentos' || categoria.nome === 'Termos'
-      "
+      [disabled]="categoria.nome === 'Termos'"
       class="btn-ver-lista"
     >
       <img
