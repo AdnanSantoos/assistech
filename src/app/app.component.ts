@@ -1,5 +1,6 @@
 // app.component.ts
 import {
+  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   Inject,
@@ -25,6 +26,7 @@ import { TenantService } from './shared/services/tenant.service';
 import { NgxLoadingModule } from 'ngx-loading';
 import { LoadingService } from './shared/services/loading.service';
 import { NavigationService } from './shared/services/navigation.service';
+import { tap } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -40,13 +42,16 @@ import { NavigationService } from './shared/services/navigation.service';
   ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent implements OnInit, OnDestroy {
   tipoRota: TipoRota = null;
   domain: string = '';
   loading: boolean = false;
-  loading$ = this._loadingService.loading$;
   slug: string | null = null;
+  loading$ = this._loadingService.loading$.pipe(
+    tap(() => setTimeout(() => this.cdr.markForCheck()))
+  );
 
   constructor(
     private router: Router,
@@ -69,10 +74,6 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.loading$.subscribe(() => {
-      this.cdr.detectChanges(); // 🔥 Força o Angular a reavaliar o template
-    });
-
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         // Verifica se a URL é válida antes de processar
