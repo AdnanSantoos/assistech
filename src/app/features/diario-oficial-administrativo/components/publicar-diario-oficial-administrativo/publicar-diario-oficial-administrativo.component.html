@@ -295,7 +295,9 @@
       >
         <button
           type="submit"
-          class="w-100 hover-sucesso btn bg-dark text-white"
+          class="w-100 hover-sucesso btn text-white"
+          [class.bg-success]="formAgendado.valid"
+          [class.bg-dark]="!formAgendado.valid"
           [disabled]="!formAgendado.valid"
         >
           Confirmar Agendamento
