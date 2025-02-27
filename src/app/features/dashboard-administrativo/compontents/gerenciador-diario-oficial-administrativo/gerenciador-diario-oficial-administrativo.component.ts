@@ -105,7 +105,7 @@ export class GerenciadorDiarioOficialAdministrativoComponent
         console.error('Erro ao escutar o canal:', error);
       })
     }
-  
+
     this._service.publicacoes$.subscribe((publicacoes) => {
       this.publicacoes = publicacoes.map((doc) => {
         // Manter o nome original ou usar o que está salvo no localStorage
@@ -122,17 +122,28 @@ export class GerenciadorDiarioOficialAdministrativoComponent
    * Atualiza o status da publicação com base no evento recebido.
    * @param event Dados do evento.
    */
-  private updatePublicationStatus(event: any): void {
-    const { official_gazette_id, status, file_published } = event;
+  private updatePublicationStatus(eventWrapper: any): void {
+    // Extrair o objeto event interno
+    const eventData = eventWrapper.event;
+
+    // Verificar se o objeto event existe
+    if (!eventData) {
+      console.warn('Objeto event não encontrado no wrapper', eventWrapper);
+      return;
+    }
+
+    const { official_gazette_id, status, file_published } = eventData;
+
     // Procure a publicação na lista e atualize seu status
     const publication = this.publicacoes.find(
       (pub) => pub.id === official_gazette_id
     );
+
     if (publication) {
       publication.status = status;
       publication.file_published = file_published;
     } else {
-      console.warn('Publicação não encontrada', event);
+      console.warn('Publicação não encontrada', eventData);
     }
   }
 
