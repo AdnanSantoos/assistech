@@ -155,21 +155,19 @@ export class GerenciadorDiarioOficialAdministrativoComponent
   private updatePublicationStatus(eventWrapper: any): void {
     // Extrair o objeto event interno
     const eventData = eventWrapper.event ? eventWrapper.event : eventWrapper;
-    console.log(eventWrapper)
 
     // Verificar se o objeto event existe
     if (!eventData) {
       console.warn('Objeto event não encontrado no wrapper', eventWrapper);
       return;
     }
-    console.log(eventData)
     const { official_gazette_id, status, file_published, audio_url } = eventData;
 
     // Procure a publicação na lista e atualize seu status
     const publication = this.publicacoes.find(
       (pub) => pub.id === official_gazette_id
     );
-
+    console.log(publication)
     if (publication) {
       publication.status = status;
       publication.audio_url = audio_url;
