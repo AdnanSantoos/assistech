@@ -163,7 +163,7 @@ export class GerenciadorDiarioOficialAdministrativoComponent
       return;
     }
     console.log(eventData)
-    const { official_gazette_id, status, file_published } = eventData;
+    const { official_gazette_id, status, file_published, audio_url } = eventData;
 
     // Procure a publicação na lista e atualize seu status
     const publication = this.publicacoes.find(
@@ -172,6 +172,7 @@ export class GerenciadorDiarioOficialAdministrativoComponent
 
     if (publication) {
       publication.status = status;
+      publication.audio_url = audio_url;
       publication.file_published = file_published;
     } else {
       console.warn('Publicação não encontrada', eventData);
