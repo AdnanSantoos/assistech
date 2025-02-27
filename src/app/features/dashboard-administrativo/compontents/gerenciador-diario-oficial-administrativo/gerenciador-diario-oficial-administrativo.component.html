@@ -42,6 +42,21 @@
             <div
               class="d-flex justify-content-center align-items-center gap-2 p-1"
             >
+              @if(doc.audio_url){
+              <button
+                class="btn btn-sm"
+                tooltip="Áudio"
+                (click)="togglePlay(doc.audio_url)"
+              >
+                @if(playingUrl === doc.audio_url){
+                <mat-icon>stop</mat-icon>
+
+                } @else{
+                <mat-icon>play_arrow</mat-icon>
+
+                }
+              </button>
+              }
               <a
                 [href]="doc.protocol"
                 target="_blank"
@@ -59,10 +74,7 @@
                 class="btn btn-sm"
                 tooltip="Original"
               >
-                <img
-                  src="/app/assets/icons/clipboard-adm.svg"
-                  alt="Original"
-                />
+                <img src="/app/assets/icons/clipboard-adm.svg" alt="Original" />
               </a>
               <a
                 [href]="doc.file_published"
@@ -76,10 +88,7 @@
                 }"
                 tooltip="Publicado"
               >
-                <img
-                  src="/app/assets/icons/check-adm.svg"
-                  alt="Publicado"
-                />
+                <img src="/app/assets/icons/check-adm.svg" alt="Publicado" />
               </a>
               @if(isStaff){
               <button
@@ -336,9 +345,8 @@
                 </div>
               </ng-template>
 
-              }
-              @else if(!isStaff && doc.status === 'scheduled' ) {
-                <button
+              } @else if(!isStaff && doc.status === 'scheduled' ) {
+              <button
                 class="btn-format btn-remove border-0 ps-0 pe-0 ms-0 me-0"
                 tooltip="Remover Publicação"
                 (click)="openConfirmationModal(confirmationTemplate, doc)"
@@ -416,7 +424,7 @@
           </a>
         </li>
         <li class="page-item active">
-          <span class="page-link">{{ currentPage }} / {{totalPages}}</span>
+          <span class="page-link">{{ currentPage }} / {{ totalPages }}</span>
         </li>
         <li class="page-item" [class.disabled]="currentPage === totalPages">
           <a class="page-link" (click)="goToNextPage()" aria-label="Próxima">

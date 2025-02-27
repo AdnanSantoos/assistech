@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Location } from '@angular/common';
-import { MatIcon } from '@angular/material/icon';
+import { MatIcon, MatIconModule } from '@angular/material/icon';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { GerenciadorDiarioOficialService } from './service/gerenciador-diario-oficial.service';
 import {
@@ -29,12 +29,14 @@ import {
     TooltipModule,
     ModalModule,
     ReactiveFormsModule,
+    MatIconModule
   ],
   providers: [BsModalService],
   templateUrl: './gerenciador-diario-oficial-administrativo.component.html',
   styleUrls: ['./gerenciador-diario-oficial-administrativo.component.scss'],
 })
 export class GerenciadorDiarioOficialAdministrativoComponent
+
   implements OnInit, OnDestroy
 {
   public documents: DiarioOficialPublicacoes[] = [];
@@ -50,6 +52,8 @@ export class GerenciadorDiarioOficialAdministrativoComponent
   public selectedPages: number[] = []; // Páginas selecionadas para exclusão
   selectedFile: File | null = null; // Armazena o arquivo selecionado
   public publicacoes: DiarioOficialPublicacoes[] = [];
+  playingUrl: string | null = null;
+  currentAudio: HTMLAudioElement | null = null;
 
   constructor(
     private _location: Location,
@@ -117,7 +121,33 @@ export class GerenciadorDiarioOficialAdministrativoComponent
       });
     });
   }
+  togglePlay(audioUrl: string) {
+    // Se já há um áudio tocando e é o mesmo, apenas pausa
+    if (this.currentAudio && this.playingUrl === audioUrl) {
+      this.currentAudio.pause();
+      this.currentAudio = null;
+      this.playingUrl = null;
+      return;
+    }
 
+    // Pausa qualquer outro áudio antes de tocar o novo
+    if (this.currentAudio) {
+      this.currentAudio.pause();
+    }
+
+    // Criar novo áudio e tocar
+    this.currentAudio = new Audio(audioUrl);
+    this.currentAudio.play();
+    this.playingUrl = audioUrl;
+
+    this.currentAudio.onended = () => {
+      this.currentAudio = null;
+      this.playingUrl = null;
+    };
+
+    // Forçar a atualização no Angular
+    setTimeout(() => {}, 0);
+  }
   /**
    * Atualiza o status da publicação com base no evento recebido.
    * @param event Dados do evento.

@@ -10,8 +10,8 @@ export interface DiarioOficialPublicacoes {
   status: string;
   year: number;
   year_label: string;
+  audio_url?: string;
 }
-
 
 export interface DashboardCategorias {
   nome: string;
