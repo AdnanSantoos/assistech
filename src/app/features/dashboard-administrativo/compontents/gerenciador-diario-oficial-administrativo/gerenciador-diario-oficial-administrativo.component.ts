@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Location } from '@angular/common';
 import { MatIcon, MatIconModule } from '@angular/material/icon';
@@ -63,7 +63,8 @@ export class GerenciadorDiarioOficialAdministrativoComponent
     private modalService: BsModalService,
     private _tenantService: TenantService,
     public route: ActivatedRoute,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private cdr: ChangeDetectorRef
   ) {
     this._service.publicacoes$.subscribe((data) => {
       this.publicacoes = data;
@@ -172,6 +173,7 @@ export class GerenciadorDiarioOficialAdministrativoComponent
       publication.status = status;
       publication.audio_url = audio_url;
       publication.file_published = file_published;
+      this.cdr.detectChanges();
     } else {
       console.warn('Publicação não encontrada', eventData);
     }
