@@ -3,7 +3,7 @@ import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import {
   ArquivoContratoModel,
   ContratoModel,
@@ -19,6 +19,7 @@ import {
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { ArquivosContratoMapper } from './mapper/arquivos-contratos.mapper';
 import { FormErrorService } from '../../../../shared/services/form-error.service';
+import { TenantService } from '../../../../shared/services/tenant.service';
 
 @Component({
   selector: 'app-lista-contratos-administrativo',
@@ -96,7 +97,9 @@ export class ListaContratosAdministrativoComponent implements OnInit {
     private modalService: BsModalService,
     private _location: Location,
     public route: ActivatedRoute,
-    private _errorService: FormErrorService
+    private _errorService: FormErrorService,
+    private router: Router,
+    private tenantService: TenantService
   ) {
     this.deleteForm = this.fb.group({
       justification: ['', [Validators.required]],
@@ -109,11 +112,26 @@ export class ListaContratosAdministrativoComponent implements OnInit {
     this.filtersForm = this.fb.group({
       number: [''],
       year: [''],
+      has_term: false,
     });
   }
 
   ngOnInit() {
-    this.carregarContratos(this.currentPage);
+    // Check query params on initialization
+    this.route.queryParams.subscribe((params) => {
+      // If has_term is in the params, set the form value
+      if (params['has_term'] === 'true') {
+        this.filtersForm.patchValue({
+          has_term: true,
+        });
+
+        // Load contracts with the filter
+        this.carregarContratos(this.currentPage, { has_term: true });
+      } else {
+        // Normal initial load
+        this.carregarContratos(this.currentPage);
+      }
+    });
   }
 
   openFilesModal(contrato: ContratoModel, template: TemplateRef<any>): void {
@@ -188,7 +206,33 @@ export class ListaContratosAdministrativoComponent implements OnInit {
         return acc;
       }, {} as any);
 
+    // Update URL with current filters
+    this.router.navigate([], {
+      queryParams: cleanedFilters,
+      queryParamsHandling: 'merge',
+    });
+
     this.carregarContratos(this.currentPage, cleanedFilters);
+  }
+
+  clearFilters(): void {
+    // Reset form to initial state
+    this.filtersForm.reset({
+      number: '',
+      year: '',
+      has_term: false,
+    });
+
+    // Get the current tenant slug
+    const currentSlug = this.tenantService.getTenant();
+
+    // Navigate back to base route without query params
+    this.router.navigate([
+      `/${currentSlug}/adm/dashboard-administrativo/contratos`,
+    ]);
+
+    // Reload contracts without filters
+    this.carregarContratos(1);
   }
 
   carregarContratos(page: number, filters: any = {}): void {

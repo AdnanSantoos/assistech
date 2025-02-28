@@ -35,8 +35,8 @@ export interface ContratoModel {
   subcontracted_supplier_person_type: string | null;
   subrogated_organization_code: string | null;
   subrogated_organization_country_register: string | null;
+  has_term?: boolean;
 }
-
 
 export interface TermosContratosModel {
   added_term_days: number;

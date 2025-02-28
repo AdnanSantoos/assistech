@@ -208,15 +208,14 @@ export class ContratosService {
     );
   }
 
-  getContratosWithFilters(
-    filters: any
-  ): Observable<RequisicaoModel<ContratoModel[]>> {
+  getContratosWithFilters(filters: any): Observable<RequisicaoModel<ContratoModel[]>> {
     const params = new HttpParams({
       fromObject: {
         ...filters,
         page: filters.page?.toString() || '1',
-        number: filters.number || '', // Adiciona o número aqui
-      },
+        number: filters.number || '',
+        has_term: filters.has_term === true ? 'true' : '' // Explicitly convert to string
+      }
     });
 
     return this._repository.getContratosWithFilters(params);
