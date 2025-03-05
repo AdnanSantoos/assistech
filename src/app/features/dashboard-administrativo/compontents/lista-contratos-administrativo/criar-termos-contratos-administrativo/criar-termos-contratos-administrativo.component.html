@@ -125,9 +125,9 @@
 
     <div class="row mb-3">
       <div class="col-6">
-        <label for="added_value" class="form-label strong_font"
-          >Valor Suprimido *</label
-        >
+        <label for="added_value" class="form-label strong_font">
+          {{ isChecked ? "Valor Acrescido *" : "Valor Suprimido *" }}
+        </label>
         <input
           type="text"
           class="form-control"
