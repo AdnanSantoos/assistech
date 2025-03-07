@@ -138,7 +138,8 @@ export class FooterComponent implements OnInit, OnDestroy {
   }
 
   private checkRoute(url: string): void {
-    this.isAdmRoute = url.includes('/adm');
+    console.log(url)
+    this.isAdmRoute = url.includes('/adm/');
     if (this.isAdmRoute) {
       this.resetData();
     }
