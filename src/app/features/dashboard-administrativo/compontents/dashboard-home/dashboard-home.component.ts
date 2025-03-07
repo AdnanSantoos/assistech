@@ -75,7 +75,7 @@ export class DashboardHomeComponent implements OnInit {
       : '/adm';
 
     this.categoryMapping = {
-      Documentos: {
+      Arquivos: {
         key: 'files',
         link: `${baseAdminPath}/dashboard-administrativo/gerenciar-diario-oficial`,
         show: true,
