@@ -152,13 +152,28 @@ export class DiarioOficialListagemComponent implements OnChanges, OnInit {
     this.tenantService.slug$.subscribe((slug) => {
       this.slug = slug!;
     });
+
+    this.tenantService.state$.subscribe(data=>{
+      if(data){
+        this.navigationService.initialize(data.slug);
+        this.previous_official_gazette_link =
+          data.previous_official_gazette_link || null;
+        this.previous_transparent_link = data.previous_transparent_link || null;
+        this.previous_official_gazette_date =
+          data.previous_official_gazette_date || null;
+
+        // Atualiza as URLs dos logos
+        this.logoUrl = data.logo || '/app/assets/logos/logo-g-itaberaba.png';
+        this.secondLogoUrl =
+          data.second_logo || '/app/assets/logos/admin.second.jpg'; 
+      }
+    })
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     this.documentos = this.publicacoes;
   }
   ngOnInit() {
-    this.getTenantData(this.slug);
     this.previous_official_gazette_link =
       this.publicacoes?.data.previous_official_gazette_link ?? null;
     this.previous_transparent_link =
@@ -184,20 +199,7 @@ export class DiarioOficialListagemComponent implements OnChanges, OnInit {
   private getTenantData(slug: string) {
     this.tenantService.getTenantData(slug).subscribe({
       next: (response: TenantResponse) => {
-        const data = response.data;
-        this.tenantService.setSlug(data.slug);
-        this.tenantService.updateState(data);
-        this.navigationService.initialize(data.slug);
-        this.previous_official_gazette_link =
-          data.previous_official_gazette_link || null;
-        this.previous_transparent_link = data.previous_transparent_link || null;
-        this.previous_official_gazette_date =
-          data.previous_official_gazette_date || null;
-
-        // Atualiza as URLs dos logos
-        this.logoUrl = data.logo || '/app/assets/logos/logo-g-itaberaba.png';
-        this.secondLogoUrl =
-          data.second_logo || '/app/assets/logos/admin.second.jpg';
+        
       },
       error: (error) => {
         this.router.navigate(['error']);

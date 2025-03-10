@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  HostListener,
   Inject,
   OnDestroy,
   OnInit,
@@ -53,13 +54,17 @@ export class AppComponent implements OnInit, OnDestroy {
     tap(() => setTimeout(() => this.cdr.markForCheck()))
   );
 
+  @HostListener('window:beforeunload', ['$event'])
+  beforeUnloadHandler(event: Event) {
+    localStorage.clear();
+  }
+
   constructor(
     private router: Router,
     private location: Location,
     private _loadingService: LoadingService,
     private tenantService: TenantService,
     private navigationService: NavigationService,
-    @Inject(PLATFORM_ID) private platformId: Object,
     private cdr: ChangeDetectorRef,
     private route: ActivatedRoute
   ) {
@@ -127,6 +132,6 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    localStorage.clear()
+    localStorage.clear();
   }
 }

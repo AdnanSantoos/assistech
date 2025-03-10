@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, NavigationEnd, Router, RouterLink } from '@angular/router';
 import { GeneralNewsComponent } from '../../shared/components/general-news/general-news.component';
 import { TenantService } from '../../shared/services/tenant.service';
-import { filter, Subscription, switchMap, tap } from 'rxjs';
+import { filter, finalize, Subject, Subscription, switchMap, takeUntil, tap } from 'rxjs';
 import { CadastrarFotosAdministrativoService } from '../dashboard-administrativo/compontents/cadastrar-fotos-diario-oficial/services/cadastrar-foto-administrativo.service';
 import { PhotoForm } from '../dashboard-administrativo/compontents/cadastrar-fotos-diario-oficial/model/cadastrar-foto.model';
 
@@ -27,7 +27,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
   currentSlug: string = '';
   tenantData: any = null;
-
+  private destroy$ = new Subject<void>();
   images: { url: string }[] = [];
   defaultImages = [
     { url: '/app/assets/imgs-home/1.jpg' },
@@ -47,7 +47,17 @@ export class HomeComponent implements OnInit, OnDestroy {
     public route: ActivatedRoute,
     private _tenantService: TenantService,
     private _cadastrarFotosAdministrativoService: CadastrarFotosAdministrativoService
-  ) {}
+  ) {
+      this._tenantService.state$
+          .pipe(
+            takeUntil(this.destroy$),
+          )
+          .subscribe(state => {
+            if (state) {
+              this.tenantData = state;
+            }
+          });
+  }
 
   ngOnInit(): void {
     // Subscribe to slug changes and fetch tenant data
@@ -59,13 +69,7 @@ export class HomeComponent implements OnInit, OnDestroy {
           this.currentSlug = slug;
         }),
         switchMap(slug =>
-          this._tenantService.getTenantData(slug).pipe(
-            tap(response => {
-              console.log('Tenant data received:', response);
-              this.tenantData = response.data;
-            }),
-            switchMap(() => this._cadastrarFotosAdministrativoService.getRecentPhotos(slug))
-          )
+          this._cadastrarFotosAdministrativoService.getRecentPhotos(slug)
         )
       )
       .subscribe({
@@ -165,5 +169,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }
