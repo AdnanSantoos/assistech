@@ -9,6 +9,16 @@
       <div class="col-6">
         <div class="form-toggle-group">
           <div class="form-check form-switch">
+            @if(isEditMode){
+            <div class="d-flex flex-column flex-wrap">
+              <strong>Contrato:</strong>
+              <div class="d-flex gap-3">
+                <span><strong>Ano:</strong> {{ termoForm.get("year")?.value }}</span>
+                <span><strong>Número:</strong> {{ termoForm.get("number")?.value }}</span>
+                <span><strong>Processo:</strong> {{ termoForm.get("process")?.value }}</span>
+              </div>
+            </div>
+            }
             <input
               type="checkbox"
               class="form-check-input"

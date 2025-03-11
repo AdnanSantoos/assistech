@@ -103,6 +103,8 @@ export class CriarTermosContratosAdministrativoComponent implements OnInit {
   }
   initializeForm(): void {
     this.termoForm = this.fb.group({
+      year: [''], // Campo Ano
+      process: [''], // Campo Processo
       contract_id: ['', Validators.required],
       contract_term_type_id: ['', Validators.required],
       number: ['', Validators.required],
@@ -128,10 +130,14 @@ export class CriarTermosContratosAdministrativoComponent implements OnInit {
   // Carregar os dados do termo para edição
   loadTermo(termoId: string): void {
     this._contratoService.getTermoById(termoId).subscribe({
-      next: (termo) => {
-        console.log('Dados do termo carregados:', termo); // Debug dos dados carregados
+      next: (termo: TermosContratosModel) => {
+        console.log('Dados do termo carregados:', termo);
+
+        // Preencher os campos do formulário
         this.termoForm.patchValue({
           ...termo,
+          year: termo.contract?.year, // Preencher o campo Ano
+          process: termo.contract?.process, // Preencher o campo Processo
           validity_start_date: new Date(termo.validity_start_date),
           validity_end_date: new Date(termo.validity_end_date),
           signature_date: new Date(termo.signature_date),
