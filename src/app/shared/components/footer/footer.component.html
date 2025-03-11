@@ -113,20 +113,48 @@
       </div>
       } -->
       <div class="col d-flex px-0 mx-0 justify-content-center">
-         @if(isAdmRoute){
-          <div class="me-5">
-            <div class="title_footer  flex-column d-flex justify-content-center">
-              <ul>
-                <li>Nossos serviços:</li>
-              </ul>
-              <div class="borda-verde"></div>
-            </div>
-            <div class="mt-3">
-              PNCP - DIÁRIO OFICIAL - PORTAL DE TRANSPARÊNCIA
-            </div>
-            <div></div>
+        @if(isAdmRoute){
+        <div class="me-5">
+          <div class="title_footer flex-column d-flex justify-content-center">
+            <ul>
+              <li>Nossos serviços:</li>
+            </ul>
+            <div class="borda-verde"></div>
           </div>
-         }
+          <div class="mt-3">
+            PNCP - DIÁRIO OFICIAL - PORTAL DE TRANSPARÊNCIA
+          </div>
+          <div></div>
+        </div>
+        } @if(isAdmRoute){
+        <div class="me-5">
+          <div class="title_footer flex-column d-flex justify-content-center">
+            <ul>
+              <li>Contato:</li>
+            </ul>
+            <div class="borda-verde"></div>
+          </div>
+          <div class="mt-3">
+            <p>
+              <strong class="me-1">Email: </strong>
+              <a class="text-white" href="mailto:pwr@assistechpublicacoes.com.br"
+                >pwr&#64;assistechpublicacoes.com.br</a
+              >
+            </p>
+            <p>
+              <strong class="me-1">Site: </strong>
+              <a class="text-white"
+                href="https://www.assistechpublicacoes.com.br/"
+                target="_blank"
+                rel="noopener noreferrer"
+                >www.assistechpublicacoes.com.br</a
+              >
+            </p>
+            <p><strong class="me-1">Telefone: </strong> 75 - 99100-3498 / 75 99153-7521</p>
+          </div>
+          <div></div>
+        </div>
+        }
         <div class="ms-5">
           <div class="title_footer">
             <ul>
