@@ -184,7 +184,11 @@
           </div>
 
           <!-- Somente mostra o submenu se não tiver um link direto -->
-          <ul class="submenu" *ngIf="item.expanded && item.subMenu.length > 0">
+          <ul
+            class="submenu"
+            *ngIf="item.expanded && item.subMenu.length > 0"
+            [ngStyle]="{ display: item.visible === false ? 'none' : 'block' }"
+          >
             @for (subItem of item.subMenu; track $index) { @if(subItem.visible){
             <li class="d-flex align-items-center" [routerLink]="subItem.link">
               <span class="ms-2">{{ subItem.title }}</span>
