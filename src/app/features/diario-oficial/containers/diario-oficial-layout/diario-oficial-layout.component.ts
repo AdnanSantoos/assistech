@@ -5,12 +5,13 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
-import { Router, RouterLink, RouterModule } from '@angular/router';
+import { RouterLink, RouterModule } from '@angular/router';
 import { DiarioOficialService } from '../../services/diario-oficial.service';
 import { DadosDiarioOficialPublico, DiarioOficialPesquisaData } from '../../models/diario-oficial.model';
 import { Location } from '@angular/common';
 import { Observable } from 'rxjs';
 import { RequisicaoModel } from '../../../../shared/models/shared.model';
+import { TenantService } from '../../../../shared/services/tenant.service';
 
 @Component({
   selector: 'app-diario-oficial-layout',
@@ -46,16 +47,18 @@ export class DiarioOficialLayoutComponent implements OnInit {
   }
 
   constructor(
-    private fb: FormBuilder,
     private _service: DiarioOficialService,
-    private location: Location
+    private location: Location,
+    private tenantService: TenantService
   ) {
   }
 
   ngOnInit(): void {
-    this._service.getDiarioPublicoEntidade().subscribe((res:DadosDiarioOficialPublico)=>{
-      this.gerarAnosAteAtual(res.year)
-      this._service.getDiarioPublicoPorFiltro(this.filtroForm)
+    this.tenantService.state$.subscribe(data=>{
+      if(data){
+        this.gerarAnosAteAtual(data.year)
+        this._service.getDiarioPublicoPorFiltro(this.filtroForm)
+      }
     })
   }
 
@@ -86,9 +89,6 @@ export class DiarioOficialLayoutComponent implements OnInit {
       anos.push(ano);
     }
     return anos;
-  }
-
-  onFormSubmit(): void {
   }
 
   goBack(): void {

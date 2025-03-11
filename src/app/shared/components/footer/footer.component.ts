@@ -57,9 +57,6 @@ export class FooterComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe(slug => {
         this.slug = slug;
-        if (slug && !this.isAdmRoute) {
-          this.loadTenantData(slug);
-        }
       });
 
     // Router subscription for route changes
@@ -78,26 +75,6 @@ export class FooterComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
-  }
-
-  private loadTenantData(tenant: string): void {
-    this.tenantService.getTenantData(tenant)
-      .pipe(
-        takeUntil(this.destroy$),
-        finalize(() => this.loading = false)
-      )
-      .subscribe({
-        next: (response) => {
-          if (response?.data) {
-            this.tenantService.updateState(response.data);
-            this.updateClienteData(response.data);
-          }
-        },
-        error: (error) => {
-          console.error('Erro ao carregar dados:', error);
-          this.resetData();
-        }
-      });
   }
 
   private updateClienteData(data: TenantFullModel): void {
@@ -138,7 +115,8 @@ export class FooterComponent implements OnInit, OnDestroy {
   }
 
   private checkRoute(url: string): void {
-    this.isAdmRoute = url.includes('/adm');
+    console.log(url)
+    this.isAdmRoute = url.includes('/adm/');
     if (this.isAdmRoute) {
       this.resetData();
     }
