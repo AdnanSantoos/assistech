@@ -104,7 +104,13 @@
     }
   }
 }
-
+.text-visualizar {
+  font-size: 16px;
+  color: #000;
+}
+.text-visualizar:hover {
+  color: #3566f3;
+}
 .custom-file-input {
   position: relative;
   text-align: center;
@@ -312,6 +318,9 @@
   }
 }
 ::ng-deep {
+  #openFile {
+    display: none;
+  }
   .mdc-text-field--filled:not(.mdc-text-field--disabled) {
     background-color: transparent !important;
     padding: 0 !important;
@@ -377,7 +386,7 @@
   margin-top: auto;
   margin-bottom: 1.7vh;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-  svg{
+  svg {
     width: 30px;
     height: 30px;
     filter: invert(1);

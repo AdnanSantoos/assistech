@@ -86,76 +86,83 @@ export class SidebarAdministrativoComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // Inicializa a lista de tenants filtrados
     this.filteredTenants = this.tenants;
+
+    // Observa mudanças no slug do tenant
     this._tenantService.slug$.subscribe((slug) => {
       this.slug = slug!; // Atualiza o slug local com o valor do TenantService
       console.log('Slug atual:', this.slug); // Para depuração
     });
+
+    // Verifica se o usuário é staff
     this.isStaff = this.tenantService.getStaff();
+
+    // Define os itens do menu original
     this.originalMenuItems = [
       {
         title: 'Cadastrar',
         expanded: false,
-        alwaysShow: true,
+        alwaysShow: true, // Sempre exibir, independente das permissões
         subMenu: [
           {
             title: 'Cliente',
             link: `../dashboard-administrativo/cliente`,
-            visible: this.isStaff,
+            visible: this.isStaff, // Visível apenas para staff
           },
           {
             title: 'Usuário',
             link: '../dashboard-administrativo/usuarios',
-            visible: this.isStaff,
+            visible: this.isStaff, // Visível apenas para staff
           },
           {
             title: 'Imagens',
             link: '../dashboard-administrativo/cadastrar-fotos-diario',
-            visible: this.isStaff,
+            visible: this.isStaff, // Visível apenas para staff
           },
         ],
       },
       {
         title: 'Diário Oficial',
         expanded: false,
-        permission: 'diario_oficial',
+        permission: 'diario_oficial', // Permissão necessária para exibir
         subMenu: [
           {
             title: 'Publicacoes',
             link: '../dashboard-administrativo/gerenciar-diario-oficial',
-            visible: true,
+            visible: true, // Submenu sempre visível se o item principal for exibido
           },
         ],
       },
       {
         title: 'PNCP',
         expanded: false,
-        permission: 'pncp',
+        permission: 'pncp', // Permissão necessária para exibir
         subMenu: [
           {
             title: 'Órgãos',
             link: '../dashboard-administrativo/orgaos',
-            visible: true,
+            visible: true, // Submenu sempre visível se o item principal for exibido
           },
           {
             title: 'Unidades',
             link: '../dashboard-administrativo/unidades',
-            visible: true,
+            visible: true, // Submenu sempre visível se o item principal for exibido
           },
           {
             title: 'Licitações',
             link: '../dashboard-administrativo/licitacoes',
-            visible: true,
+            visible: true, // Submenu sempre visível se o item principal for exibido
           },
           {
             title: 'Contratos',
             link: '../dashboard-administrativo/contratos',
-            visible: true,
+            visible: true, // Submenu sempre visível se o item principal for exibido
           },
           {
             title: 'PCA',
             link: '../dashboard-administrativo/pca',
-            visible: true,
+            visible: true, // Submenu sempre visível se o item principal for exibido
           },
         ],
       },
@@ -163,19 +170,22 @@ export class SidebarAdministrativoComponent implements OnInit {
         title: 'Portal de Transparência',
         link: '../dashboard-administrativo/outros',
         expanded: false,
-        permission: 'portal_transparencia',
+        permission: 'portal_transparencia', // Permissão necessária para exibir
         subMenu: [],
       },
     ];
 
+    // Inicializa os itens do menu com base no original
     this.menuItems = [...this.originalMenuItems];
 
+    // Verifica se há permissões salvas no localStorage
     const savedPermissions = localStorage.getItem('userPermissions');
     if (savedPermissions) {
-      this.permissions = JSON.parse(savedPermissions);
-      this.updateMenuVisibility();
+      this.permissions = JSON.parse(savedPermissions); // Carrega as permissões
+      this.updateMenuVisibility(); // Atualiza a visibilidade do menu com base nas permissões
     }
 
+    // Expande o menu com base na rota atual
     this.expandMenuBasedOnRoute(this.router.url);
   }
 
@@ -349,7 +359,7 @@ export class SidebarAdministrativoComponent implements OnInit {
                   'userPermissions',
                   JSON.stringify(this.permissions)
                 );
-                this.updateMenuVisibility();
+                this.updateMenuVisibility(); // Atualiza a visibilidade do menu
               }
             }),
             // Retorna ambas as respostas para usar na navegação
@@ -411,13 +421,29 @@ export class SidebarAdministrativoComponent implements OnInit {
   }
 
   updateMenuVisibility() {
-    // Adiciona uma verificação de segurança
+    // Verifica se as permissões e os itens do menu estão definidos
     if (this.menuItems && this.permissions) {
-      this.menuItems = this.originalMenuItems.filter(
-        (item: any) =>
-          item.alwaysShow ||
-          (item.permission && Object.hasOwn(this.permissions, item.permission))
-      );
+      // Filtra os itens do menu com base nas permissões
+      this.menuItems = this.originalMenuItems.filter((item: any) => {
+        // Se o item não tiver uma permissão específica, ele será sempre exibido
+        if (!item.permission) return true;
+
+        // Verifica se a permissão existe e é true
+        return this.permissions[item.permission] === true;
+      });
+
+      // Filtra os submenus de cada item
+      this.menuItems.forEach((item: any) => {
+        if (item.subMenu) {
+          item.subMenu = item.subMenu.filter((subItem: any) => {
+            // Se o subitem não tiver uma permissão específica, ele será sempre exibido
+            if (!subItem.permission) return true;
+
+            // Verifica se a permissão existe e é true
+            return this.permissions[subItem.permission] === true;
+          });
+        }
+      });
     }
   }
 

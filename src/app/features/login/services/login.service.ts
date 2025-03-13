@@ -51,7 +51,12 @@ export class LoginService {
               localStorage.setItem('isStaff', v.data.is_staff.toString());
             }
 
-            // Armazena o slug do tenant no localStorage
+            // Armazena as permissões no localStorage, se existirem
+            if (v.meta?.tenant?.permissions) {
+              localStorage.setItem('userPermissions', JSON.stringify(v.meta.tenant.permissions));
+            }
+
+            // Navega para a página inicial
             this._router.navigate([`/adm/dashboard-administrativo/home`]);
           },
           error: (err) => {
