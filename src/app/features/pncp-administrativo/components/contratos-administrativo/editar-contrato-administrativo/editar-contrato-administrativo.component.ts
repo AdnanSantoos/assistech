@@ -142,7 +142,7 @@ export class EditarContratoAdministrativoComponent {
               ? response.end_date.split(' ')[0]
               : null,
             goals: response.goals,
-            change_reason: response.change_reason,
+            change_reason: null,
             cipi_identifier: response.cipi_identifier,
             cipi_url: response.cipi_url,
           });

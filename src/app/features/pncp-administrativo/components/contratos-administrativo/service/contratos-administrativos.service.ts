@@ -73,7 +73,6 @@ export class ContratosService {
     return this._repository.updateContrato(id, data).pipe(
       tap(() => this.toastr.success('Contrato atualizado com sucesso!')),
       catchError((error) => {
-        this.toastr.error('Erro ao atualizar contrato.');
         throw error;
       })
     );
@@ -86,7 +85,6 @@ export class ContratosService {
     return this._repository.deleteContrato(procurementId, justification).pipe(
       tap(() => this.toastr.success('Contrato excluído com sucesso!')),
       catchError((error) => {
-        this.toastr.error('Erro ao excluir contrato.');
         throw error;
       })
     );
