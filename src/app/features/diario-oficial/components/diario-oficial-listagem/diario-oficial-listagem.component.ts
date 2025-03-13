@@ -152,12 +152,18 @@ export class DiarioOficialListagemComponent implements OnChanges, OnInit {
     this.tenantService.slug$.subscribe((slug) => {
       this.slug = slug!;
     });
+  }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    this.documentos = this.publicacoes;
+    console.log('publicacoes',this.publicacoes)
+  }
+  ngOnInit() {
     this.tenantService.state$.subscribe(data=>{
       if(data){
+        console.log('aquiii',data)
         this.navigationService.initialize(data.slug);
-        this.previous_official_gazette_link =
-          data.previous_official_gazette_link || null;
+        this.previous_official_gazette_link = data.previous_official_gazette_link!;
         this.previous_transparent_link = data.previous_transparent_link || null;
         this.previous_official_gazette_date =
           data.previous_official_gazette_date || null;
@@ -168,18 +174,6 @@ export class DiarioOficialListagemComponent implements OnChanges, OnInit {
           data.second_logo || '/app/assets/logos/admin.second.jpg'; 
       }
     })
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    this.documentos = this.publicacoes;
-  }
-  ngOnInit() {
-    this.previous_official_gazette_link =
-      this.publicacoes?.data.previous_official_gazette_link ?? null;
-    this.previous_transparent_link =
-      this.publicacoes?.data.previous_transparent_link ?? null;
-    this.previous_official_gazette_date =
-      this.publicacoes?.data.previous_official_gazette_date ?? null;
     if (this.previous_official_gazette_date) {
       this.formattedPreviousDate = new Date(
         this.previous_official_gazette_date
