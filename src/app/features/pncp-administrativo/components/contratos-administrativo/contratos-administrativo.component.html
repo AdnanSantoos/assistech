@@ -307,6 +307,58 @@
     </button>
   </div>
   <div class="modal-body">
+    <!-- Filters section - adapted from lista-contratos-administrativo -->
+    <div class="container-fluid">
+      <div class="filtro-row mb-4">
+        <form
+          [formGroup]="modalFiltersForm"
+          (ngSubmit)="applyModalFilters()"
+          class="d-flex flex-wrap align-items-end gap-3"
+        >
+          <div>
+            <label for="processo" class="form-label">N° do Processo</label>
+            <input
+              id="processo"
+              type="text"
+              class="form-control"
+              placeholder="Digite o número"
+              formControlName="number"
+            />
+          </div>
+
+          <div>
+            <label for="ano" class="form-label">Ano</label>
+            <input
+              id="ano"
+              type="text"
+              class="form-control"
+              placeholder="Digite o ano"
+              formControlName="year"
+            />
+          </div>
+
+          <div class="d-flex justify-content-between gap-2">
+            <button
+              type="submit"
+              class="btn btn-primary"
+              aria-label="Filtrar licitações"
+            >
+              Filtrar
+            </button>
+            <button
+              type="button"
+              class="btn btn-secondary w-50"
+              (click)="clearModalFilters()"
+              aria-label="Limpar Filtros"
+            >
+              Limpar Filtros
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Table content -->
     <div class="table-responsive">
       <table class="table-editada table-bordered">
         <thead>
@@ -343,6 +395,49 @@
           </tr>
         </tbody>
       </table>
+    </div>
+
+    <!-- No results message -->
+    <div *ngIf="licitacoes.length === 0" class="nao-encontrado">NENHUM RESULTADO ENCONTRADO</div>
+
+    <!-- Pagination section - adapted from lista-contratos-administrativo -->
+    <div class="bkg-bottom d-flex justify-content-end align-items-center mt-3">
+      <span class="resultado me-3">{{ totalModalItems }} resultados</span>
+      <nav aria-label="Page navigation">
+        <ul class="pagination">
+          <li class="page-item" [class.disabled]="currentModalPage === 1">
+            <a class="page-link" (click)="goToModalPage(1)" aria-label="Primeira">
+              <span aria-hidden="true">&laquo;&laquo;</span>
+            </a>
+          </li>
+          <li class="page-item" [class.disabled]="currentModalPage === 1">
+            <a
+              class="page-link"
+              (click)="goToPreviousModalPage()"
+              aria-label="Anterior"
+            >
+              <span aria-hidden="true">&laquo;</span>
+            </a>
+          </li>
+          <li class="page-item active">
+            <span class="page-link">{{ currentModalPage }} / {{ totalModalPages }}</span>
+          </li>
+          <li class="page-item" [class.disabled]="currentModalPage === totalModalPages">
+            <a class="page-link" (click)="goToNextModalPage()" aria-label="Próxima">
+              <span aria-hidden="true">&raquo;</span>
+            </a>
+          </li>
+          <li class="page-item" [class.disabled]="currentModalPage === totalModalPages">
+            <a
+              class="page-link"
+              (click)="goToModalPage(totalModalPages)"
+              aria-label="Última"
+            >
+              <span aria-hidden="true">&raquo;&raquo;</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
     </div>
   </div>
 </ng-template>
