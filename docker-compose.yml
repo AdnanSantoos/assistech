@@ -3,6 +3,6 @@ services:
     image: sai:frontend
     restart: always
     ports:
-      - "${DOCKER_FRONTEND_HTTP_PORT:-6990}:4200"
+      - "${DOCKER_FRONTEND_HTTP_PORT:-6990}:80"
     environment:
       - APP_ENV=production
