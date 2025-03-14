@@ -300,10 +300,15 @@
 </div>
 
 <ng-template #template>
-  <div class="modal-header">
+  <div class="modal-header d-flex justify-content-between">
     <h4 class="modal-title pull-left">Selecionar Contratação</h4>
-    <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRef?.hide()">
-      <span aria-hidden="true" class="visually-hidden">&times;</span>
+    <button
+      type="button"
+      class="d-flex align-items-center bg-dark close pull-right btn text-white"
+      aria-label="Close"
+      (click)="modalRef?.hide()"
+    >
+      <mat-icon>close</mat-icon>
     </button>
   </div>
   <div class="modal-body">
@@ -340,14 +345,14 @@
           <div class="d-flex justify-content-between gap-2">
             <button
               type="submit"
-              class="btn btn-primary"
+              class="d-flex align-items-center btn btn-primary"
               aria-label="Filtrar licitações"
             >
               Filtrar
             </button>
             <button
               type="button"
-              class="btn btn-secondary w-50"
+              class="d-flex align-items-center btn btn-secondary w-100 text-nowrap"
               (click)="clearModalFilters()"
               aria-label="Limpar Filtros"
             >
