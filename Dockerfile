@@ -44,17 +44,3 @@ RUN chown nginx:nginx -R /usr/share/nginx/html
 
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
-
-# FROM node:18-alpine as production-stage
-# WORKDIR /app
-# COPY --from=build-stage /app /app
-
-
-# RUN ENV_COMMANDS=$(cat .env | sed 's/ / \&\& export /g' | sed 's/^/export /') && \
-#   eval ${ENV_COMMANDS}
-
-# RUN export $(grep -v '^#' .env | xargs) || echo "Falha ao carregar o .env"
-
-# EXPOSE 4200
-# CMD ["npm", "run", "docker"]
-
