@@ -154,29 +154,24 @@ export class ListaLicitacaoAdministrativoComponent implements OnInit {
     });
   }
 
-  irParaPncp(page: number): void {
-    this.licitacoesService.getLicitacoes(page).subscribe({
-      next: (response) => {
-        if (response && response.data && response.data.length > 0) {
-          const licitacao = response.data[0];
-          const { year, gateway_sequence, agency } = licitacao;
+  irParaPncp(licitacao: LicitacaoModel): void {
+    if (
+      licitacao &&
+      licitacao.year &&
+      licitacao.gateway_sequence &&
+      licitacao.agency?.country_register
+    ) {
+      const baseUrl = 'https://pncp.gov.br/app/editais/';
+      const fullUrl = `${baseUrl}${licitacao.agency.country_register}/${licitacao.year}/${licitacao.gateway_sequence}`;
 
-          if (agency && agency.country_register) {
-            const baseUrl = 'https://pncp.gov.br/app/editais/';
-            const fullUrl = `${baseUrl}${agency.country_register}/${year}/${gateway_sequence}`;
-
-            window.open(fullUrl, '_blank');
-          } else {
-            console.error('Invalid agency data or missing country_register.');
-          }
-        } else {
-          console.warn('Nenhuma licitação encontrada.');
-        }
-      },
-      error: (err) => {
-        console.error('Erro ao buscar licitações:', err);
-      },
-    });
+      window.open(fullUrl, '_blank');
+    } else {
+      console.error('Dados insuficientes para visualizar no PNCP:', licitacao);
+      this.toastr.error(
+        'Não foi possível abrir o edital no PNCP. Dados insuficientes.',
+        'Erro'
+      );
+    }
   }
 
   openArquivosDialog(item: LicitacaoModel): void {
