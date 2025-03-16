@@ -49,4 +49,4 @@ DOCKER_BUILDKIT=${DOCKER_BUILDKIT} docker build --progress=${DOCKER_PROGRESS} \
 .
 
 
-docker save sai:frontend | gzip > frontend.docker.gz
+# docker save sai:frontend | gzip > frontend.docker.gz
