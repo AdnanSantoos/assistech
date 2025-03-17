@@ -41,10 +41,17 @@ import { FormErrorService } from '../../../../../shared/services/form-error.serv
 export class EditarContratoAdministrativoComponent {
   filtroForm: FormGroup;
   contratoForm: FormGroup;
+  modalFiltersForm: FormGroup; // New form for modal filters
   modalRef?: BsModalRef;
   selectedItem: any = null;
-  licitacoes!: LicitacaoModel[];
+  licitacoes: LicitacaoModel[] = [];
   contratoId: string | null = null;
+
+  // Pagination properties for modal
+  currentModalPage = 1;
+  modalPageSize = 10;
+  totalModalItems = 0;
+  totalModalPages = 0;
 
   constructor(
     private fb: FormBuilder,
@@ -54,7 +61,7 @@ export class EditarContratoAdministrativoComponent {
     private _licitacaoService: LicitacoesService,
     private _contratoService: ContratosService,
     private route: ActivatedRoute,
-    private _errorService:FormErrorService
+    private _errorService: FormErrorService
   ) {
     this.filtroForm = this.fb.group({
       ataDaSessao: [''],
@@ -93,6 +100,12 @@ export class EditarContratoAdministrativoComponent {
       change_reason: [''],
     });
 
+    // Initialize modal filters form
+    this.modalFiltersForm = this.fb.group({
+      number: [''],
+      year: ['']
+    });
+
     this.route.paramMap.subscribe((params) => {
       const id = params.get('id');
       if (id) {
@@ -105,6 +118,7 @@ export class EditarContratoAdministrativoComponent {
       }
     });
   }
+
   loadContratoDetails(id: string): void {
     this._contratoService.getContratoById(id).subscribe({
       next: (response) => {
@@ -172,6 +186,7 @@ export class EditarContratoAdministrativoComponent {
       });
     }
   }
+
   goBack(): void {
     this._location.back();
   }
@@ -185,6 +200,7 @@ export class EditarContratoAdministrativoComponent {
         .subscribe({
           next: () => {
             console.log('Contrato atualizado com sucesso!');
+            this._toastrService.success('Contrato atualizado com sucesso!');
             this.goBack();
           },
           error: (err) => {
@@ -205,14 +221,16 @@ export class EditarContratoAdministrativoComponent {
       template,
       Object.assign({}, { class: 'modal-lg modal-licitacoes' })
     );
-    this._licitacaoService.getLicitacoes(1).subscribe({
-      next: (response) => {
-        this.licitacoes = response.data;
-      },
-      error: (err) => {
-        this._toastrService.error(err);
-      },
+
+    // Reset modal pagination and filters
+    this.currentModalPage = 1;
+    this.modalFiltersForm.reset({
+      number: '',
+      year: ''
     });
+
+    // Load initial data
+    this.loadLicitacoes(this.currentModalPage);
   }
 
   onSelecionarItem(item: any): void {
@@ -220,5 +238,87 @@ export class EditarContratoAdministrativoComponent {
     this.contratoForm.controls['procurement_id'].setValue(item.id);
     console.log('Item selecionado:', this.selectedItem);
     this.modalRef?.hide();
+  }
+
+  // New methods for modal pagination and filtering
+  loadLicitacoes(page: number, filters: any = {}): void {
+    const params = {
+      ...filters,
+      page: page.toString()
+    };
+
+    this._licitacaoService.getLicitacoesWithFilters(params).subscribe({
+      next: (response) => {
+        this.licitacoes = response.data;
+        this.totalModalItems = response.meta?.pagination.total || 0;
+        this.totalModalPages = Math.ceil(this.totalModalItems / this.modalPageSize);
+      },
+      error: (err) => {
+        this._toastrService.error('Erro ao carregar licitações');
+        console.error('Erro ao carregar licitações:', err);
+      },
+    });
+  }
+
+  applyModalFilters(): void {
+    const filters = this.modalFiltersForm.value;
+
+    // Remove empty fields
+    const cleanedFilters = Object.keys(filters)
+      .filter((key) => filters[key] !== null && filters[key] !== '')
+      .reduce((acc, key) => {
+        acc[key] = filters[key];
+        return acc;
+      }, {} as any);
+
+    // Reset to first page when applying new filters
+    this.currentModalPage = 1;
+
+    // Load data with filters
+    this.loadLicitacoes(this.currentModalPage, cleanedFilters);
+  }
+
+  clearModalFilters(): void {
+    // Reset form to initial state
+    this.modalFiltersForm.reset({
+      number: '',
+      year: ''
+    });
+
+    // Reload without filters
+    this.currentModalPage = 1;
+    this.loadLicitacoes(1);
+  }
+
+  goToModalPage(pageNumber: number): void {
+    if (pageNumber >= 1 && pageNumber <= this.totalModalPages) {
+      this.currentModalPage = pageNumber;
+      this.loadLicitacoes(this.currentModalPage, this.getActiveFilters());
+    }
+  }
+
+  goToPreviousModalPage(): void {
+    if (this.currentModalPage > 1) {
+      this.currentModalPage--;
+      this.loadLicitacoes(this.currentModalPage, this.getActiveFilters());
+    }
+  }
+
+  goToNextModalPage(): void {
+    if (this.currentModalPage < this.totalModalPages) {
+      this.currentModalPage++;
+      this.loadLicitacoes(this.currentModalPage, this.getActiveFilters());
+    }
+  }
+
+  // Helper method to get current active filters
+  private getActiveFilters(): any {
+    const filters = this.modalFiltersForm.value;
+    return Object.keys(filters)
+      .filter((key) => filters[key] !== null && filters[key] !== '')
+      .reduce((acc, key) => {
+        acc[key] = filters[key];
+        return acc;
+      }, {} as any);
   }
 }

@@ -22,15 +22,8 @@ then
   BRANCH=${BITBUCKET_TAG:=$BITBUCKET_BRANCH}
 fi
 
-if [ -z "$DOCKER_BUILDKIT" ]
-then
-  DOCKER_BUILDKIT=1
-fi
-
-if [ -z "$DOCKER_PROGRESS" ]
-then
-  DOCKER_PROGRESS=tty
-fi
+export DOCKER_BUILDKIT=${DOCKER_BUILDKIT:-1}
+DOCKER_PROGRESS=${DOCKER_PROGRESS:-tty}
 
 GIT_HASH=${BRANCH}@${COMMIT}
 
@@ -56,4 +49,4 @@ DOCKER_BUILDKIT=${DOCKER_BUILDKIT} docker build --progress=${DOCKER_PROGRESS} \
 .
 
 
-docker save sai:frontend | gzip > frontend.docker.gz
+# docker save sai:frontend | gzip > frontend.docker.gz

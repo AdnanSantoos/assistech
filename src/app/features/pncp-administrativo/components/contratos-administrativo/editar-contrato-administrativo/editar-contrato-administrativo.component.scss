@@ -1,6 +1,6 @@
 ::ng-deep {
   .modal-licitacoes {
-    max-width: 65vw;
+    max-width: 85vw;
   }
   .bg-pagina-interna {
     .formulario-component {
@@ -163,3 +163,9 @@
 .contrato-selecionado {
   height: 11vh;
 }
+
+.btn{
+  height: 32px;
+}
+
+.btn-close{}
