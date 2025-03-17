@@ -8,10 +8,11 @@ import { provideToastr } from 'ngx-toastr';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { loadingInterceptor } from './app/shared/interceptors/loading.interceptor';
 import { NavigationService } from './app/shared/services/navigation.service';
+import { noCacheInterceptor } from './app/shared/interceptors/no-cache.interceptor';
 
 bootstrapApplication(AppComponent, {
   providers: [
-    provideHttpClient(withInterceptors([authInterceptor, loadingInterceptor])),
+    provideHttpClient(withInterceptors([authInterceptor, loadingInterceptor,noCacheInterceptor])),
     provideRouter(routes),
     provideToastr(),
     provideAnimations(),

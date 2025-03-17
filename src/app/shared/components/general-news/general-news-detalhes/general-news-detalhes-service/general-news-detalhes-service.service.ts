@@ -10,7 +10,7 @@ import { environment } from '../../../../../../environments/environment';
 export class NewsService {
   private apiUrl = `${environment.API_URL}/public/news`;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getNews(): Observable<Post[]> {
     return this.http.get<{ data: Post[] }>(this.apiUrl).pipe(
@@ -18,7 +18,7 @@ export class NewsService {
     );
   }
 
-  getNewsPerTitle(slug:string): Observable<Post> {
+  getNewsPerTitle(slug: string): Observable<Post> {
     return this.http.get<{ data: Post }>(`${this.apiUrl}/${slug}`).pipe(
       map(response => response.data)
     );

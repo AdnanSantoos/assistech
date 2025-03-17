@@ -18,7 +18,6 @@ import { environment } from "../../../environments/environment";
    constructor(private http: HttpClient) {}
  
    getLatestNews() {
-    console.log('trouxe o data')
      return this.data$;
    }
   }
